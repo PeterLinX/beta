@@ -20,8 +20,8 @@ export default (
       <Route path="/send" component={Send} />
       <Route path="/receive" component={Receive} />
       <Route path="/settings" component={Settings} />
-      <Route path="/transactionHistory" component={TransactionHistory} />
     </Route>
+    <Route path="/transactionHistory" component={TransactionHistory} />
     <Route path="/create" component={CreateWallet} />
     <Route path="/encryptKey" component={EncryptKey} />
     <Route path="/LoginNep2" component={LoginNep2} />
