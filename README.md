@@ -49,9 +49,9 @@ _____
 
 Execute these commands in the project's root directory:
 
-  - `npm install` Installing node dependencies
+  - `npm install` Installs node dependencies
   - `npm run assets`
-  - `npm start` for running the project
+  - `npm start` to run the project
 
 _____
 
