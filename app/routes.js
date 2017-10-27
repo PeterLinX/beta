@@ -20,12 +20,12 @@ export default (
       <Route path="/send" component={Send} />
       <Route path="/receive" component={Receive} />
       <Route path="/settings" component={Settings} />
+      <Route path="/transactionHistory" component={TransactionHistory} />
     </Route>
     <Route path="/create" component={CreateWallet} />
     <Route path="/encryptKey" component={EncryptKey} />
     <Route path="/LoginNep2" component={LoginNep2} />
     <IndexRoute component={LoginPrivateKey} />
-    <Route path="/transactionHistory" component={TransactionHistory} />
     <Route path="/loginLocalStorage" component={LoginLocalStorage} />
     <Route path="/LoginEncrypted" component={LoginNep2} />
     {/* <Route path="/settings" component={Settings} /> */}
