@@ -11,6 +11,7 @@ import Logo from "./Brand/LogoBlank";
 import NeoLogo from "./Brand/Neo";
 import Claim from "./Claim";
 import { NetworkSwitch } from "../components/NetworkSwitch";
+import { syncTransactionHistory } from "../components/NetworkSwitch";
 import { clipboard } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import ReactTooltip from "react-tooltip";
@@ -100,11 +101,36 @@ const deleteWallet = (dispatch, key) => {
   });
 };
 
+const getExplorerLink = (net, explorer, txid) => {
+  let base;
+  if (explorer === "Neotracker"){
+    if (net === "MainNet"){
+      base = "https://neotracker.io/tx/";
+    } else {
+      base = "https://testnet.neotracker.io/tx/";
+    }
+  }
+  else {
+    if (net === "MainNet"){
+      base = "http://antcha.in/tx/hash/";
+    } else {
+      base = "http://testnet.antcha.in/tx/hash/";
+    }
+  }
+  return base + txid;
+}
+
+// helper to open an external web link
+const openExplorer = (srcLink) => {
+  shell.openExternal(srcLink);
+}
+
 class Settings extends Component {
   componentDidMount = () => {
     storage.get("keys", (error, data) => {
       this.props.dispatch(setKeys(data));
     });
+    syncTransactionHistory(this.props.dispatch, this.props.net, this.props.address);
     loadSettings(this.props.dispatch);
   };
 
@@ -117,6 +143,7 @@ class Settings extends Component {
           <p className="neo-text">
             {this.props.neo} <span>NEO</span>{" "}
           </p>
+          <p className="neo-balance">{this.props.price}</p>
         </div>
         <div className="col-xs-4">{<Claim />}</div>
         <div className="col-xs-4">
@@ -128,14 +155,13 @@ class Settings extends Component {
         </div>
       </div>
     </div>
-    <div className="settings-panel">
+    <div className="settings-panel top-50">
     <div className="description">
-      <h2 className="center">Manage your Morpheus Settings</h2>
-      <div className="row top-20">
+      <div className="row">
       <div className="col-xs-2 col-xs-offset-1 center">
       <div className="dash-icon-bar">
       <div className="icon-border">
-        <span className="glyphicon glyphicon-lock" />
+        <span className="glyphicon glyphicon-phone" />
       </div>
       Enable Two Factor Authorization
       </div>
@@ -172,25 +198,7 @@ class Settings extends Component {
     </div>
     </div>
     <div className="clearboth"></div>
-      <div className="row top-50">
-      <div className="col-xs-8 col-xs-offset-2">
-      <div className="settingsForm row">
-        <div className="settingsItem">
-          <select
-            name="select-profession"
-            id="select-profession grey-bk"
-            className="trans-form sett-form"
-          >
-            <option selected="selected" disabled="disabled">
-              Select a saved Morpheus wallet to edit
-            </option>
-            {_.map(this.props.wallets, (value, key) => (
-              <option value={value}>{key.slice(0, 20)}</option>
-            ))}
-          </select>
-        </div>
-      </div>
-    </div>
+      <div className="row top-20">
     <div className="col-xs-3">
     </div>
     </div>
@@ -214,25 +222,27 @@ class Settings extends Component {
     <div className="col-xs-2 center">
     <div className="dash-icon-bar" onClick={() => saveKeyRecovery(this.props.wallets)} >
       <div className="icon-border">
-        <span className="glyphicon glyphicon-arrow-down" />
+        <span className="glyphicon glyphicon-save" />
       </div>
-      Export Encrypted Keys
+      Export My Encrypted Keys
     </div>
     </div>
     <div className="col-xs-2 center">
-    <div className="dash-icon-bar">
+
+    <div className="dash-icon-bar" onClick={() => openExplorer(getExplorerLink(this.props.net, this.props.explorer, t.txid))} >
       <div className="icon-border">
         <span className="glyphicon glyphicon-link" />
       </div>
-      View On Blockchain
+      View On NeoTracker.io
     </div>
+
     </div>
     <div className="col-xs-2 center">
     <div className="dash-icon-bar" onClick={() => deleteWallet(this.props.dispatch, key)} >
       <div className="icon-border">
         <span className="glyphicon glyphicon-trash" />
       </div>
-      Delete Seleted Wallet
+      Delete this wallet from Morpheus
     </div>
     </div>
     </div>
@@ -251,6 +261,7 @@ const mapStateToProps = state => ({
   net: state.metadata.network,
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,
+  price: state.wallet.price,
   transactions: state.wallet.transactions
 });
 

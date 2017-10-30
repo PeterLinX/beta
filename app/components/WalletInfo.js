@@ -59,6 +59,7 @@ class WalletInfo extends Component {
                 <p className="neo-text">
                   {this.props.neo} <span>NEO</span>
                 </p>
+                <p className="neo-balance">{this.props.price}</p>
               </div>
               <div className="col-xs-4">{<Claim />}</div>
               <div className="col-xs-4">

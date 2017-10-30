@@ -46,6 +46,7 @@ class TransactionHistory extends Component {
         <p className="neo-text">
           {this.props.neo} <span>NEO</span>{" "}
         </p>
+        <p className="neo-balance">{this.props.price}</p>
       </div>
       <div className="col-xs-4">{<Claim />}</div>
       <div className="col-xs-4">
@@ -85,6 +86,7 @@ const mapStateToProps = (state) => ({
   net: state.metadata.network,
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,
+  price: state.wallet.price,
   transactions: state.wallet.transactions,
   explorer: state.metadata.blockExplorer
 });
