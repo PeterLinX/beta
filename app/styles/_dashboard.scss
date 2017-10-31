@@ -72,26 +72,26 @@
 }
 
 .gas-claim {
-  font-size: 11px;
-  top: 32%;
-  position: absolute;
-  left: 25.5%;
+font-size: 14px;
+top: 25%;
+position: absolute;
+left: 20%;
 }
 
 #gas-button,
 #gas-button:focus {
-  background: url("../img/gas-button.png") no-repeat center;
-  width: 100px;
-  height: 110px;
-  position: relative;
-  top: 46px;
-  padding: 28px 0px 0px 0px;
-  left: 50px;
-  text-align: center;
+background: url("../img/gas-button@2x.png") no-repeat center;
+width: 120px;
+height: 130px;
+position: fixed;
+top: 28px;
+padding: 28px 0px 0px 0px;
+left: 53.5%;
+text-align: center;
 }
 
 #gas-button:hover {
-  background: url("../img/gas-button-hover.png") no-repeat center;
+  background: url("../img/gas-button-hover@2x.png") no-repeat center;
   cursor: pointer;
 }
 
@@ -101,3 +101,47 @@
   bottom: 32px;
   left: 55px;
 }
+
+#gas-button.disabled {
+  background: url("../img/gas-button-dis@2x.png") no-repeat center;
+}
+
+
+.pulse {
+  -webkit-animation-name: pulse;
+  animation-name: pulse;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+  }
+  @-webkit-keyframes pulse {
+  0% {
+  -webkit-transform: scale3d(1, 1, 1);
+  transform: scale3d(1, 1, 1);
+  }
+  50% {
+  -webkit-transform: scale3d(1.05, 1.05, 1.05);
+  transform: scale3d(1.05, 1.05, 1.05);
+  }
+  100% {
+  -webkit-transform: scale3d(1, 1, 1);
+  transform: scale3d(1, 1, 1);
+  }
+  }
+  @keyframes pulse {
+  0% {
+  -webkit-transform: scale3d(1, 1, 1);
+  transform: scale3d(1, 1, 1);
+  }
+  50% {
+  -webkit-transform: scale3d(1.05, 1.05, 1.05);
+  transform: scale3d(1.05, 1.05, 1.05);
+  }
+  100% {
+  -webkit-transform: scale3d(1, 1, 1);
+  transform: scale3d(1, 1, 1);
+  }
+  }
