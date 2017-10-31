@@ -93,8 +93,7 @@ class Claim extends Component {
         <div>
             <div id="gas-button"  data-tip data-for="claimTip" className="disabled pulse">
               <span className="gas-claim">
-                Claiming Gas<br />
-                {this.props.claimAmount}
+                Claiming Gas...
               </span>
             </div>
           <ReactTooltip
