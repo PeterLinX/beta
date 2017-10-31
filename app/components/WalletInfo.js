@@ -31,8 +31,8 @@ class WalletInfo extends Component {
   render = () => {
     if (this.props.address != null) {
       return (
-        <div id="accountInfo" style={{ width: "75%" }}>
-          <div className="row ">
+        <div id="send">
+          <div className="row">
             <div className="header">
               <div className="col-xs-4">
                 <p className="neo-balance">Available Neo</p>
