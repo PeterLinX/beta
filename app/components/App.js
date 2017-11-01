@@ -51,7 +51,7 @@ const StatusMessage = ({ status, statusMessage }) => {
   // } else if (status === false) {
   //   message = <div className="statusMessage fail">{statusMessage}</div>;
   // }
-  // return message;
+  return message;
 };
 
 let App = ({ children, status, statusMessage }) => {
