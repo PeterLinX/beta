@@ -87,7 +87,7 @@ class Dashboard extends Component {
               <ul className="nav navbar-nav">
                 <li>
                   <Link to={"/dashboard"} exact activeClassName="active">
-                    <div className="glyphicon glyphicon-user" /> Dashboard
+                    <div className="glyphicon glyphicon-stats" /> Dashboard
                   </Link>
                 </li>
                 <li>
@@ -100,11 +100,11 @@ class Dashboard extends Component {
                     <span className="glyphicon glyphicon-qrcode" /> Receive
                   </Link>
                 </li>
-                <li>
+                {/*<li>
                   <Link to={"/exchange"} exact activeClassName="active">
                     <span className="glyphicon glyphicon-refresh" /> Exchange
                   </Link>
-                </li>
+                </li>*/}
                 <li>
                   <Link
                     to={"/transactionHistory"}
@@ -122,7 +122,7 @@ class Dashboard extends Component {
               </ul>
             </div>
           </div>
-          <div className="copyright">&copy; Copyright 2017 Morpeus Inc.</div>
+          <div className="copyright">&copy; Copyright 2017 Morpheus Inc.</div>
         </div>
         <div style={{ marginLeft: 230, marginTop: 20 }}>
           <div className="container">{this.props.children}</div>
