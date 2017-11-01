@@ -107,7 +107,6 @@ class Dashboard extends Component {
                   </Link>
                 </li>
               </ul>
-              <Logout />
             </div>
           </div>
           <div className="copyright">&copy; Copyright 2017 Morpeus Inc.</div>

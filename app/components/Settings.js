@@ -158,26 +158,10 @@ class Settings extends Component {
     <div className="settings-panel top-50">
     <div className="description">
       <div className="row">
-      <div className="col-xs-2 col-xs-offset-1 center">
-      <div className="dash-icon-bar">
-      <div className="icon-border">
-        <span className="glyphicon glyphicon-phone" />
-      </div>
-      Enable Two Factor Authorization
-      </div>
-      </div>
-      <div className="col-xs-2 center">
-      <div className="dash-icon-bar">
-      <div className="icon-border">
-        <span className="glyphicon glyphicon-check" />
-      </div>
-      Edit Authorized Addresses
-      </div>
-      </div>
-      <div className="col-xs-2 center">
+      <div className="col-xs-2 center col-xs-offset-1 ">
       <NetworkSwitch />
       </div>
-  <div className="col-xs-2 center">
+  <div className="col-xs-2 center onClick={() => dispatch(logout())}">
   <Link to="/create"><div className="dash-icon-bar">
   <div className="icon-border">
     <span className="glyphicon glyphicon-plus" />
@@ -185,6 +169,7 @@ class Settings extends Component {
   Create New Address
   </div></Link>
 </div>
+
 <div className="col-xs-2 center">
 <Link to="/LoginLocalStorage">
 <div className="dash-icon-bar">
@@ -194,6 +179,22 @@ class Settings extends Component {
   Open a Saved Wallet
 </div>
 </Link>
+</div>
+<div className="col-xs-2 center">
+<div className="dash-icon-bar com-soon">
+<div className="icon-border">
+  <span className="glyphicon glyphicon-phone" />
+</div>
+Enable Two Factor Authorization
+</div>
+</div>
+<div className="col-xs-2 center">
+<div className="dash-icon-bar com-soon">
+<div className="icon-border">
+  <span className="glyphicon glyphicon-check" />
+</div>
+Edit Authorized Addresses
+</div>
 </div>
     </div>
     </div>
