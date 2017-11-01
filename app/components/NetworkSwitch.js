@@ -138,14 +138,17 @@ class NetworkSwitch extends Component {
 
   render = () => (
     <div id="network">
-      <span className="transparent">Running on</span>
-      <span
-        className="netName"
+      <div
+        className="dash-icon-bar"
         onClick={() =>
           toggleNet(this.props.dispatch, this.props.net, this.props.address)}
       >
-        {this.props.net}
-      </span>
+        <div className="icon-border">
+          <span className="glyphicon glyphicon-exclamation-sign" />
+        </div>
+        <span className="transparent">Running on </span>
+        <span className="netName">{this.props.net}</span>
+      </div>
     </div>
   );
 }

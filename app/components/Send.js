@@ -1,7 +1,10 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
 import { doSendAsset, verifyAddress } from "neon-js";
+var Modal = require("react-bootstrap-modal");
+import axios from "axios";
+
 import { togglePane } from "../modules/dashboard";
 import {
   sendEvent,
@@ -12,6 +15,8 @@ import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
 import neoLogo from "../images/neo.png";
+import Claim from "./Claim.js";
+import TopBar from "./TopBar";
 
 let sendAddress, sendAmount, confirmButton;
 
@@ -37,6 +42,7 @@ const validateForm = (dispatch, neo_balance, gas_balance, asset) => {
     asset === "Neo" &&
     parseFloat(sendAmount.value) !== parseInt(sendAmount.value)
   ) {
+    console.log(sendAmount.value);
     dispatch(sendEvent(false, "You cannot send fractional amounts of Neo."));
     setTimeout(() => dispatch(clearTransactionEvent()), 5000);
     return false;
@@ -87,8 +93,13 @@ const sendTransaction = (
       .then(response => {
         if (response.result === undefined || response.result === false) {
           dispatch(sendEvent(false, "Transaction failed!"));
+          console.log("Transaction failed!");
+          alert("Transaction failed!");
         } else {
           console.log(response.result);
+          alert(
+            "Transaction complete! Your balance will automatically update when the blockchain has processed it."
+          );
           dispatch(
             sendEvent(
               true,
@@ -100,6 +111,7 @@ const sendTransaction = (
       })
       .catch(e => {
         dispatch(sendEvent(false, "Transaction failed!"));
+        console.log("Transaction failed!");
         setTimeout(() => dispatch(clearTransactionEvent()), 5000);
       });
   }
@@ -110,195 +122,181 @@ const sendTransaction = (
   confirmButton.blur();
 };
 
-let Send = ({
-  dispatch,
-  wif,
-  address,
-  status,
-  neo,
-  gas,
-  net,
-  confirmPane,
-  selectedAsset
-}) => {
-  let confirmPaneClosed;
-  if (confirmPane) {
-    confirmPaneClosed = "100%";
-  } else {
-    confirmPaneClosed = "69%";
+class Send extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: true,
+      gas: 0,
+      neo: 0,
+      neo_usd: 0,
+      gas_usd: 0
+    };
+    this.handleChangeNeo = this.handleChangeNeo.bind(this);
+    this.handleChangeGas = this.handleChangeGas.bind(this);
   }
 
-  let btnClass;
-  let formClass;
-  if (selectedAsset === "Neo") {
-    btnClass = "btn-send";
-    formClass = "form-send-neo";
-  } else if (selectedAsset === "Gas") {
-    btnClass = "btn-send-gas";
-    formClass = "form-send-gas";
+  async componentDidMount() {
+    let neo = await axios.get("https://api.coinmarketcap.com/v1/ticker/neo/");
+    let gas = await axios.get("https://api.coinmarketcap.com/v1/ticker/gas/");
+    neo = neo.data[0].price_usd;
+    gas = gas.data[0].price_usd;
+    this.setState({ neo: neo, gas: gas });
+    console.log(neo);
   }
-  return (
-    <div id="send">
-      <div id="sendPane">
-      <div className="row ">
-        <div className="header">
-          <div className="col-xs-4">
-            <p className="neo-balance">Available Neo</p>
-            <p className="neo-text">
-              {neo} <span> NEO</span>
-            </p>
-          </div>
-          <div className="col-xs-4">
-          <div id="gas-gauge">
-            <div id="gas-button">
-              <span class="gas-claim">
-                Claim Gas<br />
-                0.000000
-              </span>
-            </div>
-            </div>
-          </div>
-          <div className="col-xs-4">
-            <p className="neo-balance">Available GAS</p>
-            <p className="gas-text">{gas} <span>GAS</span></p>
-          </div>
-        </div>
-      </div>
 
-        <div className="row send-neo">
+  handleChangeNeo(event) {
+    this.setState({ value: event.target.value });
+    const value = event.target.value * this.state.neo;
+    this.setState({ neo_usd: value });
+  }
 
-        <div className="col-xs-6">
-        <img src={neoLogo} alt="" width="48" className="neo-logo" />
-        <h2>Send Neo/Gas</h2>
-        </div>
-        <div className="col-xs-4">
-        <div id="sendAddress">
-        <div className="btn-sm">MIN</div>
-        <div className="btn-sm">HALF</div>
-        <div className="btn-sm">MAX</div>
-        </div>
-        </div>
-        <div className="col-xs-2">
-        <div
-          id="sendAsset"
-          className={btnClass}
-          style={{ width: "100%" }}
-          data-tip
-          //data-for="assetTip"
-          onClick={() => dispatch(toggleAsset())}
-        >
-          {selectedAsset}
-        </div>
-        <ReactTooltip
-          class="solidTip"
-          id="assetTip"
-          place="bottom"
-          type="dark"
-          effect="solid"
-        >
-          <span>Click To Switch</span>
-        </ReactTooltip>
-        {/* <p>Tap To Switch</p> */}
-        </div>
-        <div className="clearboth"></div>
-<div className="glyphicon glyphicon-camera scanqr-cam"></div>
-          <div id="sendAddress">
-          <div className="col-xs-12">
-            <input
-              className={formClass}
-              id="center"
-              placeholder="Enter a valid NEO public address"
-              ref={node => {
-                sendAddress = node;
-              }}
-            />
-            </div>
+  handleChangeGas(event) {
+    this.setState({ value: event.target.value });
+    const value = event.target.value * this.state.gas;
+    this.setState({ gas_usd: value });
+  }
 
-          <div className="clearboth"></div>
+  render() {
+    const {
+      dispatch,
+      wif,
+      address,
+      status,
+      neo,
+      gas,
+      net,
+      confirmPane,
+      selectedAsset
+    } = this.props;
+    let confirmPaneClosed;
+    let open = true;
+    if (confirmPane) {
+      confirmPaneClosed = "100%";
+      open = true;
+    } else {
+      open = false;
+      confirmPaneClosed = "69%";
+    }
 
-          <div id="sendAmount">
-          <div className="col-xs-6">
-            <input
-              className={formClass}
-              type="number"
-              id="sendAmount"
-              placeholder="Enter amount to send"
-              ref={node => {
-                sendAmount = node;
-              }}
-            />
-            </div>
-            <div className="col-xs-4">
-              <input
-                className={formClass}
-                id="sendAmount"
-                type="number"
-                placeholder="Amount in US"
-                ref={node => {
-                  sendAmount = node;
-                }}
-              />
-              <label className="amount-dollar">$</label>
-              </div>
-              <div className="col-xs-2">
-              <div id="sendAddress">
-              <button
-                id="doSend"
+    let btnClass;
+    let formClass;
+    let priceUSD = 0;
+    let convertFunction = this.handleChangeNeo;
+    if (selectedAsset === "Neo") {
+      btnClass = "btn-send";
+      convertFunction = this.handleChangeNeo;
+      formClass = "form-send-neo";
+      priceUSD = this.state.neo_usd;
+    } else if (selectedAsset === "Gas") {
+      btnClass = "btn-send-gas";
+      formClass = "form-send-gas";
+      priceUSD = this.state.gas_usd;
+      convertFunction = this.handleChangeGas;
+    }
+    return (
+      <div id="send">
+        <div id="sendPane">
+          <TopBar />
+
+          <div className="row send-neo">
+            <div className="col-xs-2">
+              <div
+                id="sendAsset"
+                className={btnClass}
                 style={{ width: "100%" }}
-                className="btn-send"
-                onClick={() => openAndValidate(dispatch, neo, gas, selectedAsset)}
+                data-tip
+                data-for="assetTip"
+                onClick={() => dispatch(toggleAsset())}
               >
-                Send
-              </button>
+                {selectedAsset}
               </div>
-              </div>
-          </div>
-        </div>
-        <div className="col-xs-12">
-        <table>
-        <tr>
-        <td>Saved Addresses</td><td></td><td width="120px"><div className="btn-sm right"><div className="glyphicon glyphicon-plus"></div></div></td>
-        </tr>
-        <tr>
-        <td><span className="glyphicon glyphicon-check"></span> Bittrex</td><td><div className="btn-sm">aw12e3r4t5y6ui8o94r5t6y7u8i6g7h</div></td>
-        <td>
-        <div className="btn-sm right delete">
-        <div className="glyphicon glyphicon-trash"></div>
-        </div>
-        </td>
-        </tr>
-        <tr>
-        <td><span className="glyphicon glyphicon-check"></span> Binance</td><td><div className="btn-sm">a1w4f53sd4f5g6h7j8ia2s3d4f5g6h7</div></td>
-        <td>
-        <div className="btn-sm right delete">
-        <div className="glyphicon glyphicon-trash"></div>
-        </div>
-        </td>
-        </tr>
-        </table>
-        </div>
-        </div>
-      </div>
-      <div
-        id="confirmPane"
-        onClick={() =>
-          sendTransaction(dispatch, net, address, wif, selectedAsset, neo, gas)}
-      >
-        {/* <button
-          ref={node => {
-            confirmButton = node;
-          }}
-        >
-          Confirm Transaction
-        </button> */}
-      </div>
+              <ReactTooltip
+                className="solidTip"
+                id="assetTip"
+                place="bottom"
+                type="dark"
+                effect="solid"
+              >
+                <span>Click To Switch</span>
+              </ReactTooltip>
+            </div>
 
-      <div className="send-notice">
-          <p>All NEO and GAS transactions are free. Only send NEO and GAS to a valid NEO address. Sending to an address other than a NEO address can result in your NEO/GAS being lost. You cannot send a fraction of a NEO.</p>
+            <div id="sendAddress">
+              <div className="clearboth" />
+
+              <div id="sendAmount">
+                <div className="col-xs-12">
+                  <input
+                    className={formClass}
+                    id="center"
+                    placeholder="Enter a valid NEO public address"
+                    ref={node => {
+                      sendAddress = node;
+                    }}
+                  />
+                </div>
+                <div className="col-xs-6">
+                  <input
+                    className={formClass}
+                    type="number"
+                    id="sendAmount"
+                    onChange={convertFunction}
+                    placeholder="Enter amount to send"
+                    ref={node => {
+                      sendAmount = node;
+                    }}
+                  />
+                </div>
+                <div className="col-xs-4">
+                  <input
+                    className={formClass}
+                    id="sendAmount"
+                    disabled
+                    placeholder="Amount in US"
+                    value={`${Math.round(priceUSD * 100) / 100} USD`}
+                  />
+                  <label className="amount-dollar">$</label>
+                </div>
+                <div className="col-xs-2">
+                  <div id="sendAddress">
+                    <button
+                      className="btn-send"
+                      onClick={() =>
+                        sendTransaction(
+                          dispatch,
+                          net,
+                          address,
+                          wif,
+                          selectedAsset,
+                          neo,
+                          gas
+                        )}
+                      ref={node => {
+                        confirmButton = node;
+                      }}
+                    >
+                      Send
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-    </div>
-  );
-};
+        </div>
+
+        <div className="send-notice">
+          <p>
+            All NEO and GAS transactions are free. Only send NEO and GAS to a
+            valid NEO address. Sending to an address other than a NEO address
+            can result in your NEO/GAS being lost. You cannot send a fraction of
+            a NEO.
+          </p>
+        </div>
+      </div>
+    );
+  }
+}
 
 const mapStateToProps = state => ({
   wif: state.account.wif,

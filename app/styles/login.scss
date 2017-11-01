@@ -29,9 +29,23 @@
 .top-80 {
   margin-top: 80px;
 }
+
+.top-60 {
+  margin-top: 60px;
+}
+
 .top-50 {
   margin-top: 50px;
 }
+
+.top-40 {
+  margin-top: 40px;
+}
+
+.top-30 {
+  margin-top: 30px;
+}
+
 .top-20 {
   margin-top: 20px;
 }
@@ -48,4 +62,98 @@
   background: rgba(12, 12, 14, 0.85);
   border-radius: 20px;
   box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
+}
+
+
+div.logobounce {
+-webkit-animation: bounce-in 0.5s ease 0s 1 normal ;
+ animation: bounce-in 0.5s ease 0s 1 normal ;
+}
+
+@-webkit-keyframes bounce-in {
+  0%{
+	opacity: 0;
+	-webkit-transform: scale(.3);
+	transform: scale(.3);
+  }
+  50%{
+	opacity: 1;
+	-webkit-transform: scale(1.0);
+	transform: scale(1.0);
+  }
+  70%{
+	-webkit-transform: scale(0.9);
+	transform: scale(0.9);
+  }
+  100%{
+	-webkit-transform: scale(1);
+	transform: scale(1);
+  }
+}
+
+@keyframes bounce-in {
+  0%{
+	opacity: 0;
+	transform: scale(.3);
+  }
+  50%{
+	opacity: 1;
+	transform: scale(1.0);
+  }
+  70%{
+	transform: scale(0.9);
+  }
+  100%{
+	transform: scale(1);
+  }
+}
+
+
+hr.loginfade {
+ -webkit-animation: blink 7s linear 0s infinite normal ;
+ animation: blink 7s linear 0s infinite normal ;
+}
+
+@-webkit-keyframes blink {
+  0%{
+	opacity: 1;
+  }
+  25%{
+	opacity: 0;
+  }
+  50%{
+	opacity: 1;
+  }
+  75%{
+	opacity: 0;
+  }
+  100%{
+	opacity: 1;
+  }
+}
+
+@keyframes blink {
+  0%{
+	opacity: 1;
+  }
+  25%{
+	opacity: 0;
+  }
+  50%{
+	opacity: 1;
+  }
+  75%{
+	opacity: 0;
+  }
+  100%{
+	opacity: 1;
+  }
+}
+
+hr.green {
+  position: absolute;
+      border: 1px solid #6db3fd;
+      margin-top: 0px;
+      z-index: 99999999;
+      width: 93%;
 }

@@ -9,8 +9,7 @@ import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { clipboard } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import ReactTooltip from "react-tooltip";
-import demoChart from "../images/demoChart.png";
-import TopBar from "./TopBar";
+import neoLogo from "../images/neo.png";
 
 // force sync with balance data
 const refreshBalance = (dispatch, net, address) => {
@@ -21,12 +20,7 @@ const refreshBalance = (dispatch, net, address) => {
   });
 };
 
-class WalletInfo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
+class Exchange extends Component {
   componentDidMount = () => {
     initiateGetBalance(this.props.dispatch, this.props.net, this.props.address);
     QRCode.toCanvas(this.canvas, this.props.address, { version: 5 }, err => {
@@ -36,7 +30,18 @@ class WalletInfo extends Component {
 
   render = () => {
     if (this.props.address != null) {
-      return <TopBar />;
+      return (
+        <div id="exchange-info">
+          <webview
+            id="foo"
+            src={`https://changelly.com/widget/v1?auth=email&from=BTC&to=NEO&merchant_id=cdc0b166b122&address=${this
+              .props.address}&amount=1&ref_id=cdc0b166b122&color=292530`}
+          />
+          <div className="loading-exchange">
+            <span className="glyphicon glyphicon-refresh rotating" />
+          </div>
+        </div>
+      );
     } else {
       return null;
     }
@@ -51,6 +56,6 @@ const mapStateToProps = state => ({
   price: state.wallet.price
 });
 
-WalletInfo = connect(mapStateToProps)(WalletInfo);
+Exchange = connect(mapStateToProps)(Exchange);
 
-export default WalletInfo;
+export default Exchange;

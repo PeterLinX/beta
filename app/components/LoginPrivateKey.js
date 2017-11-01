@@ -37,78 +37,118 @@ const onWifChange = (dispatch, history, wif) => {
   }
 };
 
+const { dialog } = require("electron").remote;
+const loadKeyRecovery = dispatch => {
+  dialog.showOpenDialog(fileNames => {
+    // fileNames is an array that contains all the selected
+    if (fileNames === undefined) {
+      console.log("No file selected");
+      return;
+    }
+    const filepath = fileNames[0];
+    fs.readFile(filepath, "utf-8", (err, data) => {
+      if (err) {
+        alert("An error ocurred reading the file :" + err.message);
+        return;
+      }
+      const keys = JSON.parse(data);
+      storage.get("keys", (error, data) => {
+        _.each(keys, (value, key) => {
+          data[key] = value;
+        });
+        dispatch(setKeys(data));
+        storage.set("keys", data);
+      });
+      // dispatch(setKeys(keys));
+      // storage.set('keys', keys);
+    });
+  });
+};
+
 let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => (
   <div>
-  <div className="login-address-bk top-50">
-    <div className="logo-top">
-      <div className="row">
-        <div className="center">
-          <Logo width={140} />
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="col-xs-12">
-          <div><br />
-            <h1 className="center">
-              Welcome to Morpheus
-            </h1>
+    <div className="login-address-bk top-50">
+      <div className="logo-top">
+        <div className="row">
+          <div className="center logobounce">
+            <Logo width={140} />
           </div>
+        </div>
 
-          <div className="row top-50">
-            <div className="col-xs-10 col-xs-offset-1">
-              <div className="form-group">
-                <input
-                  type="password"
-                  className="trans-form"
-                  placeholder="Enter a NEO private key"
-                  ref={node => (wif = node)}
-                />
-              </div>
-              <hr className="purple" />
+        <div className="row">
+          <div className="col-xs-12">
+            <div>
+              <br />
+              <h1 className="center">Welcome to Morpheus</h1>
             </div>
 
-              <div className="go-icon"
+            <div className="row top-50">
+              <div className="col-xs-10 col-xs-offset-1">
+                <div className="form-group">
+                  <input
+                    type="password"
+                    className="trans-form"
+                    placeholder="Enter a NEO private key"
+                    ref={node => (wif = node)}
+                  />
+                </div>
+                <hr className="purple" />
+              </div>
+
+              <div
+                className="go-icon fadeInLeft"
                 onClick={e => onWifChange(dispatch, history, wif)}
               />
             </div>
             <br />
 
-        <p className="center top-20 col-xs-10 col-xs-offset-1">
-          Your private key is never shared and is only used to load your balance and transaction history from the blockchain. Once entered, you can create an encrypted backup on your computer. You can still use your private key with other wallets.
-        </p>
+            <p className="center top-20 col-xs-10 col-xs-offset-1">
+              Your private key is never shared and is only used to load your
+              balance and transaction history from the blockchain. Once entered,
+              you can create an encrypted saved walet in Morpheus. You may still
+              use your private key with other wallets.
+            </p>
+          </div>
         </div>
       </div>
     </div>
-</div>
 
-<div className="dash-bar top-50">
-  <Link to="/create">
-  <div className="dash-icon-bar">
-    <div className="icon-border">
-      <span className="glyphicon glyphicon-star"></span>
+    <div className="dash-bar top-50">
+      <Link to="/create">
+        <div className="dash-icon-bar">
+          <div className="icon-border">
+            <span className="glyphicon glyphicon-plus" />
+          </div>
+          Create a Neo Address
+        </div>
+      </Link>
+
+      <Link to="/LoginNep2">
+      <div className="dash-icon-bar">
+        <div className="icon-border">
+          <span className="glyphicon glyphicon-lock"></span>
+        </div>
+        Login Via Encrypted Key
+      </div>
+      </Link>
+
+      <Link to="/LoginLocalStorage">
+        <div className="dash-icon-bar">
+          <div className="icon-border">
+            <span className="glyphicon glyphicon-user" />
+          </div>
+          Open a Saved Wallet
+        </div>
+      </Link>
+
+      <div className="dash-icon-bar" onClick={() => loadKeyRecovery(dispatch)}>
+        <div className="icon-border">
+          <span className="glyphicon glyphicon-paperclip" />
+        </div>
+        Login Via Recovery File
+      </div>
     </div>
-    Create a Neo Address
   </div>
-  </Link>
-  <Link to="/LoginLocalStorage">
-  <div className="dash-icon-bar">
-    <div className="icon-border">
-      <span className="glyphicon glyphicon-lock"></span>
-    </div>
-    Login Via Saved Wallet
-  </div>
-  </Link>
-  <Link to="/settings">
-  <div className="dash-icon-bar">
-    <div className="icon-border">
-      <span className="glyphicon glyphicon-open"></span>
-    </div>
-    Login Via Recovery File
-  </div>
-  </Link>
-</div>
-</div>
 );
 
 const mapStateToProps = state => ({

@@ -33,9 +33,10 @@
   }
   .neo-text {
     font-size: 36px;
-    font-weight: 200;
-    text-align: center;
-    line-height: 1.2em;
+        font-weight: 200;
+        text-align: center;
+        margin: 0px;
+        line-height: 1.2em;
     span {
       color: #7ed321;
     }
@@ -47,7 +48,6 @@
     margin: 0;
     margin-left: 0;
     text-align: center;
-    margin-top: 4%;
     max-width: 200px;
   }
   .price-header {
@@ -84,7 +84,8 @@
     margin-left: 25px;
     max-width: 720px;
   }
-  .dash-icon-bar {width: 300px; position: relative; left: 32%;}
+
+
   .copy-icon {margin: 10px; opacity: 0.5;}
   .print-icon {margin: 10px; opacity: 0.5;}
   .email-icon {margin: 10px; opacity: 0.5;}

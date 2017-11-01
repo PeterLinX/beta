@@ -36,6 +36,34 @@ const onWifChange = (dispatch, history) => {
   }, 500);
 };
 
+const { dialog } = require("electron").remote;
+const loadKeyRecovery = dispatch => {
+  dialog.showOpenDialog(fileNames => {
+    // fileNames is an array that contains all the selected
+    if (fileNames === undefined) {
+      console.log("No file selected");
+      return;
+    }
+    const filepath = fileNames[0];
+    fs.readFile(filepath, "utf-8", (err, data) => {
+      if (err) {
+        alert("An error ocurred reading the file :" + err.message);
+        return;
+      }
+      const keys = JSON.parse(data);
+      storage.get("keys", (error, data) => {
+        _.each(keys, (value, key) => {
+          data[key] = value;
+        });
+        dispatch(setKeys(data));
+        storage.set("keys", data);
+      });
+      // dispatch(setKeys(keys));
+      // storage.set('keys', keys);
+    });
+  });
+};
+
 class LoginLocalStorage extends Component {
   componentDidMount = () => {
     storage.get("keys", (error, data) => {
@@ -47,109 +75,75 @@ class LoginLocalStorage extends Component {
     const dispatch = this.props.dispatch;
     const loggedIn = this.props.loggedIn;
     return (
-      <div id="savedWallet" className="container">
-        <div className="login">
-          <div className="row">
-            <div className="col-xs-4 col-xs-offset-5">
-              <Logo width={140} />
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-xs-10 col-xs-offset-1">
-              <div>
-                <h1
-                  style={{
-                    color: "white",
-                    textAlign: "center",
-                    marginBottom: 30
-                  }}
-                >
-                  Welcome to Morpheus
-                </h1>
+      <div>
+        <div className="login-address-bk top-50">
+          <div className="logo-top">
+            <div className="row">
+              <div className="center logobounce">
+                <Logo width={140} />
               </div>
-              <div className="row inputs">
-                <div className="col-xs-9 col-xs-offset-1">
-                  <input
-                    className="trans-form"
-                    type="password"
-                    placeholder="Enter your password"
-                    ref={node => (passphrase_input = node)}
-                  />
-                </div>
+            </div>
 
-                <div className="col-xs-12">
-                  <hr className="purple" />
+            <div className="row">
+              <div className="col-xs-10 col-xs-offset-1">
+                <div>
+                  <br />
+                  <h1 className="center">Welcome to Morpheus</h1>
                 </div>
-
-                <div className="col-xs-8 col-xs-offset-1 ">
-                  <div className="sel sel--black-panther">
-                    <select
-                      name="select-profession"
-                      id="select-profession"
+                <div className="row top-60">
+                  <div className="col-xs-10 col-xs-offset-1">
+                    <input
                       className="trans-form"
-                      ref={node => (wif_input = node)}
-                    >
-                      <option selected="selected" disabled="disabled">
-                        Select a wallet from backup
-                      </option>
-                      {_.map(this.props.accountKeys, (value, key) => (
-                        <option value={value}>{key}</option>
-                      ))}
-                    </select>
+                      type="password"
+                      placeholder="Enter your password"
+                      ref={node => (passphrase_input = node)}
+                    />
                   </div>
-                </div>
-                <div className="col-xs-3">
-                  <div className="">
-                    {Object.keys(this.props.accountKeys).length === 0 ? (
-                      <button
-                        style={{
-                          width: "100%"
-                        }}
-                        className="btn-send-gas"
+
+                  <div className="col-xs-12">
+                    <hr className="purple" />
+                  </div>
+
+                  <div className="col-xs-8 col-xs-offset-2 ">
+                    <div className="sel sel--black-panther">
+                      <select
+                        name="select-profession"
+                        id="select-profession"
+                        className="trans-form"
+                        ref={node => (wif_input = node)}
                       >
-                        Login
-                      </button>
-                    ) : (
-                      <button
-                        style={{
-                          width: "100%"
-                        }}
-                        className="btn-send-gas"
-                        onClick={e => onWifChange(dispatch, this.props.history)}
-                      >
-                        Login
-                      </button>
-                    )}
+                        <option
+                          defaultValue
+                          selected="selected"
+                          disabled="disabled"
+                        >
+                          Select a saved wallet
+                        </option>
+                        {_.map(this.props.accountKeys, (value, key) => (
+                          <option key={Math.random()} value={value}>
+                            {key}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-xs-3">
+                    <div className="">
+                      {Object.keys(this.props.accountKeys).length === 0 ? (
+                        <div className="go-icon fadeInLeft" />
+                      ) : (
+                        <div
+                          className="go-icon fadeInLeft"
+                          onClick={e =>
+                            onWifChange(dispatch, this.props.history)}
+                        />
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
-          <div className="row">
-            <div className="icon-bar">
-              <Link to="/create">
-                <div className="icon-cell">
-                  <div className="new-icon" />
-                  Create New Wallet
-                </div>
-              </Link>
-              <Link to="/">
-                <div className="icon-cell">
-                  <div className="lock-icon" />
-                  Login Using Private Key
-                </div>
-              </Link>
-              <Link to="/settings">
-                <div className="icon-cell">
-                  <div className="upload-icon" />
-                  Upload Recovery File
-                </div>
-              </Link>
-            </div>
-          </div>
-
           <div className="" />
 
           {this.props.decrypting === true ? (
@@ -157,6 +151,40 @@ class LoginLocalStorage extends Component {
           ) : (
             <div />
           )}
+        </div>
+        <div className="dash-bar top-50">
+          <Link to="/create">
+            <div className="dash-icon-bar">
+              <div className="icon-border">
+                <span className="glyphicon glyphicon-plus" />
+              </div>
+              Create a Neo Address
+            </div>
+          </Link>
+          <Link to="/">
+            <div className="dash-icon-bar">
+              <div className="icon-border">
+                <span className="glyphicon glyphicon-qrcode" />
+              </div>
+              Login Via Private Key
+            </div>
+          </Link>
+          <Link to="/LoginNep2">
+            <div className="dash-icon-bar">
+              <div className="icon-border">
+                <span className="glyphicon glyphicon-lock" />
+              </div>
+              Login Via Encrypted Key
+            </div>
+          </Link>
+            <div className="dash-icon-bar"
+            onClick={() => loadKeyRecovery(this.props.dispatch)}
+            >
+              <div className="icon-border">
+                <span className="glyphicon glyphicon-paperclip" />
+              </div>
+              Login Via Recovery File
+            </div>
         </div>
       </div>
     );

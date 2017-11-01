@@ -15,6 +15,7 @@ import NeoLogo from "./Brand/Neo";
 import IconBar from "./IconBar";
 
 const logo = require("../img/app-logo.png");
+const { dialog } = require("electron").remote;
 
 let passphrase, passphrase2;
 
@@ -27,7 +28,7 @@ const validatePassphrase = passphrase => {
 const generateNewWallet = dispatch => {
   const current_phrase = passphrase.value;
   if (passphrase.value !== passphrase2.value) {
-    dispatch(sendEvent(false, "Passphrases do not match"));
+    dispatch(sendEvent(false, "Passwords do not match"));
     setTimeout(() => dispatch(clearTransactionEvent()), 5000);
     return;
   }
@@ -42,102 +43,130 @@ const generateNewWallet = dispatch => {
       });
     }, 500);
   } else {
-    dispatch(sendEvent(false, "Please choose a longer passphrase"));
+    dispatch(sendEvent(false, "Please choose a longer password"));
     setTimeout(() => dispatch(clearTransactionEvent()), 5000);
     passphrase.value = "";
     passphrase2.value = "";
   }
 };
 
+const loadKeyRecovery = dispatch => {
+  dialog.showOpenDialog(fileNames => {
+    // fileNames is an array that contains all the selected
+    if (fileNames === undefined) {
+      console.log("No file selected");
+      return;
+    }
+    const filepath = fileNames[0];
+    fs.readFile(filepath, "utf-8", (err, data) => {
+      if (err) {
+        alert("An error ocurred reading the file :" + err.message);
+        return;
+      }
+      const keys = JSON.parse(data);
+      storage.get("keys", (error, data) => {
+        _.each(keys, (value, key) => {
+          data[key] = value;
+        });
+        dispatch(setKeys(data));
+        storage.set("keys", data);
+      });
+      // dispatch(setKeys(keys));
+      // storage.set('keys', keys);
+    });
+  });
+};
+
 class CreateWallet extends Component {
   render = () => {
     const passphraseDiv = (
-      // <DisplayWalletKeys
-      //   history={this.props.history}
-      //   address={"APzvcgSUhFsqffnCcr2G6Q76wAzbxkR7cp"}
-      //   wif={"L2iFQdKp71bpu7STW4d2cZzt8BLaMHVKv7WaDYQq4rkdL9tUTn2a"}
-      //   passphrase={"Phaedrus2910"}
-      //   passphraseKey={
-      //     "6PYMN2kN8RJ8Es9jWiR7WtKYdivucbwribqgTa6r4mJVGuqjPwiP8mNYWd"
-      //   }
-      // />
-<div>
-      <div className="login-address-bk top-50">
-        <div className="row logo-top">
-          <div className="center">
-            <Logo width={140} />
-          </div>
-
-          <div className="col-xs-10 col-xs-offset-1">
-            <div className=""><br />
-              <h1 style={{ color: "white", textAlign: "center" }}>
-                Create a NEO Address
-              </h1>
+      <div>
+        <div className="login-address-bk top-50">
+          <div className="row logo-top">
+            <div className="center logobounce">
+              <Logo width={140} />
             </div>
 
-            <div className="row">
-              <div className="col-xs-offset-1 col-xs-10">
-                <div className="form-group">
-                  <input
-                    type="text"
-                    className="trans-form"
-                    ref={node => (passphrase = node)}
-                    placeholder="Enter a secure password"
-                  />
-                </div>
-                <hr className="purple" />
-                <div className="form-group">
-                  <input
-                    type="text"
-                    className="trans-form"
-                    ref={node => (passphrase2 = node)}
-                    placeholder="Confirm your password"
-                  />
-                </div>
+            <div className="col-xs-10 col-xs-offset-1">
+              <div className="">
+                <br />
+                <h1 style={{ color: "white", textAlign: "center" }}>
+                  Create a NEO Address
+                </h1>
               </div>
 
-              <div className="col-xs-2">
-                <div
-                  className="go-icon"
-                  onClick={() => generateNewWallet(this.props.dispatch)}
-                />
+              <div className="row">
+                <div className="col-xs-offset-1 col-xs-10">
+                  <div className="form-group">
+                    <input
+                      type="text"
+                      className="trans-form"
+                      ref={node => (passphrase = node)}
+                      placeholder="Enter a secure password"
+                    />
+                  </div>
+                  <hr className="green loginfade" />
+                  <hr className="purple" />
+                  <div className="form-group">
+                    <input
+                      type="text"
+                      className="trans-form"
+                      ref={node => (passphrase2 = node)}
+                      placeholder="Retype password and click arrow"
+                    />
+                  </div>
+                </div>
+
+                <div className="col-xs-2">
+                  <div
+                    className="go-icon fadeInLeft"
+                    onClick={() => generateNewWallet(this.props.dispatch)}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <div className="row">
+          <div className="dash-bar">
+            <Link to="/LoginLocalStorage">
+              <div className="dash-icon-bar">
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-user" />
+                </div>
+                Open a Saved Wallet
+              </div>
+            </Link>
 
-      </div>
-      <div className="row">
-        <div className="dash-bar">
-          <Link to="/LoginLocalStorage">
-          <div className="dash-icon-bar">
-            <div className="icon-border">
-            <span className="glyphicon glyphicon-user"></span>
-            </div>
-            Open a Saved Wallet
-          </div>
-          </Link>
+            <Link to="/">
+              <div className="dash-icon-bar">
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-qrcode" />
+                </div>
+                Login Via Private Key
+              </div>
+            </Link>
 
-          <Link to="/">
-          <div className="dash-icon-bar">
-            <div className="icon-border">
-            <span className="glyphicon glyphicon-qrcode"></span>
+            <Link to="/LoginNep2">
+              <div className="dash-icon-bar">
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-lock" />
+                </div>
+                Login Via Encrypted Key
+              </div>
+            </Link>
+            <div
+              className="dash-icon-bar"
+              onClick={() => loadKeyRecovery(this.props.dispatch)}
+            >
+              <div className="icon-border">
+                <span className="glyphicon glyphicon-paperclip" />
+              </div>
+              Login Via Recovery File
             </div>
-            Login Using Private Key
           </div>
-          </Link>
-
-          <Link to="/settings">
-          <div className="dash-icon-bar">
-            <div className="icon-border">
-              <span className="glyphicon glyphicon-open"></span>
-            </div>
-            Login Via Recovery File
-          </div>
-          </Link>
         </div>
       </div>
-</div>
     );
     return (
       <div id="newWallet">

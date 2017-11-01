@@ -3,11 +3,16 @@
 }
 
 .right {
-float: right;
+  float: right;
 }
-.center, #center {text-align:center;}
+.center,
+#center {
+  text-align: center;
+}
 
-.form-send-neo.center {padding: 0px 40px;}
+.form-send-neo.center {
+  padding: 0px 40px;
+}
 
 .header {
   background-color: rgba(12, 12, 14, 0.85);
@@ -23,18 +28,19 @@ float: right;
   font-size: 36px;
   font-weight: 200;
   text-align: center;
+  margin: 0px;
   line-height: 1.2em;
   span {
     color: #7ed321;
   }
 }
-  .gas-text {
-    font-size: 26px;
-    font-weight: 200;
-    text-align: center;
-    margin-top: 20px;
-    span {
-      color: #9013FE;
+.gas-text {
+  font-size: 26px;
+  font-weight: 200;
+  text-align: center;
+  margin: 0px;
+  span {
+    color: #9013fe;
   }
 }
 .neo-balance {
@@ -44,7 +50,6 @@ float: right;
   margin: 0;
   margin-left: 0;
   text-align: center;
-  margin-top: 4%;
   max-width: 200px;
 }
 
@@ -54,26 +59,46 @@ float: right;
 }
 
 .send-neo {
-    margin: 40px auto 0;
-      width: 720px;
-      padding: 30px 30px 30px 30px;
-      border: thin solid rgba(0, 0, 0, 0.36);
-      background: rgba(12, 12, 14, 0.85);
-      border-radius: 20px;
-      box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
+  margin: 50px auto 0;
+  width: 720px;
+  padding: 30px 30px 30px 30px;
+  border: thick solid #222;
+  background: rgba(12, 12, 14, 0.85);
+  border-radius: 20px;
+  box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
+}
+
+.settings-panel {
+  margin: 50px 0 0 0;
+  width: 720px;
+  padding: 30px 30px 30px 30px;
+  border: thick solid #222;
+  background: rgba(12, 12, 14, 0.85);
+  border-radius: 20px;
+  box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
+}
+
+.send-neo-wide {
+  margin: 70px auto 0;
+  width: 840px;
+  padding: 0px 30px 30px 30px;
+  border: thick solid #222;
+  background: rgba(12, 12, 14, 0.85);
+  border-radius: 20px;
+  box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
 }
 
 .form-send-neo {
   display: inline-block;
-      width: 100%;
-      text-align: left;
-      min-height: 25px;
-      padding: 8px 25px;
-      font-size: 18px;
-      background-color: rgba(0, 0, 0, 0.62);
-      border: 3px solid #252525;
-      border-radius: 9px;
-      outline: none;
+  width: 100%;
+  text-align: left;
+  min-height: 25px;
+  padding: 8px 25px;
+  font-size: 18px;
+  background-color: rgba(0, 0, 0, 0.62);
+  border: 3px solid #252525;
+  border-radius: 9px;
+  outline: none;
 }
 
 .form-send-gas {
@@ -84,20 +109,27 @@ float: right;
   padding: 8px 25px;
   font-size: 18px;
   background-color: rgba(0, 0, 0, 0.62);
-  border: 3px solid #9013FE;
+  border: 3px solid #9013fe;
   border-radius: 9px;
   outline: none;
 }
 
-h1,h2 {
+h1,
+h2 {
   font-weight: 200;
-      margin: 8px 0 20px 0px;
+  margin: 8px 0 20px 0px;
 }
 
-#sendAddress {margin-top: 5px;}
-#sendAmount {margin-top: 5px;}
+#sendAddress {
+  margin-top: 5px;
+}
+#sendAmount {
+  margin-top: 5px;
+}
 
-.clearboth {clear:both;}
+.clearboth {
+  clear: both;
+}
 
 .send-notice {
   margin-top: 30px;
@@ -128,13 +160,151 @@ h1,h2 {
 
 .scanqr-cam {
   position: fixed;
-      top: 42%;
-      left: 30.5%;
-      font-size: 28px;
-      z-index: 99;
-      color: #2f2f2f;
-      cursor: pointer;
+  top: 43%;
+  left: 30%;
+  font-size: 28px;
+  z-index: 99;
+  color: #2f2f2f;
+  cursor: pointer;
 }
-.scanqr-cam:hover {color: #646464;}
+.scanqr-cam:hover {
+  color: #646464;
+}
 
-.glyphicon-check {margin-right: 10px;}
+#transactionList {
+  list-style-type: none;
+  height: 300px;
+  width: 100%;
+  overflow: scroll;
+  -webkit-padding-start: 0px;
+  overflow-y: scroll;
+}
+
+ul {
+  list-style-type: none;
+}
+
+#transactionList li {
+  padding: 10px 0px;
+  border-bottom: thin solid #222;
+  height: 40px;
+}
+
+#transactionList li:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.copyright {
+  position: fixed;
+  color: #353535;
+  bottom: 9px;
+  left: 2%;
+  font-size: 10px;
+}
+
+webview {
+  display: inline-flex;
+  width: 100%;
+  height: 640px;
+}
+
+#foo {
+  width: 100%;
+  height: 700px;
+}
+
+::-webkit-scrollbar {
+  background-color: #fff;
+  width: 0.8em;
+}
+
+::-webkit-scrollbar-thumb:window-inactive,
+::-webkit-scrollbar-thumb {
+  background: black;
+}
+
+.loading-exchange {
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  font-size: 120px;
+  text-align: center;
+  width: 120px;
+  height: 142px;
+  z-index: -1;
+  color: rgba(85, 85, 85, 0.37);
+}
+
+@-webkit-keyframes rotating {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.rotating {
+  -webkit-animation: rotating 2s linear infinite;
+  -moz-animation: rotating 2s linear infinite;
+  -ms-animation: rotating 2s linear infinite;
+  -o-animation: rotating 2s linear infinite;
+  animation: rotating 2s linear infinite;
+}
+
+#neo-price {
+  -webkit-padding-start: 0px;
+  font-size: 18px;
+}
+
+#neo-price li {
+  width: 20%;
+  float: left;
+  padding: 0px;
+}
+
+#gas-price li {
+  width: 20%;
+  float: left;
+  padding: 0px;
+}
+
+#exchange-info {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  width: 840px;
+  height: 758px;
+  margin: 0px;
+  padding: 0px;
+}
+
+#chart-container {
+  min-width: 310px;
+  max-width: 800px;
+}
+
+.com-soon,
+.com-soon:hover {
+  opacity: 0.1;
+  cursor: default;
+}

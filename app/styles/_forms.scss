@@ -17,6 +17,11 @@
     text-align: center;
     color: white;
   }
+  .sett-form {
+    border: 2px solid #292929;
+    background-color: #000;
+  }
+
   ::-webkit-input-placeholder {
     /* Chrome/Opera/Safari */
     color: white;
@@ -80,3 +85,5 @@
 hr.purple {
   border: 1px solid #9013fe;
 }
+
+.grey.bk {background-color: #222;}

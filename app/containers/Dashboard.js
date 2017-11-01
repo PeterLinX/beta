@@ -3,11 +3,12 @@ import { connect } from "react-redux";
 import SplitPane from "react-split-pane";
 import { Link } from "react-router";
 import QRCode from "qrcode";
+import axios from "axios";
 import FaArrowUpward from "react-icons/lib/fa/arrow-circle-up";
 import { NetworkSwitch } from "../components/NetworkSwitch";
 import WalletInfo from "../components/WalletInfo";
-
 import TransactionHistory from "../components/TransactionHistory";
+import Exchange from "../components/Exchange";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import Logout from "../components/Logout";
@@ -26,11 +27,25 @@ const refreshBalance = (dispatch, net, address) => {
 };
 
 class Dashboard extends Component {
-  componentDidMount = () => {
+  async componentDidMount() {
     // only logging public information here
     log(this.props.net, "LOGIN", this.props.address, {});
-    initiateGetBalance(this.props.dispatch, this.props.net, this.props.address, this.props.price);
-  };
+    initiateGetBalance(
+      this.props.dispatch,
+      this.props.net,
+      this.props.address,
+      this.props.price
+    );
+
+    let neo = await axios.get("https://api.coinmarketcap.com/v1/ticker/neo/");
+    let gas = await axios.get("https://api.coinmarketcap.com/v1/ticker/gas/");
+    neo = neo.data[0].price_usd;
+    gas = gas.data[0].price_usd;
+
+    let value = neo * this.props.neo + gas * this.props.gas;
+
+    console.log(value);
+  }
 
   render = () => {
     let sendPaneClosed;
@@ -44,25 +59,27 @@ class Dashboard extends Component {
       }
     }
 
-    let sendScreen = <Send />;
+    let dash = (
+      <div className="container">
+        <WalletInfo />
+      </div>
+    );
 
-    if (this.props.location.pathname !== "/send") {
-      sendScreen = <div />;
+    if (this.props.location.pathname !== "/dashboard") {
+      dash = <div />;
     }
-    console.log(this.props.location);
     return (
       <div>
         <div id="mainNav" className="main-nav">
           <div className="navbar navbar-inverse">
             <div className="navbar-header">
               <div className="logoContainer">
-                <Logo width={120} />
+                <Logo width={90} />
               </div>
-
               <div id="balance">
                 <span style={{ fontSize: "10px" }}>Combined Value</span>
                 <br />
-                ${this.props.price}
+                {this.props.price}
               </div>
             </div>
             <div className="clearfix" />
@@ -70,7 +87,7 @@ class Dashboard extends Component {
               <ul className="nav navbar-nav">
                 <li>
                   <Link to={"/dashboard"} exact activeClassName="active">
-                    <div className="glyphicon glyphicon-home" /> Dashboard
+                    <div className="glyphicon glyphicon-stats" /> Dashboard
                   </Link>
                 </li>
                 <li>
@@ -80,21 +97,36 @@ class Dashboard extends Component {
                 </li>
                 <li>
                   <Link to={"/receive"} exact activeClassName="active">
-                    <span className="glyphicon glyphicon-arrow-down" /> Receive
+                    <span className="glyphicon glyphicon-qrcode" /> Receive
+                  </Link>
+                </li>
+                {/*<li>
+                  <Link to={"/exchange"} exact activeClassName="active">
+                    <span className="glyphicon glyphicon-refresh" /> Exchange
+                  </Link>
+                </li>*/}
+                <li>
+                  <Link
+                    to={"/transactionHistory"}
+                    exact
+                    activeClassName="active"
+                  >
+                    <span className="glyphicon glyphicon-list-alt" /> History
                   </Link>
                 </li>
                 <li>
                   <Link to={"/settings"} exact activeClassName="active">
-                    <span className="glyphicon glyphicon-settings" /> Settings
+                    <span className="glyphicon glyphicon-lock" /> Settings
                   </Link>
                 </li>
               </ul>
-              <Logout />
             </div>
           </div>
+          <div className="copyright">&copy; Copyright 2017 Morpheus</div>
         </div>
         <div style={{ marginLeft: 230, marginTop: 20 }}>
           <div className="container">{this.props.children}</div>
+          {dash}
         </div>
       </div>
     );
@@ -107,7 +139,9 @@ const mapStateToProps = state => ({
   blockHeight: state.metadata.blockHeight,
   net: state.metadata.network,
   address: state.account.address,
-  neo: state.wallet.Neo
+  neo: state.wallet.Neo,
+  gas: state.wallet.Gas,
+  price: state.wallet.price
 });
 
 Dashboard = connect(mapStateToProps)(Dashboard);

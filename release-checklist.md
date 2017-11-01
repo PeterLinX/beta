@@ -2,15 +2,15 @@
 
   1. **Create a new wallet**
   
-     a). Can sucessfully generate new private key and nep2 encrypted version given passphrase
+     a). Can successfully generate new private key and NEP2 encrypted version given password
      
-     b). Gives user feedback if passphrases do not match
+     b). Gives user feedback if password do not match
      
-     c). Gives user feedback if passphrases are too short
+     c). Gives user feedback if password is too short
      
      d). Interface communicates "generating keys" during generation process (a few seconds)
      
-     e). The "save key" button saves a nep2 encrypted key in local app storage, under entered name
+     e). The "save key" button saves a NEP2 encrypted key in local app storage, under entered name
      
   2. **Login with private key**
   
@@ -22,31 +22,31 @@
   
      a). Interface communicates "decrypting key" during decryption process (a few seconds)
      
-     b). Interface communicates "wrong passphrase" if decryption fails
+     b). Interface communicates "wrong password" if decryption fails
      
-     c). Successful login to dashboard on correct passphrase
+     c). Successful login to dashboard on correct password
      
      d). All saved wallets/keys appear as options under login
      
      e). When saved wallet is deleted, no longer appears under login
      
-  4. **Login with nep2 encrypted key and passphrase**
+  4. **Login with NEP2 encrypted key and password**
   
      a). Interface communicates "decrypting key" during decryption process (a few seconds)
      
-     b). Interface communicates "wrong passphrase or invalid encrypted key" if decryption fails
+     b). Interface communicates "wrong password or invalid encrypted key" if decryption fails
      
-     c). Successful login to dashboard on correct passphrase and key
+     c). Successful login to dashboard on correct password and key
      
   5. **Encrypt an existing key**
   
-     a). Gives user feedback if passphrases do not match
+     a). Gives user feedback if password do not match
      
-     b). Gives user feedback if passphrases are too short
+     b). Gives user feedback if password is too short
      
      c). Gives feedback if private key entered is not valid
      
-     d). Generates encryped key succesfully under nep2 otherwise
+     d). Generates encrypted key successfully under NEP2 otherwise
      
   6. **Settings page**
   
@@ -76,7 +76,7 @@
      
      i). Transaction history updates correctly with all above interactions
      
-     j). Able to swtich between MainNet and TestNet, balance updates accordingly
+     j). Able to switch between MainNet and TestNet, balance updates accordingly
      
      k). Replicate send tests on both MainNet and TestNet
      

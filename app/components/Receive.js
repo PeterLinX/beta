@@ -1,62 +1,53 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import QRCode from "qrcode.react";
+import { clipboard } from "electron";
 import neoLogo from "../images/neo.png";
 import copyIcon from "../images/copy-icon.png";
 import printIcon from "../images/print-icon.png";
 import emailIcon from "../images/email-icon.png";
 import linkIcon from "../images/link-icon.png";
+import TopBar from "./TopBar";
 
 class Receive extends Component {
   render() {
     return (
       <div id="receive" className="">
-        <div className="row ">
-          <div className="header">
-            <div className="col-xs-4">
-              <p className="neo-balance">Available Neo</p>
-              <p className="neo-text">
-                {this.props.neo} <span>NEO</span>{" "}
-              </p>
-            </div>
-            <div className="col-xs-4">
-            <div id="gas-gauge">
-              <div id="gas-button">
-                <span class="gas-claim">
-                  Claim Gas<br />
-                  0.000000
-                </span>
-              </div>
-              </div>
-            </div>
-            <div className="col-xs-4">
-              <p className="neo-balance">Available GAS</p>
-              <p className="gas-text">{this.props.gas} <span>GAS</span></p>
-            </div>
-          </div>
-        </div>
-        <div className="row">
-        <div className="col-xs-4">
-        </div>
-          <div className="col-xs-4">
-          <br />
+        <TopBar />
+        <div className="row top-20">
           <h2>Receive NEO/GAS</h2>
-          <div className="center-qr">
-            <div className="addressBox-send">
-              <QRCode size={180} value={"this.props.address"} />
-            </div>
-            </div>
+          <div className="addressBox-send center">
+            <QRCode size={180} value={this.props.address} />
           </div>
-        </div>
+          <div className="row">
+            <p className="address">{this.props.address}</p>
+            <p className="info">Send NEO or GAS to this address ONLY.</p>
 
-        <div className="row">
-          <p className="address">{this.props.address}</p>
-          <p className="info">Send NEO or GAS to this address ONLY.</p>
-          <div className="dash-icon-bar">
-          <img src={copyIcon} alt="" width="48" className="copy-icon" />
-          <img src={printIcon} alt="" width="48" className="print-icon" />
-          <img src={emailIcon} alt="" width="48" className="email-icon" />
-          <img src={linkIcon} alt="" width="48" className="link-icon" />
+            <div className="dash-bar-rec top-20">
+              <div
+                className="dash-icon-bar"
+                onClick={() => clipboard.writeText(this.props.address)}
+              >
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-duplicate" />
+                </div>
+                Copy Public Address
+              </div>
+
+              <div className="dash-icon-bar" onClick={() => print()}>
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-print" />
+                </div>
+                Print Public Address
+              </div>
+
+              <div className="dash-icon-bar">
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-link" />
+                </div>
+                View On Blockchain
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -69,6 +60,7 @@ const mapStateToProps = state => ({
   net: state.metadata.network,
   address: state.account.address,
   neo: state.wallet.Neo,
+  price: state.wallet.price,
   gas: state.wallet.Gas
 });
 

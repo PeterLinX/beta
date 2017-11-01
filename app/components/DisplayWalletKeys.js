@@ -93,55 +93,57 @@ class DisplayWalletKeys extends Component {
     }
     return (
       <div>
-      <div className="new-address-bk">
-              <div id="displayWalletKeys">
-              <div className="center neoLogo">
-                <NeoLogo width={115} />
-              </div>
-                  <div className="col-xs-12">
-                    <p className="welcome">
-                    Congratulations! New NEO Address Created
-                    </p>
-                {/* qr */}
-                  <div className="row">
-                    <div className="col-xs-4">
-                      <div className="addressBox">
-                        <QRCode value={this.props.address} />
-                      </div>
+        <div className="new-address-bk">
+          <div id="displayWalletKeys">
+            <div className="center neoLogo">
+              <NeoLogo width={115} />
+            </div>
+            <div className="col-xs-12">
+              <p className="welcome">
+                Congratulations! New NEO Address Created
+              </p>
+              {/* qr */}
+              <div className="row">
+                <div className="col-xs-4">
+                  <div className="addressBox">
+                    <QRCode value={this.props.address} />
+                  </div>
+                </div>
+                <div className="col-xs-8">
+                  <div className="keyList">
+                    <div className="form-group">
+                      <p className="key-label">Your Public NEO Address</p>
+                      <input
+                        type="text"
+                        onClick={() => clipboard.writeText(this.props.address)}
+                        className="form-control pubicAddress"
+                        contentEditable={false}
+                        readOnly={true}
+                        value={this.props.address}
+                        data-tip
+                        data-for="copyPublicKeyTip"
+                      />
                     </div>
-                    <div className="col-xs-8">
-                      <div className="keyList">
-                        <div className="form-group">
-                          <p className="key-label">Your Public NEO Address</p>
-                          <input
-                            type="text"
-                            onClick={() => clipboard.writeText(this.props.address)}
-                            className="form-control pubicAddress"
-                            contentEditable={false}
-                            readOnly={true}
-                            value={this.props.address}
-                            data-tip
-                            data-for="copyPublicKeyTip"
-                          />
-                        </div>
 
-                        <div className="form-group">
-                          <p className="key-label">Your Secure Password</p>
-                          <input
-                            type="text"
-                            onClick={() => clipboard.writeText(this.props.passphrase)}
-                            className="form-control"
-                            contentEditable={false}
-                            readOnly={true}
-                            value={this.props.passphrase}
-                            data-tip
-                            data-for="copyPassphraseTip"
-                            onClick={() => clipboard.writeText(this.props.passphrase)}
-                          />
-                        </div>
-                      </div>
-                      <div className="saveKey">
-                        {/* <input
+                    <div className="form-group">
+                      <p className="key-label">Your Secure Password</p>
+                      <input
+                        type="text"
+                        onClick={() =>
+                          clipboard.writeText(this.props.passphrase)}
+                        className="form-control"
+                        contentEditable={false}
+                        readOnly={true}
+                        value={this.props.passphrase}
+                        data-tip
+                        data-for="copyPassphraseTip"
+                        onClick={() =>
+                          clipboard.writeText(this.props.passphrase)}
+                      />
+                    </div>
+                  </div>
+                  <div className="saveKey">
+                    {/* <input
                       type="text"
                       placeholder="Name this key"
                       ref={node => (key_name = node)}
@@ -152,113 +154,120 @@ class DisplayWalletKeys extends Component {
                     >
                       Save Key
                     </button> */}
-                      </div>
-                      {/* <Link
+                  </div>
+                  {/* <Link
                       onClick={() => resetGeneratedKey(this.props.dispatch)}
                       to="/create"
                     >
                       <button className="btn btn-form btn-mini">Back</button>
                     </Link> */}
-                      <ReactTooltip
-                        class="solidTip"
-                        id="copyPublicKeyTip"
-                        place="bottom"
-                        type="dark"
-                        effect="solid"
-                      >
-                        <span>Copy Public Key</span>
-                      </ReactTooltip>
-                      <ReactTooltip
-                        class="solidTip"
-                        id="copyPrivateKeyTip"
-                        place="bottom"
-                        type="dark"
-                        effect="solid"
-                      >
-                        <span>Copy Private Key</span>
-                      </ReactTooltip>
-                      <ReactTooltip
-                        class="solidTip"
-                        id="copyPassphraseTip"
-                        place="bottom"
-                        type="dark"
-                        effect="solid"
-                      >
-                        <span>Copy Password</span>
-                      </ReactTooltip>
-                      <ReactTooltip
-                        class="solidTip"
-                        id="copyPassphraseKeyTip"
-                        place="bottom"
-                        type="dark"
-                        effect="solid"
-                      >
-                        <span>Copy Password Encrypted Key</span>
-                      </ReactTooltip>
-                    </div>
-                    <div className="col-xs-8">
-                      <div className="form-group">
-                        <input
-                          type="text"
-                          className="form-control saveKey"
-                          ref={node => (key_name = node)}
-                          placeholder="Name your Backup/Recovery Key"
-                          data-tip
-                        />
-                      </div>
-                    </div>
-                    <div className="col-xs-4">
-                    <div className="form-group">
-                      <button
-                        onClick={() =>
-                          saveKey(
-                            this.props.dispatch,
-                            this.props.passphraseKey,
-                            this.props.history
-                          )}
-                        className="btn-send"
-                      >
-                        Save & Continue
-                      </button>
-
-                      {this.props.decrypting === true ? (
-                        <div className="decrypting">Decrypting keys...</div>
-                      ) : (
-                        <div />
-                      )}
-
-                    </div>
-                    </div>
+                  <ReactTooltip
+                    className="solidTip"
+                    id="copyPublicKeyTip"
+                    place="bottom"
+                    type="dark"
+                    effect="solid"
+                  >
+                    <span>Copy Public Key</span>
+                  </ReactTooltip>
+                  <ReactTooltip
+                    className="solidTip"
+                    id="copyPrivateKeyTip"
+                    place="bottom"
+                    type="dark"
+                    effect="solid"
+                  >
+                    <span>Copy Private Key</span>
+                  </ReactTooltip>
+                  <ReactTooltip
+                    className="solidTip"
+                    id="copyPassphraseTip"
+                    place="bottom"
+                    type="dark"
+                    effect="solid"
+                  >
+                    <span>Copy Password</span>
+                  </ReactTooltip>
+                  <ReactTooltip
+                    className="solidTip"
+                    id="copyPassphraseKeyTip"
+                    place="bottom"
+                    type="dark"
+                    effect="solid"
+                  >
+                    <span>Copy Password Encrypted Key</span>
+                  </ReactTooltip>
+                </div>
+                <div className="col-xs-8">
+                  <div className="form-group">
+                    <input
+                      type="text"
+                      className="form-control saveKey"
+                      ref={node => (key_name = node)}
+                      placeholder="Name your saved wallet"
+                      data-tip
+                    />
                   </div>
-                  <div className="row">
-                  <div className="col-xs-12" style={{ margin: 0, padding: 0 }}>
-                  <label class="checkbox-inline" style={{ color: "white" }}>
-                    I have backed up my password and understand it will not be shown to me again.
-                  </label>
-                  <input
-                    id="checkbox"
-                    name="isChecked"
-                    type="checkbox"
-                    className="pull-left"
-                    value={this.state.isChecked}
-                    onChange={this.handleInputChange.bind(this)}
-                  />
+                </div>
+                <div className="col-xs-4">
+                  <div className="form-group">
+                    <button
+                      onClick={() =>
+                        saveKey(
+                          this.props.dispatch,
+                          this.props.passphraseKey,
+                          this.props.history
+                        )}
+                      className="btn-send"
+                    >
+                      Save & Continue
+                    </button>
+
+                    {this.props.decrypting === true ? (
+                      <div className="decrypting">Decrypting keys...</div>
+                    ) : (
+                      <div />
+                    )}
+
+                    {this.props.decrypting === true ? (
+                      <div className="decrypting">Decrypting keys...</div>
+                    ) : (
+                      <div />
+                    )}
                   </div>
                 </div>
               </div>
+              <div className="clearboth" />
             </div>
-            <div className="clearboth"></div>
+          </div>
+          <div className="row">
+            <div className="col-xs-12">
+              <label
+                className="checkbox-inline"
+                style={{ color: "white" }}
+              >
+                I have backed up my password and understand it will not
+                be shown to me again.
+              </label>
+              <input
+                id="checkbox"
+                name="isChecked"
+                type="checkbox"
+                className="pull-left"
+                value={this.state.isChecked}
+                onChange={this.handleInputChange.bind(this)}
+              />
             </div>
-            <div className="dash-bar">
-
-            <div className="dash-icon-bar" onClick={() => print()} >
-              <div className="icon-border">
-                <span className="glyphicon glyphicon-print"></span>
-              </div>
-              Print Wallet Data
+          </div>
+        </div>
+        <div className="dash-bar">
+          <div className="dash-icon-bar" onClick={() => print()}>
+            <div className="icon-border">
+              <span className="glyphicon glyphicon-print" />
             </div>
-
-            <div className="dash-icon-bar" onClick={() => {
+            Print Wallet Data
+          </div>
+          <div className="dash-icon-bar" onClick={() => {
               this.setState({ show: true });
             }} >
               <div className="icon-border">
@@ -266,16 +275,27 @@ class DisplayWalletKeys extends Component {
               </div>
               View Private Data
             </div>
-
+          <div
+            className="dash-icon-bar"
+            onClick={() => {
+              this.setState({ show: true });
+            }}
+          >
+            <div className="icon-border">
+              <span className="glyphicon glyphicon-download-alt" />
+            </div>
+            Download Recovery File
+          </div>
+          <Link to="/">
             <div className="dash-icon-bar">
               <div className="icon-border">
-                <span className="glyphicon glyphicon-download-alt"></span>
+                <span className="glyphicon glyphicon-chevron-left" />
               </div>
-              Download Recovery File
+              Back to Login Options
             </div>
-
-            </div>
-</div>
+          </Link>
+        </div>
+      </div>
     );
   };
 }
