@@ -11,6 +11,7 @@ app.on("window-all-closed", () => {
 app.on("ready", () => {
   mainWindow = new BrowserWindow({
     // titleBarStyle: "hidden",
+    backgroundColor: '#000',
     width: 1024,
     height: 720,
     minHeight: 720,
@@ -20,6 +21,7 @@ app.on("ready", () => {
     icon: path.join(__dirname, "icons/png/64x64.png"),
     webPreferences: {
       webSecurity: false
+
     }
 
     // uncomment these lines
