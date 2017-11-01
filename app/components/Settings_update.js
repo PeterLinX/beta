@@ -105,104 +105,111 @@ class Settings extends Component {
 
   render = () => (
     <div>
-    <div className="settings-panel">
-    <div className="description">
-      <h2 className="center">Manage your Morpheus Settings</h2>
-      <div className="row top-50">
-      <div className="col-xs-3 center">
-      <div className="dash-icon-bar">
-      <div className="icon-border">
-        <span className="glyphicon glyphicon-lock" />
-      </div>
-      Enable 2 Factor Authorization
-      </div>
-      </div>
-      <div className="col-xs-3 center">
-      <div className="dash-icon-bar">
-      <div className="icon-border">
-        <span className="glyphicon glyphicon-check" />
-      </div>
-      Authorized Addresses
-      </div>
-      </div>
-      <div className="col-xs-3 center">
-      <div className="dash-icon-bar">
-      <div className="icon-border">
-        <span className="glyphicon glyphicon-education" />
-      </div>
-      Switch to Test Network
-      </div>
-    </div>
-    <div className="col-xs-3 center">
-    <Link to="/create"><div className="dash-icon-bar">
-    <div className="icon-border">
-      <span className="glyphicon glyphicon-plus" />
-    </div>
-    Create New Address
-    </div></Link>
-  </div>
-    </div>
-    </div>
-    <div className="clearboth"></div>
-      <div className="row top-20">
-      <div className="col-xs-6 col-xs-offset-3">
-      <div className="settingsForm row">
-        <div className="settingsItem">
-          <select
-            name="select-profession"
-            id="select-profession grey-bk"
-            className="trans-form sett-form"
-          >
-            <option selected="selected" disabled="disabled">
-              Select a saved wallet
-            </option>
-            {_.map(this.props.wallets, (value, key) => (
-              <option value={value}>{key.slice(0, 20)}</option>
-            ))}
-          </select>
+      <div className="settings-panel">
+        <div className="description">
+          <h2 className="center">Manage your Morpheus Settings</h2>
+          <div className="row top-50">
+            <div className="col-xs-3 center">
+              <div className="dash-icon-bar">
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-lock" />
+                </div>
+                Enable 2 Factor Authorization
+              </div>
+            </div>
+            <div className="col-xs-3 center">
+              <div className="dash-icon-bar">
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-check" />
+                </div>
+                Authorized Addresses
+              </div>
+            </div>
+            <div className="col-xs-3 center">
+              <div className="dash-icon-bar">
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-education" />
+                </div>
+                Switch to Test Network
+              </div>
+            </div>
+            <div className="col-xs-3 center">
+              <Link to="/create">
+                <div className="dash-icon-bar">
+                  <div className="icon-border">
+                    <span className="glyphicon glyphicon-plus" />
+                  </div>
+                  Create New Address
+                </div>
+              </Link>
+            </div>
+          </div>
         </div>
+        <div className="clearboth" />
+        <div className="row top-20">
+          <div className="col-xs-6 col-xs-offset-3">
+            <div className="settingsForm row">
+              <div className="settingsItem">
+                <select
+                  name="select-profession"
+                  id="select-profession grey-bk"
+                  className="trans-form sett-form"
+                >
+                  <option selected="selected" disabled="disabled">
+                    Select a saved wallet
+                  </option>
+                  {_.map(this.props.wallets, (value, key) => (
+                    <option value={value}>{key.slice(0, 20)}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="col-xs-3" />
+        </div>
+        <div className="row top-50">
+          <div className="col-xs-3 center">
+            <div className="dash-icon-bar" onClick={() => print()}>
+              <div className="icon-border">
+                <span className="glyphicon glyphicon-print" />
+              </div>
+              Print Paper Wallet
+            </div>
+          </div>
+          <div className="col-xs-3 center">
+            <div className="dash-icon-bar">
+              <div className="icon-border">
+                <span className="glyphicon glyphicon-link" />
+              </div>
+              View On Blockchain
+            </div>
+          </div>
+          <div className="col-xs-3 center">
+            <div
+              className="dash-icon-bar"
+              onClick={() => saveKeyRecovery(this.props.wallets)}
+            >
+              <div className="icon-border">
+                <span className="glyphicon glyphicon-arrow-down" />
+              </div>
+              Export Encrypted Keys
+            </div>
+          </div>
+          <div className="col-xs-3 center">
+            <div
+              className="dash-icon-bar"
+              onClick={() => deleteWallet(this.props.dispatch, key)}
+            >
+              <div className="icon-border">
+                <span className="glyphicon glyphicon-trash" />
+              </div>
+              Delete Seleted Wallet
+            </div>
+          </div>
+        </div>
+        <div className="clearboth" />
       </div>
-    </div>
-    <div className="col-xs-3">
-    </div>
-    </div>
-    <div className="row top-50">
-    <div className="col-xs-3 center">
-    <div className="dash-icon-bar" onClick={() => print()} >
-      <div className="icon-border">
-        <span className="glyphicon glyphicon-print" />
-      </div>
-      Print Paper Wallet
-    </div>
-    </div>
-    <div className="col-xs-3 center">
-    <div className="dash-icon-bar">
-      <div className="icon-border">
-        <span className="glyphicon glyphicon-link" />
-      </div>
-      View On Blockchain
-    </div>
-    </div>
-    <div className="col-xs-3 center">
-    <div className="dash-icon-bar" onClick={() => saveKeyRecovery(this.props.wallets)} >
-      <div className="icon-border">
-        <span className="glyphicon glyphicon-arrow-down" />
-      </div>
-      Export Encrypted Keys
-    </div>
-    </div>
-    <div className="col-xs-3 center">
-    <div className="dash-icon-bar" onClick={() => deleteWallet(this.props.dispatch, key)} >
-      <div className="icon-border">
-        <span className="glyphicon glyphicon-trash" />
-      </div>
-      Delete Seleted Wallet
-    </div>
-    </div>
-    </div>
-    <div className="clearboth"></div>
-    </div>
-<div className="clearboth"></div>
+      <div className="clearboth" />
     </div>
   );
 }

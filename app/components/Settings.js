@@ -103,153 +103,168 @@ const deleteWallet = (dispatch, key) => {
 
 const getExplorerLink = (net, explorer, txid) => {
   let base;
-  if (explorer === "Neotracker"){
-    if (net === "MainNet"){
+  if (explorer === "Neotracker") {
+    if (net === "MainNet") {
       base = "https://neotracker.io/tx/";
     } else {
       base = "https://testnet.neotracker.io/tx/";
     }
-  }
-  else {
-    if (net === "MainNet"){
+  } else {
+    if (net === "MainNet") {
       base = "http://antcha.in/tx/hash/";
     } else {
       base = "http://testnet.antcha.in/tx/hash/";
     }
   }
   return base + txid;
-}
+};
 
 // helper to open an external web link
-const openExplorer = (srcLink) => {
+const openExplorer = srcLink => {
   shell.openExternal(srcLink);
-}
+};
 
 class Settings extends Component {
   componentDidMount = () => {
     storage.get("keys", (error, data) => {
       this.props.dispatch(setKeys(data));
     });
-    syncTransactionHistory(this.props.dispatch, this.props.net, this.props.address);
+    syncTransactionHistory(
+      this.props.dispatch,
+      this.props.net,
+      this.props.address
+    );
     loadSettings(this.props.dispatch);
   };
 
   render = () => (
     <div id="send">
-    <div className="row">
-      <div className="header">
-        <div className="col-xs-4">
-          <p className="neo-balance">Available Neo</p>
-          <p className="neo-text">
-            {this.props.neo} <span>NEO</span>{" "}
-          </p>
-          <p className="neo-balance">{this.props.price}</p>
-        </div>
-        <div className="col-xs-4">{<Claim />}</div>
-        <div className="col-xs-4">
-          <p className="neo-balance">Available GAS</p>
-          <p className="gas-text">
-            {Math.floor(this.props.gas * 1000000) / 1000000}{" "}
-            <span>GAS</span>
-          </p>
-        </div>
-      </div>
-    </div>
-    <div className="settings-panel top-50">
-    <div className="description">
       <div className="row">
-      <div className="col-xs-2 center col-xs-offset-1 ">
-      <NetworkSwitch />
+        <div className="header">
+          <div className="col-xs-4">
+            <p className="neo-balance">Available Neo</p>
+            <p className="neo-text">
+              {this.props.neo} <span>NEO</span>{" "}
+            </p>
+            <p className="neo-balance">{this.props.price}</p>
+          </div>
+          <div className="col-xs-4">{<Claim />}</div>
+          <div className="col-xs-4">
+            <p className="neo-balance">Available GAS</p>
+            <p className="gas-text">
+              {Math.floor(this.props.gas * 1000000) / 1000000} <span>GAS</span>
+            </p>
+          </div>
+        </div>
       </div>
-  <div className="col-xs-2 center onClick={() => dispatch(logout())}">
-  <Link to="/create"><div className="dash-icon-bar">
-  <div className="icon-border">
-    <span className="glyphicon glyphicon-plus" />
-  </div>
-  Create New Address
-  </div></Link>
-</div>
+      <div className="settings-panel top-50">
+        <div className="description">
+          <div className="row">
+            <div className="col-xs-2 center col-xs-offset-1 ">
+              <NetworkSwitch />
+            </div>
+            <div className="col-xs-2 center onClick={() => dispatch(logout())}">
+              <Link to="/create">
+                <div className="dash-icon-bar">
+                  <div className="icon-border">
+                    <span className="glyphicon glyphicon-plus" />
+                  </div>
+                  Create New Address
+                </div>
+              </Link>
+            </div>
 
-<div className="col-xs-2 center">
-<Link to="/LoginLocalStorage">
-<div className="dash-icon-bar">
-  <div className="icon-border">
-    <span className="glyphicon glyphicon-user" />
-  </div>
-  Open a Saved Wallet
-</div>
-</Link>
-</div>
-<div className="col-xs-2 center">
-<div className="dash-icon-bar com-soon">
-<div className="icon-border">
-  <span className="glyphicon glyphicon-phone" />
-</div>
-Enable Two Factor Authorization
-</div>
-</div>
-<div className="col-xs-2 center">
-<div className="dash-icon-bar com-soon">
-<div className="icon-border">
-  <span className="glyphicon glyphicon-check" />
-</div>
-Edit Authorized Addresses
-</div>
-</div>
-    </div>
-    </div>
-    <div className="clearboth"></div>
-      <div className="row top-20">
-    <div className="col-xs-3">
-    </div>
-    </div>
-    <div className="row top-20">
-
-    <div className="col-xs-2 center col-xs-offset-1 ">
-    <Link to="/encryptKey"><div className="dash-icon-bar">
-    <div className="icon-border">
-      <span className="glyphicon glyphicon-qrcode" />
-    </div>
-    Encrypt a Private Key
-    </div></Link>
-  </div>
-    <div className="col-xs-2 center">
-    <div className="dash-icon-bar" onClick={() => saveKeyRecovery(this.props.wallets)} >
-      <div className="icon-border">
-        <span className="glyphicon glyphicon-save" />
+            <div className="col-xs-2 center">
+              <Link to="/LoginLocalStorage">
+                <div className="dash-icon-bar">
+                  <div className="icon-border">
+                    <span className="glyphicon glyphicon-user" />
+                  </div>
+                  Open a Saved Wallet
+                </div>
+              </Link>
+            </div>
+            <div className="col-xs-2 center">
+              <div className="dash-icon-bar com-soon">
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-phone" />
+                </div>
+                Enable Two Factor Authorization
+              </div>
+            </div>
+            <div className="col-xs-2 center">
+              <div className="dash-icon-bar com-soon">
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-check" />
+                </div>
+                Edit Authorized Addresses
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="clearboth" />
+        <div className="row top-20">
+          <div className="col-xs-3" />
+        </div>
+        <div className="row top-20">
+          <div className="col-xs-2 center col-xs-offset-1 ">
+            <Link to="/encryptKey">
+              <div className="dash-icon-bar">
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-qrcode" />
+                </div>
+                Encrypt a Private Key
+              </div>
+            </Link>
+          </div>
+          <div className="col-xs-2 center">
+            <div
+              className="dash-icon-bar"
+              onClick={() => saveKeyRecovery(this.props.wallets)}
+            >
+              <div className="icon-border">
+                <span className="glyphicon glyphicon-save" />
+              </div>
+              Export My Encrypted Keys
+            </div>
+          </div>
+          <div className="col-xs-2 center">
+            <div
+              className="dash-icon-bar"
+              onClick={() =>
+                openExplorer(
+                  getExplorerLink(this.props.net, this.props.explorer, t.txid)
+                )}
+            >
+              <div className="icon-border">
+                <span className="glyphicon glyphicon-link" />
+              </div>
+              View Address on NeoTracker
+            </div>
+          </div>
+          <div className="col-xs-2 center">
+            <div className="dash-icon-bar">
+              <div className="icon-border">
+                <span className="glyphicon glyphicon-remove" />
+              </div>
+              Logout Current Wallet
+            </div>
+          </div>
+          <div className="col-xs-2 center">
+            <div
+              className="dash-icon-bar"
+              onClick={() => deleteWallet(this.props.dispatch, key)}
+            >
+              <div className="icon-border">
+                <span className="glyphicon glyphicon-trash" />
+              </div>
+              Delete this wallet from Morpheus
+            </div>
+          </div>
+        </div>
+        <div className="clearboth" />
       </div>
-      Export My Encrypted Keys
-    </div>
-    </div>
-    <div className="col-xs-2 center">
-
-    <div className="dash-icon-bar" onClick={() => openExplorer(getExplorerLink(this.props.net, this.props.explorer, t.txid))} >
-      <div className="icon-border">
-        <span className="glyphicon glyphicon-link" />
-      </div>
-      View Address on NeoTracker
-    </div>
-    </div>
-    <div className="col-xs-2 center">
-    <div className="dash-icon-bar" >
-      <div className="icon-border">
-        <span className="glyphicon glyphicon-remove" />
-      </div>
-      Logout Current Wallet
-    </div>
-    </div>
-    <div className="col-xs-2 center">
-    <div className="dash-icon-bar" onClick={() => deleteWallet(this.props.dispatch, key)} >
-      <div className="icon-border">
-        <span className="glyphicon glyphicon-trash" />
-      </div>
-      Delete this wallet from Morpheus
-    </div>
-    </div>
-    </div>
-    <div className="clearboth"></div>
-    </div>
-<div className="clearboth"></div>
+      <div className="clearboth" />
     </div>
   );
 }
