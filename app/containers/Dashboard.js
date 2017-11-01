@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import SplitPane from "react-split-pane";
 import { Link } from "react-router";
 import QRCode from "qrcode";
+import axios from "axios";
 import FaArrowUpward from "react-icons/lib/fa/arrow-circle-up";
 import { NetworkSwitch } from "../components/NetworkSwitch";
 import WalletInfo from "../components/WalletInfo";
@@ -26,7 +27,7 @@ const refreshBalance = (dispatch, net, address) => {
 };
 
 class Dashboard extends Component {
-  componentDidMount = () => {
+  async componentDidMount() {
     // only logging public information here
     log(this.props.net, "LOGIN", this.props.address, {});
     initiateGetBalance(
@@ -35,7 +36,16 @@ class Dashboard extends Component {
       this.props.address,
       this.props.price
     );
-  };
+
+    let neo = await axios.get("https://api.coinmarketcap.com/v1/ticker/neo/");
+    let gas = await axios.get("https://api.coinmarketcap.com/v1/ticker/gas/");
+    neo = neo.data[0].price_usd;
+    gas = gas.data[0].price_usd;
+
+    let value = neo * this.props.neo + gas * this.props.gas;
+
+    console.log(value);
+  }
 
   render = () => {
     let sendPaneClosed;
@@ -77,7 +87,7 @@ class Dashboard extends Component {
               <ul className="nav navbar-nav">
                 <li>
                   <Link to={"/dashboard"} exact activeClassName="active">
-                    <div className="glyphicon glyphicon-user" /> Dashboard
+                    <div className="glyphicon glyphicon-stats" /> Dashboard
                   </Link>
                 </li>
                 <li>
@@ -90,13 +100,17 @@ class Dashboard extends Component {
                     <span className="glyphicon glyphicon-qrcode" /> Receive
                   </Link>
                 </li>
-                <li>
+                {/*<li>
                   <Link to={"/exchange"} exact activeClassName="active">
                     <span className="glyphicon glyphicon-refresh" /> Exchange
                   </Link>
-                </li>
+                </li>*/}
                 <li>
-                  <Link to={"/transactionHistory"} exact activeClassName="active">
+                  <Link
+                    to={"/transactionHistory"}
+                    exact
+                    activeClassName="active"
+                  >
                     <span className="glyphicon glyphicon-list-alt" /> History
                   </Link>
                 </li>
@@ -108,7 +122,7 @@ class Dashboard extends Component {
               </ul>
             </div>
           </div>
-          <div className="copyright">&copy; Copyright 2017 Morpeus Inc.</div>
+          <div className="copyright">&copy; Copyright 2017 Morpheus Inc.</div>
         </div>
         <div style={{ marginLeft: 230, marginTop: 20 }}>
           <div className="container">{this.props.children}</div>
@@ -126,6 +140,7 @@ const mapStateToProps = state => ({
   net: state.metadata.network,
   address: state.account.address,
   neo: state.wallet.Neo,
+  gas: state.wallet.Gas,
   price: state.wallet.price
 });
 
