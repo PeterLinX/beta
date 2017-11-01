@@ -96,7 +96,7 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => (
               </div>
 
               <div
-                className="go-icon"
+                className="go-icon fadeInLeft"
                 onClick={e => onWifChange(dispatch, history, wif)}
               />
             </div>
@@ -105,7 +105,7 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => (
             <p className="center top-20 col-xs-10 col-xs-offset-1">
               Your private key is never shared and is only used to load your
               balance and transaction history from the blockchain. Once entered,
-              you can create an encrypted backup on your computer. You can still
+              you can create an encrypted saved walet in Morpheus. You may still
               use your private key with other wallets.
             </p>
           </div>

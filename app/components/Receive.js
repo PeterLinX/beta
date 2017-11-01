@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import QRCode from "qrcode.react";
+import { clipboard } from "electron";
 import neoLogo from "../images/neo.png";
 import copyIcon from "../images/copy-icon.png";
 import printIcon from "../images/print-icon.png";
@@ -19,6 +20,7 @@ class Receive extends Component {
               <p className="neo-text">
                 {this.props.neo} <span>NEO</span>{" "}
               </p>
+              <p className="neo-balance">{this.props.price}</p>
             </div>
             <div className="col-xs-4">{<Claim />}</div>
             <div className="col-xs-4">
@@ -40,27 +42,29 @@ class Receive extends Component {
             <p className="info">Send NEO or GAS to this address ONLY.</p>
 
             <div className="dash-bar-rec top-20">
-              <div className="dash-icon-bar">
+              <div
+                className="dash-icon-bar"
+                onClick={() => clipboard.writeText(this.props.address)}
+              >
                 <div className="icon-border">
                   <span className="glyphicon glyphicon-duplicate" />
                 </div>
                 Copy Public Address
               </div>
-              Copy Public Address
-            </div>
 
-            <div className="dash-icon-bar">
-              <div className="icon-border">
-                <span className="glyphicon glyphicon-print" />
+              <div className="dash-icon-bar" onClick={() => print()}>
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-print" />
+                </div>
+                Print Paper Wallet
               </div>
-              Print Paper Wallet
-            </div>
 
-            <div className="dash-icon-bar">
-              <div className="icon-border">
-                <span className="glyphicon glyphicon-link" />
+              <div className="dash-icon-bar">
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-link" />
+                </div>
+                View On Blockchain
               </div>
-              View On Blockchain
             </div>
           </div>
         </div>
@@ -74,6 +78,7 @@ const mapStateToProps = state => ({
   net: state.metadata.network,
   address: state.account.address,
   neo: state.wallet.Neo,
+  price: state.wallet.price,
   gas: state.wallet.Gas
 });
 

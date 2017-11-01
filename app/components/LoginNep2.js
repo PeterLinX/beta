@@ -42,94 +42,91 @@ class LoginNep2 extends Component {
     const dispatch = this.props.dispatch;
     return (
       <div>
-      <div className="login-address-bk top-50">
-        <div className="logo-top">
+        <div className="login-address-bk top-50">
+          <div className="logo-top">
+            <div className="row">
+              <div className="center logobounce">
+                <Logo width={140} />
+              </div>
+              <br />
+              <h1 className="center">Welcome to Morpheus</h1>
+            </div>
+
+            <div className="row top-30">
+              <div className="col-xs-10 col-xs-offset-1">
+                <div className="form-group">
+                  <input
+                    type="password"
+                    className="trans-form"
+                    placeholder="Enter your password"
+                    ref={node => (passphrase_input = node)}
+                  />
+                </div>
+                <hr className="purple" />
+              </div>
+              <div className="col-xs-10 col-xs-offset-1">
+                <input
+                  type="password"
+                  className="trans-form"
+                  placeholder="Enter your NEO encrypted key and click arrow"
+                  ref={node => (wif_input = node)}
+                />
+              </div>
+              <p className="center top-20 col-xs-10 col-xs-offset-1 top-20">
+                Your encrypted private key and password are never shared and are
+                only used to load your balance and transaction history from the
+                blockchain.
+              </p>
+
+              <div
+                className="go-icon fadeInLeft"
+                onClick={e => onWifChange(dispatch, this.props.history)}
+              />
+            </div>
+            {this.props.decrypting === true ? (
+              <div className="decrypting">Decrypting keys...</div>
+            ) : (
+              <div />
+            )}
+          </div>
+        </div>
         <div className="row">
-          <div className="center logobounce">
-            <Logo width={140} />
-          </div>
-          <br />
-          <h1 className="center">Welcome to Morpheus</h1>
-        </div>
-
-
-        <div className="row top-30">
-          <div className="col-xs-10 col-xs-offset-1">
-            <div className="form-group">
-            <input
-              type="password"
-              className="trans-form"
-              placeholder="Enter your encrypted key"
-              ref={node => (wif_input = node)}
-            />
-
-            </div>
-            <hr className="purple" />
-          </div>
-          <div className="col-xs-10 col-xs-offset-1">
-          <input
-            type="password"
-            className="trans-form"
-            placeholder="Enter your password and click the arrow"
-            ref={node => (passphrase_input = node)}
-          />
-</div>
-          <p className="center top-20 col-xs-10 col-xs-offset-1 top-20">
-            Your encrypted private key and password are never shared and are only used to load your balance and transaction history from the blockchain.
-          </p>
-
-
-          <div
-            className="go-icon"
-            onClick={e => onWifChange(dispatch, this.props.history)}
-          />
-        </div>
-          {this.props.decrypting === true ? (
-            <div className="decrypting">Decrypting keys...</div>
-          ) : (
-            <div />
-          )}
-        </div>
-      </div>
-      <div className="row">
-        <div className="dash-bar">
-          <Link to="/LoginLocalStorage">
-            <div className="dash-icon-bar">
-              <div className="icon-border">
-                <span className="glyphicon glyphicon-user" />
+          <div className="dash-bar">
+            <Link to="/create">
+              <div className="dash-icon-bar">
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-plus" />
+                </div>
+                Create a Neo Address
               </div>
-              Open a Saved Wallet
-            </div>
-          </Link>
-
-          <Link to="/">
-            <div className="dash-icon-bar">
-              <div className="icon-border">
-                <span className="glyphicon glyphicon-qrcode" />
+            </Link>
+            <Link to="/LoginLocalStorage">
+              <div className="dash-icon-bar">
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-user" />
+                </div>
+                Open a Saved Wallet
               </div>
-              Login Via Private Key
-            </div>
-          </Link>
-
-          <Link to="/create">
-            <div className="dash-icon-bar">
-              <div className="icon-border">
-                <span className="glyphicon glyphicon-plus" />
+            </Link>
+            <Link to="/">
+              <div className="dash-icon-bar">
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-qrcode" />
+                </div>
+                Login Via Private Key
               </div>
-              Create a Neo Address
+            </Link>
+            <div
+              className="dash-icon-bar"
+              onClick={() => loadKeyRecovery(this.props.dispatch)}
+            >
+              <div className="icon-border">
+                <span className="glyphicon glyphicon-paperclip" />
+              </div>
+              Login Via Recovery File
             </div>
-          </Link>
-          <div
-            className="dash-icon-bar"
-            onClick={() => loadKeyRecovery(this.props.dispatch)}
-          >
-            <div className="icon-border">
-              <span className="glyphicon glyphicon-paperclip" />
-            </div>
-            Login Via Recovery File
           </div>
         </div>
-      </div>
       </div>
     );
   };

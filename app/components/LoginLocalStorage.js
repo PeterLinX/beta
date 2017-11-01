@@ -112,11 +112,17 @@ class LoginLocalStorage extends Component {
                         className="trans-form"
                         ref={node => (wif_input = node)}
                       >
-                        <option selected="selected" disabled="disabled">
+                        <option
+                          defaultValue
+                          selected="selected"
+                          disabled="disabled"
+                        >
                           Select a saved wallet
                         </option>
                         {_.map(this.props.accountKeys, (value, key) => (
-                          <option value={value}>{key}</option>
+                          <option key={Math.random()} value={value}>
+                            {key}
+                          </option>
                         ))}
                       </select>
                     </div>
@@ -124,10 +130,10 @@ class LoginLocalStorage extends Component {
                   <div className="col-xs-3">
                     <div className="">
                       {Object.keys(this.props.accountKeys).length === 0 ? (
-                        <div className="go-icon" />
+                        <div className="go-icon fadeInLeft" />
                       ) : (
                         <div
-                          className="go-icon"
+                          className="go-icon fadeInLeft"
                           onClick={e =>
                             onWifChange(dispatch, this.props.history)}
                         />
@@ -171,14 +177,14 @@ class LoginLocalStorage extends Component {
               Login Via Encrypted Key
             </div>
           </Link>
-          <Link to="/settings">
-            <div className="dash-icon-bar">
+            <div className="dash-icon-bar"
+            onClick={() => loadKeyRecovery(this.props.dispatch)}
+            >
               <div className="icon-border">
                 <span className="glyphicon glyphicon-paperclip" />
               </div>
               Login Via Recovery File
             </div>
-          </Link>
         </div>
       </div>
     );

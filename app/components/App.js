@@ -47,20 +47,20 @@ const Modal = props => {
 const StatusMessage = ({ status, statusMessage }) => {
   let message = null;
   if (status === true) {
-    message = <Modal statusMessage={statusMessage} error={"no"} />;
+    message = <div className="statusMessage success">{statusMessage}</div>;
   } else if (status === false) {
-    message = <Modal statusMessage={statusMessage} error={"yes"} />;
+    message = <div className="statusMessage fail">{statusMessage}</div>;
   }
   return message;
 };
 
 let App = ({ children, status, statusMessage }) => {
   let statusPaneSize;
-  // if (status !== null) {
-  //   statusPaneSize = "30px";
-  // } else {
-  //   statusPaneSize = "0px";
-  // }
+  if (status !== null) {
+    statusPaneSize = "30px";
+  } else {
+    statusPaneSize = "0px";
+  }
   return (
     <div id="pageWrapper">
       <div>{children}</div>

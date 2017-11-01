@@ -8,6 +8,13 @@ import _ from "lodash";
 import fs from "fs";
 import storage from "electron-json-storage";
 import Logo from "./Brand/LogoBlank";
+import NeoLogo from "./Brand/Neo";
+import Claim from "./Claim";
+import { NetworkSwitch } from "../components/NetworkSwitch";
+import { syncTransactionHistory } from "../components/NetworkSwitch";
+import { clipboard } from "electron";
+import Copy from "react-icons/lib/md/content-copy";
+import ReactTooltip from "react-tooltip";
 
 let explorer_select;
 
@@ -94,96 +101,169 @@ const deleteWallet = (dispatch, key) => {
   });
 };
 
+const getExplorerLink = (net, explorer, txid) => {
+  let base;
+  if (explorer === "Neotracker"){
+    if (net === "MainNet"){
+      base = "https://neotracker.io/tx/";
+    } else {
+      base = "https://testnet.neotracker.io/tx/";
+    }
+  }
+  else {
+    if (net === "MainNet"){
+      base = "http://antcha.in/tx/hash/";
+    } else {
+      base = "http://testnet.antcha.in/tx/hash/";
+    }
+  }
+  return base + txid;
+}
+
+// helper to open an external web link
+const openExplorer = (srcLink) => {
+  shell.openExternal(srcLink);
+}
+
 class Settings extends Component {
   componentDidMount = () => {
     storage.get("keys", (error, data) => {
       this.props.dispatch(setKeys(data));
     });
+    syncTransactionHistory(this.props.dispatch, this.props.net, this.props.address);
     loadSettings(this.props.dispatch);
   };
 
   render = () => (
-    <div id="settings" className="container">
-      <div className="description">
-        Manage your Morpheus wallet keys and settings
-      </div>
-      <div className="settingsForm row">
-        <div className="settingsItem">
-          <div className="itemTitle">Saved Wallet Keys</div>
-          {_.map(this.props.wallets, (value, key) => {
-            return (
-              <div className="walletList">
-                <div className="walletItem">
-                  <div className="walletName">{key.slice(0, 20)}</div>
-                  <div className="walletKey">{value}</div>
-                  <div
-                    className="deleteWallet"
-                    onClick={() => deleteWallet(this.props.dispatch, key)}
-                  >
-                    <Delete />
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+    <div id="send">
+    <div className="row">
+      <div className="header">
         <div className="col-xs-4">
-          <button
-            className="btn btn-form btn-warning btn-sm"
-            style={{
-              marginTop: 30,
-              fontWeight: 500,
-              lineHeight: 2
-            }}
-            onClick={() => saveKeyRecovery(this.props.wallets)}
-          >
-            Export key recovery file
-          </button>
+          <p className="neo-balance">Available Neo</p>
+          <p className="neo-text">
+            {this.props.neo} <span>NEO</span>{" "}
+          </p>
+          <p className="neo-balance">{this.props.price}</p>
         </div>
-
+        <div className="col-xs-4">{<Claim />}</div>
         <div className="col-xs-4">
-          <button
-            className="btn btn-primary btn-sm"
-            style={{
-              marginTop: 30,
-
-              fontWeight: 500,
-              lineHeight: 2
-            }}
-            onClick={() => loadKeyRecovery(this.props.dispatch)}
-          >
-            Load key recovery file
-          </button>
+          <p className="neo-balance">Available GAS</p>
+          <p className="gas-text">
+            {Math.floor(this.props.gas * 1000000) / 1000000}{" "}
+            <span>GAS</span>
+          </p>
         </div>
       </div>
-
-      <div className="icon-bar">
-        <Link to="/create">
-          <div className="icon-cell">
-            <div className="new-icon" />
-            Create New Wallet
-          </div>
-        </Link>
-        <Link to="/LoginLocalStorage">
-          <div className="icon-cell">
-            <div className="lock-icon" />
-            Login With Saved Wallet
-          </div>
-        </Link>
-        <Link to="/">
-          <div className="icon-cell">
-            <div className="lock-icon" />
-            Login Using Private Key
-          </div>
-        </Link>
+    </div>
+    <div className="settings-panel top-50">
+    <div className="description">
+      <div className="row">
+      <div className="col-xs-2 center col-xs-offset-1 ">
+      <NetworkSwitch />
       </div>
+  <div className="col-xs-2 center onClick={() => dispatch(logout())}">
+  <Link to="/create"><div className="dash-icon-bar">
+  <div className="icon-border">
+    <span className="glyphicon glyphicon-plus" />
+  </div>
+  Create New Address
+  </div></Link>
+</div>
+
+<div className="col-xs-2 center">
+<Link to="/LoginLocalStorage">
+<div className="dash-icon-bar">
+  <div className="icon-border">
+    <span className="glyphicon glyphicon-user" />
+  </div>
+  Open a Saved Wallet
+</div>
+</Link>
+</div>
+<div className="col-xs-2 center">
+<div className="dash-icon-bar com-soon">
+<div className="icon-border">
+  <span className="glyphicon glyphicon-phone" />
+</div>
+Enable Two Factor Authorization
+</div>
+</div>
+<div className="col-xs-2 center">
+<div className="dash-icon-bar com-soon">
+<div className="icon-border">
+  <span className="glyphicon glyphicon-check" />
+</div>
+Edit Authorized Addresses
+</div>
+</div>
+    </div>
+    </div>
+    <div className="clearboth"></div>
+      <div className="row top-20">
+    <div className="col-xs-3">
+    </div>
+    </div>
+    <div className="row top-20">
+    <div className="col-xs-2 col-xs-offset-1 center">
+    <div className="dash-icon-bar" onClick={() => print()} >
+      <div className="icon-border">
+        <span className="glyphicon glyphicon-print" />
+      </div>
+      Print Paper Wallet
+    </div>
+    </div>
+    <div className="col-xs-2 center">
+    <Link to="/encryptKey"><div className="dash-icon-bar">
+    <div className="icon-border">
+      <span className="glyphicon glyphicon-qrcode" />
+    </div>
+    Encrypt a Private Key
+    </div></Link>
+  </div>
+    <div className="col-xs-2 center">
+    <div className="dash-icon-bar" onClick={() => saveKeyRecovery(this.props.wallets)} >
+      <div className="icon-border">
+        <span className="glyphicon glyphicon-save" />
+      </div>
+      Export My Encrypted Keys
+    </div>
+    </div>
+    <div className="col-xs-2 center">
+
+    <div className="dash-icon-bar" onClick={() => openExplorer(getExplorerLink(this.props.net, this.props.explorer, t.txid))} >
+      <div className="icon-border">
+        <span className="glyphicon glyphicon-link" />
+      </div>
+      View On NeoTracker.io
+    </div>
+
+    </div>
+    <div className="col-xs-2 center">
+    <div className="dash-icon-bar" onClick={() => deleteWallet(this.props.dispatch, key)} >
+      <div className="icon-border">
+        <span className="glyphicon glyphicon-trash" />
+      </div>
+      Delete this wallet from Morpheus
+    </div>
+    </div>
+    </div>
+    <div className="clearboth"></div>
+    </div>
+<div className="clearboth"></div>
     </div>
   );
 }
 
 const mapStateToProps = state => ({
   explorer: state.metadata.blockExplorer,
-  wallets: state.account.accountKeys
+  wallets: state.account.accountKeys,
+  blockHeight: state.metadata.blockHeight,
+  address: state.account.address,
+  net: state.metadata.network,
+  neo: state.wallet.Neo,
+  gas: state.wallet.Gas,
+  price: state.wallet.price,
+  transactions: state.wallet.transactions
 });
 
 Settings = connect(mapStateToProps)(Settings);

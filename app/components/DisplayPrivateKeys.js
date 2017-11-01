@@ -190,7 +190,7 @@ class DisplayWalletKeys extends Component {
                 <p className="key-label">Your Encrypted Private Key:</p>
                 <input
                   type="text"
-                  onClick={() => clipboard.writeText(this.props.address)}
+                  onClick={() => clipboard.writeText(this.props.passphraseKey)}
                   className="form-control"
                   contentEditable={false}
                   readOnly={true}
@@ -267,7 +267,7 @@ class DisplayWalletKeys extends Component {
           </div>
         </Link>
 
-        <Link to="/">
+        <Link to="/LoginNep2">
           <div className="dash-icon-bar">
             <div className="icon-border">
               <span className="glyphicon glyphicon-lock" />

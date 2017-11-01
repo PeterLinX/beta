@@ -3,7 +3,7 @@
   "version": "0.0.35",
   "main": "./main.js",
   "description": "Wallet for NEO blockchain",
-  "author": "© Copyright Blockchain Digital Services",
+  "author": "Copyright © Blockchain Services Limited",
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
     "start": "electron .",
@@ -49,12 +49,13 @@
     }
   },
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.17.0",
     "base-x": "^3.0.2",
     "bigi": "^1.4.2",
     "bootstrap": "^3.3.7",
     "bs58check": "^2.0.2",
     "buffer": "^5.0.6",
+    "chart.js": "^2.7.1",
     "crypto-js": "^3.1.9-1",
     "ecurve": "^1.0.5",
     "electron-context-menu": "^0.9.1",
@@ -73,6 +74,7 @@
     "qrcode.react": "^0.7.2",
     "react": "^15.0.2",
     "react-ace": "^5.0.1",
+    "react-bootstrap-modal": "^4.0.0",
     "react-data-grid": "^2.0.33",
     "react-dom": "^15.0.2",
     "react-hot-loader": "^3.0.0-beta.2",

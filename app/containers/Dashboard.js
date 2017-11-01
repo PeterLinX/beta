@@ -6,8 +6,8 @@ import QRCode from "qrcode";
 import FaArrowUpward from "react-icons/lib/fa/arrow-circle-up";
 import { NetworkSwitch } from "../components/NetworkSwitch";
 import WalletInfo from "../components/WalletInfo";
-
 import TransactionHistory from "../components/TransactionHistory";
+import Exchange from "../components/Exchange";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import Logout from "../components/Logout";
@@ -58,7 +58,6 @@ class Dashboard extends Component {
     if (this.props.location.pathname !== "/dashboard") {
       dash = <div />;
     }
-    console.log(this.props.location);
     return (
       <div>
         <div id="mainNav" className="main-nav">
@@ -67,9 +66,6 @@ class Dashboard extends Component {
               <div className="logoContainer">
                 <Logo width={90} />
               </div>
-
-              <NetworkSwitch />
-
               <div id="balance">
                 <span style={{ fontSize: "10px" }}>Combined Value</span>
                 <br />
@@ -100,7 +96,7 @@ class Dashboard extends Component {
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/history"} exact activeClassName="active">
+                  <Link to={"/transactionHistory"} exact activeClassName="active">
                     <span className="glyphicon glyphicon-list-alt" /> History
                   </Link>
                 </li>
@@ -110,9 +106,9 @@ class Dashboard extends Component {
                   </Link>
                 </li>
               </ul>
-              <Logout />
             </div>
           </div>
+          <div className="copyright">&copy; Copyright 2017 Morpeus Inc.</div>
         </div>
         <div style={{ marginLeft: 230, marginTop: 20 }}>
           <div className="container">{this.props.children}</div>

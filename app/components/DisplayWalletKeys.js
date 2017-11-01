@@ -204,7 +204,7 @@ class DisplayWalletKeys extends Component {
                       type="text"
                       className="form-control saveKey"
                       ref={node => (key_name = node)}
-                      placeholder="Name your Backup/Recovery Key"
+                      placeholder="Name your saved wallet"
                       data-tip
                     />
                   </div>
@@ -235,60 +235,65 @@ class DisplayWalletKeys extends Component {
                       <div />
                     )}
                   </div>
-                  <div className="row">
-                    <div
-                      className="col-xs-12"
-                      style={{ margin: 0, padding: 0 }}
-                    >
-                      <label
-                        className="checkbox-inline"
-                        style={{ color: "white" }}
-                      >
-                        I have backed up my password and understand it will not
-                        be shown to me again.
-                      </label>
-                      <input
-                        id="checkbox"
-                        name="isChecked"
-                        type="checkbox"
-                        className="pull-left"
-                        value={this.state.isChecked}
-                        onChange={this.handleInputChange.bind(this)}
-                      />
-                    </div>
-                  </div>
                 </div>
               </div>
               <div className="clearboth" />
             </div>
-            <div className="dash-bar">
-              <div className="dash-icon-bar" onClick={() => print()}>
-                <div className="icon-border">
-                  <span className="glyphicon glyphicon-print" />
-                </div>
-                Print Wallet Data
-              </div>
-              <div
-                className="dash-icon-bar"
-                onClick={() => {
-                  this.setState({ show: true });
-                }}
+          </div>
+          <div className="row">
+            <div className="col-xs-12">
+              <label
+                className="checkbox-inline"
+                style={{ color: "white" }}
               >
-                <div className="icon-border">
-                  <span className="glyphicon glyphicon-qrcode" />
-                </div>
-                <Link to="/">
-                  <div className="dash-icon-bar">
-                    <div className="icon-border">
-                      <span className="glyphicon glyphicon-chevron-left" />
-                    </div>
-                    Back to Login Options
-                  </div>
-                </Link>
-              </div>
-              Download Recovery File
+                I have backed up my password and understand it will not
+                be shown to me again.
+              </label>
+              <input
+                id="checkbox"
+                name="isChecked"
+                type="checkbox"
+                className="pull-left"
+                value={this.state.isChecked}
+                onChange={this.handleInputChange.bind(this)}
+              />
             </div>
           </div>
+        </div>
+        <div className="dash-bar">
+          <div className="dash-icon-bar" onClick={() => print()}>
+            <div className="icon-border">
+              <span className="glyphicon glyphicon-print" />
+            </div>
+            Print Wallet Data
+          </div>
+          <div className="dash-icon-bar" onClick={() => {
+              this.setState({ show: true });
+            }} >
+              <div className="icon-border">
+                <span className="glyphicon glyphicon-qrcode"></span>
+              </div>
+              View Private Data
+            </div>
+          <div
+            className="dash-icon-bar"
+            onClick={() => {
+              this.setState({ show: true });
+            }}
+          >
+            <div className="icon-border">
+              <span className="glyphicon glyphicon-download-alt" />
+            </div>
+            Download Recovery File
+          </div>
+          <Link to="/">
+            <div className="dash-icon-bar">
+              <div className="icon-border">
+                <span className="glyphicon glyphicon-chevron-left" />
+              </div>
+              Back to Login Options
+            </div>
+          </Link>
         </div>
       </div>
     );
