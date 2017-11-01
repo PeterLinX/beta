@@ -230,22 +230,22 @@ class Settings extends Component {
             </div>
           </div>
           <div className="col-xs-2 center">
-            <div className="dash-icon-bar">
+            <div className="dash-icon-bar com-soon">
               <div className="icon-border">
                 <span className="glyphicon glyphicon-remove" />
               </div>
-              Logout Current Wallet
+              Logout of Current Wallet
             </div>
           </div>
           <div className="col-xs-2 center">
             <div
-              className="dash-icon-bar"
+              className="dash-icon-bar com-soon"
               onClick={() => deleteWallet(this.props.dispatch, key)}
             >
               <div className="icon-border">
                 <span className="glyphicon glyphicon-trash" />
               </div>
-              Delete this wallet from Morpheus
+              Remove wallet from Morpheus
             </div>
           </div>
         </div>
