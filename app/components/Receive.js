@@ -55,7 +55,7 @@ class Receive extends Component {
               <div className="icon-border">
                 <span className="glyphicon glyphicon-print" />
               </div>
-              Print Paper Wallet
+              Print Public Address
             </div>
 
             <div className="dash-icon-bar">

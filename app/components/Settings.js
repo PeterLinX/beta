@@ -204,15 +204,8 @@ Edit Authorized Addresses
     </div>
     </div>
     <div className="row top-20">
-    <div className="col-xs-2 col-xs-offset-1 center">
-    <div className="dash-icon-bar" onClick={() => print()} >
-      <div className="icon-border">
-        <span className="glyphicon glyphicon-print" />
-      </div>
-      Print Paper Wallet
-    </div>
-    </div>
-    <div className="col-xs-2 center">
+
+    <div className="col-xs-2 center col-xs-offset-1 ">
     <Link to="/encryptKey"><div className="dash-icon-bar">
     <div className="icon-border">
       <span className="glyphicon glyphicon-qrcode" />
@@ -234,9 +227,16 @@ Edit Authorized Addresses
       <div className="icon-border">
         <span className="glyphicon glyphicon-link" />
       </div>
-      View On NeoTracker.io
+      View Address on NeoTracker
     </div>
-
+    </div>
+    <div className="col-xs-2 center">
+    <div className="dash-icon-bar" >
+      <div className="icon-border">
+        <span className="glyphicon glyphicon-remove" />
+      </div>
+      Logout Current Wallet
+    </div>
     </div>
     <div className="col-xs-2 center">
     <div className="dash-icon-bar" onClick={() => deleteWallet(this.props.dispatch, key)} >
