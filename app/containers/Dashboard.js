@@ -26,6 +26,10 @@ const refreshBalance = (dispatch, net, address) => {
   });
 };
 
+const resetGeneratedKey = dispatch => {
+  dispatch(resetKey());
+};
+
 class Dashboard extends Component {
   async componentDidMount() {
     // only logging public information here
@@ -36,6 +40,8 @@ class Dashboard extends Component {
       this.props.address,
       this.props.price
     );
+
+    resetGeneratedKey(this.props.dispatch);
 
     let neo = await axios.get("https://api.coinmarketcap.com/v1/ticker/neo/");
     let gas = await axios.get("https://api.coinmarketcap.com/v1/ticker/gas/");

@@ -163,7 +163,10 @@ class Settings extends Component {
             <div className="col-xs-2 center col-xs-offset-1 ">
               <NetworkSwitch />
             </div>
-            <div className="col-xs-2 center onClick={() => dispatch(logout())}">
+            <div
+              className="col-xs-2 center "
+              onClick={() => dispatch(logout())}
+            >
               <Link to="/create">
                 <div className="dash-icon-bar">
                   <div className="icon-border">
