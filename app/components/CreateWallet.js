@@ -28,7 +28,7 @@ const validatePassphrase = passphrase => {
 const generateNewWallet = dispatch => {
   const current_phrase = passphrase.value;
   if (passphrase.value !== passphrase2.value) {
-    dispatch(sendEvent(false, "Passphrases do not match"));
+    dispatch(sendEvent(false, "Passwords do not match"));
     setTimeout(() => dispatch(clearTransactionEvent()), 5000);
     return;
   }
@@ -43,7 +43,7 @@ const generateNewWallet = dispatch => {
       });
     }, 500);
   } else {
-    dispatch(sendEvent(false, "Please choose a longer passphrase"));
+    dispatch(sendEvent(false, "Please choose a longer password"));
     setTimeout(() => dispatch(clearTransactionEvent()), 5000);
     passphrase.value = "";
     passphrase2.value = "";

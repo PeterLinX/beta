@@ -20,26 +20,6 @@ const refreshBalance = (dispatch, net, address) => {
   });
 };
 
-
-// In a new Javascript file create a variable for new websocket
-var ws = new WebSocket('wss://api.bitfinex.com/ws');
-
-// Create function to send on open
-ws.onopen = function() {
-  ws.send(JSON.stringify({"event":"subscribe", "channel":"ticker", "pair":"NEOUSD"}));
-};
-
-// Tell function what to do when message is received and log messages to "neo-price" div
-ws.onmessage = function(msg) {
-  // create a variable for response and parse the json data
-  var response = JSON.parse(msg.data);
-  // save hb variable from bitfinex
-  var hb = response[1];
-  if(hb != "hb") {
-    document.getElementById("neo-price").innerHTML = "<li>ASK: $" + response[3] + "</li><li> LAST: $" + response[7] + "</li><li> BID: $" + response[1] + "</li>";
-  }
-};
-
 class WalletInfo extends Component {
   componentDidMount = () => {
     initiateGetBalance(this.props.dispatch, this.props.net, this.props.address);
@@ -51,14 +31,15 @@ class WalletInfo extends Component {
   render = () => {
     if (this.props.address != null) {
       return (
-        <div id="accountInfo" style={{ width: "75%" }}>
-          <div className="row ">
+        <div id="send">
+          <div className="row">
             <div className="header">
               <div className="col-xs-4">
                 <p className="neo-balance">Available Neo</p>
                 <p className="neo-text">
                   {this.props.neo} <span>NEO</span>
                 </p>
+                <p className="neo-balance">{this.props.price}</p>
               </div>
               <div className="col-xs-4">{<Claim />}</div>
               <div className="col-xs-4">
@@ -72,8 +53,6 @@ class WalletInfo extends Component {
 
           <div className="row send-neo">
           <div className="col-xs-12">
-          <ul id="neo-price"></ul>
-
           </div>
           </div>
         </div>

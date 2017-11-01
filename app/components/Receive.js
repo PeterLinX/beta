@@ -20,6 +20,7 @@ class Receive extends Component {
               <p className="neo-text">
                 {this.props.neo} <span>NEO</span>{" "}
               </p>
+              <p className="neo-balance">{this.props.price}</p>
             </div>
             <div className="col-xs-4">{<Claim />}</div>
             <div className="col-xs-4">
@@ -77,6 +78,7 @@ const mapStateToProps = state => ({
   net: state.metadata.network,
   address: state.account.address,
   neo: state.wallet.Neo,
+  price: state.wallet.price,
   gas: state.wallet.Gas
 });
 

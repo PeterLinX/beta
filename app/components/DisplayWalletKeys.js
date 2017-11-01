@@ -204,7 +204,7 @@ class DisplayWalletKeys extends Component {
                       type="text"
                       className="form-control saveKey"
                       ref={node => (key_name = node)}
-                      placeholder="Name your Backup/Recovery Key"
+                      placeholder="Name your saved wallet"
                       data-tip
                     />
                   </div>

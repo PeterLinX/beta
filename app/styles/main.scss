@@ -562,6 +562,11 @@ $box-margin: 10px;
   margin: 0px auto;
 }
 
+.container {
+  max-width:790px;
+  width: 790px;
+}
+
 
 @import url("./_forms.scss");
 @import url("./_buttons.scss");
