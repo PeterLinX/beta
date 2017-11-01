@@ -200,6 +200,13 @@ class Send extends Component {
           <TopBar />
 
           <div className="row send-neo">
+          <div className="col-xs-6">
+       <img src={neoLogo} alt="" width="48" className="neo-logo logobounce" />
+       <h2>Send Neo or Gas</h2>
+       </div>
+       <div className="col-xs-4">
+
+       </div>
             <div className="col-xs-2">
               <div
                 id="sendAsset"

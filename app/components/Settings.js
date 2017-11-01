@@ -15,6 +15,7 @@ import { syncTransactionHistory } from "../components/NetworkSwitch";
 import { clipboard } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import ReactTooltip from "react-tooltip";
+import TopBar from "./TopBar";
 
 let explorer_select;
 
@@ -139,24 +140,7 @@ class Settings extends Component {
 
   render = () => (
     <div id="send">
-      <div className="row">
-        <div className="header">
-          <div className="col-xs-4">
-            <p className="neo-balance">Available Neo</p>
-            <p className="neo-text">
-              {this.props.neo} <span>NEO</span>{" "}
-            </p>
-            <p className="neo-balance">{this.props.price}</p>
-          </div>
-          <div className="col-xs-4">{<Claim />}</div>
-          <div className="col-xs-4">
-            <p className="neo-balance">Available GAS</p>
-            <p className="gas-text">
-              {Math.floor(this.props.gas * 1000000) / 1000000} <span>GAS</span>
-            </p>
-          </div>
-        </div>
-      </div>
+<TopBar />
       <div className="settings-panel top-50">
         <div className="description">
           <div className="row">

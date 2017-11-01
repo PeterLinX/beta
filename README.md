@@ -1,14 +1,6 @@
 # Morpheus Wallet
 
-*(Use with caution. This software is currently under development. This repo may not contain the most recent version. Please refer to the [release checklist](https://github.com/MorpheusWallet/Morpheus/blob/master/release-checklist.md) for software specification.)*
-
-## Alpha Releases
-
-[Mac OSX V.0.0.35](https://www.dropbox.com/s/4df8st7ly0fybtj/Morpheus-0.0.35-mac.zip?dl=0)
- - Stable on Live network
- - DO NOT SEND NEO
- - FOR INTERNAL DEMO USE ONLY
- - Charts not activated
+Morpheus is an all-in-one client side desktop wallet that allows you to send and recieive NEO/GAS and other popular cryptocrurrencies as well as monitor and manage your portfolio.
 
 ## License
 
@@ -54,11 +46,5 @@ Execute these commands in the project's root directory:
   - `npm start` to run the project
 
 _____
-
-Morpheus is an all-in-one client side desktop wallet that allows you to send and recieive NEO/GAS and other popular cryptocrurrencies as well as monitor and manage your portfolio.
-
-To be continued....
-
------
 
 *(This document may change without notice.)*
