@@ -46,12 +46,12 @@ const Modal = props => {
 
 const StatusMessage = ({ status, statusMessage }) => {
   let message = null;
-  if (status === true) {
-    message = <div className="statusMessage success">{statusMessage}</div>;
-  } else if (status === false) {
-    message = <div className="statusMessage fail">{statusMessage}</div>;
-  }
-  return message;
+  // if (status === true) {
+  //   message = <div className="statusMessage success">{statusMessage}</div>;
+  // } else if (status === false) {
+  //   message = <div className="statusMessage fail">{statusMessage}</div>;
+  // }
+  // return message;
 };
 
 let App = ({ children, status, statusMessage }) => {
