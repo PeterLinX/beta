@@ -7,31 +7,13 @@ import copyIcon from "../images/copy-icon.png";
 import printIcon from "../images/print-icon.png";
 import emailIcon from "../images/email-icon.png";
 import linkIcon from "../images/link-icon.png";
-import Claim from "./Claim";
+import TopBar from "./TopBar";
 
 class Receive extends Component {
   render() {
     return (
       <div id="receive" className="">
-        <div className="row ">
-          <div className="header">
-            <div className="col-xs-4">
-              <p className="neo-balance">Available Neo</p>
-              <p className="neo-text">
-                {this.props.neo} <span>NEO</span>{" "}
-              </p>
-              <p className="neo-balance">{this.props.price}</p>
-            </div>
-            <div className="col-xs-4">{<Claim />}</div>
-            <div className="col-xs-4">
-              <p className="neo-balance">Available GAS</p>
-              <p className="gas-text">
-                {Math.floor(this.props.gas * 1000000) / 1000000}{" "}
-                <span>GAS</span>
-              </p>
-            </div>
-          </div>
-        </div>
+        <TopBar />
         <div className="row top-20">
           <h2>Receive NEO/GAS</h2>
           <div className="addressBox-send center">

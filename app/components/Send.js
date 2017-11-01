@@ -16,6 +16,7 @@ import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
 import neoLogo from "../images/neo.png";
 import Claim from "./Claim.js";
+import TopBar from "./TopBar";
 
 let sendAddress, sendAmount, confirmButton;
 
@@ -196,23 +197,7 @@ class Send extends Component {
     return (
       <div id="send">
         <div id="sendPane">
-          <div className="row ">
-            <div className="header">
-              <div className="col-xs-4">
-                <p className="neo-balance">Available Neo</p>
-                <p className="neo-text">
-                  {neo} <span> NEO</span>
-                </p>
-              </div>
-              <div className="col-xs-4">{<Claim />}</div>
-              <div className="col-xs-4">
-                <p className="neo-balance">Available GAS</p>
-                <p className="gas-text">
-                  {Math.floor(gas * 1000000) / 1000000} <span>GAS</span>
-                </p>
-              </div>
-            </div>
-          </div>
+          <TopBar />
 
           <div className="row send-neo">
             <div className="col-xs-2">
