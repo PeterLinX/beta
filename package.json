@@ -1,6 +1,6 @@
 {
   "name": "Morpheus Beta",
-  "version": "0.0.36",
+  "version": "0.0.37",
   "main": "./main.js",
   "description": "Wallet for NEO blockchain",
   "author": "Copyright © Blockchain Services Limited",
