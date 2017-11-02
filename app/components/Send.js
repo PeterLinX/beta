@@ -243,7 +243,7 @@ class Send extends Component {
                     }}
                   />
                 </div>
-                <div className="col-xs-6">
+                <div className="col-xs-6  top-20">
                   <input
                     className={formClass}
                     type="number"
@@ -255,7 +255,7 @@ class Send extends Component {
                     }}
                   />
                 </div>
-                <div className="col-xs-4">
+                <div className="col-xs-4 top-20">
                   <input
                     className={formClass}
                     id="sendAmount"
@@ -265,7 +265,7 @@ class Send extends Component {
                   />
                   <label className="amount-dollar">$</label>
                 </div>
-                <div className="col-xs-2">
+                <div className="col-xs-2 top-20">
                   <div id="sendAddress">
                     <button
                       className="btn-send"
@@ -287,6 +287,7 @@ class Send extends Component {
                     </button>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>
@@ -299,6 +300,7 @@ class Send extends Component {
             can result in your NEO/GAS being lost. You cannot send a fraction of
             a NEO.
           </p>
+          <p>Gas Donations: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
         </div>
       </div>
     );
