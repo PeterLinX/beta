@@ -4,6 +4,7 @@ import SplitPane from "react-split-pane";
 import { Link } from "react-router";
 import QRCode from "qrcode";
 import axios from "axios";
+import { resetKey } from "../modules/generateWallet";
 import FaArrowUpward from "react-icons/lib/fa/arrow-circle-up";
 import { NetworkSwitch } from "../components/NetworkSwitch";
 import WalletInfo from "../components/WalletInfo";
@@ -31,6 +32,13 @@ const resetGeneratedKey = dispatch => {
 };
 
 class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      combinedPrice: 0
+    };
+  }
+
   async componentDidMount() {
     // only logging public information here
     log(this.props.net, "LOGIN", this.props.address, {});
@@ -40,18 +48,23 @@ class Dashboard extends Component {
       this.props.address,
       this.props.price
     );
-
     resetGeneratedKey(this.props.dispatch);
-
-    let neo = await axios.get("https://api.coinmarketcap.com/v1/ticker/neo/");
-    let gas = await axios.get("https://api.coinmarketcap.com/v1/ticker/gas/");
-    neo = neo.data[0].price_usd;
-    gas = gas.data[0].price_usd;
-
-    let value = neo * this.props.neo + gas * this.props.gas;
-
-    console.log(value);
   }
+
+  getCombinedBalance = async (neo, gas) => {
+    let neoPrice = await axios.get(
+      "https://api.coinmarketcap.com/v1/ticker/neo/"
+    );
+    let gasPrice = await axios.get(
+      "https://api.coinmarketcap.com/v1/ticker/gas/"
+    );
+    neoPrice = neoPrice.data[0].price_usd;
+    gasPrice = gasPrice.data[0].price_usd;
+
+    let value = neoPrice * neo + gasPrice * gas;
+    let combinedPrice = Math.round(value * 100) / 100;
+    this.setState({ combinedPrice: combinedPrice });
+  };
 
   render = () => {
     let sendPaneClosed;
@@ -74,6 +87,8 @@ class Dashboard extends Component {
     if (this.props.location.pathname !== "/dashboard") {
       dash = <div />;
     }
+
+    this.getCombinedBalance(this.props.neo, this.props.gas);
     return (
       <div>
         <div id="mainNav" className="main-nav">
@@ -85,7 +100,7 @@ class Dashboard extends Component {
               <div id="balance">
                 <span style={{ fontSize: "10px" }}>Combined Value</span>
                 <br />
-                {this.props.price}
+                ${this.state.combinedPrice}
               </div>
             </div>
             <div className="clearfix" />
