@@ -141,7 +141,7 @@ class Settings extends Component {
   render = () => (
     <div id="send">
 <TopBar />
-      <div className="settings-panel top-50">
+      <div className="settings-panel top-50 fadeInDown">
         <div className="description">
           <div className="row">
           <h2 className="center">General Settings</h2>

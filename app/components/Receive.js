@@ -16,7 +16,7 @@ class Receive extends Component {
         <TopBar />
         <div className="row top-20">
           <h2>Receive NEO/GAS</h2>
-          <div className="addressBox-send center">
+          <div className="addressBox-send center fadeInDown">
             <QRCode size={180} value={this.props.address} />
           </div>
           <div className="row">

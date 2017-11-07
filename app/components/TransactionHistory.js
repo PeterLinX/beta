@@ -43,11 +43,13 @@ class TransactionHistory extends Component {
   render = () => (
     <div id="send">
       <TopBar />
-      <div className="send-neo">
+      <div className="send-neo fadeInDown">
         <div className="row">
           <div className="col-xs-12">
             <h2 className="center">Transaction History</h2>
+            <hr className="" />
           </div>
+
 
           <ul id="transactionList">
             {this.props.transactions.map(t => {

@@ -199,7 +199,7 @@ class Send extends Component {
         <div id="sendPane">
           <TopBar />
 
-          <div className="row send-neo">
+          <div className="row send-neo fadeInDown">
           <div className="col-xs-6">
        <img src={neoLogo} alt="" width="48" className="neo-logo logobounce" />
        <h2>Send Neo or Gas</h2>
