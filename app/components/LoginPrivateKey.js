@@ -7,7 +7,7 @@ import { encrypt_wif, decrypt_wif } from "neon-js";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { getAccountsFromWIFKey } from "neon-js";
 import Logo from "./Brand/LogoBlank";
-
+import neoIcon from "../img/neo-icon.png";
 import goIcon from "../img/go-icon.png";
 
 let wif;
@@ -96,7 +96,7 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => (
               </div>
 
               <div
-                className="go-icon fadeInLeft pulse"
+                className="go-icon fadeInLeft"
                 onClick={e => onWifChange(dispatch, history, wif)}
               />
             </div>
@@ -117,7 +117,7 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => (
       <Link to="/create">
         <div className="dash-icon-bar">
           <div className="icon-border">
-            <span className="glyphicon glyphicon-plus" />
+            <div className="neo-icon"></div>
           </div>
           Create a Neo Address
         </div>

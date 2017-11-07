@@ -100,7 +100,7 @@ class LoginLocalStorage extends Component {
                     />
                   </div>
 
-                  <div className="col-xs-12 top-10">
+                  <div className="col-xs-10 col-xs-offset-1 top-10">
                     <hr className="purple" />
                   </div>
 
@@ -156,7 +156,7 @@ class LoginLocalStorage extends Component {
           <Link to="/create">
             <div className="dash-icon-bar">
               <div className="icon-border">
-                <span className="glyphicon glyphicon-plus" />
+                <div className="neo-icon"></div>
               </div>
               Create a Neo Address
             </div>

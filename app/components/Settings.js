@@ -160,7 +160,7 @@ class Settings extends Component {
               <Link to="/create">
                 <div className="dash-icon-bar">
                   <div className="icon-border">
-                    <span className="glyphicon glyphicon-plus" />
+                    <div className="neo-icon"></div>
                   </div>
                   Create New Address
                 </div>

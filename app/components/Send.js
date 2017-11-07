@@ -268,7 +268,7 @@ class Send extends Component {
                 <div className="col-xs-2 top-20">
                   <div id="sendAddress">
                     <button
-                      className="btn-send"
+                      className="grey-button"
                       onClick={() =>
                         sendTransaction(
                           dispatch,

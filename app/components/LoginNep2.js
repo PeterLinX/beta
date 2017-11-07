@@ -55,12 +55,12 @@ class LoginNep2 extends Component {
             <div className="row">
               <div className="col-xs-10 col-xs-offset-1">
                 <div className="form-group">
-                  <input
-                    type="password"
-                    className="trans-form"
-                    placeholder="1. Enter your NEO encrypted key"
-                    ref={node => (wif_input = node)}
-                  />
+                <input
+                  type="password"
+                  className="trans-form"
+                  placeholder="1. Enter your password"
+                  ref={node => (passphrase_input = node)}
+                />
                 </div>
                 <div className="col-xs-10 col-xs-offset-1">
                 <hr className="purple" />
@@ -71,9 +71,10 @@ class LoginNep2 extends Component {
               <input
                 type="password"
                 className="trans-form"
-                placeholder="2. Enter your password"
-                ref={node => (passphrase_input = node)}
+                placeholder="2. Enter your NEO encrypted key"
+                ref={node => (wif_input = node)}
               />
+
               </div>
               </div>
               <p className="center top-50 col-xs-10 col-xs-offset-1">
@@ -99,7 +100,7 @@ class LoginNep2 extends Component {
             <Link to="/create">
               <div className="dash-icon-bar">
                 <div className="icon-border">
-                  <span className="glyphicon glyphicon-plus" />
+                  <div className="neo-icon"></div>
                 </div>
                 Create a Neo Address
               </div>
