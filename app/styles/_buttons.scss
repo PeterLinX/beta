@@ -327,3 +327,24 @@
   );
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
+
+.grey-button {
+padding: 6px 22px;
+height: 42px;
+font-size: 18px;
+border: thin solid #616161;
+cursor: pointer;
+text-align: center;
+border-radius: 5px;
+color: #ddd;
+margin: 2px 0px;
+background: #464646;
+text-shadow: none;
+font-weight: 200;
+}
+
+.grey-button:hover {
+    border: 0px solid #616161;
+    color: #333;
+    background: #61b900;
+}

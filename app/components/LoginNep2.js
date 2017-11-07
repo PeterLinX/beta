@@ -62,7 +62,9 @@ class LoginNep2 extends Component {
                     ref={node => (wif_input = node)}
                   />
                 </div>
+                <div className="col-xs-10 col-xs-offset-1">
                 <hr className="purple" />
+                </div>
               </div>
               <div className="col-xs-10 col-xs-offset-1">
               <div className="form-group">

@@ -100,11 +100,11 @@ class LoginLocalStorage extends Component {
                     />
                   </div>
 
-                  <div className="col-xs-12">
+                  <div className="col-xs-12 top-10">
                     <hr className="purple" />
                   </div>
 
-                  <div className="col-xs-8 col-xs-offset-2 ">
+                  <div className="col-xs-8 col-xs-offset-2 top-10">
                     <div className="sel sel--black-panther">
                       <select
                         name="select-profession"

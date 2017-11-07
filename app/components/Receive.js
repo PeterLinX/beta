@@ -16,7 +16,7 @@ class Receive extends Component {
         <TopBar />
         <div className="row top-20">
           <h2>Receive NEO/GAS</h2>
-          <div className="addressBox-send center fadeInDown">
+          <div className="addressBox-send center animated fadeInDown">
             <QRCode size={180} value={this.props.address} />
           </div>
           <div className="row">
@@ -25,7 +25,7 @@ class Receive extends Component {
 
             <div className="dash-bar-rec top-20">
               <div
-                className="dash-icon-bar"
+                className="dash-icon-bar animated fadeInUp"
                 onClick={() => clipboard.writeText(this.props.address)}
               >
                 <div className="icon-border">
@@ -34,14 +34,14 @@ class Receive extends Component {
                 Copy Public Address
               </div>
 
-              <div className="dash-icon-bar" onClick={() => print()}>
+              <div className="dash-icon-bar animated fadeInUp" onClick={() => print()}>
                 <div className="icon-border">
                   <span className="glyphicon glyphicon-print" />
                 </div>
                 Print Public Address
               </div>
 
-              <div className="dash-icon-bar">
+              <div className="dash-icon-bar animated fadeInUp">
                 <div className="icon-border">
                   <span className="glyphicon glyphicon-link" />
                 </div>

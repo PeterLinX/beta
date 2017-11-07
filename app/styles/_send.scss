@@ -349,6 +349,22 @@ border: none;
   -moz-box-shadow: none;
   -o-box-shadow: none;
   -webkit-box-shadow: none;
+  -webkit-transition: width 1s; /* For Safari 3.1 to 6.0 */
+  transition: width 1s;
+}
+
+@keyframes fadeInLeft-ex {
+    0% {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+.fadeInLeft-ex {
+    animation-name: fadeInLeft-ex;
 }
 
 .prog-info {
@@ -371,6 +387,10 @@ max-width: 715px;
 
 .top-130 {
   margin-top: 130px;
+}
+
+.top-10 {
+  margin-top: 10px;
 }
 
 

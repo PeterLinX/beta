@@ -37,7 +37,7 @@ class Exchange extends Component {
       <div>
         <TopBar />
 
-        <div className="progress-bar"></div>
+        <div className="progress-bar fadeInLeft-ex"></div>
           <div className="row prog-info top-20">
           <div className="col-xs-2 col-xs-offset-1 sm-text center">
           Enter Amount to Deposit
@@ -100,7 +100,7 @@ class Exchange extends Component {
         Subject to trasnsaction fees
         </div>
         <div className="col-xs-4 center">
-        <button className="btn-send">Continue</button>
+        <button className="grey-button">Continue</button>
         </div>
         <div className="col-xs-3">
         <p className="sm-text">Powered by:</p>
