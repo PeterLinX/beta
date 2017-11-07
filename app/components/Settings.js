@@ -173,7 +173,7 @@ class Settings extends Component {
                   <div className="icon-border">
                     <span className="glyphicon glyphicon-user" />
                   </div>
-                  Open a Saved Wallet
+                  Open a Saved Address
                 </div>
               </Link>
             </div>
@@ -240,7 +240,7 @@ class Settings extends Component {
               <div className="icon-border">
                 <span className="glyphicon glyphicon-remove" />
               </div>
-              Logout of Current Wallet
+              Log Out of Address
             </div>
           </div>
           <div className="col-xs-2 center">
@@ -251,7 +251,7 @@ class Settings extends Component {
               <div className="icon-border">
                 <span className="glyphicon glyphicon-trash" />
               </div>
-              Remove wallet from Morpheus
+              Remove Address
             </div>
           </div>
           </div>
