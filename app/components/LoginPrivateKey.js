@@ -84,19 +84,19 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => (
 
             <div className="row top-50">
               <div className="col-xs-8 col-xs-offset-1">
-                <div className="form-group">
+
                   <input
                     type="password"
                     className="trans-form"
                     placeholder="Enter a NEO private key"
                     ref={node => (wif = node)}
                   />
-                </div>
+
                 </div>
 
                 <div className="col-xs-2">
                 <div
-                  className="login-button top-10"
+                  className="login-button"
                   onClick={e => onWifChange(dispatch, history, wif)}
                 >
                 Login
