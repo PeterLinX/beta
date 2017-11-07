@@ -83,7 +83,7 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => (
             </div>
 
             <div className="row top-50">
-              <div className="col-xs-10 col-xs-offset-1">
+              <div className="col-xs-8 col-xs-offset-1">
                 <div className="form-group">
                   <input
                     type="password"
@@ -92,14 +92,17 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => (
                     ref={node => (wif = node)}
                   />
                 </div>
-                <hr className="purple" />
-              </div>
+                </div>
 
-              <div
-                className="go-icon fadeInLeft"
-                onClick={e => onWifChange(dispatch, history, wif)}
-              />
-            </div>
+                <div className="col-xs-2">
+                <div
+                  className="login-button top-10"
+                  onClick={e => onWifChange(dispatch, history, wif)}
+                >
+                Login
+                </div>
+                </div>
+              </div>
             <br />
 
             <p className="center top-20 col-xs-10 col-xs-offset-1">

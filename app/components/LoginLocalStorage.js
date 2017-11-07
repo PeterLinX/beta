@@ -76,7 +76,7 @@ class LoginLocalStorage extends Component {
     const loggedIn = this.props.loggedIn;
     return (
       <div>
-        <div className="login-address-bk top-50">
+        <div className="login-address-bk top-20">
           <div className="logo-top">
             <div className="row">
               <div className="center logobounce">
@@ -90,57 +90,63 @@ class LoginLocalStorage extends Component {
                   <br />
                   <h1 className="center">Welcome to Morpheus</h1>
                 </div>
-                <div className="row top-60">
+                <div className="row top-20">
                   <div className="col-xs-10 col-xs-offset-1">
+
+                  <select
+                    name="select-profession"
+                    id="select-profession"
+                    className=""
+                    ref={node => (wif_input = node)}
+                  >
+                    <option
+                      defaultValue
+                      selected="selected"
+                      disabled="disabled"
+                    >
+                      Select a saved wallet
+                    </option>
+                    {_.map(this.props.accountKeys, (value, key) => (
+                      <option key={Math.random()} value={value}>
+                        {key}
+                      </option>
+                    ))}
+                  </select>
+
+                  </div>
+
+                  <div className="col-xs-7 col-xs-offset-1 top-20">
+                    <div className="sel sel--black-panther">
+
                     <input
                       className="trans-form"
                       type="password"
                       placeholder="Enter your password"
                       ref={node => (passphrase_input = node)}
                     />
-                  </div>
 
-                  <div className="col-xs-10 col-xs-offset-1 top-10">
-                    <hr className="purple" />
-                  </div>
-
-                  <div className="col-xs-8 col-xs-offset-2 top-10">
-                    <div className="sel sel--black-panther">
-                      <select
-                        name="select-profession"
-                        id="select-profession"
-                        className="trans-form"
-                        ref={node => (wif_input = node)}
-                      >
-                        <option
-                          defaultValue
-                          selected="selected"
-                          disabled="disabled"
-                        >
-                          Select a saved wallet
-                        </option>
-                        {_.map(this.props.accountKeys, (value, key) => (
-                          <option key={Math.random()} value={value}>
-                            {key}
-                          </option>
-                        ))}
-                      </select>
                     </div>
                   </div>
-                  <div className="col-xs-3">
-                    <div className="">
+
+                  <div className="col-xs-3 top-20">
+
                       {Object.keys(this.props.accountKeys).length === 0 ? (
-                        <div className="go-icon fadeInLeft" />
+                        <div className="login-button">Login</div>
                       ) : (
                         <div
-                          className="go-icon fadeInLeft pulse"
+                          className="login-button"
                           onClick={e =>
                             onWifChange(dispatch, this.props.history)}
-                        />
+                        >Login</div>
                       )}
-                    </div>
+
+                      </div>
                   </div>
-                </div>
+
+                  <div className="col-xs-10 col-xs-offset-1 center top-40 grey-out">
+                  Please enter the password associated with your saved address. If you have lost your password, you may login with your private key or encrypted key and password. Your password is never shared online.
+                  </div>
+
               </div>
             </div>
           </div>
@@ -158,7 +164,7 @@ class LoginLocalStorage extends Component {
               <div className="icon-border">
                 <div className="neo-icon"></div>
               </div>
-              Create a Neo Address
+              Create a NEO Address
             </div>
           </Link>
           <Link to="/">

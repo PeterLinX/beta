@@ -53,40 +53,41 @@ class LoginNep2 extends Component {
             </div>
 
             <div className="row">
+
               <div className="col-xs-10 col-xs-offset-1">
                 <div className="form-group">
                 <input
                   type="password"
                   className="trans-form"
-                  placeholder="1. Enter your password"
+                  placeholder="Enter your password"
                   ref={node => (passphrase_input = node)}
                 />
                 </div>
-                <div className="col-xs-10 col-xs-offset-1">
-                <hr className="purple" />
-                </div>
-              </div>
-              <div className="col-xs-10 col-xs-offset-1">
+
               <div className="form-group">
               <input
                 type="password"
                 className="trans-form"
-                placeholder="2. Enter your NEO encrypted key"
+                placeholder="Enter your NEO encrypted key"
                 ref={node => (wif_input = node)}
               />
 
               </div>
               </div>
-              <p className="center top-50 col-xs-10 col-xs-offset-1">
+
+              <div className="col-xs-10 col-xs-offset-1">
+              <div
+                className="login-button"
+                onClick={e => onWifChange(dispatch, this.props.history)}
+              >Login</div>
+              </div>
+
+              <p className="center top-10 col-xs-10 col-xs-offset-1">
                 Your encrypted private key and password are never shared and are
                 only used to load your balance and transaction history from the
                 blockchain.
               </p>
 
-              <div
-                className="go-icon fadeInLeft pulse"
-                onClick={e => onWifChange(dispatch, this.props.history)}
-              />
             </div>
             {this.props.decrypting === true ? (
               <div className="decrypting">Decrypting keys...</div>
