@@ -119,7 +119,7 @@ class CreateWallet extends Component {
 
                 <div className="col-xs-2">
                   <div
-                    className="go-icon fadeInLeft"
+                    className="go-icon fadeInLeft pulse"
                     onClick={() => generateNewWallet(this.props.dispatch)}
                   />
                 </div>

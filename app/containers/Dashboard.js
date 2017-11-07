@@ -17,7 +17,7 @@ import Send from "../components/Send";
 import { togglePane } from "../modules/dashboard";
 import { version } from "../../package.json";
 import { log } from "../util/Logs";
-import Logo from "../components/Brand/LogoWords";
+import Dashlogo from "../components/Brand/Dashlogo";
 
 const refreshBalance = (dispatch, net, address) => {
   dispatch(sendEvent(true, "Refreshing..."));
@@ -95,7 +95,7 @@ class Dashboard extends Component {
           <div className="navbar navbar-inverse">
             <div className="navbar-header">
               <div className="logoContainer">
-                <Logo width={90} />
+                <Dashlogo width={90} />
               </div>
               <div id="balance">
                 <span style={{ fontSize: "10px" }}>Combined Value</span>
@@ -121,11 +121,11 @@ class Dashboard extends Component {
                     <span className="glyphicon glyphicon-qrcode" /> Receive
                   </Link>
                 </li>
-                {/*<li>
+                <li>
                   <Link to={"/exchange"} exact activeClassName="active">
                     <span className="glyphicon glyphicon-refresh" /> Exchange
                   </Link>
-                </li>*/}
+                </li>
                 <li>
                   <Link
                     to={"/transactionHistory"}

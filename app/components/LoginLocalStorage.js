@@ -133,7 +133,7 @@ class LoginLocalStorage extends Component {
                         <div className="go-icon fadeInLeft" />
                       ) : (
                         <div
-                          className="go-icon fadeInLeft"
+                          className="go-icon fadeInLeft pulse"
                           onClick={e =>
                             onWifChange(dispatch, this.props.history)}
                         />

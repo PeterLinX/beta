@@ -144,7 +144,13 @@ class Settings extends Component {
       <div className="settings-panel top-50">
         <div className="description">
           <div className="row">
-            <div className="col-xs-2 center col-xs-offset-1 ">
+          <h2 className="center">General Settings</h2>
+          <div className="col-xs-10 center col-xs-offset-1">
+          <hr className="" />
+          </div>
+          <div className="clearboth" />
+          <div className="row">
+            <div className="col-xs-2 center col-xs-offset-1">
               <NetworkSwitch />
             </div>
             <div
@@ -247,6 +253,7 @@ class Settings extends Component {
               </div>
               Remove wallet from Morpheus
             </div>
+          </div>
           </div>
         </div>
         <div className="clearboth" />

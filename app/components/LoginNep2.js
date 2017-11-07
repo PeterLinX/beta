@@ -52,34 +52,36 @@ class LoginNep2 extends Component {
               <h1 className="center">Welcome to Morpheus</h1>
             </div>
 
-            <div className="row top-30">
+            <div className="row">
               <div className="col-xs-10 col-xs-offset-1">
                 <div className="form-group">
                   <input
                     type="password"
                     className="trans-form"
-                    placeholder="Enter your password"
-                    ref={node => (passphrase_input = node)}
+                    placeholder="1. Enter your NEO encrypted key"
+                    ref={node => (wif_input = node)}
                   />
                 </div>
                 <hr className="purple" />
               </div>
               <div className="col-xs-10 col-xs-offset-1">
-                <input
-                  type="password"
-                  className="trans-form"
-                  placeholder="Enter your NEO encrypted key and click arrow"
-                  ref={node => (wif_input = node)}
-                />
+              <div className="form-group">
+              <input
+                type="password"
+                className="trans-form"
+                placeholder="2. Enter your password"
+                ref={node => (passphrase_input = node)}
+              />
               </div>
-              <p className="center top-20 col-xs-10 col-xs-offset-1 top-20">
+              </div>
+              <p className="center top-50 col-xs-10 col-xs-offset-1">
                 Your encrypted private key and password are never shared and are
                 only used to load your balance and transaction history from the
                 blockchain.
               </p>
 
               <div
-                className="go-icon fadeInLeft"
+                className="go-icon fadeInLeft pulse"
                 onClick={e => onWifChange(dispatch, this.props.history)}
               />
             </div>

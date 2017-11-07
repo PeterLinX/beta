@@ -96,7 +96,7 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => (
               </div>
 
               <div
-                className="go-icon fadeInLeft"
+                className="go-icon fadeInLeft pulse"
                 onClick={e => onWifChange(dispatch, history, wif)}
               />
             </div>
