@@ -1,5 +1,5 @@
 {
-  "name": "Morpheus Beta",
+  "name": "Morpheus-Beta",
   "version": "0.0.37",
   "main": "./main.js",
   "description": "Wallet for NEO blockchain",
@@ -12,7 +12,7 @@
     "test": "jest",
     "test-watch": "jest --watch",
     "pack": "build --dir",
-    "dist": "build -m"
+    "dist": "build -mw"
   },
   "keywords": [],
   "build": {
