@@ -4,6 +4,8 @@ const app = electron.app;
 const Menu = electron.Menu;
 const BrowserWindow = electron.BrowserWindow;
 
+let mainWindow = null;
+
 app.on("window-all-closed", () => {
   app.quit();
 });
@@ -11,7 +13,8 @@ app.on("window-all-closed", () => {
 app.on("ready", () => {
   mainWindow = new BrowserWindow({
     // titleBarStyle: "hidden",
-    backgroundColor: '#000',
+    show: false,
+    backgroundColor: "#000",
     width: 1024,
     height: 720,
     minHeight: 720,
@@ -21,12 +24,7 @@ app.on("ready", () => {
     icon: path.join(__dirname, "icons/png/64x64.png"),
     webPreferences: {
       webSecurity: false
-
     }
-
-    // uncomment these lines
-    // transparent: true,
-    // frame: false
   });
 
   const template = [
@@ -201,4 +199,8 @@ app.on("ready", () => {
     pathname: require("path").join(__dirname, "/app/dist/index.html")
   });
   mainWindow.loadURL(url);
+
+  mainWindow.once("ready-to-show", () => {
+    mainWindow.show();
+  });
 });
