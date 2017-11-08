@@ -135,10 +135,10 @@ body {
   height: 100%;
   padding: 0;
   margin: 0;
-  font-family: "Ubuntu", system, -apple-system, ".SFNSDisplay-Regular",
-    "Helvetica Neue", Helvetica, "Segoe UI", sans-serif;
+  font-family: Arial;
   font-size: 13px;
   line-height: 1.6;
+  font-weight: 200;
   color: #646464;
   background-color: transparent;
   overflow-y: hidden;
@@ -2977,9 +2977,9 @@ a {
   text-align: center;
   border-radius: 9px;
   margin-top: 20px;
-  padding: 10px;
+  padding: 0px 10px 10px;
   border: thin solid rgba(51, 51, 51, 0.5);
-  font-size: 18px;
+  font-size: 19px;
 }
 .comb-value {font-size: 18px;}
 
@@ -3126,7 +3126,8 @@ a {
 }
 
 .navbar-inverse {
-  background: rgba(10, 8, 12, 0.85);
+  background: rgba(0, 0, 0, 0.4);
+  border-right: thin solid rgba(43, 43, 43, 0.83);
 }
 
 .main-nav {
@@ -3163,9 +3164,9 @@ a {
 }
 
 #checkbox {
-  width: 26px !important;
+  width: 15px !important;
   margin-top: 0px;
-  margin-left: 16px;
+  margin: 4px 0px 0px 12px;
 }
 
 .center {text-align: center;}

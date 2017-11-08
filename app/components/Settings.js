@@ -141,10 +141,16 @@ class Settings extends Component {
   render = () => (
     <div id="send">
 <TopBar />
-      <div className="settings-panel top-50">
+      <div className="settings-panel top-50 fadeInDown">
         <div className="description">
           <div className="row">
-            <div className="col-xs-2 center col-xs-offset-1 ">
+          <h2 className="center">General Settings</h2>
+          <div className="col-xs-10 center col-xs-offset-1">
+          <hr className="" />
+          </div>
+          <div className="clearboth" />
+          <div className="row">
+            <div className="col-xs-2 center col-xs-offset-1">
               <NetworkSwitch />
             </div>
             <div
@@ -154,7 +160,7 @@ class Settings extends Component {
               <Link to="/create">
                 <div className="dash-icon-bar">
                   <div className="icon-border">
-                    <span className="glyphicon glyphicon-plus" />
+                    <div className="neo-icon"></div>
                   </div>
                   Create New Address
                 </div>
@@ -167,7 +173,7 @@ class Settings extends Component {
                   <div className="icon-border">
                     <span className="glyphicon glyphicon-user" />
                   </div>
-                  Open a Saved Wallet
+                  Open a Saved Address
                 </div>
               </Link>
             </div>
@@ -234,7 +240,7 @@ class Settings extends Component {
               <div className="icon-border">
                 <span className="glyphicon glyphicon-remove" />
               </div>
-              Logout of Current Wallet
+              Log Out of Address
             </div>
           </div>
           <div className="col-xs-2 center">
@@ -245,8 +251,9 @@ class Settings extends Component {
               <div className="icon-border">
                 <span className="glyphicon glyphicon-trash" />
               </div>
-              Remove wallet from Morpheus
+              Remove Address
             </div>
+          </div>
           </div>
         </div>
         <div className="clearboth" />

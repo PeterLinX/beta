@@ -47,7 +47,7 @@ class TopBar extends Component {
             <div className="col-xs-4">
               <p className="neo-balance">Available GAS</p>
               <p className="gas-text">
-                {Math.floor(this.props.gas * 1000000) / 1000000}{" "}
+                {Math.floor(this.props.gas * 100000) / 100000}{" "}
                 <span>GAS</span>
               </p>
               <p className="neo-balance">

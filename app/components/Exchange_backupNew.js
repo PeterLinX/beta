@@ -36,53 +36,27 @@ class Exchange extends Component {
       return (
       <div>
         <TopBar />
+        <div className="top-60">
+        <div className="settings-panel">
 
-        <div className="progress-bar fadeInLeft-ex"></div>
-          <div className="row prog-info top-20">
-          <div className="col-xs-2 col-xs-offset-1 sm-text center">
-          Enter Amount to Deposit
-          </div>
-          <div className="col-xs-2 sm-text center grey-out">
-          Placing Your Order
-          </div>
-          <div className="col-xs-2 sm-text center grey-out">
-          Generating Bitcoin Address for Deposit
-          </div>
-          <div className="col-xs-2 sm-text center grey-out">
-          Processing Your Order
-          </div>
-          <div className="col-xs-2 sm-text center grey-out">
-          Transaction Complete!
-          </div>
-        </div>
-
-        <div className="top-130 ">
-        <div className="settings-panel fadeInDown">
-
-        <div className="row fadeInDown">
-
-        <div className="col-xs-4 col-xs-offset-1">
-        <div className="exch-logos"><BtcLogo width={40} /></div>
-        <h4 className="top-20">Deposit BTC</h4>
-        </div>
-
-        <div className="col-xs-4  col-xs-offset-2">
-        <div className="exch-logos"><NeoLogo width={40} /></div>
-        <h4 className="top-20">NEO Received</h4>
-        </div>
+        <div className="up-65">
 
           <div className="col-xs-4 center col-xs-offset-1">
+            <BtcLogo width={80} />
+            <h4 className="top-20">Deposit BTC</h4>
             <input className="form-control-exchange center" placeholder="1.00000000" />
           </div>
 
           <div className="col-xs-2 center">
             <div className="exchange-glyph">
-            <span className="glyphicon glyphicon-refresh" />
+            <span className="glyphicon glyphicon-refresh rotating" />
             </div>
           </div>
 
           <div className="col-xs-4 center">
-          <input className="form-control-exchange center" placeholder="288" />
+            <NeoLogo width={80} />
+            <h4 className="top-20">NEO Received</h4>
+            <input className="form-control-exchange center" placeholder="288" />
           </div>
 
         </div>
@@ -100,12 +74,30 @@ class Exchange extends Component {
         Subject to trasnsaction fees
         </div>
         <div className="col-xs-4 center">
-        <button className="grey-button">Continue</button>
+        <button className="btn-send">Continue</button>
         </div>
         <div className="col-xs-3">
         <p className="sm-text">Powered by:</p>
         <div className="changelly-logo"></div>
         </div>
+        </div>
+        </div>
+        <div className="progress-bar"></div>
+        <div className="row prog-info top-20">
+        <div className="col-xs-2 col-xs-offset-1 sm-text center">
+        Enter Amount to Deposit
+        </div>
+        <div className="col-xs-2 sm-text center grey-out">
+        Placing Your Order
+        </div>
+        <div className="col-xs-2 sm-text center grey-out">
+        Generating Bitcoin Address for Deposit
+        </div>
+        <div className="col-xs-2 sm-text center grey-out">
+        Processing Your Order
+        </div>
+        <div className="col-xs-2 sm-text center grey-out">
+        Transaction Complete!
         </div>
         </div>
       </div>

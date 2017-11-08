@@ -7,7 +7,7 @@ import { encrypt_wif, decrypt_wif } from "neon-js";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { getAccountsFromWIFKey } from "neon-js";
 import Logo from "./Brand/LogoBlank";
-
+import neoIcon from "../img/neo-icon.png";
 import goIcon from "../img/go-icon.png";
 
 let wif;
@@ -83,23 +83,26 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => (
             </div>
 
             <div className="row top-50">
-              <div className="col-xs-10 col-xs-offset-1">
-                <div className="form-group">
+              <div className="col-xs-8 col-xs-offset-1">
+
                   <input
                     type="password"
                     className="trans-form"
                     placeholder="Enter a NEO private key"
                     ref={node => (wif = node)}
                   />
-                </div>
-                <hr className="purple" />
-              </div>
 
-              <div
-                className="go-icon fadeInLeft"
-                onClick={e => onWifChange(dispatch, history, wif)}
-              />
-            </div>
+                </div>
+
+                <div className="col-xs-2">
+                <div
+                  className="login-button"
+                  onClick={e => onWifChange(dispatch, history, wif)}
+                >
+                Login
+                </div>
+                </div>
+              </div>
             <br />
 
             <p className="center top-20 col-xs-10 col-xs-offset-1">
@@ -117,7 +120,7 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => (
       <Link to="/create">
         <div className="dash-icon-bar">
           <div className="icon-border">
-            <span className="glyphicon glyphicon-plus" />
+            <div className="neo-icon"></div>
           </div>
           Create a Neo Address
         </div>
