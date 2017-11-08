@@ -75,7 +75,7 @@ class DisplayWalletKeys extends Component {
 
               </div>
 
-              <div className="col-xs-6 top-40">
+              <div className="col-xs-6 top-20">
                 <div className="keyList">
                   {/* public address */}
                   <div className="keyListItem">
