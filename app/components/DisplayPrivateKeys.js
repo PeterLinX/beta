@@ -54,15 +54,16 @@ class DisplayWalletKeys extends Component {
   };
 
   render = () => (
+    <div>
     <div className="displayWalletKeys">
       <div className="row send-neo-wide">
-        <div className="center neoLogo up-20">
-          <NeoLogo width={115} />
-        </div>
-        <div className="row">
+        <div className="row ">
           <div className="col-xs-12">
-            <div className="row">
+            <div className="row top-20">
               <div className="col-xs-3">
+
+              <p style={{ textAlign: "center" }}>Public QR Address</p>
+
                 <canvas
                   id="publicCanvas"
                   style={{
@@ -71,18 +72,18 @@ class DisplayWalletKeys extends Component {
                   }}
                   ref={node => (this.publicCanvas = node)}
                 />
-                <p style={{ textAlign: "center" }}>Public QR Address</p>
+
               </div>
 
-              <div className="col-xs-6 top-20">
+              <div className="col-xs-6 top-40">
                 <div className="keyList">
                   {/* public address */}
                   <div className="keyListItem">
-                    <p className="key-label">Your Public NEO Address:</p>
+                    <h4>Congratulations! New NEO Address Created</h4>
                     <input
                       type="text"
                       onClick={() => clipboard.writeText(this.props.address)}
-                      className="form-control pubicAddress"
+                      className="form-control pubicAddress font-plus"
                       contentEditable={false}
                       readOnly={true}
                       value={this.props.address}
@@ -149,6 +150,9 @@ class DisplayWalletKeys extends Component {
 
               <div className="col-xs-3">
                 <div className="addressBox">
+
+                <p style={{ textAlign: "center" }}>Encrypted Private Key</p>
+
                   <canvas
                     id="privateCanvas"
                     height={160}
@@ -162,7 +166,7 @@ class DisplayWalletKeys extends Component {
                     ref={node => (this.privateCanvas = node)}
                   />
 
-                  <p style={{ textAlign: "center" }}>Encrypted Private Key</p>
+
                 </div>
               </div>
             </div>
@@ -171,7 +175,7 @@ class DisplayWalletKeys extends Component {
           <div className="private">
             <div className="keyList">
               {/* Your Encrypted Private Key*/}
-              <div className="col-xs-6">
+              <div className="col-xs-8 top-20">
                 <p className="key-label">Your Private Key:</p>
                 <input
                   type="text"
@@ -185,8 +189,18 @@ class DisplayWalletKeys extends Component {
                 />
               </div>
 
+              <div className="col-xs-4 top-50">
+                <input
+                  type="text"
+                  className="form-control saveKey font-plus"
+                  ref={node => (key_name = node)}
+                  placeholder="Name your saved wallet"
+                  data-tip
+                />
+              </div>
+
               {/* Your Encrypted Private Key*/}
-              <div className="col-xs-6">
+              <div className="col-xs-8">
                 <p className="key-label">Your Encrypted Private Key:</p>
                 <input
                   type="text"
@@ -199,16 +213,8 @@ class DisplayWalletKeys extends Component {
                   data-for="copyPassphraseKeyTip"
                 />
               </div>
-              <div className="col-xs-9 top-20">
-                <input
-                  type="text"
-                  className="form-control saveKey"
-                  ref={node => (key_name = node)}
-                  placeholder="Name your saved wallet"
-                  data-tip
-                />
-              </div>
-              <div className="col-xs-3 top-20">
+
+              <div className="col-xs-4 top-30">
                 <button
                   onClick={() =>
                     saveKey(
@@ -216,9 +222,9 @@ class DisplayWalletKeys extends Component {
                       this.props.passphraseKey,
                       this.props.history
                     )}
-                  className="btn-send"
+                  className="login-button"
                 >
-                  Save Wallet
+                  Save Address and Login
                 </button>
 
                 {this.props.decrypting === true ? (
@@ -227,7 +233,7 @@ class DisplayWalletKeys extends Component {
                   <div />
                 )}
               </div>
-              <div className="col-xs-8">
+              <div className="col-xs-8 top-10">
                 <label className="checkbox-inline" style={{ color: "white" }}>
                   I have backed up my private data
                 </label>
@@ -242,40 +248,43 @@ class DisplayWalletKeys extends Component {
           </div>
         </div>
       </div>
+      <div className="clearboth" />
+    </div>
 
-      <div className="dash-bar">
-        <div className="dash-icon-bar" onClick={() => print()}>
-          <div className="icon-border">
-            <span className="glyphicon glyphicon-print" />
-          </div>
-          Print Wallet Data
+    <div className="dash-bar top-20">
+      <div className="dash-icon-bar" onClick={() => print()}>
+        <div className="icon-border">
+          <span className="glyphicon glyphicon-print" />
         </div>
+        Print Wallet Data
+      </div>
 
+      <div className="dash-icon-bar">
+        <div className="icon-border">
+          <span className="glyphicon glyphicon-download-alt" />
+        </div>
+        Download Recovery File
+      </div>
+
+      <Link to="/">
         <div className="dash-icon-bar">
           <div className="icon-border">
-            <span className="glyphicon glyphicon-download-alt" />
+            <span className="glyphicon glyphicon-qrcode" />
           </div>
-          Download Recovery File
+          Login Via Private Key
         </div>
+      </Link>
 
-        <Link to="/">
-          <div className="dash-icon-bar">
-            <div className="icon-border">
-              <span className="glyphicon glyphicon-qrcode" />
-            </div>
-            Login Via Private Key
+      <Link to="/LoginNep2">
+        <div className="dash-icon-bar">
+          <div className="icon-border">
+            <span className="glyphicon glyphicon-lock" />
           </div>
-        </Link>
+          Login Via Encrypted Key
+        </div>
+      </Link>
+    </div>
 
-        <Link to="/LoginNep2">
-          <div className="dash-icon-bar">
-            <div className="icon-border">
-              <span className="glyphicon glyphicon-lock" />
-            </div>
-            Login Via Encrypted Key
-          </div>
-        </Link>
-      </div>
     </div>
   );
 }

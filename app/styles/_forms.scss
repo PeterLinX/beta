@@ -30,7 +30,7 @@
     /* Chrome/Opera/Safari */
     color: white;
     text-align: center;
-    font-size: 24px;
+    font-size: 18px;
   }
 }
 
@@ -137,6 +137,7 @@ option {
     border: 1px solid #673ab7;
     color: #f5f5f5;
     background: #5b30a9;
+    width: 100%;
 }
 
 .login-button:hover {
@@ -146,3 +147,10 @@ background: #351967;
 }
 
 textarea, input, button, select { outline: none; }
+
+@media print{
+
+@page {
+        size: landscape;
+    }
+}

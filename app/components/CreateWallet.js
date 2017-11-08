@@ -120,7 +120,7 @@ class CreateWallet extends Component {
                   <div
                     className="login-button"
                     onClick={() => generateNewWallet(this.props.dispatch)}
-                  >Login</div>
+                  >Create Address</div>
                 </div>
 
                 <div className="col-xs-10 col-xs-offset-1 center top-10 grey-out">
