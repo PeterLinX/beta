@@ -16,13 +16,16 @@
 
 .header {
   background-color: rgba(12, 12, 14, 0.85);
-  border: 1px solid rgba(0, 0, 0, 0.25);
+  border: 1px solid #272727;
   border-radius: 13px;
-  height: 100px;
+  height: 105px;
   margin-top: 2%;
   padding: 10px;
   width: 720px;
   margin-left: 2%;
+  -moz-box-shadow:    inset 0 0 12px #000000;
+   -webkit-box-shadow: inset 0 0 12px #000000;
+   box-shadow:         inset 0 0 12px #000000;
 }
 .neo-text {
   font-size: 36px;
@@ -264,11 +267,11 @@ webview {
   }
 }
 .rotating {
-  -webkit-animation: rotating 2s linear infinite;
-  -moz-animation: rotating 2s linear infinite;
-  -ms-animation: rotating 2s linear infinite;
-  -o-animation: rotating 2s linear infinite;
-  animation: rotating 2s linear infinite;
+  -webkit-animation: rotating 20s linear infinite;
+  -moz-animation: rotating 20s linear infinite;
+  -ms-animation: rotating 20s linear infinite;
+  -o-animation: rotating 20s linear infinite;
+  animation: rotating 20s linear infinite;
 }
 
 #neo-price {
@@ -307,4 +310,119 @@ webview {
 .com-soon:hover {
   opacity: 0.1;
   cursor: default;
+}
+
+.exchange-glyph {
+margin-top: 0px;
+font-size: 36px;
+text-align: center;
+color: #333;
+}
+
+.up-65 {
+  margin-top: -65px;
+}
+
+.sm-text {
+  font-size: 11px;
+  font-weight: 200;
+  color: #555;
+}
+
+.changelly-logo {
+  background: url("../img/changelly.png") no-repeat center;
+  width: 100px;
+  height: 28px;
+  opacity: 0.6;
+  margin-top: -8px;
+}
+
+.progress-bar {
+background: url("../img/progress-bar1.png") no-repeat center;
+width: 500px;
+height: 17px;
+position: absolute;
+top: 25%;
+left: 35%;
+border: none;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -o-box-shadow: none;
+  -webkit-box-shadow: none;
+  -webkit-transition: width 1s; /* For Safari 3.1 to 6.0 */
+  transition: width 1s;
+}
+
+@keyframes fadeInLeft-ex {
+    0% {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+.fadeInLeft-ex {
+    animation-name: fadeInLeft-ex;
+}
+
+.prog-info {
+position: absolute;
+left: 26%;
+top: 26%;
+max-width: 715px;
+}
+
+.grey-out {
+  opacity: 0.5;
+}
+
+.exch-logos {
+  float: left;
+  margin-right: 15px;
+  margin-top: 7px;
+  padding-bottom: 10px;
+}
+
+.top-130 {
+  margin-top: 130px;
+}
+
+.top-10 {
+  margin-top: 10px;
+}
+
+
+.fadeInDown {
+  -webkit-animation-name: fadeInDown;
+  animation-name: fadeInDown;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  }
+  @-webkit-keyframes fadeInDown {
+  0% {
+  opacity: 0;
+  -webkit-transform: translate3d(0, -5%, 0);
+  transform: translate3d(0, -5%, 0);
+  }
+  100% {
+  opacity: 1;
+  -webkit-transform: none;
+  transform: none;
+  }
+  }
+  @keyframes fadeInDown {
+  0% {
+  opacity: 0;
+  -webkit-transform: translate3d(0, -5%, 0);
+  transform: translate3d(0, -5%, 0);
+  }
+  100% {
+  opacity: 1;
+  -webkit-transform: none;
+  transform: none;
+  }
 }

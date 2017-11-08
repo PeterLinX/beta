@@ -52,36 +52,42 @@ class LoginNep2 extends Component {
               <h1 className="center">Welcome to Morpheus</h1>
             </div>
 
-            <div className="row top-30">
+            <div className="row">
+
               <div className="col-xs-10 col-xs-offset-1">
                 <div className="form-group">
-                  <input
-                    type="password"
-                    className="trans-form"
-                    placeholder="Enter your password"
-                    ref={node => (passphrase_input = node)}
-                  />
-                </div>
-                <hr className="purple" />
-              </div>
-              <div className="col-xs-10 col-xs-offset-1">
                 <input
                   type="password"
                   className="trans-form"
-                  placeholder="Enter your NEO encrypted key and click arrow"
-                  ref={node => (wif_input = node)}
+                  placeholder="Enter your password"
+                  ref={node => (passphrase_input = node)}
                 />
+                </div>
+
+              <div className="form-group">
+              <input
+                type="password"
+                className="trans-form"
+                placeholder="Enter your NEO encrypted key"
+                ref={node => (wif_input = node)}
+              />
+
               </div>
-              <p className="center top-20 col-xs-10 col-xs-offset-1 top-20">
+              </div>
+
+              <div className="col-xs-10 col-xs-offset-1">
+              <div
+                className="login-button"
+                onClick={e => onWifChange(dispatch, this.props.history)}
+              >Login</div>
+              </div>
+
+              <p className="center top-10 col-xs-10 col-xs-offset-1">
                 Your encrypted private key and password are never shared and are
                 only used to load your balance and transaction history from the
                 blockchain.
               </p>
 
-              <div
-                className="go-icon fadeInLeft"
-                onClick={e => onWifChange(dispatch, this.props.history)}
-              />
             </div>
             {this.props.decrypting === true ? (
               <div className="decrypting">Decrypting keys...</div>
@@ -95,7 +101,7 @@ class LoginNep2 extends Component {
             <Link to="/create">
               <div className="dash-icon-bar">
                 <div className="icon-border">
-                  <span className="glyphicon glyphicon-plus" />
+                  <div className="neo-icon"></div>
                 </div>
                 Create a Neo Address
               </div>

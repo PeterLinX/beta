@@ -100,30 +100,38 @@ class CreateWallet extends Component {
                   <div className="form-group">
                     <input
                       type="text"
-                      className="trans-form"
+                      className="trans-form loginfade"
                       ref={node => (passphrase = node)}
                       placeholder="Enter a secure password"
                     />
                   </div>
-                  <hr className="green loginfade" />
-                  <hr className="purple" />
+
                   <div className="form-group">
                     <input
                       type="text"
-                      className="trans-form"
+                      className="trans-form loginfade"
                       ref={node => (passphrase2 = node)}
-                      placeholder="Retype password and click arrow"
+                      placeholder="Confirm your password"
                     />
                   </div>
                 </div>
 
-                <div className="col-xs-2">
+                <div className="col-xs-10 col-xs-offset-1 ">
                   <div
-                    className="go-icon fadeInLeft"
+                    className="login-button"
                     onClick={() => generateNewWallet(this.props.dispatch)}
-                  />
+                  >Login</div>
                 </div>
+
+                <div className="col-xs-10 col-xs-offset-1 center top-10 grey-out">
+                <p>Please use a strong password. Minimum 8 characters in length
+and contains uppercase letters, lowercase letters, numbers and symbols (!@#$%^&*).</p>
+                </div>
+
+
               </div>
+
+
             </div>
           </div>
         </div>
