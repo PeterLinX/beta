@@ -24,13 +24,6 @@ class TopBar extends Component {
     };
   }
 
-  async componentDidMount() {
-    let gas = await axios.get("https://api.coinmarketcap.com/v1/ticker/gas/");
-    gas = gas.data[0].price_usd;
-    const value = this.props.gas * gas;
-    this.setState({ gasPrice: value });
-  }
-
   render() {
     return (
       <div id="send">
@@ -47,12 +40,11 @@ class TopBar extends Component {
             <div className="col-xs-4">
               <p className="neo-balance">Available GAS</p>
               <p className="gas-text">
-                {Math.floor(this.props.gas * 100000) / 100000}{" "}
-                <span>GAS</span>
+                {Math.floor(this.props.gas * 100000) / 100000} <span>GAS</span>
               </p>
               <p className="neo-balance">
                 {" "}
-                ${Math.round(this.state.gasPrice * 100) / 100}
+                ${Math.round(this.props.gasPrice * 100) / 100}
               </p>
             </div>
           </div>
@@ -67,7 +59,8 @@ const mapStateToProps = state => ({
   gas: state.wallet.Gas,
   address: state.account.address,
   net: state.metadata.network,
-  price: state.wallet.price
+  price: state.wallet.price,
+  gasPrice: state.wallet.gasPrice
 });
 
 TopBar = connect(mapStateToProps)(TopBar);

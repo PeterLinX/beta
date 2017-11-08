@@ -34,6 +34,18 @@ export const getMarketPriceUSD = amount => {
     });
 };
 
+const getGasPrice = async gasVal => {
+  try {
+    let gas = await axios.get("https://api.coinmarketcap.com/v1/ticker/gas/");
+    gas = gas.data[0].price_usd;
+    const value = gasVal * gas;
+    console.log(`gas price = ${value} 🎉`);
+    return value;
+  } catch (error) {
+    console.log(`ERROR from gas price`);
+  }
+};
+
 // TODO: this is being imported by Balance.js, maybe refactor to helper file
 
 const initiateGetBalance = (dispatch, net, address) => {
@@ -44,12 +56,19 @@ const initiateGetBalance = (dispatch, net, address) => {
   return getBalance(net, address)
     .then(resultBalance => {
       return getMarketPriceUSD(resultBalance.Neo)
-        .then(resultPrice => {
+        .then(async resultPrice => {
           if (resultPrice === undefined || resultPrice === null) {
             dispatch(setBalance(resultBalance.Neo, resultBalance.Gas, "--"));
           } else {
+            let gasPrice = await getGasPrice(resultBalance.Gas);
             dispatch(
-              setBalance(resultBalance.Neo, resultBalance.Gas, resultPrice)
+              setBalance(
+                resultBalance.Neo,
+                resultBalance.Gas,
+                resultPrice,
+                "--",
+                gasPrice
+              )
             );
           }
           return true;
@@ -135,7 +154,6 @@ class NetworkSwitch extends Component {
   componentDidMount = () => {
     resetBalanceSync(this.props.dispatch, this.props.net, this.props.address);
   };
-
   render = () => (
     <div id="network">
       <div className="dash-icon-bar">

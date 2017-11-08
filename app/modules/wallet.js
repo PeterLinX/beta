@@ -5,13 +5,14 @@ export const RESET_PRICE = "RESET_PRICE";
 export const SET_TRANSACTION_HISTORY = "SET_TRANSACTION_HISTORY";
 
 // Actions
-export function setBalance(neo, gas, price, combined) {
+export function setBalance(neo, gas, price, combined, gasPrice) {
   return {
     type: SET_BALANCE,
     Neo: neo,
     Gas: gas,
     price: price,
-    combined: combined
+    combined: combined,
+    gasPrice: gasPrice
   };
 }
 
@@ -37,7 +38,14 @@ export function setTransactionHistory(transactions) {
 
 // reducer for wallet account balance
 export default (
-  state = { Neo: 0, Gas: 0, transactions: [], price: "--", combined: "--" },
+  state = {
+    Neo: 0,
+    Gas: 0,
+    transactions: [],
+    price: "--",
+    combined: "--",
+    gasPrice: "--"
+  },
   action
 ) => {
   switch (action.type) {
@@ -47,7 +55,8 @@ export default (
         Neo: action.Neo,
         Gas: action.Gas,
         price: action.price,
-        combined: action.combined
+        combined: action.combined,
+        gasPrice: action.gasPrice
       };
     case RESET_PRICE:
       return { ...state, price: "--" };

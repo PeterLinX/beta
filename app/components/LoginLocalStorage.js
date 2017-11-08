@@ -92,61 +92,59 @@ class LoginLocalStorage extends Component {
                 </div>
                 <div className="row top-20">
                   <div className="col-xs-10 col-xs-offset-1">
-
-                  <select
-                    name="select-profession"
-                    id="select-profession"
-                    className=""
-                    ref={node => (wif_input = node)}
-                  >
-                    <option
-                      defaultValue
-                      selected="selected"
-                      disabled="disabled"
+                    <select
+                      name="select-profession"
+                      id="select-profession"
+                      className=""
+                      ref={node => (wif_input = node)}
                     >
-                      Select a saved wallet
-                    </option>
-                    {_.map(this.props.accountKeys, (value, key) => (
-                      <option key={Math.random()} value={value}>
-                        {key}
+                      <option
+                        defaultValue
+                        selected="selected"
+                        disabled="disabled"
+                      >
+                        Select a saved wallet
                       </option>
-                    ))}
-                  </select>
-
+                      {_.map(this.props.accountKeys, (value, key) => (
+                        <option key={Math.random()} value={value}>
+                          {key}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <div className="col-xs-7 col-xs-offset-1 top-20">
                     <div className="sel sel--black-panther">
-
-                    <input
-                      className="trans-form"
-                      type="password"
-                      placeholder="Enter your password"
-                      ref={node => (passphrase_input = node)}
-                    />
-
+                      <input
+                        className="trans-form"
+                        type="password"
+                        placeholder="Enter your password"
+                        ref={node => (passphrase_input = node)}
+                      />
                     </div>
                   </div>
 
                   <div className="col-xs-3 top-20">
-
-                      {Object.keys(this.props.accountKeys).length === 0 ? (
-                        <div className="login-button">Login</div>
-                      ) : (
-                        <div
-                          className="login-button"
-                          onClick={e =>
-                            onWifChange(dispatch, this.props.history)}
-                        >Login</div>
-                      )}
-
-                      </div>
+                    {Object.keys(this.props.accountKeys).length === 0 ? (
+                      <div className="login-button">Login</div>
+                    ) : (
+                      <button
+                        type="submit"
+                        className="login-button"
+                        onClick={e => onWifChange(dispatch, this.props.history)}
+                      >
+                        Login
+                      </button>
+                    )}
                   </div>
+                </div>
 
-                  <div className="col-xs-10 col-xs-offset-1 center top-40 grey-out">
-                  Please enter the password associated with your saved address. If you have lost your password, you may login with your private key or encrypted key and password. Your password is never shared online.
-                  </div>
-
+                <div className="col-xs-10 col-xs-offset-1 center top-40 grey-out">
+                  Please enter the password associated with your saved address.
+                  If you have lost your password, you may login with your
+                  private key or encrypted key and password. Your password is
+                  never shared online.
+                </div>
               </div>
             </div>
           </div>
@@ -162,7 +160,7 @@ class LoginLocalStorage extends Component {
           <Link to="/create">
             <div className="dash-icon-bar">
               <div className="icon-border">
-                <div className="neo-icon"></div>
+                <div className="neo-icon" />
               </div>
               Create a NEO Address
             </div>
@@ -183,14 +181,15 @@ class LoginLocalStorage extends Component {
               Login Via Encrypted Key
             </div>
           </Link>
-            <div className="dash-icon-bar"
+          <div
+            className="dash-icon-bar"
             onClick={() => loadKeyRecovery(this.props.dispatch)}
-            >
-              <div className="icon-border">
-                <span className="glyphicon glyphicon-paperclip" />
-              </div>
-              Login Via Recovery File
+          >
+            <div className="icon-border">
+              <span className="glyphicon glyphicon-paperclip" />
             </div>
+            Login Via Recovery File
+          </div>
         </div>
       </div>
     );
