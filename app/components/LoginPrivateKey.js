@@ -122,7 +122,7 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => (
           <div className="icon-border">
             <div className="neo-icon"></div>
           </div>
-          Create a Neo Address
+          Create a NEO Address
         </div>
       </Link>
 

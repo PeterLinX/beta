@@ -194,70 +194,66 @@ class Settings extends Component {
               </div>
             </div>
           </div>
-        </div>
-        <div className="clearboth" />
-        <div className="row top-20">
-          <div className="col-xs-3" />
-        </div>
-        <div className="row top-20">
-          <div className="col-xs-2 center col-xs-offset-1 ">
-            <Link to="/encryptKey">
-              <div className="dash-icon-bar">
-                <div className="icon-border">
-                  <span className="glyphicon glyphicon-qrcode" />
+          <div className="row top-20">
+            <div className="col-xs-2 center col-xs-offset-1 ">
+              <Link to="/encryptKey">
+                <div className="dash-icon-bar">
+                  <div className="icon-border">
+                    <span className="glyphicon glyphicon-qrcode" />
+                  </div>
+                  Encrypt a Private Key
                 </div>
-                Encrypt a Private Key
-              </div>
-            </Link>
-          </div>
-          <div className="col-xs-2 center">
-            <div
-              className="dash-icon-bar"
-              onClick={() => saveKeyRecovery(this.props.wallets)}
-            >
-              <div className="icon-border">
-                <span className="glyphicon glyphicon-save" />
-              </div>
-              Export My Encrypted Keys
+              </Link>
             </div>
-          </div>
-          <div className="col-xs-2 center">
-            <div
-              className="dash-icon-bar"
-              onClick={() =>
-                openExplorer(
-                  getExplorerLink(this.props.net, this.props.explorer, t.txid)
-                )}
-            >
-              <div className="icon-border">
-                <span className="glyphicon glyphicon-link" />
+            <div className="col-xs-2 center">
+              <div
+                className="dash-icon-bar"
+                onClick={() => saveKeyRecovery(this.props.wallets)}
+              >
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-save" />
+                </div>
+                Export My Encrypted Keys
               </div>
-              View Address on NeoTracker
             </div>
-          </div>
-          <div className="col-xs-2 center">
-            <div className="dash-icon-bar com-soon">
-              <div className="icon-border">
-                <span className="glyphicon glyphicon-remove" />
+            <div className="col-xs-2 center">
+              <div
+                className="dash-icon-bar"
+                onClick={() =>
+                  openExplorer(
+                    getExplorerLink(this.props.net, this.props.explorer, t.txid)
+                  )}
+              >
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-link" />
+                </div>
+                View Address on NeoTracker
               </div>
-              Log Out of Address
             </div>
-          </div>
-          <div className="col-xs-2 center">
-            <div
-              className="dash-icon-bar com-soon"
-              onClick={() => deleteWallet(this.props.dispatch, key)}
-            >
-              <div className="icon-border">
-                <span className="glyphicon glyphicon-trash" />
+            <div className="col-xs-2 center">
+              <div className="dash-icon-bar com-soon">
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-remove" />
+                </div>
+                Log Out of Address
               </div>
-              Remove Address
+            </div>
+            <div className="col-xs-2 center">
+              <div
+                className="dash-icon-bar com-soon"
+                onClick={() => deleteWallet(this.props.dispatch, key)}
+              >
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-trash" />
+                </div>
+                Remove Address
+              </div>
+            </div>
             </div>
           </div>
           </div>
         </div>
-        <div className="clearboth" />
-      </div>
+
       <div className="clearboth" />
     </div>
   );
