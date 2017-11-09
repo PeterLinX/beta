@@ -3164,9 +3164,21 @@ a {
 }
 
 #checkbox {
-  width: 15px !important;
-  margin-top: 0px;
-  margin: 4px 0px 0px 12px;
+  width: 16px !important;
+      margin-top: 0px;
+      height: 16px;
+      margin: 4px 0px 0px 12px;
+}
+
+.checkbox-inline, .radio-inline {
+    position: relative;
+    display: inline-block;
+    padding-left: 20px;
+    margin-bottom: 0;
+    font-weight: 200;
+    vertical-align: middle;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 .center {text-align: center;}

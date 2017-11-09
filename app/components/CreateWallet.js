@@ -121,7 +121,7 @@ class CreateWallet extends Component {
                     className="login-button"
                     onClick={() => generateNewWallet(this.props.dispatch)}
                   >
-                    Login
+                    Create Address
                   </div>
                 </div>
 
