@@ -7,7 +7,7 @@ import QRCode from "qrcode";
 import { clipboard } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import ReactTooltip from "react-tooltip";
-import DisplayWalletKeys from "./DisplayWalletKeys";
+import DisplayWalletKeys from "./DisplayPrivateKeys";
 import { generateEncryptedWif } from "neon-js";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import Logo from "./Brand/LogoBlank";
@@ -120,18 +120,19 @@ class CreateWallet extends Component {
                   <div
                     className="login-button"
                     onClick={() => generateNewWallet(this.props.dispatch)}
-                  >Login</div>
+                  >
+                    Login
+                  </div>
                 </div>
 
                 <div className="col-xs-10 col-xs-offset-1 center top-10 grey-out">
-                <p>Please use a strong password. Minimum 8 characters in length
-and contains uppercase letters, lowercase letters, numbers and symbols (!@#$%^&*).</p>
+                  <p>
+                    Please use a strong password. Minimum 8 characters in length
+                    and contains uppercase letters, lowercase letters, numbers
+                    and symbols (!@#$%^&*).
+                  </p>
                 </div>
-
-
               </div>
-
-
             </div>
           </div>
         </div>
