@@ -41,14 +41,16 @@ class Dashboard extends Component {
 
   async componentDidMount() {
     // only logging public information here
-    log(this.props.net, "LOGIN", this.props.address, {});
-    initiateGetBalance(
+    await log(this.props.net, "LOGIN", this.props.address, {});
+    await initiateGetBalance(
       this.props.dispatch,
       this.props.net,
       this.props.address,
       this.props.price
     );
     resetGeneratedKey(this.props.dispatch);
+    console.log(this.props.neo, this.props.gas);
+    await this.getCombinedBalance(this.props.neo, this.props.gas);
   }
 
   getCombinedBalance = async (neo, gas) => {
@@ -87,8 +89,8 @@ class Dashboard extends Component {
     if (this.props.location.pathname !== "/dashboard") {
       dash = <div />;
     }
+    // this.getCombinedBalance(this.props.neo, this.props.gas);
 
-    this.getCombinedBalance(this.props.neo, this.props.gas);
     return (
       <div>
         <div id="mainNav" className="main-nav">
