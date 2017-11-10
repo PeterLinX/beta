@@ -49,7 +49,6 @@ class Dashboard extends Component {
       this.props.price
     );
     resetGeneratedKey(this.props.dispatch);
-    console.log(this.props.neo, this.props.gas);
     await this.getCombinedBalance(this.props.neo, this.props.gas);
   }
 
