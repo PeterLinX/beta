@@ -23,6 +23,8 @@ let intervals = {};
 
 let netSelect;
 
+// https://bittrex.com/api/v1.1/public/getmarkethistory?market=BTC-NEO
+
 // putting this back in wallet, does not belong in neon-js
 export const getMarketPriceUSD = amount => {
   return axios
@@ -58,6 +60,7 @@ const initiateGetBalance = (dispatch, net, address) => {
       return getMarketPriceUSD(resultBalance.Neo)
         .then(async resultPrice => {
           if (resultPrice === undefined || resultPrice === null) {
+            console.log("you fucked up");
             dispatch(setBalance(resultBalance.Neo, resultBalance.Gas, "--"));
           } else {
             let gasPrice = await getGasPrice(resultBalance.Gas);
