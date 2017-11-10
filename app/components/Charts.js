@@ -40,6 +40,9 @@ const btcApi =
 const dashApi =
     "https://min-api.cryptocompare.com/data/histohour?fsym=DASH&tsym=USD&limit=120&aggregate=3&e=CCCAGG";
 
+const ethApi =
+    "https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=120&aggregate=3&e=CCCAGG";
+
 class Charts extends Component {
   constructor(props) {
     super(props);
@@ -55,6 +58,7 @@ class Charts extends Component {
     await this.getBtcData();
     await this.getLtcData();
     await this.getDashData();
+    await this.getEthData();
   }
 
   async getGasData() {
@@ -97,6 +101,16 @@ class Charts extends Component {
     }
   }
 
+  async getEthData() {
+    try {
+      let req = await axios.get(ethApi);
+      let data = req.data.Data;
+      this.setState({ ethData: data });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async getDashData() {
     try {
       let req = await axios.get(dashApi);
@@ -120,6 +134,9 @@ class Charts extends Component {
 
     const dashPrices = _.map(this.state.dashData, "close");
     const dashDays = _.map(this.state.dashData, "time");
+
+    const ethPrices = _.map(this.state.ethData, "close");
+    const ethDays = _.map(this.state.ethData, "time");
 
     const gasPrices = _.map(this.state.gasData, "close");
     const gasDays = _.map(this.state.gasData, "time");
@@ -158,6 +175,14 @@ class Charts extends Component {
       let btcGradientFill = ctx.createLinearGradient(0, 0, 0, 240);
       btcGradientFill.addColorStop(0, "rgba(229,172,0, 0.5)");
       btcGradientFill.addColorStop(1, "rgba(229,172,0, 0)");
+
+      let ethGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
+      ethGradientStroke.addColorStop(0, "#646464");
+      ethGradientStroke.addColorStop(1, "#646464");
+
+      let ethGradientFill = ctx.createLinearGradient(0, 0, 0, 240);
+      ethGradientFill.addColorStop(0, "rgba(175,175,175, 0.5)");
+      ethGradientFill.addColorStop(1, "rgba(175,175,175, 0)");
 
       let dashGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
       dashGradientStroke.addColorStop(0, "#005aff");
@@ -258,6 +283,28 @@ class Charts extends Component {
           pointRadius: 0,
           data: dashPrices
         },
+        {
+        label: "ETH",
+        fill: true,
+        hidden: true,
+        lineTension: 0.5,
+        backgroundColor: ethGradientFill,
+        borderColor: ethGradientStroke,
+        borderCapStyle: "butt",
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: "miter",
+        pointBorderWidth: 5,
+        pointHoverRadius: 5,
+        pointHoverBorderWidth: 0,
+        pointBorderColor: ethGradientStroke,
+        pointBackgroundColor: ethGradientStroke,
+        pointHoverBackgroundColor: ethGradientStroke,
+        pointHoverBorderColor: ethGradientStroke,
+        pointHitRadius: 5,
+        pointRadius: 0,
+        data: ethPrices
+      },
           {
             label: "LTC",
             fill: true,
