@@ -5,30 +5,24 @@ import { Line } from "react-chartjs-2";
 import axios from "axios";
 import _ from "lodash";
 
-const url =
-  "https://min-api.cryptocompare.com/data/histoday?fsym=NEO&tsym=USD&limit=20&aggregate=3&e=CCCAGG";
+const neoApi =
+  "https://min-api.cryptocompare.com/data/histoday?fsym=NEO&tsym=USD&limit=15&aggregate=3&e=CCCAGG";
 
 const gasApi =
-  "https://min-api.cryptocompare.com/data/histoday?fsym=GAS&tsym=USD&limit=20&aggregate=3&e=CCCAGG";
+  "https://min-api.cryptocompare.com/data/histoday?fsym=GAS&tsym=USD&limit=15&aggregate=3&e=CCCAGG";
 
 class Charts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      price: [],
+      neoData: [],
       gasData: []
     };
   }
 
   async componentDidMount() {
-    try {
-      await this.getGasData();
-      let req = await axios.get(url);
-      let data = req.data.Data;
-      this.setState({ price: data });
-    } catch (error) {
-      console.log(error);
-    }
+    await this.getGasData();
+    await this.getNeoData();
   }
 
   async getGasData() {
@@ -41,12 +35,23 @@ class Charts extends Component {
     }
   }
 
+  async getNeoData() {
+    try {
+      let req = await axios.get(neoApi);
+      let data = req.data.Data;
+      this.setState({ neoData: data });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   render() {
-    const prices = _.map(this.state.price, "close");
-    const days = _.map(this.state.price, "time");
+    const neoPrices = _.map(this.state.neoData, "close");
+    const neoDays = _.map(this.state.neoData, "time");
 
     const gasPrices = _.map(this.state.gasData, "close");
     const gasDays = _.map(this.state.gasData, "time");
+
     const data = canvas => {
       let ctx = canvas.getContext("2d");
       let gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
@@ -67,12 +72,12 @@ class Charts extends Component {
       gasGradientFill.addColorStop(1, "rgba(144,147,254, 0)");
 
       return {
-        labels: days,
+        labels: neoDays,
         datasets: [
           {
             label: "Neo Price",
             fill: true,
-            lineTension: 0.1,
+            lineTension: 0.5,
             backgroundColor: gradientFill,
             borderColor: gradientStroke,
             borderCapStyle: "butt",
@@ -88,12 +93,12 @@ class Charts extends Component {
             pointHoverBorderColor: gradientStroke,
             pointHitRadius: 10,
             pointRadius: 3,
-            data: prices
+            data: neoPrices
           },
           {
             label: "Gas Price",
             fill: true,
-            lineTension: 0.1,
+            lineTension: 0.5,
             backgroundColor: gasGradientFill,
             borderColor: gasGradientStroke,
             borderCapStyle: "butt",
