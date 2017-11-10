@@ -6,10 +6,10 @@ import axios from "axios";
 import _ from "lodash";
 
 const neoApi =
-  "https://min-api.cryptocompare.com/data/histoday?fsym=NEO&tsym=USD&limit=15&aggregate=3&e=CCCAGG";
+  "https://min-api.cryptocompare.com/data/histoday?fsym=NEO&tsym=USD&limit=21&aggregate=3&e=CCCAGG";
 
 const gasApi =
-  "https://min-api.cryptocompare.com/data/histoday?fsym=GAS&tsym=USD&limit=15&aggregate=3&e=CCCAGG";
+  "https://min-api.cryptocompare.com/data/histoday?fsym=GAS&tsym=USD&limit=21&aggregate=3&e=CCCAGG";
 
 class Charts extends Component {
   constructor(props) {
@@ -58,7 +58,7 @@ class Charts extends Component {
       gradientStroke.addColorStop(0, "#7ED321");
       gradientStroke.addColorStop(1, "#7ED321");
 
-      let gradientFill = ctx.createLinearGradient(0, 0, 0, 380);
+      let gradientFill = ctx.createLinearGradient(0, 0, 0, 240);
       gradientFill.addColorStop(0, "rgba(68,147,33,0.8)");
       gradientFill.addColorStop(1, "rgba(68,147,33,0)");
       const gradient = ctx.createLinearGradient(0, 0, 100, 0);
@@ -67,36 +67,16 @@ class Charts extends Component {
       gasGradientStroke.addColorStop(0, "#9013FE");
       gasGradientStroke.addColorStop(1, "#9013FE");
 
-      let gasGradientFill = ctx.createLinearGradient(0, 0, 0, 380);
+      let gasGradientFill = ctx.createLinearGradient(0, 0, 0, 240);
       gasGradientFill.addColorStop(0, "rgba(144,147,254, 1)");
       gasGradientFill.addColorStop(1, "rgba(144,147,254, 0)");
 
       return {
         labels: neoDays,
         datasets: [
+
           {
-            label: "Neo Price",
-            fill: true,
-            lineTension: 0.5,
-            backgroundColor: gradientFill,
-            borderColor: gradientStroke,
-            borderCapStyle: "butt",
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: "miter",
-            pointBorderWidth: 5,
-            pointHoverRadius: 10,
-            pointHoverBorderWidth: 1,
-            pointBorderColor: gradientStroke,
-            pointBackgroundColor: gradientStroke,
-            pointHoverBackgroundColor: gradientStroke,
-            pointHoverBorderColor: gradientStroke,
-            pointHitRadius: 10,
-            pointRadius: 3,
-            data: neoPrices
-          },
-          {
-            label: "Gas Price",
+            label: "Gas",
             fill: true,
             lineTension: 0.5,
             backgroundColor: gasGradientFill,
@@ -106,17 +86,37 @@ class Charts extends Component {
             borderDashOffset: 0.0,
             borderJoinStyle: "miter",
             pointBorderWidth: 5,
-            pointHoverRadius: 10,
-            pointHoverBorderWidth: 1,
+            pointHoverRadius: 0,
+            pointHoverBorderWidth: 0,
             pointBorderColor: gasGradientStroke,
             pointBackgroundColor: gasGradientStroke,
             pointHoverBackgroundColor: gasGradientStroke,
             pointHoverBorderColor: gasGradientStroke,
-            pointHitRadius: 10,
-            pointRadius: 3,
+            pointHitRadius: 0,
+            pointRadius: 0,
             data: gasPrices
-          }
-        ]
+          },
+          {
+            label: "Neo",
+            fill: true,
+            lineTension: 0.5,
+            backgroundColor: gradientFill,
+            borderColor: gradientStroke,
+            borderCapStyle: "butt",
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: "miter",
+            pointBorderWidth: 5,
+            pointHoverRadius: 0,
+            pointHoverBorderWidth: 0,
+            pointBorderColor: gradientStroke,
+            pointBackgroundColor: gradientStroke,
+            pointHoverBackgroundColor: gradientStroke,
+            pointHoverBorderColor: gradientStroke,
+            pointHitRadius: 0,
+            pointRadius: 0,
+            data: neoPrices
+          }]
       };
     };
     return (
