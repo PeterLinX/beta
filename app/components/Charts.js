@@ -26,29 +26,33 @@ ws.onmessage = function(msg) {
 };
 
 const neoApi =
-  "https://min-api.cryptocompare.com/data/histohour?fsym=NEO&tsym=USD&limit=120&aggregate=3&e=CCCAGG";
+  "https://min-api.cryptocompare.com/data/histohour?fsym=NEO&tsym=USD&limit=168&aggregate=3&e=CCCAGG";
 
 const gasApi =
-  "https://min-api.cryptocompare.com/data/histohour?fsym=GAS&tsym=USD&limit=120&aggregate=3&e=CCCAGG";
+  "https://min-api.cryptocompare.com/data/histohour?fsym=GAS&tsym=USD&limit=168&aggregate=3&e=CCCAGG";
 
 const ltcApi =
-    "https://min-api.cryptocompare.com/data/histohour?fsym=LTC&tsym=USD&limit=120&aggregate=3&e=CCCAGG";
+    "https://min-api.cryptocompare.com/data/histohour?fsym=LTC&tsym=USD&limit=168&aggregate=3&e=CCCAGG";
 
 const btcApi =
-    "https://min-api.cryptocompare.com/data/histohour?fsym=BTC&tsym=USD&limit=120&aggregate=3&e=CCCAGG";
+    "https://min-api.cryptocompare.com/data/histohour?fsym=BTC&tsym=USD&limit=168&aggregate=3&e=CCCAGG";
 
 const dashApi =
-    "https://min-api.cryptocompare.com/data/histohour?fsym=DASH&tsym=USD&limit=120&aggregate=3&e=CCCAGG";
+    "https://min-api.cryptocompare.com/data/histohour?fsym=DASH&tsym=USD&limit=168&aggregate=3&e=CCCAGG";
 
 const ethApi =
-    "https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=120&aggregate=3&e=CCCAGG";
+    "https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=168&aggregate=3&e=CCCAGG";
 
 class Charts extends Component {
   constructor(props) {
     super(props);
     this.state = {
       neoData: [],
-      gasData: []
+      gasData: [],
+      btcData: [],
+      dashData: [],
+      ltcData: [],
+      ethData: []
     };
   }
 
@@ -140,6 +144,7 @@ class Charts extends Component {
 
     const gasPrices = _.map(this.state.gasData, "close");
     const gasDays = _.map(this.state.gasData, "time");
+
 
     const data = canvas => {
       let ctx = canvas.getContext("2d");
@@ -341,7 +346,14 @@ class Charts extends Component {
             <div className="col-xs-7"><ul id="neo-price"></ul>
             </div>
             <hr />
-              <Line data={data} />
+              <Line
+              data={data}
+              options={{
+                  legend: { position: 'bottom' },
+                  scales: { xAxes: [{ type: 'time',
+                  day: { unit: 'day', displayFormats: { day: 'MMM D' } } }] }
+	               }}
+              />
             </div>
           </div>
         </div>
