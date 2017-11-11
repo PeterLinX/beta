@@ -26,22 +26,22 @@ ws.onmessage = function(msg) {
 };
 
 const neoApi =
-  "https://min-api.cryptocompare.com/data/histohour?fsym=NEO&tsym=USD&limit=168&aggregate=3&e=CCCAGG";
+  "https://min-api.cryptocompare.com/data/histohour?fsym=NEO&tsym=USD&limit=120&aggregate=3&e=CCCAGG";
 
 const gasApi =
-  "https://min-api.cryptocompare.com/data/histohour?fsym=GAS&tsym=USD&limit=168&aggregate=3&e=CCCAGG";
+  "https://min-api.cryptocompare.com/data/histohour?fsym=GAS&tsym=USD&limit=120&aggregate=3&e=CCCAGG";
 
 const ltcApi =
-    "https://min-api.cryptocompare.com/data/histohour?fsym=LTC&tsym=USD&limit=168&aggregate=3&e=CCCAGG";
+    "https://min-api.cryptocompare.com/data/histohour?fsym=LTC&tsym=USD&limit=120&aggregate=3&e=CCCAGG";
 
 const btcApi =
-    "https://min-api.cryptocompare.com/data/histohour?fsym=BTC&tsym=USD&limit=168&aggregate=3&e=CCCAGG";
+    "https://min-api.cryptocompare.com/data/histohour?fsym=BTC&tsym=USD&limit=120&aggregate=3&e=CCCAGG";
 
 const dashApi =
-    "https://min-api.cryptocompare.com/data/histohour?fsym=DASH&tsym=USD&limit=168&aggregate=3&e=CCCAGG";
+    "https://min-api.cryptocompare.com/data/histohour?fsym=DASH&tsym=USD&limit=120&aggregate=3&e=CCCAGG";
 
 const ethApi =
-    "https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=168&aggregate=3&e=CCCAGG";
+    "https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=120&aggregate=3&e=CCCAGG";
 
 class Charts extends Component {
   constructor(props) {
@@ -351,7 +351,7 @@ class Charts extends Component {
               options={{
                   legend: { position: 'bottom' },
                   scales: { xAxes: [{ type: 'time',
-                  day: { unit: 'day', displayFormats: { day: 'MMM D' } } }] }
+                  time: { displayFormats: { hour: 'MMM D' } } }] }
 	               }}
               />
             </div>
