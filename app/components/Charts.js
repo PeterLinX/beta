@@ -128,22 +128,22 @@ class Charts extends Component {
 
   render() {
     const neoPrices = _.map(this.state.neoData, "close");
-    const neoDays = _.map(this.state.neoData, "time");
+    const neoHours = _.map(this.state.neoData, "time");
 
     const ltcPrices = _.map(this.state.ltcData, "close");
-    const ltcDays = _.map(this.state.ltcData, "time");
+    const ltcHours = _.map(this.state.ltcData, "time");
 
     const btcPrices = _.map(this.state.btcData, "close");
-    const btcDays = _.map(this.state.btcData, "time");
+    const btcHours = _.map(this.state.btcData, "time");
 
     const dashPrices = _.map(this.state.dashData, "close");
-    const dashDays = _.map(this.state.dashData, "time");
+    const dashHours = _.map(this.state.dashData, "time");
 
     const ethPrices = _.map(this.state.ethData, "close");
-    const ethDays = _.map(this.state.ethData, "time");
+    const ethHours = _.map(this.state.ethData, "time");
 
     const gasPrices = _.map(this.state.gasData, "close");
-    const gasDays = _.map(this.state.gasData, "time");
+    const gasHours = _.map(this.state.gasData, "time");
 
 
     const data = canvas => {
@@ -199,7 +199,7 @@ class Charts extends Component {
 
 
       return {
-        labels: neoDays,
+        labels: neoHours,
         datasets: [
 
           {
@@ -347,11 +347,21 @@ class Charts extends Component {
             </div>
             <hr />
               <Line
-              data={data}
+              data={data} width={600} height={300}
               options={{
-                  legend: { position: 'bottom' },
-                  scales: { xAxes: [{ type: 'time',
-                  time: { displayFormats: { hour: 'MMM D' } } }] }
+                maintainAspectRatio: true,
+                layout: { padding: { left: 0, right: 0, top: 0, bottom: 0 } },
+                scales: {
+                  xAxes: [{
+                    type: 'time',
+                    unit: 'hour',
+                    time: { displayFormats: { day: 'MMM D' } },
+                    gridLines:
+                    { color: "rgba(255, 255, 255, 0.02)", } }],
+                  yAxes: [{ gridLines:
+                    { color: "rgba(255, 255, 255, 0.02)", } }] },
+                  legend: { position: 'bottom', padding: 10 },
+
 	               }}
               />
             </div>
