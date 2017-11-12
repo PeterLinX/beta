@@ -26,22 +26,22 @@ ws.onmessage = function(msg) {
 };
 
 const neoApi =
-  "https://min-api.cryptocompare.com/data/histohour?fsym=NEO&tsym=USD&limit=120&aggregate=3&e=CCCAGG";
+  "https://min-api.cryptocompare.com/data/histohour?fsym=NEO&tsym=USD&limit=180&aggregate=3&e=CCCAGG";
 
 const gasApi =
-  "https://min-api.cryptocompare.com/data/histohour?fsym=GAS&tsym=USD&limit=120&aggregate=3&e=CCCAGG";
+  "https://min-api.cryptocompare.com/data/histohour?fsym=GAS&tsym=USD&limit=180&aggregate=3&e=CCCAGG";
 
 const ltcApi =
-    "https://min-api.cryptocompare.com/data/histohour?fsym=LTC&tsym=USD&limit=120&aggregate=3&e=CCCAGG";
+    "https://min-api.cryptocompare.com/data/histohour?fsym=LTC&tsym=USD&limit=180&aggregate=3&e=CCCAGG";
 
 const btcApi =
-    "https://min-api.cryptocompare.com/data/histohour?fsym=BTC&tsym=USD&limit=120&aggregate=3&e=CCCAGG";
+    "https://min-api.cryptocompare.com/data/histohour?fsym=BTC&tsym=USD&limit=180&aggregate=3&e=CCCAGG";
 
 const dashApi =
-    "https://min-api.cryptocompare.com/data/histohour?fsym=DASH&tsym=USD&limit=120&aggregate=3&e=CCCAGG";
+    "https://min-api.cryptocompare.com/data/histohour?fsym=DASH&tsym=USD&limit=180&aggregate=3&e=CCCAGG";
 
 const ethApi =
-    "https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=120&aggregate=3&e=CCCAGG";
+    "https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=180&aggregate=3&e=CCCAGG";
 
 class Charts extends Component {
   constructor(props) {
@@ -199,7 +199,7 @@ class Charts extends Component {
 
 
       return {
-        labels: neoHours,
+        labels: gasHours,
         datasets: [
 
           {
@@ -212,14 +212,14 @@ class Charts extends Component {
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: "miter",
-            pointBorderWidth: 5,
-            pointHoverRadius: 5,
+            pointBorderWidth: 3,
+            pointHoverRadius: 3,
             pointHoverBorderWidth: 0,
             pointBorderColor: gasGradientStroke,
             pointBackgroundColor: gasGradientStroke,
             pointHoverBackgroundColor: gasGradientStroke,
             pointHoverBorderColor: gasGradientStroke,
-            pointHitRadius: 5,
+            pointHitRadius: 3,
             pointRadius: 0,
             data: gasPrices
           },
@@ -233,14 +233,14 @@ class Charts extends Component {
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: "miter",
-            pointBorderWidth: 5,
-            pointHoverRadius: 5,
+            pointBorderWidth: 3,
+            pointHoverRadius: 3,
             pointHoverBorderWidth: 0,
             pointBorderColor: gradientStroke,
             pointBackgroundColor: gradientStroke,
             pointHoverBackgroundColor: gradientStroke,
             pointHoverBorderColor: gradientStroke,
-            pointHitRadius: 5,
+            pointHitRadius: 3,
             pointRadius: 0,
             data: neoPrices
           },
@@ -255,14 +255,14 @@ class Charts extends Component {
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: "miter",
-            pointBorderWidth: 5,
-            pointHoverRadius: 5,
+            pointBorderWidth: 3,
+            pointHoverRadius: 3,
             pointHoverBorderWidth: 0,
             pointBorderColor: btcGradientStroke,
             pointBackgroundColor: btcGradientStroke,
             pointHoverBackgroundColor: btcGradientStroke,
             pointHoverBorderColor: btcGradientStroke,
-            pointHitRadius: 5,
+            pointHitRadius: 3,
             pointRadius: 0,
             data: btcPrices
           },
@@ -277,14 +277,14 @@ class Charts extends Component {
           borderDash: [],
           borderDashOffset: 0.0,
           borderJoinStyle: "miter",
-          pointBorderWidth: 5,
-          pointHoverRadius: 5,
+          pointBorderWidth: 3,
+          pointHoverRadius: 3,
           pointHoverBorderWidth: 0,
           pointBorderColor: dashGradientStroke,
           pointBackgroundColor: dashGradientStroke,
           pointHoverBackgroundColor: dashGradientStroke,
           pointHoverBorderColor: dashGradientStroke,
-          pointHitRadius: 5,
+          pointHitRadius: 3,
           pointRadius: 0,
           data: dashPrices
         },
@@ -299,14 +299,14 @@ class Charts extends Component {
         borderDash: [],
         borderDashOffset: 0.0,
         borderJoinStyle: "miter",
-        pointBorderWidth: 5,
-        pointHoverRadius: 5,
+        pointBorderWidth: 3,
+        pointHoverRadius: 3,
         pointHoverBorderWidth: 0,
         pointBorderColor: ethGradientStroke,
         pointBackgroundColor: ethGradientStroke,
         pointHoverBackgroundColor: ethGradientStroke,
         pointHoverBorderColor: ethGradientStroke,
-        pointHitRadius: 5,
+        pointHitRadius: 3,
         pointRadius: 0,
         data: ethPrices
       },
@@ -321,14 +321,14 @@ class Charts extends Component {
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: "miter",
-            pointBorderWidth: 5,
-            pointHoverRadius: 5,
+            pointBorderWidth: 3,
+            pointHoverRadius: 3,
             pointHoverBorderWidth: 0,
             pointBorderColor: ltcGradientStroke,
             pointBackgroundColor: ltcGradientStroke,
             pointHoverBackgroundColor: ltcGradientStroke,
             pointHoverBorderColor: ltcGradientStroke,
-            pointHitRadius: 5,
+            pointHitRadius: 3,
             pointRadius: 0,
             data: ltcPrices
           }
@@ -354,10 +354,10 @@ class Charts extends Component {
                 scales: {
                   xAxes: [{
                     type: 'time',
-                    unit: 'hour',
-                    time: { displayFormats: { day: 'MMM D' } },
+                    time: { unit: 'hour',
+                    displayFormats: { day: 'MMM D', } },
                     gridLines:
-                    { color: "rgba(255, 255, 255, 0.02)", } }],
+                    { color: "rgba(255, 255, 255, 0.03)", } }],
                   yAxes: [{ gridLines:
                     { color: "rgba(255, 255, 255, 0.02)", } }] },
                   legend: { position: 'bottom', padding: 10 },
