@@ -25,23 +25,25 @@ ws.onmessage = function(msg) {
   }
 };
 
+var currentTime = Date.now();
+
 const neoApi =
-  "https://min-api.cryptocompare.com/data/histohour?fsym=NEO&tsym=USD&limit=180&aggregate=3&e=CCCAGG";
+  "https://min-api.cryptocompare.com/data/histohour?fsym=NEO&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
 
 const gasApi =
-  "https://min-api.cryptocompare.com/data/histohour?fsym=GAS&tsym=USD&limit=180&aggregate=3&e=CCCAGG";
+  "https://min-api.cryptocompare.com/data/histohour?fsym=GAS&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
 
 const ltcApi =
-    "https://min-api.cryptocompare.com/data/histohour?fsym=LTC&tsym=USD&limit=180&aggregate=3&e=CCCAGG";
+    "https://min-api.cryptocompare.com/data/histohour?fsym=LTC&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
 
 const btcApi =
-    "https://min-api.cryptocompare.com/data/histohour?fsym=BTC&tsym=USD&limit=180&aggregate=3&e=CCCAGG";
+    "https://min-api.cryptocompare.com/data/histohour?fsym=BTC&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
 
 const dashApi =
-    "https://min-api.cryptocompare.com/data/histohour?fsym=DASH&tsym=USD&limit=180&aggregate=3&e=CCCAGG";
+    "https://min-api.cryptocompare.com/data/histohour?fsym=DASH&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
 
 const ethApi =
-    "https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=180&aggregate=3&e=CCCAGG";
+    "https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
 
 class Charts extends Component {
   constructor(props) {
@@ -199,7 +201,7 @@ class Charts extends Component {
 
 
       return {
-        labels: gasHours,
+        labels: neoHours,
         datasets: [
 
           {
@@ -354,13 +356,30 @@ class Charts extends Component {
                 scales: {
                   xAxes: [{
                     type: 'time',
-                    time: { unit: 'hour',
-                    displayFormats: { day: 'MMM D', } },
+                    position: 'bottom',
+        id: 'x-axis-0',
+        categoryPercentage: 0.8,
+        barPercentage: 0.8,
+        time: {
+          displayFormats: {
+            millisecond: 'SSS [ms]',
+            second: 'h:mm:ss a',
+            minute: 'h:mm:ss a',
+            hour: 'hA',
+            day: 'll',
+            week: 'll',
+            month: 'MMM YYYY',
+            quarter: '[Q]Q - YYYY',
+            year: 'YYYY'
+          },
+          tooltipFormat: 'hA - D MMM YYYY',
+          unit: 'hour'
+        },
                     gridLines:
                     { color: "rgba(255, 255, 255, 0.03)", } }],
                   yAxes: [{ gridLines:
                     { color: "rgba(255, 255, 255, 0.02)", } }] },
-                  legend: { position: 'bottom', padding: 10 },
+                  legend: { position: 'bottom' },
 
 	               }}
               />

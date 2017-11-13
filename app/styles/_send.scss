@@ -276,16 +276,20 @@ webview {
 
 #neo-price {
   -webkit-padding-start: 0px;
-      font-size: 15px;
+      font-size: 13px;
       margin: 17px 0px 0px 0px;
       display: block;
       text-align: center;
 }
 
 #neo-price li {
-  width: 33%;
+  width: 32%;
   float: left;
-  padding: 0px;
+  padding: 4px;
+  background: #212121;
+  margin-right: 1%;
+  border-radius: 4px;
+  margin-top: -7px;
 }
 
 #gas-price li {
