@@ -248,6 +248,7 @@ class Send extends Component {
                     className={formClass}
                     type="number"
                     id="sendAmount"
+                    min="1"
                     onChange={convertFunction}
                     placeholder="Enter amount to send"
                     ref={node => {
