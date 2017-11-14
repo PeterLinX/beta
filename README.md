@@ -4,9 +4,6 @@ Morpheus is an all-in-one client side desktop wallet that allows you to send and
 
 ## License
 
-   Morpheus is a blockchain asset manager for NEO and other cryptocurrencies.
-  Copyright (C) 2017 Blockchain Services Limited (Trinidad and Tobago).
-
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -21,9 +18,9 @@ Morpheus is an all-in-one client side desktop wallet that allows you to send and
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     Morpheus  Copyright (C) 2017 Blockchain Services Limited (Trinidad and Tobago).
-    This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
-    This is free software, and you are welcome to redistribute it
-    under certain conditions; type `show c' for details.
+    This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you
+    are welcome to redistribute it
+    under certain conditions.
 
 
 
@@ -58,3 +55,6 @@ Execute these commands in the project's root directory:
 _____
 
 *(This document may change without notice.)*
+
+Morpheus is a blockchain asset manager for NEO and other cryptocurrencies.
+Copyright (C) 2017 Blockchain Services Limited (Trinidad and Tobago).
