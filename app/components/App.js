@@ -34,7 +34,7 @@ const StatusMessage = ({ status, statusMessage }) => {
     message = (
       <Modal
         isOpen={true}
-        closeTimeoutMS={200}
+        closeTimeoutMS={80}
         style={styles}
         contentLabel="Modal"
       >
@@ -49,7 +49,7 @@ const StatusMessage = ({ status, statusMessage }) => {
     message = (
       <Modal
         isOpen={true}
-        closeTimeoutMS={200}
+        closeTimeoutMS={80}
         style={styles}
         contentLabel="Modal"
       >
