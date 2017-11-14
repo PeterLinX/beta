@@ -355,7 +355,6 @@ class Charts extends Component {
             <option
               defaultValue
               selected="selected"
-              disabled="disabled"
             >
             USD
             </option>
