@@ -1,75 +1,82 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import SplitPane from "react-split-pane";
+import Modal from "react-modal";
 
-// import { Link } from 'react-router';
-
-const Modal = props => {
-  return (
-    <div
-      className="modal fade"
-      style={{ zIndex: 10 }}
-      tabIndex="-1"
-      role="dialog"
-    >
-      <div className="modal-dialog" role="document">
-        <div className="modal-content">
-          <div className="modal-header">
-            <button
-              type="button"
-              className="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <h4 className="modal-title">error: {props.error}</h4>
-          </div>
-          <div className="modal-body">{props.statusMessage}</div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-default"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" className="btn btn-primary">
-              Save changes
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+const customStyles = {
+  overlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "none"
+  },
+  content: {
+    margin: "50px auto 0",
+    width: "720px",
+    padding: "30px 30px 30px 30px",
+    border: "thick solid #222",
+    background: "rgba(12, 12, 14, 0.85)",
+    borderRadius: "20px",
+    boxShadow: "0px 10px 44px rgba(0, 0, 0, 0.45)"
+  }
 };
 
 const StatusMessage = ({ status, statusMessage }) => {
   let message = null;
   if (status === true) {
     console.log(statusMessage);
-    // message = <div className="statusMessage success">{statusMessage}</div>;
+    message = (
+      <Modal
+        isOpen={true}
+        closeTimeoutMS={6000000}
+        style={customStyles}
+        contentLabel="Modal"
+      >
+        <h1>{statusMessage}</h1>
+      </Modal>
+    );
   } else if (status === false) {
     console.log(statusMessage);
-    // message = <div className="statusMessage fail">{statusMessage}</div>;
+    message = (
+      <Modal
+        isOpen={true}
+        closeTimeoutMS={6000000}
+        style={customStyles}
+        contentLabel="Modal"
+      >
+        <h1>{statusMessage}</h1>
+      </Modal>
+    );
   }
   return message;
 };
 
-let App = ({ children, status, statusMessage }) => {
-  let statusPaneSize;
-  if (status !== null) {
-    statusPaneSize = "30px";
-  } else {
-    statusPaneSize = "0px";
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      modalIsOpen: false
+    };
+
+    this.closeModal = this.closeModal.bind(this);
   }
-  return (
-    <div id="pageWrapper">
-      <div>{children}</div>
-      <StatusMessage status={status} statusMessage={statusMessage} />
-    </div>
-  );
-};
+  closeModal() {
+    this.setState({ modalIsOpen: false });
+  }
+  render() {
+    return (
+      <div id="pageWrapper">
+        <StatusMessage
+          status={this.props.status}
+          statusMessage={this.props.statusMessage}
+        />
+        <div>{this.props.children}</div>
+      </div>
+    );
+  }
+}
 
 const mapStateToProps = state => ({
   status: state.transactions.success,
