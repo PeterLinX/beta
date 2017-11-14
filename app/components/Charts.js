@@ -372,7 +372,7 @@ class Charts extends Component {
             AUD
             </option>
             <option>
-            AUD
+            CAD
             </option>
           </select>
           </div>
