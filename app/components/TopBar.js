@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Claim from "./Claim.js";
 import axios from "axios";
+import Claim from "./Claim.js";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import { resetPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
-import ReactTooltip from "react-tooltip";
 
 // force sync with balance data
 const refreshBalance = (dispatch, net, address) => {

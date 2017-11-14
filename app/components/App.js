@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import SplitPane from "react-split-pane";
 import Modal from "react-modal";
+import Spinner from "react-spinkit";
 
 const customStyles = {
   overlay: {
@@ -14,11 +15,16 @@ const customStyles = {
   },
   content: {
     margin: "50px auto 0",
-    width: "720px",
     padding: "30px 30px 30px 30px",
     border: "thick solid #222",
-    background: "rgba(12, 12, 14, 0.85)",
+    background: "rgba(12, 12, 14, 1)",
     borderRadius: "20px",
+    top: "100px",
+    height: 261,
+    width: 559,
+    left: "100px",
+    right: "100px",
+    bottom: "100px",
     boxShadow: "0px 10px 44px rgba(0, 0, 0, 0.45)"
   }
 };
@@ -26,27 +32,37 @@ const customStyles = {
 const StatusMessage = ({ status, statusMessage }) => {
   let message = null;
   if (status === true) {
-    console.log(statusMessage);
     message = (
       <Modal
         isOpen={true}
-        closeTimeoutMS={6000000}
+        closeTimeoutMS={200}
         style={customStyles}
         contentLabel="Modal"
       >
-        <h1>{statusMessage}</h1>
+        <div>
+          <div className="center">
+            <p>{statusMessage}</p>
+          </div>
+
+          <div className="center ">
+            <Spinner name="line-spin-fade-loader" color="orange" />
+          </div>
+        </div>
       </Modal>
     );
   } else if (status === false) {
-    console.log(statusMessage);
     message = (
       <Modal
         isOpen={true}
-        closeTimeoutMS={6000000}
+        closeTimeoutMS={200}
         style={customStyles}
         contentLabel="Modal"
       >
-        <h1>{statusMessage}</h1>
+        <div>
+          <div className="center">
+            <p>{statusMessage}</p>
+          </div>
+        </div>
       </Modal>
     );
   }
