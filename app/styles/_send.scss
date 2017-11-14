@@ -277,7 +277,7 @@ webview {
 #neo-price {
   -webkit-padding-start: 0px;
       font-size: 13px;
-      margin: 17px 0px 0px 0px;
+      margin: 10px 0px 0px 0px;
       display: block;
       text-align: center;
 }
@@ -432,4 +432,18 @@ max-width: 715px;
   -webkit-transform: none;
   transform: none;
   }
+}
+
+.neo-dash-price {
+  font-size: 24px;
+  margin: 5px 0px 20px 0px;
+}
+
+#dash-price-select {
+  width: 100%;
+    background: #333;
+    height: 30px;
+    font-size: 16px;
+    border: 1px solid #555;
+    margin-top: 0px;
 }
