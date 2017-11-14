@@ -53,8 +53,6 @@ const doGasClaim = (dispatch, net, wif, selfAddress, ans) => {
 
 class Claim extends Component {
   componentDidUpdate = () => {
-    // if we requested a claim and new claims are available, do claim
-    console.log(this.props);
     if (
       this.props.claimRequest === true &&
       this.props.claimWasUpdated == true
@@ -81,21 +79,24 @@ class Claim extends Component {
       );
     if (this.props.disableClaimButton === false) {
       renderButton = (
-          <div id="gas-button" onClick={doClaim}>
-            <span className="gas-claim">
-              Claim Gas<br />
-              {this.props.claimAmount}
-            </span>
-          </div>
+        <div id="gas-button" onClick={doClaim}>
+          <span className="gas-claim">
+            Claim Gas<br />
+            {this.props.claimAmount}
+          </span>
+        </div>
       );
     } else {
       renderButton = (
         <div>
-            <div id="gas-button"  data-tip data-for="claimTip" className="disabled pulse">
-              <span className="gas-claim">
-                Claiming Gas...
-              </span>
-            </div>
+          <div
+            id="gas-button"
+            data-tip
+            data-for="claimTip"
+            className="disabled pulse"
+          >
+            <span className="gas-claim">Claiming Gas...</span>
+          </div>
           <ReactTooltip
             className="solidTip"
             id="claimTip"
