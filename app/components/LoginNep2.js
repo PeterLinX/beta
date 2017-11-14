@@ -15,7 +15,7 @@ let passphrase_input;
 
 const onWifChange = (dispatch, history) => {
   if (passphrase_input.value.length < 4) {
-    dispatch(sendEvent(false, "Passphrase too short"));
+    dispatch(sendEvent(false, "Wrong password"));
     setTimeout(() => dispatch(clearTransactionEvent()), 5000);
     return;
   }
@@ -31,7 +31,7 @@ const onWifChange = (dispatch, history) => {
         dispatch(clearTransactionEvent());
       })
       .catch(() => {
-        dispatch(sendEvent(false, "Wrong passphrase or invalid encrypted key"));
+        dispatch(sendEvent(false, "Wrong password or invalid encrypted key"));
         setTimeout(() => dispatch(clearTransactionEvent()), 5000);
       });
   }, 500);

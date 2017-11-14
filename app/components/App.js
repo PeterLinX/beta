@@ -10,10 +10,10 @@ const styles = {
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "none"
+    backgroundColor: "rgba(0, 0, 0, 0.75)"
   },
   content: {
-    margin: "50px auto 0",
+    margin: "100px auto 0",
     padding: "30px 30px 30px 30px",
     border: "thick solid #222",
     background: "rgba(12, 12, 14, 1)",
@@ -34,13 +34,13 @@ const StatusMessage = ({ status, statusMessage }) => {
     message = (
       <Modal
         isOpen={true}
-        closeTimeoutMS={80}
+        closeTimeoutMS={60}
         style={styles}
         contentLabel="Modal"
       >
         <div>
-          <div className="center">
-            <h3>{statusMessage}</h3>
+          <div className="center modal-alert">
+            <strong>{statusMessage}</strong>
           </div>
         </div>
       </Modal>
@@ -49,13 +49,13 @@ const StatusMessage = ({ status, statusMessage }) => {
     message = (
       <Modal
         isOpen={true}
-        closeTimeoutMS={80}
+        closeTimeoutMS={60}
         style={styles}
         contentLabel="Modal"
       >
         <div>
-          <div className="center">
-            <h3>{statusMessage}</h3>
+          <div className="center modal-alert">
+            <strong>{statusMessage}</strong>
           </div>
         </div>
       </Modal>

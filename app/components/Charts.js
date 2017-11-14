@@ -391,8 +391,8 @@ class Charts extends Component {
                         type: "time",
                         position: "bottom",
                         id: "x-axis-0",
-                        categoryPercentage: 0.8,
-                        barPercentage: 0.8,
+                        categoryPercentage: 0.5,
+                        barPercentage: 0.5,
                         gridLines: { color: "rgba(255, 255, 255, 0.03)" }
                       }
                     ],

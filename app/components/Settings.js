@@ -231,20 +231,22 @@ class Settings extends Component {
               </div>
             </div>
             <div className="col-xs-2 center">
+            <Link to="/">
               <div className="dash-icon-bar">
                 <div className="icon-border">
                   <span className="glyphicon glyphicon-remove" />
                 </div>
                 Log Out of Address
               </div>
+              </Link>
             </div>
-            <div className="col-xs-2 center">
+            <div className="col-xs-2 center warning">
               <div
-                className="dash-icon-bar com-soon"
+                className="dash-icon-bar warning"
                 onClick={() => deleteWallet(this.props.dispatch, key)}
               >
-                <div className="icon-border">
-                  <span className="glyphicon glyphicon-trash" />
+                <div className="icon-border warning">
+                  <span className="glyphicon glyphicon-trash warning" />
                 </div>
                 Remove Address
               </div>
