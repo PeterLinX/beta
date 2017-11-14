@@ -4,14 +4,17 @@ import ReactTooltip from "react-tooltip";
 import { Line } from "react-chartjs-2";
 import axios from "axios";
 import _ from "lodash";
+import moment from "moment";
 import neoLogo from "../images/neo.png";
 
 // In a new Javascript file create a variable for new websocket
-var ws = new WebSocket('wss://api.bitfinex.com/ws');
+var ws = new WebSocket("wss://api.bitfinex.com/ws");
 
 // Create function to send on open
 ws.onopen = function() {
-  ws.send(JSON.stringify({"event":"subscribe", "channel":"ticker", "pair":"NEOUSD"}));
+  ws.send(
+    JSON.stringify({ event: "subscribe", channel: "ticker", pair: "NEOUSD" })
+  );
 };
 
 // Tell function what to do when message is received and log messages to "neo-price" div
@@ -20,8 +23,15 @@ ws.onmessage = function(msg) {
   var response = JSON.parse(msg.data);
   // save hb variable from bitfinex
   var hb = response[1];
-  if(hb != "hb") {
-    document.getElementById("neo-price").innerHTML = "<li>ASK: $" + response[3] + "</li><li> LAST: $" + response[7] + "</li><li> BID: $" + response[1] + "</li>";
+  if (hb != "hb") {
+    document.getElementById("neo-price").innerHTML =
+      "<li>ASK: $" +
+      response[3] +
+      "</li><li> LAST: $" +
+      response[7] +
+      "</li><li> BID: $" +
+      response[1] +
+      "</li>";
   }
 };
 
@@ -34,16 +44,16 @@ const gasApi =
   "https://min-api.cryptocompare.com/data/histohour?fsym=GAS&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
 
 const ltcApi =
-    "https://min-api.cryptocompare.com/data/histohour?fsym=LTC&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
+  "https://min-api.cryptocompare.com/data/histohour?fsym=LTC&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
 
 const btcApi =
-    "https://min-api.cryptocompare.com/data/histohour?fsym=BTC&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
+  "https://min-api.cryptocompare.com/data/histohour?fsym=BTC&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
 
 const dashApi =
-    "https://min-api.cryptocompare.com/data/histohour?fsym=DASH&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
+  "https://min-api.cryptocompare.com/data/histohour?fsym=DASH&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
 
 const ethApi =
-    "https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
+  "https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
 
 class Charts extends Component {
   constructor(props) {
@@ -127,26 +137,17 @@ class Charts extends Component {
     }
   }
 
-
   render() {
     const neoPrices = _.map(this.state.neoData, "close");
     const neoHours = _.map(this.state.neoData, "time");
 
+    const convertedTime = neoHours.map(val => moment.unix(val).format("LLL"));
+
     const ltcPrices = _.map(this.state.ltcData, "close");
-    const ltcHours = _.map(this.state.ltcData, "time");
-
     const btcPrices = _.map(this.state.btcData, "close");
-    const btcHours = _.map(this.state.btcData, "time");
-
     const dashPrices = _.map(this.state.dashData, "close");
-    const dashHours = _.map(this.state.dashData, "time");
-
     const ethPrices = _.map(this.state.ethData, "close");
-    const ethHours = _.map(this.state.ethData, "time");
-
     const gasPrices = _.map(this.state.gasData, "close");
-    const gasHours = _.map(this.state.gasData, "time");
-
 
     const data = canvas => {
       let ctx = canvas.getContext("2d");
@@ -199,11 +200,9 @@ class Charts extends Component {
       dashGradientFill.addColorStop(0, "rgba(0,90,255, 0.5)");
       dashGradientFill.addColorStop(1, "rgba(0,90,255, 0)");
 
-
       return {
-        labels: neoHours,
+        labels: convertedTime,
         datasets: [
-
           {
             label: "GAS",
             fill: true,
@@ -269,49 +268,49 @@ class Charts extends Component {
             data: btcPrices
           },
           {
-          label: "DASH",
-          fill: true,
-          hidden: true,
-          lineTension: 0.5,
-          backgroundColor: dashGradientFill,
-          borderColor: dashGradientStroke,
-          borderCapStyle: "butt",
-          borderDash: [],
-          borderDashOffset: 0.0,
-          borderJoinStyle: "miter",
-          pointBorderWidth: 3,
-          pointHoverRadius: 3,
-          pointHoverBorderWidth: 0,
-          pointBorderColor: dashGradientStroke,
-          pointBackgroundColor: dashGradientStroke,
-          pointHoverBackgroundColor: dashGradientStroke,
-          pointHoverBorderColor: dashGradientStroke,
-          pointHitRadius: 3,
-          pointRadius: 0,
-          data: dashPrices
-        },
-        {
-        label: "ETH",
-        fill: true,
-        hidden: true,
-        lineTension: 0.5,
-        backgroundColor: ethGradientFill,
-        borderColor: ethGradientStroke,
-        borderCapStyle: "butt",
-        borderDash: [],
-        borderDashOffset: 0.0,
-        borderJoinStyle: "miter",
-        pointBorderWidth: 3,
-        pointHoverRadius: 3,
-        pointHoverBorderWidth: 0,
-        pointBorderColor: ethGradientStroke,
-        pointBackgroundColor: ethGradientStroke,
-        pointHoverBackgroundColor: ethGradientStroke,
-        pointHoverBorderColor: ethGradientStroke,
-        pointHitRadius: 3,
-        pointRadius: 0,
-        data: ethPrices
-      },
+            label: "DASH",
+            fill: true,
+            hidden: true,
+            lineTension: 0.5,
+            backgroundColor: dashGradientFill,
+            borderColor: dashGradientStroke,
+            borderCapStyle: "butt",
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: "miter",
+            pointBorderWidth: 3,
+            pointHoverRadius: 3,
+            pointHoverBorderWidth: 0,
+            pointBorderColor: dashGradientStroke,
+            pointBackgroundColor: dashGradientStroke,
+            pointHoverBackgroundColor: dashGradientStroke,
+            pointHoverBorderColor: dashGradientStroke,
+            pointHitRadius: 3,
+            pointRadius: 0,
+            data: dashPrices
+          },
+          {
+            label: "ETH",
+            fill: true,
+            hidden: true,
+            lineTension: 0.5,
+            backgroundColor: ethGradientFill,
+            borderColor: ethGradientStroke,
+            borderCapStyle: "butt",
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: "miter",
+            pointBorderWidth: 3,
+            pointHoverRadius: 3,
+            pointHoverBorderWidth: 0,
+            pointBorderColor: ethGradientStroke,
+            pointBackgroundColor: ethGradientStroke,
+            pointHoverBackgroundColor: ethGradientStroke,
+            pointHoverBorderColor: ethGradientStroke,
+            pointHitRadius: 3,
+            pointRadius: 0,
+            data: ethPrices
+          },
           {
             label: "LTC",
             fill: true,
@@ -342,46 +341,45 @@ class Charts extends Component {
         <div className="settings-panel">
           <div className="row">
             <div className="col-xs-12">
-            <div className="col-xs-5">
-            <img src={neoLogo} alt="" width="48" className="neo-logo logobounce" /><h2>NEO Prices</h2>
-            </div>
-            <div className="col-xs-7"><ul id="neo-price"></ul>
-            </div>
-            <hr />
+              <div className="col-xs-5">
+                <img
+                  src={neoLogo}
+                  alt=""
+                  width="48"
+                  className="neo-logo logobounce"
+                />
+                <h2>NEO Prices</h2>
+              </div>
+              <div className="col-xs-7">
+                <ul id="neo-price" />
+              </div>
+              <hr />
               <Line
-              data={data} width={600} height={300}
-              options={{
-                maintainAspectRatio: true,
-                layout: { padding: { left: 0, right: 0, top: 0, bottom: 0 } },
-                scales: {
-                  xAxes: [{
-                    type: 'time',
-                    position: 'bottom',
-        id: 'x-axis-0',
-        categoryPercentage: 0.8,
-        barPercentage: 0.8,
-        time: {
-          displayFormats: {
-            millisecond: 'SSS [ms]',
-            second: 'h:mm:ss a',
-            minute: 'h:mm:ss a',
-            hour: 'hA',
-            day: 'll',
-            week: 'll',
-            month: 'MMM YYYY',
-            quarter: '[Q]Q - YYYY',
-            year: 'YYYY'
-          },
-          tooltipFormat: 'hA - D MMM YYYY',
-          unit: 'hour'
-        },
-                    gridLines:
-                    { color: "rgba(255, 255, 255, 0.03)", } }],
-                  yAxes: [{ gridLines:
-                    { color: "rgba(255, 255, 255, 0.02)", } }] },
-                  legend: { position: 'bottom' },
-
-	               }}
+                data={data}
+                width={600}
+                height={300}
+                options={{
+                  maintainAspectRatio: true,
+                  layout: { padding: { left: 0, right: 0, top: 0, bottom: 0 } },
+                  scales: {
+                    xAxes: [
+                      {
+                        type: "time",
+                        position: "bottom",
+                        id: "x-axis-0",
+                        categoryPercentage: 0.8,
+                        barPercentage: 0.8,
+                        gridLines: { color: "rgba(255, 255, 255, 0.03)" }
+                      }
+                    ],
+                    yAxes: [
+                      {
+                        gridLines: { color: "rgba(255, 255, 255, 0.02)" }
+                      }
+                    ]
+                  },
+                  legend: { position: "bottom" }
+                }}
               />
             </div>
           </div>
