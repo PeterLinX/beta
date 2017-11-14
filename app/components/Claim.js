@@ -93,7 +93,7 @@ class Claim extends Component {
             id="gas-button"
             data-tip
             data-for="claimTip"
-            className="disabled pulse"
+            className=""
           >
             <span className="gas-claim">Claiming Gas...</span>
           </div>
