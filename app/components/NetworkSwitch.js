@@ -41,10 +41,9 @@ const getGasPrice = async gasVal => {
     let gas = await axios.get("https://api.coinmarketcap.com/v1/ticker/gas/");
     gas = gas.data[0].price_usd;
     const value = gasVal * gas;
-    console.log(`gas price = ${value} 🎉`);
     return value;
   } catch (error) {
-    console.log(`ERROR from gas price`);
+    console.log(error);
   }
 };
 
