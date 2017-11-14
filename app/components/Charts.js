@@ -340,20 +340,45 @@ class Charts extends Component {
       <div>
         <div className="settings-panel">
           <div className="row">
-            <div className="col-xs-12">
-              <div className="col-xs-5">
-                <img
-                  src={neoLogo}
-                  alt=""
-                  width="48"
-                  className="neo-logo logobounce"
-                />
-                <h2>NEO Prices</h2>
-              </div>
-              <div className="col-xs-7">
-                <ul id="neo-price" />
-              </div>
-              <hr />
+          <div className="col-xs-12">
+          <div className="col-xs-4">
+          <img src={neoLogo} alt="" width="34" className="neo-logo logobounce" /><h3 className="neo-dash-price">NEO Prices</h3>
+          </div>
+          <div className="col-xs-6"><ul id="neo-price"></ul>
+          </div>
+          <div className="col-xs-2">
+          <select
+            name="select-profession"
+            id="dash-price-select"
+            className=""
+          >
+            <option
+              defaultValue
+              selected="selected"
+              disabled="disabled"
+            >
+            USD
+            </option>
+            <option>
+            AUD
+            </option>
+            <option>
+            CAD
+            </option>
+            <option>
+            CNY
+            </option>
+            <option>
+            EUR
+            </option>
+            <option>
+            GBP
+            </option>
+            <option>
+            JPY
+            </option>
+          </select>
+          </div>
               <Line
                 data={data}
                 width={600}

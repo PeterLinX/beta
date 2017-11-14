@@ -72,7 +72,7 @@ class Exchange extends Component {
         </div>
 
           <div className="col-xs-4 center col-xs-offset-1">
-            <input className="form-control-exchange center" placeholder="1.00000000" />
+            <input className="form-control-exchange center" placeholder="0.00000000" disabled />
           </div>
 
           <div className="col-xs-2 center">
@@ -82,21 +82,21 @@ class Exchange extends Component {
           </div>
 
           <div className="col-xs-4 center">
-          <input className="form-control-exchange center" placeholder="288" />
+          <input className="form-control-exchange center" placeholder="0" disabled />
           </div>
 
         </div>
 
         <div className="row">
           <div className="col-xs-10 center col-xs-offset-1  top-20">
-          <input className="form-control-exchange center" placeholder="AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b" />
+          <input className="form-control-exchange center" disabled placeholder="AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b" />
           <p className="sm-text">Once complete, NEO will be deposited to the address above</p>
           </div>
         </div>
         <div className="row top-20">
         <div className="col-xs-3 col-xs-offset-1 sm-text">
-        1 BTC = 288 NEO<br />
-        1 NEO = $26.04 USD<br />
+        1 BTC = NaN NEO<br />
+        1 NEO = $NaN USD<br />
         Subject to trasnsaction fees
         </div>
         <div className="col-xs-4 center">
