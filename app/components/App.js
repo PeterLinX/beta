@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import SplitPane from "react-split-pane";
 import Modal from "react-modal";
-import Spinner from "react-spinkit";
 
-const customStyles = {
+const styles = {
   overlay: {
     position: "fixed",
     top: 0,
@@ -36,16 +35,12 @@ const StatusMessage = ({ status, statusMessage }) => {
       <Modal
         isOpen={true}
         closeTimeoutMS={200}
-        style={customStyles}
+        style={styles}
         contentLabel="Modal"
       >
         <div>
           <div className="center">
-            <p>{statusMessage}</p>
-          </div>
-
-          <div className="center ">
-            <Spinner name="line-spin-fade-loader" color="orange" />
+            <h3>{statusMessage}</h3>
           </div>
         </div>
       </Modal>
@@ -55,12 +50,12 @@ const StatusMessage = ({ status, statusMessage }) => {
       <Modal
         isOpen={true}
         closeTimeoutMS={200}
-        style={customStyles}
+        style={styles}
         contentLabel="Modal"
       >
         <div>
           <div className="center">
-            <p>{statusMessage}</p>
+            <h3>{statusMessage}</h3>
           </div>
         </div>
       </Modal>
