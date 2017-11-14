@@ -360,19 +360,22 @@ class Charts extends Component {
             USD
             </option>
             <option>
-            GBP
-            </option>
-            <option>
-            CYN
-            </option>
-            <option>
-            JPY
-            </option>
-            <option>
             AUD
             </option>
             <option>
             CAD
+            </option>
+            <option>
+            CNY
+            </option>
+            <option>
+            EUR
+            </option>
+            <option>
+            GBP
+            </option>
+            <option>
+            JPY
             </option>
           </select>
           </div>
