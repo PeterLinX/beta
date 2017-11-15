@@ -56,10 +56,10 @@ class Exchange extends Component {
           </div>
         </div>
 
-        <div className="top-130 ">
+        <div className="top-130">
         <div className="settings-panel fadeInDown">
 
-        <div className="row fadeInDown">
+        <div className="com-soon row fadeInDown">
 
         <div className="col-xs-4 col-xs-offset-1">
         <div className="exch-logos"><BtcLogo width={40} /></div>
@@ -89,7 +89,7 @@ class Exchange extends Component {
 
         <div className="row">
           <div className="col-xs-10 center col-xs-offset-1  top-20">
-          <input className="form-control-exchange center" disabled placeholder="AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b" />
+          <input className="form-control-exchange center" disabled placeholder={this.props.address} />
           <p className="sm-text">Once complete, NEO will be deposited to the address above</p>
           </div>
         </div>

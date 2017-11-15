@@ -240,13 +240,13 @@ class Settings extends Component {
               </div>
               </Link>
             </div>
-            <div className="col-xs-2 center warning">
+            <div className="col-xs-2 center">
               <div
-                className="dash-icon-bar warning"
+                className="warning dash-icon-bar"
                 onClick={() => deleteWallet(this.props.dispatch, key)}
               >
-                <div className="icon-border warning">
-                  <span className="glyphicon glyphicon-trash warning" />
+                <div className="warning icon-border">
+                  <span className="warning glyphicon glyphicon-trash" />
                 </div>
                 Remove Address
               </div>
