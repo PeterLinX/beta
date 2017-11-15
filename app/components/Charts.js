@@ -27,10 +27,10 @@ ws.onmessage = function(msg) {
     document.getElementById("neo-price").innerHTML =
       "<li>ASK: $" +
       response[3] +
-      "</li><li> LAST: $" +
-      response[7] +
       "</li><li> BID: $" +
       response[1] +
+      "</li><li> LAST: $" +
+      response[7] +
       "</li>";
   }
 };
@@ -357,24 +357,6 @@ class Charts extends Component {
               selected="selected"
             >
             USD
-            </option>
-            <option>
-            AUD
-            </option>
-            <option>
-            CAD
-            </option>
-            <option>
-            CNY
-            </option>
-            <option>
-            EUR
-            </option>
-            <option>
-            GBP
-            </option>
-            <option>
-            JPY
             </option>
           </select>
           </div>
