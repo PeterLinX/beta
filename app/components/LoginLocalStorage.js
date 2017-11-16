@@ -16,7 +16,7 @@ let wif_input;
 let passphrase_input;
 
 const onWifChange = (dispatch, history) => {
-  if (passphrase_input.value.length < 4) {
+  if (passphrase_input.value.length < 8) {
     dispatch(sendEvent(false, "Wrong pssword. Try again"));
     setTimeout(() => dispatch(clearTransactionEvent()), 5000);
     return;
