@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import SplitPane from "react-split-pane";
 import Modal from "react-modal";
+import spinner from "../img/spinner.png";
 
 const styles = {
   overlay: {
@@ -34,13 +35,16 @@ const StatusMessage = ({ status, statusMessage }) => {
     message = (
       <Modal
         isOpen={true}
-        closeTimeoutMS={60}
+        closeTimeoutMS={5}
         style={styles}
         contentLabel="Modal"
       >
         <div>
           <div className="center modal-alert">
             <strong>{statusMessage}</strong>
+          </div>
+          <div className="center modal-alert">
+            <img src={spinner} alt="" className="spinner" />
           </div>
         </div>
       </Modal>
@@ -49,13 +53,16 @@ const StatusMessage = ({ status, statusMessage }) => {
     message = (
       <Modal
         isOpen={true}
-        closeTimeoutMS={60}
+        closeTimeoutMS={5}
         style={styles}
         contentLabel="Modal"
       >
         <div>
           <div className="center modal-alert">
             <strong>{statusMessage}</strong>
+          </div>
+          <div className="center modal-alert">
+            <img src={spinner} alt="" className="spinner" />
           </div>
         </div>
       </Modal>

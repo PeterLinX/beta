@@ -34,12 +34,11 @@ $top-margin: 20px;
 }
 
 body {
-  background: url("../img/background_logins.png") no-repeat center center
-    fixed;
-    -webkit-background-size: cover;
--moz-background-size: cover;
--o-background-size: cover;
-background-size: cover;
+  background: url("../img/background_logins.png") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   font-family: Arial;
   background-color: #000;
   color: #ffffff;
@@ -563,10 +562,26 @@ $box-margin: 10px;
 }
 
 .container {
-  max-width:790px;
+  max-width: 790px;
   width: 790px;
 }
 
+.spinner {
+  margin-top: 10px;
+  animation-name: spin;
+  animation-duration: 3000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 @import url("./_forms.scss");
 @import url("./_buttons.scss");
