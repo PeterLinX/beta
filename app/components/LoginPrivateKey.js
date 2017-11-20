@@ -32,7 +32,7 @@ const onWifChange = (dispatch, history, wif) => {
     dispatch(login(value));
     history.push("/dashboard");
   } else {
-    dispatch(sendEvent(false, "That is not a valid private key"));
+    dispatch(sendEvent(false, "That is not a valid private key. Please try again."));
     setTimeout(() => dispatch(clearTransactionEvent()), 5000);
   }
 };

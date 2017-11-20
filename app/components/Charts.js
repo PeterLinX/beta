@@ -27,10 +27,10 @@ ws.onmessage = function(msg) {
     document.getElementById("neo-price").innerHTML =
       "<li>ASK: $" +
       response[3] +
-      "</li><li> LAST: $" +
-      response[7] +
       "</li><li> BID: $" +
       response[1] +
+      "</li><li> LAST: $" +
+      response[7] +
       "</li>";
   }
 };
@@ -358,24 +358,6 @@ class Charts extends Component {
             >
             USD
             </option>
-            <option>
-            AUD
-            </option>
-            <option>
-            CAD
-            </option>
-            <option>
-            CNY
-            </option>
-            <option>
-            EUR
-            </option>
-            <option>
-            GBP
-            </option>
-            <option>
-            JPY
-            </option>
           </select>
           </div>
               <Line
@@ -391,8 +373,8 @@ class Charts extends Component {
                         type: "time",
                         position: "bottom",
                         id: "x-axis-0",
-                        categoryPercentage: 0.8,
-                        barPercentage: 0.8,
+                        categoryPercentage: 0.5,
+                        barPercentage: 0.5,
                         gridLines: { color: "rgba(255, 255, 255, 0.03)" }
                       }
                     ],

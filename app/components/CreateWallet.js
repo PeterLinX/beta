@@ -22,20 +22,20 @@ let passphrase, passphrase2;
 // TODO: move to neon-js
 // what is the correct length to check for?
 const validatePassphrase = passphrase => {
-  return passphrase.length >= 4;
+  return passphrase.length >= 8;
 };
 
 const generateNewWallet = dispatch => {
   const current_phrase = passphrase.value;
   if (passphrase.value !== passphrase2.value) {
-    dispatch(sendEvent(false, "Passwords do not match"));
+    dispatch(sendEvent(false, "Passwords do not match. Try Again."));
     setTimeout(() => dispatch(clearTransactionEvent()), 5000);
     return;
   }
   if (validatePassphrase(current_phrase)) {
     // TODO: for some reason this blocks, so giving time to processes the earlier
     // dispatch to display "generating" text, should fix this in future
-    dispatch(sendEvent(true, "Generating wallet keys"));
+    dispatch(sendEvent(true, "Generating wallet keys..."));
     setTimeout(() => {
       generateEncryptedWif(current_phrase).then(result => {
         dispatch(newWallet(result));
@@ -43,7 +43,7 @@ const generateNewWallet = dispatch => {
       });
     }, 500);
   } else {
-    dispatch(sendEvent(false, "Please choose a longer password"));
+    dispatch(sendEvent(false, "Please choose a longer password. A minimum of 8 characters is recommended that contains uppercase letters, lowercase letters, numbers and symbols (!@#$%^&*)."));
     setTimeout(() => dispatch(clearTransactionEvent()), 5000);
     passphrase.value = "";
     passphrase2.value = "";
@@ -127,9 +127,7 @@ class CreateWallet extends Component {
 
                 <div className="col-xs-10 col-xs-offset-1 center top-10 grey-out">
                   <p>
-                    Please use a strong password. Minimum 8 characters in length
-                    and contains uppercase letters, lowercase letters, numbers
-                    and symbols (!@#$%^&*).
+                    Please use a strong password. A minimum of 8 characters is recommended that contains uppercase letters, lowercase letters, numbers and symbols (!@#$%^&*).
                   </p>
                 </div>
               </div>
