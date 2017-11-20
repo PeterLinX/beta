@@ -267,11 +267,11 @@ webview {
   }
 }
 .rotating {
-  -webkit-animation: rotating 20s linear infinite;
-  -moz-animation: rotating 20s linear infinite;
-  -ms-animation: rotating 20s linear infinite;
-  -o-animation: rotating 20s linear infinite;
-  animation: rotating 20s linear infinite;
+  -webkit-animation: rotating 5s linear infinite;
+  -moz-animation: rotating 5s linear infinite;
+  -ms-animation: rotating 5s linear infinite;
+  -o-animation: rotating 5s linear infinite;
+  animation: rotating 5s linear infinite;
 }
 
 #neo-price {
@@ -446,4 +446,21 @@ max-width: 715px;
     font-size: 16px;
     border: 1px solid #555;
     margin-top: 0px;
+}
+
+
+.modal-alert {
+  font-size: 20px;
+  word-wrap: normal;
+  color: #cecece;
+}
+
+.warning:hover > .dash-icon-bar, .warning:hover > .icon-border  {
+  color: #ff0000;
+    border-color: #ff0000;
+}
+
+.warning:hover, {
+  color: #ff0000;
+  border-color: #ff0000;
 }

@@ -15,12 +15,12 @@ const doClaimNotify = (dispatch, net, selfAddress, wif) => {
       dispatch(
         sendEvent(
           true,
-          "Claim was successful! Your balance will update once the blockchain has processed it."
+          "Your GAS claim was successful! Your balance will update once the blockchain has processed it."
         )
       );
       setTimeout(() => dispatch(disableClaim(false)), 300000);
     } else {
-      dispatch(sendEvent(false, "Claim failed"));
+      dispatch(sendEvent(false, "Sorry. Claim failed. Please try again."));
     }
     setTimeout(() => dispatch(clearTransactionEvent()), 5000);
   });
@@ -33,7 +33,7 @@ const doGasClaim = (dispatch, net, wif, selfAddress, ans) => {
   if (ans === 0) {
     doClaimNotify(dispatch, net, selfAddress, wif);
   } else {
-    dispatch(sendEvent(true, "Sending Neo to Yourself..."));
+    dispatch(sendEvent(true, "Sending 0 Neo in order to claim your GAS..."));
     log(net, "SEND", selfAddress, {
       to: selfAddress,
       amount: ans,
@@ -41,9 +41,9 @@ const doGasClaim = (dispatch, net, wif, selfAddress, ans) => {
     });
     doSendAsset(net, selfAddress, wif, "Neo", ans).then(response => {
       if (response.result === undefined || response.result === false) {
-        dispatch(sendEvent(false, "Transaction failed!"));
+        dispatch(sendEvent(false, "Oops! Transaction failed. Please try again."));
       } else {
-        dispatch(sendEvent(true, "Waiting for transaction to clear..."));
+        dispatch(sendEvent(true, "Waiting for the transaction to clear..."));
         dispatch(setClaimRequest(true));
         dispatch(disableClaim(true));
       }
@@ -93,9 +93,11 @@ class Claim extends Component {
             id="gas-button"
             data-tip
             data-for="claimTip"
-            className="disabled pulse"
+            className=""
           >
-            <span className="gas-claim">Claiming Gas...</span>
+            <span className="gas-claim">
+            Claim Gas<br />
+            {this.props.claimAmount}</span>
           </div>
           <ReactTooltip
             className="solidTip"
@@ -104,7 +106,7 @@ class Claim extends Component {
             type="dark"
             effect="solid"
           >
-            <span>You can claim Gas once every 5 minutes</span>
+            <span>You can claim GAS once every 5 minutes</span>
           </ReactTooltip>
         </div>
       );
