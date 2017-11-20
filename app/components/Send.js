@@ -107,12 +107,12 @@ const sendTransaction = (
             )
           );
         }
-        setTimeout(() => dispatch(clearTransactionEvent()), 5000);
+        setTimeout(() => dispatch(clearTransactionEvent()), 2000);
       })
       .catch(e => {
         dispatch(sendEvent(false, "Transaction failed!"));
         console.log("Transaction failed!");
-        setTimeout(() => dispatch(clearTransactionEvent()), 5000);
+        setTimeout(() => dispatch(clearTransactionEvent()), 2000);
       });
   }
   // close confirm pane and clear fields
@@ -200,13 +200,16 @@ class Send extends Component {
           <TopBar />
 
           <div className="row send-neo fadeInDown">
-          <div className="col-xs-6">
-       <img src={neoLogo} alt="" width="48" className="neo-logo logobounce" />
-       <h2>Send Neo or Gas</h2>
-       </div>
-       <div className="col-xs-4">
-
-       </div>
+            <div className="col-xs-6">
+              <img
+                src={neoLogo}
+                alt=""
+                width="48"
+                className="neo-logo logobounce"
+              />
+              <h2>Send Neo or Gas</h2>
+            </div>
+            <div className="col-xs-4" />
             <div className="col-xs-2">
               <div
                 id="sendAsset"
@@ -288,7 +291,6 @@ class Send extends Component {
                     </button>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>

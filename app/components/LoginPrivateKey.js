@@ -32,8 +32,10 @@ const onWifChange = (dispatch, history, wif) => {
     dispatch(login(value));
     history.push("/dashboard");
   } else {
-    dispatch(sendEvent(false, "That is not a valid private key. Please try again."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 5000);
+    dispatch(
+      sendEvent(false, "That is not a valid private key. Please try again.")
+    );
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
   }
 };
 
@@ -84,25 +86,23 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => (
 
             <div className="row top-50">
               <div className="col-xs-8 col-xs-offset-1">
+                <input
+                  type="password"
+                  className="trans-form"
+                  placeholder="Enter a NEO private key"
+                  ref={node => (wif = node)}
+                />
+              </div>
 
-                  <input
-                    type="password"
-                    className="trans-form"
-                    placeholder="Enter a NEO private key"
-                    ref={node => (wif = node)}
-                  />
-
-                </div>
-
-                <div className="col-xs-2">
+              <div className="col-xs-2">
                 <div
                   className="login-button"
                   onClick={e => onWifChange(dispatch, history, wif)}
                 >
-                Login
-                </div>
+                  Login
                 </div>
               </div>
+            </div>
             <br />
 
             <p className="center top-20 col-xs-10 col-xs-offset-1">
@@ -120,19 +120,19 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => (
       <Link to="/create">
         <div className="dash-icon-bar">
           <div className="icon-border">
-            <div className="neo-icon"></div>
+            <div className="neo-icon" />
           </div>
           Create a NEO Address
         </div>
       </Link>
 
       <Link to="/LoginNep2">
-      <div className="dash-icon-bar">
-        <div className="icon-border">
-          <span className="glyphicon glyphicon-lock"></span>
+        <div className="dash-icon-bar">
+          <div className="icon-border">
+            <span className="glyphicon glyphicon-lock" />
+          </div>
+          Login Via Encrypted Key
         </div>
-        Login Via Encrypted Key
-      </div>
       </Link>
 
       <Link to="/LoginLocalStorage">
