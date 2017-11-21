@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
+import numeral from "numeral";
 import Claim from "./Claim.js";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import { resetPrice } from "../modules/wallet";
@@ -33,7 +34,9 @@ class TopBar extends Component {
               <p className="neo-text">
                 {this.props.neo} <span>NEO</span>
               </p>
-              <p className="neo-balance">{this.props.price}</p>
+              <p className="neo-balance">
+                {numeral(this.props.price).format("$0,0.00")}
+              </p>
             </div>
             <div className="col-xs-4">{<Claim />}</div>
             <div className="col-xs-4">
@@ -43,7 +46,9 @@ class TopBar extends Component {
               </p>
               <p className="neo-balance">
                 {" "}
-                ${Math.round(this.props.gasPrice * 100) / 100}
+                {numeral(Math.round(this.props.gasPrice * 100) / 100).format(
+                  "$0,0.00"
+                )}
               </p>
             </div>
           </div>

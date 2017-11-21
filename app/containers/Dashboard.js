@@ -4,7 +4,7 @@ import SplitPane from "react-split-pane";
 import { Link } from "react-router";
 import QRCode from "qrcode";
 import axios from "axios";
-import CountUp from "react-countup";
+import numeral from "numeral";
 import { resetKey } from "../modules/generateWallet";
 import FaArrowUpward from "react-icons/lib/fa/arrow-circle-up";
 import { NetworkSwitch } from "../components/NetworkSwitch";
@@ -102,8 +102,7 @@ class Dashboard extends Component {
               <div id="balance">
                 <span style={{ fontSize: "10px" }}>Combined Value</span>
                 <br />
-                ${" "}
-                <CountUp start={0} end={this.state.combinedPrice} decimal="." />
+                {numeral(this.state.combinedPrice).format("$0,0.00")}
               </div>
             </div>
             <div className="clearfix" />
