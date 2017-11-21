@@ -40,12 +40,13 @@ const StatusMessage = ({ status, statusMessage }) => {
         contentLabel="Modal"
       >
         <div>
+        <div className="center modal-alert">
+          <img src={spinner} alt="" className="spinner" />
+        </div>
           <div className="center modal-alert">
             <strong>{statusMessage}</strong>
           </div>
-          <div className="center modal-alert">
-            <img src={spinner} alt="" className="spinner" />
-          </div>
+
         </div>
       </Modal>
     );
@@ -57,14 +58,15 @@ const StatusMessage = ({ status, statusMessage }) => {
         style={styles}
         contentLabel="Modal"
       >
-        <div>
-          <div className="center modal-alert">
-            <strong>{statusMessage}</strong>
-          </div>
-          <div className="center modal-alert">
-            <img src={spinner} alt="" className="spinner" />
-          </div>
+      <div>
+      <div className="center modal-alert">
+        <img src={spinner} alt="" className="spinner" />
+      </div>
+        <div className="center modal-alert">
+          <strong>{statusMessage}</strong>
         </div>
+
+      </div>
       </Modal>
     );
   }
