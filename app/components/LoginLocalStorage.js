@@ -98,11 +98,7 @@ class LoginLocalStorage extends Component {
                       className=""
                       ref={node => (wif_input = node)}
                     >
-                      <option
-                        defaultValue
-                        selected="selected"
-                        disabled="disabled"
-                      >
+                      <option selected disabled={true}>
                         Select a saved wallet
                       </option>
                       {_.map(this.props.accountKeys, (value, key) => (

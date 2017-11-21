@@ -20,6 +20,10 @@ import TopBar from "./TopBar";
 
 let sendAddress, sendAmount, confirmButton;
 
+const apiURL = val => {
+  return `https://min-api.cryptocompare.com/data/price?fsym=${val}&tsyms=USD`;
+};
+
 // form validators for input fields
 const validateForm = (dispatch, neo_balance, gas_balance, asset) => {
   // check for valid address
@@ -29,12 +33,12 @@ const validateForm = (dispatch, neo_balance, gas_balance, asset) => {
       sendAddress.value.charAt(0) !== "A"
     ) {
       dispatch(sendEvent(false, "The address you entered was not valid."));
-      setTimeout(() => dispatch(clearTransactionEvent()), 5000);
+      setTimeout(() => dispatch(clearTransactionEvent()), 1000);
       return false;
     }
   } catch (e) {
     dispatch(sendEvent(false, "The address you entered was not valid."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 5000);
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   }
   // check for fractional neo
@@ -44,21 +48,21 @@ const validateForm = (dispatch, neo_balance, gas_balance, asset) => {
   ) {
     console.log(sendAmount.value);
     dispatch(sendEvent(false, "You cannot send fractional amounts of Neo."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 5000);
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   } else if (asset === "Neo" && parseInt(sendAmount.value) > neo_balance) {
     // check for value greater than account balance
     dispatch(sendEvent(false, "You do not have enough NEO to send."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 5000);
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   } else if (asset === "Gas" && parseFloat(sendAmount.value) > gas_balance) {
     dispatch(sendEvent(false, "You do not have enough GAS to send."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 5000);
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   } else if (parseFloat(sendAmount.value) < 0) {
     // check for negative asset
     dispatch(sendEvent(false, "You cannot send negative amounts of an asset."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 5000);
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   }
   return true;
@@ -93,10 +97,7 @@ const sendTransaction = (
       .then(response => {
         if (response.result === undefined || response.result === false) {
           dispatch(sendEvent(false, "Transaction failed!"));
-          console.log("Transaction failed!");
-          alert("Transaction failed!");
         } else {
-          console.log(response.result);
           alert(
             "Transaction complete! Your balance will automatically update when the blockchain has processed it."
           );
@@ -107,12 +108,11 @@ const sendTransaction = (
             )
           );
         }
-        setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+        setTimeout(() => dispatch(clearTransactionEvent()), 1000);
       })
       .catch(e => {
         dispatch(sendEvent(false, "Transaction failed!"));
-        console.log("Transaction failed!");
-        setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+        setTimeout(() => dispatch(clearTransactionEvent()), 1000);
       });
   }
   // close confirm pane and clear fields
@@ -130,30 +130,31 @@ class Send extends Component {
       gas: 0,
       neo: 0,
       neo_usd: 0,
-      gas_usd: 0
+      gas_usd: 0,
+      value: 0
     };
     this.handleChangeNeo = this.handleChangeNeo.bind(this);
     this.handleChangeGas = this.handleChangeGas.bind(this);
   }
 
   async componentDidMount() {
-    let neo = await axios.get("https://api.coinmarketcap.com/v1/ticker/neo/");
-    let gas = await axios.get("https://api.coinmarketcap.com/v1/ticker/gas/");
-    neo = neo.data[0].price_usd;
-    gas = gas.data[0].price_usd;
+    let neo = await axios.get(apiURL("NEO"));
+    let gas = await axios.get(apiURL("GAS"));
+    neo = neo.data.USD;
+    gas = gas.data.USD;
+    console.log(neo, gas);
     this.setState({ neo: neo, gas: gas });
-    console.log(neo);
   }
 
   handleChangeNeo(event) {
     this.setState({ value: event.target.value });
-    const value = event.target.value * this.state.neo;
+    const value = this.state.value * this.state.neo;
     this.setState({ neo_usd: value });
   }
 
   handleChangeGas(event) {
     this.setState({ value: event.target.value });
-    const value = event.target.value * this.state.gas;
+    const value = this.state.value * this.state.gas;
     this.setState({ gas_usd: value });
   }
 
@@ -198,7 +199,6 @@ class Send extends Component {
       <div id="send">
         <div id="sendPane">
           <TopBar />
-
           <div className="row send-neo fadeInDown">
             <div className="col-xs-6">
               <img
