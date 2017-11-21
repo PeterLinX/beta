@@ -7,23 +7,9 @@ import _ from "lodash";
 import moment from "moment";
 import neoLogo from "../images/neo.png";
 
-const neoApi =
-  "https://min-api.cryptocompare.com/data/histohour?fsym=NEO&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
-
-const gasApi =
-  "https://min-api.cryptocompare.com/data/histohour?fsym=GAS&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
-
-const ltcApi =
-  "https://min-api.cryptocompare.com/data/histohour?fsym=LTC&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
-
-const btcApi =
-  "https://min-api.cryptocompare.com/data/histohour?fsym=BTC&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
-
-const dashApi =
-  "https://min-api.cryptocompare.com/data/histohour?fsym=DASH&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
-
-const ethApi =
-  "https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
+const api = val => {
+  return `https://min-api.cryptocompare.com/data/histohour?fsym=${val}&tsym=USD&limit=96&aggregate=3&e=CCCAGG`;
+};
 
 class Charts extends Component {
   constructor(props) {
@@ -52,7 +38,7 @@ class Charts extends Component {
 
   async getGasData() {
     try {
-      let req = await axios.get(gasApi);
+      let req = await axios.get(api("GAS"));
       let data = req.data.Data;
       this.setState({ gasData: data });
     } catch (error) {
@@ -62,7 +48,7 @@ class Charts extends Component {
 
   async getNeoData() {
     try {
-      let req = await axios.get(neoApi);
+      let req = await axios.get(api("NEO"));
       let data = req.data.Data;
       this.setState({ neoData: data });
       this.setState({ ...data[95] });
@@ -73,7 +59,7 @@ class Charts extends Component {
 
   async getBtcData() {
     try {
-      let req = await axios.get(btcApi);
+      let req = await axios.get(api("BTC"));
       let data = req.data.Data;
       this.setState({ btcData: data });
     } catch (error) {
@@ -83,7 +69,7 @@ class Charts extends Component {
 
   async getLtcData() {
     try {
-      let req = await axios.get(ltcApi);
+      let req = await axios.get(api("LTC"));
       let data = req.data.Data;
       this.setState({ ltcData: data });
     } catch (error) {
@@ -93,7 +79,7 @@ class Charts extends Component {
 
   async getEthData() {
     try {
-      let req = await axios.get(ethApi);
+      let req = await axios.get(api("ETH"));
       let data = req.data.Data;
       this.setState({ ethData: data });
     } catch (error) {
@@ -103,7 +89,7 @@ class Charts extends Component {
 
   async getDashData() {
     try {
-      let req = await axios.get(dashApi);
+      let req = await axios.get(api("DASH"));
       let data = req.data.Data;
       this.setState({ dashData: data });
     } catch (error) {
