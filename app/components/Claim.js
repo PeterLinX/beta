@@ -18,7 +18,7 @@ const doClaimNotify = (dispatch, net, selfAddress, wif) => {
           "Your GAS claim was successful! Your balance will update once the blockchain has processed it."
         )
       );
-      setTimeout(() => dispatch(disableClaim(false)), 300000);
+      setTimeout(() => dispatch(disableClaim(false)), 3000);
     } else {
       dispatch(sendEvent(false, "Sorry. Claim failed. Please try again."));
     }
@@ -41,7 +41,9 @@ const doGasClaim = (dispatch, net, wif, selfAddress, ans) => {
     });
     doSendAsset(net, selfAddress, wif, "Neo", ans).then(response => {
       if (response.result === undefined || response.result === false) {
-        dispatch(sendEvent(false, "Oops! Transaction failed. Please try again."));
+        dispatch(
+          sendEvent(false, "Oops! Transaction failed. Please try again.")
+        );
       } else {
         dispatch(sendEvent(true, "Waiting for the transaction to clear..."));
         dispatch(setClaimRequest(true));
@@ -89,15 +91,11 @@ class Claim extends Component {
     } else {
       renderButton = (
         <div>
-          <div
-            id="gas-button"
-            data-tip
-            data-for="claimTip"
-            className=""
-          >
+          <div id="gas-button" data-tip data-for="claimTip" className="">
             <span className="gas-claim">
-            Claim Gas<br />
-            {this.props.claimAmount}</span>
+              Claim Gas<br />
+              {this.props.claimAmount}
+            </span>
           </div>
           <ReactTooltip
             className="solidTip"

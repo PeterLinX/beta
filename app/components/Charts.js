@@ -7,36 +7,6 @@ import _ from "lodash";
 import moment from "moment";
 import neoLogo from "../images/neo.png";
 
-// In a new Javascript file create a variable for new websocket
-var ws = new WebSocket("wss://api.bitfinex.com/ws");
-
-// Create function to send on open
-ws.onopen = function() {
-  ws.send(
-    JSON.stringify({ event: "subscribe", channel: "ticker", pair: "NEOUSD" })
-  );
-};
-
-// Tell function what to do when message is received and log messages to "neo-price" div
-ws.onmessage = function(msg) {
-  // create a variable for response and parse the json data
-  var response = JSON.parse(msg.data);
-  // save hb variable from bitfinex
-  var hb = response[1];
-  if (hb != "hb") {
-    document.getElementById("neo-price").innerHTML =
-      "<li>ASK: $" +
-      response[3] +
-      "</li><li> BID: $" +
-      response[1] +
-      "</li><li> LAST: $" +
-      response[7] +
-      "</li>";
-  }
-};
-
-var currentTime = Date.now();
-
 const neoApi =
   "https://min-api.cryptocompare.com/data/histohour?fsym=NEO&tsym=USD&limit=96&aggregate=3&e=CCCAGG";
 
@@ -64,7 +34,10 @@ class Charts extends Component {
       btcData: [],
       dashData: [],
       ltcData: [],
-      ethData: []
+      ethData: [],
+      open: "--",
+      high: "--",
+      low: "--"
     };
   }
 
@@ -92,6 +65,7 @@ class Charts extends Component {
       let req = await axios.get(neoApi);
       let data = req.data.Data;
       this.setState({ neoData: data });
+      this.setState({ ...data[95] });
     } catch (error) {
       console.log(error);
     }
@@ -340,26 +314,34 @@ class Charts extends Component {
       <div>
         <div className="settings-panel">
           <div className="row">
-          <div className="col-xs-12">
-          <div className="col-xs-4">
-          <img src={neoLogo} alt="" width="34" className="neo-logo logobounce" /><h3 className="neo-dash-price">NEO Prices</h3>
-          </div>
-          <div className="col-xs-6"><ul id="neo-price"></ul>
-          </div>
-          <div className="col-xs-2">
-          <select
-            name="select-profession"
-            id="dash-price-select"
-            className=""
-          >
-            <option
-              defaultValue
-              selected="selected"
-            >
-            USD
-            </option>
-          </select>
-          </div>
+            <div className="col-xs-12">
+              <div className="col-xs-4">
+                <img
+                  src={neoLogo}
+                  alt=""
+                  width="34"
+                  className="neo-logo logobounce"
+                />
+                <h3 className="neo-dash-price">NEO Prices</h3>
+              </div>
+              <div className="col-xs-6">
+                <ul id="neo-price">
+                  <li>OPEN: ${this.state.open}</li>
+                  <li> HIGH: ${this.state.high}</li>
+                  <li> LOW: ${this.state.low}</li>
+                </ul>
+              </div>
+              <div className="col-xs-2">
+                <select
+                  name="select-profession"
+                  id="dash-price-select"
+                  className=""
+                >
+                  <option defaultValue selected="selected">
+                    USD
+                  </option>
+                </select>
+              </div>
               <Line
                 data={data}
                 width={600}
