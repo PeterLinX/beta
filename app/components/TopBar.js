@@ -32,7 +32,7 @@ class TopBar extends Component {
             <div className="col-xs-4">
               <p className="neo-balance">Available Neo</p>
               <p className="neo-text">
-                {this.props.neo} <span>NEO</span>
+                {numeral(this.props.neo).format("0,0")} <span>NEO</span>
               </p>
               <p className="neo-balance">
                 {numeral(this.props.price).format("$0,0.00")}
@@ -42,7 +42,10 @@ class TopBar extends Component {
             <div className="col-xs-4">
               <p className="neo-balance">Available GAS</p>
               <p className="gas-text">
-                {Math.floor(this.props.gas * 100000) / 100000} <span>GAS</span>
+                {numeral(Math.floor(this.props.gas * 100000) / 100000).format(
+                  "0,0.0000"
+                )}{" "}
+                <span>GAS</span>
               </p>
               <p className="neo-balance">
                 {" "}

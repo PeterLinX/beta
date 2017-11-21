@@ -89,7 +89,6 @@ class Dashboard extends Component {
     if (this.props.location.pathname !== "/dashboard") {
       dash = <div />;
     }
-    // this.getCombinedBalance(this.props.neo, this.props.gas);
 
     return (
       <div>
