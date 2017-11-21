@@ -1749,6 +1749,10 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
+countup.js@^1.9.3:
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/countup.js/-/countup.js-1.9.3.tgz#ce3e50cd7160441e478f07da31895edcc0f1c9dd"
+
 create-error-class@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/create-error-class/-/create-error-class-3.0.2.tgz#06be7abef947a3f14a30fd610671d401bca8b7b6"
@@ -5860,6 +5864,12 @@ react-chartjs-2@^2.6.4:
   dependencies:
     lodash "^4.17.4"
     prop-types "^15.5.8"
+
+react-countup@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/react-countup/-/react-countup-3.0.2.tgz#26b7e27a91cdefc8ec744704ec93b1cbd9e638f0"
+  dependencies:
+    countup.js "^1.9.3"
 
 react-data-grid@^2.0.33:
   version "2.0.60"

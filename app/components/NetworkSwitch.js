@@ -59,7 +59,6 @@ const initiateGetBalance = (dispatch, net, address) => {
       return getMarketPriceUSD(resultBalance.Neo)
         .then(async resultPrice => {
           if (resultPrice === undefined || resultPrice === null) {
-            console.log("you fucked up");
             dispatch(setBalance(resultBalance.Neo, resultBalance.Gas, "--"));
           } else {
             let gasPrice = await getGasPrice(resultBalance.Gas);
