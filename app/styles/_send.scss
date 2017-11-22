@@ -360,6 +360,22 @@ border: none;
   transition: width 1s;
 }
 
+.progress-bar2 {
+background: url("../img/progress-bar2.png") no-repeat center;
+width: 500px;
+height: 17px;
+position: absolute;
+top: 25%;
+left: 35%;
+border: none;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -o-box-shadow: none;
+  -webkit-box-shadow: none;
+  -webkit-transition: width 1s; /* For Safari 3.1 to 6.0 */
+  transition: width 1s;
+}
+
 @keyframes fadeInLeft-ex {
     0% {
         opacity: 0;
@@ -463,4 +479,13 @@ max-width: 715px;
 .warning:hover, {
   color: #ff0000;
   border-color: #ff0000;
+}
+
+.exchange-qr {
+  border: 10px solid #d3d3d3;
+    background-color: white;
+    border-radius: 30px;
+    padding: 20px 0px 12px;
+    width: 210px;
+    margin: 0px auto;
 }

@@ -6,6 +6,7 @@ import LoginPrivateKey from "./components/LoginPrivateKey";
 import Home from "./components/Home";
 import Settings from "./components/Settings";
 import Exchange from "./components/Exchange";
+import ExchangeAddress from "./components/ExchangeAddress";
 import LoginLocalStorage from "./components/LoginLocalStorage";
 import TransactionHistory from "./components/TransactionHistory";
 import DisplayWalletKeys from "./components/DisplayWalletKeys";
@@ -23,6 +24,7 @@ export default (
       <Route path="/receive" component={Receive} />
       <Route path="/settings" component={Settings} />
       <Route path="/exchange" component={Exchange} />
+      <Route path="/exchangeAddress" component={ExchangeAddress} />
       <Route path="/transactionHistory" component={TransactionHistory} />
     </Route>
     <Route path="/transactionHistory" component={TransactionHistory} />
