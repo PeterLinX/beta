@@ -46,7 +46,6 @@ const validateForm = (dispatch, neo_balance, gas_balance, asset) => {
     asset === "Neo" &&
     parseFloat(sendAmount.value) !== parseInt(sendAmount.value)
   ) {
-    console.log(sendAmount.value);
     dispatch(sendEvent(false, "You cannot send fractional amounts of Neo."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
@@ -98,9 +97,6 @@ const sendTransaction = (
         if (response.result === undefined || response.result === false) {
           dispatch(sendEvent(false, "Transaction failed!"));
         } else {
-          alert(
-            "Transaction complete! Your balance will automatically update when the blockchain has processed it."
-          );
           dispatch(
             sendEvent(
               true,
@@ -142,19 +138,18 @@ class Send extends Component {
     let gas = await axios.get(apiURL("GAS"));
     neo = neo.data.USD;
     gas = gas.data.USD;
-    console.log(neo, gas);
     this.setState({ neo: neo, gas: gas });
   }
 
   handleChangeNeo(event) {
     this.setState({ value: event.target.value });
-    const value = this.state.value * this.state.neo;
+    const value = event.target.value * this.state.neo;
     this.setState({ neo_usd: value });
   }
 
   handleChangeGas(event) {
     this.setState({ value: event.target.value });
-    const value = this.state.value * this.state.gas;
+    const value = event.target.value * this.state.gas;
     this.setState({ gas_usd: value });
   }
 
@@ -250,7 +245,7 @@ class Send extends Component {
                   <input
                     className={formClass}
                     type="number"
-                    id="sendAmount"
+                    id="amount"
                     min="1"
                     onChange={convertFunction}
                     placeholder="Enter amount to send"
@@ -282,7 +277,8 @@ class Send extends Component {
                           selectedAsset,
                           neo,
                           gas
-                        )}
+                        )
+                      }
                       ref={node => {
                         confirmButton = node;
                       }}
