@@ -245,7 +245,7 @@ class Send extends Component {
                   <input
                     className={formClass}
                     type="number"
-                    id="amount"
+                    id="sendAmount"
                     min="1"
                     onChange={convertFunction}
                     placeholder="Enter amount to send"
