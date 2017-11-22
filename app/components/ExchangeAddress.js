@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Claim from "./Claim.js";
 import MdSync from "react-icons/lib/md/sync";
-import QRCode from "qrcode";
+import QRCode from "qrcode.react";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import { resetPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
@@ -38,15 +38,15 @@ class Exchange extends Component {
       <div>
         <TopBar />
 
-        <div className="progress-bar fadeInLeft-ex"></div>
+        <div className="progress-bar2 fadeInLeft-ex"></div>
           <div className="row prog-info top-20">
           <div className="col-xs-2 col-xs-offset-1 sm-text center">
           Enter Amount to Deposit
           </div>
-          <div className="col-xs-2 sm-text center grey-out">
+          <div className="col-xs-2 sm-text center">
           Placing Your Order
           </div>
-          <div className="col-xs-2 sm-text center grey-out">
+          <div className="col-xs-2 sm-text center">
           Generating Bitcoin Address for Deposit
           </div>
           <div className="col-xs-2 sm-text center grey-out">
@@ -62,52 +62,26 @@ class Exchange extends Component {
 
         <div className="com-soon row fadeInDown">
 
-        <div className="col-xs-4 col-xs-offset-1">
+        <div className="col-xs-4">
+
+        <div className="exchange-qr center animated fadeInDown">
+          <QRCode size={150} value={this.props.address} />
+        </div>
+        </div>
+        <div className="col-xs-8">
         <div className="exch-logos"><BtcLogo width={40} /></div>
-        <h4 className="top-20">Deposit BTC</h4>
-        </div>
-
-        <div className="col-xs-4  col-xs-offset-2">
-        <div className="exch-logos"><NeoLogo width={40} /></div>
-        <h4 className="top-20">NEO Received</h4>
-        </div>
-
-          <div className="col-xs-4 center col-xs-offset-1">
-            <input className="form-control-exchange center" placeholder="0.00000000" disabled />
-          </div>
-
-          <div className="col-xs-2 center">
-            <div className="exchange-glyph">
-            <span className="glyphicon glyphicon-refresh" />
-            </div>
-          </div>
-
-          <div className="col-xs-4 center">
-          <input className="form-control-exchange center" placeholder="0" disabled />
-          </div>
-
-        </div>
-
-        <div className="row">
-          <div className="col-xs-10 center col-xs-offset-1  top-20">
-          <input className="form-control-exchange center" disabled placeholder={this.props.address} />
-          <p className="sm-text">Once complete, NEO will be deposited to the address above</p>
-          </div>
-        </div>
+        <h4 className="top-20">Deposit 0.000000 BTC and receive 0 NEO</h4>
+        <input className="form-control-exchange center top-10" disabled placeholder="17mE9Y7ERqpn6oUn5TEteNrnEmmXUsQw76" />
+        <p className="sm-text">Only deposit Bitcoin (BTC) to the address above to receive NEO.</p>
         <div className="row top-20">
-        <div className="col-xs-3 col-xs-offset-1 sm-text">
-        1 BTC = NaN NEO<br />
-        1 NEO = $NaN USD<br />
-        Subject to trasnsaction fees
-        </div>
-        <div className="col-xs-4 center">
-        <Link to={"/ExchangeAddress"}>
+        <div className="col-xs-8 center">
         <button className="grey-button">Continue</button>
-        </Link>
         </div>
-        <div className="col-xs-3">
+        <div className="col-xs-4">
         <p className="sm-text">Powered by:</p>
         <div className="changelly-logo"></div>
+        </div>
+        </div>
         </div>
         </div>
         </div>

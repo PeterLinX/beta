@@ -37,10 +37,10 @@
 }
 
 .btn-send {
-  padding: 10px 22px;
-      height: 46px;
+  padding: 7px 22px;
+      height: 40px;
       font-size: 18px;
-      border: 0;
+      border: thin solid #7ed321;
       cursor: pointer;
       text-align: center;
       border-radius: 5px;
@@ -52,22 +52,17 @@
 }
 
 .btn-send-gas {
-  padding: 10px 22px;
-      height: 46px;
+  padding: 7px 22px;
+      height: 40px;
       font-size: 18px;
-      border: 0;
+      border: thin solid #52397b;
       cursor: pointer;
       text-align: center;
       border-radius: 5px;
       color: #000;
       margin: 0;
       opacity: 0.8;
-  background: linear-gradient(
-    to bottom,
-    rgba(203, 96, 179, 1) 0%,
-    rgba(104, 34, 165, 1) 0%,
-    rgba(104, 3, 120, 1) 99%
-  );
+      background: linear-gradient( to bottom, rgba(203, 96, 179, 1) 0%, rgba(104, 34, 165, 1) 0%, rgba(104, 3, 120, 1) 99% );
 }
 
 .btn-export {
@@ -338,18 +333,19 @@
 }
 
 .grey-button {
-padding: 6px 22px;
-height: 42px;
-font-size: 18px;
-border: thin solid #616161;
-cursor: pointer;
-text-align: center;
-border-radius: 5px;
-color: #ddd;
-margin: 2px 0px;
-background: #464646;
-text-shadow: none;
-font-weight: 200;
+  padding: 6px 16px;
+  height: 42px;
+  font-size: 18px;
+  border: thin solid #616161;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: #ddd;
+  margin: 2px 0px;
+  background: #464646;
+  text-shadow: none;
+  font-weight: 200;
+  width: 100%;
 }
 
 .grey-button:hover {
