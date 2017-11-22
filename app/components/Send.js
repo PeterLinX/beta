@@ -212,7 +212,11 @@ class Send extends Component {
                 style={{ width: "100%" }}
                 data-tip
                 data-for="assetTip"
-                onClick={() => dispatch(toggleAsset())}
+                onClick={() => {
+                  this.setState({ gas_usd: 0, neo_usd: 0 });
+                  document.getElementById("assetAmount").value = "";
+                  dispatch(toggleAsset());
+                }}
               >
                 {selectedAsset}
               </div>
@@ -245,7 +249,7 @@ class Send extends Component {
                   <input
                     className={formClass}
                     type="number"
-                    id="sendAmount"
+                    id="assetAmount"
                     min="1"
                     onChange={convertFunction}
                     placeholder="Enter amount to send"
