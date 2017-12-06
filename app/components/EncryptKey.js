@@ -57,67 +57,63 @@ class CreateWallet extends Component {
   render = () => {
     const passphraseDiv = (
       <div>
-      <div className="login-address-bk top-50">
-      <div className="logo-top">
-      <div className="row">
-        <div className="center logobounce">
-          <Link to={"/dashboard"}><Logo width={140} /></Link>
+        <div className="login-address-bk top-50">
+          <div className="logo-top">
+            <div className="row">
+              <div className="center logobounce">
+                <Link to={"/dashboard"}>
+                  <Logo width={140} />
+                </Link>
+              </div>
+              <br />
+              <h1 className="center">Encrypt your private key</h1>
+            </div>
+            <div className="row">
+              <div className="col-xs-10 col-xs-offset-1">
+                <input
+                  type="text"
+                  className="form-send-neo"
+                  ref={node => (passphrase = node)}
+                  placeholder="Enter a password here"
+                />
+              </div>
+            </div>
+
+            <div className="row top-20">
+              <div className="col-xs-10 col-xs-offset-1">
+                <input
+                  type="text"
+                  className="form-send-neo"
+                  ref={node => (passphrase2 = node)}
+                  placeholder="Confirm your password"
+                />
+              </div>
+            </div>
+
+            <div className="row top-20">
+              <div className="col-xs-10 col-xs-offset-1">
+                <input
+                  type="text"
+                  className="form-send-neo"
+                  ref={node => (wif_input = node)}
+                  placeholder="Please enter a NEO Private Key here"
+                />
+              </div>
+            </div>
+
+            <div className="row top-20">
+              <div className="col-xs-10 col-xs-offset-1 center">
+                <button
+                  className="btn-send"
+                  onClick={() => generateNewWallet(this.props.dispatch)}
+                >
+                  {" "}
+                  Generate encrypted key{" "}
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-        <br />
-        <h1 className="center">Encrypt your private key</h1>
-      </div>
-      <div className="row">
-      <div className="col-xs-10 col-xs-offset-1">
-      <input
-        type="text"
-        className="form-send-neo"
-        ref={node => (passphrase = node)}
-        placeholder="Enter a password here"
-      />
-      </div>
-      </div>
-
-      <div className="row top-20">
-      <div className="col-xs-10 col-xs-offset-1">
-      <input
-        type="text"
-        className="form-send-neo"
-        ref={node => (passphrase2 = node)}
-        placeholder="Confirm your password"
-      />
-      </div>
-      </div>
-
-      <div className="row top-20">
-      <div className="col-xs-10 col-xs-offset-1">
-      <input
-        type="text"
-        className="form-send-neo"
-        ref={node => (wif_input = node)}
-        placeholder="Please enter a NEO Private Key here"
-      />
-      </div>
-      </div>
-
-      <div className="row top-20">
-      <div className="col-xs-10 col-xs-offset-1 center">
-      <button
-      className="btn-send"
-      onClick={() => generateNewWallet(this.props.dispatch)}>
-        {" "}
-        Generate encrypted key{" "}
-      </button>
-
-      </div>
-      </div>
-
-
-
-
-
-
-      </div>
-      </div>
       </div>
     );
     return (

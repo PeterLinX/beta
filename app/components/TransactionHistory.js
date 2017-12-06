@@ -50,7 +50,6 @@ class TransactionHistory extends Component {
             <hr className="" />
           </div>
 
-
           <ul id="transactionList">
             {this.props.transactions.map(t => {
               const formatGas = gas =>
@@ -68,7 +67,8 @@ class TransactionHistory extends Component {
                           this.props.explorer,
                           t.txid
                         )
-                      )}
+                      )
+                    }
                   >
                     {t.txid.substring(0, 32)}...{" "}
                     <span className="glyphicon glyphicon-link" />

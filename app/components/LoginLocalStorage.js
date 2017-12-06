@@ -92,15 +92,6 @@ class LoginLocalStorage extends Component {
     const dispatch = this.props.dispatch;
     const loggedIn = this.props.loggedIn;
 
-    // let el = document.getElementsByClassName("login-button");
-
-    // el.addEventListener("keydown", function(event) {
-    //   if (event.key === "Enter") {
-    //     event.preventDefault();
-    //     alert("fuck this works");
-    //   }
-    // });
-
     return (
       <div>
         <div className="login-address-bk top-20">

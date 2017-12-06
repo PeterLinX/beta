@@ -39,8 +39,8 @@ class WalletInfo extends Component {
     if (this.props.address != null) {
       return (
         <div>
-        <TopBar />
-        <Charts />
+          <TopBar />
+          <Charts />
           <div className="spacer" />
           {/* <div className="qrCode">
             <canvas id="qrCanvas" ref={node => (this.canvas = node)} />
