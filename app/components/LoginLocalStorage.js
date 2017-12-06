@@ -69,11 +69,38 @@ class LoginLocalStorage extends Component {
     storage.get("keys", (error, data) => {
       this.props.dispatch(setKeys(data));
     });
+
+    document.addEventListener("keydown", event => {
+      const keyName = event.key;
+
+      if (keyName === "Enter") {
+        console.log("logging in");
+        onWifChange(this.props.dispatch, this.props.history);
+      }
+    });
   };
+
+  inputKeyUp(e) {
+    e.which = e.which || e.keyCode;
+    if (e.which == 13) {
+      // submit
+      console.log("prssed");
+    }
+  }
 
   render = () => {
     const dispatch = this.props.dispatch;
     const loggedIn = this.props.loggedIn;
+
+    // let el = document.getElementsByClassName("login-button");
+
+    // el.addEventListener("keydown", function(event) {
+    //   if (event.key === "Enter") {
+    //     event.preventDefault();
+    //     alert("fuck this works");
+    //   }
+    // });
+
     return (
       <div>
         <div className="login-address-bk top-20">
@@ -122,10 +149,22 @@ class LoginLocalStorage extends Component {
 
                   <div className="col-xs-3 top-20">
                     {Object.keys(this.props.accountKeys).length === 0 ? (
-                      <div className="login-button">Login</div>
+                      <button
+                        type="submit"
+                        onKeyUp={() => {
+                          this.inputKeyUp(event);
+                        }}
+                        className="login-button"
+                        onClick={e => onWifChange(dispatch, this.props.history)}
+                      >
+                        Login
+                      </button>
                     ) : (
                       <button
                         type="submit"
+                        onKeyUp={() => {
+                          this.inputKeyUp(event);
+                        }}
                         className="login-button"
                         onClick={e => onWifChange(dispatch, this.props.history)}
                       >

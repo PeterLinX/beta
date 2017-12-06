@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
 import { login } from "../modules/account";
@@ -67,92 +67,110 @@ const loadKeyRecovery = dispatch => {
   });
 };
 
-let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => (
-  <div>
-    <div className="login-address-bk top-50">
-      <div className="logo-top">
-        <div className="row">
-          <div className="center logobounce">
-            <Logo width={140} />
-          </div>
-        </div>
+class LoginPrivateKey extends Component {
+  componentDidMount() {
+    document.addEventListener("keydown", event => {
+      const keyName = event.key;
 
-        <div className="row">
-          <div className="col-xs-12">
-            <div>
-              <br />
-              <h1 className="center">Welcome to Morpheus</h1>
+      if (keyName === "Enter") {
+        onWifChange(this.props.dispatch, this.props.history, this.props.wif);
+      }
+    });
+  }
+
+  render() {
+    const { dispatch, loggedIn, wif, history } = this.props;
+    return (
+      <div>
+        <div className="login-address-bk top-50">
+          <div className="logo-top">
+            <div className="row">
+              <div className="center logobounce">
+                <Logo width={140} />
+              </div>
             </div>
 
-            <div className="row top-50">
-              <div className="col-xs-8 col-xs-offset-1">
-                <input
-                  type="password"
-                  className="trans-form"
-                  placeholder="Enter a NEO private key"
-                  ref={node => (wif = node)}
-                />
-              </div>
-
-              <div className="col-xs-2">
-                <div
-                  className="login-button"
-                  onClick={e => onWifChange(dispatch, history, wif)}
-                >
-                  Login
+            <div className="row">
+              <div className="col-xs-12">
+                <div>
+                  <br />
+                  <h1 className="center">Welcome to Morpheus</h1>
                 </div>
+
+                <div className="row top-50">
+                  <div className="col-xs-8 col-xs-offset-1">
+                    <input
+                      type="password"
+                      className="trans-form"
+                      placeholder="Enter a NEO private key"
+                      ref={node => (wif = node)}
+                    />
+                  </div>
+
+                  <div className="col-xs-2">
+                    <div
+                      className="login-button"
+                      onClick={e => onWifChange(dispatch, history, wif)}
+                    >
+                      Login
+                    </div>
+                  </div>
+                </div>
+                <br />
+
+                <p className="center top-20 col-xs-10 col-xs-offset-1">
+                  Your private key is never shared and is only used to load your
+                  balance and transaction history from the blockchain. Once
+                  entered, you can create an encrypted saved walet in Morpheus.
+                  You may still use your private key with other wallets.
+                </p>
               </div>
             </div>
-            <br />
+          </div>
+        </div>
 
-            <p className="center top-20 col-xs-10 col-xs-offset-1">
-              Your private key is never shared and is only used to load your
-              balance and transaction history from the blockchain. Once entered,
-              you can create an encrypted saved walet in Morpheus. You may still
-              use your private key with other wallets.
-            </p>
+        <div className="dash-bar top-50">
+          <Link to="/create">
+            <div className="dash-icon-bar">
+              <div className="icon-border">
+                <div className="neo-icon" />
+              </div>
+              Create a NEO Address
+            </div>
+          </Link>
+
+          <Link to="/LoginNep2">
+            <div className="dash-icon-bar">
+              <div className="icon-border">
+                <span className="glyphicon glyphicon-lock" />
+              </div>
+              Login Via Encrypted Key
+            </div>
+          </Link>
+
+          <Link to="/LoginLocalStorage">
+            <div className="dash-icon-bar">
+              <div className="icon-border">
+                <span className="glyphicon glyphicon-user" />
+              </div>
+              Open a Saved Wallet
+            </div>
+          </Link>
+
+          <div
+            className="dash-icon-bar"
+            onClick={() => loadKeyRecovery(dispatch)}
+          >
+            <div className="icon-border">
+              <span className="glyphicon glyphicon-paperclip" />
+            </div>
+            Login Via Recovery File
           </div>
         </div>
       </div>
-    </div>
-
-    <div className="dash-bar top-50">
-      <Link to="/create">
-        <div className="dash-icon-bar">
-          <div className="icon-border">
-            <div className="neo-icon" />
-          </div>
-          Create a NEO Address
-        </div>
-      </Link>
-
-      <Link to="/LoginNep2">
-        <div className="dash-icon-bar">
-          <div className="icon-border">
-            <span className="glyphicon glyphicon-lock" />
-          </div>
-          Login Via Encrypted Key
-        </div>
-      </Link>
-
-      <Link to="/LoginLocalStorage">
-        <div className="dash-icon-bar">
-          <div className="icon-border">
-            <span className="glyphicon glyphicon-user" />
-          </div>
-          Open a Saved Wallet
-        </div>
-      </Link>
-
-      <div className="dash-icon-bar" onClick={() => loadKeyRecovery(dispatch)}>
-        <div className="icon-border">
-          <span className="glyphicon glyphicon-paperclip" />
-        </div>
-        Login Via Recovery File
-      </div>
-    </div>
-  </div>
-);
+    );
+  }
+}
 
 const mapStateToProps = state => ({
   loggedIn: state.account.loggedIn,
