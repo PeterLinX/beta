@@ -68,8 +68,6 @@ const loadKeyRecovery = dispatch => {
         dispatch(setKeys(data));
         storage.set("keys", data);
       });
-      // dispatch(setKeys(keys));
-      // storage.set('keys', keys);
     });
   });
 };
@@ -140,121 +138,126 @@ class Settings extends Component {
 
   render = () => (
     <div id="send">
-<TopBar />
+      <TopBar />
       <div className="settings-panel top-50 fadeInDown">
         <div className="description">
           <div className="row">
-          <h2 className="center">General Settings</h2>
-          <div className="col-xs-10 center col-xs-offset-1">
-          <hr className="" />
-          </div>
-          <div className="clearboth" />
-          <div className="row">
-            <div className="col-xs-2 center col-xs-offset-1">
-              <NetworkSwitch />
+            <h2 className="center">General Settings</h2>
+            <div className="col-xs-10 center col-xs-offset-1">
+              <hr className="" />
             </div>
-            <div
-              className="col-xs-2 center "
-              onClick={() => dispatch(logout())}
-            >
-              <Link to="/create">
-                <div className="dash-icon-bar">
-                  <div className="icon-border">
-                    <div className="neo-icon"></div>
+            <div className="clearboth" />
+            <div className="row">
+              <div className="col-xs-2 center col-xs-offset-1">
+                <NetworkSwitch />
+              </div>
+              <div
+                className="col-xs-2 center "
+                onClick={() => dispatch(logout())}
+              >
+                <Link to="/create">
+                  <div className="dash-icon-bar">
+                    <div className="icon-border">
+                      <div className="neo-icon" />
+                    </div>
+                    Create New Address
                   </div>
-                  Create New Address
-                </div>
-              </Link>
-            </div>
+                </Link>
+              </div>
 
-            <div className="col-xs-2 center">
-              <Link to="/LoginLocalStorage">
-                <div className="dash-icon-bar">
-                  <div className="icon-border">
-                    <span className="glyphicon glyphicon-user" />
+              <div className="col-xs-2 center">
+                <Link to="/LoginLocalStorage">
+                  <div className="dash-icon-bar">
+                    <div className="icon-border">
+                      <span className="glyphicon glyphicon-user" />
+                    </div>
+                    Open a Saved Address
                   </div>
-                  Open a Saved Address
-                </div>
-              </Link>
-            </div>
-            <div className="col-xs-2 center">
-              <div className="dash-icon-bar com-soon">
-                <div className="icon-border">
-                  <span className="glyphicon glyphicon-phone" />
-                </div>
-                Enable Two Factor Authorization
+                </Link>
               </div>
-            </div>
-            <div className="col-xs-2 center">
-              <div className="dash-icon-bar com-soon">
-                <div className="icon-border">
-                  <span className="glyphicon glyphicon-check" />
-                </div>
-                Edit Authorized Addresses
-              </div>
-            </div>
-          </div>
-          <div className="row top-20">
-            <div className="col-xs-2 center col-xs-offset-1 ">
-              <Link to="/encryptKey">
-                <div className="dash-icon-bar">
+              <div className="col-xs-2 center">
+                <div className="dash-icon-bar com-soon">
                   <div className="icon-border">
-                    <span className="glyphicon glyphicon-qrcode" />
+                    <span className="glyphicon glyphicon-phone" />
                   </div>
-                  Encrypt a Private Key
+                  Enable Two Factor Authorization
                 </div>
-              </Link>
-            </div>
-            <div className="col-xs-2 center">
-              <div
-                className="dash-icon-bar"
-                onClick={() => saveKeyRecovery(this.props.wallets)}
-              >
-                <div className="icon-border">
-                  <span className="glyphicon glyphicon-save" />
+              </div>
+              <div className="col-xs-2 center">
+                <div className="dash-icon-bar com-soon">
+                  <div className="icon-border">
+                    <span className="glyphicon glyphicon-check" />
+                  </div>
+                  Edit Authorized Addresses
                 </div>
-                Export My Encrypted Keys
               </div>
             </div>
-            <div className="col-xs-2 center">
-              <div
-                className="dash-icon-bar"
-                onClick={() =>
-                  openExplorer(
-                    getExplorerLink(this.props.net, this.props.explorer, t.txid)
-                  )}
-              >
-                <div className="icon-border">
-                  <span className="glyphicon glyphicon-link" />
+            <div className="row top-20">
+              <div className="col-xs-2 center col-xs-offset-1 ">
+                <Link to="/encryptKey">
+                  <div className="dash-icon-bar">
+                    <div className="icon-border">
+                      <span className="glyphicon glyphicon-qrcode" />
+                    </div>
+                    Encrypt a Private Key
+                  </div>
+                </Link>
+              </div>
+              <div className="col-xs-2 center">
+                <div
+                  className="dash-icon-bar"
+                  onClick={() => saveKeyRecovery(this.props.wallets)}
+                >
+                  <div className="icon-border">
+                    <span className="glyphicon glyphicon-save" />
+                  </div>
+                  Export My Encrypted Keys
                 </div>
-                View Address on NeoTracker
+              </div>
+              <div className="col-xs-2 center">
+                <div
+                  className="dash-icon-bar"
+                  onClick={() =>
+                    openExplorer(
+                      getExplorerLink(
+                        this.props.net,
+                        this.props.explorer,
+                        t.txid
+                      )
+                    )
+                  }
+                >
+                  <div className="icon-border">
+                    <span className="glyphicon glyphicon-link" />
+                  </div>
+                  View Address on NeoTracker
+                </div>
+              </div>
+              <div className="col-xs-2 center">
+                <Link to="/">
+                  <div className="dash-icon-bar">
+                    <div className="icon-border">
+                      <span className="glyphicon glyphicon-remove" />
+                    </div>
+                    Log Out of Address
+                  </div>
+                </Link>
+              </div>
+              <div className="col-xs-2 center">
+                <div
+                  className="warning dash-icon-bar"
+                  onClick={() => deleteWallet(this.props.dispatch, key)}
+                >
+                  <div className="warning icon-border">
+                    <span className="warning glyphicon glyphicon-trash" />
+                  </div>
+                  Remove Address
+                </div>
               </div>
             </div>
-            <div className="col-xs-2 center">
-            <Link to="/">
-              <div className="dash-icon-bar">
-                <div className="icon-border">
-                  <span className="glyphicon glyphicon-remove" />
-                </div>
-                Log Out of Address
-              </div>
-              </Link>
-            </div>
-            <div className="col-xs-2 center">
-              <div
-                className="warning dash-icon-bar"
-                onClick={() => deleteWallet(this.props.dispatch, key)}
-              >
-                <div className="warning icon-border">
-                  <span className="warning glyphicon glyphicon-trash" />
-                </div>
-                Remove Address
-              </div>
-            </div>
-            </div>
-          </div>
           </div>
         </div>
+      </div>
 
       <div className="clearboth" />
     </div>
