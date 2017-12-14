@@ -32,7 +32,12 @@ module.exports = {
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify("development")
-    })
+    }),
+    new webpack.DefinePlugin(
+      (module.exports = function(source) {
+        return source.replace(/^#! .*\n/, "");
+      })
+    )
   ],
   eslint: {
     configFile: ".eslintrc",
@@ -43,7 +48,7 @@ module.exports = {
     loaders: [
       {
         test: /\.js?$/,
-        exclude: /node_modules/,
+        exclude: path.resolve(__dirname, "node_modules/"),
         loader: "babel"
       },
       {

@@ -99,12 +99,12 @@ class LoginPrivateKey extends Component {
 
                 <div className="row top-50">
                   <div className="col-xs-8 col-xs-offset-1">
-                    <input
+                    {/* <input
                       type="password"
                       className="trans-form"
                       placeholder="Enter a NEO private key"
                       ref={node => (wif = node)}
-                    />
+                    /> */}
                   </div>
 
                   <div className="col-xs-2">

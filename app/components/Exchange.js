@@ -16,23 +16,33 @@ import TopBar from "./TopBar";
 import { Link } from "react-router";
 import crypto from "crypto";
 import axios from "axios";
+import Changelly from "../modules/changelly";
 
 // force sync with balance data
-const refreshBalance = (dispatch, net, address) => {
-  dispatch(sendEvent(true, "Refreshing..."));
-  initiateGetBalance(dispatch, net, address).then(response => {
-    dispatch(sendEvent(true, "Received latest blockchain information."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-  });
-};
+// const refreshBalance = (dispatch, net, address) => {
+//   dispatch(sendEvent(true, "Refreshing..."));
+//   initiateGetBalance(dispatch, net, address).then(response => {
+//     dispatch(sendEvent(true, "Received latest blockchain information."));
+//     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+//   });
+// };
 
 const apiUrl = "https://api.changelly.com";
+const apiKey = "1befd82a2ef24c359c3106f96b5217c0";
+const secret =
+  "eeea2b75ae6a627e69bd39a0de64675a2b0a414b0b9a9513355ba9e30eb6cb2f";
+
+let changelly = new Changelly(apiKey, secret);
 
 class Exchange extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      address: ""
+      address: "",
+      from: "btc",
+      to: "neo",
+      fromValue: 0,
+      toValue: 0
     };
   }
 
@@ -42,6 +52,19 @@ class Exchange extends Component {
   //     if (err) console.log(err);
   //   });
   // };
+
+  async componentDidMount() {
+    changelly.getMinAmount("btc", "neo", function(err, data) {
+      if (err) {
+        console.log("Error!", err);
+      } else {
+        console.log("getMinAmount", data);
+        this.setState({ fromValue: data.result });
+      }
+    });
+  }
+
+  async onChangeFrom() {}
 
   render = () => {
     // if (this.props.address != null) {
@@ -89,6 +112,8 @@ class Exchange extends Component {
                 <input
                   className="form-control-exchange center"
                   placeholder="0.00000000"
+                  value={this.state.fromValue}
+                  type="number"
                 />
               </div>
 
@@ -101,6 +126,7 @@ class Exchange extends Component {
               <div className="col-xs-4 center">
                 <input
                   className="form-control-exchange center"
+                  value={this.state.toValue}
                   placeholder="0"
                   disabled
                 />
