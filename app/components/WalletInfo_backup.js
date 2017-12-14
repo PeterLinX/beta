@@ -96,7 +96,8 @@ class WalletInfo extends Component {
                   this.props.dispatch,
                   this.props.net,
                   this.props.address
-                )}
+                )
+              }
             >
               <MdSync id="refresh" data-tip data-for="refreshBalanceTip" />
               <ReactTooltip

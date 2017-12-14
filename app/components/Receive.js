@@ -34,7 +34,10 @@ class Receive extends Component {
                 Copy Public Address
               </div>
 
-              <div className="dash-icon-bar animated fadeInUp" onClick={() => print()}>
+              <div
+                className="dash-icon-bar animated fadeInUp"
+                onClick={() => print()}
+              >
                 <div className="icon-border">
                   <span className="glyphicon glyphicon-print" />
                 </div>

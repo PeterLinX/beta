@@ -16,10 +16,10 @@ let passphrase_input;
 const onWifChange = (dispatch, history) => {
   if (passphrase_input.value.length < 8) {
     dispatch(sendEvent(false, "Wrong password"));
-    setTimeout(() => dispatch(clearTransactionEvent()), 5000);
+    setTimeout(() => dispatch(clearTransactionEvent()), 3000);
     return;
   }
-  // console.log(wif_input, passphrase_input);
+
   // TODO: changed back to only WIF login for now, getting weird errors with private key hex login
   dispatch(sendEvent(true, "Decrypting encoded key..."));
   setTimeout(() => {
@@ -32,7 +32,7 @@ const onWifChange = (dispatch, history) => {
       })
       .catch(() => {
         dispatch(sendEvent(false, "Wrong password or invalid encrypted key"));
-        setTimeout(() => dispatch(clearTransactionEvent()), 5000);
+        setTimeout(() => dispatch(clearTransactionEvent()), 3000);
       });
   }, 500);
 };
@@ -53,33 +53,33 @@ class LoginNep2 extends Component {
             </div>
 
             <div className="row">
-
               <div className="col-xs-10 col-xs-offset-1">
                 <div className="form-group">
-                <input
-                  type="password"
-                  className="trans-form"
-                  placeholder="Enter your password"
-                  ref={node => (passphrase_input = node)}
-                />
+                  <input
+                    type="password"
+                    className="trans-form"
+                    placeholder="Enter your password"
+                    ref={node => (passphrase_input = node)}
+                  />
                 </div>
 
-              <div className="form-group">
-              <input
-                type="password"
-                className="trans-form"
-                placeholder="Enter your NEO encrypted key"
-                ref={node => (wif_input = node)}
-              />
-
-              </div>
+                <div className="form-group">
+                  <input
+                    type="password"
+                    className="trans-form"
+                    placeholder="Enter your NEO encrypted key"
+                    ref={node => (wif_input = node)}
+                  />
+                </div>
               </div>
 
               <div className="col-xs-10 col-xs-offset-1">
-              <div
-                className="login-button"
-                onClick={e => onWifChange(dispatch, this.props.history)}
-              >Login</div>
+                <div
+                  className="login-button"
+                  onClick={e => onWifChange(dispatch, this.props.history)}
+                >
+                  Login
+                </div>
               </div>
 
               <p className="center top-10 col-xs-10 col-xs-offset-1">
@@ -87,7 +87,6 @@ class LoginNep2 extends Component {
                 only used to load your balance and transaction history from the
                 blockchain.
               </p>
-
             </div>
             {this.props.decrypting === true ? (
               <div className="decrypting">Decrypting keys...</div>
@@ -101,7 +100,7 @@ class LoginNep2 extends Component {
             <Link to="/create">
               <div className="dash-icon-bar">
                 <div className="icon-border">
-                  <div className="neo-icon"></div>
+                  <div className="neo-icon" />
                 </div>
                 Create a NEO Address
               </div>

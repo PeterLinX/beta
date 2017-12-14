@@ -34,8 +34,9 @@ class Exchange extends Component {
         <div id="exchange-info">
           <webview
             id="foo"
-            src={`https://changelly.com/widget/v1?auth=email&from=BTC&to=NEO&merchant_id=cdc0b166b122&address=${this
-              .props.address}&amount=1&ref_id=cdc0b166b122&color=292530`}
+            src={`https://changelly.com/widget/v1?auth=email&from=BTC&to=NEO&merchant_id=cdc0b166b122&address=${
+              this.props.address
+            }&amount=1&ref_id=cdc0b166b122&color=292530`}
           />
           <div className="loading-exchange">
             <span className="glyphicon glyphicon-refresh rotating" />

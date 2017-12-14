@@ -8,7 +8,9 @@ import moment from "moment";
 import neoLogo from "../images/neo.png";
 
 const api = val => {
-  return `https://min-api.cryptocompare.com/data/histohour?fsym=${val}&tsym=USD&limit=96&aggregate=3&e=CCCAGG`;
+  return `https://min-api.cryptocompare.com/data/histohour?fsym=${
+    val
+  }&tsym=USD&limit=96&aggregate=3&e=CCCAGG`;
 };
 
 class Charts extends Component {

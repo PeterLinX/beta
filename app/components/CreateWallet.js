@@ -49,7 +49,7 @@ const generateNewWallet = dispatch => {
         "Please choose a longer password. A minimum of 8 characters is recommended that contains uppercase letters, lowercase letters, numbers and symbols (!@#$%^&*)."
       )
     );
-    setTimeout(() => dispatch(clearTransactionEvent()), 5000);
+    setTimeout(() => dispatch(clearTransactionEvent()), 3000);
     passphrase.value = "";
     passphrase2.value = "";
   }
@@ -83,6 +83,16 @@ const loadKeyRecovery = dispatch => {
 };
 
 class CreateWallet extends Component {
+  componentDidMount() {
+    document.addEventListener("keydown", event => {
+      const keyName = event.key;
+
+      if (keyName === "Enter") {
+        generateNewWallet(this.props.dispatch);
+      }
+    });
+  }
+
   render = () => {
     const passphraseDiv = (
       <div>

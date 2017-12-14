@@ -130,7 +130,8 @@ class DisplayWalletKeys extends Component {
                       <input
                         type="text"
                         onClick={() =>
-                          clipboard.writeText(this.props.passphrase)}
+                          clipboard.writeText(this.props.passphrase)
+                        }
                         className="form-control"
                         contentEditable={false}
                         readOnly={true}
@@ -138,7 +139,8 @@ class DisplayWalletKeys extends Component {
                         data-tip
                         data-for="copyPassphraseTip"
                         onClick={() =>
-                          clipboard.writeText(this.props.passphrase)}
+                          clipboard.writeText(this.props.passphrase)
+                        }
                       />
                     </div>
                   </div>
@@ -217,7 +219,8 @@ class DisplayWalletKeys extends Component {
                           this.props.dispatch,
                           this.props.passphraseKey,
                           this.props.history
-                        )}
+                        )
+                      }
                       className="btn-send"
                     >
                       Save & Continue
@@ -242,12 +245,9 @@ class DisplayWalletKeys extends Component {
           </div>
           <div className="row">
             <div className="col-xs-12">
-              <label
-                className="checkbox-inline"
-                style={{ color: "white" }}
-              >
-                I have backed up my password and understand it will not
-                be shown to me again.
+              <label className="checkbox-inline" style={{ color: "white" }}>
+                I have backed up my password and understand it will not be shown
+                to me again.
               </label>
               <input
                 id="checkbox"
@@ -267,14 +267,17 @@ class DisplayWalletKeys extends Component {
             </div>
             Print Wallet Data
           </div>
-          <div className="dash-icon-bar" onClick={() => {
+          <div
+            className="dash-icon-bar"
+            onClick={() => {
               this.setState({ show: true });
-            }} >
-              <div className="icon-border">
-                <span className="glyphicon glyphicon-qrcode"></span>
-              </div>
-              View Private Data
+            }}
+          >
+            <div className="icon-border">
+              <span className="glyphicon glyphicon-qrcode" />
             </div>
+            View Private Data
+          </div>
           <div
             className="dash-icon-bar"
             onClick={() => {
