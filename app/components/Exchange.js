@@ -92,8 +92,6 @@ class Exchange extends Component {
             this.props.dispatch(
               sendEvent(false, "waiting dont close window or navigate away")
             );
-            // clearInterval(myVar);
-            // this.props.dispatch(clearTransactionEvent());
           } else if (data.result === "finished") {
             this.props.dispatch(
               sendEvent(
@@ -101,9 +99,6 @@ class Exchange extends Component {
                 "NEO successfully sent to the recipient address."
               )
             );
-
-            // clearInterval(myVar);
-            // this.props.dispatch(clearTransactionEvent());
           } else if (data.result === "failed") {
             this.props.dispatch(
               sendEvent(
@@ -123,12 +118,6 @@ class Exchange extends Component {
         }
       });
     }, 6000);
-
-    // if (this.state.status === "waiting") {
-    //   clearInterval(myVar);
-    //   console.log("clear");
-    //   this.props.dispatch(clearTransactionEvent());
-    // }
   }
 
   async handleSubmit(dispatch, address) {
