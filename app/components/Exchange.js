@@ -76,19 +76,49 @@ class Exchange extends Component {
           this.setState({ status: data.result });
           if (data.result === "confirming") {
             this.props.dispatch(
-              sendEvent(false, "confirming, dont close window")
+              sendEvent(
+                false,
+                "Your transaction is in a mempool and waits to be confirmed. dont close window"
+              )
             );
           } else if (data.result === "exchanging") {
             this.props.dispatch(
-              sendEvent(false, "exchanging dont close window")
+              sendEvent(
+                false,
+                "Your payment is received and being exchanged via a Changelly partner. dont close window"
+              )
             );
           } else if (data.result === "waiting") {
             this.props.dispatch(
               sendEvent(false, "waiting dont close window or navigate away")
             );
+            // clearInterval(myVar);
+            // this.props.dispatch(clearTransactionEvent());
+          } else if (data.result === "finished") {
+            this.props.dispatch(
+              sendEvent(
+                false,
+                "NEO successfully sent to the recipient address."
+              )
+            );
 
             // clearInterval(myVar);
             // this.props.dispatch(clearTransactionEvent());
+          } else if (data.result === "failed") {
+            this.props.dispatch(
+              sendEvent(
+                false,
+                "Money is successfully sent to the recipient address."
+              )
+            );
+          } else if (data.result === "refunded") {
+            this.props.dispatch(
+              sendEvent(false, "Exchange was failed and coins were refunded")
+            );
+          } else if (data.result === "sending") {
+            this.props.dispatch(
+              sendEvent(false, "Money is sending to the recipient address.")
+            );
           }
         }
       });
