@@ -153,7 +153,12 @@ class NetworkSwitch extends Component {
     resetBalanceSync(this.props.dispatch, this.props.net, this.props.address);
   };
   render = () => (
-    <div id="network">
+    <div
+      id="network"
+      onClick={() =>
+        toggleNet(this.props.dispatch, this.props.net, this.props.address)
+      }
+    >
       <div className="dash-icon-bar">
         <div className="icon-border">
           <span className="glyphicon glyphicon-exclamation-sign" />
