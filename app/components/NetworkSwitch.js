@@ -30,7 +30,6 @@ export const getMarketPriceUSD = amount => {
   return axios
     .get("https://bittrex.com/api/v1.1/public/getticker?market=USDT-NEO")
     .then(response => {
-      console.log(response);
       let lastUSDNEO = Number(response.data.result.Last);
       return "$" + (lastUSDNEO * amount).toFixed(2).toString();
     });
@@ -85,9 +84,7 @@ const initiateGetBalance = (dispatch, net, address) => {
 };
 
 const syncAvailableClaim = (dispatch, net, address) => {
-  console.log("trying to get claim");
   getClaimAmounts(net, address).then(result => {
-    console.log(result);
     //claimAmount / 100000000
     dispatch(setClaim(result.available, result.unavailable));
   });

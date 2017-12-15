@@ -108,36 +108,32 @@ class Dashboard extends Component {
             <div className="navbar-collapse collapse">
               <ul className="nav navbar-nav">
                 <li>
-                  <Link to={"/dashboard"} exact activeClassName="active">
+                  <Link to={"/dashboard"} activeClassName="active">
                     <div className="glyphicon glyphicon-stats" /> Dashboard
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/send"} exact activeClassName="active">
+                  <Link to={"/send"} activeClassName="active">
                     <span className="glyphicon glyphicon-send" /> Send
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/receive"} exact activeClassName="active">
+                  <Link to={"/receive"} activeClassName="active">
                     <span className="glyphicon glyphicon-qrcode" /> Receive
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/exchange"} exact activeClassName="active">
+                  <Link to={"/exchange"} activeClassName="active">
                     <span className="glyphicon glyphicon-refresh" /> Exchange
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to={"/transactionHistory"}
-                    exact
-                    activeClassName="active"
-                  >
+                  <Link to={"/transactionHistory"} activeClassName="active">
                     <span className="glyphicon glyphicon-list-alt" /> History
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/settings"} exact activeClassName="active">
+                  <Link to={"/settings"} activeClassName="active">
                     <span className="glyphicon glyphicon-lock" /> Settings
                   </Link>
                 </li>

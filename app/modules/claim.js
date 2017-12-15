@@ -40,7 +40,6 @@ export default (
 ) => {
   switch (action.type) {
     case SET_CLAIM_REQUEST:
-      console.log("setting claim request", action.status);
       return { ...state, claimRequest: action.status };
     case SET_CLAIM:
       let claimWasUpdated = false;
@@ -50,7 +49,6 @@ export default (
       ) {
         claimWasUpdated = true;
       }
-      console.log("setting claim", state.claimRequest, claimWasUpdated);
       return {
         ...state,
         claimAmount: (action.available + action.unavailable) / 100000000,
