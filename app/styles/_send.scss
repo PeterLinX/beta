@@ -452,6 +452,10 @@ max-width: 715px;
   margin-top: 10px;
 }
 
+.top-55 {
+  margin-top: 55px;
+}
+
 
 .fadeInDown {
   -webkit-animation-name: fadeInDown;
@@ -524,4 +528,12 @@ max-width: 715px;
     padding: 20px 0px 12px;
     width: 210px;
     margin: 0px auto;
+}
+
+
+.ledger-nanos {
+background: url("../img/ledger_nano_s.png") no-repeat center;
+width: 380px;
+height: 69px;
+margin: 40px auto 20px;
 }
