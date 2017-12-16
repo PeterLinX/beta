@@ -277,9 +277,7 @@ class Send extends Component {
                       inputEnabled === false ? this.state.value : sendAmount
                     }
                     placeholder="Enter amount to send"
-                    ref={node => {
-                      sendAmount = node;
-                    }}
+                    ref={node => {sendAmount = node;}}
                   />
                 </div>
                 <div className="col-xs-4 top-20">

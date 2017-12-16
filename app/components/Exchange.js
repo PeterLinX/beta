@@ -309,11 +309,10 @@ class Exchange extends Component {
                 </div>
               </div>
               <div className="row top-20">
-                <div className="col-xs-3 col-xs-offset-1 sm-text">
-                  Min Val = {this.state.minAmount} BTC <br />
-                  1 BTC = NaN NEO<br />
-                  1 NEO = $NaN USD<br />
-                  Subject to trasnsaction fees
+                <div className="col-xs-3 col-xs-offset-1 ">
+                  <strong>Minimum Order:<br/>
+                   {this.state.minAmount} BTC</strong><br />
+                   <span className="sm-text">Transaction fees included.</span>
                 </div>
                 <div className="col-xs-4 center">
                   <button
@@ -334,6 +333,9 @@ class Exchange extends Component {
                 </div>
               </div>
             </div>
+<p className="center send-notice top-10">All bitcoin transactions are subject to network fees.<br />
+Due to bitcoin network volume, transactions may take 30 mins or more.</p>
+
           </div>
         </div>
       );
