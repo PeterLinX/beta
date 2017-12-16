@@ -138,11 +138,6 @@ class Dashboard extends Component {
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/settings"} activeClassName="active">
-                    <span className="glyphicon glyphicon-lock" /> Settings
-                  </Link>
-                </li>
-                <li>
                   <Link to={"/about"} activeClassName="active">
                     <span className="glyphicon glyphicon-info-sign" /> FAQ & News
                   </Link>
@@ -150,6 +145,11 @@ class Dashboard extends Component {
                 <li>
                   <Link to={"/featured"} activeClassName="active">
                     <span className="glyphicon glyphicon-heart" /> Featured ICO
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"/settings"} activeClassName="active">
+                    <span className="glyphicon glyphicon-lock" /> Settings
                   </Link>
                 </li>
               </ul>

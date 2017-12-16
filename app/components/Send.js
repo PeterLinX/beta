@@ -127,10 +127,12 @@ class Send extends Component {
       neo: 0,
       neo_usd: 0,
       gas_usd: 0,
-      value: 0
+      value: 0,
+      inputEnabled: true
     };
     this.handleChangeNeo = this.handleChangeNeo.bind(this);
     this.handleChangeGas = this.handleChangeGas.bind(this);
+    this.handleChangeUSD = this.handleChangeUSD.bind(this);
   }
 
   async componentDidMount() {
@@ -151,6 +153,20 @@ class Send extends Component {
     this.setState({ value: event.target.value });
     const value = event.target.value * this.state.gas;
     this.setState({ gas_usd: value });
+  }
+
+  async handleChangeUSD(event) {
+    this.setState(
+      { gas_usd: event.target.value },
+      console.log(event.target.value)
+    );
+
+    let gas = await axios.get(apiURL("GAS"));
+    gas = gas.data.USD;
+    this.setState({ gas: gas });
+    console.log("done");
+    const value = ((this.state.gas_usd * 100) / 100) / (this.state.gas);
+    this.setState({ value: value }, console.log(this.state.value));
   }
 
   render() {
@@ -178,13 +194,18 @@ class Send extends Component {
     let btnClass;
     let formClass;
     let priceUSD = 0;
+    let gasEnabled = false;
+    let inputEnabled = true;
     let convertFunction = this.handleChangeNeo;
     if (selectedAsset === "Neo") {
       btnClass = "btn-send";
       convertFunction = this.handleChangeNeo;
       formClass = "form-send-neo";
       priceUSD = this.state.neo_usd;
+      inputEnabled = true;
     } else if (selectedAsset === "Gas") {
+      gasEnabled = true;
+      inputEnabled = false;
       btnClass = "btn-send-gas";
       formClass = "form-send-gas";
       priceUSD = this.state.gas_usd;
@@ -250,8 +271,11 @@ class Send extends Component {
                     className={formClass}
                     type="number"
                     id="assetAmount"
-                    min="1"
+                    min="0"
                     onChange={convertFunction}
+                    value={
+                      inputEnabled === false ? this.state.value : sendAmount
+                    }
                     placeholder="Enter amount to send"
                     ref={node => {
                       sendAmount = node;
@@ -262,9 +286,11 @@ class Send extends Component {
                   <input
                     className={formClass}
                     id="sendAmount"
-                    disabled
+                    onChange={this.handleChangeUSD}
+                    onClick={this.handleChangeUSD}
+                    disabled={gasEnabled === false ? true : false}
                     placeholder="Amount in US"
-                    value={`${Math.round(priceUSD * 100) / 100} USD`}
+                    value={`${this.state.gas_usd}`}
                   />
                   <label className="amount-dollar">$</label>
                 </div>
