@@ -7,6 +7,7 @@ import Delete from "react-icons/lib/md/delete";
 import _ from "lodash";
 import fs from "fs";
 import storage from "electron-json-storage";
+import { shell } from "electron";
 import Logo from "./Brand/LogoBlank";
 import NeoLogo from "./Brand/Neo";
 import Claim from "./Claim";
@@ -100,25 +101,16 @@ const deleteWallet = (dispatch, key) => {
   });
 };
 
-const getExplorerLink = (net, explorer, txid) => {
+const getLink = (net, address) => {
   let base;
-  if (explorer === "Neotracker") {
-    if (net === "MainNet") {
-      base = "https://neotracker.io/tx/";
-    } else {
-      base = "https://testnet.neotracker.io/tx/";
-    }
+  if (net === "MainNet") {
+    base = "https://neotracker.io/address/";
   } else {
-    if (net === "MainNet") {
-      base = "http://antcha.in/tx/hash/";
-    } else {
-      base = "http://testnet.antcha.in/tx/hash/";
-    }
+    base = "https://testnet.neotracker.io/address/";
   }
-  return base + txid;
+  return base + address;
 };
 
-// helper to open an external web link
 const openExplorer = srcLink => {
   shell.openExternal(srcLink);
 };
@@ -218,13 +210,7 @@ class Settings extends Component {
                 <div
                   className="dash-icon-bar"
                   onClick={() =>
-                    openExplorer(
-                      getExplorerLink(
-                        this.props.net,
-                        this.props.explorer,
-                        t.txid
-                      )
-                    )
+                    openExplorer(getLink(this.props.net, this.props.address))
                   }
                 >
                   <div className="icon-border">

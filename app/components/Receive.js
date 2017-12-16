@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import QRCode from "qrcode.react";
 import { clipboard } from "electron";
+import { shell } from "electron";
 import neoLogo from "../images/neo.png";
 import copyIcon from "../images/copy-icon.png";
 import printIcon from "../images/print-icon.png";
@@ -9,8 +10,23 @@ import emailIcon from "../images/email-icon.png";
 import linkIcon from "../images/link-icon.png";
 import TopBar from "./TopBar";
 
+const getLink = (net, address) => {
+  let base;
+  if (net === "MainNet") {
+    base = "https://neotracker.io/address/";
+  } else {
+    base = "https://testnet.neotracker.io/address/";
+  }
+  return base + address;
+};
+
+const openExplorer = srcLink => {
+  shell.openExternal(srcLink);
+};
+
 class Receive extends Component {
   render() {
+    console.log(this.props.net);
     return (
       <div id="receive" className="">
         <TopBar />
@@ -44,7 +60,12 @@ class Receive extends Component {
                 Print Public Address
               </div>
 
-              <div className="dash-icon-bar animated fadeInUp">
+              <div
+                className="dash-icon-bar animated fadeInUp"
+                onClick={() =>
+                  openExplorer(getLink(this.props.net, this.props.address))
+                }
+              >
                 <div className="icon-border">
                   <span className="glyphicon glyphicon-link" />
                 </div>
