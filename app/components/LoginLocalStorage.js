@@ -80,14 +80,6 @@ class LoginLocalStorage extends Component {
     });
   };
 
-  inputKeyUp(e) {
-    e.which = e.which || e.keyCode;
-    if (e.which == 13) {
-      // submit
-      console.log("prssed");
-    }
-  }
-
   render = () => {
     const dispatch = this.props.dispatch;
     const loggedIn = this.props.loggedIn;
@@ -142,9 +134,6 @@ class LoginLocalStorage extends Component {
                     {Object.keys(this.props.accountKeys).length === 0 ? (
                       <button
                         type="submit"
-                        onKeyUp={() => {
-                          this.inputKeyUp(event);
-                        }}
                         className="login-button"
                         onClick={e => onWifChange(dispatch, this.props.history)}
                       >
@@ -153,9 +142,6 @@ class LoginLocalStorage extends Component {
                     ) : (
                       <button
                         type="submit"
-                        onKeyUp={() => {
-                          this.inputKeyUp(event);
-                        }}
                         className="login-button"
                         onClick={e => onWifChange(dispatch, this.props.history)}
                       >
