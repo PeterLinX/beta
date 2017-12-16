@@ -27,7 +27,6 @@ export default (
       <Route path="/exchangeAddress" component={ExchangeAddress} />
       <Route path="/transactionHistory" component={TransactionHistory} />
     </Route>
-    <Route path="/transactionHistory" component={TransactionHistory} />
     <Route path="/create" component={CreateWallet} />
     <Route path="/encryptKey" component={EncryptKey} />
     <Route path="/DisplayWalletKeys" component={DisplayWalletKeys} />
