@@ -14,7 +14,6 @@ let wif;
 
 const logo = require("../img/app-logo.png");
 
-// TODO: move to neon-js
 const verifyPrivateKey = wif => {
   try {
     // TODO: better check
@@ -61,8 +60,6 @@ const loadKeyRecovery = dispatch => {
         dispatch(setKeys(data));
         storage.set("keys", data);
       });
-      // dispatch(setKeys(keys));
-      // storage.set('keys', keys);
     });
   });
 };
@@ -72,7 +69,6 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => {
     const keyName = event.key;
 
     if (keyName === "Enter") {
-      console.log("logging in");
       onWifChange(dispatch, history, wif);
     }
   });
