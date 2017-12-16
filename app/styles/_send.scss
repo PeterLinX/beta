@@ -23,9 +23,9 @@
   padding: 10px;
   width: 720px;
   margin-left: 2%;
-  -moz-box-shadow:    inset 0 0 12px #000000;
-   -webkit-box-shadow: inset 0 0 12px #000000;
-   box-shadow:         inset 0 0 12px #000000;
+  -moz-box-shadow: inset 0 0 12px #000000;
+  -webkit-box-shadow: inset 0 0 12px #000000;
+  box-shadow: inset 0 0 12px #000000;
 }
 .neo-text {
   font-size: 36px;
@@ -276,10 +276,10 @@ webview {
 
 #neo-price {
   -webkit-padding-start: 0px;
-      font-size: 13px;
-      margin: 10px 0px 0px 0px;
-      display: block;
-      text-align: center;
+  font-size: 13px;
+  margin: 10px 0px 0px 0px;
+  display: block;
+  text-align: center;
 }
 
 #neo-price li {
@@ -320,10 +320,10 @@ webview {
 }
 
 .exchange-glyph {
-margin-top: 0px;
-font-size: 36px;
-text-align: center;
-color: #333;
+  margin-top: 0px;
+  font-size: 36px;
+  text-align: center;
+  color: #333;
 }
 
 .up-65 {
@@ -345,13 +345,13 @@ color: #333;
 }
 
 .progress-bar {
-background: url("../img/progress-bar1.png") no-repeat center;
-width: 500px;
-height: 17px;
-position: absolute;
-top: 25%;
-left: 35%;
-border: none;
+  background: url("../img/progress-bar1.png") no-repeat center;
+  width: 500px;
+  height: 17px;
+  position: absolute;
+  top: 25%;
+  left: 35%;
+  border: none;
   box-shadow: none;
   -moz-box-shadow: none;
   -o-box-shadow: none;
@@ -361,13 +361,13 @@ border: none;
 }
 
 .progress-bar2 {
-background: url("../img/progress-bar2.png") no-repeat center;
-width: 500px;
-height: 17px;
-position: absolute;
-top: 25%;
-left: 35%;
-border: none;
+  background: url("../img/progress-bar2.png") no-repeat center;
+  width: 500px;
+  height: 17px;
+  position: absolute;
+  top: 25%;
+  left: 35%;
+  border: none;
   box-shadow: none;
   -moz-box-shadow: none;
   -o-box-shadow: none;
@@ -377,24 +377,24 @@ border: none;
 }
 
 @keyframes fadeInLeft-ex {
-    0% {
-        opacity: 0;
-        transform: translateX(-20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 .fadeInLeft-ex {
-    animation-name: fadeInLeft-ex;
+  animation-name: fadeInLeft-ex;
 }
 
 .prog-info {
-position: absolute;
-left: 26%;
-top: 26%;
-max-width: 715px;
+  position: absolute;
+  left: 26%;
+  top: 26%;
+  max-width: 715px;
 }
 
 .grey-out {
@@ -416,7 +416,6 @@ max-width: 715px;
   margin-top: 10px;
 }
 
-
 .fadeInDown {
   -webkit-animation-name: fadeInDown;
   animation-name: fadeInDown;
@@ -424,29 +423,29 @@ max-width: 715px;
   animation-duration: 1s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
-  }
-  @-webkit-keyframes fadeInDown {
+}
+@-webkit-keyframes fadeInDown {
   0% {
-  opacity: 0;
-  -webkit-transform: translate3d(0, -5%, 0);
-  transform: translate3d(0, -5%, 0);
+    opacity: 0;
+    -webkit-transform: translate3d(0, -5%, 0);
+    transform: translate3d(0, -5%, 0);
   }
   100% {
-  opacity: 1;
-  -webkit-transform: none;
-  transform: none;
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
   }
-  }
-  @keyframes fadeInDown {
+}
+@keyframes fadeInDown {
   0% {
-  opacity: 0;
-  -webkit-transform: translate3d(0, -5%, 0);
-  transform: translate3d(0, -5%, 0);
+    opacity: 0;
+    -webkit-transform: translate3d(0, -5%, 0);
+    transform: translate3d(0, -5%, 0);
   }
   100% {
-  opacity: 1;
-  -webkit-transform: none;
-  transform: none;
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
   }
 }
 
@@ -457,13 +456,12 @@ max-width: 715px;
 
 #dash-price-select {
   width: 100%;
-    background: #333;
-    height: 30px;
-    font-size: 16px;
-    border: 1px solid #555;
-    margin-top: 0px;
+  background: #333;
+  height: 30px;
+  font-size: 16px;
+  border: 1px solid #555;
+  margin-top: 0px;
 }
-
 
 .modal-alert {
   font-size: 20px;
@@ -471,21 +469,22 @@ max-width: 715px;
   color: #cecece;
 }
 
-.warning:hover > .dash-icon-bar, .warning:hover > .icon-border  {
+.warning:hover > .dash-icon-bar,
+.warning:hover > .icon-border {
   color: #ff0000;
-    border-color: #ff0000;
+  border-color: #ff0000;
 }
 
-.warning:hover, {
+.warning:hover {
   color: #ff0000;
   border-color: #ff0000;
 }
 
 .exchange-qr {
   border: 10px solid #d3d3d3;
-    background-color: white;
-    border-radius: 30px;
-    padding: 20px 0px 12px;
-    width: 210px;
-    margin: 0px auto;
+  background-color: white;
+  border-radius: 30px;
+  padding: 20px 0px 12px;
+  width: 210px;
+  margin: 0px auto;
 }

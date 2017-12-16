@@ -10,20 +10,20 @@
 
 .btn-sm {
   display: inline-block;
-      padding: 6px 16px;
-      margin: 5px 2px;
-      font-size: 12px;
-      line-height: 1.4;
-      text-align: center;
-      white-space: nowrap;
-      vertical-align: middle;
-      background-image: none;
-      cursor: pointer;
-      border: 0px solid #000;
-      border-radius: 4px;
-      box-shadow: 0 1px 1px rgba(30, 30, 30, 0.65);
-      -webkit-app-region: no-drag;
-      background-color: #1e1e1e;
+  padding: 6px 16px;
+  margin: 5px 2px;
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  background-image: none;
+  cursor: pointer;
+  border: 0px solid #000;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(30, 30, 30, 0.65);
+  -webkit-app-region: no-drag;
+  background-color: #1e1e1e;
 }
 
 .btn-bg {
@@ -38,44 +38,53 @@
 
 .btn-send {
   padding: 7px 22px;
-      height: 40px;
-      font-size: 18px;
-      border: thin solid #7ed321;
-      cursor: pointer;
-      text-align: center;
-      border-radius: 5px;
-      color: #000;
-      margin: 0;
-      opacity: 0.8;
-      background: rgb(143, 196, 0);
-      background: linear-gradient( to bottom, rgba(143, 196, 0, 1) 0%, rgb(64, 134, 0) 100% );
+  height: 40px;
+  font-size: 18px;
+  border: thin solid #7ed321;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: #000;
+  margin: 0;
+  opacity: 0.8;
+  background: rgb(143, 196, 0);
+  background: linear-gradient(
+    to bottom,
+    rgba(143, 196, 0, 1) 0%,
+    rgb(64, 134, 0) 100%
+  );
 }
 
 .btn-send-gas {
   padding: 7px 22px;
-      height: 40px;
-      font-size: 18px;
-      border: thin solid #52397b;
-      cursor: pointer;
-      text-align: center;
-      border-radius: 5px;
-      color: #000;
-      margin: 0;
-      opacity: 0.8;
-      background: linear-gradient( to bottom, rgba(203, 96, 179, 1) 0%, rgba(104, 34, 165, 1) 0%, rgba(104, 3, 120, 1) 99% );
+  height: 40px;
+  font-size: 18px;
+  border: thin solid #52397b;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: #000;
+  margin: 0;
+  opacity: 0.8;
+  background: linear-gradient(
+    to bottom,
+    rgba(203, 96, 179, 1) 0%,
+    rgba(104, 34, 165, 1) 0%,
+    rgba(104, 3, 120, 1) 99%
+  );
 }
 
 .btn-export {
   padding: 10px 22px;
-      height: 46px;
-      font-size: 18px;
-      border: 0;
-      cursor: pointer;
-      text-align: center;
-      border-radius: 5px;
-      color: #000;
-      margin: 0;
-      opacity: 0.8;
+  height: 46px;
+  font-size: 18px;
+  border: 0;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: #000;
+  margin: 0;
+  opacity: 0.8;
   background: rgb(250, 217, 97);
   background: linear-gradient(
     to bottom,
@@ -86,15 +95,15 @@
 
 .btn-receive {
   padding: 10px 22px;
-      height: 46px;
-      font-size: 18px;
-      border: 0;
-      cursor: pointer;
-      text-align: center;
-      border-radius: 5px;
-      color: #000;
-      margin: 0;
-      opacity: 0.8;
+  height: 46px;
+  font-size: 18px;
+  border: 0;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: #000;
+  margin: 0;
+  opacity: 0.8;
   background: rgb(64, 150, 238);
   /* Old browsers */
   background: -moz-linear-gradient(
@@ -119,15 +128,15 @@
 
 .btn-blue {
   padding: 10px 22px;
-      height: 46px;
-      font-size: 18px;
-      border: 0;
-      cursor: pointer;
-      text-align: center;
-      border-radius: 5px;
-      color: #000;
-      margin: 0;
-      opacity: 0.8;
+  height: 46px;
+  font-size: 18px;
+  border: 0;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: #000;
+  margin: 0;
+  opacity: 0.8;
   background: rgb(36, 180, 245);
   /* Old browsers */
   background: -moz-linear-gradient(
@@ -152,15 +161,15 @@
 
 .btn-red {
   padding: 10px 22px;
-      height: 46px;
-      font-size: 18px;
-      border: 0;
-      cursor: pointer;
-      text-align: center;
-      border-radius: 5px;
-      color: #000;
-      margin: 0;
-      opacity: 0.8;
+  height: 46px;
+  font-size: 18px;
+  border: 0;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: #000;
+  margin: 0;
+  opacity: 0.8;
   background: rgb(169, 3, 41);
   /* Old browsers */
   background: -moz-linear-gradient(
@@ -256,60 +265,62 @@
   animation-duration: 1s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
-  }
-  @-webkit-keyframes fadeInLeft {
+}
+@-webkit-keyframes fadeInLeft {
   0% {
-  opacity: 0;
-  -webkit-transform: translate3d(-100%, 0, 0);
-  transform: translate3d(-100%, 0, 0);
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
   }
   100% {
-  opacity: 1;
-  -webkit-transform: none;
-  transform: none;
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
   }
-  }
-  @keyframes fadeInLeft {
+}
+@keyframes fadeInLeft {
   0% {
-  opacity: 0;
-  -webkit-transform: translate3d(-100%, 0, 0);
-  transform: translate3d(-100%, 0, 0);
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
   }
   100% {
-  opacity: 1;
-  -webkit-transform: none;
-  transform: none;
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
   }
-  }
-
-.delete:hover {
-    color: #fff;
-    background: rgb(169, 3, 41);
-    /* Old browsers */
-    background: -moz-linear-gradient(
-      top,
-      rgba(169, 3, 41, 1) 0%,
-      rgba(143, 2, 34, 1) 44%,
-      rgba(94, 0, 14, 1) 100%
-    );
-    /* FF3.6-15 */
-    background: -webkit-linear-gradient(
-      top,
-      rgba(169, 3, 41, 1) 0%,
-      rgba(143, 2, 34, 1) 44%,
-      rgba(94, 0, 14, 1) 100%
-    );
-    /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(
-      to bottom,
-      rgba(169, 3, 41, 1) 0%,
-      rgba(143, 2, 34, 1) 44%,
-      rgba(94, 0, 14, 1) 100%
-    );
-    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
-.blue:hover, .blue:active, .blue:checked {
+.delete:hover {
+  color: #fff;
+  background: rgb(169, 3, 41);
+  /* Old browsers */
+  background: -moz-linear-gradient(
+    top,
+    rgba(169, 3, 41, 1) 0%,
+    rgba(143, 2, 34, 1) 44%,
+    rgba(94, 0, 14, 1) 100%
+  );
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(
+    top,
+    rgba(169, 3, 41, 1) 0%,
+    rgba(143, 2, 34, 1) 44%,
+    rgba(94, 0, 14, 1) 100%
+  );
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(
+    to bottom,
+    rgba(169, 3, 41, 1) 0%,
+    rgba(143, 2, 34, 1) 44%,
+    rgba(94, 0, 14, 1) 100%
+  );
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.blue:hover,
+.blue:active,
+.blue:checked {
   background: rgb(36, 180, 245);
   /* Old browsers */
   background: -moz-linear-gradient(
@@ -349,7 +360,7 @@
 }
 
 .grey-button:hover {
-    border: 0px solid #616161;
-    color: #333;
-    background: #61b900;
+  border: 0px solid #616161;
+  color: #333;
+  background: #61b900;
 }
