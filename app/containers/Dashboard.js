@@ -144,7 +144,7 @@ class Dashboard extends Component {
                 </li>
                 <li>
                   <Link to={"/featured"} activeClassName="active">
-                    <span className="glyphicon glyphicon-heart" /> Featured ICO
+                    <span className="glyphicon glyphicon-heart" /> Featured
                   </Link>
                 </li>
                 <li>
