@@ -10,6 +10,9 @@ import { clipboard } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import ReactTooltip from "react-tooltip";
 import neoLogo from "../images/neo.png";
+import NeoLogo from "./Brand/Neo";
+import BtcLogo from "./Brand/Bitcoin";
+import TopBar from "./TopBar";
 
 // force sync with balance data
 const refreshBalance = (dispatch, net, address) => {
@@ -20,7 +23,7 @@ const refreshBalance = (dispatch, net, address) => {
   });
 };
 
-class Exchange extends Component {
+class Featured extends Component {
   componentDidMount = () => {
     initiateGetBalance(this.props.dispatch, this.props.net, this.props.address);
     QRCode.toCanvas(this.canvas, this.props.address, { version: 5 }, err => {
@@ -31,12 +34,14 @@ class Exchange extends Component {
   render = () => {
     if (this.props.address != null) {
       return (
-        <div id="exchange-info">
-          <webview
-            id="foo"
-            src={`https://www.morpheuswallet.com/featured-ico/`}
-          />
-        </div>
+      <div>
+      <div id="exchange-info">
+        <webview
+          id="foo"
+          src={`https://www.morpheuswallet.com/featured-ico/`}
+        />
+      </div>
+      </div>
       );
     } else {
       return null;
@@ -52,6 +57,6 @@ const mapStateToProps = state => ({
   price: state.wallet.price
 });
 
-Exchange = connect(mapStateToProps)(Exchange);
+Featured = connect(mapStateToProps)(Featured);
 
-export default Exchange;
+export default Featured;

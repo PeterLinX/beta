@@ -176,12 +176,14 @@ class Settings extends Component {
                 </Link>
               </div>
               <div className="col-xs-2 center">
-                <div className="dash-icon-bar com-soon">
+              <Link to="/trade">
+                <div className="dash-icon-bar">
                   <div className="icon-border">
-                    <span className="glyphicon glyphicon-phone" />
+                    <span className="glyphicon glyphicon-signal" />
                   </div>
-                  Enable Two Factor Authorization
+                  Pro Trading Charts
                 </div>
+                </Link>
               </div>
               <div className="col-xs-2 center">
                 <div className="dash-icon-bar com-soon">

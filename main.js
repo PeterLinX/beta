@@ -110,7 +110,7 @@ app.on("ready", () => {
         {
           label: "Learn More",
           click() {
-            require("electron").shell.openExternal("https://electron.atom.io");
+            require("electron").shell.openExternal("https://morpheuswallet.com/frequently-asked-questions");
           }
         }
       ]
