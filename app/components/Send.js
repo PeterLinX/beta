@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
 import { doSendAsset, verifyAddress } from "neon-js";
-var Modal = require("react-bootstrap-modal");
+import Modal from "react-bootstrap-modal";
 import axios from "axios";
-
 import { togglePane } from "../modules/dashboard";
 import {
   sendEvent,
@@ -144,29 +143,26 @@ class Send extends Component {
   }
 
   handleChangeNeo(event) {
-    this.setState({ value: event.target.value });
+    this.setState({ value: event.target.value }, (sendAmount = value));
     const value = event.target.value * this.state.neo;
     this.setState({ neo_usd: value });
   }
 
   handleChangeGas(event) {
-    this.setState({ value: event.target.value });
+    this.setState({ value: event.target.value }, (sendAmount = value));
     const value = event.target.value * this.state.gas;
     this.setState({ gas_usd: value });
   }
 
   async handleChangeUSD(event) {
-    this.setState(
-      { gas_usd: event.target.value },
-      console.log(event.target.value)
-    );
+    this.setState({ gas_usd: event.target.value });
 
     let gas = await axios.get(apiURL("GAS"));
     gas = gas.data.USD;
     this.setState({ gas: gas });
     console.log("done");
-    const value = this.state.gas / this.state.gas_usd;
-    this.setState({ value: value }, console.log(this.state.value));
+    const value = this.state.gas_usd / this.state.gas;
+    this.setState({ value: value }, (sendAmount = value));
   }
 
   render() {
@@ -234,7 +230,7 @@ class Send extends Component {
                 data-tip
                 data-for="assetTip"
                 onClick={() => {
-                  this.setState({ gas_usd: 0, neo_usd: 0 });
+                  this.setState({ gas_usd: 0, neo_usd: 0, value: 0 });
                   document.getElementById("assetAmount").value = "";
                   dispatch(toggleAsset());
                 }}
@@ -273,9 +269,7 @@ class Send extends Component {
                     id="assetAmount"
                     min="1"
                     onChange={convertFunction}
-                    value={
-                      inputEnabled === false ? this.state.value : sendAmount
-                    }
+                    value={this.state.value}
                     placeholder="Enter amount to send"
                     ref={node => {
                       sendAmount = node;
@@ -290,7 +284,7 @@ class Send extends Component {
                     onClick={this.handleChangeUSD}
                     disabled={gasEnabled === false ? true : false}
                     placeholder="Amount in US"
-                    value={`${this.state.gas_usd}`}
+                    value={`${priceUSD}`}
                   />
                   <label className="amount-dollar">$</label>
                 </div>
