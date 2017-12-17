@@ -38,7 +38,7 @@ class About extends Component {
       <div id="exchange-info">
         <webview
           id="foo"
-          src={`https://www.morpheuswallet.com/frequently-asked-questions/`}
+          src={`https://goo.gl/QYDGR6`}
         />
       </div>
       </div>

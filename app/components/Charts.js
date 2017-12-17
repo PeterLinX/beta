@@ -6,6 +6,7 @@ import axios from "axios";
 import _ from "lodash";
 import moment from "moment";
 import neoLogo from "../images/neo.png";
+import { Link } from "react-router";
 
 const api = val => {
   return `https://min-api.cryptocompare.com/data/histohour?fsym=${
@@ -313,11 +314,20 @@ class Charts extends Component {
                 <h3 className="neo-dash-price">NEO Prices</h3>
               </div>
               <div className="col-xs-6">
-                <ul id="neo-price">
-                  <li>OPEN: ${this.state.open}</li>
-                  <li> HIGH: ${this.state.high}</li>
-                  <li> LOW: ${this.state.low}</li>
-                </ul>
+        <Link to="/trade">
+        <div
+        data-tip
+        data-for="chartTip"
+        className="trade-button">Switch to TradingView Charts</div></Link>
+        <ReactTooltip
+          className="solidTip"
+          id="chartTip"
+          place="top"
+          type="light"
+          effect="solid"
+        >
+          <span>View Pro Charts & Indicators</span>
+        </ReactTooltip>
               </div>
               <div className="col-xs-2">
                 <select

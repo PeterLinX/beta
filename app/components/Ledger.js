@@ -42,7 +42,13 @@ class Ledger extends Component {
         <div className="settings-panel fadeInDown">
         <div className="col-xs-12">
           <div className="col-xs-9">
-          <h4 className="top-20">Transfer NEO/GAS from Moprheus</h4>
+          <img
+            src={neoLogo}
+            alt=""
+            width="48"
+            className="neo-logo logobounce"
+          />
+          <h3 className="top-20">Transfer NEO/GAS from Moprheus</h3>
           <input className="form-control-exchange center top-10" placeholder={this.props.address} />
           </div>
 

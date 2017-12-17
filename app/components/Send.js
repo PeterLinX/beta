@@ -240,11 +240,11 @@ class Send extends Component {
               <ReactTooltip
                 className="solidTip"
                 id="assetTip"
-                place="bottom"
-                type="dark"
+                place="top"
+                type="light"
                 effect="solid"
               >
-                <span>Click To Switch</span>
+                <span>Click to switch between NEO and GAS</span>
               </ReactTooltip>
             </div>
 

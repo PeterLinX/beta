@@ -38,7 +38,7 @@ class Featured extends Component {
       <div id="exchange-info">
         <webview
           id="foo"
-          src={`https://www.morpheuswallet.com/featured-ico/`}
+          src={`https://goo.gl/TuRQMF`}
         />
       </div>
       </div>

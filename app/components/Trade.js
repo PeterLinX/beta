@@ -137,17 +137,13 @@ class Settings extends Component {
   };
 
   render = () => (
-    <div id="send">
-      <TopBar />
-      <div className="settings-panel top-50 fadeInDown">
+  <div id="send">
       <webview
         id="tradingview"
-        src={`https://www.morpheuswallet.com/charts/`}
+        src={`https://goo.gl/JVDEfG`}
       />
-      </div>
-
       <div className="clearboth" />
-    </div>
+  </div>
   );
 }
 

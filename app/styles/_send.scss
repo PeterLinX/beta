@@ -543,6 +543,25 @@ margin-left: -6px;
 }
 
 #tradingview {
-  height: 353px;
-  width: 650px;
+  height: 720px;
+      width: 840px;
+      -webkit-app-region: no-drag;
+      position: absolute;
+      top: 0px;
+      left: 185px;
+}
+
+.trade-button {
+  margin: 0px;
+      float: right;
+      padding: 4px 12px;
+      background: #252525;
+      color: #fff;
+      font-size: 14px;
+      text-align: center;
+      font-weight: bold;
+      max-width: 230px;
+      border-radius: 4px;
+      cursor: pointer;
+      border: thin solid #3a3a3a;
 }
