@@ -153,7 +153,7 @@ class CreateWallet extends Component {
         </div>
         <div className="row">
           <div className="dash-bar">
-            <Link to="/LoginLocalStorage">
+            <Link to="/">
               <div className="dash-icon-bar">
                 <div className="icon-border">
                   <span className="glyphicon glyphicon-user" />
@@ -162,7 +162,7 @@ class CreateWallet extends Component {
               </div>
             </Link>
 
-            <Link to="/">
+            <Link to="/LoginPrivateKey">
               <div className="dash-icon-bar">
                 <div className="icon-border">
                   <span className="glyphicon glyphicon-qrcode" />

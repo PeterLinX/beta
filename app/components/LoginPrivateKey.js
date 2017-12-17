@@ -121,7 +121,7 @@ class LoginPrivateKey extends Component {
                   Your private key is never shared and is only used to load your
                   balance and transaction history from the blockchain. Once
                   entered, you can create an encrypted saved walet in Morpheus.
-                  You may still use your private key with other wallets.
+                  You may still use your private key with other NEO wallets.
                 </p>
               </div>
             </div>
@@ -147,7 +147,7 @@ class LoginPrivateKey extends Component {
             </div>
           </Link>
 
-          <Link to="/LoginLocalStorage">
+          <Link to="/">
             <div className="dash-icon-bar">
               <div className="icon-border">
                 <span className="glyphicon glyphicon-user" />

@@ -37,8 +37,8 @@ export default (
     <Route path="/encryptKey" component={EncryptKey} />
     <Route path="/DisplayWalletKeys" component={DisplayWalletKeys} />
     <Route path="/LoginNep2" component={LoginNep2} />
-    <IndexRoute component={LoginPrivateKey} />
-    <Route path="/loginLocalStorage" component={LoginLocalStorage} />
+    <IndexRoute component={LoginLocalStorage} />
+    <Route path="/LoginPrivateKey" component={LoginPrivateKey} />
     <Route path="/LoginEncrypted" component={LoginNep2} />
     {/* <Route path="/settings" component={Settings} /> */}
     <Route path="/settingsw" component={Settings} />
