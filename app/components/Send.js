@@ -46,7 +46,7 @@ const validateForm = (dispatch, neo_balance, gas_balance, asset) => {
     asset === "Neo" &&
     parseFloat(sendAmount.value) !== parseInt(sendAmount.value)
   ) {
-    dispatch(sendEvent(false, "You cannot send fractional amounts of Neo."));
+    dispatch(sendEvent(false, "You cannot send a fraction of Neo."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   } else if (asset === "Neo" && parseInt(sendAmount.value) > neo_balance) {
@@ -100,7 +100,7 @@ const sendTransaction = (
           dispatch(
             sendEvent(
               true,
-              "Transaction complete! Your balance will automatically update when the blockchain has processed it."
+              "Transaction complete! Your balance will be automatically updated when the blockchain has processed it."
             )
           );
         }
@@ -216,7 +216,7 @@ class Send extends Component {
         <div id="sendPane">
           <TopBar />
           <div className="row send-neo fadeInDown">
-            <div className="col-xs-6">
+            <div className="col-xs-12">
               <img
                 src={neoLogo}
                 alt=""
@@ -225,73 +225,78 @@ class Send extends Component {
               />
               <h2>Send Neo or Gas</h2>
             </div>
-            <div className="col-xs-4" />
-            <div className="col-xs-2">
-              <div
-                id="sendAsset"
-                className={btnClass}
-                style={{ width: "100%" }}
-                data-tip
-                data-for="assetTip"
-                onClick={() => {
-                  this.setState({ gas_usd: 0, neo_usd: 0 });
-                  document.getElementById("assetAmount").value = "";
-                  dispatch(toggleAsset());
-                }}
-              >
-                {selectedAsset}
-              </div>
-              <ReactTooltip
-                className="solidTip"
-                id="assetTip"
-                place="bottom"
-                type="dark"
-                effect="solid"
-              >
-                <span>Click To Switch</span>
-              </ReactTooltip>
-            </div>
 
             <div id="sendAddress">
               <div className="clearboth" />
 
               <div id="sendAmount">
-                <div className="col-xs-12">
+                <div className="col-xs-10">
                   <input
                     className={formClass}
-                    id="center"
                     placeholder="Enter a valid NEO public address"
                     ref={node => {
                       sendAddress = node;
                     }}
                   />
                 </div>
-                <div className="col-xs-6  top-20">
+                <div className="col-xs-2">
+
+                  <div
+                    id="sendAsset"
+                    className={btnClass}
+                    style={{ width: "100%" }}
+                    data-tip
+                    data-for="assetTip"
+                    onClick={() => {
+                      this.setState({ gas_usd: 0, neo_usd: 0 });
+                      document.getElementById("assetAmount").value = "";
+                      dispatch(toggleAsset());
+                    }}
+                  >
+                    {selectedAsset}
+                  </div>
+
+                  <ReactTooltip
+                    className="solidTip"
+                    id="assetTip"
+                    place="top"
+                    type="light"
+                    effect="solid"
+                  >
+                    <span>Click to switch between NEO and GAS</span>
+                  </ReactTooltip>
+                </div>
+                <div className="col-xs-5 top-20">
                   <input
                     className={formClass}
                     type="number"
                     id="assetAmount"
-                    min="0"
+                    min="0.00000001"
+                    step="0.00000001"
                     onChange={convertFunction}
                     value={
                       inputEnabled === false ? this.state.value : sendAmount
                     }
-                    placeholder="Enter amount to send"
+                    placeholder="Amount in NEO/GAS"
                     ref={node => {sendAmount = node;}}
                   />
+                  <span className="send-notice center top-10">Please enter amount to send</span>
                 </div>
-                <div className="col-xs-4 top-20">
+
+                <div className="col-xs-5 top-20">
                   <input
                     className={formClass}
                     id="sendAmount"
                     onChange={this.handleChangeUSD}
                     onClick={this.handleChangeUSD}
                     disabled={gasEnabled === false ? true : false}
-                    placeholder="Amount in US"
+                    placeholder="USD"
                     value={`${this.state.gas_usd}`}
                   />
                   <label className="amount-dollar">$</label>
+                  <span className="send-notice center top-10">Amount calculated in USD</span>
                 </div>
+
                 <div className="col-xs-2 top-20">
                   <div id="sendAddress">
                     <button
@@ -315,11 +320,11 @@ class Send extends Component {
                     </button>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>
         </div>
-
         <div className="send-notice">
           <p>
             All NEO and GAS transactions are free. Only send NEO and GAS to a
@@ -327,7 +332,6 @@ class Send extends Component {
             can result in your NEO/GAS being lost. You cannot send a fraction of
             a NEO.
           </p>
-          <p>Gas Donations: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
         </div>
       </div>
     );
