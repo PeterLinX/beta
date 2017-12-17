@@ -4,18 +4,18 @@ import { Link } from "react-router";
 import { doSendAsset, verifyAddress } from "neon-js";
 import Modal from "react-bootstrap-modal";
 import axios from "axios";
-import { togglePane } from "../modules/dashboard";
-import {
-  sendEvent,
-  clearTransactionEvent,
-  toggleAsset
-} from "../modules/transactions";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
 import neoLogo from "../images/neo.png";
 import Claim from "./Claim.js";
 import TopBar from "./TopBar";
+import { togglePane } from "../modules/dashboard";
+import {
+  sendEvent,
+  clearTransactionEvent,
+  toggleAsset
+} from "../modules/transactions";
 
 let sendAddress, sendAmount, confirmButton;
 
