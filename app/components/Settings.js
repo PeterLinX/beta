@@ -186,11 +186,11 @@ class Settings extends Component {
                 </Link>
               </div>
               <div className="col-xs-2 center">
-                <div className="dash-icon-bar com-soon">
+                <div className="dash-icon-bar">
                   <div className="icon-border">
-                    <span className="glyphicon glyphicon-check" />
+                    <span className="glyphicon glyphicon-file" />
                   </div>
-                  Edit Authorized Addresses
+                  Legal Displaimer & Privacy
                 </div>
               </div>
             </div>
