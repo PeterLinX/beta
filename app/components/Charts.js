@@ -301,6 +301,11 @@ class Charts extends Component {
     };
     return (
       <div>
+      <ul id="neo-price">
+      <li>OPEN: ${this.state.open}</li>
+      <li> HIGH: ${this.state.high}</li>
+      <li> LOW: ${this.state.low}</li>
+       </ul>
         <div className="settings-panel">
           <div className="row">
             <div className="col-xs-12">
@@ -357,12 +362,12 @@ class Charts extends Component {
                         id: "x-axis-0",
                         categoryPercentage: 0.5,
                         barPercentage: 0.5,
-                        gridLines: { color: "rgba(255, 255, 255, 0.03)" }
+                        gridLines: { color: "rgba(255, 255, 255, 0.04)" }
                       }
                     ],
                     yAxes: [
                       {
-                        gridLines: { color: "rgba(255, 255, 255, 0.02)" }
+                        gridLines: { color: "rgba(255, 255, 255, 0.04)" }
                       }
                     ]
                   },
