@@ -318,7 +318,9 @@ class Charts extends Component {
         <div
         data-tip
         data-for="chartTip"
-        className="trade-button">Switch to TradingView Charts</div></Link>
+        className="trade-button">
+        <span className="glyph-icon glyphicon-signal"></span>
+        Switch to TradingView Charts</div></Link>
         <ReactTooltip
           className="solidTip"
           id="chartTip"
@@ -326,7 +328,7 @@ class Charts extends Component {
           type="light"
           effect="solid"
         >
-          <span>View Pro Charts & Indicators</span>
+          <span>View Pro Charts & Drawing Tools</span>
         </ReactTooltip>
               </div>
               <div className="col-xs-2">

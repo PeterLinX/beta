@@ -78,41 +78,41 @@ class Exchange extends Component {
             this.props.dispatch(
               sendEvent(
                 false,
-                "Your transaction is in a mempool and waits to be confirmed. dont close window"
+                "Your transaction is awaiting confirmation. Please don't quit Morpheus until payment status is received."
               )
             );
           } else if (data.result === "exchanging") {
             this.props.dispatch(
               sendEvent(
                 false,
-                "Your payment is received and being exchanged via a Changelly partner. dont close window"
+                "Your payment has been received and is being exchanged via a Changelly partner. Please do not quit Morpheus until exchange status updated."
               )
             );
           } else if (data.result === "waiting") {
             this.props.dispatch(
-              sendEvent(false, "waiting dont close window or navigate away")
+              sendEvent(false, "NEO being sent to address. Please do not quit Morpheus until exchange status updated.")
             );
           } else if (data.result === "finished") {
             this.props.dispatch(
               sendEvent(
                 false,
-                "NEO successfully sent to the recipient address."
+                "Congratulations! NEO successfully sent to the recipient address."
               )
             );
           } else if (data.result === "failed") {
             this.props.dispatch(
               sendEvent(
                 false,
-                "Money is successfully sent to the recipient address."
+                "Sorry your transaction failed. This is sually because you submitted less than the suggested minimum exchange. Your funds will be refunded."
               )
             );
           } else if (data.result === "refunded") {
             this.props.dispatch(
-              sendEvent(false, "Exchange was failed and coins were refunded")
+              sendEvent(false, "Sorry your transaction failed. Your Bitcoin (BTC) will be refunded by the exchange. Please do not quit Morpheus until refund status updated." )
             );
           } else if (data.result === "sending") {
             this.props.dispatch(
-              sendEvent(false, "Money is sending to the recipient address.")
+              sendEvent(false, "Refund currently being processed. Your Bitcoin (BTC) is being refunded and will be updated with the next block.")
             );
           }
         }
