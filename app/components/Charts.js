@@ -24,6 +24,8 @@ class Charts extends Component {
       dashData: [],
       ltcData: [],
       ethData: [],
+      rpxData: [],
+      lrcData: [],
       open: "--",
       high: "--",
       low: "--"
@@ -37,6 +39,8 @@ class Charts extends Component {
     await this.getLtcData();
     await this.getDashData();
     await this.getEthData();
+    await this.getRpxData();
+    await this.getLrcData();
   }
 
   async getGasData() {
@@ -100,6 +104,26 @@ class Charts extends Component {
     }
   }
 
+  async getRpxData() {
+    try {
+      let req = await axios.get(api("RPX"));
+      let data = req.data.Data;
+      this.setState({ rpxData: data });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getLrcData() {
+    try {
+      let req = await axios.get(api("LRC"));
+      let data = req.data.Data;
+      this.setState({ lrcData: data });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   render() {
     const neoPrices = _.map(this.state.neoData, "close");
     const neoHours = _.map(this.state.neoData, "time");
@@ -110,6 +134,8 @@ class Charts extends Component {
     const btcPrices = _.map(this.state.btcData, "close");
     const dashPrices = _.map(this.state.dashData, "close");
     const ethPrices = _.map(this.state.ethData, "close");
+    const rpxPrices = _.map(this.state.rpxData, "close");
+    const lrcPrices = _.map(this.state.lrcData, "close");
     const gasPrices = _.map(this.state.gasData, "close");
 
     const data = canvas => {
@@ -139,6 +165,14 @@ class Charts extends Component {
       ltcGradientFill.addColorStop(0, "rgba(255,255,255, 0.5)");
       ltcGradientFill.addColorStop(1, "rgba(255,255,255, 0)");
 
+      let lrcGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
+      lrcGradientStroke.addColorStop(0, "#ececec");
+      lrcGradientStroke.addColorStop(1, "#ececec");
+
+      let lrcGradientFill = ctx.createLinearGradient(0, 0, 0, 240);
+      lrcGradientFill.addColorStop(0, "rgba(255,255,255, 0.5)");
+      lrcGradientFill.addColorStop(1, "rgba(255,255,255, 0)");
+
       let btcGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
       btcGradientStroke.addColorStop(0, "#ffc000");
       btcGradientStroke.addColorStop(1, "#ffc000");
@@ -154,6 +188,14 @@ class Charts extends Component {
       let ethGradientFill = ctx.createLinearGradient(0, 0, 0, 240);
       ethGradientFill.addColorStop(0, "rgba(175,175,175, 0.5)");
       ethGradientFill.addColorStop(1, "rgba(175,175,175, 0)");
+
+      let rpxGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
+      rpxGradientStroke.addColorStop(0, "#C60307");
+      rpxGradientStroke.addColorStop(1, "#C60307");
+
+      let rpxGradientFill = ctx.createLinearGradient(0, 0, 0, 240);
+      rpxGradientFill.addColorStop(0, "rgba(169,3,41, 0.5)");
+      rpxGradientFill.addColorStop(1, "rgba(169,3,41, 0)");
 
       let dashGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
       dashGradientStroke.addColorStop(0, "#005aff");
@@ -295,6 +337,50 @@ class Charts extends Component {
             pointHitRadius: 3,
             pointRadius: 0,
             data: ltcPrices
+          },
+          {
+            label: "LRC",
+            fill: true,
+            hidden: true,
+            lineTension: 0.5,
+            backgroundColor: lrcGradientFill,
+            borderColor: lrcGradientStroke,
+            borderCapStyle: "butt",
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: "miter",
+            pointBorderWidth: 3,
+            pointHoverRadius: 3,
+            pointHoverBorderWidth: 0,
+            pointBorderColor: lrcGradientStroke,
+            pointBackgroundColor: lrcGradientStroke,
+            pointHoverBackgroundColor: lrcGradientStroke,
+            pointHoverBorderColor: lrcGradientStroke,
+            pointHitRadius: 3,
+            pointRadius: 0,
+            data: lrcPrices
+          },
+          {
+            label: "RPX",
+            fill: true,
+            hidden: true,
+            lineTension: 0.5,
+            backgroundColor: rpxGradientFill,
+            borderColor: rpxGradientStroke,
+            borderCapStyle: "butt",
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: "miter",
+            pointBorderWidth: 3,
+            pointHoverRadius: 3,
+            pointHoverBorderWidth: 0,
+            pointBorderColor: rpxGradientStroke,
+            pointBackgroundColor: rpxGradientStroke,
+            pointHoverBackgroundColor: rpxGradientStroke,
+            pointHoverBorderColor: rpxGradientStroke,
+            pointHitRadius: 3,
+            pointRadius: 0,
+            data: rpxPrices
           }
         ]
       };
@@ -303,8 +389,8 @@ class Charts extends Component {
       <div>
       <ul id="neo-price">
       <li>OPEN: ${this.state.open}</li>
-      <li> HIGH: ${this.state.high}</li>
-      <li> LOW: ${this.state.low}</li>
+      <li>HIGH: ${this.state.high}</li>
+      <li>LOW: ${this.state.low}</li>
        </ul>
         <div className="settings-panel">
           <div className="row">
@@ -316,7 +402,7 @@ class Charts extends Component {
                   width="34"
                   className="neo-logo logobounce"
                 />
-                <h3 className="neo-dash-price">NEO Prices</h3>
+                <h3 className="neo-dash-price">NEO Price</h3>
               </div>
               <div className="col-xs-6">
         <Link to="/trade">
