@@ -280,16 +280,19 @@ webview {
       margin: 10px 0px 0px 0px;
       display: block;
       text-align: center;
+      position: fixed;
+top: 292px;
+left: 321px;
 }
 
 #neo-price li {
-  width: 32%;
-  float: left;
-  padding: 4px;
-  background: #212121;
-  margin-right: 1%;
-  border-radius: 4px;
-  margin-top: -7px;
+  width: 26%;
+      float: left;
+      padding: 4px;
+      background: #212121;
+      margin-right: 1%;
+      border-radius: 4px;
+      margin-top: -7px;
 }
 
 #gas-price li {
