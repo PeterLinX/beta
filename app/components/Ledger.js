@@ -319,7 +319,7 @@ class Ledger extends Component {
 
         <div className="send-notice">
           <p>
-            Please ensure that your Ledger Nano S is plugged in, unlocked and has the NEO app installed. Your NEO address from your Ledger Nano S should appear above. Verify address is correct before sending. Please ensure you have access to the private key and/or encrypted key and password for the address used with your ledger Nano S.
+            Please ensure that your Ledger Nano S is plugged in, unlocked and has the NEO app installed. Your NEO address from your Ledger Nano S should appear above. Verify address is correct before sending. Please ensure you have access to the private key and/or encrypted key and password for the address used with your Ledger Nano S.
           </p>
         </div>
       </div>
