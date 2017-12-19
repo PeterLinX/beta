@@ -1,92 +1,344 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Claim from "./Claim.js";
-import MdSync from "react-icons/lib/md/sync";
-import QRCode from "qrcode";
-import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
-import { resetPrice } from "../modules/wallet";
-import { sendEvent, clearTransactionEvent } from "../modules/transactions";
-import { clipboard } from "electron";
-import Copy from "react-icons/lib/md/content-copy";
+import { Link } from "react-router";
+import { doSendAsset, verifyAddress } from "neon-js";
+import Modal from "react-bootstrap-modal";
+import axios from "axios";
+import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
+import { log } from "../util/Logs";
 import neoLogo from "../images/neo.png";
-import NeoLogo from "./Brand/Neo";
-import BtcLogo from "./Brand/Bitcoin";
+import Claim from "./Claim.js";
 import TopBar from "./TopBar";
+import { togglePane } from "../modules/dashboard";
+import {
+  sendEvent,
+  clearTransactionEvent,
+  toggleAsset
+} from "../modules/transactions";
 
-// force sync with balance data
-const refreshBalance = (dispatch, net, address) => {
-  dispatch(sendEvent(true, "Refreshing..."));
-  initiateGetBalance(dispatch, net, address).then(response => {
-    dispatch(sendEvent(true, "Received latest blockchain information."));
+let sendAddress, sendAmount, confirmButton;
+
+const apiURL = val => {
+  return `https://min-api.cryptocompare.com/data/price?fsym=${val}&tsyms=USD`;
+};
+
+// form validators for input fields
+const validateForm = (dispatch, neo_balance, gas_balance, asset) => {
+  // check for valid address
+  try {
+    if (
+      verifyAddress(sendAddress.value) !== true ||
+      sendAddress.value.charAt(0) !== "A"
+    ) {
+      dispatch(sendEvent(false, "The address you entered was not valid."));
+      setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+      return false;
+    }
+  } catch (e) {
+    dispatch(sendEvent(false, "The address you entered was not valid."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-  });
+    return false;
+  }
+  // check for fractional neo
+  if (
+    asset === "Neo" &&
+    parseFloat(sendAmount.value) !== parseInt(sendAmount.value)
+  ) {
+    dispatch(sendEvent(false, "You cannot send fractional amounts of Neo."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+    return false;
+  } else if (asset === "Neo" && parseInt(sendAmount.value) > neo_balance) {
+    // check for value greater than account balance
+    dispatch(sendEvent(false, "You do not have enough NEO to send."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+    return false;
+  } else if (asset === "Gas" && parseFloat(sendAmount.value) > gas_balance) {
+    dispatch(sendEvent(false, "You do not have enough GAS to send."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+    return false;
+  } else if (parseFloat(sendAmount.value) < 0) {
+    // check for negative asset
+    dispatch(sendEvent(false, "You cannot send negative amounts of an asset."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+    return false;
+  }
+  return true;
+};
+
+// open confirm pane and validate fields
+const openAndValidate = (dispatch, neo_balance, gas_balance, asset) => {
+  if (validateForm(dispatch, neo_balance, gas_balance, asset) === true) {
+    dispatch(togglePane("confirmPane"));
+  }
+};
+
+// perform send transaction
+const sendTransaction = (
+  dispatch,
+  net,
+  selfAddress,
+  wif,
+  asset,
+  neo_balance,
+  gas_balance
+) => {
+  // validate fields again for good measure (might have changed?)
+  if (validateForm(dispatch, neo_balance, gas_balance, asset) === true) {
+    dispatch(sendEvent(true, "Processing..."));
+    log(net, "SEND", selfAddress, {
+      to: sendAddress.value,
+      asset: asset,
+      amount: sendAmount.value
+    });
+    doSendAsset(net, sendAddress.value, wif, asset, sendAmount.value)
+      .then(response => {
+        if (response.result === undefined || response.result === false) {
+          dispatch(sendEvent(false, "Transaction failed!"));
+        } else {
+          dispatch(
+            sendEvent(
+              true,
+              "Transaction complete! Your balance will automatically update when the blockchain has processed it."
+            )
+          );
+        }
+        setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+      })
+      .catch(e => {
+        dispatch(sendEvent(false, "Transaction failed!"));
+        setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+      });
+  }
+  // close confirm pane and clear fields
+  dispatch(togglePane("confirmPane"));
+  sendAddress.value = "";
+  sendAmount.value = "";
+  confirmButton.blur();
 };
 
 class Ledger extends Component {
-  componentDidMount = () => {
-    initiateGetBalance(this.props.dispatch, this.props.net, this.props.address);
-    QRCode.toCanvas(this.canvas, this.props.address, { version: 5 }, err => {
-      if (err) console.log(err);
-    });
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: true,
+      gas: 0,
+      neo: 0,
+      neo_usd: 0,
+      gas_usd: 0,
+      value: 0,
+      inputEnabled: true
+    };
+    this.handleChangeNeo = this.handleChangeNeo.bind(this);
+    this.handleChangeGas = this.handleChangeGas.bind(this);
+    this.handleChangeUSD = this.handleChangeUSD.bind(this);
+  }
 
-  render = () => {
-    if (this.props.address != null) {
-      return (
-      <div>
-        <TopBar />
+  async componentDidMount() {
+    let neo = await axios.get(apiURL("NEO"));
+    let gas = await axios.get(apiURL("GAS"));
+    neo = neo.data.USD;
+    gas = gas.data.USD;
+    this.setState({ neo: neo, gas: gas });
+  }
 
-        <div className="top-50 ">
-        <div className="ledger-nanos fadeInDown"></div>
-        <div className="settings-panel fadeInDown">
-        <div className="col-xs-12">
-          <div className="col-xs-9">
-          <img
-            src={neoLogo}
-            alt=""
-            width="48"
-            className="neo-logo logobounce"
-          />
-          <h3 className="top-20">Transfer NEO/GAS from Moprheus</h3>
-          <input className="form-control-exchange center top-10" placeholder={this.props.address} />
-          </div>
+  handleChangeNeo(event) {
+    this.setState({ value: event.target.value }, (sendAmount = value));
+    const value = event.target.value * this.state.neo;
+    this.setState({ neo_usd: value });
+  }
 
-          <div className="col-xs-3">
-          <input className="form-control-exchange center top-55" placeholder="0" />
-          </div>
-        </div>
+  handleChangeGas(event) {
+    this.setState({ value: event.target.value }, (sendAmount = value));
+    const value = event.target.value * this.state.gas;
+    this.setState({ gas_usd: value });
+  }
 
-          <div className="col-xs-12">
-          <div className="col-xs-9">
-          <h4 className="">To my Ledger Nano S</h4>
-          <input className="form-control-exchange center top-10" placeholder="Device not connected. Please check."/>
-          </div>
-          <div className="col-xs-3 top-55">
-          <button className="grey-button">Send</button>
-          </div>
-        </div>
-<div className="clearboth" />
-          </div>
-          <div className="clearboth" />
-          <div className="col-xs-offset-2 col-xs-8">
-          <p className="center top-20">Please ensure your device is connected to your computer, unlocked and you have opened the NEO application on your Ledger Nano S.</p>
-          </div>
-      </div>
-      </div>
-      );
+  async handleChangeUSD(event) {
+    this.setState({ gas_usd: event.target.value });
+
+    let gas = await axios.get(apiURL("GAS"));
+    gas = gas.data.USD;
+    this.setState({ gas: gas });
+    console.log("done");
+    const value = this.state.gas_usd / this.state.gas;
+    this.setState({ value: value }, (sendAmount = value));
+  }
+
+  render() {
+    const {
+      dispatch,
+      wif,
+      address,
+      status,
+      neo,
+      gas,
+      net,
+      confirmPane,
+      selectedAsset
+    } = this.props;
+    let confirmPaneClosed;
+    let open = true;
+    if (confirmPane) {
+      confirmPaneClosed = "100%";
+      open = true;
     } else {
-      return null;
+      open = false;
+      confirmPaneClosed = "69%";
     }
-  };
+
+    let btnClass;
+    let formClass;
+    let priceUSD = 0;
+    let gasEnabled = false;
+    let inputEnabled = true;
+    let convertFunction = this.handleChangeNeo;
+    if (selectedAsset === "Neo") {
+      btnClass = "btn-send";
+      convertFunction = this.handleChangeNeo;
+      formClass = "form-send-neo";
+      priceUSD = this.state.neo_usd;
+      inputEnabled = true;
+    } else if (selectedAsset === "Gas") {
+      gasEnabled = true;
+      inputEnabled = false;
+      btnClass = "btn-send-gas";
+      formClass = "form-send-gas";
+      priceUSD = this.state.gas_usd;
+      convertFunction = this.handleChangeGas;
+    }
+    return (
+      <div id="send">
+        <div id="sendPane">
+          <TopBar />
+          <div className="ledger-nanos fadeInDown"></div>
+          <div className="row send-neo fadeInDown">
+            <div className="col-xs-6">
+              <img
+                src={neoLogo}
+                alt=""
+                width="48"
+                className="neo-logo logobounce"
+              />
+              <h2>Send Neo or Gas</h2>
+            </div>
+            <div className="col-xs-4" />
+            <div className="col-xs-2">
+              <div
+                id="sendAsset"
+                className={btnClass}
+                style={{ width: "100%" }}
+                data-tip
+                data-for="assetTip"
+                onClick={() => {
+                  this.setState({ gas_usd: 0, neo_usd: 0, value: 0 });
+                  document.getElementById("assetAmount").value = "";
+                  dispatch(toggleAsset());
+                }}
+              >
+                {selectedAsset}
+              </div>
+              <ReactTooltip
+                className="solidTip"
+                id="assetTip"
+                place="top"
+                type="light"
+                effect="solid"
+              >
+                <span>Click to switch between NEO and GAS</span>
+              </ReactTooltip>
+            </div>
+
+            <div id="sendAddress">
+              <div className="clearboth" />
+
+              <div id="sendAmount">
+                <div className="col-xs-12">
+                  <input
+                    className={formClass}
+                    id="center"
+                    placeholder="Enter a valid NEO public address"
+                    ref={node => {
+                      sendAddress = node;
+                    }}
+                  />
+                </div>
+                <div className="col-xs-6  top-20">
+                  <input
+                    className={formClass}
+                    type="number"
+                    id="assetAmount"
+                    min="1"
+                    onChange={convertFunction}
+                    value={this.state.value}
+                    placeholder="Enter amount to send"
+                    ref={node => {
+                      sendAmount = node;
+                    }}
+                  />
+                </div>
+                <div className="col-xs-4 top-20">
+                  <input
+                    className={formClass}
+                    id="sendAmount"
+                    onChange={this.handleChangeUSD}
+                    onClick={this.handleChangeUSD}
+                    disabled={gasEnabled === false ? true : false}
+                    placeholder="Amount in US"
+                    value={`${priceUSD}`}
+                  />
+                  <label className="amount-dollar">$</label>
+                </div>
+                <div className="col-xs-2 top-20">
+                  <div id="sendAddress">
+                    <button
+                      className="grey-button"
+                      onClick={() =>
+                        sendTransaction(
+                          dispatch,
+                          net,
+                          address,
+                          wif,
+                          selectedAsset,
+                          neo,
+                          gas
+                        )
+                      }
+                      ref={node => {
+                        confirmButton = node;
+                      }}
+                    >
+                      Send
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="send-notice">
+          <p>
+            All NEO and GAS transactions are free. Only send NEO and GAS to a
+            valid NEO address. Sending to an address other than a NEO address
+            can result in your NEO/GAS being lost. You cannot send a fraction of
+            a NEO.
+          </p>
+          <p>Gas Donations: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
+        </div>
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = state => ({
-  neo: state.wallet.Neo,
-  gas: state.wallet.Gas,
+  wif: state.account.wif,
   address: state.account.address,
   net: state.metadata.network,
-  price: state.wallet.price
+  neo: state.wallet.Neo,
+  gas: state.wallet.Gas,
+  selectedAsset: state.transactions.selectedAsset,
+  confirmPane: state.dashboard.confirmPane
 });
 
 Ledger = connect(mapStateToProps)(Ledger);
