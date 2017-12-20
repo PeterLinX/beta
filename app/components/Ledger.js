@@ -217,13 +217,14 @@ class Ledger extends Component {
               <img
                 src={ledgerLogo}
                 alt=""
-                width="48"
+                width="38"
                 className="ledger-logo logobounce"
               />
               <h2>Ledger</h2>
             </div>
-            <div className="col-xs-3">
-            <h4 className="neo-text">0 <span>NEO</span></h4>
+            <div className="col-xs-3 center">
+            <h4 className="neo-text-ledger">0 <span>NEO</span></h4>
+            <span className="com-soon">$0.00</span>
             </div>
 
             <div
@@ -244,12 +245,13 @@ class Ledger extends Component {
           </ReactTooltip>
             </div>
 
-            <div className="col-xs-3">
-            <h4 className="gas-text top-10">0.0000 <span>GAS</span></h4>
+            <div className="col-xs-3 center">
+            <h4 className="gas-text-ledger">0.0000 <span>GAS</span></h4>
+            <span className="com-soon top-10">$0.00</span>
             </div>
 
             <div className="clearboth" />
-
+            <hr className="ledger-hr" />
             <div className="col-xs-4 top-20">
             <div className="ledgerQRBox center animated fadeInDown">
               <QRCode size={120} value={this.props.address} />
@@ -278,7 +280,7 @@ class Ledger extends Component {
                 min="1"
                 onChange={convertFunction}
                 value={this.state.value}
-                placeholder="Enter amount to send"
+                placeholder="0"
                 ref={node => {
                   sendAmount = node;
                 }}
@@ -369,7 +371,7 @@ class Ledger extends Component {
                     confirmButton = node;
                   }}
                 >
-                  Send
+                  Deposit
                 </button>
                 <ReactTooltip
                   className="solidTip"
