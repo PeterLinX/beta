@@ -105,7 +105,7 @@ class LoginNep2 extends Component {
                 Create a NEO Address
               </div>
             </Link>
-            <Link to="/LoginLocalStorage">
+            <Link to="/">
               <div className="dash-icon-bar">
                 <div className="icon-border">
                   <span className="glyphicon glyphicon-user" />
@@ -113,7 +113,7 @@ class LoginNep2 extends Component {
                 Open a Saved Wallet
               </div>
             </Link>
-            <Link to="/">
+            <Link to="/LoginPrivateKey">
               <div className="dash-icon-bar">
                 <div className="icon-border">
                   <span className="glyphicon glyphicon-qrcode" />

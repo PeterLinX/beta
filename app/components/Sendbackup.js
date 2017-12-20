@@ -2,20 +2,21 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
 import { doSendAsset, verifyAddress } from "neon-js";
-import Modal from "react-bootstrap-modal";
+var Modal = require("react-bootstrap-modal");
 import axios from "axios";
-import SplitPane from "react-split-pane";
-import ReactTooltip from "react-tooltip";
-import { log } from "../util/Logs";
-import neoLogo from "../images/neo.png";
-import Claim from "./Claim.js";
-import TopBar from "./TopBar";
+
 import { togglePane } from "../modules/dashboard";
 import {
   sendEvent,
   clearTransactionEvent,
   toggleAsset
 } from "../modules/transactions";
+import SplitPane from "react-split-pane";
+import ReactTooltip from "react-tooltip";
+import { log } from "../util/Logs";
+import neoLogo from "../images/neo.png";
+import Claim from "./Claim.js";
+import TopBar from "./TopBar";
 
 let sendAddress, sendAmount, confirmButton;
 
@@ -45,7 +46,7 @@ const validateForm = (dispatch, neo_balance, gas_balance, asset) => {
     asset === "Neo" &&
     parseFloat(sendAmount.value) !== parseInt(sendAmount.value)
   ) {
-    dispatch(sendEvent(false, "You cannot send fractional amounts of Neo."));
+    dispatch(sendEvent(false, "You cannot send a fraction of Neo."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   } else if (asset === "Neo" && parseInt(sendAmount.value) > neo_balance) {
@@ -99,7 +100,7 @@ const sendTransaction = (
           dispatch(
             sendEvent(
               true,
-              "Transaction complete! Your balance will automatically update when the blockchain has processed it."
+              "Transaction complete! Your balance will be automatically updated when the blockchain has processed it."
             )
           );
         }
@@ -143,26 +144,29 @@ class Send extends Component {
   }
 
   handleChangeNeo(event) {
-    this.setState({ value: event.target.value }, (sendAmount = value));
+    this.setState({ value: event.target.value });
     const value = event.target.value * this.state.neo;
     this.setState({ neo_usd: value });
   }
 
   handleChangeGas(event) {
-    this.setState({ value: event.target.value }, (sendAmount = value));
+    this.setState({ value: event.target.value });
     const value = event.target.value * this.state.gas;
     this.setState({ gas_usd: value });
   }
 
   async handleChangeUSD(event) {
-    this.setState({ gas_usd: event.target.value });
+    this.setState(
+      { gas_usd: event.target.value },
+      console.log(event.target.value)
+    );
 
     let gas = await axios.get(apiURL("GAS"));
     gas = gas.data.USD;
     this.setState({ gas: gas });
     console.log("done");
-    const value = this.state.gas_usd / this.state.gas;
-    this.setState({ value: value }, (sendAmount = value));
+    const value = ((this.state.gas_usd * 100) / 100) / (this.state.gas);
+    this.setState({ value: value }, console.log(this.state.value));
   }
 
   render() {
@@ -212,7 +216,7 @@ class Send extends Component {
         <div id="sendPane">
           <TopBar />
           <div className="row send-neo fadeInDown">
-            <div className="col-xs-6">
+            <div className="col-xs-12">
               <img
                 src={neoLogo}
                 alt=""
@@ -221,73 +225,78 @@ class Send extends Component {
               />
               <h2>Send Neo or Gas</h2>
             </div>
-            <div className="col-xs-4" />
-            <div className="col-xs-2">
-              <div
-                id="sendAsset"
-                className={btnClass}
-                style={{ width: "100%" }}
-                data-tip
-                data-for="assetTip"
-                onClick={() => {
-                  this.setState({ gas_usd: 0, neo_usd: 0, value: 0 });
-                  document.getElementById("assetAmount").value = "";
-                  dispatch(toggleAsset());
-                }}
-              >
-                {selectedAsset}
-              </div>
-              <ReactTooltip
-                className="solidTip"
-                id="assetTip"
-                place="top"
-                type="light"
-                effect="solid"
-              >
-                <span>Click to switch between NEO and GAS</span>
-              </ReactTooltip>
-            </div>
 
             <div id="sendAddress">
               <div className="clearboth" />
 
               <div id="sendAmount">
-                <div className="col-xs-12">
+                <div className="col-xs-10">
                   <input
                     className={formClass}
-                    id="center"
                     placeholder="Enter a valid NEO public address"
                     ref={node => {
                       sendAddress = node;
                     }}
                   />
                 </div>
-                <div className="col-xs-6  top-20">
+                <div className="col-xs-2">
+
+                  <div
+                    id="sendAsset"
+                    className={btnClass}
+                    style={{ width: "100%" }}
+                    data-tip
+                    data-for="assetTip"
+                    onClick={() => {
+                      this.setState({ gas_usd: 0, neo_usd: 0 });
+                      document.getElementById("assetAmount").value = "";
+                      dispatch(toggleAsset());
+                    }}
+                  >
+                    {selectedAsset}
+                  </div>
+
+                  <ReactTooltip
+                    className="solidTip"
+                    id="assetTip"
+                    place="top"
+                    type="light"
+                    effect="solid"
+                  >
+                    <span>Click to switch between NEO and GAS</span>
+                  </ReactTooltip>
+                </div>
+                <div className="col-xs-5 top-20">
                   <input
                     className={formClass}
                     type="number"
                     id="assetAmount"
-                    min="1"
+                    min="0.00000001"
+                    step="0.00000001"
                     onChange={convertFunction}
-                    value={this.state.value}
-                    placeholder="Enter amount to send"
-                    ref={node => {
-                      sendAmount = node;
-                    }}
+                    value={
+                      inputEnabled === false ? this.state.value : sendAmount
+                    }
+                    placeholder="Amount in NEO/GAS"
+                    ref={node => {sendAmount = node;}}
                   />
+                  <span className="send-notice center top-10">Please enter amount to send</span>
                 </div>
-                <div className="col-xs-4 top-20">
+
+                <div className="col-xs-5 top-20">
                   <input
                     className={formClass}
                     id="sendAmount"
                     onChange={this.handleChangeUSD}
                     onClick={this.handleChangeUSD}
                     disabled={gasEnabled === false ? true : false}
-                    placeholder="Amount in US"
-                    value={`${priceUSD}`}
+                    placeholder="USD"
+                    value={`${this.state.gas_usd}`}
                   />
                   <label className="amount-dollar">$</label>
+                  <span className="send-notice center top-10">Amount calculated in USD</span>
                 </div>
+
                 <div className="col-xs-2 top-20">
                   <div id="sendAddress">
                     <button
@@ -311,11 +320,11 @@ class Send extends Component {
                     </button>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>
         </div>
-
         <div className="send-notice">
           <p>
             All NEO and GAS transactions are free. Only send NEO and GAS to a
@@ -323,7 +332,6 @@ class Send extends Component {
             can result in your NEO/GAS being lost. You cannot send a fraction of
             a NEO.
           </p>
-          <p>Gas Donations: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
         </div>
       </div>
     );
