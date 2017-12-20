@@ -316,7 +316,7 @@ class Ledger extends Component {
                   dispatch(toggleAsset());
                 }}
               >
-                {selectedAsset}
+              {selectedAsset}
               </div>
               <ReactTooltip
                 className="solidTip"
@@ -337,7 +337,7 @@ class Ledger extends Component {
               data-tip
               data-for="withdrawTip"
             >
-              Withdraw
+              <span className="glyphicon glyphicon-open"></span> Withdraw
             </button>
             <ReactTooltip
               className="solidTip"
@@ -346,7 +346,7 @@ class Ledger extends Component {
               type="light"
               effect="solid"
             >
-              <span>Withdraw from Ledger Nano S to Morpheus</span>
+              <span>Withdraw from Ledger Morpheus</span>
             </ReactTooltip>
             </div>
             </div>
@@ -371,7 +371,7 @@ class Ledger extends Component {
                     confirmButton = node;
                   }}
                 >
-                  Deposit
+                <span className="glyphicon glyphicon-save"></span> Deposit
                 </button>
                 <ReactTooltip
                   className="solidTip"
@@ -380,7 +380,7 @@ class Ledger extends Component {
                   type="light"
                   effect="solid"
                 >
-                  <span>Send to Ledger Nano S from Morpheus</span>
+                  <span>Deposit to Ledger from Morpheus</span>
                 </ReactTooltip>
               </div>
             </div>
@@ -389,7 +389,7 @@ class Ledger extends Component {
           </div>
         </div>
 
-        <div className="top-20 center">
+        <div className="top-20 center send-notice">
           <p>
             Please ensure that your Ledger Nano S is plugged in, unlocked and has the NEO app installed. Your NEO address from your Ledger Nano S should appear above. Verify address is correct before sending.
           </p>
