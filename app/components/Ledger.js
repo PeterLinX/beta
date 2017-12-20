@@ -117,7 +117,7 @@ const sendTransaction = (
   confirmButton.blur();
 };
 
-class Send extends Component {
+class Ledger extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -211,17 +211,18 @@ class Send extends Component {
       <div id="send">
         <div id="sendPane">
           <TopBar />
+          <div className="ledger-nanos fadeInDown"></div>
           <div className="row send-neo fadeInDown">
-            <div className="col-xs-6">
+            <div className="col-xs-10">
               <img
                 src={neoLogo}
                 alt=""
                 width="48"
                 className="neo-logo logobounce"
               />
-              <h2>Send Neo or Gas</h2>
+              <h2>Send to Ledger Nano S</h2>
             </div>
-            <div className="col-xs-4" />
+
             <div className="col-xs-2">
               <div
                 id="sendAsset"
@@ -256,7 +257,7 @@ class Send extends Component {
                   <input
                     className={formClass}
                     id="center"
-                    placeholder="Enter a valid NEO public address"
+                    placeholder="Please plug in and unlock your Ledger Nano S"
                     ref={node => {
                       sendAddress = node;
                     }}
@@ -318,12 +319,8 @@ class Send extends Component {
 
         <div className="send-notice">
           <p>
-            All NEO and GAS transactions are free. Only send NEO and GAS to a
-            valid NEO address. Sending to an address other than a NEO address
-            can result in your NEO/GAS being lost. You cannot send a fraction of
-            a NEO.
+            Please ensure that your Ledger Nano S is plugged in, unlocked and has the NEO app installed. Your NEO address from your Ledger Nano S should appear above. Verify address is correct before sending. Please ensure you have access to the private key and/or encrypted key and password for the address used with your Ledger Nano S.
           </p>
-          <p>Gas Donations: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
         </div>
       </div>
     );
@@ -340,6 +337,6 @@ const mapStateToProps = state => ({
   confirmPane: state.dashboard.confirmPane
 });
 
-Send = connect(mapStateToProps)(Send);
+Ledger = connect(mapStateToProps)(Ledger);
 
-export default Send;
+export default Ledger;

@@ -268,7 +268,7 @@ class DisplayWalletKeys extends Component {
           Download Recovery File
         </div>
 
-        <Link to="/">
+        <Link to="/LoginPrivateKey">
           <div className="dash-icon-bar">
             <div className="icon-border">
               <span className="glyphicon glyphicon-qrcode" />

@@ -11,6 +11,8 @@ import { NetworkSwitch } from "../components/NetworkSwitch";
 import WalletInfo from "../components/WalletInfo";
 import TransactionHistory from "../components/TransactionHistory";
 import Exchange from "../components/Exchange";
+import About from "../components/About";
+import Trade from "../components/Trade";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import Logout from "../components/Logout";
@@ -123,6 +125,11 @@ class Dashboard extends Component {
                   </Link>
                 </li>
                 <li>
+                  <Link to={"/ledger"} activeClassName="active">
+                    <span className="glyphicon glyphicon-th-large" /> Ledger
+                  </Link>
+                </li>
+                <li>
                   <Link to={"/exchange"} activeClassName="active">
                     <span className="glyphicon glyphicon-refresh" /> Exchange
                   </Link>
@@ -133,6 +140,17 @@ class Dashboard extends Component {
                   </Link>
                 </li>
                 <li>
+                  <Link to={"/about"} activeClassName="active">
+                    <span className="glyphicon glyphicon-info-sign" /> FAQ &
+                    News
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"/featured"} activeClassName="active">
+                    <span className="glyphicon glyphicon-heart" /> Featured
+                  </Link>
+                </li>
+                <li>
                   <Link to={"/settings"} activeClassName="active">
                     <span className="glyphicon glyphicon-lock" /> Settings
                   </Link>
@@ -140,7 +158,9 @@ class Dashboard extends Component {
               </ul>
             </div>
           </div>
-          <div className="copyright">&copy; Copyright 2017 Morpheus</div>
+          <div className="copyright">
+            &copy; Copyright {Date().getFullYear()} Morpheus
+          </div>
         </div>
         <div style={{ marginLeft: 230, marginTop: 20 }}>
           <div className="container">{this.props.children}</div>
