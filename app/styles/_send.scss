@@ -38,7 +38,7 @@
   }
 }
 .gas-text {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 200;
   text-align: center;
   margin: 0px;
@@ -144,6 +144,14 @@ h2 {
   position: absolute;
   left: 28px;
   top: 16px;
+  font-size: 18px;
+  z-index: 99;
+}
+
+.amount-dollar-ledger {
+  position: absolute;
+  left: 28px;
+  top: 36px;
   font-size: 18px;
   z-index: 99;
 }
@@ -589,4 +597,32 @@ margin-left: -6px;
     rgba(36, 180, 245, 1) 0%,
     rgba(0, 32, 228, 1) 92%
   );
+}
+
+.ledger-logo {
+  float: left;
+  width: 36px;
+  margin: 7px 20px 0px 15px;
+}
+
+.ledgerQRBox {
+  border: 10px solid #d3d3d3;
+background-color: white;
+border-radius: 20px;
+padding: 15px;
+width: 95%;
+margin: 0px auto;
+}
+
+.ledger-address {
+  display: inline-block;
+    width: 100%;
+    text-align: left;
+    min-height: 25px;
+    padding: 8px 25px;
+    font-size: 17px;
+    background-color: rgba(0, 0, 0, 0.62);
+    border: 3px solid #252525;
+    border-radius: 9px;
+    outline: none;
 }

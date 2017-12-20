@@ -3,11 +3,12 @@ import { connect } from "react-redux";
 import { Link } from "react-router";
 import { doSendAsset, verifyAddress } from "neon-js";
 import Modal from "react-bootstrap-modal";
+import QRCode from "qrcode.react";
 import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
-import neoLogo from "../images/neo.png";
+import ledgerLogo from "../images/ledger-logo.png";
 import Claim from "./Claim.js";
 import TopBar from "./TopBar";
 import { togglePane } from "../modules/dashboard";
@@ -211,19 +212,96 @@ class Ledger extends Component {
       <div id="send">
         <div id="sendPane">
           <TopBar />
-          <div className="ledger-nanos fadeInDown"></div>
           <div className="row send-neo fadeInDown">
-            <div className="col-xs-10">
+            <div className="col-xs-4">
               <img
-                src={neoLogo}
+                src={ledgerLogo}
                 alt=""
                 width="48"
-                className="neo-logo logobounce"
+                className="ledger-logo logobounce"
               />
-              <h2>Send to Ledger Nano S</h2>
+              <h2>Ledger</h2>
+            </div>
+            <div className="col-xs-3">
+            <h4 className="neo-text">0 <span>NEO</span></h4>
             </div>
 
-            <div className="col-xs-2">
+            <div
+            data-tip
+            data-for="claimTip"
+            className="col-xs-2 center">
+            Claim Gas
+            <div>0.00000000</div>
+
+            <ReactTooltip
+              className="solidTip"
+              id="claimTip"
+              place="top"
+              type="light"
+              effect="solid"
+            >
+            <span>Click to claim GAS on Ledger Nano S</span>
+          </ReactTooltip>
+            </div>
+
+            <div className="col-xs-3">
+            <h4 className="gas-text top-10">0.0000 <span>GAS</span></h4>
+            </div>
+
+            <div className="clearboth" />
+
+            <div className="col-xs-4 top-20">
+            <div className="ledgerQRBox center animated fadeInDown">
+              <QRCode size={120} value={this.props.address} />
+            </div>
+            </div>
+
+            <div className="col-xs-8">
+            <h4>Ledger Nano NEO Address</h4>
+              <input
+                className="ledger-address"
+                id="center"
+                placeholder={this.props.address}
+                ref={node => {
+                  sendAddress = node;
+                }}
+              />
+            </div>
+
+
+            <div className="col-xs-4  top-20">
+            Amount to Transfer
+              <input
+                className={formClass}
+                type="number"
+                id="assetAmount"
+                min="1"
+                onChange={convertFunction}
+                value={this.state.value}
+                placeholder="Enter amount to send"
+                ref={node => {
+                  sendAmount = node;
+                }}
+              />
+            </div>
+            <div className="col-xs-4 top-20">
+            Value in USD
+              <input
+                className={formClass}
+                id="sendAmount"
+                onChange={this.handleChangeUSD}
+                onClick={this.handleChangeUSD}
+                disabled={gasEnabled === false ? true : false}
+                placeholder="Amount in US"
+                value={`${priceUSD}`}
+              />
+              <label className="amount-dollar-ledger">$</label>
+            </div>
+
+            <div className="clearboth" />
+
+            <div className="col-xs-4 top-20">
+            <div id="sendAddress">
               <div
                 id="sendAsset"
                 className={btnClass}
@@ -247,79 +325,71 @@ class Ledger extends Component {
               >
                 <span>Click to switch between NEO and GAS</span>
               </ReactTooltip>
-            </div>
-
-            <div id="sendAddress">
-              <div className="clearboth" />
-
-              <div id="sendAmount">
-                <div className="col-xs-12">
-                  <input
-                    className={formClass}
-                    id="center"
-                    placeholder="Please plug in and unlock your Ledger Nano S"
-                    ref={node => {
-                      sendAddress = node;
-                    }}
-                  />
-                </div>
-                <div className="col-xs-6  top-20">
-                  <input
-                    className={formClass}
-                    type="number"
-                    id="assetAmount"
-                    min="1"
-                    onChange={convertFunction}
-                    value={this.state.value}
-                    placeholder="Enter amount to send"
-                    ref={node => {
-                      sendAmount = node;
-                    }}
-                  />
-                </div>
-                <div className="col-xs-4 top-20">
-                  <input
-                    className={formClass}
-                    id="sendAmount"
-                    onChange={this.handleChangeUSD}
-                    onClick={this.handleChangeUSD}
-                    disabled={gasEnabled === false ? true : false}
-                    placeholder="Amount in US"
-                    value={`${priceUSD}`}
-                  />
-                  <label className="amount-dollar">$</label>
-                </div>
-                <div className="col-xs-2 top-20">
-                  <div id="sendAddress">
-                    <button
-                      className="grey-button"
-                      onClick={() =>
-                        sendTransaction(
-                          dispatch,
-                          net,
-                          address,
-                          wif,
-                          selectedAsset,
-                          neo,
-                          gas
-                        )
-                      }
-                      ref={node => {
-                        confirmButton = node;
-                      }}
-                    >
-                      Send
-                    </button>
-                  </div>
-                </div>
               </div>
             </div>
+
+            <div className="col-xs-4 top-20">
+            <div id="sendAddress">
+            <button
+              className="grey-button"
+              data-tip
+              data-for="withdrawTip"
+            >
+              Withdraw
+            </button>
+            <ReactTooltip
+              className="solidTip"
+              id="withdrawTip"
+              place="top"
+              type="light"
+              effect="solid"
+            >
+              <span>Withdraw from Ledger Nano S to Morpheus</span>
+            </ReactTooltip>
+            </div>
+            </div>
+            <div className="col-xs-4 top-20">
+              <div id="sendAddress">
+                <button
+                  className="grey-button"
+                  data-tip
+                  data-for="sendTip"
+                  onClick={() =>
+                    sendTransaction(
+                      dispatch,
+                      net,
+                      address,
+                      wif,
+                      selectedAsset,
+                      neo,
+                      gas
+                    )
+                  }
+                  ref={node => {
+                    confirmButton = node;
+                  }}
+                >
+                  Send
+                </button>
+                <ReactTooltip
+                  className="solidTip"
+                  id="sendTip"
+                  place="top"
+                  type="light"
+                  effect="solid"
+                >
+                  <span>Send to Ledger Nano S from Morpheus</span>
+                </ReactTooltip>
+              </div>
+            </div>
+
+              <div className="clearboth" />
           </div>
         </div>
 
-        <div className="send-notice">
+        <div className="top-20 center">
           <p>
-            Please ensure that your Ledger Nano S is plugged in, unlocked and has the NEO app installed. Your NEO address from your Ledger Nano S should appear above. Verify address is correct before sending. Please ensure you have access to the private key and/or encrypted key and password for the address used with your Ledger Nano S.
+            Please ensure that your Ledger Nano S is plugged in, unlocked and has the NEO app installed. Your NEO address from your Ledger Nano S should appear above. Verify address is correct before sending.
           </p>
         </div>
       </div>
