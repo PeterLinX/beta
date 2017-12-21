@@ -21,6 +21,7 @@ import { togglePane } from "../modules/dashboard";
 import { version } from "../../package.json";
 import { log } from "../util/Logs";
 import Dashlogo from "../components/Brand/Dashlogo";
+import ReactTooltip from "react-tooltip";
 
 const refreshBalance = (dispatch, net, address) => {
   dispatch(sendEvent(true, "Refreshing..."));
@@ -100,11 +101,28 @@ class Dashboard extends Component {
               <div className="logoContainer">
                 <Dashlogo width={90} />
               </div>
-              <div id="balance">
+              <div id="balance"
+              data-tip
+              data-for="refreshTip"
+              onClick={() =>
+            refreshBalance(
+              this.props.dispatch,
+              this.props.net,
+              this.props.address
+            )} >
                 <span style={{ fontSize: "10px" }}>Combined Value</span>
                 <br />
                 {numeral(this.state.combinedPrice).format("$0,0.00")}
               </div>
+              <ReactTooltip
+                className="solidTip"
+                id="refreshTip"
+                place="top"
+                type="light"
+                effect="solid"
+              >
+              <span>Click to refresh balance</span>
+            </ReactTooltip>
             </div>
             <div className="clearfix" />
             <div className="navbar-collapse collapse">

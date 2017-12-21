@@ -76,8 +76,8 @@ class Support extends Component {
           <p className="com-soon support-hov">Latest NEO News</p>
           </div>
 
-          <div className="col-xs-12 top-20">
-          <h2 className="center">Frequently Asked Questions</h2>
+          <div className="col-xs-12 top-10">
+          <h3 className="">Frequently Asked Questions</h3>
           </div>
 
           <div className="support">

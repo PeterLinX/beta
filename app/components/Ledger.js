@@ -217,7 +217,7 @@ class Ledger extends Component {
               <img
                 src={ledgerLogo}
                 alt=""
-                width="38"
+                width="28"
                 className="ledger-logo logobounce"
               />
               <h2>Ledger</h2>

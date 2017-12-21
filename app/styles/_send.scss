@@ -670,9 +670,15 @@ margin-right: 5px;
 
 .support-hov {
   opacity: 0.5;
+  color: #555;
 }
 
 .support-hov:hover {
   opacity: 1;
   cursor: pointer;
+}
+
+#refreshTip {
+  -webkit-animation: jump 1.5s ease 1s 1 normal ;
+animation: jump 1.5s ease 1s 1 normal ;
 }
