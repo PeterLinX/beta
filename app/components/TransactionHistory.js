@@ -45,11 +45,12 @@ class TransactionHistory extends Component {
       <TopBar />
       <div className="send-neo fadeInDown">
         <div className="row">
-          <div className="col-xs-12">
-            <h2 className="center">Transaction History</h2>
-            <hr className="" />
+          <div className="col-xs-9">
+            <h2>Transaction History</h2>
           </div>
-
+          <div className="col-xs-3 center top-10 send-info">
+          Block: {this.props.blockHeight}
+          </div>
           <ul id="transactionList">
             {this.props.transactions.map(t => {
               const formatGas = gas =>
@@ -59,7 +60,7 @@ class TransactionHistory extends Component {
               return (
                 <li key={t.txid}>
                   <div
-                    className="col-xs-10"
+                    className="col-xs-9"
                     onClick={() =>
                       openExplorer(
                         getExplorerLink(
@@ -70,10 +71,10 @@ class TransactionHistory extends Component {
                       )
                     }
                   >
-                    {t.txid.substring(0, 32)}...{" "}
-                    <span className="glyphicon glyphicon-link" />
+                    <span className="glyphicon glyphicon-link marg-right-5" />
+                    {t.txid.substring(0, 64)} {" "}
                   </div>
-                  <div className="col-xs-2">
+                  <div className="col-xs-3 center font-16">
                     {formatAmount} {t.type}
                   </div>
                 </li>

@@ -259,7 +259,7 @@ class Ledger extends Component {
             </div>
 
             <div className="col-xs-8">
-            <h4>Ledger Nano NEO Address</h4>
+            <h4><span className="glyphicon glyphicon-duplicate"/>  Ledger Nano NEO Address</h4>
               <input
                 className="ledger-address"
                 id="center"
@@ -337,7 +337,7 @@ class Ledger extends Component {
               data-tip
               data-for="withdrawTip"
             >
-              <span className="glyphicon glyphicon-open"></span> Withdraw
+              <span className="glyphicon glyphicon-open"/> Withdraw
             </button>
             <ReactTooltip
               className="solidTip"

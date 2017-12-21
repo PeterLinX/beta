@@ -209,9 +209,8 @@ h2 {
   list-style-type: none;
   height: 300px;
   width: 100%;
-  overflow: scroll;
   -webkit-padding-start: 0px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 ul {
@@ -248,13 +247,12 @@ webview {
 }
 
 ::-webkit-scrollbar {
-  background-color: #fff;
-  width: 0.8em;
+  width: 0.4em;
 }
 
 ::-webkit-scrollbar-thumb:window-inactive,
 ::-webkit-scrollbar-thumb {
-  background: black;
+  background: #2c2c2c;
 }
 
 .loading-exchange {
@@ -646,4 +644,35 @@ margin: 0px auto;
     border: 3px solid #252525;
     border-radius: 9px;
     outline: none;
+}
+
+
+.marg-right-5 {
+margin-right: 5px;
+}
+
+.font-16 {
+  font-size: 16px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.support {
+  font-size: 16px;
+  clear: both;
+  display: block;
+  height: 200px;
+  color: #999;
+  overflow-y: auto;
+}
+
+.support-hov {
+  opacity: 0.5;
+}
+
+.support-hov:hover {
+  opacity: 1;
+  cursor: pointer;
 }

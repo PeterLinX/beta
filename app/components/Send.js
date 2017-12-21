@@ -222,37 +222,12 @@ class Send extends Component {
               <h2>Send Neo or Gas</h2>
             </div>
             <div className="col-xs-4" />
-            <div className="col-xs-2">
-              <div
-                id="sendAsset"
-                className={btnClass}
-                style={{ width: "100%" }}
-                data-tip
-                data-for="assetTip"
-                onClick={() => {
-                  this.setState({ gas_usd: 0, neo_usd: 0, value: 0 });
-                  document.getElementById("assetAmount").value = "";
-                  dispatch(toggleAsset());
-                }}
-              >
-                {selectedAsset}
-              </div>
-              <ReactTooltip
-                className="solidTip"
-                id="assetTip"
-                place="top"
-                type="light"
-                effect="solid"
-              >
-                <span>Click to switch between NEO and GAS</span>
-              </ReactTooltip>
-            </div>
 
             <div id="sendAddress">
               <div className="clearboth" />
 
               <div id="sendAmount">
-                <div className="col-xs-12">
+                <div className="col-xs-9">
                   <input
                     className={formClass}
                     id="center"
@@ -262,7 +237,34 @@ class Send extends Component {
                     }}
                   />
                 </div>
-                <div className="col-xs-6  top-20">
+
+                <div className="col-xs-3">
+                  <div
+                    id="sendAsset"
+                    className={btnClass}
+                    style={{ width: "100%" }}
+                    data-tip
+                    data-for="assetTip"
+                    onClick={() => {
+                      this.setState({ gas_usd: 0, neo_usd: 0, value: 0 });
+                      document.getElementById("assetAmount").value = "";
+                      dispatch(toggleAsset());
+                    }}
+                  >
+                    {selectedAsset}
+                  </div>
+                  <ReactTooltip
+                    className="solidTip"
+                    id="assetTip"
+                    place="top"
+                    type="light"
+                    effect="solid"
+                  >
+                    <span>Click to switch between NEO and GAS</span>
+                  </ReactTooltip>
+                </div>
+
+                <div className="col-xs-5  top-20">
                   <input
                     className={formClass}
                     type="number"
@@ -288,7 +290,7 @@ class Send extends Component {
                   />
                   <label className="amount-dollar">$</label>
                 </div>
-                <div className="col-xs-2 top-20">
+                <div className="col-xs-3 top-20">
                   <div id="sendAddress">
                     <button
                       className="grey-button"
@@ -307,7 +309,7 @@ class Send extends Component {
                         confirmButton = node;
                       }}
                     >
-                      Send
+                    <span className="glyphicon glyphicon-send marg-right-5"/>  Send
                     </button>
                   </div>
                 </div>
@@ -323,7 +325,10 @@ class Send extends Component {
             can result in your NEO/GAS being lost. You cannot send a fraction of
             a NEO.
           </p>
-          <p>Gas Donations: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
+          <div className="col-xs-2 top-20"/>
+          <div className="col-xs-8 top-20">
+          <p className="btn-grey center">Gas Donations: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
+          </div>
         </div>
       </div>
     );

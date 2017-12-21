@@ -11,7 +11,7 @@ import { NetworkSwitch } from "../components/NetworkSwitch";
 import WalletInfo from "../components/WalletInfo";
 import TransactionHistory from "../components/TransactionHistory";
 import Exchange from "../components/Exchange";
-import About from "../components/About";
+import Support from "../components/Support";
 import Trade from "../components/Trade";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
@@ -140,13 +140,8 @@ class Dashboard extends Component {
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/about"} activeClassName="active">
-                    <span className="glyphicon glyphicon-info-sign" /> FAQ & News
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"/featured"} activeClassName="active">
-                    <span className="glyphicon glyphicon-heart" /> Featured
+                  <Link to={"/support"} activeClassName="active">
+                    <span className="glyphicon glyphicon-info-sign" /> Support
                   </Link>
                 </li>
                 <li>
