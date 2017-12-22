@@ -60,7 +60,7 @@ class TransactionHistory extends Component {
               return (
                 <li key={t.txid}>
                   <div
-                    className="col-xs-9"
+                    className="col-xs-9 support-qs"
                     onClick={() =>
                       openExplorer(
                         getExplorerLink(

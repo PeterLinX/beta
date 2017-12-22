@@ -170,6 +170,7 @@ class Dashboard extends Component {
               </ul>
             </div>
           </div>
+          <span className="dashnetwork">Network: {this.props.net}</span>
           <div className="copyright">&copy; Copyright 2017 Morpheus</div>
         </div>
         <div style={{ marginLeft: 230, marginTop: 20 }}>

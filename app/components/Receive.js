@@ -44,7 +44,11 @@ class Receive extends Component {
                 Print Public Address
               </div>
 
-              <div className="dash-icon-bar animated fadeInUp">
+              <div className="dash-icon-bar animated fadeInUp"
+              onClick={() =>
+                  openExplorer(getLink(this.props.net, this.props.address))
+                }
+              >
                 <div className="icon-border">
                   <span className="glyphicon glyphicon-link" />
                 </div>

@@ -11,7 +11,7 @@ import { Link } from "react-router";
 const api = val => {
   return `https://min-api.cryptocompare.com/data/histohour?fsym=${
     val
-  }&tsym=USD&limit=96&aggregate=3&e=CCCAGG`;
+  }&tsym=USD&limit=144&aggregate=3&e=CCCAGG`;
 };
 
 class Charts extends Component {
@@ -211,14 +211,14 @@ class Charts extends Component {
           {
             label: "GAS",
             fill: true,
-            lineTension: 0.5,
+            lineTension: 0.25,
             backgroundColor: gasGradientFill,
             borderColor: gasGradientStroke,
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: "miter",
-            pointBorderWidth: 3,
+            pointBorderWidth: 1,
             pointHoverRadius: 3,
             pointHoverBorderWidth: 0,
             pointBorderColor: gasGradientStroke,
@@ -232,14 +232,14 @@ class Charts extends Component {
           {
             label: "NEO",
             fill: true,
-            lineTension: 0.5,
+            lineTension: 0.25,
             backgroundColor: gradientFill,
             borderColor: gradientStroke,
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: "miter",
-            pointBorderWidth: 3,
+            pointBorderWidth: 1,
             pointHoverRadius: 3,
             pointHoverBorderWidth: 0,
             pointBorderColor: gradientStroke,
@@ -254,14 +254,14 @@ class Charts extends Component {
             label: "BTC",
             fill: true,
             hidden: true,
-            lineTension: 0.5,
+            lineTension: 0.25,
             backgroundColor: btcGradientFill,
             borderColor: btcGradientStroke,
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: "miter",
-            pointBorderWidth: 3,
+            pointBorderWidth: 1,
             pointHoverRadius: 3,
             pointHoverBorderWidth: 0,
             pointBorderColor: btcGradientStroke,
@@ -276,14 +276,14 @@ class Charts extends Component {
             label: "DASH",
             fill: true,
             hidden: true,
-            lineTension: 0.5,
+            lineTension: 0.25,
             backgroundColor: dashGradientFill,
             borderColor: dashGradientStroke,
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: "miter",
-            pointBorderWidth: 3,
+            pointBorderWidth: 1,
             pointHoverRadius: 3,
             pointHoverBorderWidth: 0,
             pointBorderColor: dashGradientStroke,
@@ -298,14 +298,14 @@ class Charts extends Component {
             label: "ETH",
             fill: true,
             hidden: true,
-            lineTension: 0.5,
+            lineTension: 0.25,
             backgroundColor: ethGradientFill,
             borderColor: ethGradientStroke,
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: "miter",
-            pointBorderWidth: 3,
+            pointBorderWidth: 1,
             pointHoverRadius: 3,
             pointHoverBorderWidth: 0,
             pointBorderColor: ethGradientStroke,
@@ -320,14 +320,14 @@ class Charts extends Component {
             label: "LTC",
             fill: true,
             hidden: true,
-            lineTension: 0.5,
+            lineTension: 0.25,
             backgroundColor: ltcGradientFill,
             borderColor: ltcGradientStroke,
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: "miter",
-            pointBorderWidth: 3,
+            pointBorderWidth: 1,
             pointHoverRadius: 3,
             pointHoverBorderWidth: 0,
             pointBorderColor: ltcGradientStroke,
@@ -342,14 +342,14 @@ class Charts extends Component {
             label: "LRC",
             fill: true,
             hidden: true,
-            lineTension: 0.5,
+            lineTension: 0.25,
             backgroundColor: lrcGradientFill,
             borderColor: lrcGradientStroke,
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: "miter",
-            pointBorderWidth: 3,
+            pointBorderWidth: 1,
             pointHoverRadius: 3,
             pointHoverBorderWidth: 0,
             pointBorderColor: lrcGradientStroke,
@@ -364,14 +364,14 @@ class Charts extends Component {
             label: "RPX",
             fill: true,
             hidden: true,
-            lineTension: 0.5,
+            lineTension: 0.25,
             backgroundColor: rpxGradientFill,
             borderColor: rpxGradientStroke,
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: "miter",
-            pointBorderWidth: 3,
+            pointBorderWidth: 1,
             pointHoverRadius: 3,
             pointHoverBorderWidth: 0,
             pointBorderColor: rpxGradientStroke,
@@ -387,11 +387,7 @@ class Charts extends Component {
     };
     return (
       <div>
-      <ul id="neo-price">
-      <li>OPEN: ${this.state.open}</li>
-      <li>HIGH: ${this.state.high}</li>
-      <li>LOW: ${this.state.low}</li>
-       </ul>
+
         <div className="settings-panel">
           <div className="row">
             <div className="col-xs-12">
@@ -405,22 +401,12 @@ class Charts extends Component {
                 <h3 className="neo-dash-price">NEO Price</h3>
               </div>
               <div className="col-xs-6">
-        <Link to="/trade">
-        <div
-        data-tip
-        data-for="chartTip"
-        className="trade-button">
-        <span className="glyph-icon glyphicon-signal"></span>
-        Switch to TradingView Charts</div></Link>
-        <ReactTooltip
-          className="solidTip"
-          id="chartTip"
-          place="top"
-          type="light"
-          effect="solid"
-        >
-          <span>View Pro Charts & Drawing Tools</span>
-        </ReactTooltip>
+              <ul id="neo-price">
+              <li>OPEN: ${this.state.open}</li>
+              <li>HIGH: ${this.state.high}</li>
+              <li>LOW: ${this.state.low}</li>
+               </ul>
+
               </div>
               <div className="col-xs-2">
                 <select
@@ -439,21 +425,21 @@ class Charts extends Component {
                 height={300}
                 options={{
                   maintainAspectRatio: true,
-                  layout: { padding: { left: 0, right: 0, top: 0, bottom: 0 } },
+                  layout: { padding: { left: 0, right: 0, top: 0, bottom: 10 } },
                   scales: {
                     xAxes: [
                       {
                         type: "time",
                         position: "bottom",
                         id: "x-axis-0",
-                        categoryPercentage: 0.5,
+                        categoryPercentage: 1,
                         barPercentage: 0.5,
-                        gridLines: { color: "rgba(255, 255, 255, 0.04)" }
+                        gridLines: { color: "rgba(255, 255, 255, 0.05)" }
                       }
                     ],
                     yAxes: [
                       {
-                        gridLines: { color: "rgba(255, 255, 255, 0.04)" }
+                        gridLines: { color: "rgba(255, 255, 255, 0.05)" }
                       }
                     ]
                   },

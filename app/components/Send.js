@@ -221,7 +221,10 @@ class Send extends Component {
               />
               <h2>Send Neo or Gas</h2>
             </div>
-            <div className="col-xs-4" />
+            <div className="col-xs-3" />
+            <div className="col-xs-3">
+            Block: {this.props.blockHeight}
+            </div>
 
             <div id="sendAddress">
               <div className="clearboth" />
@@ -336,6 +339,7 @@ class Send extends Component {
 }
 
 const mapStateToProps = state => ({
+  blockHeight: state.metadata.blockHeight,
   wif: state.account.wif,
   address: state.account.address,
   net: state.metadata.network,
