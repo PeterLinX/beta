@@ -56,7 +56,6 @@ class Dashboard extends Component {
     await this.getCombinedBalance(this.props.neo, this.props.gas);
   }
 
-// Get Total Balance
   getCombinedBalance = async (neo, gas) => {
     let neoPrice = await axios.get(
       "https://api.coinmarketcap.com/v1/ticker/neo/"
@@ -83,7 +82,7 @@ class Dashboard extends Component {
         sendPaneClosed = "15%";
       }
     }
-    // Dashboard Container
+
     let dash = (
       <div className="container">
         <WalletInfo />
@@ -102,7 +101,6 @@ class Dashboard extends Component {
               <div className="logoContainer">
                 <Dashlogo width={90} />
               </div>
-              // Balance
               <div id="balance"
               onClick={() =>
             refreshBalance(
@@ -117,7 +115,6 @@ class Dashboard extends Component {
             </div>
             <div className="clearfix" />
             <div className="navbar-collapse collapse">
-            // Side Menu
               <ul className="nav navbar-nav">
                 <li>
                   <Link to={"/dashboard"} activeClassName="active">
@@ -157,11 +154,9 @@ class Dashboard extends Component {
               </ul>
             </div>
           </div>
-          // Netowrk Status
           <span className="dashnetwork">Network: {this.props.net}</span>
           <div className="copyright">&copy; Copyright 2017 Morpheus</div>
         </div>
-        // Copyright - DO NOT REMOVE
         <div style={{ marginLeft: 230, marginTop: 20 }}>
           <div className="container">{this.props.children}</div>
           {dash}

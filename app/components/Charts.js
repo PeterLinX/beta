@@ -345,7 +345,7 @@ class Charts extends Component {
     };
     return (
       <div>
-// Dashboard Charts
+
         <div className="settings-panel">
           <div className="row">
             <div className="col-xs-12">
