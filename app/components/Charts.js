@@ -358,13 +358,7 @@ class Charts extends Component {
                 />
                 <h3 className="neo-dash-price">NEO Price</h3>
               </div>
-              <div className="col-xs-6">
-              <ul id="neo-price">
--                  <li>OPEN: ${this.state.open}</li>
--                  <li> HIGH: ${this.state.high}</li>
--                  <li> LOW: ${this.state.low}</li>
--                </ul>
-              </div>
+              <div className="col-xs-6" />
               <div className="col-xs-2">
                 <select
                   name="select-profession"
