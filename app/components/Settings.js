@@ -176,22 +176,24 @@ class Settings extends Component {
                 </Link>
               </div>
               <div className="col-xs-2 center">
-              <Link to="/trade">
+              <Link to="/tokens">
                 <div className="dash-icon-bar">
                   <div className="icon-border">
-                    <span className="glyphicon glyphicon-signal" />
+                    <span className="glyphicon glyphicon-plus-sign" />
                   </div>
-                  Pro Trading Charts
+                  Asset Manager
                 </div>
                 </Link>
               </div>
               <div className="col-xs-2 center">
+              <Link to="/support">
                 <div className="dash-icon-bar">
                   <div className="icon-border">
-                    <span className="glyphicon glyphicon-file" />
+                    <span className="glyphicon glyphicon-info-sign" />
                   </div>
-                  Legal Displaimer & Privacy
+                  Support & FAQs
                 </div>
+                </Link>
               </div>
             </div>
             <div className="row top-20">
