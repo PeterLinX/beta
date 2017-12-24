@@ -10,25 +10,6 @@ import gitHub from "../images/github.png";
 import disCord from "../images/disCord.png";
 import neoNews from "../images/neoNews.png";
 
-// TODO: make this a user setting
-const getExplorerLink = (net, explorer, txid) => {
-  let base;
-  if (explorer === "Neotracker") {
-    if (net === "MainNet") {
-      base = "https://neotracker.io/tx/";
-    } else {
-      base = "https://testnet.neotracker.io/tx/";
-    }
-  } else {
-    if (net === "MainNet") {
-      base = "http://antcha.in/tx/hash/";
-    } else {
-      base = "http://testnet.antcha.in/tx/hash/";
-    }
-  }
-  return base + txid;
-};
-
 // helper to open an external web link
 const openExplorer = srcLink => {
   shell.openExternal(srcLink);
@@ -50,7 +31,7 @@ class Support extends Component {
         <div className="row">
           <div className="col-xs-4 center send-info"
           onClick={() =>
-                  openExplorer("https://github.com/MorpheusWallet/Morpheus")
+                  openExplorer("https://github.com/MorpheusWallet")
           }
           >
           <img
@@ -95,7 +76,7 @@ class Support extends Component {
           <div className="support">
           <div className="col-xs-12 top-10 support-qs"
           onClick={() =>
-                  openExplorer("http://www.google.com")
+                  openExplorer("https://www.morpheuswallet.com/frequently-asked-questions/")
                 }
           >
           How do I export my ecrypted key from Morpheus?
@@ -103,7 +84,7 @@ class Support extends Component {
 
           <div className="col-xs-12 top-10 support-qs"
           onClick={() =>
-                  openExplorer("http://www.google.com")
+                  openExplorer("https://www.morpheuswallet.com/frequently-asked-questions/")
           }
           >
           How do I ecrypted an existing private key in Morpheus?
@@ -111,7 +92,7 @@ class Support extends Component {
 
           <div className="col-xs-12 top-10 support-qs"
           onClick={() =>
-                  openExplorer("http://www.google.com")
+                  openExplorer("https://www.morpheuswallet.com/frequently-asked-questions/")
           }
           >
           How do I exchange Bitcoin (BTC) for NEO in Morpheus using Changelly?
@@ -119,7 +100,7 @@ class Support extends Component {
 
           <div className="col-xs-12 top-10 support-qs"
           onClick={() =>
-                  openExplorer("http://www.google.com")
+                  openExplorer("https://www.morpheuswallet.com/frequently-asked-questions/")
           }
           >
           How do I deposit to and withdraw from my Ledger Nano S using Morpheus?
@@ -127,7 +108,7 @@ class Support extends Component {
 
           <div className="col-xs-12 top-10 support-qs"
           onClick={() =>
-                  openExplorer("http://www.google.com")
+                  openExplorer("https://www.morpheuswallet.com/frequently-asked-questions/")
           }
           >
           How do I claim GAS on my Ledger Nano S using Morpheus?
@@ -135,7 +116,7 @@ class Support extends Component {
 
           <div className="col-xs-12 top-10 support-qs"
           onClick={() =>
-                  openExplorer("http://www.google.com")
+                  openExplorer("https://www.morpheuswallet.com/frequently-asked-questions/")
           }
           >
           How do I remove my address from Morpheus?
@@ -143,7 +124,7 @@ class Support extends Component {
 
           <div className="col-xs-12 top-10 support-qs"
           onClick={() =>
-                  openExplorer("http://www.google.com")
+                  openExplorer("https://www.morpheuswallet.com/frequently-asked-questions/")
           }
           >
           How do I switch between sending NEO or GAS?
@@ -151,7 +132,7 @@ class Support extends Component {
 
           <div className="col-xs-12 top-10 support-qs"
           onClick={() =>
-                  openExplorer("http://www.google.com")
+                  openExplorer("https://www.morpheuswallet.com/frequently-asked-questions/")
           }
           >
           Can I use the NEO address created with Morpheus with other NEO wallets?
@@ -159,7 +140,7 @@ class Support extends Component {
 
           <div className="col-xs-12 top-10 support-qs"
           onClick={() =>
-                  openExplorer("http://www.google.com")
+                  openExplorer("https://www.morpheuswallet.com/frequently-asked-questions/")
           }
           >
           Can I use a NEO address created with NEON with Morpheus?
@@ -167,7 +148,7 @@ class Support extends Component {
 
           <div className="col-xs-12 top-10 support-qs"
           onClick={() =>
-                  openExplorer("http://www.google.com")
+                  openExplorer("https://www.morpheuswallet.com/frequently-asked-questions/")
           }
           >
           Can I use a NEO address created with NEON with Morpheus?
@@ -192,5 +173,4 @@ const mapStateToProps = state => ({
 });
 
 Support = connect(mapStateToProps)(Support);
-
 export default Support;

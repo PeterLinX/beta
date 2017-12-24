@@ -25,7 +25,6 @@ class Charts extends Component {
       ltcData: [],
       ethData: [],
       rpxData: [],
-      lrcData: [],
       open: "--",
       high: "--",
       low: "--"
@@ -40,7 +39,6 @@ class Charts extends Component {
     await this.getDashData();
     await this.getEthData();
     await this.getRpxData();
-    await this.getLrcData();
   }
 
   async getGasData() {
@@ -114,16 +112,6 @@ class Charts extends Component {
     }
   }
 
-  async getLrcData() {
-    try {
-      let req = await axios.get(api("LRC"));
-      let data = req.data.Data;
-      this.setState({ lrcData: data });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   render() {
     const neoPrices = _.map(this.state.neoData, "close");
     const neoHours = _.map(this.state.neoData, "time");
@@ -135,7 +123,6 @@ class Charts extends Component {
     const dashPrices = _.map(this.state.dashData, "close");
     const ethPrices = _.map(this.state.ethData, "close");
     const rpxPrices = _.map(this.state.rpxData, "close");
-    const lrcPrices = _.map(this.state.lrcData, "close");
     const gasPrices = _.map(this.state.gasData, "close");
 
     const data = canvas => {
@@ -164,14 +151,6 @@ class Charts extends Component {
       let ltcGradientFill = ctx.createLinearGradient(0, 0, 0, 240);
       ltcGradientFill.addColorStop(0, "rgba(255,255,255, 0.5)");
       ltcGradientFill.addColorStop(1, "rgba(255,255,255, 0)");
-
-      let lrcGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
-      lrcGradientStroke.addColorStop(0, "#ececec");
-      lrcGradientStroke.addColorStop(1, "#ececec");
-
-      let lrcGradientFill = ctx.createLinearGradient(0, 0, 0, 240);
-      lrcGradientFill.addColorStop(0, "rgba(255,255,255, 0.5)");
-      lrcGradientFill.addColorStop(1, "rgba(255,255,255, 0)");
 
       let btcGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
       btcGradientStroke.addColorStop(0, "#ffc000");
@@ -337,28 +316,6 @@ class Charts extends Component {
             pointHitRadius: 3,
             pointRadius: 0,
             data: ltcPrices
-          },
-          {
-            label: "LRC",
-            fill: true,
-            hidden: true,
-            lineTension: 0.25,
-            backgroundColor: lrcGradientFill,
-            borderColor: lrcGradientStroke,
-            borderCapStyle: "butt",
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: "miter",
-            pointBorderWidth: 1,
-            pointHoverRadius: 3,
-            pointHoverBorderWidth: 0,
-            pointBorderColor: lrcGradientStroke,
-            pointBackgroundColor: lrcGradientStroke,
-            pointHoverBackgroundColor: lrcGradientStroke,
-            pointHoverBorderColor: lrcGradientStroke,
-            pointHitRadius: 3,
-            pointRadius: 0,
-            data: lrcPrices
           },
           {
             label: "RPX",
