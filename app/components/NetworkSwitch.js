@@ -23,9 +23,7 @@ let intervals = {};
 
 let netSelect;
 
-// https://bittrex.com/api/v1.1/public/getmarkethistory?market=BTC-NEO
-
-// putting this back in wallet, does not belong in neon-js
+// Get NEO market price
 export const getMarketPriceUSD = amount => {
   return axios
     .get("https://bittrex.com/api/v1.1/public/getticker?market=USDT-NEO")
@@ -35,6 +33,7 @@ export const getMarketPriceUSD = amount => {
     });
 };
 
+// Get GAS market price
 const getGasPrice = async gasVal => {
   try {
     let gas = await axios.get("https://api.coinmarketcap.com/v1/ticker/gas/");
@@ -46,8 +45,7 @@ const getGasPrice = async gasVal => {
   }
 };
 
-// TODO: this is being imported by Balance.js, maybe refactor to helper file
-
+// Account Balance
 const initiateGetBalance = (dispatch, net, address) => {
   syncTransactionHistory(dispatch, net, address);
   syncAvailableClaim(dispatch, net, address);
@@ -153,6 +151,7 @@ class NetworkSwitch extends Component {
     resetBalanceSync(this.props.dispatch, this.props.net, this.props.address);
   };
   render = () => (
+    // Network Switch for Settings
     <div id="network">
       <div className="dash-icon-bar">
         <div className="icon-border">

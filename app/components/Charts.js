@@ -8,6 +8,7 @@ import moment from "moment";
 import neoLogo from "../images/neo.png";
 import { Link } from "react-router";
 
+// CryptoCompare API for ChartJS
 const api = val => {
   return `https://min-api.cryptocompare.com/data/histohour?fsym=${
     val
@@ -50,7 +51,7 @@ class Charts extends Component {
       console.log(error);
     }
   }
-
+// NEO
   async getNeoData() {
     try {
       let req = await axios.get(api("NEO"));
@@ -61,7 +62,7 @@ class Charts extends Component {
       console.log(error);
     }
   }
-
+// BTC
   async getBtcData() {
     try {
       let req = await axios.get(api("BTC"));
@@ -71,7 +72,7 @@ class Charts extends Component {
       console.log(error);
     }
   }
-
+// LTC
   async getLtcData() {
     try {
       let req = await axios.get(api("LTC"));
@@ -81,7 +82,7 @@ class Charts extends Component {
       console.log(error);
     }
   }
-
+// ETH
   async getEthData() {
     try {
       let req = await axios.get(api("ETH"));
@@ -91,7 +92,7 @@ class Charts extends Component {
       console.log(error);
     }
   }
-
+// DASH
   async getDashData() {
     try {
       let req = await axios.get(api("DASH"));
@@ -101,7 +102,7 @@ class Charts extends Component {
       console.log(error);
     }
   }
-
+// RPX
   async getRpxData() {
     try {
       let req = await axios.get(api("RPX"));
@@ -111,7 +112,7 @@ class Charts extends Component {
       console.log(error);
     }
   }
-
+// Chart Data
   render() {
     const neoPrices = _.map(this.state.neoData, "close");
     const neoHours = _.map(this.state.neoData, "time");
@@ -124,7 +125,7 @@ class Charts extends Component {
     const ethPrices = _.map(this.state.ethData, "close");
     const rpxPrices = _.map(this.state.rpxData, "close");
     const gasPrices = _.map(this.state.gasData, "close");
-
+// Chart Styling
     const data = canvas => {
       let ctx = canvas.getContext("2d");
       let gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
@@ -183,7 +184,7 @@ class Charts extends Component {
       let dashGradientFill = ctx.createLinearGradient(0, 0, 0, 240);
       dashGradientFill.addColorStop(0, "rgba(0,90,255, 0.5)");
       dashGradientFill.addColorStop(1, "rgba(0,90,255, 0)");
-
+// Chart Content
       return {
         labels: convertedTime,
         datasets: [
@@ -344,7 +345,7 @@ class Charts extends Component {
     };
     return (
       <div>
-
+// Dashboard Charts
         <div className="settings-panel">
           <div className="row">
             <div className="col-xs-12">

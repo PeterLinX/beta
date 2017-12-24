@@ -26,7 +26,7 @@ const doClaimNotify = (dispatch, net, selfAddress, wif) => {
   });
 };
 
-// To initiate claim, first send all Neo to own address, the set claimRequest state
+// To initiate claim, first send zero Neo to own address, the set claimRequest state
 // When new claims are available, this will trigger the claim
 const doGasClaim = (dispatch, net, wif, selfAddress, ans) => {
   // if no neo in account, no need to send to self first
@@ -91,6 +91,7 @@ class Claim extends Component {
     } else {
       renderButton = (
         <div>
+        // GAS Doughnut Chart to be added
           <div id="gas-button" data-tip data-for="claimTip" className="">
             <span className="gas-claim">
               Claim Gas<br />
