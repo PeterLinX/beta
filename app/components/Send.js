@@ -324,7 +324,7 @@ class Send extends Component {
 
         <div className="send-notice">
           <p>
-            All NEO and GAS transactions are free. Only send NEO and GAS to a
+            All NEO and GAS transactions are FREE. Only send NEO and GAS to a
             valid NEO address. Sending to an address other than a NEO address
             can result in your NEO/GAS being lost. You cannot send a fraction of
             a NEO.
