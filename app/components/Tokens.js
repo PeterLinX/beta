@@ -44,8 +44,9 @@ class Tokens extends Component {
     <div id="send">
       <TopBar />
       <div className="settings-panel top-50 fadeInDown">
+      <h2 className="center">Asset Manager</h2>
+      <hr />
         <div className="tokens-window">
-
         <div className="col-xs-3  top-20">
         <img
           src={neoLogo}
