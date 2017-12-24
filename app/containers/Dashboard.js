@@ -12,7 +12,6 @@ import WalletInfo from "../components/WalletInfo";
 import TransactionHistory from "../components/TransactionHistory";
 import Exchange from "../components/Exchange";
 import Support from "../components/Support";
-import Trade from "../components/Trade";
 import Tokens from "../components/Tokens";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
