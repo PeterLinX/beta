@@ -11,7 +11,7 @@ import { Link } from "react-router";
 const api = val => {
   return `https://min-api.cryptocompare.com/data/histohour?fsym=${
     val
-  }&tsym=USD&limit=144&aggregate=3&e=CCCAGG`;
+  }&tsym=USD&limit=72&aggregate=3&e=CCCAGG`;
 };
 
 class Charts extends Component {
@@ -400,14 +400,7 @@ class Charts extends Component {
                 />
                 <h3 className="neo-dash-price">NEO Price</h3>
               </div>
-              <div className="col-xs-6">
-              <ul id="neo-price">
-              <li>OPEN: ${this.state.open}</li>
-              <li>HIGH: ${this.state.high}</li>
-              <li>LOW: ${this.state.low}</li>
-               </ul>
-
-              </div>
+              <div className="col-xs-6"/>
               <div className="col-xs-2">
                 <select
                   name="select-profession"
@@ -425,21 +418,21 @@ class Charts extends Component {
                 height={300}
                 options={{
                   maintainAspectRatio: true,
-                  layout: { padding: { left: 0, right: 0, top: 0, bottom: 10 } },
+                  layout: { padding: { left: 0, right: 0, top: 0, bottom: 0 } },
                   scales: {
                     xAxes: [
                       {
                         type: "time",
                         position: "bottom",
                         id: "x-axis-0",
-                        categoryPercentage: 1,
-                        barPercentage: 0.5,
-                        gridLines: { color: "rgba(255, 255, 255, 0.05)" }
+                        categoryPercentage: 0.25,
+                        barPercentage: 0.25,
+                        gridLines: { color: "rgba(255, 255, 255, 0.04)" }
                       }
                     ],
                     yAxes: [
                       {
-                        gridLines: { color: "rgba(255, 255, 255, 0.05)" }
+                        gridLines: { color: "rgba(255, 255, 255, 0.04)" }
                       }
                     ]
                   },

@@ -13,6 +13,7 @@ import TransactionHistory from "../components/TransactionHistory";
 import Exchange from "../components/Exchange";
 import Support from "../components/Support";
 import Trade from "../components/Trade";
+import Tokens from "../components/Tokens";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import Logout from "../components/Logout";
@@ -102,8 +103,6 @@ class Dashboard extends Component {
                 <Dashlogo width={90} />
               </div>
               <div id="balance"
-              data-tip
-              data-for="refreshTip"
               onClick={() =>
             refreshBalance(
               this.props.dispatch,
@@ -114,15 +113,6 @@ class Dashboard extends Component {
                 <br />
                 {numeral(this.state.combinedPrice).format("$0,0.00")}
               </div>
-              <ReactTooltip
-                className="solidTip"
-                id="refreshTip"
-                place="top"
-                type="light"
-                effect="solid"
-              >
-              <span>Click to refresh balance</span>
-            </ReactTooltip>
             </div>
             <div className="clearfix" />
             <div className="navbar-collapse collapse">
@@ -145,6 +135,11 @@ class Dashboard extends Component {
                 <li>
                   <Link to={"/ledger"} activeClassName="active">
                     <span className="glyphicon glyphicon-th-large" /> Ledger
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"/tokens"} activeClassName="active">
+                    <span className="glyphicon glyphicon-cd" /> Tokens
                   </Link>
                 </li>
                 <li>

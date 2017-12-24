@@ -142,9 +142,7 @@ class CreateWallet extends Component {
 
                 <div className="col-xs-10 col-xs-offset-1 center top-10 grey-out">
                   <p>
-                    Please use a strong password. A minimum of 8 characters is
-                    recommended that contains uppercase letters, lowercase
-                    letters, numbers and symbols (!@#$%^&*).
+                    Please use a strong password. A minimum of 8 characters that contains uppercase and lowercase letters, numbers and symbols (!@#$%^&*).
                   </p>
                 </div>
               </div>

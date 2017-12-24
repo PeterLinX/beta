@@ -38,7 +38,10 @@
       ]
     },
     "linux": {
-      "target": ["AppImage", "deb"]
+      "target": [
+        "AppImage",
+        "deb"
+      ]
     },
     "win": {
       "target": "nsis",
@@ -63,11 +66,11 @@
     "file-loader": "^0.9.0",
     "fs": "0.0.1-security",
     "isomorphic-fetch": "^2.2.1",
+    "jayson": "^2.0.1",
     "js-scrypt": "^0.2.0",
     "lodash": "^4.17.4",
     "moment": "^2.19.1",
-    "neon-js":
-      "git+https://github.com/CityOfZion/neon-js.git#e1cc32b710cd71e0cf12b3172a0bade3af813c1b",
+    "neon-js": "git+https://github.com/CityOfZion/neon-js.git#e1cc32b710cd71e0cf12b3172a0bade3af813c1b",
     "numeral": "^2.0.6",
     "prop-types": "^15.6.0",
     "qrcode": "^0.8.2",
@@ -91,7 +94,6 @@
     "react-tooltip": "^3.3.0",
     "redux": "^3.5.2",
     "secure-random": "^1.1.1",
-    "jayson": "^2.0.1",
     "socket.io-client": "^1.4.6",
     "wif": "^2.0.6"
   },
@@ -137,15 +139,18 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
-        "<rootDir>/__mocks__/fileMock.js"
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js"
     },
-    "testPathIgnorePatterns": ["__tests__/setupTests.js"],
+    "testPathIgnorePatterns": [
+      "__tests__/setupTests.js"
+    ],
     "unmockedModulePathPatterns": [
       "node_modules/react/",
       "node_modules/enzyme/"
     ],
-    "snapshotSerializers": ["enzyme-to-json/serializer"],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
     "setupTestFrameworkScriptFile": "<rootDir>/__tests__/setupTests.js"
   }
 }

@@ -10,6 +10,7 @@ import { log } from "../util/Logs";
 import neoLogo from "../images/neo.png";
 import Claim from "./Claim.js";
 import TopBar from "./TopBar";
+import { clipboard } from "electron";
 import { togglePane } from "../modules/dashboard";
 import {
   sendEvent,
@@ -222,7 +223,7 @@ class Send extends Component {
               <h2>Send Neo or Gas</h2>
             </div>
             <div className="col-xs-3" />
-            <div className="col-xs-3">
+            <div className="col-xs-3 top-20 center com-soon">
             Block: {this.props.blockHeight}
             </div>
 
@@ -330,7 +331,20 @@ class Send extends Component {
           </p>
           <div className="col-xs-2 top-20"/>
           <div className="col-xs-8 top-20">
-          <p className="btn-grey center">Gas Donations: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
+          <p className="center donations"
+          data-tip
+          data-for="donateTip"
+          onClick={() => clipboard.writeText("AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b")}
+          >Donations: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
+          <ReactTooltip
+            className="solidTip"
+            id="donateTip"
+            place="top"
+            type="light"
+            effect="solid"
+          >
+            <span>Copy address to make a donation</span>
+          </ReactTooltip>
           </div>
         </div>
       </div>

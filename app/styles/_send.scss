@@ -697,3 +697,14 @@ animation: jump 1.5s ease 1s 1 normal ;
     bottom: 24px;
     left: 35px;
 }
+
+.donations {
+  position: fixed;
+bottom: 5px;
+right: 25%;
+cursor: pointer;
+}
+
+.donations:hover {
+  color: #555;
+}

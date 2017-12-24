@@ -19,6 +19,7 @@ import Support from "./components/Support";
 import Ledger from "./components/Ledger";
 import Featured from "./components/Featured";
 import Trade from "./components/Trade";
+import Tokens from "./components/Tokens";
 
 export default (
   <Route path="/" component={App}>
@@ -34,6 +35,7 @@ export default (
       <Route path="/support" component={Support} />
       <Route path="/featured" component={Featured} />
       <Route path="/trade" component={Trade} />
+      <Route path="/tokens" component={Tokens} />
     </Route>
     <Route path="/create" component={CreateWallet} />
     <Route path="/encryptKey" component={EncryptKey} />
