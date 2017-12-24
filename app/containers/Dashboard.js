@@ -133,13 +133,13 @@ class Dashboard extends Component {
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/ledger"} activeClassName="active">
-                    <span className="glyphicon glyphicon-th-large" /> Ledger
+                  <Link to={"/transactionHistory"} activeClassName="active">
+                    <span className="glyphicon glyphicon-list-alt" /> History
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/tokens"} activeClassName="active">
-                    <span className="glyphicon glyphicon-cd" /> Tokens
+                  <Link to={"/ledger"} activeClassName="active">
+                    <span className="glyphicon glyphicon-th-large" /> Ledger
                   </Link>
                 </li>
                 <li>
@@ -148,8 +148,8 @@ class Dashboard extends Component {
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/transactionHistory"} activeClassName="active">
-                    <span className="glyphicon glyphicon-list-alt" /> History
+                  <Link to={"/tokens"} activeClassName="active">
+                    <span className="glyphicon glyphicon-plus-sign" /> Wallets
                   </Link>
                 </li>
                 <li>
