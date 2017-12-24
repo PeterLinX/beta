@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { connect } from "react-redux";
 import { setBlockExplorer } from "../modules/metadata";
 import { setKeys } from "../modules/account";
+import { shell } from "electron";
 import Delete from "react-icons/lib/md/delete";
 import _ from "lodash";
 import fs from "fs";
@@ -180,8 +181,7 @@ class Settings extends Component {
                 <div className="dash-icon-bar">
                   <div className="icon-border">
                     <span className="glyphicon glyphicon-plus-sign" />
-                  </div>
-                  Asset Manager
+                  </div>Morpheus Asset Manager
                 </div>
                 </Link>
               </div>
@@ -222,19 +222,13 @@ class Settings extends Component {
                 <div
                   className="dash-icon-bar"
                   onClick={() =>
-                    openExplorer(
-                      getExplorerLink(
-                        this.props.net,
-                        this.props.explorer,
-                        t.txid
-                      )
-                    )
+                    openExplorer(getLink(this.props.net, this.props.address))
                   }
                 >
                   <div className="icon-border">
                     <span className="glyphicon glyphicon-link" />
                   </div>
-                  View Address on NeoTracker
+                  View on NeoTracker
                 </div>
               </div>
               <div className="col-xs-2 center">

@@ -91,7 +91,6 @@ class Claim extends Component {
     } else {
       renderButton = (
         <div>
-        // GAS Doughnut Chart to be added
           <div id="gas-button" data-tip data-for="claimTip" className="">
             <span className="gas-claim">
               Claim Gas<br />
