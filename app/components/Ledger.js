@@ -259,7 +259,19 @@ class Ledger extends Component {
             </div>
 
             <div className="col-xs-8">
-            <h4><span className="glyphicon glyphicon-duplicate"/>  Ledger Nano NEO Address</h4>
+            <h4><span
+            data-tip
+            data-for="copyTip"
+            id="ledger-copy-icon"
+            className="glyphicon glyphicon-duplicate"/>  Ledger NEO Address</h4>
+            <ReactTooltip
+              className="solidTip"
+              id="copyTip"
+              place="top"
+              type="light"
+              effect="solid"
+            ><span>Copy Ledger Nano S NEO Address</span>
+          </ReactTooltip>
               <input
                 className="ledger-address"
                 id="center"
@@ -269,7 +281,6 @@ class Ledger extends Component {
                 }}
               />
             </div>
-
 
             <div className="col-xs-4  top-20">
             Amount to Transfer

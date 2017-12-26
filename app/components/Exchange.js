@@ -121,7 +121,7 @@ class Exchange extends Component {
   }
 
   async handleSubmit(dispatch, address) {
-    dispatch(sendEvent(false, "doing stuff"));
+    dispatch(sendEvent(false, "Contacting exchange..."));
     await changelly.createTransaction(
       "btc",
       "neo",
