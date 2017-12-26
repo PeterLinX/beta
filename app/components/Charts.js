@@ -7,6 +7,11 @@ import _ from "lodash";
 import moment from "moment";
 import neoLogo from "../images/neo.png";
 import { Link } from "react-router";
+import btcLogo from "../img/btc-logo.png";
+import ltcLogo from "../img/litecoin.png";
+import rpxLogo from "../img/rpx.png";
+import thekeyLogo from "../img/thekey.png";
+import nexLogo from "../img/nex.png";
 
 // CryptoCompare API for ChartJS
 const api = val => {
@@ -132,7 +137,7 @@ class Charts extends Component {
       gradientStroke.addColorStop(0, "#7ED321");
       gradientStroke.addColorStop(1, "#7ED321");
 
-      let gradientFill = ctx.createLinearGradient(0, 0, 0, 240);
+      let gradientFill = ctx.createLinearGradient(0, 0, 0, 260);
       gradientFill.addColorStop(0, "rgba(68,147,33,0.8)");
       gradientFill.addColorStop(1, "rgba(68,147,33,0)");
       const gradient = ctx.createLinearGradient(0, 0, 100, 0);
@@ -141,7 +146,7 @@ class Charts extends Component {
       gasGradientStroke.addColorStop(0, "#9013FE");
       gasGradientStroke.addColorStop(1, "#9013FE");
 
-      let gasGradientFill = ctx.createLinearGradient(0, 0, 0, 240);
+      let gasGradientFill = ctx.createLinearGradient(0, 0, 0, 260);
       gasGradientFill.addColorStop(0, "rgba(144,147,254, 1)");
       gasGradientFill.addColorStop(1, "rgba(144,147,254, 0)");
 
@@ -149,7 +154,7 @@ class Charts extends Component {
       ltcGradientStroke.addColorStop(0, "#ececec");
       ltcGradientStroke.addColorStop(1, "#ececec");
 
-      let ltcGradientFill = ctx.createLinearGradient(0, 0, 0, 240);
+      let ltcGradientFill = ctx.createLinearGradient(0, 0, 0, 260);
       ltcGradientFill.addColorStop(0, "rgba(255,255,255, 0.5)");
       ltcGradientFill.addColorStop(1, "rgba(255,255,255, 0)");
 
@@ -157,7 +162,7 @@ class Charts extends Component {
       btcGradientStroke.addColorStop(0, "#ffc000");
       btcGradientStroke.addColorStop(1, "#ffc000");
 
-      let btcGradientFill = ctx.createLinearGradient(0, 0, 0, 240);
+      let btcGradientFill = ctx.createLinearGradient(0, 0, 0, 260);
       btcGradientFill.addColorStop(0, "rgba(229,172,0, 0.5)");
       btcGradientFill.addColorStop(1, "rgba(229,172,0, 0)");
 
@@ -165,7 +170,7 @@ class Charts extends Component {
       ethGradientStroke.addColorStop(0, "#646464");
       ethGradientStroke.addColorStop(1, "#646464");
 
-      let ethGradientFill = ctx.createLinearGradient(0, 0, 0, 240);
+      let ethGradientFill = ctx.createLinearGradient(0, 0, 0, 260);
       ethGradientFill.addColorStop(0, "rgba(175,175,175, 0.5)");
       ethGradientFill.addColorStop(1, "rgba(175,175,175, 0)");
 
@@ -173,7 +178,7 @@ class Charts extends Component {
       rpxGradientStroke.addColorStop(0, "#C60307");
       rpxGradientStroke.addColorStop(1, "#C60307");
 
-      let rpxGradientFill = ctx.createLinearGradient(0, 0, 0, 240);
+      let rpxGradientFill = ctx.createLinearGradient(0, 0, 0, 260);
       rpxGradientFill.addColorStop(0, "rgba(169,3,41, 0.5)");
       rpxGradientFill.addColorStop(1, "rgba(169,3,41, 0)");
 
@@ -181,7 +186,7 @@ class Charts extends Component {
       dashGradientStroke.addColorStop(0, "#005aff");
       dashGradientStroke.addColorStop(1, "#005aff");
 
-      let dashGradientFill = ctx.createLinearGradient(0, 0, 0, 240);
+      let dashGradientFill = ctx.createLinearGradient(0, 0, 0, 260);
       dashGradientFill.addColorStop(0, "rgba(0,90,255, 0.5)");
       dashGradientFill.addColorStop(1, "rgba(0,90,255, 0)");
 // Chart Content
@@ -346,34 +351,77 @@ class Charts extends Component {
     return (
       <div>
 
-        <div className="settings-panel">
+      <div className="row top-20 dash-portfolio">
+
+      <div className="col-xs-2 col-xs-offset-1">
+      <h4><img
+        src={btcLogo}
+        alt=""
+        width="16"
+        className="tokens"
+      /> Bitcoin</h4>
+      <hr className="dash-hr" />
+      <span className="dash-balance">0.00000000 BTC</span>
+      <span className="dash-balance">$0.00</span>
+      </div>
+
+      <div className="col-xs-2">
+      <h4><img
+        src={ltcLogo}
+        alt=""
+        width="16"
+        className="tokens"
+      /> Litecoin</h4>
+      <hr className="dash-hr" />
+      <span className="dash-balance">0.00000000 LTC</span>
+      <span className="dash-balance">$0.00</span>
+      </div>
+
+      <div className="col-xs-2">
+      <h4><img
+        src={rpxLogo}
+        alt=""
+        width="16"
+        className="tokens"
+      /> RedPulse</h4>
+      <hr className="dash-hr" />
+      <span className="dash-balance">0 RPX</span>
+      <span className="dash-balance">$0.00</span>
+      </div>
+
+      <div className="col-xs-2">
+      <h4><img
+        src={nexLogo}
+        alt=""
+        width="16"
+        className="tokens"
+      /> NEX</h4>
+      <hr className="dash-hr" />
+      <span className="dash-balance">0 NEX</span>
+      <span className="dash-balance">$0.00</span>
+      </div>
+
+      <div className="col-xs-2">
+      <h4><img
+        src={thekeyLogo}
+        alt=""
+        width="16"
+        className="tokens"
+      /> TheKey</h4>
+      <hr className="dash-hr" />
+      <span className="dash-balance">0 TKY</span>
+      <span className="dash-balance">$0.00</span>
+      </div>
+
+      </div>
+
+        <div className="dash-panel">
           <div className="row">
             <div className="col-xs-12">
-              <div className="col-xs-4">
-                <img
-                  src={neoLogo}
-                  alt=""
-                  width="34"
-                  className="neo-logo logobounce"
-                />
-                <h3 className="neo-dash-price">NEO Price</h3>
-              </div>
-              <div className="col-xs-6" />
-              <div className="col-xs-2">
-                <select
-                  name="select-profession"
-                  id="dash-price-select"
-                  className=""
-                >
-                  <option defaultValue selected="selected">
-                    USD
-                  </option>
-                </select>
-              </div>
               <Line
                 data={data}
                 width={600}
-                height={300}
+                height={280}
                 options={{
                   maintainAspectRatio: true,
                   layout: { padding: { left: 0, right: 0, top: 0, bottom: 0 } },
@@ -383,8 +431,8 @@ class Charts extends Component {
                         type: "time",
                         position: "bottom",
                         id: "x-axis-0",
-                        categoryPercentage: 0.25,
-                        barPercentage: 0.25,
+                        categoryPercentage: 1,
+                        barPercentage: 1,
                         gridLines: { color: "rgba(255, 255, 255, 0.04)" }
                       }
                     ],
@@ -394,10 +442,11 @@ class Charts extends Component {
                       }
                     ]
                   },
-                  legend: { position: "bottom" }
+                  legend: { position: "top" }
                 }}
               />
             </div>
+
           </div>
         </div>
       </div>
