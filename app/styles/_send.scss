@@ -770,3 +770,18 @@ margin: 0px;
   margin: 5px auto 5px;
   border-bottom: thin solid #333;
 }
+
+#ledger-copy-icon {
+  font-size: 14px;
+  margin-right: 5px;
+  margin-bottom: 2px;
+  padding: 8px;
+  border-radius: 99px;
+  border: thin solid #fff;
+  opacity: 0.5;
+}
+
+#ledger-copy-icon:hover {
+  opacity: 1;
+  cursor: pointer;
+}
