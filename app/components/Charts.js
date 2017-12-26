@@ -351,7 +351,7 @@ class Charts extends Component {
     return (
       <div>
 
-      <div className="row top-20 dash-portfolio">
+      <div className="row top-20 dash-portfolio center">
 
       <div className="col-xs-2 col-xs-offset-1">
       <h4><img
@@ -386,18 +386,6 @@ class Charts extends Component {
       /> RedPulse</h4>
       <hr className="dash-hr" />
       <span className="dash-balance">0 RPX</span>
-      <span className="dash-balance">$0.00</span>
-      </div>
-
-      <div className="col-xs-2">
-      <h4><img
-        src={nexLogo}
-        alt=""
-        width="16"
-        className="tokens"
-      /> NEX</h4>
-      <hr className="dash-hr" />
-      <span className="dash-balance">0 NEX</span>
       <span className="dash-balance">$0.00</span>
       </div>
 

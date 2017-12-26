@@ -346,7 +346,7 @@ class Ledger extends Component {
               type="light"
               effect="solid"
             >
-              <span>Withdraw from Ledger Morpheus</span>
+              <span>Withdraw from Ledger to Morpheus</span>
             </ReactTooltip>
             </div>
             </div>
