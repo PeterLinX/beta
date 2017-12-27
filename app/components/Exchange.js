@@ -46,7 +46,9 @@ class Exchange extends Component {
       minAmount: 0,
       payinAddress: null,
       transactionId: null,
-      status: null
+      status: null,
+      message: null,
+      statusMessage: null
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -55,7 +57,7 @@ class Exchange extends Component {
   componentDidMount() {
     initiateGetBalance(this.props.dispatch, this.props.net, this.props.address);
 
-    changelly.getMinAmount("btc", "neo", (err, data) => {
+    changelly.getMinAmount("btc", "eth", (err, data) => {
       if (err) {
         console.log("Error!", err);
       } else {
@@ -66,54 +68,39 @@ class Exchange extends Component {
   }
 
   async getStatus() {
-    this.props.dispatch(sendEvent(false, "initiating transaction"));
     const myVar = setInterval(() => {
       changelly.getStatus(this.state.transactionId, (err, data) => {
         if (err) {
           console.log("Error!", err);
         } else {
-          console.log("getStatus", data);
           this.setState({ status: data.result });
           if (data.result === "confirming") {
-            this.props.dispatch(
-              sendEvent(
-                false,
-                "Your transaction is awaiting confirmation. Please don't quit Morpheus until payment status is received."
-              )
-            );
-          } else if (data.result === "exchanging") {
-            this.props.dispatch(
-              sendEvent(
-                false,
-                "Your payment has been received and is being exchanged via a Changelly partner. Please do not quit Morpheus until exchange status updated."
-              )
-            );
+            this.setState({
+              message:
+                "Your transaction is awaiting confirmation. Please don't quit Morpheus until payment status is received",
+              statusMessage: "Confirming"
+            });
           } else if (data.result === "waiting") {
-            this.props.dispatch(
-              sendEvent(false, "NEO being sent to address. Please do not quit Morpheus until exchange status updated.")
-            );
-          } else if (data.result === "finished") {
-            this.props.dispatch(
-              sendEvent(
-                false,
-                "Congratulations! NEO successfully sent to the recipient address."
-              )
-            );
-          } else if (data.result === "failed") {
-            this.props.dispatch(
-              sendEvent(
-                false,
-                "Sorry your transaction failed. This is sually because you submitted less than the suggested minimum exchange. Your funds will be refunded."
-              )
-            );
+            this.setState({
+              message: "Waiting for your Bitcoin deposit. Do not close window until you receive confirmation.",
+              statusMessage: "Waiting for Bitcoin Deposit"
+            });
           } else if (data.result === "refunded") {
-            this.props.dispatch(
-              sendEvent(false, "Sorry your transaction failed. Your Bitcoin (BTC) will be refunded by the exchange. Please do not quit Morpheus until refund status updated." )
-            );
+            this.setState({
+              message: "Exchange failed and Bitcoin refunded.",
+              statusMessage: "Refunded"
+            });
           } else if (data.result === "sending") {
-            this.props.dispatch(
-              sendEvent(false, "Refund currently being processed. Your Bitcoin (BTC) is being refunded and will be updated with the next block.")
-            );
+            this.setState({
+              message: "NEO is being sent to your address in Morpheus.",
+              statusMessage: "Sending NEO"
+            });
+          } else if (data.result === "exchanging") {
+            this.setState({
+              message:
+                "Your payment was received and is being exchanged via our exchange partner Changelly.",
+              statusMessage: "Exchanging"
+            });
           }
         }
       });
@@ -121,18 +108,17 @@ class Exchange extends Component {
   }
 
   async handleSubmit(dispatch, address) {
-    dispatch(sendEvent(false, "Contacting exchange..."));
+    dispatch(sendEvent(false, "Contacting our exchange partner"));
     await changelly.createTransaction(
       "btc",
-      "neo",
-      address,
+      "eth",
+      "0x7e1a1b262574290575798fbff030adb8caca4466",
       this.state.fromValue,
       undefined,
       (err, data) => {
         if (err) {
           console.log("Error!", err);
         } else {
-          console.log("createTransaction", data);
           this.setState({
             payinAddress: data.result.payinAddress,
             transactionId: data.result.id
@@ -148,12 +134,13 @@ class Exchange extends Component {
     this.setState({ fromValue: event.target.value }, () => {
       changelly.getExchangeAmount(
         "btc",
-        "neo",
+        "eth",
         this.state.fromValue,
         (err, data) => {
           if (err) {
             console.log("Error!", err);
           } else {
+            console.log(data);
             this.setState({ toValue: data.result });
           }
         }
@@ -162,6 +149,60 @@ class Exchange extends Component {
   }
 
   render = () => {
+    if (this.state.status !== null) {
+      return (
+        <div>
+          <TopBar />
+          <div className="progress-bar3 fadeInLeft-ex" />
+          <div className="row prog-info top-20">
+            <div className="col-xs-2 col-xs-offset-1 sm-text center">
+              Enter Amount to Deposit
+            </div>
+            <div className="col-xs-2 sm-text center">Placing Your Order</div>
+            <div className="col-xs-2 sm-text center">
+              Generating Bitcoin Address for Deposit
+            </div>
+            <div className="col-xs-2 sm-text center grey-out">
+              Processing Your Order
+            </div>
+            <div className="col-xs-2 sm-text center grey-out">
+              Transaction Complete!
+            </div>
+          </div>
+
+          <div className="top-130" id="exchange-messages">
+            <div className="settings-panel fadeInDown">
+              <div className="com-soon row fadeInDown">
+                <div className="col-md-12">
+                  <h1>{this.state.statusMessage}</h1>
+                  <p>{this.state.message}</p>
+                  <p
+                    className="trasactionId"
+                    data-tip
+                    data-for="copyTransactionIdTip"
+                    onClick={() =>
+                      clipboard.writeText(this.state.transactionId)
+                    }
+                  >
+                    Transaction ID: {this.state.transactionId}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <ReactTooltip
+              className="solidTip"
+              id="copyTransactionIdTip"
+              place="bottom"
+              type="dark"
+              effect="solid"
+            >
+              <span>Copy Tranaction ID</span>
+            </ReactTooltip>
+          </div>
+        </div>
+      );
+    }
     if (this.state.payinAddress != null) {
       return (
         <div>
@@ -183,7 +224,7 @@ class Exchange extends Component {
             </div>
           </div>
 
-          <div className="top-130">
+          <div className="top-130" id="payIn">
             <div className="settings-panel fadeInDown">
               <div className="com-soon row fadeInDown">
                 <div className="col-xs-4">
@@ -201,7 +242,10 @@ class Exchange extends Component {
                   </h4>
                   <input
                     className="form-control-exchange center top-10"
-                    disabled
+                    readOnly
+                    data-tip
+                    data-for="copypayInAddressTip"
+                    onClick={() => clipboard.writeText(this.state.payinAddress)}
                     placeholder={this.state.payinAddress}
                   />
                   <p className="sm-text">
@@ -224,6 +268,16 @@ class Exchange extends Component {
                       <div className="changelly-logo" />
                     </div>
                   </div>
+
+                  <ReactTooltip
+                    className="solidTip"
+                    id="copypayInAddressTip"
+                    place="bottom"
+                    type="dark"
+                    effect="solid"
+                  >
+                    <span>Copy Deposit Address</span>
+                  </ReactTooltip>
                 </div>
               </div>
             </div>
@@ -301,7 +355,7 @@ class Exchange extends Component {
                   <input
                     className="form-control-exchange center"
                     disabled
-                    placeholder={this.props.address}
+                    placeholder={"0x7e1a1b262574290575798fbff030adb8caca4466"}
                   />
                   <p className="sm-text">
                     Once complete, NEO will be deposited to the address above
@@ -310,9 +364,12 @@ class Exchange extends Component {
               </div>
               <div className="row top-20">
                 <div className="col-xs-3 col-xs-offset-1 ">
-                  <strong>Minimum Order:<br/>
-                   {this.state.minAmount} BTC</strong><br />
-                   <span className="sm-text">Transaction fees included.</span>
+                  <strong>
+                    Minimum Order:<br />
+                    {this.state.minAmount} BTC
+                  </strong>
+                  <br />
+                  <span className="sm-text">Transaction fees included.</span>
                 </div>
                 <div className="col-xs-4 center">
                   <button
@@ -333,9 +390,11 @@ class Exchange extends Component {
                 </div>
               </div>
             </div>
-<p className="center send-notice top-10">All bitcoin transactions are subject to network fees.<br />
-Due to bitcoin network volume, transactions may take 30 mins or more.</p>
-
+            <p className="center send-notice top-10">
+              All bitcoin transactions are subject to network fees.<br />
+              Due to bitcoin network volume, transactions may take 30 mins or
+              more.
+            </p>
           </div>
         </div>
       );
