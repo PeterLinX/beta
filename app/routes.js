@@ -15,6 +15,10 @@ import EncryptKey from "./components/EncryptKey";
 import Send from "./components/Send";
 import Dashboard from "./containers/Dashboard";
 import Receive from "./components/Receive";
+import About from "./components/About";
+import Ledger from "./components/Ledger";
+import Featured from "./components/Featured";
+import Trade from "./components/Trade";
 
 export default (
   <Route path="/" component={App}>
@@ -25,15 +29,18 @@ export default (
       <Route path="/settings" component={Settings} />
       <Route path="/exchange" component={Exchange} />
       <Route path="/exchangeAddress" component={ExchangeAddress} />
+      <Route path="/ledger" component={Ledger} />
       <Route path="/transactionHistory" component={TransactionHistory} />
+      <Route path="/about" component={About} />
+      <Route path="/featured" component={Featured} />
+      <Route path="/trade" component={Trade} />
     </Route>
-    <Route path="/transactionHistory" component={TransactionHistory} />
     <Route path="/create" component={CreateWallet} />
     <Route path="/encryptKey" component={EncryptKey} />
     <Route path="/DisplayWalletKeys" component={DisplayWalletKeys} />
     <Route path="/LoginNep2" component={LoginNep2} />
-    <IndexRoute component={LoginPrivateKey} />
-    <Route path="/loginLocalStorage" component={LoginLocalStorage} />
+    <IndexRoute component={LoginLocalStorage} />
+    <Route path="/LoginPrivateKey" component={LoginPrivateKey} />
     <Route path="/LoginEncrypted" component={LoginNep2} />
     {/* <Route path="/settings" component={Settings} /> */}
     <Route path="/settingsw" component={Settings} />

@@ -46,7 +46,9 @@ class Exchange extends Component {
       minAmount: 0,
       payinAddress: null,
       transactionId: null,
-      status: null
+      status: null,
+      message: null,
+      statusMessage: null
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -55,7 +57,7 @@ class Exchange extends Component {
   componentDidMount() {
     initiateGetBalance(this.props.dispatch, this.props.net, this.props.address);
 
-    changelly.getMinAmount("btc", "neo", (err, data) => {
+    changelly.getMinAmount("btc", "eth", (err, data) => {
       if (err) {
         console.log("Error!", err);
       } else {
@@ -66,54 +68,39 @@ class Exchange extends Component {
   }
 
   async getStatus() {
-    this.props.dispatch(sendEvent(false, "initiating transaction"));
     const myVar = setInterval(() => {
       changelly.getStatus(this.state.transactionId, (err, data) => {
         if (err) {
           console.log("Error!", err);
         } else {
-          console.log("getStatus", data);
           this.setState({ status: data.result });
           if (data.result === "confirming") {
-            this.props.dispatch(
-              sendEvent(
-                false,
-                "Your transaction is in a mempool and waits to be confirmed. dont close window"
-              )
-            );
-          } else if (data.result === "exchanging") {
-            this.props.dispatch(
-              sendEvent(
-                false,
-                "Your payment is received and being exchanged via a Changelly partner. dont close window"
-              )
-            );
+            this.setState({
+              message:
+                "Your transaction is awaiting confirmation. Please don't quit Morpheus until payment status is received",
+              statusMessage: "Confirming"
+            });
           } else if (data.result === "waiting") {
-            this.props.dispatch(
-              sendEvent(false, "waiting dont close window or navigate away")
-            );
-          } else if (data.result === "finished") {
-            this.props.dispatch(
-              sendEvent(
-                false,
-                "NEO successfully sent to the recipient address."
-              )
-            );
-          } else if (data.result === "failed") {
-            this.props.dispatch(
-              sendEvent(
-                false,
-                "Money is successfully sent to the recipient address."
-              )
-            );
+            this.setState({
+              message: "Waiting dont close window or navigate away",
+              statusMessage: "Waiting for Bitcoin Deposit"
+            });
           } else if (data.result === "refunded") {
-            this.props.dispatch(
-              sendEvent(false, "Exchange was failed and coins were refunded")
-            );
+            this.setState({
+              message: "Exchange was failed and coins were refunded.",
+              statusMessage: "Refunded"
+            });
           } else if (data.result === "sending") {
-            this.props.dispatch(
-              sendEvent(false, "Money is sending to the recipient address.")
-            );
+            this.setState({
+              message: "Money is sending to the recipient address.",
+              statusMessage: "Sending NEO"
+            });
+          } else if (data.result === "exchanging") {
+            this.setState({
+              message:
+                "Your payment is received and being exchanged via a Changelly partner.",
+              statusMessage: "Exchanging"
+            });
           }
         }
       });
@@ -124,15 +111,14 @@ class Exchange extends Component {
     dispatch(sendEvent(false, "doing stuff"));
     await changelly.createTransaction(
       "btc",
-      "neo",
-      address,
+      "eth",
+      "0x7e1a1b262574290575798fbff030adb8caca4466",
       this.state.fromValue,
       undefined,
       (err, data) => {
         if (err) {
           console.log("Error!", err);
         } else {
-          console.log("createTransaction", data);
           this.setState({
             payinAddress: data.result.payinAddress,
             transactionId: data.result.id
@@ -148,12 +134,13 @@ class Exchange extends Component {
     this.setState({ fromValue: event.target.value }, () => {
       changelly.getExchangeAmount(
         "btc",
-        "neo",
+        "eth",
         this.state.fromValue,
         (err, data) => {
           if (err) {
             console.log("Error!", err);
           } else {
+            console.log(data);
             this.setState({ toValue: data.result });
           }
         }
@@ -162,6 +149,60 @@ class Exchange extends Component {
   }
 
   render = () => {
+    if (this.state.status !== null) {
+      return (
+        <div>
+          <TopBar />
+          <div className="progress-bar3 fadeInLeft-ex" />
+          <div className="row prog-info top-20">
+            <div className="col-xs-2 col-xs-offset-1 sm-text center">
+              Enter Amount to Deposit
+            </div>
+            <div className="col-xs-2 sm-text center">Placing Your Order</div>
+            <div className="col-xs-2 sm-text center">
+              Generating Bitcoin Address for Deposit
+            </div>
+            <div className="col-xs-2 sm-text center grey-out">
+              Processing Your Order
+            </div>
+            <div className="col-xs-2 sm-text center grey-out">
+              Transaction Complete!
+            </div>
+          </div>
+
+          <div className="top-130" id="exchange-messages">
+            <div className="settings-panel fadeInDown">
+              <div className="com-soon row fadeInDown">
+                <div className="col-md-12">
+                  <h1>{this.state.statusMessage}</h1>
+                  <p>{this.state.message}</p>
+                  <p
+                    className="trasactionId"
+                    data-tip
+                    data-for="copyTransactionIdTip"
+                    onClick={() =>
+                      clipboard.writeText(this.state.transactionId)
+                    }
+                  >
+                    Transaction ID: {this.state.transactionId}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <ReactTooltip
+              className="solidTip"
+              id="copyTransactionIdTip"
+              place="bottom"
+              type="dark"
+              effect="solid"
+            >
+              <span>Copy Tranaction ID</span>
+            </ReactTooltip>
+          </div>
+        </div>
+      );
+    }
     if (this.state.payinAddress != null) {
       return (
         <div>
@@ -183,7 +224,7 @@ class Exchange extends Component {
             </div>
           </div>
 
-          <div className="top-130">
+          <div className="top-130" id="payIn">
             <div className="settings-panel fadeInDown">
               <div className="com-soon row fadeInDown">
                 <div className="col-xs-4">
@@ -201,7 +242,10 @@ class Exchange extends Component {
                   </h4>
                   <input
                     className="form-control-exchange center top-10"
-                    disabled
+                    readOnly
+                    data-tip
+                    data-for="copypayInAddressTip"
+                    onClick={() => clipboard.writeText(this.state.payinAddress)}
                     placeholder={this.state.payinAddress}
                   />
                   <p className="sm-text">
@@ -224,6 +268,16 @@ class Exchange extends Component {
                       <div className="changelly-logo" />
                     </div>
                   </div>
+
+                  <ReactTooltip
+                    className="solidTip"
+                    id="copypayInAddressTip"
+                    place="bottom"
+                    type="dark"
+                    effect="solid"
+                  >
+                    <span>Copy Deposit Address</span>
+                  </ReactTooltip>
                 </div>
               </div>
             </div>
@@ -301,7 +355,7 @@ class Exchange extends Component {
                   <input
                     className="form-control-exchange center"
                     disabled
-                    placeholder={this.props.address}
+                    placeholder={"0x7e1a1b262574290575798fbff030adb8caca4466"}
                   />
                   <p className="sm-text">
                     Once complete, NEO will be deposited to the address above
@@ -309,11 +363,13 @@ class Exchange extends Component {
                 </div>
               </div>
               <div className="row top-20">
-                <div className="col-xs-3 col-xs-offset-1 sm-text">
-                  Min Val = {this.state.minAmount} BTC <br />
-                  1 BTC = NaN NEO<br />
-                  1 NEO = $NaN USD<br />
-                  Subject to trasnsaction fees
+                <div className="col-xs-3 col-xs-offset-1 ">
+                  <strong>
+                    Minimum Order:<br />
+                    {this.state.minAmount} BTC
+                  </strong>
+                  <br />
+                  <span className="sm-text">Transaction fees included.</span>
                 </div>
                 <div className="col-xs-4 center">
                   <button
@@ -334,6 +390,11 @@ class Exchange extends Component {
                 </div>
               </div>
             </div>
+            <p className="center send-notice top-10">
+              All bitcoin transactions are subject to network fees.<br />
+              Due to bitcoin network volume, transactions may take 30 mins or
+              more.
+            </p>
           </div>
         </div>
       );
