@@ -176,12 +176,29 @@ class Exchange extends Component {
                 <div className="col-md-12">
                   <h1>{this.state.statusMessage}</h1>
                   <p>{this.state.message}</p>
-                  <p class="trasactionId">
+                  <p
+                    className="trasactionId"
+                    data-tip
+                    data-for="copyTransactionIdTip"
+                    onClick={() =>
+                      clipboard.writeText(this.state.transactionId)
+                    }
+                  >
                     Transaction ID: {this.state.transactionId}
                   </p>
                 </div>
               </div>
             </div>
+
+            <ReactTooltip
+              className="solidTip"
+              id="copyTransactionIdTip"
+              place="bottom"
+              type="dark"
+              effect="solid"
+            >
+              <span>Copy Tranaction ID</span>
+            </ReactTooltip>
           </div>
         </div>
       );
@@ -207,7 +224,7 @@ class Exchange extends Component {
             </div>
           </div>
 
-          <div className="top-130">
+          <div className="top-130" id="payIn">
             <div className="settings-panel fadeInDown">
               <div className="com-soon row fadeInDown">
                 <div className="col-xs-4">
@@ -225,7 +242,10 @@ class Exchange extends Component {
                   </h4>
                   <input
                     className="form-control-exchange center top-10"
-                    disabled
+                    readOnly
+                    data-tip
+                    data-for="copypayInAddressTip"
+                    onClick={() => clipboard.writeText(this.state.payinAddress)}
                     placeholder={this.state.payinAddress}
                   />
                   <p className="sm-text">
@@ -248,6 +268,16 @@ class Exchange extends Component {
                       <div className="changelly-logo" />
                     </div>
                   </div>
+
+                  <ReactTooltip
+                    className="solidTip"
+                    id="copypayInAddressTip"
+                    place="bottom"
+                    type="dark"
+                    effect="solid"
+                  >
+                    <span>Copy Deposit Address</span>
+                  </ReactTooltip>
                 </div>
               </div>
             </div>
