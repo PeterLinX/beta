@@ -16,6 +16,7 @@ import peeratlasLogo from "../img/peeratlas.png";
 import ontologyLogo from "../img/ontology.png";
 import btcLogo from "../img/btc-logo.png";
 import ltcLogo from "../img/litecoin.png";
+import ethLogo from "../img/eth.png";
 import neoLogo from "../img/neo.png";
 import gitsmLogo from "../img/gitsm.png";
 import twitsmLogo from "../img/twitsm.png";
@@ -78,7 +79,7 @@ class Tokens extends Component {
         </ul>
         </div>
         <div className="col-xs-2 center add-token top-20">
-        <div className="icon-border"><span className="glyphicon glyphicon-ok" /></div>
+        <div className="token-icon-border"><span className="glyphicon glyphicon-ok" /></div>
         Sccessfully Added
         </div>
         <div className="clearboth" />
@@ -117,7 +118,7 @@ class Tokens extends Component {
 data-tip
 data-for="tokenTip"
 >
-        <div className="icon-border"><span className="glyphicon glyphicon-plus" /></div>
+        <div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
         Add Address
         </div>
         <div className="clearboth" />
@@ -156,7 +157,7 @@ data-for="tokenTip"
 data-tip
 data-for="tokenTip"
 >
-        <div className="icon-border"><span className="glyphicon glyphicon-plus" /></div>
+        <div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
 Add Address
         </div>
         <div className="clearboth" />
@@ -195,7 +196,7 @@ Add Address
         data-tip
         data-for="tokenTip"
         >
-        <div className="icon-border"><span className="glyphicon glyphicon-plus" /></div>
+        <div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
         Add Address
         </div>
         <div className="clearboth" />
@@ -234,7 +235,7 @@ Add Address
 data-tip
 data-for="tokenTip"
 >
-        <div className="icon-border"><span className="glyphicon glyphicon-plus" /></div>
+        <div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
 Add Address
         </div>
         <div className="clearboth" />
@@ -273,7 +274,7 @@ onClick={() =>
 data-tip
 data-for="tokenTip"
 >
-<div className="icon-border"><span className="glyphicon glyphicon-plus" /></div>
+<div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
 Add Address
 </div>
 <div className="clearboth" />
@@ -312,7 +313,7 @@ onClick={() =>
 data-tip
 data-for="tokenTip"
 >
-<div className="icon-border"><span className="glyphicon glyphicon-plus" /></div>
+<div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
 Add Address
 </div>
 <div className="clearboth" />
@@ -351,7 +352,7 @@ onClick={() =>
 data-tip
 data-for="tokenTip"
 >
-<div className="icon-border"><span className="glyphicon glyphicon-plus" /></div>
+<div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
 Add Address
 </div>
 <div className="clearboth" />
@@ -390,7 +391,7 @@ onClick={() =>
 data-tip
 data-for="tokenTip"
 >
-<div className="icon-border"><span className="glyphicon glyphicon-plus" /></div>
+<div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
 Add Address
 </div>
 
@@ -430,25 +431,61 @@ onClick={() =>
 data-tip
 data-for="tokenTip"
 >
-<div className="icon-border"><span className="glyphicon glyphicon-plus" /></div>
+<div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
 Add Address
 </div>
 
+<div className="clearboth"/>
 
-<ReactTooltip
-  className="solidTip"
-  id="tokenTip"
-  place="top"
-  type="light"
-  effect="solid"
->
-  <span>Coming Soon</span>
-</ReactTooltip>
-        <div className="clearboth"/>
-        <div className="row top-20" />
+        <div className="row top-30"/>
+                <div className="col-xs-3">
+                <img
+                  src={ethLogo}
+                  alt=""
+                  width="72"
+                  className="tokens top-20 left-10"
+                />
+                </div>
+                <div className="col-xs-7 ">
+                <h3>Ethereum (ETH)</h3>
+                Ethereum is a decentralized platform that runs smart contracts: applications that run exactly as programmed without any possibility of downtime, censorship, fraud or third party interference.
+        <ul className="social-bar">
+        <li
+        onClick={() =>
+                openExplorer("https://ethereum.org")
+        }
+        ><span className="glyphicon glyphicon-globe"/> Website</li>
+        <li
+        onClick={() =>
+                openExplorer("https://github.com/ethereum")
+        }
+        ><img src={gitsmLogo} alt="" width="16" className="" /> Githib</li>
+        <li
+        onClick={() =>
+                openExplorer("https://twitter.com/ethereumproject")
+        }
+        ><img src={twitsmLogo} alt="" width="16" className="" /> Twitter</li>
+        </ul>
+        </div>
+        <div className="col-xs-2 center add-token top-20 token-soon"
+        data-tip
+        data-for="tokenTip"
+        >
+        <div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
+        Add Address
         </div>
       </div>
-
+      <div className="clearboth" />
+      </div>
+      <ReactTooltip
+        className="solidTip"
+        id="tokenTip"
+        place="top"
+        type="light"
+        effect="solid"
+      >
+        <span>Coming Soon</span>
+      </ReactTooltip>
       <div className="clearboth" />
     </div>
   );

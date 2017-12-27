@@ -18,7 +18,7 @@ import deepLogo from "../img/deep.png";
 const api = val => {
   return `https://min-api.cryptocompare.com/data/histohour?fsym=${
     val
-  }&tsym=USD&limit=72&aggregate=3&e=CCCAGG`;
+  }&tsym=USD&limit=96&aggregate=3&e=CCCAGG`;
 };
 
 class Charts extends Component {
@@ -379,7 +379,13 @@ class Charts extends Component {
                       }
                     ]
                   },
-                  legend: { position: "bottom" }
+                  legend: {
+                    position: "bottom",
+                    labels: {
+                      boxWidth: 15,
+                      padding: 20
+                    }
+                  }
                 }}
               />
             </div>
