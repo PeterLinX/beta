@@ -362,20 +362,32 @@ class Charts extends Component {
         className="tokens"
       /> Bitcoin</h4>
       <hr className="dash-hr" />
-      <span className="dash-balance">0.00000000 BTC</span>
-      <span className="dash-balance">$0.00</span>
+      <span className="dash-balance">$0.00 USD</span>
+      <span className="dash-price"></span>
       </div>
 
       <div className="col-5">
       <h4><img
-        src={ltcLogo}
+        src={neoLogo}
         alt=""
         width="16"
         className="tokens"
-      /> Litecoin</h4>
+      /> NEO</h4>
       <hr className="dash-hr" />
-      <span className="dash-balance">0.00000000 LTC</span>
-      <span className="dash-balance">$0.00</span>
+      <span className="dash-balance">0.00000000 BTC</span>
+      <span className="dash-price">$0.00 USD</span>
+      </div>
+
+      <div className="col-5">
+      <h4><img
+        src={neoLogo}
+        alt=""
+        width="16"
+        className="tokens"
+      /> GAS</h4>
+      <hr className="dash-hr" />
+      <span className="dash-balance">0.00000000 BTC</span>
+      <span className="dash-price">$0.00 USD</span>
       </div>
 
       <div className="col-5">
@@ -386,8 +398,8 @@ class Charts extends Component {
         className="tokens"
       /> RedPulse</h4>
       <hr className="dash-hr" />
-      <span className="dash-balance">0 RPX</span>
-      <span className="dash-balance">$0.00</span>
+      <span className="dash-balance">0.00000000 BTC</span>
+      <span className="dash-price">$0.00 USD</span>
       </div>
 
       <div className="col-5">
@@ -398,20 +410,8 @@ class Charts extends Component {
         className="tokens"
       /> DeepBrain</h4>
       <hr className="dash-hr" />
-      <span className="dash-balance">0 DBC</span>
-      <span className="dash-balance">$0.00</span>
-      </div>
-
-      <div className="col-5">
-      <h4><img
-        src={thekeyLogo}
-        alt=""
-        width="16"
-        className="tokens"
-      /> TheKey</h4>
-      <hr className="dash-hr" />
-      <span className="dash-balance">0 TKY</span>
-      <span className="dash-balance">$0.00</span>
+      <span className="dash-balance">0.00000000 BTC</span>
+      <span className="dash-price">$0.00 USD</span>
       </div>
 
       </div>
