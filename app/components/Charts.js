@@ -12,6 +12,7 @@ import ltcLogo from "../img/litecoin.png";
 import rpxLogo from "../img/rpx.png";
 import thekeyLogo from "../img/thekey.png";
 import nexLogo from "../img/nex.png";
+import deepLogo from "../img/deep.png";
 
 // CryptoCompare API for ChartJS
 const api = val => {
@@ -353,7 +354,7 @@ class Charts extends Component {
 
       <div className="row top-20 dash-portfolio center">
 
-      <div className="col-xs-2 col-xs-offset-1">
+      <div className="col-5">
       <h4><img
         src={btcLogo}
         alt=""
@@ -365,7 +366,7 @@ class Charts extends Component {
       <span className="dash-balance">$0.00</span>
       </div>
 
-      <div className="col-xs-2">
+      <div className="col-5">
       <h4><img
         src={ltcLogo}
         alt=""
@@ -377,7 +378,7 @@ class Charts extends Component {
       <span className="dash-balance">$0.00</span>
       </div>
 
-      <div className="col-xs-2">
+      <div className="col-5">
       <h4><img
         src={rpxLogo}
         alt=""
@@ -389,7 +390,19 @@ class Charts extends Component {
       <span className="dash-balance">$0.00</span>
       </div>
 
-      <div className="col-xs-2">
+      <div className="col-5">
+      <h4><img
+        src={deepLogo}
+        alt=""
+        width="16"
+        className="tokens"
+      /> DeepBrain</h4>
+      <hr className="dash-hr" />
+      <span className="dash-balance">0 DBC</span>
+      <span className="dash-balance">$0.00</span>
+      </div>
+
+      <div className="col-5">
       <h4><img
         src={thekeyLogo}
         alt=""

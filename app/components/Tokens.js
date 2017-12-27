@@ -11,6 +11,7 @@ import rpxLogo from "../img/rpx.png";
 import nexLogo from "../img/nex.png";
 import qlinkLogo from "../img/qlink.png";
 import thekeyLogo from "../img/thekey.png";
+import deepLogo from "../img/deep.png";
 import peeratlasLogo from "../img/peeratlas.png";
 import ontologyLogo from "../img/ontology.png";
 import btcLogo from "../img/btc-logo.png";
@@ -157,6 +158,45 @@ data-for="tokenTip"
 >
         <div className="icon-border"><span className="glyphicon glyphicon-plus" /></div>
 Add Address
+        </div>
+        <div className="clearboth" />
+
+        <div className="row top-30"/>
+        <div className="col-xs-3  top-20">
+        <img
+          src={deepLogo}
+          alt=""
+          width="120"
+          className="tokens"
+        />
+        </div>
+        <div className="col-xs-7 ">
+        <h3>DeepBrain (BDC)</h3>
+        DeepBrain Chains vision is to provide a low-cost, private, flexible, secure, and decentralized artificial intelligence computing platform for AI products.
+        <ul className="social-bar">
+        <li
+        onClick={() =>
+                openExplorer("https://www.deepbrainchain.org/")
+        }
+        ><span className="glyphicon glyphicon-globe"/> Website</li>
+        <li
+        onClick={() =>
+                openExplorer("https://www.deepbrainchain.org/pc/DeepBrainChainWhitepaper.pdf")
+        }
+        ><img src={gitsmLogo} alt="" width="16" className="" /> Githib</li>
+        <li
+        onClick={() =>
+                openExplorer("https://twitter.com/DeepBrainChain")
+        }
+        ><img src={twitsmLogo} alt="" width="16" className="" /> Twitter</li>
+        </ul>
+        </div>
+        <div className="col-xs-2 center add-token top-20 token-soon"
+        data-tip
+        data-for="tokenTip"
+        >
+        <div className="icon-border"><span className="glyphicon glyphicon-plus" /></div>
+        Add Address
         </div>
         <div className="clearboth" />
 
