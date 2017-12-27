@@ -82,23 +82,24 @@ class Exchange extends Component {
             });
           } else if (data.result === "waiting") {
             this.setState({
-              message: "Waiting dont close window or navigate away",
+              message:
+                "Waiting for your Bitcoin deposit. Do not close window until you receive confirmation.",
               statusMessage: "Waiting for Bitcoin Deposit"
             });
           } else if (data.result === "refunded") {
             this.setState({
-              message: "Exchange was failed and coins were refunded.",
+              message: "Exchange failed and Bitcoin refunded.",
               statusMessage: "Refunded"
             });
           } else if (data.result === "sending") {
             this.setState({
-              message: "Money is sending to the recipient address.",
+              message: "NEO is being sent to your address in Morpheus.",
               statusMessage: "Sending NEO"
             });
           } else if (data.result === "exchanging") {
             this.setState({
               message:
-                "Your payment is received and being exchanged via a Changelly partner.",
+                "Your payment was received and is being exchanged via our exchange partner Changelly.",
               statusMessage: "Exchanging"
             });
           }
@@ -108,7 +109,7 @@ class Exchange extends Component {
   }
 
   async handleSubmit(dispatch, address) {
-    dispatch(sendEvent(false, "doing stuff"));
+    dispatch(sendEvent(false, "Contacting our exchange partner"));
     await changelly.createTransaction(
       "btc",
       "eth",

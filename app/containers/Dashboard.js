@@ -11,8 +11,8 @@ import { NetworkSwitch } from "../components/NetworkSwitch";
 import WalletInfo from "../components/WalletInfo";
 import TransactionHistory from "../components/TransactionHistory";
 import Exchange from "../components/Exchange";
-import About from "../components/About";
-import Trade from "../components/Trade";
+import Support from "../components/Support";
+import Tokens from "../components/Tokens";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import Logout from "../components/Logout";
@@ -21,6 +21,7 @@ import { togglePane } from "../modules/dashboard";
 import { version } from "../../package.json";
 import { log } from "../util/Logs";
 import Dashlogo from "../components/Brand/Dashlogo";
+import ReactTooltip from "react-tooltip";
 
 const refreshBalance = (dispatch, net, address) => {
   dispatch(sendEvent(true, "Refreshing..."));
@@ -100,7 +101,16 @@ class Dashboard extends Component {
               <div className="logoContainer">
                 <Dashlogo width={90} />
               </div>
-              <div id="balance">
+              <div
+                id="balance"
+                onClick={() =>
+                  refreshBalance(
+                    this.props.dispatch,
+                    this.props.net,
+                    this.props.address
+                  )
+                }
+              >
                 <span style={{ fontSize: "10px" }}>Combined Value</span>
                 <br />
                 {numeral(this.state.combinedPrice).format("$0,0.00")}
@@ -125,6 +135,11 @@ class Dashboard extends Component {
                   </Link>
                 </li>
                 <li>
+                  <Link to={"/transactionHistory"} activeClassName="active">
+                    <span className="glyphicon glyphicon-list-alt" /> History
+                  </Link>
+                </li>
+                <li>
                   <Link to={"/ledger"} activeClassName="active">
                     <span className="glyphicon glyphicon-th-large" /> Ledger
                   </Link>
@@ -135,19 +150,8 @@ class Dashboard extends Component {
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/transactionHistory"} activeClassName="active">
-                    <span className="glyphicon glyphicon-list-alt" /> History
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"/about"} activeClassName="active">
-                    <span className="glyphicon glyphicon-info-sign" /> FAQ &
-                    News
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"/featured"} activeClassName="active">
-                    <span className="glyphicon glyphicon-heart" /> Featured
+                  <Link to={"/sale"} activeClassName="active">
+                    <span className="glyphicon glyphicon-heart" /> Token Sale
                   </Link>
                 </li>
                 <li>
@@ -158,6 +162,7 @@ class Dashboard extends Component {
               </ul>
             </div>
           </div>
+          <span className="dashnetwork">Network: {this.props.net}</span>
           <div className="copyright">&copy; Copyright 2017 Morpheus</div>
         </div>
         <div style={{ marginLeft: 230, marginTop: 20 }}>
