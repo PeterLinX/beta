@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { connect } from "react-redux";
 import { setBlockExplorer } from "../modules/metadata";
 import { setKeys } from "../modules/account";
+import { shell } from "electron";
 import Delete from "react-icons/lib/md/delete";
 import _ from "lodash";
 import fs from "fs";
@@ -168,22 +169,23 @@ class Settings extends Component {
                 </Link>
               </div>
               <div className="col-xs-2 center">
-              <Link to="/trade">
+              <Link to="/tokens">
                 <div className="dash-icon-bar">
                   <div className="icon-border">
-                    <span className="glyphicon glyphicon-signal" />
-                  </div>
-                  Pro Trading Charts
+                    <span className="glyphicon glyphicon-plus-sign" />
+                  </div>Morpheus Asset Manager
                 </div>
                 </Link>
               </div>
               <div className="col-xs-2 center">
+              <Link to="/support">
                 <div className="dash-icon-bar">
                   <div className="icon-border">
-                    <span className="glyphicon glyphicon-file" />
+                    <span className="glyphicon glyphicon-info-sign" />
                   </div>
-                  Legal Displaimer & Privacy
+                  Support & FAQs
                 </div>
+                </Link>
               </div>
             </div>
             <div className="row top-20">
@@ -218,7 +220,7 @@ class Settings extends Component {
                   <div className="icon-border">
                     <span className="glyphicon glyphicon-link" />
                   </div>
-                  View Address on NeoTracker
+                  View on NeoTracker
                 </div>
               </div>
               <div className="col-xs-2 center">

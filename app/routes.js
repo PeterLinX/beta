@@ -15,10 +15,10 @@ import EncryptKey from "./components/EncryptKey";
 import Send from "./components/Send";
 import Dashboard from "./containers/Dashboard";
 import Receive from "./components/Receive";
-import About from "./components/About";
+import Support from "./components/Support";
 import Ledger from "./components/Ledger";
-import Featured from "./components/Featured";
-import Trade from "./components/Trade";
+import Tokens from "./components/Tokens";
+import Sale from "./components/Sale";
 
 export default (
   <Route path="/" component={App}>
@@ -31,9 +31,9 @@ export default (
       <Route path="/exchangeAddress" component={ExchangeAddress} />
       <Route path="/ledger" component={Ledger} />
       <Route path="/transactionHistory" component={TransactionHistory} />
-      <Route path="/about" component={About} />
-      <Route path="/featured" component={Featured} />
-      <Route path="/trade" component={Trade} />
+      <Route path="/support" component={Support} />
+      <Route path="/tokens" component={Tokens} />
+      <Route path="/sale" component={Sale} />
     </Route>
     <Route path="/create" component={CreateWallet} />
     <Route path="/encryptKey" component={EncryptKey} />
