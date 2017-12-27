@@ -147,11 +147,6 @@ class Dashboard extends Component {
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/sale"} activeClassName="active">
-                    <span className="glyphicon glyphicon-heart" /> Token Sale
-                  </Link>
-                </li>
-                <li>
                   <Link to={"/settings"} activeClassName="active">
                     <span className="glyphicon glyphicon-lock" /> Settings
                   </Link>
