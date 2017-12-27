@@ -82,7 +82,7 @@ class Exchange extends Component {
             });
           } else if (data.result === "waiting") {
             this.setState({
-              message: "Waiting for your Bitcoin deposit. Do not close window until you receive confirmation.",
+              message: "Please do not close window until you receive a confirmation notification. Please copy your transaction ID below for support.",
               statusMessage: "Waiting for Bitcoin Deposit"
             });
           } else if (data.result === "refunded") {
@@ -93,7 +93,7 @@ class Exchange extends Component {
           } else if (data.result === "sending") {
             this.setState({
               message: "NEO is being sent to your address in Morpheus.",
-              statusMessage: "Sending NEO"
+              statusMessage: "Success. Sending NEO"
             });
           } else if (data.result === "exchanging") {
             this.setState({
