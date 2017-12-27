@@ -13,12 +13,14 @@ import rpxLogo from "../img/rpx.png";
 import thekeyLogo from "../img/thekey.png";
 import nexLogo from "../img/nex.png";
 import deepLogo from "../img/deep.png";
+import numeral from "numeral";
+
 
 // CryptoCompare API for ChartJS
 const api = val => {
   return `https://min-api.cryptocompare.com/data/histohour?fsym=${
     val
-  }&tsym=USD&limit=96&aggregate=3&e=CCCAGG`;
+  }&tsym=USD&limit=192&aggregate=2&e=CCCAGG`;
 };
 
 class Charts extends Component {
