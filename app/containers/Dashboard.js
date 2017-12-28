@@ -106,7 +106,7 @@ class Dashboard extends Component {
               this.props.address
             )}
               >
-                <Dashlogo width={72} />
+                <Dashlogo width={85} />
               </div>
               <div id="balance"
               onClick={() =>
@@ -119,8 +119,10 @@ class Dashboard extends Component {
                 <span className="bal-usd">USD</span>
                 <span className="comb-bal">Combined Balance</span>
               </div>
+
             </div>
             <div className="clearfix" />
+            <hr className="dash-hr" />
             <div className="navbar-collapse collapse">
               <ul className="nav navbar-nav">
                 <li>

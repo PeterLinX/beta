@@ -167,7 +167,7 @@ class Settings extends Component {
               </div>
 
               <div className="col-xs-2 center">
-                <Link to="/LoginLocalStorage">
+                <Link to="/">
                   <div className="dash-icon-bar">
                     <div className="icon-border">
                       <span className="glyphicon glyphicon-user" />
