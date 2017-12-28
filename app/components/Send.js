@@ -7,7 +7,7 @@ import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
-import neoLogo from "../images/neo.png";
+import neoLogo from "../img/neo.png";
 import Claim from "./Claim.js";
 import TopBar from "./TopBar";
 import { clipboard } from "electron";
@@ -217,7 +217,7 @@ class Send extends Component {
               <img
                 src={neoLogo}
                 alt=""
-                width="48"
+                width="38"
                 className="neo-logo logobounce"
               />
               <h2>Send Neo or Gas</h2>
