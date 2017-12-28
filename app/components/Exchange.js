@@ -316,14 +316,15 @@ class Exchange extends Component {
                   </div>
                   <h4 className="top-20">Deposit BTC</h4>
                 </div>
-
-                <div className="col-xs-4  col-xs-offset-2">
+                <div className="col-xs-2"/>
+                <div className="col-xs-4">
                   <div className="exch-logos">
-                    <NeoLogo width={40} />
+                    <NeoLogo width={32} />
                   </div>
-                  <h4 className="top-20">NEO Received</h4>
+                  <h4 className="top-20">Receive NEO</h4>
                 </div>
-
+                <div className="col-xs-1"/>
+                <div className="clearboth"/>
                 <div className="col-xs-4 center col-xs-offset-1">
                   <input
                     className="form-control-exchange center"

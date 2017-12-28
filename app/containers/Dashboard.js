@@ -99,7 +99,7 @@ class Dashboard extends Component {
           <div className="navbar navbar-inverse">
             <div className="navbar-header">
               <div className="logoContainer">
-                <Dashlogo width={90} />
+                <Dashlogo width={98} />
               </div>
               <div id="balance"
               onClick={() =>
@@ -108,9 +108,9 @@ class Dashboard extends Component {
               this.props.net,
               this.props.address
             )} >
-                <span style={{ fontSize: "10px" }}>Combined Value</span>
-                <br />
                 {numeral(this.state.combinedPrice).format("$0,0.00")}
+                <span className="bal-usd">USD</span>
+                <span className="comb-bal">Combined Balance</span>
               </div>
             </div>
             <div className="clearfix" />

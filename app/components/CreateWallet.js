@@ -177,7 +177,7 @@ class CreateWallet extends Component {
                 Login Via Encrypted Key
               </div>
             </Link>
-            
+
           </div>
         </div>
       </div>
