@@ -17,6 +17,11 @@ import {
   clearTransactionEvent,
   toggleAsset
 } from "../modules/transactions";
+import btcLogo from "../img/btc-logo.png";
+import qlinkLogo from "../img/qlink.png";
+import rpxLogo from "../img/rpx.png";
+import nexLogo from "../img/nex.png";
+import deepLogo from "../img/deep.png";
 
 let sendAddress, sendAmount, confirmButton;
 
@@ -212,6 +217,7 @@ class Send extends Component {
       <div id="send">
         <div id="sendPane">
           <TopBar />
+
           <div className="row send-neo fadeInDown">
             <div className="col-xs-6">
               <img
@@ -347,6 +353,11 @@ class Send extends Component {
           </ReactTooltip>
           </div>
         </div>
+
+
+
+
+
       </div>
     );
   }

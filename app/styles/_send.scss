@@ -727,7 +727,7 @@ cursor: pointer;
 .left-25 {margin-left: 25px}
 .left-45 {margin-left: 45px}
 .font-16 {font-size: 16px}
-.tokens {opacity: 0.9; cursor: pointer;}
+.tokens {opacity: 0.9; cursor: pointer; margin-right: 10px;}
 .tokens:hover {opacity: 1}
 .tokens-window {
   height: 320px;
@@ -778,8 +778,9 @@ margin: 0px;
 
 .dash-hr {
   margin: 5px auto 5px;
-  border-bottom: thin solid rgba(34, 34, 34, 0.79);
-  border-top: thin solid rgba(0, 0, 0, 0.9);
+  border-bottom: 1px solid rgba(34, 34, 34, 0.79);
+  border-top: 2px solid rgba(0, 0, 0, 0.6);
+  width: 80%;
 }
 
 #ledger-copy-icon {
