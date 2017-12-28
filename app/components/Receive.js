@@ -25,20 +25,6 @@ const openExplorer = srcLink => {
   shell.openExternal(srcLink);
 };
 
-const getLink = (net, address) => {
-  let base;
-  if (net === "MainNet") {
-    base = "https://neotracker.io/address/";
-  } else {
-    base = "https://testnet.neotracker.io/address/";
-  }
-  return base + address;
-};
-
-const openExplorer = srcLink => {
-  shell.openExternal(srcLink);
-};
-
 class Receive extends Component {
   render() {
     console.log(this.props.net);
@@ -47,10 +33,11 @@ class Receive extends Component {
         <TopBar />
         <div className="row top-20">
           <h2>Receive NEO/GAS</h2>
-          <div className="addressBox-send center animated fadeInDown pointer"
-          data-tip
-          data-for="qraddTip"
-          onClick={() => clipboard.writeText(this.props.address)}
+          <div
+            className="addressBox-send center animated fadeInDown pointer"
+            data-tip
+            data-for="qraddTip"
+            onClick={() => clipboard.writeText(this.props.address)}
           >
             <QRCode size={180} value={this.props.address} />
             <ReactTooltip
