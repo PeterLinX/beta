@@ -359,7 +359,7 @@ class Charts extends Component {
             <div className="col-xs-12">
               <Line
                 data={data}
-                width={600}
+                width={640}
                 height={400}
                 options={{
                   maintainAspectRatio: true,

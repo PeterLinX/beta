@@ -98,8 +98,15 @@ class Dashboard extends Component {
         <div id="mainNav" className="main-nav">
           <div className="navbar navbar-inverse">
             <div className="navbar-header">
-              <div className="logoContainer">
-                <Dashlogo width={98} />
+              <div className="logoContainer"
+              onClick={() =>
+            refreshBalance(
+              this.props.dispatch,
+              this.props.net,
+              this.props.address
+            )}
+              >
+                <Dashlogo width={72} />
               </div>
               <div id="balance"
               onClick={() =>
