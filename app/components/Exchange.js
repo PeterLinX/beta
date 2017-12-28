@@ -9,7 +9,7 @@ import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { clipboard } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import ReactTooltip from "react-tooltip";
-import neoLogo from "../images/neo.png";
+import neoLogo from "../img/neo.png";
 import NeoLogo from "./Brand/Neo";
 import BtcLogo from "./Brand/Bitcoin";
 import TopBar from "./TopBar";
@@ -336,7 +336,7 @@ class Exchange extends Component {
 
                 <div className="col-xs-2 center">
                   <div className="exchange-glyph">
-                    <span className="glyphicon glyphicon-refresh" />
+                    <span className="glyphicon glyphicon-transfer" />
                   </div>
                 </div>
 
