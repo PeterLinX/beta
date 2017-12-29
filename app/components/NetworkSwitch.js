@@ -31,7 +31,7 @@ export const getMarketPriceUSD = amount => {
     .get("https://bittrex.com/api/v1.1/public/getticker?market=USDT-NEO")
     .then(response => {
       let lastUSDNEO = Number(response.data.result.Last);
-      return "$" + (lastUSDNEO * amount).toFixed(2).toString();
+      return lastUSDNEO * amount;
     });
 };
 
@@ -61,12 +61,14 @@ const initiateGetBalance = (dispatch, net, address) => {
             dispatch(setBalance(resultBalance.Neo, resultBalance.Gas, "--"));
           } else {
             let gasPrice = await getGasPrice(resultBalance.Gas);
+            let combinedPrice = gasPrice + resultPrice;
+            console.log(combinedPrice, gasPrice, resultPrice);
             dispatch(
               setBalance(
                 resultBalance.Neo,
                 resultBalance.Gas,
                 resultPrice,
-                "--",
+                combinedPrice,
                 gasPrice
               )
             );

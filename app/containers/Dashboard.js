@@ -122,7 +122,7 @@ class Dashboard extends Component {
               >
                 <span style={{ fontSize: "10px" }}>Combined Value</span>
                 <br />
-                {numeral(this.state.combinedPrice).format("$0,0.00")}
+                {numeral(this.props.combined).format("$0,0.00")}
                 <span className="bal-usd">USD</span>
                 <span className="comb-bal">Combined Balance</span>
               </div>
@@ -188,7 +188,8 @@ const mapStateToProps = state => ({
   address: state.account.address,
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,
-  price: state.wallet.price
+  price: state.wallet.price,
+  combined: state.wallet.combined
 });
 
 Dashboard = connect(mapStateToProps)(Dashboard);

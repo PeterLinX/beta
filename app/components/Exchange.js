@@ -57,7 +57,7 @@ class Exchange extends Component {
   componentDidMount() {
     initiateGetBalance(this.props.dispatch, this.props.net, this.props.address);
 
-    changelly.getMinAmount("btc", "eth", (err, data) => {
+    changelly.getMinAmount(this.state.from, this.state.to, (err, data) => {
       if (err) {
         console.log("Error!", err);
       } else {
@@ -111,9 +111,9 @@ class Exchange extends Component {
   async handleSubmit(dispatch, address) {
     dispatch(sendEvent(false, "Contacting our exchange partner"));
     await changelly.createTransaction(
-      "btc",
-      "eth",
-      "0x7e1a1b262574290575798fbff030adb8caca4466",
+      this.state.from,
+      this.state.to,
+      this.props.address,
       this.state.fromValue,
       undefined,
       (err, data) => {
@@ -134,8 +134,8 @@ class Exchange extends Component {
     const { fromValue } = this.state;
     this.setState({ fromValue: event.target.value }, () => {
       changelly.getExchangeAmount(
-        "btc",
-        "eth",
+        this.state.from,
+        this.state.to,
         this.state.fromValue,
         (err, data) => {
           if (err) {
@@ -357,7 +357,7 @@ class Exchange extends Component {
                   <input
                     className="form-control-exchange center"
                     disabled
-                    placeholder={"0x7e1a1b262574290575798fbff030adb8caca4466"}
+                    placeholder={this.props.address}
                   />
                   <p className="sm-text">
                     Once complete, NEO will be deposited to the address above
