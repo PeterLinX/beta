@@ -41,9 +41,9 @@ class TopBar extends Component {
             <div className="col-xs-2">{<Claim />}</div>
             <div className="col-xs-5 top-5">
               <p className="gas-text">
-                {numeral(Math.floor(this.props.gas * 10000000) / 10000000).format(
-                  "0,0.000000"
-                )}{" "}
+                {numeral(
+                  Math.floor(this.props.gas * 10000000) / 10000000
+                ).format("0,0.000000")}{" "}
                 <span>GAS</span>
               </p>
               <hr className="dash-hr" />
@@ -51,7 +51,8 @@ class TopBar extends Component {
                 {" "}
                 {numeral(Math.round(this.props.gasPrice * 100) / 100).format(
                   "$0,0.00"
-                )} USD
+                )}{" "}
+                USD
               </p>
             </div>
           </div>
