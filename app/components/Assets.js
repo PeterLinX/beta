@@ -23,7 +23,7 @@ const refreshAssetBalance = (dispatch, net, address, hashscript) => {
 class Assets extends Component {
 
     componentDidMount = () => {
-        storage.get('nep5list', (error, data) => {
+        storage.get("nep5list", (error, data) => {
             if(data) {
                 this.props.dispatch(setNep5(JSON.parse(data)));
             }
@@ -31,19 +31,19 @@ class Assets extends Component {
     }
 
     loadHashName = (net, scripthash, index) => {
-        const jsonRequest = axios.create({ headers: { 'Content-Type': 'application/json' } });
-        let method = 'getcontractstate';
-        const jsonRpcData = { method: method, params: [scripthash], id: index, jsonrpc: '2.0' };
-        let endpoint = net.indexOf('Test') < 0 ? 'http://test1.cityofzion.io:8880/' : 'https://seed2.neo.org/';
+        const jsonRequest = axios.create({ headers: { "Content-Type": "application/json" } });
+        let method = "getcontractstate";
+        const jsonRpcData = { method: method, params: [scripthash], id: index, jsonrpc: "2.0" };
+        let endpoint = net.indexOf("Test") < 0 ? 'http://test1.cityofzion.io:8880/' : 'https://seed2.neo.org/';
         return jsonRequest.post(endpoint, jsonRpcData).then((response) => {
-            console.log('the response for the symbol was', response);
+            console.log("the response for the symbol was", response);
             return response.data
         })
     }
 
     componentWillReceiveProps = (nextProps) => {
         if(nextProps.nep5 !== this.props.nep5 || nextProps.net !== this.props.net){
-            storage.set('nep5list', JSON.stringify(nextProps.nep5));
+            storage.set("nep5list", JSON.stringify(nextProps.nep5));
             this.refreshAllBalances(nextProps.net);
         }
     }
@@ -59,7 +59,6 @@ class Assets extends Component {
     }
 
     addNepToStore = (dispatch) => {
-
         //let's add the nep5 to the local storage
         this.props.nep5.push(hashToAdd.value);
         dispatch(addNep5(hashToAdd.value));
@@ -75,8 +74,12 @@ class Assets extends Component {
 
             <div className="assetsContainer">
                 <div className="controls">
-                    <input placeholder="Enter Scripthash" ref={(node) => hashToAdd = node} />
-                    <button className="loginButton" onClick={(e) => this.addNepToStore(this.props.dispatch)}>Add</button>
+                    <input
+                    placeholder="Enter Scripthash"
+                    className="form-send-neo"
+                    ref={(node) => hashToAdd = node}
+                    />
+                    <button className="grey-button" onClick={(e) => this.addNepToStore(this.props.dispatch)}>Add</button>
                 </div>
                 <div class="spacer" ></div>
                 <ul id="assetList">
@@ -86,14 +89,16 @@ class Assets extends Component {
                         {
                           return (
                               <li key={hash} className="assetListItem">
-                                  <div className="amountBig">RPX: {balance}</div>
+                                  <div className="amountBig">RPX: {balance}
+                                  </div>
                           </li>);
                         }
                         if ( hash == 0xa0777c3ce2b169d4a23bcba4565e3225a0122d95)
                         {
                           return (
                               <li key={hash} className="assetListItem">
-                                  <div className="amountBig">APH: {balance}</div>
+                                  <div className="amountBig">APH: {balance}
+                                  </div>
                           </li>);
                         }
                         return (
