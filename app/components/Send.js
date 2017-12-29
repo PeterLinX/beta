@@ -348,7 +348,7 @@ class Send extends Component {
           data-tip
           data-for="donateTip"
           onClick={() => clipboard.writeText("AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b")}
-          >Tips: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
+          >Donate to Morpheus Dev Team: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
           <ReactTooltip
             className="solidTip"
             id="donateTip"
