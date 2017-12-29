@@ -140,16 +140,16 @@ class Settings extends Component {
   render = () => (
     <div id="send">
       <TopBar />
-      <div className="settings-panel top-50 fadeInDown">
+      <div className="dash-panel fadeInDown">
         <div className="description">
           <div className="row">
             <h2 className="center">General Settings</h2>
-            <div className="col-xs-10 center col-xs-offset-1">
-              <hr className="" />
+            <div className="col-xs-12 center">
+            <hr className="dash-hr-wide" />
             </div>
             <div className="clearboth" />
             <div className="row">
-              <div className="col-xs-2 center col-xs-offset-1">
+              <div className="col-xs-2 center">
                 <NetworkSwitch />
               </div>
               <div
@@ -181,23 +181,37 @@ class Settings extends Component {
                 <div className="dash-icon-bar">
                   <div className="icon-border">
                     <span className="glyphicon glyphicon-plus-sign" />
-                  </div>Morpheus Asset Manager
+                  </div>Asset Manager
                 </div>
                 </Link>
               </div>
+
               <div className="col-xs-2 center">
               <Link to="/support">
                 <div className="dash-icon-bar">
                   <div className="icon-border">
                     <span className="glyphicon glyphicon-info-sign" />
                   </div>
-                  Support & FAQs
+                  Support and FAQs
                 </div>
                 </Link>
               </div>
+
+              <div className="col-xs-2 center">
+              <Link to="/sale">
+                <div className="dash-icon-bar">
+                  <div className="icon-border">
+                    <span className="glyphicon glyphicon-heart" />
+                  </div>
+                  NEP5 Token Sale
+                </div>
+                </Link>
+              </div>
+
             </div>
+
             <div className="row top-20">
-              <div className="col-xs-2 center col-xs-offset-1 ">
+              <div className="col-xs-2 center">
                 <Link to="/encryptKey">
                   <div className="dash-icon-bar">
                     <div className="icon-border">
