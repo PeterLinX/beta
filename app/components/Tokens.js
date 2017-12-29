@@ -16,6 +16,7 @@ import peeratlasLogo from "../img/peeratlas.png";
 import ontologyLogo from "../img/ontology.png";
 import btcLogo from "../img/btc-logo.png";
 import ltcLogo from "../img/litecoin.png";
+import ethLogo from "../img/eth.png";
 import neoLogo from "../img/neo.png";
 import gitsmLogo from "../img/gitsm.png";
 import twitsmLogo from "../img/twitsm.png";
@@ -48,15 +49,15 @@ class Tokens extends Component {
       <h2 className="center">Asset Manager</h2>
       <hr />
         <div className="tokens-window">
-        <div className="col-xs-3  top-20">
+        <div className="col-xs-2  top-20">
         <img
           src={neoLogo}
           alt=""
-          width="96"
-          className="tokens"
+          width="64"
+          className="tokens left-10"
         />
         </div>
-        <div className="col-xs-7 ">
+        <div className="col-xs-8 ">
         <h3>NEO & GAS (NEO/GAS)</h3>
         NEO has two native tokens, NEO and NeoGas (abbreviated symbol GAS). The minimum unit of NEO is 1 and tokens cannot be subdivided. The minimum unit of GAS is 0.00000001. All NEO/GAS transactions are free.
         <ul className="social-bar">
@@ -78,21 +79,21 @@ class Tokens extends Component {
         </ul>
         </div>
         <div className="col-xs-2 center add-token top-20">
-        <div className="icon-border"><span className="glyphicon glyphicon-ok" /></div>
+        <div className="token-icon-border"><span className="glyphicon glyphicon-ok" /></div>
         Sccessfully Added
         </div>
         <div className="clearboth" />
 
         <div className="row top-30"/>
-        <div className="col-xs-3  top-20">
+        <div className="col-xs-2  top-20">
         <img
           src={btcLogo}
           alt=""
-          width="96"
+          width="64"
           className="tokens"
         />
         </div>
-        <div className="col-xs-7 ">
+        <div className="col-xs-8 ">
         <h3>Bitcoin (BTC)</h3>
         Bitcoin uses peer-to-peer technology to operate with no central authority or banks; managing transactions and the issuing of bitcoins is carried out collectively by the network. All BTC transactionsa are subject to network fees.
         <ul className="social-bar">
@@ -117,21 +118,21 @@ class Tokens extends Component {
 data-tip
 data-for="tokenTip"
 >
-        <div className="icon-border"><span className="glyphicon glyphicon-plus" /></div>
+        <div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
         Add Address
         </div>
         <div className="clearboth" />
 
         <div className="row top-30"/>
-        <div className="col-xs-3  top-20">
+        <div className="col-xs-2  top-20">
         <img
           src={rpxLogo}
           alt=""
-          width="120"
+          width="72"
           className="tokens"
         />
         </div>
-        <div className="col-xs-7 ">
+        <div className="col-xs-8 ">
         <h3>Red Pulse (RPX)</h3>
         The current Red Pulse platform was launched in 2015 and is already being utilised by leading financial institutions and Fortune 500 corporations.
         <ul className="social-bar">
@@ -156,21 +157,21 @@ data-for="tokenTip"
 data-tip
 data-for="tokenTip"
 >
-        <div className="icon-border"><span className="glyphicon glyphicon-plus" /></div>
+        <div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
 Add Address
         </div>
         <div className="clearboth" />
 
         <div className="row top-30"/>
-        <div className="col-xs-3  top-20">
+        <div className="col-xs-2  top-20">
         <img
           src={deepLogo}
           alt=""
-          width="120"
+          width="72"
           className="tokens"
         />
         </div>
-        <div className="col-xs-7 ">
+        <div className="col-xs-8 ">
         <h3>DeepBrain (BDC)</h3>
         DeepBrain Chains vision is to provide a low-cost, private, flexible, secure, and decentralized artificial intelligence computing platform for AI products.
         <ul className="social-bar">
@@ -195,21 +196,21 @@ Add Address
         data-tip
         data-for="tokenTip"
         >
-        <div className="icon-border"><span className="glyphicon glyphicon-plus" /></div>
+        <div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
         Add Address
         </div>
         <div className="clearboth" />
 
         <div className="row top-30"/>
-        <div className="col-xs-3 top-20">
+        <div className="col-xs-2 top-20">
         <img
           src={nexLogo}
           alt=""
-          width="120"
+          width="72"
           className="tokens top-10"
         />
         </div>
-        <div className="col-xs-7 ">
+        <div className="col-xs-8 ">
         <h3>NEX Exchange (NEX)</h3>
         NEX is a platform for complex decentralized cryptographic trade and payment service creation. NEX combines the NEO blockchain with an off-chain matching engine to enable much faster and more complex trades than existing decentralized exchanges.
         <ul className="social-bar">
@@ -234,21 +235,21 @@ Add Address
 data-tip
 data-for="tokenTip"
 >
-        <div className="icon-border"><span className="glyphicon glyphicon-plus" /></div>
+        <div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
 Add Address
         </div>
         <div className="clearboth" />
 
         <div className="row top-30"/>
-        <div className="col-xs-3 ">
+        <div className="col-xs-2 ">
         <img
           src={qlinkLogo}
           alt=""
-          width="120"
+          width="72"
           className="tokens"
         />
         </div>
-        <div className="col-xs-7 ">
+        <div className="col-xs-8 ">
         <h3>QLink (QLK)</h3>
         Qlink, a decentralized mobile network, is dedicated to constructing an open-source telecom infrastructure on blockchain.
 <ul className="social-bar">
@@ -273,21 +274,21 @@ onClick={() =>
 data-tip
 data-for="tokenTip"
 >
-<div className="icon-border"><span className="glyphicon glyphicon-plus" /></div>
+<div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
 Add Address
 </div>
 <div className="clearboth" />
 
 <div className="row top-30"/>
-        <div className="col-xs-3">
+        <div className="col-xs-2">
         <img
           src={thekeyLogo}
           alt=""
-          width="120"
+          width="72"
           className="tokens top-20"
         />
         </div>
-        <div className="col-xs-7 ">
+        <div className="col-xs-8 ">
         <h3>TheKEY (TKY)</h3>
 THEKEY Project Team is now developing an identification verification (IDV) tool with blockchain based dynamic multi-dimension identification (BDMI) by using Personally Identifiable Information (PII) which is exclusively authorized by government authorities.
 <ul className="social-bar">
@@ -312,21 +313,21 @@ onClick={() =>
 data-tip
 data-for="tokenTip"
 >
-<div className="icon-border"><span className="glyphicon glyphicon-plus" /></div>
+<div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
 Add Address
 </div>
 <div className="clearboth" />
 
 <div className="row top-30"/>
-        <div className="col-xs-3">
+        <div className="col-xs-2">
         <img
           src={peeratlasLogo}
           alt=""
-          width="105"
+          width="72"
           className="tokens top-20"
         />
         </div>
-        <div className="col-xs-7 ">
+        <div className="col-xs-8 ">
         <h3>PeerAtlas (ATLAS)</h3>
 The ATLAS token represents the permanent destruction of the world’s most unethical paywall: cutting-edge medical knowledge has been separated by money from its physicians and the general public.
 <ul className="social-bar">
@@ -351,21 +352,21 @@ onClick={() =>
 data-tip
 data-for="tokenTip"
 >
-<div className="icon-border"><span className="glyphicon glyphicon-plus" /></div>
+<div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
 Add Address
 </div>
 <div className="clearboth" />
 
 <div className="row top-30"/>
-        <div className="col-xs-3">
+        <div className="col-xs-2">
         <img
           src={ontologyLogo}
           alt=""
-          width="120"
+          width="72"
           className="tokens top-20"
         />
         </div>
-        <div className="col-xs-7 ">
+        <div className="col-xs-8 ">
         <h3>Ontology (ONT)</h3>
         Ontology Network is a blockchain/distributed ledger network which combines distributed identity verification, data exchange, data collaboration, procedure protocols, communities, attestation, and various industry-specific modules. Together this builds the infrastructure for a peer-to-peer trust network which is cross-chain, cross-system, cross-industry, cross-application, and cross-device.
 <ul className="social-bar">
@@ -390,22 +391,22 @@ onClick={() =>
 data-tip
 data-for="tokenTip"
 >
-<div className="icon-border"><span className="glyphicon glyphicon-plus" /></div>
+<div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
 Add Address
 </div>
 
 <div className="clearboth" />
 
 <div className="row top-30"/>
-        <div className="col-xs-3">
+        <div className="col-xs-2">
         <img
           src={ltcLogo}
           alt=""
-          width="96"
+          width="64"
           className="tokens top-20"
         />
         </div>
-        <div className="col-xs-7 ">
+        <div className="col-xs-8 ">
         <h3>Litecoin (LTC)</h3>
         Litecoin is a peer-to-peer Internet currency that enables instant, near-zero cost payments to anyone in the world. Litecoin is an open source, global payment network that is fully decentralized without any central authorities. Mathematics secures the network and empowers individuals to control their own finances.
 <ul className="social-bar">
@@ -430,25 +431,61 @@ onClick={() =>
 data-tip
 data-for="tokenTip"
 >
-<div className="icon-border"><span className="glyphicon glyphicon-plus" /></div>
+<div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
 Add Address
 </div>
 
+<div className="clearboth"/>
 
-<ReactTooltip
-  className="solidTip"
-  id="tokenTip"
-  place="top"
-  type="light"
-  effect="solid"
->
-  <span>Coming Soon</span>
-</ReactTooltip>
-        <div className="clearboth"/>
-        <div className="row top-20" />
+        <div className="row top-30"/>
+                <div className="col-xs-2">
+                <img
+                  src={ethLogo}
+                  alt=""
+                  width="56"
+                  className="tokens top-20"
+                />
+                </div>
+                <div className="col-xs-8 ">
+                <h3>Ethereum (ETH)</h3>
+                Ethereum is a decentralized platform that runs smart contracts: applications that run exactly as programmed without any possibility of downtime, censorship, fraud or third party interference.
+        <ul className="social-bar">
+        <li
+        onClick={() =>
+                openExplorer("https://ethereum.org")
+        }
+        ><span className="glyphicon glyphicon-globe"/> Website</li>
+        <li
+        onClick={() =>
+                openExplorer("https://github.com/ethereum")
+        }
+        ><img src={gitsmLogo} alt="" width="16" className="" /> Githib</li>
+        <li
+        onClick={() =>
+                openExplorer("https://twitter.com/ethereumproject")
+        }
+        ><img src={twitsmLogo} alt="" width="16" className="" /> Twitter</li>
+        </ul>
+        </div>
+        <div className="col-xs-2 center add-token top-20 token-soon"
+        data-tip
+        data-for="tokenTip"
+        >
+        <div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
+        Add Address
         </div>
       </div>
-
+      <div className="clearboth" />
+      </div>
+      <ReactTooltip
+        className="solidTip"
+        id="tokenTip"
+        place="top"
+        type="light"
+        effect="solid"
+      >
+        <span>Coming Soon</span>
+      </ReactTooltip>
       <div className="clearboth" />
     </div>
   );

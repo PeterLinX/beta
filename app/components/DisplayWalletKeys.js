@@ -100,7 +100,7 @@ class DisplayWalletKeys extends Component {
             </div>
             <div className="col-xs-12">
               <p className="welcome">
-                Congratulations! New NEO Address Created
+                Congratulations! NEO Address Encrypted
               </p>
               {/* qr */}
               <div className="row">
@@ -289,14 +289,6 @@ class DisplayWalletKeys extends Component {
             </div>
             Download Recovery File
           </div>
-          <Link to="/">
-            <div className="dash-icon-bar">
-              <div className="icon-border">
-                <span className="glyphicon glyphicon-chevron-left" />
-              </div>
-              Back to Login Options
-            </div>
-          </Link>
         </div>
       </div>
     );
