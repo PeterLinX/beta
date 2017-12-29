@@ -236,7 +236,7 @@ class Send extends Component {
             <div className="col-xs-12 center">
             <hr className="dash-hr-wide" />
             </div>
-            
+
 <div className="clearboth" />
 
             <div className="top-20">
@@ -244,7 +244,7 @@ class Send extends Component {
                   <input
                     className={formClass}
                     id="center"
-                    placeholder="Enter a valid NEO public address"
+                    placeholder="Enter a valid NEO public address here"
                     ref={node => {
                       sendAddress = node;
                     }}
@@ -290,6 +290,8 @@ class Send extends Component {
                       sendAmount = node;
                     }}
                   />
+                  <div className="clearboth"/>
+                  <span className="com-soon block top-10">Amount in NEO/GAS to send</span>
                 </div>
                 <div className="col-xs-4 top-20">
                   <input
@@ -302,6 +304,8 @@ class Send extends Component {
                     value={`${priceUSD}`}
                   />
                   <label className="amount-dollar">$</label>
+                  <div className="clearboth"/>
+                  <span className="com-soon block top-10">Calculated in USD</span>
                 </div>
                 <div className="col-xs-3 top-20">
                   <div id="sendAddress">
