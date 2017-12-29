@@ -1,8 +1,3 @@
-/**
- * Created by Andrexxjc on 15/11/2017.
- */
-
-// Constants
 export const SET_NEP5 = 'SET_NEP5';
 export const ADD_NEP5 = 'ADD_NEP5';
 export const ADD_HASH_BALANCE = 'ADD_HASH_BALANCE';

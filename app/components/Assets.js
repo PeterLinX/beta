@@ -5,7 +5,6 @@ import * as Neon from "neon-js"
 import { clearTransactionEvent } from "../modules/transactions";
 import storage from "electron-json-storage";
 import axios from "axios";
-import SplitPane from "react-split-pane";
 import TopBar from "./TopBar";
 
 let hashToAdd;
