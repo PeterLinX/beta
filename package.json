@@ -49,6 +49,7 @@
     }
   },
   "dependencies": {
+    "@cityofzion/neon-js": "^2.2.2",
     "axios": "^0.17.0",
     "base-x": "^3.0.2",
     "bigi": "^1.4.2",
