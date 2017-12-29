@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { addNep5, setNep5, addHashBalance } from "../modules/nep";
-import * as Neon from "neon-js"
+import * as Neon from 'neon-js'
 import { clearTransactionEvent } from "../modules/transactions";
 import storage from "electron-json-storage";
 import axios from "axios";
@@ -34,7 +34,7 @@ class Assets extends Component {
         const jsonRequest = axios.create({ headers: { "Content-Type": "application/json" } });
         let method = "getcontractstate";
         const jsonRpcData = { method: method, params: [scripthash], id: index, jsonrpc: "2.0" };
-        let endpoint = net.indexOf("Test") < 0 ? 'http://test1.cityofzion.io:8880/' : 'https://seed2.neo.org/';
+        let endpoint = net.indexOf("Test") < 0 ? "http://test1.cityofzion.io:8880/" : "https://seed2.neo.org/";
         return jsonRequest.post(endpoint, jsonRpcData).then((response) => {
             console.log("the response for the symbol was", response);
             return response.data
@@ -89,7 +89,7 @@ class Assets extends Component {
                         {
                           return (
                               <li key={hash} className="assetListItem">
-                                  <div className="amountBig">RPX: {balance}
+                                  <div className="col-xs-4">RPX: {balance}
                                   </div>
                           </li>);
                         }
@@ -97,15 +97,16 @@ class Assets extends Component {
                         {
                           return (
                               <li key={hash} className="assetListItem">
-                                  <div className="amountBig">APH: {balance}
+                                  <div className="col-xs-4">APH: {balance}
                                   </div>
                           </li>);
                         }
                         return (
                             <li key={hash} className="assetListItem">
-                                <div className="amountBig">{balance}</div>
-                                <div><span><strong>Hash:</strong> {hash}</span></div>
-                        </li>);
+                                <div className="col-xs-4">{balance}</div>
+                              <span><strong>Hash:</strong> {hash}</span>
+                        </li>
+                      );
                     })}
                 </ul>
             </div>
