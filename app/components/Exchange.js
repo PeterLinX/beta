@@ -9,7 +9,7 @@ import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { clipboard } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import ReactTooltip from "react-tooltip";
-import neoLogo from "../images/neo.png";
+import neoLogo from "../img/neo.png";
 import NeoLogo from "./Brand/Neo";
 import BtcLogo from "./Brand/Bitcoin";
 import TopBar from "./TopBar";
@@ -83,7 +83,7 @@ class Exchange extends Component {
           } else if (data.result === "waiting") {
             this.setState({
               message:
-                "Waiting for your Bitcoin deposit. Do not close window until you receive confirmation.",
+                "Please do not close window until you receive a confirmation notification. Please copy your transaction ID below for support.",
               statusMessage: "Waiting for Bitcoin Deposit"
             });
           } else if (data.result === "refunded") {
@@ -94,7 +94,7 @@ class Exchange extends Component {
           } else if (data.result === "sending") {
             this.setState({
               message: "NEO is being sent to your address in Morpheus.",
-              statusMessage: "Sending NEO"
+              statusMessage: "Success. Sending NEO"
             });
           } else if (data.result === "exchanging") {
             this.setState({
@@ -317,14 +317,15 @@ class Exchange extends Component {
                   </div>
                   <h4 className="top-20">Deposit BTC</h4>
                 </div>
-
-                <div className="col-xs-4  col-xs-offset-2">
+                <div className="col-xs-2" />
+                <div className="col-xs-4">
                   <div className="exch-logos">
-                    <NeoLogo width={40} />
+                    <NeoLogo width={32} />
                   </div>
-                  <h4 className="top-20">NEO Received</h4>
+                  <h4 className="top-20">Receive NEO</h4>
                 </div>
-
+                <div className="col-xs-1" />
+                <div className="clearboth" />
                 <div className="col-xs-4 center col-xs-offset-1">
                   <input
                     className="form-control-exchange center"
@@ -337,7 +338,7 @@ class Exchange extends Component {
 
                 <div className="col-xs-2 center">
                   <div className="exchange-glyph">
-                    <span className="glyphicon glyphicon-refresh" />
+                    <span className="glyphicon glyphicon-transfer" />
                   </div>
                 </div>
 

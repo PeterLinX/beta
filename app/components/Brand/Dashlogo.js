@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import img from "../../images/morph-icon.png";
+import img from "../../images/new-logo.png";
 
 class Dashlogo extends Component {
   render() {

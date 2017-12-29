@@ -98,8 +98,17 @@ class Dashboard extends Component {
         <div id="mainNav" className="main-nav">
           <div className="navbar navbar-inverse">
             <div className="navbar-header">
-              <div className="logoContainer">
-                <Dashlogo width={90} />
+              <div
+                className="logoContainer"
+                onClick={() =>
+                  refreshBalance(
+                    this.props.dispatch,
+                    this.props.net,
+                    this.props.address
+                  )
+                }
+              >
+                <Dashlogo width={72} />
               </div>
               <div
                 id="balance"
@@ -114,6 +123,8 @@ class Dashboard extends Component {
                 <span style={{ fontSize: "10px" }}>Combined Value</span>
                 <br />
                 {numeral(this.state.combinedPrice).format("$0,0.00")}
+                <span className="bal-usd">USD</span>
+                <span className="comb-bal">Combined Balance</span>
               </div>
             </div>
             <div className="clearfix" />
@@ -147,11 +158,6 @@ class Dashboard extends Component {
                 <li>
                   <Link to={"/exchange"} activeClassName="active">
                     <span className="glyphicon glyphicon-refresh" /> Exchange
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"/sale"} activeClassName="active">
-                    <span className="glyphicon glyphicon-heart" /> Token Sale
                   </Link>
                 </li>
                 <li>
