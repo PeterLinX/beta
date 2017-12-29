@@ -218,7 +218,7 @@ class Send extends Component {
         <div id="sendPane">
           <TopBar />
 
-          <div className="row send-neo fadeInDown">
+          <div className="row dash-panel fadeInDown">
             <div className="col-xs-6">
               <img
                 src={neoLogo}
@@ -233,10 +233,13 @@ class Send extends Component {
             Block: {this.props.blockHeight}
             </div>
 
-            <div id="sendAddress">
-              <div className="clearboth" />
+            <div className="col-xs-12 center">
+            <hr className="dash-hr-wide" />
+            </div>
+            
+<div className="clearboth" />
 
-              <div id="sendAmount">
+            <div className="top-20">
                 <div className="col-xs-9">
                   <input
                     className={formClass}
@@ -323,7 +326,7 @@ class Send extends Component {
                     </button>
                   </div>
                 </div>
-              </div>
+
             </div>
           </div>
         </div>

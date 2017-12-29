@@ -53,7 +53,7 @@ class TransactionHistory extends Component {
   render = () => (
     <div id="send">
       <TopBar />
-      <div className="send-neo fadeInDown">
+      <div className="dash-panel fadeInDown">
         <div className="row">
           <div className="col-xs-9">
             <h2>Transaction History</h2>
@@ -67,6 +67,9 @@ class TransactionHistory extends Component {
         )}
           >
         <span className="glyphicon glyphicon-refresh marg-right-5"/>  Block: {this.props.blockHeight}
+          </div>
+          <div className="col-xs-12">
+          <hr className="dash-hr-wide" />
           </div>
           <ul id="transactionList">
             {this.props.transactions.map(t => {

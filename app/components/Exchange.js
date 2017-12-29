@@ -225,7 +225,7 @@ class Exchange extends Component {
           </div>
 
           <div className="top-130" id="payIn">
-            <div className="settings-panel fadeInDown">
+            <div className="dash-panel fadeInDown">
               <div className="com-soon row fadeInDown">
                 <div className="col-xs-4">
                   <div className="exchange-qr center animated fadeInDown">
@@ -308,7 +308,7 @@ class Exchange extends Component {
           </div>
 
           <div className="top-130">
-            <div className="settings-panel fadeInDown">
+            <div className="dash-panel fadeInDown">
               <div className="com-soon row fadeInDown">
                 <div className="col-xs-4 col-xs-offset-1">
                   <div className="exch-logos">
