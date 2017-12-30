@@ -118,7 +118,7 @@ class LoginNep2 extends Component {
                 <div className="icon-border">
                   <span className="glyphicon glyphicon-qrcode" />
                 </div>
-                Login Via Private Key
+                Login Using Private Key
               </div>
             </Link>
           </div>

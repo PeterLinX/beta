@@ -45,7 +45,7 @@ class Tokens extends Component {
   render = () => (
     <div id="send">
       <TopBar />
-      <div className="settings-panel top-50 fadeInDown">
+      <div className="dash-panel top-50 fadeInDown">
       <h2 className="center">Asset Manager</h2>
       <hr />
         <div className="tokens-window">

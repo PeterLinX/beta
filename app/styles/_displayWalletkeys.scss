@@ -128,13 +128,13 @@ input.pubicAddress {
 }
 
 .dash-bar {
-  width: 360px;
+  width: 320px;
   margin: 0px auto;
   display: block;
 }
 
 .dash-bar-rec {
-  width: 360px;
+  width: 320px;
   margin: 0px auto;
   display: block;
 }
@@ -146,22 +146,23 @@ input.pubicAddress {
 }
 
 .dash-icon-bar {
-  width: 100px;
-      float: left;
-      text-align: center;
-      font-size: 14px;
-      font-weight: 200;
-      margin: 0 10px 2px;
-      opacity: 0.3;
-      cursor: pointer;
-      color: #fff;
-      animation-duration: 1s;
-      animation-fill-mode: both;
+  max-width: 106px;
+  float: left;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 200;
+  margin: 0;
+  padding: 2px;
+  opacity: 0.3;
+  cursor: pointer;
+  color: #fff;
+  animation-duration: 1s;
+  animation-fill-mode: both;
 }
 
 .dash-icon-bar:hover {
   opacity: 0.6;
-  margin: -2px 10px 4px;
+  margin-top: -2px;
 }
 
 .new-address-bk {

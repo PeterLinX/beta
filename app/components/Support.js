@@ -27,7 +27,7 @@ class Support extends Component {
   render = () => (
     <div id="send">
     <TopBar />
-      <div className="send-neo fadeInDown">
+      <div className="dash-panel fadeInDown">
         <div className="row">
           <div className="col-xs-4 center send-info"
           onClick={() =>
