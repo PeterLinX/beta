@@ -25,7 +25,7 @@ class Sale extends Component {
   render = () => (
     <div id="send">
     <TopBar />
-      <div className="send-neo fadeInDown">
+      <div className="dash-panel fadeInDown">
         <div className="row">
         <h2 className="center">Participate in Token Sale</h2>
 

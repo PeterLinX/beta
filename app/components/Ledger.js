@@ -212,7 +212,7 @@ class Ledger extends Component {
       <div id="send">
         <div id="sendPane">
           <TopBar />
-          <div className="row send-neo fadeInDown">
+          <div className="row dash-panel fadeInDown">
             <div className="col-xs-4">
               <img
                 src={ledgerLogo}
@@ -251,7 +251,9 @@ class Ledger extends Component {
             </div>
 
             <div className="clearboth" />
-            <hr className="ledger-hr" />
+            <div className="col-xs-12 center">
+            <hr className="dash-hr-wide" />
+            </div>
             <div className="col-xs-4 top-20">
             <div className="ledgerQRBox center animated fadeInDown">
               <QRCode size={120} value={this.props.address} />

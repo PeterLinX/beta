@@ -136,7 +136,7 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => {
             <div className="icon-border">
               <span className="glyphicon glyphicon-lock" />
             </div>
-            Login Via Encrypted Key
+            Login Using Encrypted Key
           </div>
         </Link>
 
