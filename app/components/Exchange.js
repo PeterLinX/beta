@@ -175,8 +175,8 @@ class Exchange extends Component {
             </div>
           </div>
 
-          <div className="top-100" id="exchange-messages">
-            <div className="settings-panel fadeInDown">
+          <div className="top-50" id="exchange-messages">
+            <div className="dash-panel fadeInDown">
               <div className="com-soon row fadeInDown">
                 <div className="col-md-12">
                   <h1>{this.state.statusMessage}</h1>
@@ -312,9 +312,9 @@ class Exchange extends Component {
             </div>
           </div>
 
-          <div className="top-130">
+          <div className="top-100">
             {this.state.error === false ? (
-              <div className="settings-panel fadeInDown">
+              <div className="dash-panel fadeInDown">
                 <div className="com-soon row fadeInDown">
                   <div className="col-xs-4 col-xs-offset-1">
                     <div className="exch-logos">
@@ -397,12 +397,15 @@ class Exchange extends Component {
                 </div>
               </div>
             ) : (
-              <div className="settings-panel fadeInDown">
-                <div className="com-soon row fadeInDown">
-                  <h5>
-                    Sorry, our exchange partner Changelly currently does not
-                    have NEO available.
-                  </h5>
+              <div className="dash-panel fadeInDown">
+                <div className="com-soon row fadeInDown center">
+                <h1 className="top-20">Sorry!</h1>
+                <div className="col-xs-10 col-xs-offset-1">
+                  <h3 className="top-20">
+                    We apologise but our exchange partner Changelly currently does not have any NEO available. Please try again soon.
+                  </h3>
+                  </div>
+                  <div className="clear-both" />
                 </div>
               </div>
             )}

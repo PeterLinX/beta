@@ -5,6 +5,7 @@ import { doSendAsset, verifyAddress } from "neon-js";
 import { wallet } from "@cityofzion/neon-js";
 import Modal from "react-bootstrap-modal";
 import QRCode from "qrcode.react";
+import { clipboard } from "electron";
 import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
@@ -250,7 +251,7 @@ class Ledger extends Component {
         <div id="sendPane">
           <TopBar />
           <div className="row dash-panel fadeInDown">
-            <div className="col-xs-4 col-xs-offset-4">
+            <div className="col-xs-4">
               <img
                 src={ledgerLogo}
                 alt=""
@@ -295,7 +296,7 @@ class Ledger extends Component {
             </div>
             <div className="col-xs-8">
               <div className="row">
-                <div className="col-md-10">
+                <div className="col-md-10 center">
                   <h4>
                     <span
                       data-tip
@@ -310,9 +311,7 @@ class Ledger extends Component {
                   <span
                     className="glyphicon glyphicon-refresh refresh-icon"
                     aria-hidden="true"
-                    onClick={() => {
-                      this.getLedgerAddress();
-                    }}
+                    onClick={() => clipboard.writeText(this.state.ledgerAddress)}
                   />
                 </div>
               </div>
