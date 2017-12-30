@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import img from "../../img/neo-logo-big@3x.png";
+import img from "../../img/neo.png";
 
 export default class Neo extends Component {
   render() {

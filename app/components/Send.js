@@ -7,15 +7,21 @@ import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
-import neoLogo from "../images/neo.png";
+import neoLogo from "../img/neo.png";
 import Claim from "./Claim.js";
 import TopBar from "./TopBar";
+import { clipboard } from "electron";
 import { togglePane } from "../modules/dashboard";
 import {
   sendEvent,
   clearTransactionEvent,
   toggleAsset
 } from "../modules/transactions";
+import btcLogo from "../img/btc-logo.png";
+import qlinkLogo from "../img/qlink.png";
+import rpxLogo from "../img/rpx.png";
+import nexLogo from "../img/nex.png";
+import deepLogo from "../img/deep.png";
 
 let sendAddress, sendAmount, confirmButton;
 
@@ -211,58 +217,67 @@ class Send extends Component {
       <div id="send">
         <div id="sendPane">
           <TopBar />
-          <div className="row send-neo fadeInDown">
+
+          <div className="row dash-panel fadeInDown">
             <div className="col-xs-6">
               <img
                 src={neoLogo}
                 alt=""
-                width="48"
+                width="38"
                 className="neo-logo logobounce"
               />
               <h2>Send Neo or Gas</h2>
             </div>
-            <div className="col-xs-4" />
-            <div className="col-xs-2">
-              <div
-                id="sendAsset"
-                className={btnClass}
-                style={{ width: "100%" }}
-                data-tip
-                data-for="assetTip"
-                onClick={() => {
-                  this.setState({ gas_usd: 0, neo_usd: 0, value: 0 });
-                  document.getElementById("assetAmount").value = "";
-                  dispatch(toggleAsset());
-                }}
-              >
-                {selectedAsset}
-              </div>
-              <ReactTooltip
-                className="solidTip"
-                id="assetTip"
-                place="top"
-                type="light"
-                effect="solid"
-              >
-                <span>Click to switch between NEO and GAS</span>
-              </ReactTooltip>
+            <div className="col-xs-3" />
+            <div className="col-xs-3 top-20 center com-soon">
+            Block: {this.props.blockHeight}
             </div>
 
-            <div id="sendAddress">
-              <div className="clearboth" />
+            <div className="col-xs-12 center">
+            <hr className="dash-hr-wide" />
+            </div>
 
-              <div id="sendAmount">
-                <div className="col-xs-12">
+<div className="clearboth" />
+
+            <div className="top-20">
+                <div className="col-xs-9">
                   <input
                     className={formClass}
                     id="center"
-                    placeholder="Enter a valid NEO public address"
+                    placeholder="Enter a valid NEO public address here"
                     ref={node => {
                       sendAddress = node;
                     }}
                   />
                 </div>
-                <div className="col-xs-6  top-20">
+
+                <div className="col-xs-3">
+                  <div
+                    id="sendAsset"
+                    className={btnClass}
+                    style={{ width: "100%" }}
+                    data-tip
+                    data-for="assetTip"
+                    onClick={() => {
+                      this.setState({ gas_usd: 0, neo_usd: 0, value: 0 });
+                      document.getElementById("assetAmount").value = "";
+                      dispatch(toggleAsset());
+                    }}
+                  >
+                    {selectedAsset}
+                  </div>
+                  <ReactTooltip
+                    className="solidTip"
+                    id="assetTip"
+                    place="top"
+                    type="light"
+                    effect="solid"
+                  >
+                    <span>Click to switch between NEO and GAS</span>
+                  </ReactTooltip>
+                </div>
+
+                <div className="col-xs-5  top-20">
                   <input
                     className={formClass}
                     type="number"
@@ -275,6 +290,8 @@ class Send extends Component {
                       sendAmount = node;
                     }}
                   />
+                  <div className="clearboth"/>
+                  <span className="com-soon block top-10">Amount in NEO/GAS to send</span>
                 </div>
                 <div className="col-xs-4 top-20">
                   <input
@@ -287,8 +304,10 @@ class Send extends Component {
                     value={`${priceUSD}`}
                   />
                   <label className="amount-dollar">$</label>
+                  <div className="clearboth"/>
+                  <span className="com-soon block top-10">Calculated in USD</span>
                 </div>
-                <div className="col-xs-2 top-20">
+                <div className="col-xs-3 top-20">
                   <div id="sendAddress">
                     <button
                       className="grey-button"
@@ -307,30 +326,52 @@ class Send extends Component {
                         confirmButton = node;
                       }}
                     >
-                      Send
+                    <span className="glyphicon glyphicon-send marg-right-5"/>  Send
                     </button>
                   </div>
                 </div>
-              </div>
+
             </div>
           </div>
         </div>
 
         <div className="send-notice">
           <p>
-            All NEO and GAS transactions are free. Only send NEO and GAS to a
+            All NEO and GAS transactions are FREE. Only send NEO and GAS to a
             valid NEO address. Sending to an address other than a NEO address
             can result in your NEO/GAS being lost. You cannot send a fraction of
             a NEO.
           </p>
-          <p>Gas Donations: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
+          <div className="col-xs-2 top-20"/>
+          <div className="col-xs-8 top-20">
+          <p className="center donations"
+          data-tip
+          data-for="donateTip"
+          onClick={() => clipboard.writeText("AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b")}
+          >Donate to Morpheus Dev Team: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
+          <ReactTooltip
+            className="solidTip"
+            id="donateTip"
+            place="top"
+            type="light"
+            effect="solid"
+          >
+            <span>Copy donation address</span>
+          </ReactTooltip>
+          </div>
         </div>
+
+
+
+
+
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
+  blockHeight: state.metadata.blockHeight,
   wif: state.account.wif,
   address: state.account.address,
   net: state.metadata.network,

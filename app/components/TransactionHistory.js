@@ -6,6 +6,8 @@ import Copy from "react-icons/lib/md/content-copy";
 import { clipboard } from "electron";
 import Claim from "./Claim";
 import TopBar from "./TopBar";
+import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
+import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 
 // TODO: make this a user setting
 const getExplorerLink = (net, explorer, txid) => {
@@ -31,6 +33,14 @@ const openExplorer = srcLink => {
   shell.openExternal(srcLink);
 };
 
+const refreshBalance = (dispatch, net, address) => {
+  dispatch(sendEvent(true, "Refreshing..."));
+  initiateGetBalance(dispatch, net, address).then(response => {
+    dispatch(sendEvent(true, "Received latest blockchain information."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+  });
+};
+
 class TransactionHistory extends Component {
   componentDidMount = () => {
     syncTransactionHistory(
@@ -43,13 +53,24 @@ class TransactionHistory extends Component {
   render = () => (
     <div id="send">
       <TopBar />
-      <div className="send-neo fadeInDown">
+      <div className="dash-panel fadeInDown">
         <div className="row">
-          <div className="col-xs-12">
-            <h2 className="center">Transaction History</h2>
-            <hr className="" />
+          <div className="col-xs-9">
+            <h2>Transaction History</h2>
           </div>
-
+          <div className="col-xs-3 center top-10 send-info"
+          onClick={() =>
+        refreshBalance(
+          this.props.dispatch,
+          this.props.net,
+          this.props.address
+        )}
+          >
+        <span className="glyphicon glyphicon-refresh marg-right-5"/>  Block: {this.props.blockHeight}
+          </div>
+          <div className="col-xs-12">
+          <hr className="dash-hr-wide" />
+          </div>
           <ul id="transactionList">
             {this.props.transactions.map(t => {
               const formatGas = gas =>
@@ -59,7 +80,7 @@ class TransactionHistory extends Component {
               return (
                 <li key={t.txid}>
                   <div
-                    className="col-xs-10"
+                    className="col-xs-9 support-qs"
                     onClick={() =>
                       openExplorer(
                         getExplorerLink(
@@ -70,10 +91,10 @@ class TransactionHistory extends Component {
                       )
                     }
                   >
-                    {t.txid.substring(0, 32)}...{" "}
-                    <span className="glyphicon glyphicon-link" />
+                    <span className="glyphicon glyphicon-link marg-right-5" />
+                    {t.txid.substring(0, 64)} {" "}
                   </div>
-                  <div className="col-xs-2">
+                  <div className="col-xs-3 center font-16">
                     {formatAmount} {t.type}
                   </div>
                 </li>

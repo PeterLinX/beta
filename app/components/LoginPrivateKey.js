@@ -136,11 +136,11 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => {
             <div className="icon-border">
               <span className="glyphicon glyphicon-lock" />
             </div>
-            Login Via Encrypted Key
+            Login Using Encrypted Key
           </div>
         </Link>
 
-        <Link to="/LoginLocalStorage">
+        <Link to="/">
           <div className="dash-icon-bar">
             <div className="icon-border">
               <span className="glyphicon glyphicon-user" />
@@ -148,16 +148,6 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => {
             Open a Saved Wallet
           </div>
         </Link>
-
-        <div
-          className="dash-icon-bar"
-          onClick={() => loadKeyRecovery(dispatch)}
-        >
-          <div className="icon-border">
-            <span className="glyphicon glyphicon-paperclip" />
-          </div>
-          Login Via Recovery File
-        </div>
       </div>
     </div>
   );
