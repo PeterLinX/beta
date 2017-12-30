@@ -29,7 +29,7 @@ class TopBar extends Component {
       <div id="send">
         <div className="row">
           <div className="header">
-            <div className="col-xs-5 top-5">
+            <div className="col-xs-5">
               <p className="neo-text">
                 {numeral(this.props.neo).format("0,0")} <span>NEO</span>
               </p>
