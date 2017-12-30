@@ -41,7 +41,7 @@ class Exchange extends Component {
     this.state = {
       address: "",
       from: "btc",
-      to: "eth",
+      to: "neo",
       fromValue: 0,
       toValue: 0,
       minAmount: 0,
