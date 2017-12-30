@@ -81,7 +81,7 @@ class Assets extends Component {
                     />
                     <button className="grey-button" onClick={(e) => this.addNepToStore(this.props.dispatch)}>Add</button>
                 </div>
-                <div class="spacer" ></div>
+                <div className="spacer" ></div>
                 <ul id="assetList">
                     { this.props.nep5.map((hash) => {
                         let balance = this.props.balances[hash];
