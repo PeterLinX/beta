@@ -17,6 +17,7 @@ import { Link } from "react-router";
 import crypto from "crypto";
 import axios from "axios";
 import Changelly from "../modules/changelly";
+import { error } from "util";
 
 // force sync with balance data
 const refreshBalance = (dispatch, net, address) => {
@@ -40,7 +41,7 @@ class Exchange extends Component {
     this.state = {
       address: "",
       from: "btc",
-      to: "neo",
+      to: "eth",
       fromValue: 0,
       toValue: 0,
       minAmount: 0,
@@ -48,7 +49,8 @@ class Exchange extends Component {
       transactionId: null,
       status: null,
       message: null,
-      statusMessage: null
+      statusMessage: null,
+      error: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -61,14 +63,16 @@ class Exchange extends Component {
       if (err) {
         console.log("Error!", err);
       } else {
-        console.log("getMinAmount", data);
+        if (data.error.message === "invalid 'to' currency: 'neo'") {
+          this.setState({ error: true });
+        }
         this.setState({ minAmount: data.result });
       }
     });
   }
 
   async getStatus() {
-    const myVar = setInterval(() => {
+    setInterval(() => {
       changelly.getStatus(this.state.transactionId, (err, data) => {
         if (err) {
           console.log("Error!", err);
@@ -309,89 +313,100 @@ class Exchange extends Component {
           </div>
 
           <div className="top-130">
-            <div className="settings-panel fadeInDown">
-              <div className="com-soon row fadeInDown">
-                <div className="col-xs-4 col-xs-offset-1">
-                  <div className="exch-logos">
-                    <BtcLogo width={40} />
+            {this.state.error === false ? (
+              <div className="settings-panel fadeInDown">
+                <div className="com-soon row fadeInDown">
+                  <div className="col-xs-4 col-xs-offset-1">
+                    <div className="exch-logos">
+                      <BtcLogo width={40} />
+                    </div>
+                    <h4 className="top-20">Deposit BTC</h4>
                   </div>
-                  <h4 className="top-20">Deposit BTC</h4>
-                </div>
-                <div className="col-xs-2" />
-                <div className="col-xs-4">
-                  <div className="exch-logos">
-                    <NeoLogo width={32} />
+                  <div className="col-xs-2" />
+                  <div className="col-xs-4">
+                    <div className="exch-logos">
+                      <NeoLogo width={32} />
+                    </div>
+                    <h4 className="top-20">Receive NEO</h4>
                   </div>
-                  <h4 className="top-20">Receive NEO</h4>
-                </div>
-                <div className="col-xs-1" />
-                <div className="clearboth" />
-                <div className="col-xs-4 center col-xs-offset-1">
-                  <input
-                    className="form-control-exchange center"
-                    value={this.state.fromValue}
-                    onChange={this.handleChange}
-                    type="number"
-                    min={0}
-                  />
+                  <div className="col-xs-1" />
+                  <div className="clearboth" />
+                  <div className="col-xs-4 center col-xs-offset-1">
+                    <input
+                      className="form-control-exchange center"
+                      value={this.state.fromValue}
+                      onChange={this.handleChange}
+                      type="number"
+                      min={0}
+                    />
+                  </div>
+                  <div className="col-xs-2 center">
+                    <div className="exchange-glyph">
+                      <span className="glyphicon glyphicon-transfer" />
+                    </div>
+                  </div>
+
+                  <div className="col-xs-4 center">
+                    <input
+                      className="form-control-exchange center"
+                      value={Math.floor(this.state.toValue)}
+                      placeholder="0"
+                      disabled
+                    />
+                  </div>
                 </div>
 
-                <div className="col-xs-2 center">
-                  <div className="exchange-glyph">
-                    <span className="glyphicon glyphicon-transfer" />
+                <div className="row">
+                  <div className="col-xs-10 center col-xs-offset-1  top-20">
+                    <input
+                      className="form-control-exchange center"
+                      disabled
+                      placeholder={this.props.address}
+                    />
+                    <p className="sm-text">
+                      Once complete, NEO will be deposited to the address above
+                    </p>
                   </div>
                 </div>
+                <div className="row top-20">
+                  <div className="col-xs-3 col-xs-offset-1 ">
+                    <strong>
+                      Minimum Order:<br />
+                      {this.state.minAmount} BTC
+                    </strong>
+                    <br />
+                    <span className="sm-text">Transaction fees included.</span>
+                  </div>
+                  <div className="col-xs-4 center">
+                    <button
+                      onClick={() => {
+                        this.handleSubmit(
+                          this.props.dispatch,
+                          this.props.address
+                        );
+                      }}
+                      className="grey-button"
+                    >
+                      Continue
+                    </button>
+                  </div>
+                  <div className="col-xs-3">
+                    <p className="sm-text">Powered by:</p>
+                    <div className="changelly-logo" />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="settings-panel fadeInDown">
+                <div className="com-soon row fadeInDown">
+                  <h5>
+                    Sorry, our exchange partner Changelly currently does not
+                    have NEO available.
+                  </h5>
+                </div>
+              </div>
+            )}
 
-                <div className="col-xs-4 center">
-                  <input
-                    className="form-control-exchange center"
-                    value={Math.floor(this.state.toValue)}
-                    placeholder="0"
-                    disabled
-                  />
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col-xs-10 center col-xs-offset-1  top-20">
-                  <input
-                    className="form-control-exchange center"
-                    disabled
-                    placeholder={this.props.address}
-                  />
-                  <p className="sm-text">
-                    Once complete, NEO will be deposited to the address above
-                  </p>
-                </div>
-              </div>
-              <div className="row top-20">
-                <div className="col-xs-3 col-xs-offset-1 ">
-                  <strong>
-                    Minimum Order:<br />
-                    {this.state.minAmount} BTC
-                  </strong>
-                  <br />
-                  <span className="sm-text">Transaction fees included.</span>
-                </div>
-                <div className="col-xs-4 center">
-                  <button
-                    onClick={() => {
-                      this.handleSubmit(
-                        this.props.dispatch,
-                        this.props.address
-                      );
-                    }}
-                    className="grey-button"
-                  >
-                    Continue
-                  </button>
-                </div>
-                <div className="col-xs-3">
-                  <p className="sm-text">Powered by:</p>
-                  <div className="changelly-logo" />
-                </div>
-              </div>
-            </div>
             <p className="center send-notice top-10">
               All bitcoin transactions are subject to network fees.<br />
               Due to bitcoin network volume, transactions may take 30 mins or
