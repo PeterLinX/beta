@@ -2,6 +2,8 @@
 @import url("../../node_modules/bootstrap/dist/css/bootstrap.min.css");
 @import "./_morpheus.scss";
 
+@import url("https://fonts.googleapis.com/css?family=Lato");
+
 $main-background: #fff;
 $default-button: #4d933b;
 $default-button-hover: #7ed321;
@@ -39,7 +41,8 @@ body {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  font-family: Arial;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
   background-color: #000;
   color: #ffffff;
   margin: 0px;

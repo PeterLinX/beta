@@ -4,6 +4,7 @@ import SplitPane from "react-split-pane";
 import Modal from "react-modal";
 import spinner from "../img/spinner.png";
 
+// Modal Windows
 const styles = {
   overlay: {
     position: "fixed",
@@ -29,6 +30,7 @@ const styles = {
   }
 };
 
+// Modal Status
 const StatusMessage = ({ status, statusMessage }) => {
   let message = null;
   if (status === true) {

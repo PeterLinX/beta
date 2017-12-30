@@ -5,6 +5,8 @@ import { Link } from "react-router";
 import Power from "react-icons/lib/md/power-settings-new";
 import ReactTooltip from "react-tooltip";
 
+// Logout of address
+
 let Logout = ({ dispatch }) => (
   <div
     id="logout"
