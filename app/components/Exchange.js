@@ -9,7 +9,7 @@ import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { clipboard } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import ReactTooltip from "react-tooltip";
-import neoLogo from "../images/neo.png";
+import neoLogo from "../img/neo.png";
 import NeoLogo from "./Brand/Neo";
 import BtcLogo from "./Brand/Bitcoin";
 import TopBar from "./TopBar";
@@ -17,6 +17,7 @@ import { Link } from "react-router";
 import crypto from "crypto";
 import axios from "axios";
 import Changelly from "../modules/changelly";
+import { error } from "util";
 
 // force sync with balance data
 const refreshBalance = (dispatch, net, address) => {
@@ -46,7 +47,10 @@ class Exchange extends Component {
       minAmount: 0,
       payinAddress: null,
       transactionId: null,
-      status: null
+      status: null,
+      message: null,
+      statusMessage: null,
+      error: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -55,65 +59,53 @@ class Exchange extends Component {
   componentDidMount() {
     initiateGetBalance(this.props.dispatch, this.props.net, this.props.address);
 
-    changelly.getMinAmount("btc", "neo", (err, data) => {
+    changelly.getMinAmount(this.state.from, this.state.to, (err, data) => {
       if (err) {
         console.log("Error!", err);
       } else {
-        console.log("getMinAmount", data);
+        if (data.error.message === "invalid 'to' currency: 'neo'") {
+          this.setState({ error: true });
+        }
         this.setState({ minAmount: data.result });
       }
     });
   }
 
   async getStatus() {
-    this.props.dispatch(sendEvent(false, "initiating transaction"));
-    const myVar = setInterval(() => {
+    setInterval(() => {
       changelly.getStatus(this.state.transactionId, (err, data) => {
         if (err) {
           console.log("Error!", err);
         } else {
-          console.log("getStatus", data);
           this.setState({ status: data.result });
           if (data.result === "confirming") {
-            this.props.dispatch(
-              sendEvent(
-                false,
-                "Your transaction is in a mempool and waits to be confirmed. dont close window"
-              )
-            );
-          } else if (data.result === "exchanging") {
-            this.props.dispatch(
-              sendEvent(
-                false,
-                "Your payment is received and being exchanged via a Changelly partner. dont close window"
-              )
-            );
+            this.setState({
+              message:
+                "Your transaction is awaiting confirmation. Please don't quit Morpheus until payment status is received",
+              statusMessage: "Confirming"
+            });
           } else if (data.result === "waiting") {
-            this.props.dispatch(
-              sendEvent(false, "waiting dont close window or navigate away")
-            );
-          } else if (data.result === "finished") {
-            this.props.dispatch(
-              sendEvent(
-                false,
-                "NEO successfully sent to the recipient address."
-              )
-            );
-          } else if (data.result === "failed") {
-            this.props.dispatch(
-              sendEvent(
-                false,
-                "Money is successfully sent to the recipient address."
-              )
-            );
+            this.setState({
+              message:
+                "Please do not close window until you receive a confirmation notification. Please copy your transaction ID below for support.",
+              statusMessage: "Waiting for Bitcoin Deposit"
+            });
           } else if (data.result === "refunded") {
-            this.props.dispatch(
-              sendEvent(false, "Exchange was failed and coins were refunded")
-            );
+            this.setState({
+              message: "Exchange failed and Bitcoin refunded.",
+              statusMessage: "Refunded"
+            });
           } else if (data.result === "sending") {
-            this.props.dispatch(
-              sendEvent(false, "Money is sending to the recipient address.")
-            );
+            this.setState({
+              message: "NEO is being sent to your address in Morpheus.",
+              statusMessage: "Success. Sending NEO"
+            });
+          } else if (data.result === "exchanging") {
+            this.setState({
+              message:
+                "Your payment was received and is being exchanged via our exchange partner Changelly.",
+              statusMessage: "Exchanging"
+            });
           }
         }
       });
@@ -121,18 +113,17 @@ class Exchange extends Component {
   }
 
   async handleSubmit(dispatch, address) {
-    dispatch(sendEvent(false, "doing stuff"));
+    dispatch(sendEvent(false, "Contacting our exchange partner"));
     await changelly.createTransaction(
-      "btc",
-      "neo",
-      address,
+      this.state.from,
+      this.state.to,
+      this.props.address,
       this.state.fromValue,
       undefined,
       (err, data) => {
         if (err) {
           console.log("Error!", err);
         } else {
-          console.log("createTransaction", data);
           this.setState({
             payinAddress: data.result.payinAddress,
             transactionId: data.result.id
@@ -147,13 +138,14 @@ class Exchange extends Component {
     const { fromValue } = this.state;
     this.setState({ fromValue: event.target.value }, () => {
       changelly.getExchangeAmount(
-        "btc",
-        "neo",
+        this.state.from,
+        this.state.to,
         this.state.fromValue,
         (err, data) => {
           if (err) {
             console.log("Error!", err);
           } else {
+            console.log(data);
             this.setState({ toValue: data.result });
           }
         }
@@ -162,11 +154,11 @@ class Exchange extends Component {
   }
 
   render = () => {
-    if (this.state.payinAddress != null) {
+    if (this.state.status !== null) {
       return (
         <div>
           <TopBar />
-          <div className="progress-bar2 fadeInLeft-ex" />
+          <div className="progress-bar3 fadeInLeft-ex" />
           <div className="row prog-info top-20">
             <div className="col-xs-2 col-xs-offset-1 sm-text center">
               Enter Amount to Deposit
@@ -183,8 +175,62 @@ class Exchange extends Component {
             </div>
           </div>
 
-          <div className="top-130">
+          <div className="top-100" id="exchange-messages">
             <div className="settings-panel fadeInDown">
+              <div className="com-soon row fadeInDown">
+                <div className="col-md-12">
+                  <h1>{this.state.statusMessage}</h1>
+                  <p>{this.state.message}</p>
+                  <p
+                    className="trasactionId"
+                    data-tip
+                    data-for="copyTransactionIdTip"
+                    onClick={() =>
+                      clipboard.writeText(this.state.transactionId)
+                    }
+                  >
+                    Transaction ID: {this.state.transactionId}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <ReactTooltip
+              className="solidTip"
+              id="copyTransactionIdTip"
+              place="bottom"
+              type="dark"
+              effect="solid"
+            >
+              <span>Copy Tranaction ID</span>
+            </ReactTooltip>
+          </div>
+        </div>
+      );
+    }
+    if (this.state.payinAddress != null) {
+      return (
+        <div>
+          <TopBar />
+          <div className="progress-bar2 fadeInLeft-ex" />
+          <div className="row prog-info top-20">
+            <div className="col-xs-2 col-xs-offset-1 sm-text center">
+              Enter Amount to Deposit
+            </div>
+            <div className="col-xs-2 sm-text center">Placing Your Order</div>
+            <div className="col-xs-2 sm-text center">
+              Generating Bitcoin Address
+            </div>
+            <div className="col-xs-2 sm-text center grey-out">
+              Processing Your Order
+            </div>
+            <div className="col-xs-2 sm-text center grey-out">
+              Transaction Complete!
+            </div>
+          </div>
+
+          <div className="top-100" id="payIn">
+            <div className="dash-panel fadeInDown">
               <div className="com-soon row fadeInDown">
                 <div className="col-xs-4">
                   <div className="exchange-qr center animated fadeInDown">
@@ -201,14 +247,17 @@ class Exchange extends Component {
                   </h4>
                   <input
                     className="form-control-exchange center top-10"
-                    disabled
+                    readOnly
+                    data-tip
+                    data-for="copypayInAddressTip"
+                    onClick={() => clipboard.writeText(this.state.payinAddress)}
                     placeholder={this.state.payinAddress}
                   />
                   <p className="sm-text">
                     Only deposit Bitcoin (BTC) to the address above to receive
                     NEO.
                   </p>
-                  <div className="row top-20">
+                  <div className="row top-10">
                     <div className="col-xs-8 center">
                       <button
                         onClick={() => {
@@ -224,6 +273,16 @@ class Exchange extends Component {
                       <div className="changelly-logo" />
                     </div>
                   </div>
+
+                  <ReactTooltip
+                    className="solidTip"
+                    id="copypayInAddressTip"
+                    place="bottom"
+                    type="dark"
+                    effect="solid"
+                  >
+                    <span>Copy Deposit Address</span>
+                  </ReactTooltip>
                 </div>
               </div>
             </div>
@@ -243,7 +302,7 @@ class Exchange extends Component {
               Placing Your Order
             </div>
             <div className="col-xs-2 sm-text center grey-out">
-              Generating Bitcoin Address for Deposit
+              Generating Bitcoin Address
             </div>
             <div className="col-xs-2 sm-text center grey-out">
               Processing Your Order
@@ -254,86 +313,105 @@ class Exchange extends Component {
           </div>
 
           <div className="top-130">
-            <div className="settings-panel fadeInDown">
-              <div className="com-soon row fadeInDown">
-                <div className="col-xs-4 col-xs-offset-1">
-                  <div className="exch-logos">
-                    <BtcLogo width={40} />
+            {this.state.error === false ? (
+              <div className="settings-panel fadeInDown">
+                <div className="com-soon row fadeInDown">
+                  <div className="col-xs-4 col-xs-offset-1">
+                    <div className="exch-logos">
+                      <BtcLogo width={40} />
+                    </div>
+                    <h4 className="top-20">Deposit BTC</h4>
                   </div>
-                  <h4 className="top-20">Deposit BTC</h4>
-                </div>
-
-                <div className="col-xs-4  col-xs-offset-2">
-                  <div className="exch-logos">
-                    <NeoLogo width={40} />
+                  <div className="col-xs-2" />
+                  <div className="col-xs-4">
+                    <div className="exch-logos">
+                      <NeoLogo width={32} />
+                    </div>
+                    <h4 className="top-20">Receive NEO</h4>
                   </div>
-                  <h4 className="top-20">NEO Received</h4>
-                </div>
+                  <div className="col-xs-1" />
+                  <div className="clearboth" />
+                  <div className="col-xs-4 center col-xs-offset-1">
+                    <input
+                      className="form-control-exchange center"
+                      value={this.state.fromValue}
+                      onChange={this.handleChange}
+                      type="number"
+                      min={0}
+                    />
+                  </div>
+                  <div className="col-xs-2 center">
+                    <div className="exchange-glyph">
+                      <span className="glyphicon glyphicon-transfer" />
+                    </div>
+                  </div>
 
-                <div className="col-xs-4 center col-xs-offset-1">
-                  <input
-                    className="form-control-exchange center"
-                    value={this.state.fromValue}
-                    onChange={this.handleChange}
-                    type="number"
-                    min={0}
-                  />
-                </div>
-
-                <div className="col-xs-2 center">
-                  <div className="exchange-glyph">
-                    <span className="glyphicon glyphicon-refresh" />
+                  <div className="col-xs-4 center">
+                    <input
+                      className="form-control-exchange center"
+                      value={Math.floor(this.state.toValue)}
+                      placeholder="0"
+                      disabled
+                    />
                   </div>
                 </div>
 
-                <div className="col-xs-4 center">
-                  <input
-                    className="form-control-exchange center"
-                    value={Math.floor(this.state.toValue)}
-                    placeholder="0"
-                    disabled
-                  />
+                <div className="row">
+                  <div className="col-xs-10 center col-xs-offset-1  top-20">
+                    <input
+                      className="form-control-exchange center"
+                      disabled
+                      placeholder={this.props.address}
+                    />
+                    <p className="sm-text">
+                      Once complete, NEO will be deposited to the address above
+                    </p>
+                  </div>
+                </div>
+                <div className="row top-20">
+                  <div className="col-xs-3 col-xs-offset-1 ">
+                    <strong>
+                      Minimum Order:<br />
+                      {this.state.minAmount} BTC
+                    </strong>
+                    <br />
+                    <span className="sm-text">Transaction fees included.</span>
+                  </div>
+                  <div className="col-xs-4 center">
+                    <button
+                      onClick={() => {
+                        this.handleSubmit(
+                          this.props.dispatch,
+                          this.props.address
+                        );
+                      }}
+                      className="grey-button"
+                    >
+                      Continue
+                    </button>
+                  </div>
+                  <div className="col-xs-3">
+                    <p className="sm-text">Powered by:</p>
+                    <div className="changelly-logo" />
+                  </div>
                 </div>
               </div>
+            ) : (
+              <div className="settings-panel fadeInDown">
+                <div className="com-soon row fadeInDown">
+                  <h5>
+                    Sorry, our exchange partner Changelly currently does not
+                    have NEO available.
+                  </h5>
+                </div>
+              </div>
+            )}
 
-              <div className="row">
-                <div className="col-xs-10 center col-xs-offset-1  top-20">
-                  <input
-                    className="form-control-exchange center"
-                    disabled
-                    placeholder={this.props.address}
-                  />
-                  <p className="sm-text">
-                    Once complete, NEO will be deposited to the address above
-                  </p>
-                </div>
-              </div>
-              <div className="row top-20">
-                <div className="col-xs-3 col-xs-offset-1 sm-text">
-                  Min Val = {this.state.minAmount} BTC <br />
-                  1 BTC = NaN NEO<br />
-                  1 NEO = $NaN USD<br />
-                  Subject to trasnsaction fees
-                </div>
-                <div className="col-xs-4 center">
-                  <button
-                    onClick={() => {
-                      this.handleSubmit(
-                        this.props.dispatch,
-                        this.props.address
-                      );
-                    }}
-                    className="grey-button"
-                  >
-                    Continue
-                  </button>
-                </div>
-                <div className="col-xs-3">
-                  <p className="sm-text">Powered by:</p>
-                  <div className="changelly-logo" />
-                </div>
-              </div>
-            </div>
+            <p className="center send-notice top-10">
+              All bitcoin transactions are subject to network fees.<br />
+              Due to bitcoin network volume, transactions may take 30 mins or
+              more.
+            </p>
           </div>
         </div>
       );

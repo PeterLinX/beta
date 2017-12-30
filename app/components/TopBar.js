@@ -29,29 +29,30 @@ class TopBar extends Component {
       <div id="send">
         <div className="row">
           <div className="header">
-            <div className="col-xs-4">
-              <p className="neo-balance">Available Neo</p>
+            <div className="col-xs-5">
               <p className="neo-text">
                 {numeral(this.props.neo).format("0,0")} <span>NEO</span>
               </p>
+              <hr className="dash-hr" />
               <p className="neo-balance">
-                {numeral(this.props.price).format("$0,0.00")}
+                {numeral(this.props.price).format("$0,0.00")} USD
               </p>
             </div>
-            <div className="col-xs-4">{<Claim />}</div>
-            <div className="col-xs-4">
-              <p className="neo-balance">Available GAS</p>
+            <div className="col-xs-2">{<Claim />}</div>
+            <div className="col-xs-5 top-5">
               <p className="gas-text">
-                {numeral(Math.floor(this.props.gas * 100000) / 100000).format(
-                  "0,0.0000"
-                )}{" "}
+                {numeral(
+                  Math.floor(this.props.gas * 10000000) / 10000000
+                ).format("0,0.000000")}{" "}
                 <span>GAS</span>
               </p>
+              <hr className="dash-hr" />
               <p className="neo-balance">
                 {" "}
                 {numeral(Math.round(this.props.gasPrice * 100) / 100).format(
                   "$0,0.00"
-                )}
+                )}{" "}
+                USD
               </p>
             </div>
           </div>

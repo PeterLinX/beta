@@ -135,10 +135,11 @@ body {
   height: 100%;
   padding: 0;
   margin: 0;
-  font-family: Arial;
+  font-family: "Lato", sans-serif;
+
+  font-weight: 400;
   font-size: 13px;
   line-height: 1.6;
-  font-weight: 200;
   color: #646464;
   background-color: transparent;
   overflow-y: hidden;
@@ -172,6 +173,7 @@ h1 {
 
 h2 {
   font-size: 30px;
+  font-weight: 600;
 }
 
 h3 {
@@ -2969,19 +2971,19 @@ a {
 }
 
 #balance {
-  width: 80%;
+  width: 100%;
   margin: 0px auto;
   color: white;
-  background-color: rgba(0, 0, 0, 0.5);
   font-weight: 200;
   text-align: center;
-  border-radius: 9px;
-  margin-top: 20px;
-  padding: 0px 10px 10px;
-  border: thin solid rgba(51, 51, 51, 0.5);
-  font-size: 19px;
+  border-radius: 12px;
+  margin-top: 128px;
+  padding: 0px 0px 10px 0px;
+  font-size: 18px;
 }
-.comb-value {font-size: 18px;}
+.comb-value {
+  font-size: 18px;
+}
 
 .gas-gauge {
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+20,000000+80&0.01+0,0.2+21,0.2+80,0+100 */
@@ -3094,10 +3096,6 @@ a {
   justify-content: center;
 }
 
-::-webkit-scrollbar {
-  display: none;
-}
-
 ::-webkit-input-placeholder {
   text-align: center;
 }
@@ -3142,7 +3140,7 @@ a {
   float: none;
 }
 .main-nav .navbar-collapse {
-  padding: 20px 0;
+  padding: 10px 0;
 }
 .main-nav .navbar ul {
   float: none;
@@ -3165,23 +3163,26 @@ a {
 
 #checkbox {
   width: 16px !important;
-      margin-top: 0px;
-      height: 16px;
-      margin: 4px 0px 0px 12px;
+  margin-top: 0px;
+  height: 16px;
+  margin: 4px 0px 0px 12px;
 }
 
-.checkbox-inline, .radio-inline {
-    position: relative;
-    display: inline-block;
-    padding-left: 20px;
-    margin-bottom: 0;
-    font-weight: 200;
-    vertical-align: middle;
-    font-size: 16px;
-    cursor: pointer;
+.checkbox-inline,
+.radio-inline {
+  position: relative;
+  display: inline-block;
+  padding-left: 20px;
+  margin-bottom: 0;
+  font-weight: 200;
+  vertical-align: middle;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-.center {text-align: center;}
+.center {
+  text-align: center;
+}
 
 // .styled-select {
 //   background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
