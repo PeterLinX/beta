@@ -152,10 +152,8 @@ class LoginLocalStorage extends Component {
                 </div>
 
                 <div className="col-xs-10 col-xs-offset-1 center top-40 grey-out">
-                  Please enter the password associated with your saved address.
-                  If you have lost your password, you may login with your
-                  private key or encrypted key and password. Your password is
-                  never shared online.
+                  Please enter your password for your saved address.
+                  You may login with your private key or encrypted key and password created with NEON. Your password is never shared online.
                 </div>
               </div>
             </div>
@@ -177,12 +175,12 @@ class LoginLocalStorage extends Component {
               Create a NEO Address
             </div>
           </Link>
-          <Link to="/">
+          <Link to="/LoginPrivateKey">
             <div className="dash-icon-bar">
               <div className="icon-border">
                 <span className="glyphicon glyphicon-qrcode" />
               </div>
-              Login Via Private Key
+              Login Using Private Key
             </div>
           </Link>
           <Link to="/LoginNep2">
@@ -190,18 +188,10 @@ class LoginLocalStorage extends Component {
               <div className="icon-border">
                 <span className="glyphicon glyphicon-lock" />
               </div>
-              Login Via Encrypted Key
+              Login Using Encrypted Key
             </div>
           </Link>
-          <div
-            className="dash-icon-bar"
-            onClick={() => loadKeyRecovery(this.props.dispatch)}
-          >
-            <div className="icon-border">
-              <span className="glyphicon glyphicon-paperclip" />
-            </div>
-            Login Via Recovery File
-          </div>
+
         </div>
       </div>
     );

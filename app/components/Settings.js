@@ -131,20 +131,64 @@ class Settings extends Component {
   render = () => (
     <div id="send">
       <TopBar />
-      <div className="settings-panel top-50 fadeInDown">
+      <div className="dash-panel fadeInDown">
         <div className="description">
           <div className="row">
             <h2 className="center">General Settings</h2>
-            <div className="col-xs-10 center col-xs-offset-1">
-              <hr className="" />
+            <div className="col-xs-12 center">
+              <hr className="dash-hr-wide" />
             </div>
             <div className="clearboth" />
-            <div className="row">
-              <div className="col-xs-2 center col-xs-offset-1">
+            <div className="row top-30 settings-padding">
+              <div className="col-xs-2 center">
                 <NetworkSwitch />
               </div>
+
+              <div className="col-xs-2 center">
+                <Link to="/">
+                  <div className="dash-icon-bar">
+                    <div className="icon-border">
+                      <span className="glyphicon glyphicon-user" />
+                    </div>
+                    Open Saved Address
+                  </div>
+                </Link>
+              </div>
+
+              <div className="col-xs-2 center">
+                <Link to="/tokens">
+                  <div className="dash-icon-bar">
+                    <div className="icon-border">
+                      <span className="glyphicon glyphicon-plus-sign" />
+                    </div>Asset Manager
+                  </div>
+                </Link>
+              </div>
+
+              <div className="col-xs-2 center">
+                <Link to="/support">
+                  <div className="dash-icon-bar">
+                    <div className="icon-border">
+                      <span className="glyphicon glyphicon-info-sign" />
+                    </div>
+                    Support & FAQs
+                  </div>
+                </Link>
+              </div>
+
+              <div className="col-xs-2 center com-soon">
+                <div className="dash-icon-bar">
+                  <div className="icon-border">
+                    <span className="glyphicon glyphicon-transfer" />
+                  </div>
+                  Morpheus Exchange
+                </div>
+              </div>
+            </div>
+
+            <div className="row top-20 settings-padding">
               <div
-                className="col-xs-2 center "
+                className="col-xs-2 center"
                 onClick={() => dispatch(logout())}
               >
                 <Link to="/create">
@@ -158,34 +202,6 @@ class Settings extends Component {
               </div>
 
               <div className="col-xs-2 center">
-                <Link to="/LoginLocalStorage">
-                  <div className="dash-icon-bar">
-                    <div className="icon-border">
-                      <span className="glyphicon glyphicon-user" />
-                    </div>
-                    Open a Saved Address
-                  </div>
-                </Link>
-              </div>
-              <div className="col-xs-2 center">
-                <div className="dash-icon-bar com-soon">
-                  <div className="icon-border">
-                    <span className="glyphicon glyphicon-phone" />
-                  </div>
-                  Enable Two Factor Authorization
-                </div>
-              </div>
-              <div className="col-xs-2 center">
-                <div className="dash-icon-bar com-soon">
-                  <div className="icon-border">
-                    <span className="glyphicon glyphicon-check" />
-                  </div>
-                  Edit Authorized Addresses
-                </div>
-              </div>
-            </div>
-            <div className="row top-20">
-              <div className="col-xs-2 center col-xs-offset-1 ">
                 <Link to="/encryptKey">
                   <div className="dash-icon-bar">
                     <div className="icon-border">
@@ -203,7 +219,7 @@ class Settings extends Component {
                   <div className="icon-border">
                     <span className="glyphicon glyphicon-save" />
                   </div>
-                  Export My Encrypted Keys
+                  Export Encrypted Keys
                 </div>
               </div>
               <div className="col-xs-2 center">
@@ -216,7 +232,7 @@ class Settings extends Component {
                   <div className="icon-border">
                     <span className="glyphicon glyphicon-link" />
                   </div>
-                  View Address on NeoTracker
+                  View on NeoTracker
                 </div>
               </div>
               <div className="col-xs-2 center">

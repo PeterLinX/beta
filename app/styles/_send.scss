@@ -17,7 +17,7 @@
 .header {
   background-color: rgba(12, 12, 14, 0.85);
   border: 1px solid #272727;
-  border-radius: 13px;
+  border-radius: 20px;
   height: 105px;
   margin-top: 2%;
   padding: 10px;
@@ -25,7 +25,7 @@
   margin-left: 2%;
   -moz-box-shadow: inset 0 0 12px #000000;
   -webkit-box-shadow: inset 0 0 12px #000000;
-  box-shadow: inset 0 0 12px #000000;
+  box-shadow: inset 0px 0px 12px #000000;
 }
 .neo-text {
   font-size: 36px;
@@ -35,10 +35,24 @@
   line-height: 1.2em;
   span {
     color: #7ed321;
+    font-weight: 900;
+    font-size: 0.6em;
+    line-height: 0.6em;
   }
 }
-.gas-text {
+.neo-text-ledger {
   font-size: 26px;
+  font-weight: 200;
+  text-align: center;
+  margin: 0px 0px 0px 0px;
+  line-height: 1.2em;
+  span {
+    color: #7ed321;
+  }
+}
+
+.gas-text {
+  font-size: 24px;
   font-weight: 200;
   text-align: center;
   margin: 0px;
@@ -46,6 +60,19 @@
     color: #9013fe;
   }
 }
+
+.gas-text-ledger {
+  font-size: 18px;
+  font-weight: 200;
+  text-align: center;
+  margin: 2px;
+  span {
+    color: #9013fe;
+    font-weight: 900;
+    font-size: 0.8em;
+  }
+}
+
 .neo-balance {
   color: #9b9b9b;
   font-size: 13px;
@@ -53,7 +80,7 @@
   margin: 0;
   margin-left: 0;
   text-align: center;
-  max-width: 200px;
+  width: 100%;
 }
 
 .neo-logo {
@@ -81,6 +108,19 @@
   box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
 }
 
+.dash-panel {
+  margin: 30px 0 0 0;
+  width: 720px;
+  padding: 30px 30px 30px 30px;
+  border: 3px solid #1d1b1d;
+  background: rgba(12, 12, 14, 0.85);
+  border-radius: 20px;
+  box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
+  -moz-box-shadow: inset 0 0 12px #000000;
+  -webkit-box-shadow: inset 0 0 12px #000000;
+  box-shadow: inset 0px 0px 12px #000000;
+}
+
 .send-neo-wide {
   margin: 30px auto 10px;
   width: 900px;
@@ -99,7 +139,7 @@
   padding: 8px 25px;
   font-size: 18px;
   background-color: rgba(0, 0, 0, 0.62);
-  border: 3px solid #252525;
+  border: 1px solid rgba(126, 211, 33, 0.6);
   border-radius: 9px;
   outline: none;
 }
@@ -112,7 +152,7 @@
   padding: 8px 25px;
   font-size: 18px;
   background-color: rgba(0, 0, 0, 0.62);
-  border: 3px solid #9013fe;
+  border: 1px solid rgba(144, 19, 254, 0.6);
   border-radius: 9px;
   outline: none;
 }
@@ -136,14 +176,22 @@ h2 {
 
 .send-notice {
   margin-top: 30px;
-  color: #3c3c3c;
+  color: #646464;
   text-align: center;
 }
 
 .amount-dollar {
   position: absolute;
   left: 28px;
-  top: 16px;
+  top: 14px;
+  font-size: 18px;
+  z-index: 99;
+}
+
+.amount-dollar-ledger {
+  position: absolute;
+  left: 28px;
+  top: 36px;
   font-size: 18px;
   z-index: 99;
 }
@@ -178,9 +226,8 @@ h2 {
   list-style-type: none;
   height: 300px;
   width: 100%;
-  overflow: scroll;
   -webkit-padding-start: 0px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 ul {
@@ -213,17 +260,16 @@ webview {
 
 #foo {
   width: 100%;
-  height: 700px;
+  height: 718px;
 }
 
 ::-webkit-scrollbar {
-  background-color: #fff;
-  width: 0.8em;
+  width: 0.4em;
 }
 
 ::-webkit-scrollbar-thumb:window-inactive,
 ::-webkit-scrollbar-thumb {
-  background: black;
+  background: #2c2c2c;
 }
 
 .loading-exchange {
@@ -280,10 +326,13 @@ webview {
   margin: 10px 0px 0px 0px;
   display: block;
   text-align: center;
+  position: fixed;
+  top: 292px;
+  left: 321px;
 }
 
 #neo-price li {
-  width: 32%;
+  width: 26%;
   float: left;
   padding: 4px;
   background: #212121;
@@ -313,10 +362,8 @@ webview {
   max-width: 800px;
 }
 
-.com-soon,
-.com-soon:hover {
-  opacity: 0.1;
-  cursor: default;
+.com-soon {
+  opacity: 0.5;
 }
 
 .exchange-glyph {
@@ -324,6 +371,10 @@ webview {
   font-size: 36px;
   text-align: center;
   color: #333;
+}
+
+.glyphicon-trash {
+  margin-left: -2px;
 }
 
 .up-65 {
@@ -349,6 +400,22 @@ webview {
   width: 500px;
   height: 17px;
   position: absolute;
+  top: 23%;
+  left: 35%;
+  border: none;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -o-box-shadow: none;
+  -webkit-box-shadow: none;
+  -webkit-transition: width 1s; /* For Safari 3.1 to 6.0 */
+  transition: width 1s;
+}
+
+.progress-bar2 {
+  background: url("../img/progress-bar2.png") no-repeat center;
+  width: 500px;
+  height: 17px;
+  position: absolute;
   top: 25%;
   left: 35%;
   border: none;
@@ -362,6 +429,38 @@ webview {
 
 .progress-bar2 {
   background: url("../img/progress-bar2.png") no-repeat center;
+  width: 500px;
+  height: 17px;
+  position: absolute;
+  top: 25%;
+  left: 35%;
+  border: none;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -o-box-shadow: none;
+  -webkit-box-shadow: none;
+  -webkit-transition: width 1s; /* For Safari 3.1 to 6.0 */
+  transition: width 1s;
+}
+
+.progress-bar3 {
+  background: url("../img/progress-bar3.png") no-repeat center;
+  width: 500px;
+  height: 17px;
+  position: absolute;
+  top: 25%;
+  left: 35%;
+  border: none;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -o-box-shadow: none;
+  -webkit-box-shadow: none;
+  -webkit-transition: width 1s; /* For Safari 3.1 to 6.0 */
+  transition: width 1s;
+}
+
+.progress-bar4 {
+  background: url("../img/progress-bar4.png") no-repeat center;
   width: 500px;
   height: 17px;
   position: absolute;
@@ -393,7 +492,7 @@ webview {
 .prog-info {
   position: absolute;
   left: 26%;
-  top: 26%;
+  top: 24%;
   max-width: 715px;
 }
 
@@ -403,17 +502,27 @@ webview {
 
 .exch-logos {
   float: left;
-  margin-right: 15px;
-  margin-top: 7px;
-  padding-bottom: 10px;
+  margin: 10px 15px 10px 10px;
 }
 
 .top-130 {
   margin-top: 130px;
 }
 
+.top-100 {
+  margin-top: 100px;
+}
+
+.top-5 {
+  margin-top: 5px;
+}
+
 .top-10 {
   margin-top: 10px;
+}
+
+.top-55 {
+  margin-top: 55px;
 }
 
 .fadeInDown {
@@ -487,4 +596,293 @@ webview {
   padding: 20px 0px 12px;
   width: 210px;
   margin: 0px auto;
+}
+
+.ledger-nanos {
+  background: url("../img/ledger_nano_s.png") no-repeat center;
+  width: 380px;
+  height: 69px;
+  margin: 40px auto 20px;
+}
+
+.glyphicon-signal {
+  margin-left: -6px;
+}
+
+#tradingview {
+  height: 720px;
+  width: 840px;
+  -webkit-app-region: no-drag;
+  position: absolute;
+  top: 0px;
+  left: 185px;
+}
+
+.trade-button {
+  margin: 0px;
+  float: right;
+  padding: 4px 12px;
+  background: #252525;
+  color: #fff;
+  font-size: 14px;
+  text-align: center;
+  font-weight: bold;
+  max-width: 230px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: thin solid #3a3a3a;
+}
+
+.trade-button:hover {
+  background: rgb(36, 180, 245);
+  /* Old browsers */
+  background: -moz-linear-gradient(
+    top,
+    rgba(36, 180, 245, 1) 0%,
+    rgba(0, 32, 228, 1) 92%
+  );
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(
+    top,
+    rgba(36, 180, 245, 1) 0%,
+    rgba(0, 32, 228, 1) 92%
+  );
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(
+    to bottom,
+    rgba(36, 180, 245, 1) 0%,
+    rgba(0, 32, 228, 1) 92%
+  );
+}
+
+.ledger-logo {
+  float: left;
+  width: 36px;
+  margin: 7px 20px 0px 15px;
+}
+
+.ledgerQRBox {
+  border: 10px solid #d3d3d3;
+  background-color: white;
+  border-radius: 20px;
+  padding: 15px;
+  width: 95%;
+  margin: 0px auto;
+}
+
+.ledger-address {
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  min-height: 25px;
+  padding: 8px 25px;
+  font-size: 17px;
+  background-color: rgba(0, 0, 0, 0.62);
+  border: 3px solid #252525;
+  border-radius: 9px;
+  outline: none;
+}
+
+.marg-right-5 {
+  margin-right: 5px;
+}
+
+.font-16 {
+  font-size: 16px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.support {
+  font-size: 16px;
+  clear: both;
+  display: block;
+  height: 200px;
+  color: #999;
+  overflow-y: auto;
+}
+
+.support-hov {
+  opacity: 0.5;
+  color: #555;
+}
+
+.support-hov:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+#refreshTip {
+  -webkit-animation: jump 1.5s ease 1s 1 normal;
+  animation: jump 1.5s ease 1s 1 normal;
+}
+
+.support-qs {
+  cursor: pointer;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.support-qs:hover {
+  color: #7fd422;
+}
+
+.dashnetwork {
+  color: #555;
+  position: fixed;
+  bottom: 24px;
+  left: 35px;
+}
+
+.donations {
+  position: fixed;
+  bottom: 5px;
+  right: 25%;
+  cursor: pointer;
+}
+
+.donations:hover {
+  color: #555;
+}
+.left-25 {
+  margin-left: 25px;
+}
+.left-45 {
+  margin-left: 45px;
+}
+.font-16 {
+  font-size: 16px;
+}
+.tokens {
+  opacity: 0.9;
+  cursor: pointer;
+}
+.tokens:hover {
+  opacity: 1;
+}
+
+.add-token {
+  font-size: 12px;
+  text-align: center;
+  opacity: 0.8;
+}
+
+.social-bar {
+  clear: both;
+  display: block;
+  float: none;
+  list-style-type: none;
+  font-size: 14px;
+  margin: 20px 0;
+  width: 100%;
+  padding: 0px;
+}
+
+.social-bar li {
+  float: left;
+  width: 25%;
+  text-align: left;
+  opacity: 0.4;
+  padding: 0px;
+  margin: 0px;
+}
+
+.social-bar li:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.token-soon {
+  opacity: 0.3;
+}
+.container-fluid {
+  overflow-x: hidden;
+}
+
+.dash-balance {
+  display: block;
+  color: #999;
+}
+.dash-price {
+  color: #777;
+  font-size: 1.1em;
+}
+
+.dash-portfolio h4 {
+  font-size: 16px;
+}
+
+.dash-hr {
+  margin: 5px auto 5px;
+  border-bottom: 1px solid rgba(34, 34, 34, 0.79);
+  border-top: 2px solid rgba(0, 0, 0, 0.6);
+  width: 80%;
+}
+
+.dash-hr-wide {
+  margin: 5px auto 5px;
+  border-bottom: 1px solid rgba(34, 34, 34, 0.79);
+  border-top: 2px solid rgba(0, 0, 0, 0.6);
+  width: 98%;
+}
+
+#ledger-copy-icon {
+  font-size: 14px;
+  margin-right: 5px;
+  margin-bottom: 2px;
+  padding: 8px;
+  border-radius: 99px;
+  border: thin solid #fff;
+  opacity: 0.5;
+}
+
+#ledger-copy-icon:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.col-5 {
+  width: 19%;
+  float: left;
+  margin: 0px;
+  padding: 0px 8px;
+}
+
+.token-icon-border {
+  height: 40px;
+  width: 40px;
+  border-radius: 99px;
+  text-align: center;
+  margin: 10px auto;
+  padding: 2px;
+  border: 2px solid #fff;
+  color: #fff;
+  font-size: 22px;
+  background: rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+}
+
+.comb-bal {
+  display: block;
+  font-size: 11px;
+  color: #646464;
+}
+
+.bal-usd {
+  margin-left: 5px;
+  color: #646464;
+  font-size: 0.7em;
+  font-weight: 900;
+}
+
+.settings-padding {
+  width: 98%;
+  margin: 20px auto 0;
+}
+
+.block {
+  display: block;
+  clear: both;
 }
