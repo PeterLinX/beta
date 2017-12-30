@@ -62,7 +62,6 @@ const initiateGetBalance = (dispatch, net, address) => {
           } else {
             let gasPrice = await getGasPrice(resultBalance.Gas);
             let combinedPrice = gasPrice + resultPrice;
-            console.log(combinedPrice, gasPrice, resultPrice);
             dispatch(
               setBalance(
                 resultBalance.Neo,
