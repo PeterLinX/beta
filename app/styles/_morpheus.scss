@@ -135,7 +135,8 @@ body {
   height: 100%;
   padding: 0;
   margin: 0;
-  font-family: "Lato";
+  font-family: "Lato", sans-serif;
+
   font-weight: 400;
   font-size: 13px;
   line-height: 1.6;
@@ -2971,16 +2972,18 @@ a {
 
 #balance {
   width: 100%;
-      margin: 0px auto;
-      color: white;
-      font-weight: 200;
-      text-align: center;
-      border-radius: 12px;
-      margin-top: 128px;
-      padding: 0px 0px 10px 0px;
-      font-size: 18px;
+  margin: 0px auto;
+  color: white;
+  font-weight: 200;
+  text-align: center;
+  border-radius: 12px;
+  margin-top: 128px;
+  padding: 0px 0px 10px 0px;
+  font-size: 18px;
 }
-.comb-value {font-size: 18px;}
+.comb-value {
+  font-size: 18px;
+}
 
 .gas-gauge {
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+20,000000+80&0.01+0,0.2+21,0.2+80,0+100 */
@@ -3160,23 +3163,26 @@ a {
 
 #checkbox {
   width: 16px !important;
-      margin-top: 0px;
-      height: 16px;
-      margin: 4px 0px 0px 12px;
+  margin-top: 0px;
+  height: 16px;
+  margin: 4px 0px 0px 12px;
 }
 
-.checkbox-inline, .radio-inline {
-    position: relative;
-    display: inline-block;
-    padding-left: 20px;
-    margin-bottom: 0;
-    font-weight: 200;
-    vertical-align: middle;
-    font-size: 16px;
-    cursor: pointer;
+.checkbox-inline,
+.radio-inline {
+  position: relative;
+  display: inline-block;
+  padding-left: 20px;
+  margin-bottom: 0;
+  font-weight: 200;
+  vertical-align: middle;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-.center {text-align: center;}
+.center {
+  text-align: center;
+}
 
 // .styled-select {
 //   background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
