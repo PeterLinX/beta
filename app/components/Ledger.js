@@ -18,7 +18,7 @@ import {
   clearTransactionEvent,
   toggleAsset
 } from "../modules/transactions";
-import commNode from "../ledger/ledger-comm-node";
+import commNode from "../modules/ledger/ledger-comm-node";
 
 const BIP44_PATH =
   "8000002C" + "80000378" + "80000000" + "00000000" + "00000000";
@@ -131,7 +131,7 @@ class Ledger extends Component {
       gas_usd: 0,
       value: 0,
       inputEnabled: true,
-      ledgerAddress: "Loading Address"
+      ledgerAddress: "No Address Found"
     };
     this.handleChangeNeo = this.handleChangeNeo.bind(this);
     this.handleChangeGas = this.handleChangeGas.bind(this);
@@ -145,21 +145,49 @@ class Ledger extends Component {
     gas = gas.data.USD;
     this.setState({ neo: neo, gas: gas });
 
-    let result = await commNode.list_async();
+    let address = await this.getLedgerAddress();
+  }
 
-    let message = Buffer.from(`8004000000${BIP44_PATH}`, "hex");
-    let comm = await commNode.create_async();
+  async getLedgerAddress() {
+    try {
+      let result = await commNode.list_async();
 
-    const validStatus = [0x9000];
-    let response = await comm.exchange(message.toString("hex"), validStatus);
+      let message = Buffer.from(`8004000000${BIP44_PATH}`, "hex");
+      let comm = await commNode.create_async();
 
-    let publicKeyEncoded = await wallet.getPublicKeyEncoded(
-      response.substring(0, 130)
-    );
+      const validStatus = [0x9000];
+      let response = await comm.exchange(message.toString("hex"), validStatus);
 
-    let loadAccount = new wallet.Account(publicKeyEncoded);
-    this.setState({ ledgerAddress: loadAccount.address });
-    sendAddress = loadAccount.address;
+      let publicKeyEncoded = await wallet.getPublicKeyEncoded(
+        response.substring(0, 130)
+      );
+
+      let loadAccount = new wallet.Account(publicKeyEncoded);
+
+      this.setState({ ledgerAddress: loadAccount.address });
+      sendAddress = loadAccount.address;
+
+      return loadAccount.address;
+    } catch (error) {
+      console.log(error);
+      this.props.dispatch(
+        sendEvent(
+          false,
+          "Please ensure that your Ledger Nano S is plugged in, unlocked and has the NEO app installed and open"
+        )
+      );
+      setTimeout(() => this.props.dispatch(clearTransactionEvent()), 5000);
+
+      if (error === "Invalid status 6e00") {
+        this.props.dispatch(
+          sendEvent(
+            false,
+            "Neo app on Ledger not open, Please open and try again"
+          )
+        );
+        setTimeout(() => this.props.dispatch(clearTransactionEvent()), 5000);
+      }
+    }
   }
 
   handleChangeNeo(event) {
@@ -176,11 +204,9 @@ class Ledger extends Component {
 
   async handleChangeUSD(event) {
     this.setState({ gas_usd: event.target.value });
-
     let gas = await axios.get(apiURL("GAS"));
     gas = gas.data.USD;
     this.setState({ gas: gas });
-    console.log("done");
     const value = this.state.gas_usd / this.state.gas;
     this.setState({ value: value }, (sendAmount = value));
   }
@@ -268,15 +294,29 @@ class Ledger extends Component {
               </div>
             </div>
             <div className="col-xs-8">
-              <h4>
-                <span
-                  data-tip
-                  data-for="copyTip"
-                  id="ledger-copy-icon"
-                  className="glyphicon glyphicon-duplicate"
-                />{" "}
-                Ledger NEO Address
-              </h4>
+              <div className="row">
+                <div className="col-md-10">
+                  <h4>
+                    <span
+                      data-tip
+                      data-for="copyTip"
+                      id="ledger-copy-icon"
+                      className="glyphicon glyphicon-duplicate"
+                    />{" "}
+                    Ledger NEO Address
+                  </h4>
+                </div>
+                <div className="col-md-2">
+                  <span
+                    className="glyphicon glyphicon-refresh refresh-icon"
+                    aria-hidden="true"
+                    onClick={() => {
+                      this.getLedgerAddress();
+                    }}
+                  />
+                </div>
+              </div>
+
               <ReactTooltip
                 className="solidTip"
                 id="copyTip"
