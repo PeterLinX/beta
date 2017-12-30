@@ -250,7 +250,7 @@ class Ledger extends Component {
         <div id="sendPane">
           <TopBar />
           <div className="row dash-panel fadeInDown">
-            <div className="col-xs-4">
+            <div className="col-xs-4 col-xs-offset-4">
               <img
                 src={ledgerLogo}
                 alt=""
@@ -259,8 +259,8 @@ class Ledger extends Component {
               />
               <h2>Ledger</h2>
             </div>
-            <div className="col-xs-3 center">
-              <h4 className="neo-text-ledger">
+            {/* <div className="col-xs-3 center">
+               <h4 className="neo-text-ledger">
                 0 <span>NEO</span>
               </h4>
               <span className="com-soon">$0.00</span>
@@ -283,7 +283,7 @@ class Ledger extends Component {
                 0.0000 <span>GAS</span>
               </h4>
               <span className="com-soon top-10">$0.00</span>
-            </div>
+            </div> */}
             <div className="clearboth" />
             <div className="col-xs-12 center">
               <hr className="dash-hr-wide" />
@@ -363,7 +363,7 @@ class Ledger extends Component {
               <label className="amount-dollar-ledger">$</label>
             </div>
             <div className="clearboth" />
-            <div className="col-xs-4 top-20">
+            <div className="col-xs-6 top-20">
               <div id="sendAddress">
                 <div
                   id="sendAsset"
@@ -390,25 +390,8 @@ class Ledger extends Component {
                 </ReactTooltip>
               </div>
             </div>
-            {/* ARfJ1hU81xuoxeCVY24bKUnTGVCcniYWvx
-            ARfJ1hU81xuoxeCVY24bKUnTGVCcniYWvx */}
-            <div className="col-xs-4 top-20">
-              <div id="sendAddress">
-                <button className="grey-button" data-tip data-for="withdrawTip">
-                  <span className="glyphicon glyphicon-open" /> Withdraw
-                </button>
-                <ReactTooltip
-                  className="solidTip"
-                  id="withdrawTip"
-                  place="top"
-                  type="light"
-                  effect="solid"
-                >
-                  <span>Withdraw from Ledger to Morpheus</span>
-                </ReactTooltip>
-              </div>
-            </div>
-            <div className="col-xs-4 top-20">
+
+            <div className="col-xs-6 top-20">
               <div id="sendAddress">
                 <button
                   className="grey-button"
