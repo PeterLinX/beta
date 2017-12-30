@@ -888,3 +888,13 @@ webview {
   display: block;
   clear: both;
 }
+
+.tokens-window {
+  height: 360px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.lineheight-up {
+  line-height: 1.6em;
+}
