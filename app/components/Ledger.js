@@ -296,7 +296,7 @@ class Ledger extends Component {
             </div>
             <div className="col-xs-8">
               <div className="row">
-                <div className="col-md-10 center">
+                <div className="col-md-10 ">
                   <h4>
                     <span
                       data-tip
@@ -307,7 +307,7 @@ class Ledger extends Component {
                     Ledger NEO Address
                   </h4>
                 </div>
-                <div className="col-md-2">
+                <div className="col-md-2 center">
                   <span
                     className="glyphicon glyphicon-refresh refresh-icon"
                     aria-hidden="true"

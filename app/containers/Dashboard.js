@@ -121,8 +121,6 @@ class Dashboard extends Component {
                   )
                 }
               >
-                <span style={{ fontSize: "10px" }}>Combined Value</span>
-                <br />
                 {numeral(this.props.combined).format("$0,0.00")}
                 <span className="bal-usd">USD</span>
                 <span className="comb-bal">Combined Balance</span>
