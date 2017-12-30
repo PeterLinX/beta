@@ -17,11 +17,6 @@ import {
   clearTransactionEvent,
   toggleAsset
 } from "../modules/transactions";
-import btcLogo from "../img/btc-logo.png";
-import qlinkLogo from "../img/qlink.png";
-import rpxLogo from "../img/rpx.png";
-import nexLogo from "../img/nex.png";
-import deepLogo from "../img/deep.png";
 
 let sendAddress, sendAmount, confirmButton;
 
@@ -217,8 +212,7 @@ class Send extends Component {
       <div id="send">
         <div id="sendPane">
           <TopBar />
-
-          <div className="row dash-panel fadeInDown">
+          <div className="row send-neo fadeInDown">
             <div className="col-xs-6">
               <img
                 src={neoLogo}
@@ -233,18 +227,15 @@ class Send extends Component {
             Block: {this.props.blockHeight}
             </div>
 
-            <div className="col-xs-12 center">
-            <hr className="dash-hr-wide" />
-            </div>
+            <div id="sendAddress">
+              <div className="clearboth" />
 
-<div className="clearboth" />
-
-            <div className="top-20">
+              <div id="sendAmount">
                 <div className="col-xs-9">
                   <input
                     className={formClass}
                     id="center"
-                    placeholder="Enter a valid NEO public address here"
+                    placeholder="Enter a valid NEO public address"
                     ref={node => {
                       sendAddress = node;
                     }}
@@ -290,8 +281,6 @@ class Send extends Component {
                       sendAmount = node;
                     }}
                   />
-                  <div className="clearboth"/>
-                  <span className="com-soon block top-10">Amount in NEO/GAS to send</span>
                 </div>
                 <div className="col-xs-4 top-20">
                   <input
@@ -304,8 +293,6 @@ class Send extends Component {
                     value={`${priceUSD}`}
                   />
                   <label className="amount-dollar">$</label>
-                  <div className="clearboth"/>
-                  <span className="com-soon block top-10">Calculated in USD</span>
                 </div>
                 <div className="col-xs-3 top-20">
                   <div id="sendAddress">
@@ -330,7 +317,7 @@ class Send extends Component {
                     </button>
                   </div>
                 </div>
-
+              </div>
             </div>
           </div>
         </div>
@@ -348,7 +335,7 @@ class Send extends Component {
           data-tip
           data-for="donateTip"
           onClick={() => clipboard.writeText("AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b")}
-          >Donate to Morpheus Dev Team: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
+          >Tips: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
           <ReactTooltip
             className="solidTip"
             id="donateTip"
@@ -360,11 +347,6 @@ class Send extends Component {
           </ReactTooltip>
           </div>
         </div>
-
-
-
-
-
       </div>
     );
   }

@@ -22,7 +22,6 @@ import { version } from "../../package.json";
 import { log } from "../util/Logs";
 import Dashlogo from "../components/Brand/Dashlogo";
 import ReactTooltip from "react-tooltip";
-import Assets from "../components/Assets";
 
 const refreshBalance = (dispatch, net, address) => {
   dispatch(sendEvent(true, "Refreshing..."));
@@ -109,7 +108,7 @@ class Dashboard extends Component {
                   )
                 }
               >
-                <Dashlogo width={85} />
+                <Dashlogo width={72} />
               </div>
               <div
                 id="balance"
@@ -127,10 +126,8 @@ class Dashboard extends Component {
                 <span className="bal-usd">USD</span>
                 <span className="comb-bal">Combined Balance</span>
               </div>
-
             </div>
             <div className="clearfix" />
-            <hr className="dash-hr" />
             <div className="navbar-collapse collapse">
               <ul className="nav navbar-nav">
                 <li>
@@ -161,11 +158,6 @@ class Dashboard extends Component {
                 <li>
                   <Link to={"/exchange"} activeClassName="active">
                     <span className="glyphicon glyphicon-refresh" /> Exchange
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"/assets"} activeClassName="active">
-                    <span className="glyphicon glyphicon-cd" /> Assets
                   </Link>
                 </li>
                 <li>

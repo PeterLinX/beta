@@ -115,8 +115,8 @@ class DisplayWalletKeys extends Component {
                   <ReactTooltip
                     className="solidTip"
                     id="copyPublicKeyTip"
-                    place="top"
-                    type="light"
+                    place="bottom"
+                    type="dark"
                     effect="solid"
                   >
                     <span>Copy Public Key</span>
@@ -124,8 +124,8 @@ class DisplayWalletKeys extends Component {
                   <ReactTooltip
                     className="solidTip"
                     id="copyPrivateKeyTip"
-                    place="top"
-                    type="light"
+                    place="bottom"
+                    type="dark"
                     effect="solid"
                   >
                     <span>Copy Private Key</span>
@@ -133,8 +133,8 @@ class DisplayWalletKeys extends Component {
                   <ReactTooltip
                     className="solidTip"
                     id="copyPassphraseTip"
-                    place="top"
-                    type="light"
+                    place="bottom"
+                    type="dark"
                     effect="solid"
                   >
                     <span>Copy Password</span>
@@ -142,8 +142,8 @@ class DisplayWalletKeys extends Component {
                   <ReactTooltip
                     className="solidTip"
                     id="copyPassphraseKeyTip"
-                    place="top"
-                    type="light"
+                    place="bottom"
+                    type="dark"
                     effect="solid"
                   >
                     <span>Copy Password Encrypted Key</span>
@@ -259,6 +259,13 @@ class DisplayWalletKeys extends Component {
             <span className="glyphicon glyphicon-print" />
           </div>
           Print Wallet Data
+        </div>
+
+        <div className="dash-icon-bar">
+          <div className="icon-border">
+            <span className="glyphicon glyphicon-download-alt" />
+          </div>
+          Download Recovery File
         </div>
 
         <Link to="/LoginPrivateKey">
