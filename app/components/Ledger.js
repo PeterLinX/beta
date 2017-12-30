@@ -299,6 +299,7 @@ class Ledger extends Component {
                 <div className="col-md-10 ">
                   <h4>
                     <span
+                    onClick={() => clipboard.writeText(this.state.ledgerAddress)}
                       data-tip
                       data-for="copyTip"
                       id="ledger-copy-icon"
@@ -311,7 +312,9 @@ class Ledger extends Component {
                   <span
                     className="glyphicon glyphicon-refresh refresh-icon"
                     aria-hidden="true"
-                    onClick={() => clipboard.writeText(this.state.ledgerAddress)}
+                    onClick={() => {
+                    this.getLedgerAddress();
+                    }}
                   />
                 </div>
               </div>

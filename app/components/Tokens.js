@@ -12,10 +12,12 @@ import nexLogo from "../img/nex.png";
 import qlinkLogo from "../img/qlink.png";
 import thekeyLogo from "../img/thekey.png";
 import deepLogo from "../img/deep.png";
+import hahspupLogo from "../img/hashpuppies.png";
 import peeratlasLogo from "../img/peeratlas.png";
 import ontologyLogo from "../img/ontology.png";
 import btcLogo from "../img/btc-logo.png";
 import ltcLogo from "../img/litecoin.png";
+import moneroLogo from "../img/monero.png";
 import ethLogo from "../img/eth.png";
 import neoLogo from "../img/neo.png";
 import gitsmLogo from "../img/gitsm.png";
@@ -47,7 +49,7 @@ class Tokens extends Component {
       <TopBar />
       <div className="dash-panel top-50 fadeInDown">
       <h2 className="center">Asset Manager</h2>
-      <hr />
+      <hr className="dash-hr-wide" />
         <div className="tokens-window">
         <div className="col-xs-2  top-20">
         <img
@@ -84,44 +86,7 @@ class Tokens extends Component {
         </div>
         <div className="clearboth" />
 
-        <div className="row top-30"/>
-        <div className="col-xs-2  top-20">
-        <img
-          src={btcLogo}
-          alt=""
-          width="64"
-          className="tokens"
-        />
-        </div>
-        <div className="col-xs-8 ">
-        <h3>Bitcoin (BTC)</h3>
-        Bitcoin uses peer-to-peer technology to operate with no central authority or banks; managing transactions and the issuing of bitcoins is carried out collectively by the network. All BTC transactionsa are subject to network fees.
-        <ul className="social-bar">
-        <li
-        onClick={() =>
-                openExplorer("https://bitcoin.org")
-        }
-        ><span className="glyphicon glyphicon-globe"/> Website</li>
-        <li
-        onClick={() =>
-                openExplorer("https://github.com/bitcoin")
-        }
-        ><img src={gitsmLogo} alt="" width="16" className="" /> Githib</li>
-        <li
-        onClick={() =>
-                openExplorer("https://goo.gl/VoEMYf")
-        }
-        ><img src={twitsmLogo} alt="" width="16" className="" /> Twitter</li>
-        </ul>
-        </div>
-        <div className="col-xs-2 center add-token top-20 token-soon"
-data-tip
-data-for="tokenTip"
->
-        <div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
-        Add Address
-        </div>
-        <div className="clearboth" />
+
 
         <div className="row top-30"/>
         <div className="col-xs-2  top-20">
@@ -159,6 +124,45 @@ data-for="tokenTip"
 >
         <div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
 Add Address
+        </div>
+        <div className="clearboth" />
+
+        <div className="row top-30"/>
+        <div className="col-xs-2  top-20">
+        <img
+          src={hahspupLogo}
+          alt=""
+          width="72"
+          className="tokens"
+        />
+        </div>
+        <div className="col-xs-8 ">
+        <h3>HashPuppies (RHTT4)</h3>
+        HashPuppies will be the NEO equivalent of Ethereum’s CryptoKitties, a game that allows users to trade and breed digital pets.
+        <ul className="social-bar">
+        <li
+        onClick={() =>
+                openExplorer("https://hashpuppi.es")
+        }
+        ><span className="glyphicon glyphicon-globe"/> Website</li>
+        <li
+        onClick={() =>
+                openExplorer("#")
+        }
+        ><img src={gitsmLogo} alt="" width="16" className="" /> Githib</li>
+        <li
+        onClick={() =>
+                openExplorer("https://twitter.com/hash_puppies")
+        }
+        ><img src={twitsmLogo} alt="" width="16" className="" /> Twitter</li>
+        </ul>
+        </div>
+        <div className="col-xs-2 center add-token top-20 token-soon"
+        data-tip
+        data-for="tokenTip"
+        >
+        <div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
+        Add Address
         </div>
         <div className="clearboth" />
 
@@ -397,6 +401,50 @@ Add Address
 
 <div className="clearboth" />
 
+<h3 className="top-30">Other Assets</h3>
+<hr className="dash-hr-wide" />
+
+<div className="clearboth" />
+
+<div className="row top-30"/>
+<div className="col-xs-2  top-20">
+<img
+  src={btcLogo}
+  alt=""
+  width="64"
+  className="tokens"
+/>
+</div>
+<div className="col-xs-8 ">
+<h3>Bitcoin (BTC)</h3>
+Bitcoin uses peer-to-peer technology to operate with no central authority or banks; managing transactions and the issuing of bitcoins is carried out collectively by the network. All BTC transactionsa are subject to network fees.
+<ul className="social-bar">
+<li
+onClick={() =>
+        openExplorer("https://bitcoin.org")
+}
+><span className="glyphicon glyphicon-globe"/> Website</li>
+<li
+onClick={() =>
+        openExplorer("https://github.com/bitcoin")
+}
+><img src={gitsmLogo} alt="" width="16" className="" /> Githib</li>
+<li
+onClick={() =>
+        openExplorer("https://goo.gl/VoEMYf")
+}
+><img src={twitsmLogo} alt="" width="16" className="" /> Twitter</li>
+</ul>
+</div>
+<div className="col-xs-2 center add-token top-20 token-soon"
+data-tip
+data-for="tokenTip"
+>
+<div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
+Add Address
+</div>
+<div className="clearboth" />
+
 <div className="row top-30"/>
         <div className="col-xs-2">
         <img
@@ -436,6 +484,46 @@ Add Address
 </div>
 
 <div className="clearboth"/>
+
+<div className="row top-30"/>
+<div className="col-xs-2  top-20">
+<img
+  src={moneroLogo}
+  alt=""
+  width="64"
+  className="tokens"
+/>
+</div>
+<div className="col-xs-8 ">
+<h3>Monero (XMR)</h3>
+Monero is a secure, private, and untraceable cryptocurrency. It is open-source and accessible to all. With Monero, you are your own bank. Only you control and are responsible for your funds. Your accounts and transactions are kept private from prying eyes.
+
+<ul className="social-bar">
+<li
+onClick={() =>
+        openExplorer("https://getmonero.org")
+}
+><span className="glyphicon glyphicon-globe"/> Website</li>
+<li
+onClick={() =>
+        openExplorer("https://github.com/monero-project")
+}
+><img src={gitsmLogo} alt="" width="16" className="" /> Githib</li>
+<li
+onClick={() =>
+        openExplorer("https://twitter.com/monerocurrency")
+}
+><img src={twitsmLogo} alt="" width="16" className="" /> Twitter</li>
+</ul>
+</div>
+<div className="col-xs-2 center add-token top-20 token-soon"
+data-tip
+data-for="tokenTip"
+>
+<div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
+Add Address
+</div>
+<div className="clearboth" />
 
         <div className="row top-30"/>
                 <div className="col-xs-2">
