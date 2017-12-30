@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
 import { doSendAsset, verifyAddress } from "neon-js";
+import { wallet } from "@cityofzion/neon-js";
 import Modal from "react-bootstrap-modal";
 import QRCode from "qrcode.react";
 import axios from "axios";
@@ -17,6 +18,10 @@ import {
   clearTransactionEvent,
   toggleAsset
 } from "../modules/transactions";
+import commNode from "../ledger/ledger-comm-node";
+
+const BIP44_PATH =
+  "8000002C" + "80000378" + "80000000" + "00000000" + "00000000";
 
 let sendAddress, sendAmount, confirmButton;
 
@@ -28,10 +33,7 @@ const apiURL = val => {
 const validateForm = (dispatch, neo_balance, gas_balance, asset) => {
   // check for valid address
   try {
-    if (
-      verifyAddress(sendAddress.value) !== true ||
-      sendAddress.value.charAt(0) !== "A"
-    ) {
+    if (verifyAddress(sendAddress) !== true || sendAddress.charAt(0) !== "A") {
       dispatch(sendEvent(false, "The address you entered was not valid."));
       setTimeout(() => dispatch(clearTransactionEvent()), 1000);
       return false;
@@ -88,11 +90,11 @@ const sendTransaction = (
   if (validateForm(dispatch, neo_balance, gas_balance, asset) === true) {
     dispatch(sendEvent(true, "Processing..."));
     log(net, "SEND", selfAddress, {
-      to: sendAddress.value,
+      to: sendAddress,
       asset: asset,
       amount: sendAmount.value
     });
-    doSendAsset(net, sendAddress.value, wif, asset, sendAmount.value)
+    doSendAsset(net, sendAddress, wif, asset, sendAmount.value)
       .then(response => {
         if (response.result === undefined || response.result === false) {
           dispatch(sendEvent(false, "Transaction failed!"));
@@ -113,7 +115,7 @@ const sendTransaction = (
   }
   // close confirm pane and clear fields
   dispatch(togglePane("confirmPane"));
-  sendAddress.value = "";
+  sendAddress = "";
   sendAmount.value = "";
   confirmButton.blur();
 };
@@ -128,7 +130,8 @@ class Ledger extends Component {
       neo_usd: 0,
       gas_usd: 0,
       value: 0,
-      inputEnabled: true
+      inputEnabled: true,
+      ledgerAddress: "Loading Address"
     };
     this.handleChangeNeo = this.handleChangeNeo.bind(this);
     this.handleChangeGas = this.handleChangeGas.bind(this);
@@ -141,6 +144,22 @@ class Ledger extends Component {
     neo = neo.data.USD;
     gas = gas.data.USD;
     this.setState({ neo: neo, gas: gas });
+
+    let result = await commNode.list_async();
+
+    let message = Buffer.from(`8004000000${BIP44_PATH}`, "hex");
+    let comm = await commNode.create_async();
+
+    const validStatus = [0x9000];
+    let response = await comm.exchange(message.toString("hex"), validStatus);
+
+    let publicKeyEncoded = await wallet.getPublicKeyEncoded(
+      response.substring(0, 130)
+    );
+
+    let loadAccount = new wallet.Account(publicKeyEncoded);
+    this.setState({ ledgerAddress: loadAccount.address });
+    sendAddress = loadAccount.address;
   }
 
   handleChangeNeo(event) {
@@ -178,15 +197,6 @@ class Ledger extends Component {
       confirmPane,
       selectedAsset
     } = this.props;
-    let confirmPaneClosed;
-    let open = true;
-    if (confirmPane) {
-      confirmPaneClosed = "100%";
-      open = true;
-    } else {
-      open = false;
-      confirmPaneClosed = "69%";
-    }
 
     let btnClass;
     let formClass;
@@ -208,6 +218,7 @@ class Ledger extends Component {
       priceUSD = this.state.gas_usd;
       convertFunction = this.handleChangeGas;
     }
+
     return (
       <div id="send">
         <div id="sendPane">
@@ -223,69 +234,68 @@ class Ledger extends Component {
               <h2>Ledger</h2>
             </div>
             <div className="col-xs-3 center">
-            <h4 className="neo-text-ledger">0 <span>NEO</span></h4>
-            <span className="com-soon">$0.00</span>
+              <h4 className="neo-text-ledger">
+                0 <span>NEO</span>
+              </h4>
+              <span className="com-soon">$0.00</span>
             </div>
-
-            <div
-            data-tip
-            data-for="claimTip"
-            className="col-xs-2 center">
-            Claim Gas
-            <div>0.00000000</div>
-
-            <ReactTooltip
-              className="solidTip"
-              id="claimTip"
-              place="top"
-              type="light"
-              effect="solid"
-            >
-            <span>Click to claim GAS on Ledger Nano S</span>
-          </ReactTooltip>
+            <div data-tip data-for="claimTip" className="col-xs-2 center">
+              Claim Gas
+              <div>0.00000000</div>
+              <ReactTooltip
+                className="solidTip"
+                id="claimTip"
+                place="top"
+                type="light"
+                effect="solid"
+              >
+                <span>Click to claim GAS on Ledger Nano S</span>
+              </ReactTooltip>
             </div>
-
             <div className="col-xs-3 center">
-            <h4 className="gas-text-ledger">0.0000 <span>GAS</span></h4>
-            <span className="com-soon top-10">$0.00</span>
+              <h4 className="gas-text-ledger">
+                0.0000 <span>GAS</span>
+              </h4>
+              <span className="com-soon top-10">$0.00</span>
             </div>
-
             <div className="clearboth" />
             <div className="col-xs-12 center">
-            <hr className="dash-hr-wide" />
+              <hr className="dash-hr-wide" />
             </div>
             <div className="col-xs-4 top-20">
-            <div className="ledgerQRBox center animated fadeInDown">
-              <QRCode size={120} value={this.props.address} />
+              <div className="ledgerQRBox center animated fadeInDown">
+                <QRCode size={120} value={this.state.ledgerAddress} />
+              </div>
             </div>
-            </div>
-
             <div className="col-xs-8">
-            <h4><span
-            data-tip
-            data-for="copyTip"
-            id="ledger-copy-icon"
-            className="glyphicon glyphicon-duplicate"/>  Ledger NEO Address</h4>
-            <ReactTooltip
-              className="solidTip"
-              id="copyTip"
-              place="top"
-              type="light"
-              effect="solid"
-            ><span>Copy Ledger Nano S NEO Address</span>
-          </ReactTooltip>
+              <h4>
+                <span
+                  data-tip
+                  data-for="copyTip"
+                  id="ledger-copy-icon"
+                  className="glyphicon glyphicon-duplicate"
+                />{" "}
+                Ledger NEO Address
+              </h4>
+              <ReactTooltip
+                className="solidTip"
+                id="copyTip"
+                place="top"
+                type="light"
+                effect="solid"
+              >
+                <span>Copy Ledger Nano S NEO Address</span>
+              </ReactTooltip>
               <input
                 className="ledger-address"
                 id="center"
-                placeholder={this.props.address}
-                ref={node => {
-                  sendAddress = node;
-                }}
+                readOnly
+                placeholder={this.state.ledgerAddress}
+                value={this.state.ledgerAddress}
               />
             </div>
-
             <div className="col-xs-4  top-20">
-            Amount to Transfer
+              Amount to Transfer
               <input
                 className={formClass}
                 type="number"
@@ -300,7 +310,7 @@ class Ledger extends Component {
               />
             </div>
             <div className="col-xs-4 top-20">
-            Value in USD
+              Value in USD
               <input
                 className={formClass}
                 id="sendAmount"
@@ -312,56 +322,51 @@ class Ledger extends Component {
               />
               <label className="amount-dollar-ledger">$</label>
             </div>
-
             <div className="clearboth" />
-
             <div className="col-xs-4 top-20">
-            <div id="sendAddress">
-              <div
-                id="sendAsset"
-                className={btnClass}
-                style={{ width: "100%" }}
-                data-tip
-                data-for="assetTip"
-                onClick={() => {
-                  this.setState({ gas_usd: 0, neo_usd: 0, value: 0 });
-                  document.getElementById("assetAmount").value = "";
-                  dispatch(toggleAsset());
-                }}
-              >
-              {selectedAsset}
-              </div>
-              <ReactTooltip
-                className="solidTip"
-                id="assetTip"
-                place="top"
-                type="light"
-                effect="solid"
-              >
-                <span>Click to switch between NEO and GAS</span>
-              </ReactTooltip>
+              <div id="sendAddress">
+                <div
+                  id="sendAsset"
+                  className={btnClass}
+                  style={{ width: "100%" }}
+                  data-tip
+                  data-for="assetTip"
+                  onClick={() => {
+                    this.setState({ gas_usd: 0, neo_usd: 0, value: 0 });
+                    document.getElementById("assetAmount").value = "";
+                    dispatch(toggleAsset());
+                  }}
+                >
+                  {selectedAsset}
+                </div>
+                <ReactTooltip
+                  className="solidTip"
+                  id="assetTip"
+                  place="top"
+                  type="light"
+                  effect="solid"
+                >
+                  <span>Click to switch between NEO and GAS</span>
+                </ReactTooltip>
               </div>
             </div>
-
+            {/* ARfJ1hU81xuoxeCVY24bKUnTGVCcniYWvx
+            ARfJ1hU81xuoxeCVY24bKUnTGVCcniYWvx */}
             <div className="col-xs-4 top-20">
-            <div id="sendAddress">
-            <button
-              className="grey-button"
-              data-tip
-              data-for="withdrawTip"
-            >
-              <span className="glyphicon glyphicon-open"/> Withdraw
-            </button>
-            <ReactTooltip
-              className="solidTip"
-              id="withdrawTip"
-              place="top"
-              type="light"
-              effect="solid"
-            >
-              <span>Withdraw from Ledger to Morpheus</span>
-            </ReactTooltip>
-            </div>
+              <div id="sendAddress">
+                <button className="grey-button" data-tip data-for="withdrawTip">
+                  <span className="glyphicon glyphicon-open" /> Withdraw
+                </button>
+                <ReactTooltip
+                  className="solidTip"
+                  id="withdrawTip"
+                  place="top"
+                  type="light"
+                  effect="solid"
+                >
+                  <span>Withdraw from Ledger to Morpheus</span>
+                </ReactTooltip>
+              </div>
             </div>
             <div className="col-xs-4 top-20">
               <div id="sendAddress">
@@ -384,7 +389,7 @@ class Ledger extends Component {
                     confirmButton = node;
                   }}
                 >
-                <span className="glyphicon glyphicon-save"></span> Deposit
+                  <span className="glyphicon glyphicon-save" /> Deposit
                 </button>
                 <ReactTooltip
                   className="solidTip"
@@ -397,14 +402,15 @@ class Ledger extends Component {
                 </ReactTooltip>
               </div>
             </div>
-
-              <div className="clearboth" />
+            <div className="clearboth" />
           </div>
         </div>
 
         <div className="top-20 center send-notice">
           <p>
-            Please ensure that your Ledger Nano S is plugged in, unlocked and has the NEO app installed. Your NEO address from your Ledger Nano S should appear above. Verify address is correct before sending.
+            Please ensure that your Ledger Nano S is plugged in, unlocked and
+            has the NEO app installed. Your NEO address from your Ledger Nano S
+            should appear above. Verify address is correct before sending.
           </p>
         </div>
       </div>
@@ -414,6 +420,7 @@ class Ledger extends Component {
 
 const mapStateToProps = state => ({
   wif: state.account.wif,
+  ledgerNanoSGetInfoAsync: state.account.ledgerNanoSGetInfoAsync,
   address: state.account.address,
   net: state.metadata.network,
   neo: state.wallet.Neo,

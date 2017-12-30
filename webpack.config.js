@@ -21,6 +21,10 @@ module.exports = {
   node: {
     __dirname: false
   },
+  externals: {
+    "node-hid": 'require("node-hid")',
+    "ledger-node-js-api": 'require("ledger-node-js-api")'
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: "app/index.tpl.html",
@@ -56,9 +60,21 @@ module.exports = {
         loader: "json"
       },
       {
+        test: /\.node$/,
+        loader: "node-loader"
+      },
+      {
         test: /\.(scss|css)$/,
         loader:
           "style!css!sass?modules&localIdentName=[name]---[local]---[hash:base64:5]"
+      },
+      {
+        test: /node_modules\/JSONStream\/index\.js$/,
+        loaders: ["shebang", "babel"]
+      },
+      {
+        test: /node_modules\/rc\/index\.js$/,
+        loaders: ["shebang", "babel"]
       },
       {
         test: /\.woff(2)?(\?[a-z0-9#=&.]+)?$/,
