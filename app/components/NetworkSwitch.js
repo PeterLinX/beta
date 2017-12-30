@@ -77,7 +77,6 @@ const initiateGetBalance = (dispatch, net, address) => {
         })
         .catch(e => {
           dispatch(setBalance(resultBalance.Neo, resultBalance.Gas, "--"));
-          console.log("something went wrong");
         });
     })
     .catch(result => {
