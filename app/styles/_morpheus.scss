@@ -135,10 +135,10 @@ body {
   height: 100%;
   padding: 0;
   margin: 0;
-  font-family: "Lato";
-  font-weight: 400;
+  font-family: Arial;
   font-size: 13px;
   line-height: 1.6;
+  font-weight: 200;
   color: #646464;
   background-color: transparent;
   overflow-y: hidden;
@@ -172,7 +172,6 @@ h1 {
 
 h2 {
   font-size: 30px;
-  font-weight: 600;
 }
 
 h3 {
@@ -2976,8 +2975,8 @@ a {
       font-weight: 200;
       text-align: center;
       border-radius: 12px;
-      margin-top: 128px;
-      padding: 0px 0px 10px 0px;
+      margin-top: 70px;
+      padding: 40px 10px 10px;
       font-size: 18px;
 }
 .comb-value {font-size: 18px;}
@@ -3137,7 +3136,7 @@ a {
   float: none;
 }
 .main-nav .navbar-collapse {
-  padding: 10px 0;
+  padding: 20px 0;
 }
 .main-nav .navbar ul {
   float: none;

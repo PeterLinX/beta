@@ -180,7 +180,7 @@ class LoginLocalStorage extends Component {
               <div className="icon-border">
                 <span className="glyphicon glyphicon-qrcode" />
               </div>
-              Login Using Private Key
+              Login Via Private Key
             </div>
           </Link>
           <Link to="/LoginNep2">
@@ -188,10 +188,10 @@ class LoginLocalStorage extends Component {
               <div className="icon-border">
                 <span className="glyphicon glyphicon-lock" />
               </div>
-              Login Using Encrypted Key
+              Login Via Encrypted Key
             </div>
           </Link>
-
+          
         </div>
       </div>
     );

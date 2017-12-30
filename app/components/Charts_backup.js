@@ -443,13 +443,7 @@ class Charts extends Component {
                       }
                     ]
                   },
-                  legend: {
-                    position: "bottom",
-                    labels: {
-                      boxWidth: 15,
-                      padding: 20
-                    }
-                  }
+                  legend: { position: "top" }
                 }}
               />
             </div>

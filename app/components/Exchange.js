@@ -175,7 +175,7 @@ class Exchange extends Component {
             </div>
           </div>
 
-          <div className="top-100" id="exchange-messages">
+          <div className="top-130" id="exchange-messages">
             <div className="settings-panel fadeInDown">
               <div className="com-soon row fadeInDown">
                 <div className="col-md-12">
@@ -219,7 +219,7 @@ class Exchange extends Component {
             </div>
             <div className="col-xs-2 sm-text center">Placing Your Order</div>
             <div className="col-xs-2 sm-text center">
-              Generating Bitcoin Address
+              Generating Bitcoin Address for Deposit
             </div>
             <div className="col-xs-2 sm-text center grey-out">
               Processing Your Order
@@ -229,8 +229,8 @@ class Exchange extends Component {
             </div>
           </div>
 
-          <div className="top-100" id="payIn">
-            <div className="dash-panel fadeInDown">
+          <div className="top-130" id="payIn">
+            <div className="settings-panel fadeInDown">
               <div className="com-soon row fadeInDown">
                 <div className="col-xs-4">
                   <div className="exchange-qr center animated fadeInDown">
@@ -257,7 +257,7 @@ class Exchange extends Component {
                     Only deposit Bitcoin (BTC) to the address above to receive
                     NEO.
                   </p>
-                  <div className="row top-10">
+                  <div className="row top-20">
                     <div className="col-xs-8 center">
                       <button
                         onClick={() => {
@@ -302,7 +302,7 @@ class Exchange extends Component {
               Placing Your Order
             </div>
             <div className="col-xs-2 sm-text center grey-out">
-              Generating Bitcoin Address
+              Generating Bitcoin Address for Deposit
             </div>
             <div className="col-xs-2 sm-text center grey-out">
               Processing Your Order
