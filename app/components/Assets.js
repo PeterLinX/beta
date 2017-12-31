@@ -1,6 +1,4 @@
-// @flow
 import React, { Component } from 'react'
-import styles from './Assets.scss'
 import { initiateGetAssetsBalance, addNepToStore, setNepToStore, removeNepFromStore } from '../../modules/nep';
 import axios from 'axios';
 import storage from 'electron-json-storage'
