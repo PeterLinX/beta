@@ -5,14 +5,24 @@ export const RESET_PRICE = "RESET_PRICE";
 export const SET_TRANSACTION_HISTORY = "SET_TRANSACTION_HISTORY";
 
 // Actions
-export function setBalance(neo, gas, price, combined, gasPrice) {
+export function setBalance(
+  neo,
+  gas,
+  price,
+  combined,
+  gasPrice,
+  marketNeoPrice,
+  marketGASPrice
+) {
   return {
     type: SET_BALANCE,
     Neo: neo,
     Gas: gas,
     price: price,
     combined: combined,
-    gasPrice: gasPrice
+    gasPrice: gasPrice,
+    marketNEOPrice: marketNeoPrice,
+    marketGASPrice: marketGASPrice
   };
 }
 
@@ -44,7 +54,9 @@ export default (
     transactions: [],
     price: "--",
     combined: "--",
-    gasPrice: "--"
+    gasPrice: "--",
+    marketNEOPrice: "--",
+    marketGASPrice: "--"
   },
   action
 ) => {
@@ -56,7 +68,9 @@ export default (
         Gas: action.Gas,
         price: action.price,
         combined: action.combined,
-        gasPrice: action.gasPrice
+        gasPrice: action.gasPrice,
+        marketNEOPrice: action.marketNEOPrice,
+        marketGASPrice: action.marketGASPrice
       };
     case RESET_PRICE:
       return { ...state, price: "--" };
