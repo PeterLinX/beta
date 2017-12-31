@@ -9,3 +9,4 @@ app/dist
 *.iml
 
 package-lock.json
+*.sketch
