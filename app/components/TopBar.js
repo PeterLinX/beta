@@ -8,7 +8,7 @@ import { resetPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 
 // force sync with balance data
-const refreshBalance = (dispatch, net, address) => {
+const refreshBalance = async (dispatch, net, address) => {
   dispatch(sendEvent(true, "Refreshing..."));
   initiateGetBalance(dispatch, net, address).then(response => {
     dispatch(sendEvent(true, "Received latest blockchain information."));
@@ -30,16 +30,22 @@ class TopBar extends Component {
         <div className="row">
           <div className="header">
             <div className="col-xs-5">
+              <p className="market-price center">
+                NEO {numeral(this.props.marketNEOPrice).format("$0,0.00")}
+              </p>
               <p className="neo-text">
                 {numeral(this.props.neo).format("0,0")} <span>NEO</span>
               </p>
               <hr className="dash-hr" />
               <p className="neo-balance">
-                {numeral(this.props.price).format("$0,0.00")} USD
+                {numeral(this.props.price).format("$0,0.00")} US
               </p>
             </div>
             <div className="col-xs-2">{<Claim />}</div>
             <div className="col-xs-5 top-5">
+              <p className="market-price center">
+                GAS {numeral(this.props.marketGASPrice).format("$0,0.00")}
+              </p>
               <p className="gas-text">
                 {numeral(
                   Math.floor(this.props.gas * 10000000) / 10000000
@@ -68,7 +74,9 @@ const mapStateToProps = state => ({
   address: state.account.address,
   net: state.metadata.network,
   price: state.wallet.price,
-  gasPrice: state.wallet.gasPrice
+  gasPrice: state.wallet.gasPrice,
+  marketGASPrice: state.wallet.marketGASPrice,
+  marketNEOPrice: state.wallet.marketNEOPrice
 });
 
 TopBar = connect(mapStateToProps)(TopBar);
