@@ -336,7 +336,7 @@ class Ledger extends Component {
               />
             </div>
 
-            <div className="col-xs-3 center">
+            <div className="col-xs-4 center">
               <h4 className="gas-text-ledger top-10 ">
                 {Math.floor(this.state.ledgerBalanceGas * 10000000) / 10000000}{" "}
                 <span>GAS</span>
