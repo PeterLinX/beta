@@ -402,7 +402,7 @@ class Exchange extends Component {
                 <div id="preloader">
                 <div id="loader"></div>
               </div>
-                <h1 className="top-20">Sorry!</h1>
+                <h1 className="top-20">Exchange not available</h1>
                 <div className="col-xs-10 col-xs-offset-1">
                   <h4 className="top-20 lineheight-up">
                     We apologise but our exchange partner Changelly currently does not have NEO available. Please try again soon.
