@@ -294,6 +294,8 @@ class Ledger extends Component {
         <div id="sendPane">
           <TopBar />
 
+          <div className="ledger-nanos" />
+
           <div className="row dash-panel fadeInDown">
 
             <div className="col-xs-4">
@@ -465,9 +467,7 @@ class Ledger extends Component {
 
         <div className="top-10 center send-notice">
           <p>
-            Please ensure that your Ledger Nano S is plugged in, unlocked and
-            has the NEO app installed. Your NEO address from your Ledger Nano S
-            should appear above. Verify address is correct before sending.
+            Please ensure that your Ledger Nano S is plugged in, unlocked and has the NEO app installed. Your NEO address from your Ledger Nano S should appear above. Verify address is correct before sending. Ledger is a trademark of Ledger SAS, Paris, France. All original owner Copyright and Trademark laws apply.
           </p>
         </div>
       </div>
