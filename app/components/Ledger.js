@@ -365,7 +365,8 @@ class Ledger extends Component {
               <label className="amount-dollar-ledger">$</label>
             </div>
             <div className="clearboth" />
-            <div className="col-xs-6 top-20">
+            <div className="col-xs-4 top-20" />
+            <div className="col-xs-4 top-20">
               <div id="sendAddress">
                 <div
                   id="sendAsset"
@@ -393,7 +394,7 @@ class Ledger extends Component {
               </div>
             </div>
 
-            <div className="col-xs-6 top-20">
+            <div className="col-xs-4 top-20">
               <div id="sendAddress">
                 <button
                   className="grey-button"
