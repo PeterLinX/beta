@@ -22,7 +22,6 @@ import { version } from "../../package.json";
 import { log } from "../util/Logs";
 import Dashlogo from "../components/Brand/Dashlogo";
 import ReactTooltip from "react-tooltip";
-import Assets from "../components/Assets";
 
 const refreshBalance = (dispatch, net, address) => {
   dispatch(sendEvent(true, "Refreshing..."));
@@ -159,11 +158,6 @@ class Dashboard extends Component {
                 <li>
                   <Link to={"/exchange"} activeClassName="active">
                     <span className="glyphicon glyphicon-refresh" /> Exchange
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"/assets"} activeClassName="active">
-                    <span className="glyphicon glyphicon-cd" /> Assets
                   </Link>
                 </li>
                 <li>
