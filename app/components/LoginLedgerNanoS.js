@@ -1,9 +1,25 @@
 // @flow
-import React, { Component } from "react"
-import Page from "../../components/Page"
-import loginStyles from "../../styles/login.scss"
-import HomeButtonLink from "../../components/HomeButtonLink"
-import { ROUTES } from "../../core/constants"
+import React, { Component } from "react";
+import { Link } from "react-router";
+import { ROUTES } from "../core/constants"
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { ledgerNanoSGetLogin, ledgerNanoSGetInfoAsync, getPublicKey, getHardwareDeviceInfo, getHardwarePublicKeyInfo } from '../../modules/account'
+
+const mapStateToProps = (state: Object) => ({
+  publicKey: getPublicKey(state),
+  hardwareDeviceInfo: getHardwareDeviceInfo(state),
+  hardwarePublicKeyInfo: getHardwarePublicKeyInfo(state)
+})
+
+const actionCreators = {
+  ledgerNanoSGetInfoAsync,
+  ledgerNanoSGetLogin
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginLedgerNanoS)
 
 type Props = {
   ledgerNanoSGetLogin: Function,
@@ -34,17 +50,16 @@ export default class LoginLedgerNanoS extends Component<Props> {
   render () {
     const { hardwareDeviceInfo, hardwarePublicKeyInfo, publicKey } = this.props
     return (
-      <Page id="loginPage" className={loginStyles.loginPage}>
-        <div className={loginStyles.title}>Login using the Ledger Nano S:</div>
-        <div className={loginStyles.loginForm}>
+      <div>
+        <div className="row">Login using the Ledger Nano S:</div>
+        <div className="">
           <div>
-            <button className={!publicKey ? "disabled" : ""} onClick={this.onLedgerNanoSChange}>Use Ledger Nano S</button>
-            <HomeButtonLink />
+            <div className="grey-btn" onClick={this.onLedgerNanoSChange}>Use Ledger Nano S</div>
           </div>
           <p>{hardwareDeviceInfo}</p>
           <p>{hardwarePublicKeyInfo}</p>
         </div>
-      </Page>
+      </div>
     )
   }
 }
