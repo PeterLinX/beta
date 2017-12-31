@@ -46,6 +46,17 @@ const getGasPrice = async gasVal => {
   }
 };
 
+const getMarketPrice = async () => {
+  try {
+    let marketPrices = await axios.get(
+      "https://min-api.cryptocompare.com/data/pricemulti?fsyms=NEO,GAS&tsyms=USD"
+    );
+    return marketPrices;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // TODO: this is being imported by Balance.js, maybe refactor to helper file
 
 const initiateGetBalance = (dispatch, net, address) => {
@@ -61,6 +72,7 @@ const initiateGetBalance = (dispatch, net, address) => {
             dispatch(setBalance(resultBalance.Neo, resultBalance.Gas, "--"));
           } else {
             let gasPrice = await getGasPrice(resultBalance.Gas);
+            let marketPrices = await getMarketPrice();
             let combinedPrice = gasPrice + resultPrice;
             dispatch(
               setBalance(
@@ -68,7 +80,9 @@ const initiateGetBalance = (dispatch, net, address) => {
                 resultBalance.Gas,
                 resultPrice,
                 combinedPrice,
-                gasPrice
+                gasPrice,
+                marketPrices.data.NEO.USD,
+                marketPrices.data.GAS.USD
               )
             );
           }
