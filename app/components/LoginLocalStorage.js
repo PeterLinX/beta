@@ -167,6 +167,7 @@ class LoginLocalStorage extends Component {
           )}
         </div>
         <div className="dash-bar top-50">
+
           <Link to="/create">
             <div className="dash-icon-bar">
               <div className="icon-border">
@@ -189,6 +190,15 @@ class LoginLocalStorage extends Component {
                 <span className="glyphicon glyphicon-lock" />
               </div>
               Login Using Encrypted Key
+            </div>
+          </Link>
+
+          <Link to="/LoginLedgerNanoS">
+            <div className="dash-icon-bar">
+              <div className="icon-border">
+                <div className="ledger-sm" />
+              </div>
+              Login to Ledger Nano S
             </div>
           </Link>
 

@@ -257,6 +257,15 @@
   margin-top: 3px;
 }
 
+.ledger-sm {
+  width: 24px;
+  height: 24px;
+  background-image: url("../img/ledger-sm.png");
+  margin: 0px auto;
+  cursor: pointer;
+  margin-top: 3px;
+}
+
 .fadeInLeft {
   -webkit-animation-name: fadeInLeft;
   animation-name: fadeInLeft;
@@ -365,7 +374,7 @@
 }
 
 .refresh-icon {
-  font-size: 20px;
-  padding-top: 28px;
+  font-size: 24px;
+  padding-top: 12px;
   color: #646464;
 }

@@ -293,39 +293,52 @@ class Ledger extends Component {
       <div id="send">
         <div id="sendPane">
           <TopBar />
+
+          <div className="ledger-nanos" />
+
           <div className="row dash-panel fadeInDown">
             <div className="col-xs-4">
               <img
                 src={ledgerLogo}
                 alt=""
                 width="28"
+                data-tip
+                data-for="copyTip"
                 className="ledger-logo logobounce"
-              />
+                onClick={() => clipboard.writeText(this.state.ledgerAddress)}
+              />{" "}
               <h2>Ledger</h2>
             </div>
+            <ReactTooltip
+              className="solidTip"
+              id="copyTip"
+              place="top"
+              type="light"
+              effect="solid"
+            >
+              <span>Copy Ledger Nano S NEO Address</span>
+            </ReactTooltip>
             <div className="col-xs-3 center">
-              <h4 className="neo-text-ledger">
+              <h4 className="neo-text">
                 {this.state.ledgerBalanceNeo} <span>NEO</span>
               </h4>
               <span className="com-soon">
                 {numeral(this.state.ledgerNEOUSD).format("$0,0.00")}{" "}
               </span>
             </div>
-            {/* <div data-tip data-for="claimTip" className="col-xs-2 center">
-              Claim Gas
-              <div>0.00000000</div>
-              <ReactTooltip
-                className="solidTip"
-                id="claimTip"
-                place="top"
-                type="light"
-                effect="solid"
-              >
-                <span>Click to claim GAS on Ledger Nano S</span>
-              </ReactTooltip>
-            </div> */}
-            <div className="col-xs-3 col-xs-offset-2 center">
-              <h4 className="gas-text-ledger">
+
+            <div className="col-xs-1 center">
+              <span
+                className="glyphicon glyphicon-refresh refresh-icon"
+                aria-hidden="true"
+                onClick={() => {
+                  this.getLedgerAddress();
+                }}
+              />
+            </div>
+
+            <div className="col-xs-4 center">
+              <h4 className="gas-text-ledger top-10 ">
                 {Math.floor(this.state.ledgerBalanceGas * 10000000) / 10000000}{" "}
                 <span>GAS</span>
               </h4>
@@ -337,46 +350,16 @@ class Ledger extends Component {
             <div className="col-xs-12 center">
               <hr className="dash-hr-wide" />
             </div>
-            <div className="col-xs-4 top-20">
+            <div className="clearboth" />
+            <div className="row top-20" />
+            <div className="clearboth" />
+            <div className="col-xs-4 top-10">
               <div className="ledgerQRBox center animated fadeInDown">
                 <QRCode size={120} value={this.state.ledgerAddress} />
               </div>
             </div>
-            <div className="col-xs-8">
-              <div className="row">
-                <div className="col-md-10 center">
-                  <h4>
-                    <span
-                      onClick={() => clipboard.writeText(this.state.ledgerAddress)}
-                      data-tip
-                      data-for="copyTip"
-                      id="ledger-copy-icon"
-                      className="glyphicon glyphicon-duplicate"
-                    />{" "}
-                    Ledger NEO Address
-                  </h4>
-                </div>
-                <div className="col-md-2">
-                  <span
-                    className="glyphicon glyphicon-refresh refresh-icon"
-                    aria-hidden="true"
-                    onClick={() => {
-                    this.getLedgerAddress();
-                    }}
-                    
-                  />
-                </div>
-              </div>
 
-              <ReactTooltip
-                className="solidTip"
-                id="copyTip"
-                place="top"
-                type="light"
-                effect="solid"
-              >
-                <span>Copy Ledger Nano S NEO Address</span>
-              </ReactTooltip>
+            <div className="col-xs-8">
               <input
                 className="ledger-address"
                 id="center"
@@ -385,7 +368,7 @@ class Ledger extends Component {
                 value={this.state.ledgerAddress}
               />
             </div>
-            <div className="col-xs-4  top-20">
+            <div className="col-xs-4  top-10">
               Amount to Transfer
               <input
                 className={formClass}
@@ -400,7 +383,7 @@ class Ledger extends Component {
                 }}
               />
             </div>
-            <div className="col-xs-4 top-20">
+            <div className="col-xs-4 top-10">
               Value in USD
               <input
                 className={formClass}
@@ -413,8 +396,7 @@ class Ledger extends Component {
               />
               <label className="amount-dollar-ledger">$</label>
             </div>
-            <div className="clearboth" />
-            <div className="col-xs-6 top-20">
+            <div className="col-xs-4 top-10">
               <div id="sendAddress">
                 <div
                   id="sendAsset"
@@ -442,7 +424,7 @@ class Ledger extends Component {
               </div>
             </div>
 
-            <div className="col-xs-6 top-20">
+            <div className="col-xs-4 top-10">
               <div id="sendAddress">
                 <button
                   className="grey-button"
@@ -480,11 +462,13 @@ class Ledger extends Component {
           </div>
         </div>
 
-        <div className="top-20 center send-notice">
+        <div className="top-10 center send-notice">
           <p>
             Please ensure that your Ledger Nano S is plugged in, unlocked and
             has the NEO app installed. Your NEO address from your Ledger Nano S
             should appear above. Verify address is correct before sending.
+            Ledger is a trademark of Ledger SAS, Paris, France. All original
+            owner Copyright and Trademark laws apply.
           </p>
         </div>
       </div>
