@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
 import { doSendAsset, verifyAddress } from "neon-js";
-import { wallet } from "@cityofzion/neon-js";
+import Neon, { wallet, api } from "@cityofzion/neon-js";
 import Modal from "react-bootstrap-modal";
 import QRCode from "qrcode.react";
 import axios from "axios";
 import SplitPane from "react-split-pane";
+import numeral from "numeral";
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
 import ledgerLogo from "../images/ledger-logo.png";
@@ -131,7 +132,11 @@ class Ledger extends Component {
       gas_usd: 0,
       value: 0,
       inputEnabled: true,
-      ledgerAddress: "No Address Found"
+      ledgerAddress: "No Address Found",
+      ledgerBalanceNeo: 0,
+      ledgerBalanceGas: 0,
+      ledgerNEOUSD: 0,
+      ledgerGASUSD: 0
     };
     this.handleChangeNeo = this.handleChangeNeo.bind(this);
     this.handleChangeGas = this.handleChangeGas.bind(this);
@@ -167,6 +172,8 @@ class Ledger extends Component {
       this.setState({ ledgerAddress: loadAccount.address });
       sendAddress = loadAccount.address;
 
+      this.getBalance(loadAccount.address, this.props.net);
+
       return loadAccount.address;
     } catch (error) {
       console.log(error);
@@ -190,10 +197,46 @@ class Ledger extends Component {
     }
   }
 
+  async getBalance(address, net) {
+    const filledBalance = await api.getBalanceFrom(
+      { net: net, address: address },
+      api.neonDB
+    );
+    this.setState({
+      ledgerBalanceNeo: filledBalance.balance.NEO.balance,
+      ledgerBalanceGas: filledBalance.balance.GAS.balance
+    });
+
+    this.getPrice(
+      filledBalance.balance.NEO.balance,
+      filledBalance.balance.GAS.balance
+    );
+  }
+
   handleChangeNeo(event) {
     this.setState({ value: event.target.value }, (sendAmount = value));
     const value = event.target.value * this.state.neo;
     this.setState({ neo_usd: value });
+  }
+
+  async getPrice(neo, gas) {
+    let ledgerNEOUSD, ledgerGASUSD;
+    try {
+      let neoPrice = await axios.get(
+        `https://min-api.cryptocompare.com/data/price?fsym=NEO&tsyms=USD`
+      );
+
+      let gasPrice = await axios.get(
+        `https://min-api.cryptocompare.com/data/price?fsym=GAS&tsyms=USD`
+      );
+
+      ledgerGASUSD = gasPrice.data.USD * gas;
+      ledgerNEOUSD = neoPrice.data.USD * neo;
+
+      this.setState({ ledgerGASUSD, ledgerNEOUSD });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   handleChangeGas(event) {
@@ -250,7 +293,7 @@ class Ledger extends Component {
         <div id="sendPane">
           <TopBar />
           <div className="row dash-panel fadeInDown">
-            <div className="col-xs-4 col-xs-offset-4">
+            <div className="col-xs-4">
               <img
                 src={ledgerLogo}
                 alt=""
@@ -259,13 +302,15 @@ class Ledger extends Component {
               />
               <h2>Ledger</h2>
             </div>
-            {/* <div className="col-xs-3 center">
-               <h4 className="neo-text-ledger">
-                0 <span>NEO</span>
+            <div className="col-xs-3 center">
+              <h4 className="neo-text-ledger">
+                {this.state.ledgerBalanceNeo} <span>NEO</span>
               </h4>
-              <span className="com-soon">$0.00</span>
+              <span className="com-soon">
+                {numeral(this.state.ledgerNEOUSD).format("$0,0.00")}{" "}
+              </span>
             </div>
-            <div data-tip data-for="claimTip" className="col-xs-2 center">
+            {/* <div data-tip data-for="claimTip" className="col-xs-2 center">
               Claim Gas
               <div>0.00000000</div>
               <ReactTooltip
@@ -277,13 +322,16 @@ class Ledger extends Component {
               >
                 <span>Click to claim GAS on Ledger Nano S</span>
               </ReactTooltip>
-            </div>
-            <div className="col-xs-3 center">
-              <h4 className="gas-text-ledger">
-                0.0000 <span>GAS</span>
-              </h4>
-              <span className="com-soon top-10">$0.00</span>
             </div> */}
+            <div className="col-xs-3 col-xs-offset-2 center">
+              <h4 className="gas-text-ledger">
+                {Math.floor(this.state.ledgerBalanceGas * 10000000) / 10000000}{" "}
+                <span>GAS</span>
+              </h4>
+              <span className="com-soon top-10">
+                {numeral(this.state.ledgerGASUSD).format("$0,0.00")}{" "}
+              </span>
+            </div>
             <div className="clearboth" />
             <div className="col-xs-12 center">
               <hr className="dash-hr-wide" />
