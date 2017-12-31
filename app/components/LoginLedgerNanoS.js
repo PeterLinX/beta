@@ -2,24 +2,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router";
 import { ROUTES } from "../core/constants"
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { ledgerNanoSGetLogin, ledgerNanoSGetInfoAsync, getPublicKey, getHardwareDeviceInfo, getHardwarePublicKeyInfo } from '../../modules/account'
-
-const mapStateToProps = (state: Object) => ({
-  publicKey: getPublicKey(state),
-  hardwareDeviceInfo: getHardwareDeviceInfo(state),
-  hardwarePublicKeyInfo: getHardwarePublicKeyInfo(state)
-})
-
-const actionCreators = {
-  ledgerNanoSGetInfoAsync,
-  ledgerNanoSGetLogin
-}
-
-const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginLedgerNanoS)
 
 type Props = {
   ledgerNanoSGetLogin: Function,
@@ -51,10 +33,10 @@ export default class LoginLedgerNanoS extends Component<Props> {
     const { hardwareDeviceInfo, hardwarePublicKeyInfo, publicKey } = this.props
     return (
       <div>
-        <div className="row">Login using the Ledger Nano S:</div>
+        <div className="">Login using the Ledger Nano S:</div>
         <div className="">
           <div>
-            <div className="grey-btn" onClick={this.onLedgerNanoSChange}>Use Ledger Nano S</div>
+            <div className="login-button" onClick={this.onLedgerNanoSChange}>Use Ledger Nano S</div>
           </div>
           <p>{hardwareDeviceInfo}</p>
           <p>{hardwarePublicKeyInfo}</p>
