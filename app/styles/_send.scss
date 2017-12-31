@@ -900,3 +900,20 @@ webview {
 .lineheight-up {
   line-height: 1.6em;
 }
+
+.loader {
+    border: 12px solid #131213; /* Dark grey */
+    border-top: 12px solid #7097e3; /* Purp */
+    border-right: 12px solid #7055e3;
+    border-bottom: 12px solid #231847;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    margin: 10px auto 20px;
+    animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

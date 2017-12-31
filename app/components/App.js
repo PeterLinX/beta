@@ -43,7 +43,7 @@ const StatusMessage = ({ status, statusMessage }) => {
       >
         <div>
           <div className="center modal-alert">
-            <img src={spinner} alt="" className="spinner" />
+            <div className="loader logobounce"></div>
           </div>
           <div className="center modal-alert">
             <strong>{statusMessage}</strong>
@@ -61,7 +61,7 @@ const StatusMessage = ({ status, statusMessage }) => {
       >
         <div>
           <div className="center modal-alert">
-            <img src={spinner} alt="" className="spinner" />
+            <div className="loader logobounce"></div>
           </div>
           <div className="center modal-alert">
             <strong>{statusMessage}</strong>
