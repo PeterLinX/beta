@@ -5,6 +5,7 @@ import { doSendAsset, verifyAddress } from "neon-js";
 import Neon, { wallet, api } from "@cityofzion/neon-js";
 import Modal from "react-bootstrap-modal";
 import QRCode from "qrcode.react";
+import { clipboard } from "electron";
 import axios from "axios";
 import SplitPane from "react-split-pane";
 import numeral from "numeral";
@@ -343,9 +344,10 @@ class Ledger extends Component {
             </div>
             <div className="col-xs-8">
               <div className="row">
-                <div className="col-md-10">
+                <div className="col-md-10 center">
                   <h4>
                     <span
+                      onClick={() => clipboard.writeText(this.state.ledgerAddress)}
                       data-tip
                       data-for="copyTip"
                       id="ledger-copy-icon"
@@ -359,8 +361,9 @@ class Ledger extends Component {
                     className="glyphicon glyphicon-refresh refresh-icon"
                     aria-hidden="true"
                     onClick={() => {
-                      this.getLedgerAddress();
+                    this.getLedgerAddress();
                     }}
+                    
                   />
                 </div>
               </div>
