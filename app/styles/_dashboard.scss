@@ -78,21 +78,20 @@
 
 #gas-button,
 #gas-button:focus {
-background: url("../img/gas-button@2x.png") no-repeat center;
-width: 120px;
-height: 130px;
-position: fixed;
-top: 32px;
-padding: 28px 0px 0px 0px;
-left: 53.5%;
-text-align: center;
+  background: url("../img/gas-button@2x.png") no-repeat center;
+  width: 120px;
+  height: 130px;
+  position: fixed;
+  top: 32px;
+  padding: 28px 0px 0px 0px;
+  left: 53.5%;
+  text-align: center;
 }
 
 #gas-button:hover {
   background: url("../img/gas-button-hover@2x.png") no-repeat center;
   cursor: pointer;
 }
-
 
 #logout {
   position: absolute;
@@ -106,7 +105,6 @@ text-align: center;
   text-align: center;
 }
 
-
 .pulse {
   -webkit-animation-name: pulse;
   animation-name: pulse;
@@ -116,32 +114,32 @@ text-align: center;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
   -webkit-animation-iteration-count: infinite;
-  }
-  @-webkit-keyframes pulse {
+}
+@-webkit-keyframes pulse {
   0% {
-  -webkit-transform: scale3d(1, 1, 1);
-  transform: scale3d(1, 1, 1);
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
   }
   50% {
-  -webkit-transform: scale3d(1.05, 1.05, 1.05);
-  transform: scale3d(1.05, 1.05, 1.05);
+    -webkit-transform: scale3d(1.05, 1.05, 1.05);
+    transform: scale3d(1.05, 1.05, 1.05);
   }
   100% {
-  -webkit-transform: scale3d(1, 1, 1);
-  transform: scale3d(1, 1, 1);
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
   }
-  }
-  @keyframes pulse {
+}
+@keyframes pulse {
   0% {
-  -webkit-transform: scale3d(1, 1, 1);
-  transform: scale3d(1, 1, 1);
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
   }
   50% {
-  -webkit-transform: scale3d(1.05, 1.05, 1.05);
-  transform: scale3d(1.05, 1.05, 1.05);
+    -webkit-transform: scale3d(1.05, 1.05, 1.05);
+    transform: scale3d(1.05, 1.05, 1.05);
   }
   100% {
-  -webkit-transform: scale3d(1, 1, 1);
-  transform: scale3d(1, 1, 1);
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
   }
-  }
+}

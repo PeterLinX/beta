@@ -137,7 +137,8 @@ class Ledger extends Component {
       ledgerBalanceNeo: 0,
       ledgerBalanceGas: 0,
       ledgerNEOUSD: 0,
-      ledgerGASUSD: 0
+      ledgerGASUSD: 0,
+      ledgerAvailable: false
     };
     this.handleChangeNeo = this.handleChangeNeo.bind(this);
     this.handleChangeGas = this.handleChangeGas.bind(this);
@@ -170,10 +171,13 @@ class Ledger extends Component {
 
       let loadAccount = new wallet.Account(publicKeyEncoded);
 
-      this.setState({ ledgerAddress: loadAccount.address });
+      this.setState({
+        ledgerAddress: loadAccount.address,
+        ledgerAvailable: true
+      });
       sendAddress = loadAccount.address;
 
-      this.getBalance(loadAccount.address, this.props.net);
+      this.getLedgerBalance(loadAccount.address, this.props.net);
 
       return loadAccount.address;
     } catch (error) {
@@ -198,7 +202,7 @@ class Ledger extends Component {
     }
   }
 
-  async getBalance(address, net) {
+  async getLedgerBalance(address, net) {
     const filledBalance = await api.getBalanceFrom(
       { net: net, address: address },
       api.neonDB
@@ -289,12 +293,18 @@ class Ledger extends Component {
       convertFunction = this.handleChangeGas;
     }
 
+    const { ledgerAvailable } = this.state;
+
     return (
       <div id="send">
         <div id="sendPane">
           <TopBar />
 
-          <div className="ledger-nanos" />
+          {ledgerAvailable ? (
+            <div className="ledger-nanos animated fadeInUp" />
+          ) : (
+            <div />
+          )}
 
           <div className="row dash-panel fadeInDown">
             <div className="col-xs-4">
