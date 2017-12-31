@@ -178,6 +178,15 @@ class CreateWallet extends Component {
               </div>
             </Link>
 
+            <Link to="/">
+              <div className="dash-icon-bar">
+                <div className="icon-border">
+                  <div className="ledger-sm" />
+                </div>
+                Login to Ledger Nano S
+              </div>
+            </Link>
+
           </div>
         </div>
       </div>
