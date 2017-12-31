@@ -121,6 +121,17 @@ class LoginNep2 extends Component {
                 Login Using Private Key
               </div>
             </Link>
+
+            <Link to="/ledger">
+              <div className="dash-icon-bar">
+                <div className="icon-border">
+                  <div className="ledger-sm" />
+                </div>
+                Login to Ledger Nano S
+              </div>
+            </Link>
+
+
           </div>
         </div>
       </div>

@@ -148,6 +148,16 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => {
             Open a Saved Wallet
           </div>
         </Link>
+
+        <Link to="/">
+          <div className="dash-icon-bar">
+            <div className="icon-border">
+              <div className="ledger-sm" />
+            </div>
+            Login to Ledger Nano S
+          </div>
+        </Link>
+
       </div>
     </div>
   );

@@ -81,6 +81,7 @@ class Claim extends Component {
       );
     if (this.props.disableClaimButton === false) {
       renderButton = (
+
         <div id="gas-button" onClick={doClaim}>
           <span className="gas-claim">
             Claim Gas<br />
@@ -96,12 +97,13 @@ class Claim extends Component {
               Claim Gas<br />
               {this.props.claimAmount}
             </span>
-          </div>
+        </div>
+        <div id="gas-loader" />
           <ReactTooltip
             className="solidTip"
             id="claimTip"
             place="bottom"
-            type="dark"
+            type="light"
             effect="solid"
           >
             <span>You can claim GAS once every 5 minutes</span>
