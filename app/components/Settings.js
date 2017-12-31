@@ -133,13 +133,19 @@ class Settings extends Component {
       <TopBar />
       <div className="dash-panel fadeInDown">
         <div className="description">
+
           <div className="row">
+
             <h2 className="center">General Settings</h2>
+
             <div className="col-xs-12 center">
-              <hr className="dash-hr-wide" />
+            <hr className="dash-hr-wide" />
             </div>
+
             <div className="clearboth" />
+
             <div className="row top-30 settings-padding">
+
               <div className="col-xs-2 center">
                 <NetworkSwitch />
               </div>
@@ -179,14 +185,25 @@ class Settings extends Component {
               <div className="col-xs-2 center com-soon">
                 <div className="dash-icon-bar">
                   <div className="icon-border">
+                    <span className="glyphicon glyphicon-heart" />
+                  </div>
+                  Token Sale
+                </div>
+              </div>
+
+              <div className="col-xs-2 center com-soon">
+                <div className="dash-icon-bar">
+                  <div className="icon-border">
                     <span className="glyphicon glyphicon-transfer" />
                   </div>
                   Morpheus Exchange
                 </div>
               </div>
+
             </div>
 
             <div className="row top-20 settings-padding">
+
               <div
                 className="col-xs-2 center"
                 onClick={() => dispatch(logout())}
@@ -211,6 +228,7 @@ class Settings extends Component {
                   </div>
                 </Link>
               </div>
+
               <div className="col-xs-2 center">
                 <div
                   className="dash-icon-bar"
@@ -222,6 +240,7 @@ class Settings extends Component {
                   Export Encrypted Keys
                 </div>
               </div>
+
               <div className="col-xs-2 center">
                 <div
                   className="dash-icon-bar"
@@ -235,6 +254,7 @@ class Settings extends Component {
                   View on NeoTracker
                 </div>
               </div>
+
               <div className="col-xs-2 center">
                 <Link to="/">
                   <div className="dash-icon-bar">
@@ -245,6 +265,7 @@ class Settings extends Component {
                   </div>
                 </Link>
               </div>
+
               <div className="col-xs-2 center">
                 <div
                   className="warning dash-icon-bar"
@@ -256,6 +277,8 @@ class Settings extends Component {
                   Remove Address
                 </div>
               </div>
+
+              
             </div>
           </div>
         </div>

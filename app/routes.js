@@ -8,6 +8,7 @@ import Settings from "./components/Settings";
 import Exchange from "./components/Exchange";
 import ExchangeAddress from "./components/ExchangeAddress";
 import LoginLocalStorage from "./components/LoginLocalStorage";
+import LoginLedgerNanoS from "./components/LoginLedgerNanoS";
 import TransactionHistory from "./components/TransactionHistory";
 import DisplayWalletKeys from "./components/DisplayWalletKeys";
 import CreateWallet from "./components/CreateWallet";
@@ -19,7 +20,6 @@ import Support from "./components/Support";
 import Ledger from "./components/Ledger";
 import Tokens from "./components/Tokens";
 import Sale from "./components/Sale";
-import Assets from "./components/Assets";
 
 export default (
   <Route path="/" component={App}>
@@ -35,7 +35,6 @@ export default (
       <Route path="/support" component={Support} />
       <Route path="/tokens" component={Tokens} />
       <Route path="/sale" component={Sale} />
-      <Route path="/assets" component={Assets} />
     </Route>
     <Route path="/create" component={CreateWallet} />
     <Route path="/encryptKey" component={EncryptKey} />
@@ -43,6 +42,7 @@ export default (
     <Route path="/LoginNep2" component={LoginNep2} />
     <IndexRoute component={LoginLocalStorage} />
     <Route path="/LoginPrivateKey" component={LoginPrivateKey} />
+    <Route path="/LoginLedgerNanoS" component={LoginLedgerNanoS} />
     <Route path="/LoginEncrypted" component={LoginNep2} />
     {/* <Route path="/settings" component={Settings} /> */}
     <Route path="/settingsw" component={Settings} />

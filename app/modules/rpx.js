@@ -1,12 +1,12 @@
-
 // @flow
-import { getTokenBalance, getAccountFromWIFKey, doMintTokens } from "neon-js"
-import { getAddress, getWif, LOGOUT } from "./account"
-import { getNetwork } from "./metadata"
-import { getNeo } from "./wallet"
+import { getTokenBalance, getAccountFromWIFKey, doMintTokens } from 'neon-js'
+import { showErrorNotification, showInfoNotification, showSuccessNotification } from './notifications'
+import { getAddress, getWif, LOGOUT } from './account'
+import { getNetwork } from './metadata'
+import { getNeo } from './wallet'
 
 // Constants
-export const UPDATE_RPX_BALANCE = "UPDATE_RPX_BALANCE"
+export const UPDATE_RPX_BALANCE = 'UPDATE_RPX_BALANCE'
 
 // Actions
 export function updateRpxBalance (balance: number) {
@@ -22,17 +22,18 @@ export const refreshTokenBalance = (scriptHash: string, silent: boolean = false)
   const net = getNetwork(state)
 
   // TODO: add other check
-  if (scriptHash.slice(0, 1) !== "0x" && scriptHash.length !== 42) {
+  if (scriptHash.slice(0, 1) !== '0x' && scriptHash.length !== 42) {
     if (!silent) {
-      dispatch(showErrorNotification({ message: "Not a valid script hash." }))
+      dispatch(showErrorNotification({ message: 'Not a valid script hash.' }))
     }
     return false
   }
   getTokenBalance(net, scriptHash.slice(2, scriptHash.length), address).then((balance) => {
+    balance = !balance || isNaN(balance) ? 0 : balance;
     dispatch(updateRpxBalance(balance))
   }).catch((e) => {
     dispatch(updateRpxBalance(0))
-    dispatch(showErrorNotification({ message: "There is no ability to display tokens at that script hash." }))
+    dispatch(showErrorNotification({ message: 'There is no ability to display tokens at that script hash.' }))
     return false
   })
 }
@@ -45,35 +46,35 @@ export const participateInSale = (neoToSend: number, scriptHash: string) => (dis
 
   const account = getAccountFromWIFKey(wif)
   if (parseFloat(neoToSend) !== parseInt(neoToSend)) {
-    dispatch(showErrorNotification({ message: "You cannot send fractional Neo to a token sale." }))
+    dispatch(showErrorNotification({ message: 'You cannot send fractional Neo to a token sale.' }))
     return false
   }
   const toMint = parseInt(neoToSend)
 
   if (toMint > neo) {
-    dispatch(showErrorNotification({ message: "You do not have enough Neo to send." }))
+    dispatch(showErrorNotification({ message: 'You do not have enough Neo to send.' }))
     return false
   }
-  if (scriptHash.slice(0, 1) !== "0x" && scriptHash.length !== 42) {
-    dispatch(showErrorNotification({ message: "Not a valid script hash." }))
+  if (scriptHash.slice(0, 1) !== '0x' && scriptHash.length !== 42) {
+    dispatch(showErrorNotification({ message: 'Not a valid script hash.' }))
     return false
   }
   const _scriptHash = scriptHash.slice(2, scriptHash.length)
 
-  dispatch(showInfoNotification({ message: "Sending transaction", autoDismiss: 0 }))
+  dispatch(showInfoNotification({ message: 'Sending transaction', autoDismiss: 0 }))
 
   return getTokenBalance(net, _scriptHash, account.address).then((balance) => {
     doMintTokens(net, _scriptHash, wif, toMint, 0).then((response) => {
       if (response.result === true) {
-        dispatch(showSuccessNotification({ message: "Sale participation was successful." }))
+        dispatch(showSuccessNotification({ message: 'Sale participation was successful.' }))
         return true
       } else {
-        dispatch(showErrorNotification({ message: "Sale participation failed." }))
+        dispatch(showErrorNotification({ message: 'Sale participation failed.' }))
         return false
       }
     })
   }).catch((e) => {
-    dispatch(showErrorNotification({ message: "This script hash cannot mint tokens." }))
+    dispatch(showErrorNotification({ message: 'This script hash cannot mint tokens.' }))
     return false
   })
 }

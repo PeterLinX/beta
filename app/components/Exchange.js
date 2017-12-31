@@ -399,11 +399,14 @@ class Exchange extends Component {
             ) : (
               <div className="dash-panel fadeInDown">
                 <div className="com-soon row fadeInDown center">
-                <h1 className="top-20">Sorry!</h1>
+                <div id="preloader">
+                <div id="loader"></div>
+              </div>
+                <h1 className="top-20">Exchange not available</h1>
                 <div className="col-xs-10 col-xs-offset-1">
-                  <h3 className="top-20">
-                    We apologise but our exchange partner Changelly currently does not have any NEO available. Please try again soon.
-                  </h3>
+                  <h4 className="top-20 lineheight-up">
+                    We apologise but our exchange partner Changelly currently does not have NEO available. Please try again soon.
+                  </h4>
                   </div>
                   <div className="clear-both" />
                 </div>

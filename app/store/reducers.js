@@ -6,8 +6,6 @@ import metadata from "../modules/metadata";
 import wallet from "../modules/wallet";
 import claim from "../modules/claim";
 import dashboard from "../modules/dashboard";
-import rpx from "../modules/rpx";
-import nep from "../modules/nep";
 
 export default combineReducers({
   account,
@@ -17,6 +15,4 @@ export default combineReducers({
   dashboard,
   metadata,
   claim,
-  rpx,
-  nep
 });

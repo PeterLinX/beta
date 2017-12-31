@@ -30,21 +30,21 @@ class TopBar extends Component {
         <div className="row">
           <div className="header">
             <div className="col-xs-5">
-              <p className="maket-price">
-                {numeral(this.props.marketNEOPrice).format("$0,0.00")} USD
+              <p className="market-price center">
+                NEO {numeral(this.props.marketNEOPrice).format("$0,0.00")}
               </p>
               <p className="neo-text">
                 {numeral(this.props.neo).format("0,0")} <span>NEO</span>
               </p>
               <hr className="dash-hr" />
               <p className="neo-balance">
-                {numeral(this.props.price).format("$0,0.00")} USD
+                {numeral(this.props.price).format("$0,0.00")} US
               </p>
             </div>
             <div className="col-xs-2">{<Claim />}</div>
             <div className="col-xs-5 top-5">
-              <p className="maket-price">
-                {numeral(this.props.marketGASPrice).format("$0,0.00")} USD
+              <p className="market-price center">
+                GAS {numeral(this.props.marketGASPrice).format("$0,0.00")}
               </p>
               <p className="gas-text">
                 {numeral(
