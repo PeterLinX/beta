@@ -862,6 +862,7 @@ webview {
   width: 130px;
       float: left;
       max-height: 100px;
+          color: #9d9d9d;
       margin: 10px;
       padding: 16px 8px;
       font-size: 0.8em;
@@ -882,7 +883,7 @@ cursor: pointer;
 }
 
 .col-5 h2 {
-  margin: 8px;
+  margin: 12px;
   color: #353535;
   opacity: 0.6;
 }
@@ -894,6 +895,10 @@ cursor: pointer;
 .dotted {
   border-style: dashed;
   opacity: 0.6;
+}
+
+.dotted:hover {
+  border-style: dashed;
 }
 
 .token-icon-border {
@@ -1070,7 +1075,7 @@ margin: 0px;
 
 
 .dash-portfolio h3 {
-  font-size: 18px;
+  font-size: 16px;
       margin: 0px;
       font-weight: 200;
       word-wrap: break-word;
@@ -1112,9 +1117,9 @@ margin: 0px;
       padding: 3px;
 }
 
-.rpx-price {color:#980300; font-size: 0.6em; font-weight: 900;}
-.dbc-price {color:#3e9bf4; font-size: 0.6em; font-weight: 900;}
-.qlink-price {color:#6a0182; font-size: 0.6em; font-weight: 900;}
-.nex-price {color:#003fff; font-size: 0.6em; font-weight: 900;}
-.hp-price {color:#ffa6b6; font-size: 0.6em; font-weight: 900;}
+.rpx-price {color:#980300; font-size: 0.8em; font-weight: 900;}
+.dbc-price {color:#3e9bf4; font-size: 0.8em; font-weight: 900;}
+.qlink-price {color:#6a0182; font-size: 0.8em; font-weight: 900;}
+.nex-price {color:#003fff; font-size: 0.8em; font-weight: 900;}
+.hp-price {color:#ffa6b6; font-size: 0.8em; font-weight: 900;}
 .rec-h3 {margin: 10px 0px 10px 50px;}
