@@ -36,10 +36,7 @@ export default class LoginLedgerNanoS extends Component<Props> {
         <div className="">Login using the Ledger Nano S:</div>
         <div className="">
           <div>
-            <div className="login-button" onClick={this.onLedgerNanoSChange}>Use Ledger Nano S</div>
-          </div>
-          <p>{hardwareDeviceInfo}</p>
-          <p>{hardwarePublicKeyInfo}</p>
+            
         </div>
       </div>
     )
