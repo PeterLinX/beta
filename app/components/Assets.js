@@ -14,6 +14,7 @@ import thekeyLogo from "../img/thekey.png";
 import nexLogo from "../img/nex.png";
 import deepLogo from "../img/deep.png";
 import hashpuppiesLogo from "../img/hashpuppies.png";
+import { Link } from "react-router";
 
 // force sync with balance data
 const refreshBalance = async (dispatch, net, address) => {
@@ -58,14 +59,18 @@ class Assets extends Component {
       </div>
 
       <div className="col-5">
-      <h3>0 <span className="hp-price">HashPuppy</span></h3>
+      <h3>0.00000000<br />
+      <span className="hp-price">HashPuppy</span></h3>
       <hr className="dash-hr" />
       <span className="dash-price">$0.00 USD</span>
       </div>
 
+      <Link to="/tokens">
       <div className="col-5 dotted">
-      <h2 className="center"><span className="glyphicon glyphicon-plus-sign" /></h2>
+      <h2 className="center">
+      <span className="glyphicon glyphicon-plus-sign" /></h2>
       </div>
+      </Link>
 
       </div>
       </div>
