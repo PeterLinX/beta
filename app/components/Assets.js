@@ -41,19 +41,22 @@ class Assets extends Component {
       <div className="row top-10 dash-portfolio center">
 
       <div className="col-5">
-      <h3>0 <span className="rpx-price">RPX</span></h3>
+      <h3>0<br />
+      <span className="rpx-price">RPX</span></h3>
       <hr className="dash-hr" />
       <span className="dash-price">$0.00 USD</span>
       </div>
 
       <div className="col-5">
-      <h3>0 <span className="dbc-price">DBC</span></h3>
+      <h3>0<br />
+      <span className="dbc-price">DBC</span></h3>
       <hr className="dash-hr" />
       <span className="dash-price">$0.00 USD</span>
       </div>
 
       <div className="col-5">
-      <h3>0 <span className="qlink-price">QLK</span></h3>
+      <h3>0<br />
+      <span className="qlink-price">QLK</span></h3>
       <hr className="dash-hr" />
       <span className="dash-price">$0.00 USD</span>
       </div>
