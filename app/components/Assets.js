@@ -1,96 +1,89 @@
-import React, { Component } from 'react'
-import { initiateGetAssetsBalance, addNepToStore, setNepToStore, removeNepFromStore } from '../../modules/nep';
-import axios from 'axios';
-import storage from 'electron-json-storage'
-import SplitPane from 'react-split-pane'
-import ReactTooltip from 'react-tooltip'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import axios from "axios";
+import numeral from "numeral";
+import Claim from "./Claim.js";
+import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
+import { resetPrice } from "../modules/wallet";
+import { sendEvent, clearTransactionEvent } from "../modules/transactions";
+import btcLogo from "../img/btc-logo.png";
+import ltcLogo from "../img/litecoin.png";
+import rpxLogo from "../img/rpx.png";
+import qlinkLogo from "../img/qlink.png";
+import thekeyLogo from "../img/thekey.png";
+import nexLogo from "../img/nex.png";
+import deepLogo from "../img/deep.png";
+import hashpuppiesLogo from "../img/hashpuppies.png";
 
-export let intervals = {}
+// force sync with balance data
+const refreshBalance = async (dispatch, net, address) => {
+  dispatch(sendEvent(true, "Refreshing..."));
+  initiateGetBalance(dispatch, net, address).then(response => {
+    dispatch(sendEvent(true, "Received latest blockchain information."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+  });
+};
 
-type Props = {
-  nep5: string[],
-  balances: Object,
-  tokens: Object,
-  net: NetworkType,
-  address: string,
-  initiateGetAssetsBalance: Function,
-  addNepToStore: Function,
-  setNepToStore: Function,
-  removeNepFromStore: Function
-}
-
-let hashToAdd;
-
-export default class Assets extends Component<Props> {
-
-  componentDidMount = () => {
-    const { address, net, nep5, setNepToStore } = this.props
-    storage.get('nep5list', (error, data) => {
-      if(data) {
-        setNepToStore(JSON.parse(data));
-      }
-    });
-    this.resetAssetsBalanceSync(net, address, nep5);
+class Assets extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      gasPrice: 0
+    };
   }
 
-  resetAssetsBalanceSync = (net: NetworkType, address: string, nep5: string[]) => {
-    const { initiateGetAssetsBalance } = this.props
-    if (intervals.balance !== undefined) {
-      clearInterval(intervals.balance)
-    }
-    intervals.balance = setInterval(() => {
-      initiateGetAssetsBalance(net, address, nep5)
-    }, 30000)
-  }
-
-  componentWillReceiveProps = (nextProps) => {
-    const { initiateGetAssetsBalance } = this.props
-    if(nextProps.nep5 !== this.props.nep5 || nextProps.net !== this.props.net){
-      storage.set('nep5list', JSON.stringify(nextProps.nep5));
-      initiateGetAssetsBalance(nextProps.net, this.props.address, nextProps.nep5)
-      this.resetAssetsBalanceSync(nextProps.net, this.props.address, nextProps.nep5);
-    }
-  }
-
-  addNep(hash){
-    const {addNepToStore} = this.props
-    addNepToStore(hash);
-    hashToAdd.value = '';
-  }
-
-  isRpxOrAph(hash){
-    return hash == '0xa0777c3ce2b169d4a23bcba4565e3225a0122d95' || hash == '0xecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9'
-  }
-
-  render () {
-    const {tokens, addNepToStore, removeNepFromStore} = this.props
+  render() {
     return (
-      <div>
-        <div className={styles.assetsContainer}>
-          <div className={styles.controls}>
-            <input placeholder="Write your NEP5 hashscript" ref={(node) => hashToAdd = node}/>
-            <button className="loginButton" onClick={(e) => this.addNep( hashToAdd.value )}>Add</button>
-          </div>
-          <ul className={styles.assetList}>
-            { this.props.nep5.map((hash, index) => {
-              let balance = this.props.balances[hash];
-              return (
-                <li key={hash}>
-                  <div className={styles.amountBig}>{ tokens[hash] && tokens[hash].symbol ? tokens[hash].symbol + ' ' : '' }{ balance }</div>
-                  {!this.isRpxOrAph(hash) ? (
-                      <div >
-                        <span><strong>Hash:</strong> { hash }</span>
-                        <span id={'delete_' + hash} className={styles.delete} data-tip data-for={'deleteHash_' + index} onClick={(e) => removeNepFromStore( hash, index )}>X</span>
-                        <ReactTooltip class='solidTip' id={'deleteHash_' + index} place='bottom' type='dark' effect='solid'>
-                          <span>Remove Hash</span>
-                        </ReactTooltip>
-                      </div>
-                  ):('')}
-                </li>);
-            })}
-          </ul>
-        </div>
+
+<div>
+
+      <div className="row top-10 dash-portfolio center">
+
+      <div className="col-5">
+      <h3>0 <span className="rpx-price">RPX</span></h3>
+      <hr className="dash-hr" />
+      <span className="dash-price">$0.00 USD</span>
       </div>
-    )
+
+      <div className="col-5">
+      <h3>0 <span className="dbc-price">DBC</span></h3>
+      <hr className="dash-hr" />
+      <span className="dash-price">$0.00 USD</span>
+      </div>
+
+      <div className="col-5">
+      <h3>0 <span className="qlink-price">QLK</span></h3>
+      <hr className="dash-hr" />
+      <span className="dash-price">$0.00 USD</span>
+      </div>
+
+      <div className="col-5">
+      <h3>0 <span className="hp-price">HashPuppy</span></h3>
+      <hr className="dash-hr" />
+      <span className="dash-price">$0.00 USD</span>
+      </div>
+
+      <div className="col-5 dotted">
+      <h2 className="center"><span className="glyphicon glyphicon-plus-sign" /></h2>
+      </div>
+
+      </div>
+      </div>
+    );
   }
 }
+
+const mapStateToProps = state => ({
+  neo: state.wallet.Neo,
+  gas: state.wallet.Gas,
+  address: state.account.address,
+  net: state.metadata.network,
+  price: state.wallet.price,
+  gasPrice: state.wallet.gasPrice,
+  marketGASPrice: state.wallet.marketGASPrice,
+  marketNEOPrice: state.wallet.marketNEOPrice
+});
+
+Assets = connect(mapStateToProps)(Assets);
+
+export default Assets;

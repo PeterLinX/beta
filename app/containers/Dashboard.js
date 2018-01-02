@@ -122,7 +122,7 @@ class Dashboard extends Component {
               >
                 {numeral(this.props.combined).format("$0,0.00")}
                 <span className="bal-usd">USD</span>
-                <span className="comb-bal">Combined Balance</span>
+                <span className="comb-bal">Available Balance</span>
               </div>
 
             </div>

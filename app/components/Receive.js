@@ -3,12 +3,13 @@ import { connect } from "react-redux";
 import QRCode from "qrcode.react";
 import { clipboard } from "electron";
 import { shell } from "electron";
-import neoLogo from "../images/neo.png";
+import neoLogo from "../img/neo.png";
 import copyIcon from "../images/copy-icon.png";
 import printIcon from "../images/print-icon.png";
 import emailIcon from "../images/email-icon.png";
 import linkIcon from "../images/link-icon.png";
 import TopBar from "./TopBar";
+import Assets from "./Assets";
 import ReactTooltip from "react-tooltip";
 
 const getLink = (net, address) => {
@@ -29,17 +30,30 @@ class Receive extends Component {
   render() {
     console.log(this.props.net);
     return (
-      <div id="receive" className="">
+      <div id="send" className="">
         <TopBar />
-        <div className="row top-20">
-          <h2>Receive NEO/GAS</h2>
+        <Assets />
+        <div className="dash-chart-panel">
+        <div className="row">
+        <div className="col-xs-12">
+        <img
+          src={neoLogo}
+          alt=""
+          width="38"
+          className="neo-logo logobounce"
+        />
+        <h3 className="rec-h3">
+          Receive NEO/GAS and other NEP tokens</h3>
+          <hr className="dash-hr-wide" />
+        </div>
+          <div className="col-xs-4 top-10">
           <div
             className="addressBox-send center animated fadeInDown pointer"
             data-tip
             data-for="qraddTip"
             onClick={() => clipboard.writeText(this.props.address)}
           >
-            <QRCode size={180} value={this.props.address} />
+            <QRCode size={140} value={this.props.address} />
             <ReactTooltip
               className="solidTip"
               id="qraddTip"
@@ -50,13 +64,21 @@ class Receive extends Component {
               <span>Click to copy your NEO Address</span>
             </ReactTooltip>
           </div>
-          <div className="row">
-            <p className="address">{this.props.address}</p>
-            <p className="info">Send NEO or GAS to this address ONLY.</p>
+          </div>
 
-            <div className="dash-bar-rec top-20">
+          <div className="col-xs-8">
+          <h5>Your Public Address</h5>
+          <input
+            className="ledger-address top-10"
+            onClick={() => clipboard.writeText(this.props.address)}
+            id="center"
+            placeholder={this.props.address}
+            value={this.props.address}
+          />
+
+            <div className="dash-bar top-30">
               <div
-                className="dash-icon-bar animated fadeInUp"
+                className="dash-icon-bar animated "
                 onClick={() => clipboard.writeText(this.props.address)}
               >
                 <div className="icon-border">
@@ -66,7 +88,7 @@ class Receive extends Component {
               </div>
 
               <div
-                className="dash-icon-bar animated fadeInUp"
+                className="dash-icon-bar animated "
                 onClick={() => print()}
               >
                 <div className="icon-border">
@@ -76,7 +98,7 @@ class Receive extends Component {
               </div>
 
               <div
-                className="dash-icon-bar animated fadeInUp"
+                className="dash-icon-bar animated "
                 onClick={() =>
                   openExplorer(getLink(this.props.net, this.props.address))
                 }
@@ -86,7 +108,22 @@ class Receive extends Component {
                 </div>
                 View On Blockchain
               </div>
+
+              <div
+                className="dash-icon-bar animated "
+              >
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-save" />
+                </div>
+                Download Encrypted Key
+              </div>
+
+
             </div>
+
+
+
+          </div>
           </div>
         </div>
       </div>
