@@ -10,6 +10,7 @@ import { log } from "../util/Logs";
 import neoLogo from "../img/neo.png";
 import Claim from "./Claim.js";
 import TopBar from "./TopBar";
+import Assets from "./Assets";
 import { clipboard } from "electron";
 import { togglePane } from "../modules/dashboard";
 import {
@@ -17,11 +18,7 @@ import {
   clearTransactionEvent,
   toggleAsset
 } from "../modules/transactions";
-import btcLogo from "../img/btc-logo.png";
-import qlinkLogo from "../img/qlink.png";
-import rpxLogo from "../img/rpx.png";
-import nexLogo from "../img/nex.png";
-import deepLogo from "../img/deep.png";
+
 
 let sendAddress, sendAmount, confirmButton;
 
@@ -214,11 +211,12 @@ class Send extends Component {
       convertFunction = this.handleChangeGas;
     }
     return (
-      <div id="send">
-        <div id="sendPane">
+        <div>
           <TopBar />
+          <Assets />
+<div id="sendPane">
 
-          <div className="row dash-panel fadeInDown">
+          <div className="row dash-chart-panel fadeInDown">
             <div className="col-xs-6">
               <img
                 src={neoLogo}
@@ -348,7 +346,7 @@ class Send extends Component {
           data-tip
           data-for="donateTip"
           onClick={() => clipboard.writeText("AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b")}
-          >Donate to Morpheus Dev Team: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
+          >Morpheus DevTeam: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
           <ReactTooltip
             className="solidTip"
             id="donateTip"
@@ -356,7 +354,7 @@ class Send extends Component {
             type="light"
             effect="solid"
           >
-            <span>Copy donation address</span>
+            <span>Copy address to send donation</span>
           </ReactTooltip>
           </div>
         </div>

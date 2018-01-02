@@ -72,7 +72,7 @@ class Tokens extends Component {
         onClick={() =>
                 openExplorer("https://github.com/neo-project")
         }
-        ><img src={gitsmLogo} alt="" width="16" className="" /> Githib</li>
+        ><img src={gitsmLogo} alt="" width="16" className="" /> Github</li>
         <li
         onClick={() =>
                 openExplorer("https://twitter.com/NEO_Blockchain")
@@ -110,7 +110,7 @@ class Tokens extends Component {
         onClick={() =>
                 openExplorer("https://coin.red-pulse.com/wp-content/uploads/redpulse-whitepaper-en.pdf")
         }
-        ><img src={gitsmLogo} alt="" width="16" className="" /> Githib</li>
+        ><img src={gitsmLogo} alt="" width="16" className="" /> Github</li>
         <li
         onClick={() =>
                 openExplorer("https://twitter.com/RedPulseNEO")
@@ -149,7 +149,7 @@ Add Address
         onClick={() =>
                 openExplorer("#")
         }
-        ><img src={gitsmLogo} alt="" width="16" className="" /> Githib</li>
+        ><img src={gitsmLogo} alt="" width="16" className="" /> Github</li>
         <li
         onClick={() =>
                 openExplorer("https://twitter.com/hash_puppies")
@@ -188,7 +188,7 @@ Add Address
         onClick={() =>
                 openExplorer("https://www.deepbrainchain.org/pc/DeepBrainChainWhitepaper.pdf")
         }
-        ><img src={gitsmLogo} alt="" width="16" className="" /> Githib</li>
+        ><img src={gitsmLogo} alt="" width="16" className="" /> Github</li>
         <li
         onClick={() =>
                 openExplorer("https://twitter.com/DeepBrainChain")
@@ -227,7 +227,7 @@ Add Address
         onClick={() =>
                 openExplorer("https://github.com/CityOfZion")
         }
-        ><img src={gitsmLogo} alt="" width="16" className="" /> Githib</li>
+        ><img src={gitsmLogo} alt="" width="16" className="" /> Github</li>
         <li
         onClick={() =>
                 openExplorer("https://www.twitter.com/neonexchange")
@@ -266,7 +266,7 @@ onClick={() =>
 onClick={() =>
         openExplorer("https://github.com/qlinkDev")
 }
-><img src={gitsmLogo} alt="" width="16" className="" /> Githib</li>
+><img src={gitsmLogo} alt="" width="16" className="" /> Github</li>
 <li
 onClick={() =>
         openExplorer("https://twitter.com/QlinkMobi")
@@ -305,7 +305,7 @@ onClick={() =>
 onClick={() =>
         openExplorer("https://github.com/thekeygithub/THEKEY")
 }
-><img src={gitsmLogo} alt="" width="16" className="" /> Githib</li>
+><img src={gitsmLogo} alt="" width="16" className="" /> Github</li>
 <li
 onClick={() =>
         openExplorer("https://twitter.com/thekeyvip")
@@ -383,7 +383,7 @@ onClick={() =>
 onClick={() =>
         openExplorer("https://ont.io/static/wp/Ontology%20Introductory%20White%20Paper.pdf")
 }
-><img src={gitsmLogo} alt="" width="16" className="" /> Githib</li>
+><img src={gitsmLogo} alt="" width="16" className="" /> Github</li>
 <li
 onClick={() =>
         openExplorer("https://twitter.com/OntologyNetwork")
@@ -428,7 +428,7 @@ onClick={() =>
 onClick={() =>
         openExplorer("https://github.com/bitcoin")
 }
-><img src={gitsmLogo} alt="" width="16" className="" /> Githib</li>
+><img src={gitsmLogo} alt="" width="16" className="" /> Github</li>
 <li
 onClick={() =>
         openExplorer("https://goo.gl/VoEMYf")
@@ -467,7 +467,7 @@ onClick={() =>
 onClick={() =>
         openExplorer("https://github.com/litecoin-project/litecoin")
 }
-><img src={gitsmLogo} alt="" width="16" className="" /> Githib</li>
+><img src={gitsmLogo} alt="" width="16" className="" /> Github</li>
 <li
 onClick={() =>
         openExplorer("https://twitter.com/LitecoinProject")
@@ -508,7 +508,7 @@ onClick={() =>
 onClick={() =>
         openExplorer("https://github.com/monero-project")
 }
-><img src={gitsmLogo} alt="" width="16" className="" /> Githib</li>
+><img src={gitsmLogo} alt="" width="16" className="" /> Github</li>
 <li
 onClick={() =>
         openExplorer("https://twitter.com/monerocurrency")
@@ -547,7 +547,7 @@ Add Address
         onClick={() =>
                 openExplorer("https://github.com/ethereum")
         }
-        ><img src={gitsmLogo} alt="" width="16" className="" /> Githib</li>
+        ><img src={gitsmLogo} alt="" width="16" className="" /> Github</li>
         <li
         onClick={() =>
                 openExplorer("https://twitter.com/ethereumproject")

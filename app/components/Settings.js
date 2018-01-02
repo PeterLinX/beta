@@ -17,6 +17,8 @@ import { clipboard } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import ReactTooltip from "react-tooltip";
 import TopBar from "./TopBar";
+import gitsmLogo from "../img/gitsm.png";
+import twitsmLogo from "../img/twitsm.png";
 
 let explorer_select;
 
@@ -136,7 +138,34 @@ class Settings extends Component {
 
           <div className="row">
 
-            <h2 className="center">General Settings</h2>
+            <div className="col-xs-6">
+            <h2 className="">General Settings</h2>
+            </div>
+
+
+            <div className="col-xs-6">
+
+            <ul className="social-bar">
+            <li
+            onClick={() =>
+                    openExplorer("https://morpheuswallet.com")
+            }
+            ><span className="glyphicon glyphicon-globe"/> Website</li>
+            <li
+            onClick={() =>
+                    openExplorer("https://github.com/morpheuswallet")
+            }
+            ><img src={gitsmLogo} alt="" width="16" className="" /> Github</li>
+            <li
+            onClick={() =>
+                    openExplorer("https://twitter.com/morpheuswallet")
+            }
+            ><img src={twitsmLogo} alt="" width="16" className="" /> Twitter</li>
+            </ul>
+          </div>
+
+
+
 
             <div className="col-xs-12 center">
             <hr className="dash-hr-wide" />
@@ -278,12 +307,11 @@ class Settings extends Component {
                 </div>
               </div>
 
-              
+
             </div>
           </div>
         </div>
-      </div>
-
+        </div>
       <div className="clearboth" />
     </div>
   );

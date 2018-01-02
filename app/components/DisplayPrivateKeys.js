@@ -55,6 +55,7 @@ class DisplayWalletKeys extends Component {
 
   render = () => (
     <div>
+
       <div className="displayWalletKeys">
         <div className="row send-neo-wide">
           <div className="row ">
@@ -77,7 +78,7 @@ class DisplayWalletKeys extends Component {
                   <div className="keyList">
                     {/* public address */}
                     <div className="keyListItem">
-                      <h4>Congratulations! New NEO Address Created</h4>
+                      <span className="wallet-logo"><NeoLogo width="24" /></span> <h3>New NEO Address Created</h3>
                       <input
                         type="text"
                         onClick={() => clipboard.writeText(this.props.address)}
@@ -119,7 +120,7 @@ class DisplayWalletKeys extends Component {
                     type="light"
                     effect="solid"
                   >
-                    <span>Copy Public Key</span>
+                    <span>Copy your NEO public address</span>
                   </ReactTooltip>
                   <ReactTooltip
                     className="solidTip"
@@ -128,7 +129,7 @@ class DisplayWalletKeys extends Component {
                     type="light"
                     effect="solid"
                   >
-                    <span>Copy Private Key</span>
+                    <span>Copy your NEO private key</span>
                   </ReactTooltip>
                   <ReactTooltip
                     className="solidTip"
@@ -137,7 +138,7 @@ class DisplayWalletKeys extends Component {
                     type="light"
                     effect="solid"
                   >
-                    <span>Copy Password</span>
+                    <span>Copy and save your password</span>
                   </ReactTooltip>
                   <ReactTooltip
                     className="solidTip"
@@ -146,13 +147,13 @@ class DisplayWalletKeys extends Component {
                     type="light"
                     effect="solid"
                   >
-                    <span>Copy Password Encrypted Key</span>
+                    <span>Copy and save your password encrypted key</span>
                   </ReactTooltip>
                 </div>
 
                 <div className="col-xs-3">
                   <div className="addressBox">
-                    <p style={{ textAlign: "center" }}>Encrypted Private Key</p>
+                    <p style={{ textAlign: "center" }}>Private Key</p>
 
                     <canvas
                       id="privateCanvas"
@@ -175,7 +176,7 @@ class DisplayWalletKeys extends Component {
               <div className="keyList">
                 {/* Your Encrypted Private Key*/}
                 <div className="col-xs-8 top-20">
-                  <p className="key-label">Your Private Key:</p>
+                  <p className="key-label">Please make a backup of your NEO Private Key:</p>
                   <input
                     type="text"
                     onClick={() => clipboard.writeText(this.props.wif)}
@@ -189,18 +190,19 @@ class DisplayWalletKeys extends Component {
                 </div>
 
                 <div className="col-xs-4 top-50">
+                <p className="key-label">Name Your Address:</p>
                   <input
                     type="text"
                     className="form-control saveKey font-plus"
                     ref={node => (key_name = node)}
-                    placeholder="Name your saved wallet"
+                    placeholder="Name your saved address"
                     data-tip
                   />
                 </div>
 
                 {/* Your Encrypted Private Key*/}
                 <div className="col-xs-8">
-                  <p className="key-label">Your Encrypted Private Key:</p>
+                  <p className="key-label">Please make a backup of your Encrypted Private Key and Password:</p>
                   <input
                     type="text"
                     onClick={() =>
@@ -278,6 +280,15 @@ class DisplayWalletKeys extends Component {
             Login Via Encrypted Key
           </div>
         </Link>
+
+          <div className="dash-icon-bar">
+            <div className="icon-border">
+              <span className="glyphicon glyphicon-save" />
+            </div>
+            Download Recovery File
+          </div>
+
+
       </div>
     </div>
   );

@@ -2,7 +2,7 @@
 @import url("../../node_modules/bootstrap/dist/css/bootstrap.min.css");
 @import "./_morpheus.scss";
 
-@import url("https://fonts.googleapis.com/css?family=Lato");
+// @import url("https://fonts.googleapis.com/css?family=Lato");
 
 $main-background: #fff;
 $default-button: #4d933b;
@@ -572,7 +572,7 @@ $box-margin: 10px;
   background-color: white;
   border-radius: 30px;
   padding: 20px;
-  width: 240px;
+  width: 100%;
   margin: 0px auto;
 }
 
