@@ -373,7 +373,6 @@ class Ledger extends Component {
               <input
                 className="ledger-address"
                 id="center"
-                readOnly
                 placeholder={this.state.ledgerAddress}
                 value={this.state.ledgerAddress}
               />

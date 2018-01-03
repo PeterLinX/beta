@@ -19,7 +19,6 @@ import {
   toggleAsset
 } from "../modules/transactions";
 
-
 let sendAddress, sendAmount, confirmButton;
 
 const apiURL = val => {
@@ -251,7 +250,7 @@ class SendRPX extends Component {
 
                 <div className="col-xs-3">
                   <Link to="/send">
-                    <div className="btn-red">
+                    <div className="grey-button">
                       RPX
                     </div>
                   </Link>
