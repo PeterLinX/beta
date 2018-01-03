@@ -40,12 +40,14 @@ class Assets extends Component {
 
       <div className="row top-10 dash-portfolio center">
 
+      <Link to="/sendRPX">
       <div className="col-5">
       <h3>0<br />
       <span className="rpx-price">RPX</span></h3>
       <hr className="dash-hr" />
       <span className="dash-price">$0.00 USD</span>
       </div>
+      </Link>
 
       <div className="col-5">
       <h3>0<br />

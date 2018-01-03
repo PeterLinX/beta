@@ -20,12 +20,14 @@ import Support from "./components/Support";
 import Ledger from "./components/Ledger";
 import Tokens from "./components/Tokens";
 import Sale from "./components/Sale";
+import SendRPX from "./components/SendRPX";
 
 export default (
   <Route path="/" component={App}>
     <Route component={Home} />
     <Route path="/dashboard" component={Dashboard}>
       <Route path="/send" component={Send} />
+      <Route path="/sendRPX" component={SendRPX} />
       <Route path="/receive" component={Receive} />
       <Route path="/settings" component={Settings} />
       <Route path="/exchange" component={Exchange} />

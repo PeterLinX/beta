@@ -7,7 +7,7 @@ import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
-import neoLogo from "../img/neo.png";
+import rpxLogo from "../img/rpx.png";
 import Claim from "./Claim.js";
 import TopBar from "./TopBar";
 import Assets from "./Assets";
@@ -120,34 +120,29 @@ const sendTransaction = (
   confirmButton.blur();
 };
 
-class Send extends Component {
+class SendRPX extends Component {
   constructor(props) {
     super(props);
     this.state = {
       open: true,
       gas: 0,
       neo: 0,
-      rpx: 0,
       neo_usd: 0,
       gas_usd: 0,
-      rpx_usd: 0,
       value: 0,
       inputEnabled: true
     };
     this.handleChangeNeo = this.handleChangeNeo.bind(this);
     this.handleChangeGas = this.handleChangeGas.bind(this);
-    this.handleChangeRPX = this.handleChangeRPX.bind(this);
     this.handleChangeUSD = this.handleChangeUSD.bind(this);
   }
 
   async componentDidMount() {
     let neo = await axios.get(apiURL("NEO"));
     let gas = await axios.get(apiURL("GAS"));
-    let rpx = await axios.get(apiURL("RPX"));
     neo = neo.data.USD;
     gas = gas.data.USD;
-    rpx = rpx.data.USD;
-    this.setState({ neo: neo, gas: gas, rpx: rpx });
+    this.setState({ neo: neo, gas: gas });
   }
 
   handleChangeNeo(event) {
@@ -160,12 +155,6 @@ class Send extends Component {
     this.setState({ value: event.target.value }, (sendAmount = value));
     const value = event.target.value * this.state.gas;
     this.setState({ gas_usd: value });
-  }
-
-  handleChangeRPX(event) {
-    this.setState({ value: event.target.value }, (sendAmount = value));
-    const value = event.target.value * this.state.rpx;
-    this.setState({ rpx_usd: value });
   }
 
   async handleChangeUSD(event) {
@@ -187,7 +176,6 @@ class Send extends Component {
       status,
       neo,
       gas,
-      rpx,
       net,
       confirmPane,
       selectedAsset
@@ -206,13 +194,12 @@ class Send extends Component {
     let formClass;
     let priceUSD = 0;
     let gasEnabled = false;
-    let rpxEnabled = false;
     let inputEnabled = true;
     let convertFunction = this.handleChangeNeo;
     if (selectedAsset === "Neo") {
       btnClass = "btn-send";
       convertFunction = this.handleChangeNeo;
-      formClass = "form-send-neo";
+      formClass = "form-send-rpx";
       priceUSD = this.state.neo_usd;
       inputEnabled = true;
     } else if (selectedAsset === "Gas") {
@@ -222,13 +209,6 @@ class Send extends Component {
       formClass = "form-send-gas";
       priceUSD = this.state.gas_usd;
       convertFunction = this.handleChangeGas;
-    } else if (selectedAsset === "RPX") {
-      rpxEnabled = true;
-      inputEnabled = false;
-      btnClass = "btn-send-rpx";
-      formClass = "form-send-rpx";
-      priceUSD = this.state.rpx_usd;
-      convertFunction = this.handleChangeRPX;
     }
     return (
         <div>
@@ -237,22 +217,22 @@ class Send extends Component {
 <div id="sendPane">
 
           <div className="row dash-chart-panel fadeInDown">
-            <div className="col-xs-6">
+            <div className="col-xs-9">
               <img
-                src={neoLogo}
+                src={rpxLogo}
                 alt=""
-                width="38"
-                className="neo-logo logobounce"
+                width="96"
+                className="neo-logo"
               />
-              <h2>Send Neo or Gas</h2>
+              <h2>Send Red Pulse (RPX)</h2>
             </div>
-            <div className="col-xs-3" />
+
             <div className="col-xs-3 top-20 center com-soon">
             Block: {this.props.blockHeight}
             </div>
 
             <div className="col-xs-12 center">
-            <hr className="dash-hr-wide" />
+            <hr className="dash-hr-wide top-20" />
             </div>
 
 <div className="clearboth" />
@@ -262,7 +242,7 @@ class Send extends Component {
                   <input
                     className={formClass}
                     id="center"
-                    placeholder="Enter a valid NEO public address here"
+                    placeholder="Enter a valid RPX public address here"
                     ref={node => {
                       sendAddress = node;
                     }}
@@ -270,29 +250,11 @@ class Send extends Component {
                 </div>
 
                 <div className="col-xs-3">
-                  <div
-                    id="sendAsset"
-                    className={btnClass}
-                    style={{ width: "100%" }}
-                    data-tip
-                    data-for="assetTip"
-                    onClick={() => {
-                      this.setState({ gas_usd: 0, neo_usd: 0, rpx_usd: 0,  value: 0 });
-                      document.getElementById("assetAmount").value = "";
-                      dispatch(toggleAsset());
-                    }}
-                  >
-                    {selectedAsset}
-                  </div>
-                  <ReactTooltip
-                    className="solidTip"
-                    id="assetTip"
-                    place="top"
-                    type="light"
-                    effect="solid"
-                  >
-                    <span>Click to switch between NEO and GAS</span>
-                  </ReactTooltip>
+                  <Link to="/send">
+                    <div className="grey-button">
+                      NEO
+                    </div>
+                  </Link>
                 </div>
 
                 <div className="col-xs-5  top-20">
@@ -309,7 +271,7 @@ class Send extends Component {
                     }}
                   />
                   <div className="clearboth"/>
-                  <span className="com-soon block top-10">Amount in NEO/GAS to send</span>
+                  <span className="com-soon block top-10">Amount in RPX to send</span>
                 </div>
                 <div className="col-xs-4 top-20">
                   <input
@@ -328,7 +290,7 @@ class Send extends Component {
                 <div className="col-xs-3 top-20">
                   <div id="sendAddress">
                     <button
-                      className="grey-button"
+                      className="rpx-button"
                       onClick={() =>
                         sendTransaction(
                           dispatch,
@@ -355,10 +317,7 @@ class Send extends Component {
 
         <div className="send-notice">
           <p>
-            All NEO and GAS transactions are FREE. Only send NEO and GAS to a
-            valid NEO address. Sending to an address other than a NEO address
-            can result in your NEO/GAS being lost. You cannot send a fraction of
-            a NEO.
+            All RPX transactions are FREE. Only send RPX to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending RPX to an exchange please ensure the address supports RPX tokens.
           </p>
           <div className="col-xs-2 top-20"/>
           <div className="col-xs-8 top-20">
@@ -399,6 +358,6 @@ const mapStateToProps = state => ({
   confirmPane: state.dashboard.confirmPane
 });
 
-Send = connect(mapStateToProps)(Send);
+SendRPX = connect(mapStateToProps)(SendRPX);
 
-export default Send;
+export default SendRPX;
