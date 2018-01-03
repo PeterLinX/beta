@@ -159,39 +159,17 @@
 }
 
 .btn-red {
-  padding: 10px 22px;
-  height: 46px;
+  padding: 5px 22px;
+  height: 41px;
   font-size: 18px;
-  border: 0;
+  border: 1px solid #790200;
   cursor: pointer;
   text-align: center;
   border-radius: 5px;
-  color: #000;
+  color: rgba(255, 255, 255, 0.4);
   margin: 0;
   opacity: 0.8;
-  background: rgb(169, 3, 41);
-  /* Old browsers */
-  background: -moz-linear-gradient(
-    top,
-    rgba(169, 3, 41, 1) 0%,
-    rgba(143, 2, 34, 1) 44%,
-    rgba(94, 0, 14, 1) 100%
-  );
-  /* FF3.6-15 */
-  background: -webkit-linear-gradient(
-    top,
-    rgba(169, 3, 41, 1) 0%,
-    rgba(143, 2, 34, 1) 44%,
-    rgba(94, 0, 14, 1) 100%
-  );
-  /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(
-    to bottom,
-    rgba(169, 3, 41, 1) 0%,
-    rgba(143, 2, 34, 1) 44%,
-    rgba(94, 0, 14, 1) 100%
-  );
-  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  background: rgb(74, 0, 17);
 }
 
 .btn-send:hover,

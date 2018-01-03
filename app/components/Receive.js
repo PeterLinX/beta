@@ -44,9 +44,10 @@ class Receive extends Component {
         />
         <h3 className="rec-h3">
           Receive NEO/GAS and other NEP tokens</h3>
-          <hr className="dash-hr-wide" />
         </div>
-          <div className="col-xs-4 top-10">
+        <hr className="dash-hr-wide" />
+        <div className="clearboth" />
+          <div className="col-xs-4 top-20">
           <div
             className="addressBox-send center animated fadeInDown pointer"
             data-tip
