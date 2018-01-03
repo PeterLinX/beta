@@ -236,7 +236,7 @@ class Send extends Component {
           <Assets />
 <div id="sendPane">
 
-          <div className="row dash-chart-panel fadeInDown">
+          <div className="row dash-chart-panel">
             <div className="col-xs-6">
               <img
                 src={neoLogo}
