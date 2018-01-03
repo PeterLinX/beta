@@ -373,6 +373,28 @@
   background: #61b900;
 }
 
+.rpx-button {
+  padding: 6px 16px;
+  height: 42px;
+  font-size: 18px;
+  border: thin solid #86080c;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: #ddd;
+  margin: 2px 0px;
+  background: #8a1a1e;
+  text-shadow: none;
+  font-weight: 200;
+  width: 100%;
+}
+
+.rpx-button:hover {
+  border: 0px solid #8a1a1e;
+  color: #fff;
+  background: #86080c;
+}
+
 .refresh-icon {
   font-size: 24px;
   padding-top: 12px;

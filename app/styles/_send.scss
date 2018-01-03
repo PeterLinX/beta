@@ -170,6 +170,19 @@ box-shadow: inset 0px 0px 12px #000000;
   outline: none;
 }
 
+.form-send-rpx {
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  min-height: 25px;
+  padding: 8px 25px;
+  font-size: 18px;
+  background-color: rgba(0, 0, 0, 0.62);
+  border: 1px solid #8a1a1e;
+  border-radius: 9px;
+  outline: none;
+}
+
 h1,
 h2 {
   font-weight: 200;
