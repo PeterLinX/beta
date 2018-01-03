@@ -216,7 +216,7 @@ class SendRPX extends Component {
           <Assets />
 <div id="sendPane">
 
-          <div className="row dash-chart-panel fadeInDown">
+          <div className="row dash-chart-panel">
             <div className="col-xs-9">
               <img
                 src={rpxLogo}
