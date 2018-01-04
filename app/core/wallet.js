@@ -2,9 +2,23 @@
 import { ASSETS_LABELS } from "./constants"
 import { getAccountFromWIFKey, verifyAddress } from "neon-js"
 
-const MIN_PASSPHRASE_LEN = 4
+const MIN_PASSPHRASE_LEN = 8
 
 export const validatePassphrase = (passphrase: string): boolean => passphrase.length >= MIN_PASSPHRASE_LEN
+
+export const isToken = (symbol: SymbolType) => Object.keys(TOKENS).includes(symbol)
+
+export const obtainTokenBalance = (tokens: Object, symbol: SymbolType) => {
+  if (!isToken(symbol)) {
+    throw new Error(`${symbol} is not a valid token`)
+  }
+  const token = tokens[symbol]
+  if (token) {
+    return token.balance
+  } else {
+    throw new Error(`Could not retrieve balance for ${symbol}`)
+  }
+}
 
 export const checkMatchingPassphrases = (passphrase: string, passphrase2: string) => passphrase !== passphrase2
 

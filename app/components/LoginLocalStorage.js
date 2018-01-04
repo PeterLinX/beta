@@ -193,7 +193,7 @@ class LoginLocalStorage extends Component {
             </div>
           </Link>
 
-          <Link to="/settings">
+          <Link to="/LoginLedgerNanoS">
             <div className="dash-icon-bar">
               <div className="icon-border">
                 <div className="ledger-sm" />

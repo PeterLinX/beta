@@ -1,6 +1,5 @@
 // @flow
-
-export const NEON_WALLET_RELEASE_LINK = "https://github.com/CityOfZion/neon-wallet/releases"
+export const NEON_WALLET_RELEASE_LINK = 'https://github.com/MorpheusWallet/Morpheus/releases'
 
 export const NETWORK = {
   MAIN: "MainNet",
@@ -52,5 +51,19 @@ export const BIP44_PATH =
 
 export const MODAL_TYPES = {
   SEND_TRANSACTION: "SEND_TRANSACTION",
-  CONFIRM: "CONFIRM"
+  CONFIRM: "CONFIRM",
+  SEND: 'SEND',
+  RECEIVE: 'RECEIVE'
 }
+
+// TestNet
+export const TOKENS_TEST = {
+  RPX: '5b7074e873973a6ed3708862f219a6fbf4d1c411'
+}
+
+// MainNet
+export const TOKENS = {
+  RPX: 'ecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9'
+}
+
+export const FINDING_LEDGER_NOTICE = 'Looking for USB Devices. Please plugin your device and login.'
