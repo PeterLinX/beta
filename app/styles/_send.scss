@@ -656,6 +656,7 @@ webview {
   width: 420px;
   height: 120px;
   margin: 20px auto -50px;
+  cursor: pointer;
 }
 
 .glyphicon-signal {
@@ -736,6 +737,7 @@ webview {
       border: 3px solid #252525;
       border-radius: 9px;
       outline: none;
+      -webkit-app-region: no-drag;
 }
 
 .marg-right-5 {
