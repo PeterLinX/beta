@@ -88,7 +88,7 @@
   text-align: center;
 }
 
-#gas-button:hover {
+#gas-button:hover, #ledger-gas-button:hover {
   background: url("../img/gas-button-hover@2x.png") no-repeat center;
   cursor: pointer;
 }
@@ -99,10 +99,22 @@
   left: 55px;
 }
 
-#gas-button.disabled {
+#gas-button.disabled, #ledger-gas-button.disabled {
   background: url("../img/gas-button-dis@2x.png") no-repeat center;
   font-size: 15px;
   text-align: center;
+}
+
+#ledger-gas-button,
+#ledger-gas-button:focus {
+  background: url("../img/gas-button@2x.png") no-repeat center;
+  width: 120px;
+height: 130px;
+position: fixed;
+top: 29px;
+padding: 28px 0px 0px 0px;
+left: 44.5%;
+text-align: center;
 }
 
 .pulse {
