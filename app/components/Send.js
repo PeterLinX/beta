@@ -162,6 +162,12 @@ class Send extends Component {
     this.setState({ gas_usd: value });
   }
 
+  handleChangeRPX(event) {
+    this.setState({ value: event.target.value }, (sendAmount = value));
+    const value = event.target.value * this.state.rpx;
+    this.setState({ rpx_usd: value });
+  }
+
   async handleChangeUSD(event) {
     this.setState({ gas_usd: event.target.value });
 

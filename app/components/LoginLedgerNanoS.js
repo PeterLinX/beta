@@ -12,7 +12,7 @@ import numeral from "numeral";
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
 import ledgerLogo from "../images/ledger-logo.png";
-import Claim from "./Claim.js";
+import ClaimLedgerGas from "./ClaimLedgerGas.js";
 import { togglePane } from "../modules/dashboard";
 import {
   sendEvent,
@@ -39,12 +39,12 @@ const validateForm = (dispatch, ledgerBalanceNeo, ledgerBalanceGAS, asset) => {
       sendAddress.value.charAt(0) !== "A"
     ) {
       dispatch(sendEvent(false, "The address you entered was not valid."));
-      setTimeout(() => dispatch(clearTransactionEvent()), 1500);
+      setTimeout(() => dispatch(clearTransactionEvent()), 1000);
       return false;
     }
   } catch (e) {
     dispatch(sendEvent(false, "The address you entered was not valid."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1500);
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   }
   // check for fractional neo
@@ -55,18 +55,15 @@ const validateForm = (dispatch, ledgerBalanceNeo, ledgerBalanceGAS, asset) => {
     dispatch(sendEvent(false, "You cannot send fractional amounts of Neo."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
-
-  } else if (asset === "ledgerBalanceNeo" && parseInt(sendAmount.value) > ledgerBalanceNeo) {
+  } else if (asset === "Neo" && parseInt(sendAmount.value) > ledgerBalanceNeo) {
     // check for value greater than account balance
     dispatch(sendEvent(false, "You do not have enough NEO to send."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
-
-  } else if (asset === "ledgerBalanceGas" && parseFloat(sendAmount.value) > ledgerBalanceGAS) {
+  } else if (asset === "Gas" && parseFloat(sendAmount.value) > ledgerBalanceGAS) {
     dispatch(sendEvent(false, "You do not have enough GAS to send."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
-
   } else if (parseFloat(sendAmount.value) < 0) {
     // check for negative asset
     dispatch(sendEvent(false, "You cannot send negative amounts of an asset."));
@@ -151,11 +148,11 @@ class LoginLedgerNanoS extends Component {
   }
 
   async componentDidMount() {
-    let ledgerBalanceNeo = await axios.get(apiURL("NEO"));
-    let ledgerBalanceGas = await axios.get(apiURL("GAS"));
-    ledgerBalanceNeo = ledgerNEOUSD.data.USD;
-    ledgerBalanceGas = ledgerGASUSD.data.USD;
-    this.setState({ ledgerBalanceNeo: ledgerBalanceNeo, ledgerBalanceGas: ledgerBalanceGas });
+    let neo = await axios.get(apiURL("NEO"));
+    let gas = await axios.get(apiURL("GAS"));
+    neo = neo.data.USD;
+    gas = gas.data.USD;
+    this.setState({ neo: neo, gas: gas, rpx: rpx });
   }
 
   async getLedgerAddress() {
@@ -299,8 +296,42 @@ class LoginLedgerNanoS extends Component {
     const { ledgerAvailable } = this.state;
 
     return (
-      <div id="send">
-        <div id="sendPane">
+      <div>
+
+        <div className="ledger-header">
+
+          <div className="col-xs-5">
+            <p className="market-price center">
+              NEO {numeral(this.props.neoPrice).format("$0,0.00")}
+            </p>
+            <p className="neo-text">
+              {this.state.ledgerBalanceNeo} <span>NEO</span>
+            </p>
+            <hr className="dash-hr" />
+            <p className="neo-balance">
+              {numeral(this.state.ledgerNEOUSD).format("$0,0.00")}{" "} US
+            </p>
+          </div>
+
+          <div className="col-xs-2">{<ClaimLedgerGas />}</div>
+
+          <div className="col-xs-5 top-5">
+            <p className="market-price center">
+              GAS {numeral(this.props.gasPrice).format("$0,0.00")}
+            </p>
+            <p className="gas-text">
+              {Math.floor(this.state.ledgerBalanceGas * 10000000) / 10000000}{" "}
+              <span>GAS</span>
+            </p>
+            <hr className="dash-hr" />
+            <p className="neo-balance">
+              {" "}
+              {numeral(this.state.ledgerGASUSD).format("$0,0.00")}{" "}
+              USD
+            </p>
+          </div>
+
+        </div>
 
           {ledgerAvailable ? (
             <div className="ledger-nanos animated fadeInUp" />
@@ -308,7 +339,8 @@ class LoginLedgerNanoS extends Component {
             <div />
           )}
 
-          <div className="row dash-panel fadeInDown">
+          <div className="row ledger-login-panel fadeInDown">
+
             <div className="col-xs-4">
               <img
                 src={ledgerLogo}
@@ -321,6 +353,7 @@ class LoginLedgerNanoS extends Component {
               />{" "}
               <h2>Ledger</h2>
             </div>
+
             <ReactTooltip
               className="solidTip"
               id="copyTip"
@@ -330,55 +363,37 @@ class LoginLedgerNanoS extends Component {
             >
               <span>Copy Ledger Nano S NEO Address</span>
             </ReactTooltip>
-            <div className="col-xs-3 center">
-              <h4 className="neo-text">
-                {this.state.ledgerBalanceNeo} <span>NEO</span>
-              </h4>
-              <span className="com-soon">
-                {numeral(this.state.ledgerNEOUSD).format("$0,0.00")}{" "}
-              </span>
-            </div>
-
-            <div className="col-xs-1 center">
-              <span
-                className="glyphicon glyphicon-refresh refresh-icon"
-                aria-hidden="true"
-                onClick={() => {
-                  this.getLedgerAddress();
-                }}
-              />
-            </div>
-
-            <div className="col-xs-4 center">
-              <h4 className="gas-text-ledger top-10 ">
-                {Math.floor(this.state.ledgerBalanceGas * 10000000) / 10000000}{" "}
-                <span>GAS</span>
-              </h4>
-              <span className="com-soon top-10">
-                {numeral(this.state.ledgerGASUSD).format("$0,0.00")}{" "}
-              </span>
-            </div>
-            <div className="clearboth" />
-            <div className="col-xs-12 center">
-              <hr className="dash-hr-wide" />
-            </div>
-            <div className="clearboth" />
-            <div className="row top-20" />
-            <div className="clearboth" />
-            <div className="col-xs-4 top-10">
-              <div className="ledgerQRBox center animated fadeInDown">
-                <QRCode size={120} value={this.state.ledgerAddress} />
-              </div>
-            </div>
 
             <div className="col-xs-8">
 
             <div
               className="ledger-address"
               id="center"
+              onClick={() => {
+                this.getLedgerAddress();
+              }}
             >
             {this.state.ledgerAddress}
             </div>
+
+            </div>
+
+
+            <div className="clearboth" />
+
+            <div className="col-xs-12 center">
+              <hr className="dash-hr-wide" />
+            </div>
+
+
+            <div className="clearboth" />
+            <div className="row top-20" />
+            <div className="clearboth" />
+
+            <div className="col-xs-4 top-10">
+              <div className="ledgerQRBox center animated fadeInDown">
+                <QRCode size={120} value={this.state.ledgerAddress} />
+              </div>
             </div>
 
             <div className="col-xs-8">
@@ -390,8 +405,8 @@ class LoginLedgerNanoS extends Component {
                 sendAddress = node;
               }}
             />
-
             </div>
+
             <div className="col-xs-4  top-10">
               Amount to Transfer
               <input
@@ -407,6 +422,7 @@ class LoginLedgerNanoS extends Component {
                 }}
               />
             </div>
+
             <div className="col-xs-4 top-10">
               Value in USD
               <input
@@ -420,8 +436,11 @@ class LoginLedgerNanoS extends Component {
               />
               <label className="amount-dollar-ledger">$</label>
             </div>
+
             <div className="col-xs-4 top-10">
+
               <div id="sendAddress">
+
                 <div
                   id="sendAsset"
                   className={btnClass}
@@ -436,6 +455,7 @@ class LoginLedgerNanoS extends Component {
                 >
                   {selectedAsset}
                 </div>
+
                 <ReactTooltip
                   className="solidTip"
                   id="assetTip"
@@ -446,6 +466,7 @@ class LoginLedgerNanoS extends Component {
                   <span>Click to switch between NEO and GAS</span>
                 </ReactTooltip>
               </div>
+
             </div>
 
             <div className="col-xs-4 top-10">
@@ -472,10 +493,12 @@ class LoginLedgerNanoS extends Component {
                   <span className="glyphicon glyphicon-save" /> Send
                 </button>
               </div>
+
+
             </div>
+
             <div className="clearboth" />
           </div>
-        </div>
 
         <div className="top-10 center send-notice">
           <p>
@@ -485,7 +508,8 @@ class LoginLedgerNanoS extends Component {
             Ledger is a trademark of Ledger SAS, Paris, France. All original
             owner Copyright and Trademark laws apply.
           </p>
-        </div>
+
+      </div>
       </div>
     );
   }
