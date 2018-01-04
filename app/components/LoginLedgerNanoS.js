@@ -135,7 +135,7 @@ class LoginLedgerNanoS extends Component {
       gas_usd: 0,
       value: 0,
       inputEnabled: true,
-      ledgerAddress: "No Address Found",
+      ledgerAddress: "No Address Found. Click to Refresh",
       ledgerBalanceNeo: 0,
       ledgerBalanceGas: 0,
       ledgerNEOUSD: 0,
@@ -510,6 +510,65 @@ class LoginLedgerNanoS extends Component {
           </p>
 
       </div>
+
+      {ledgerAvailable ? (
+
+      <div className="ledger-login-controls">
+
+      <div className="col-xs-1 center">
+        <Link to="/">
+          <div className="dash-icon-bar">
+            <div className="ledger-icons">
+              <span className="glyphicon glyphicon-arrow-left" />
+            </div>
+            Back
+          </div>
+        </Link>
+      </div>
+
+      <div className="col-xs-1 center">
+          <div className="dash-icon-bar"
+          onClick={() => {
+            this.getLedgerAddress();
+          }}
+          >
+            <div className="ledger-icons">
+              <span className="glyphicon glyphicon-refresh" />
+            </div>
+            Refresh
+          </div>
+      </div>
+
+      <div className="col-xs-8 center" />
+
+      <div className="col-xs-1 center">
+          <div className="dash-icon-bar"
+          onClick={() => clipboard.writeText(this.state.ledgerAddress)}
+          >{ }
+            <div className="ledger-icons">
+              <span className="glyphicon glyphicon-duplicate" />
+            </div>
+            Copy
+          </div>
+      </div>
+
+      <div className="col-xs-1 center">
+        <Link to="/">
+          <div className="dash-icon-bar">
+            <div className="ledger-icons">
+              <span className="glyphicon glyphicon-list-alt" />
+            </div>
+            History
+          </div>
+        </Link>
+      </div>
+
+      </div>
+    ) : (
+      <div />
+    )}
+
+
       </div>
     );
   }
