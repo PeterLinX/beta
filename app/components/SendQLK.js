@@ -316,7 +316,7 @@ class SendQLK extends Component {
 
         <div className="send-notice">
           <p>
-            All QLink transactions are FREE. Only send QLink to a valid address that supports NEP tokens on the NEO blockchain. When sending QLink to an exchange please ensure the address supports QLink tokens.
+            Sending QLink requires a balance of 1 GAS+. Only send QLK to a valid address that supports NEP tokens on the NEO blockchain. When sending QLK to an exchange please ensure the address supports QLK tokens.
           </p>
           <div className="col-xs-2 top-20"/>
           <div className="col-xs-8 top-20">

@@ -270,7 +270,7 @@ class SendDBC extends Component {
                     }}
                   />
                   <div className="clearboth"/>
-                  <span className="com-soon block top-10">Amount in BDBC to send</span>
+                  <span className="com-soon block top-10">Amount in DBC to send</span>
                 </div>
                 <div className="col-xs-4 top-20">
                   <input
@@ -316,7 +316,7 @@ class SendDBC extends Component {
 
         <div className="send-notice">
           <p>
-            All DeepBrain Chain transactions are FREE. Only send DeepBrain Chain to a valid address that supports NEP tokens on the NEO blockchain. When sending DeepBrain Chain to an exchange please ensure the address supports DeepBrain Chain tokens.
+            Sending DeepBrain requires a balance of 1 GAS+. Only send DBC to a valid address that supports NEP tokens on the NEO blockchain. When sending DBC to an exchange please ensure the address supports DBC tokens.
           </p>
           <div className="col-xs-2 top-20"/>
           <div className="col-xs-8 top-20">

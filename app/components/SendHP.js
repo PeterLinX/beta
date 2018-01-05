@@ -316,7 +316,7 @@ class SendHP extends Component {
 
         <div className="send-notice">
           <p>
-            All HashPuppies transactions are FREE. Only send HashPuppies to a valid address that supports NEP tokens on the NEO blockchain. When sending HashPuppies to an exchange please ensure the address supports HashPuppies tokens.
+            Sending HashPuppies requires a balance of 1 GAS+. Only send RHPT to a valid address that supports NEP tokens on the NEO blockchain. When sending RHPT to an exchange please ensure the address supports RHPT tokens.
           </p>
           <div className="col-xs-2 top-20"/>
           <div className="col-xs-8 top-20">
