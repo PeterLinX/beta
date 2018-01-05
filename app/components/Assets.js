@@ -48,28 +48,30 @@ class Assets extends Component {
       <span className="dash-price">$0.00 USD</span>
       </div>
       </Link>
-
+      <Link to="/sendDBC">
       <div className="col-5">
       <h3>0.000000<br />
       <span className="dbc-price">DeepBrain</span></h3>
       <hr className="dash-hr" />
       <span className="dash-price">$0.00 USD</span>
       </div>
-
+      </Link>
+      <Link to="/sendQLK">
       <div className="col-5">
       <h3>0.000000<br />
       <span className="qlink-price">QLink</span></h3>
       <hr className="dash-hr" />
       <span className="dash-price">$0.00 USD</span>
       </div>
-
+      </Link>
+      <Link to="/sendHP">
       <div className="col-5">
       <h3>0.00000000<br />
       <span className="hp-price">HashPuppies</span></h3>
       <hr className="dash-hr" />
       <span className="dash-price">$0.00 USD</span>
       </div>
-
+      </Link>
       <Link to="/tokens">
       <div className="col-5 dotted">
       <h2 className="center">
