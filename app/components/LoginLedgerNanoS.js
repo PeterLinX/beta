@@ -494,7 +494,7 @@ class LoginLedgerNanoS extends Component {
                       confirmButton = node;
                     }}
                   >
-                    <span className="glyphicon glyphicon-save" /> Send
+                    <span className="glyphicon glyphicon-send" /> Send
                   </button>
                 </div>
               </div>

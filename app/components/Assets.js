@@ -42,7 +42,7 @@ class Assets extends Component {
 
       <Link to="/sendRPX">
       <div className="col-5">
-      <h3>0.000000<br />
+      <h3>0.0000<br />
       <span className="rpx-price">RedPulse</span></h3>
       <hr className="dash-hr" />
       <span className="dash-price">$0.00 USD</span>
@@ -50,7 +50,7 @@ class Assets extends Component {
       </Link>
       <Link to="/sendDBC">
       <div className="col-5">
-      <h3>0.000000<br />
+      <h3>0.0000<br />
       <span className="dbc-price">DeepBrain</span></h3>
       <hr className="dash-hr" />
       <span className="dash-price">$0.00 USD</span>
@@ -58,7 +58,7 @@ class Assets extends Component {
       </Link>
       <Link to="/sendQLK">
       <div className="col-5">
-      <h3>0.000000<br />
+      <h3>0.0000<br />
       <span className="qlink-price">QLink</span></h3>
       <hr className="dash-hr" />
       <span className="dash-price">$0.00 USD</span>
@@ -66,7 +66,7 @@ class Assets extends Component {
       </Link>
       <Link to="/sendHP">
       <div className="col-5">
-      <h3>0.00000000<br />
+      <h3>0.000000<br />
       <span className="hp-price">HashPuppies</span></h3>
       <hr className="dash-hr" />
       <span className="dash-price">$0.00 USD</span>
