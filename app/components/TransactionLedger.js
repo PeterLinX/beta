@@ -353,33 +353,20 @@ class LoginLedgerNanoS extends Component {
           {ledgerAvailable ? (
             <div className="row ledger-login-panel fadeInDown">
 
-              <div className="col-xs-4 center">
-                <h4
-                data-tip
-                data-for="copyTip"
-                className="pointer"
-                onClick={() => clipboard.writeText(this.state.ledgerAddress)}
-                >Copy Ledger Address</h4>{" "}
-              </div>{" "}
-
-              <ReactTooltip
-                className="solidTip"
-                id="copyTip"
-                place="top"
-                type="light"
-                effect="solid"
-              >
-                <span>Copy Ledger Nano S NEO Address</span>
-              </ReactTooltip>
-
-              <div className="col-xs-8">
-
-              <div
-                className="ledger-address"
-                id="center">
-              {this.state.ledgerAddress}
+              <div className="col-xs-9">
+                <h4>Ledger Nano S Transaction History</h4>
               </div>
 
+
+              <div className="col-xs-3 center top-10 send-info"
+              onClick={() =>
+            refreshBalance(
+              this.props.dispatch,
+              this.props.net,
+              this.props.address
+            )}
+              >
+            <span className="glyphicon glyphicon-refresh marg-right-5"/>  Block: {this.props.blockHeight}
               </div>
 
 
@@ -387,117 +374,15 @@ class LoginLedgerNanoS extends Component {
 
               <div className="col-xs-12 center">
                 <hr className="dash-hr-wide" />
-              </div>
 
+                <ul id="transactionList top-20">
+
+                </ul>
+
+
+              </div>
 
               <div className="clearboth" />
-              <div className="row top-20" />
-              <div className="clearboth" />
-
-              <div className="col-xs-4 top-10">
-                <div className="ledgerQRBox center animated fadeInDown">
-                  <QRCode size={120} value={this.state.ledgerAddress} />
-                </div>
-              </div>
-
-              <div className="col-xs-8">
-              <input
-                className={formClass}
-                id="center"
-                placeholder="Enter a valid NEO public address here"
-                ref={node => {
-                  sendAddress = node;
-                }}
-              />
-              </div>
-
-              <div className="col-xs-4  top-10">
-                Amount to Transfer
-                <input
-                  className={formClass}
-                  type="number"
-                  id="assetAmount"
-                  min="1"
-                  onChange={convertFunction}
-                  value={this.state.value}
-                  placeholder="0"
-                  ref={node => {
-                    sendAmount = node;
-                  }}
-                />
-              </div>
-
-              <div className="col-xs-4 top-10">
-                Value in USD
-                <input
-                  className={formClass}
-                  id="sendAmount"
-                  onChange={this.handleChangeUSD}
-                  onClick={this.handleChangeUSD}
-                  disabled={gasEnabled === false ? true : false}
-                  placeholder="Amount in US"
-                  value={`${priceUSD}`}
-                />
-                <label className="amount-dollar-ledger">$</label>
-              </div>
-
-              <div className="col-xs-4 top-10">
-
-                <div id="sendAddress">
-
-                  <div
-                    id="sendAsset"
-                    className={btnClass}
-                    style={{ width: "100%" }}
-                    data-tip
-                    data-for="assetTip"
-                    onClick={() => {
-                      this.setState({ gas_usd: 0, neo_usd: 0, value: 0 });
-                      document.getElementById("assetAmount").value = "";
-                      dispatch(toggleAsset());
-                    }}
-                  >
-                    {selectedAsset}
-                  </div>
-
-                  <ReactTooltip
-                    className="solidTip"
-                    id="assetTip"
-                    place="top"
-                    type="light"
-                    effect="solid"
-                  >
-                    <span>Click to switch between NEO and GAS</span>
-                  </ReactTooltip>
-                </div>
-
-              </div>
-
-              <div className="col-xs-4 top-10">
-                <div id="sendAddress">
-                  <button
-                    className="grey-button"
-                    data-tip
-                    data-for="sendTip"
-                    onClick={() =>
-                      sendTransaction(
-                        dispatch,
-                        net,
-                        address,
-                        wif,
-                        selectedAsset,
-                        neo,
-                        gas
-                      )
-                    }
-                    ref={node => {
-                      confirmButton = node;
-                    }}
-                  >
-                    <span className="glyphicon glyphicon-save" /> Send
-                  </button>
-                </div>
-              </div>
 
             </div>
 
@@ -521,7 +406,7 @@ class LoginLedgerNanoS extends Component {
       <div className="ledger-login-controls">
 
       <div className="col-xs-1 center">
-        <Link to="/">
+        <Link to="/LoginLedgerNanoS">
           <div className="dash-icon-bar">
             <div className="ledger-icons">
               <span className="glyphicon glyphicon-arrow-left" />
@@ -587,7 +472,8 @@ const mapStateToProps = state => ({
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,
   selectedAsset: state.transactions.selectedAsset,
-  confirmPane: state.dashboard.confirmPane
+  confirmPane: state.dashboard.confirmPane,
+  blockHeight: state.metadata.blockHeight
 });
 
 LoginLedgerNanoS = connect(mapStateToProps)(LoginLedgerNanoS);

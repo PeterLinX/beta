@@ -9,6 +9,7 @@ import Exchange from "./components/Exchange";
 import ExchangeAddress from "./components/ExchangeAddress";
 import LoginLocalStorage from "./components/LoginLocalStorage";
 import LoginLedgerNanoS from "./components/LoginLedgerNanoS";
+import TransactionLedger from "./components/TransactionLedger";
 import TransactionHistory from "./components/TransactionHistory";
 import DisplayWalletKeys from "./components/DisplayWalletKeys";
 import CreateWallet from "./components/CreateWallet";
@@ -45,6 +46,7 @@ export default (
     <IndexRoute component={LoginLocalStorage} />
     <Route path="/LoginPrivateKey" component={LoginPrivateKey} />
     <Route path="/LoginLedgerNanoS" component={LoginLedgerNanoS} />
+    <Route path="/TransactionLedger" component={TransactionLedger} />
     <Route path="/LoginEncrypted" component={LoginNep2} />
     {/* <Route path="/settings" component={Settings} /> */}
     <Route path="/settingsw" component={Settings} />
