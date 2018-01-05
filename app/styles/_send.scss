@@ -209,6 +209,45 @@ box-shadow: inset 0px 0px 12px #000000;
   outline: none;
 }
 
+.form-send-dbc {
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  min-height: 25px;
+  padding: 8px 25px;
+  font-size: 18px;
+  background-color: rgba(0, 0, 0, 0.62);
+  border: 1px solid #5bc1d4;
+  border-radius: 9px;
+  outline: none;
+}
+
+.form-send-qlk {
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  min-height: 25px;
+  padding: 8px 25px;
+  font-size: 18px;
+  background-color: rgba(0, 0, 0, 0.62);
+  border: 1px solid #8233be;
+  border-radius: 9px;
+  outline: none;
+}
+
+.form-send-hp {
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  min-height: 25px;
+  padding: 8px 25px;
+  font-size: 18px;
+  background-color: rgba(0, 0, 0, 0.62);
+  border: 1px solid #ffa6b6;
+  border-radius: 9px;
+  outline: none;
+}
+
 h1,
 h2 {
   font-weight: 200;
@@ -1160,7 +1199,7 @@ margin: 0px;
 }
 
 .rpx-price {color:#980300; font-size: 0.8em; font-weight: 900;}
-.dbc-price {color:#3e9bf4; font-size: 0.8em; font-weight: 900;}
+.dbc-price {color:#5ac1d4; font-size: 0.8em; font-weight: 900;}
 .qlink-price {color:#ae00d6; font-size: 0.8em; font-weight: 900;}
 .nex-price {color:#003fff; font-size: 0.8em; font-weight: 900;}
 .hp-price {color:#ffa6b6; font-size: 0.8em; font-weight: 900;}

@@ -22,6 +22,9 @@ import Ledger from "./components/Ledger";
 import Tokens from "./components/Tokens";
 import Sale from "./components/Sale";
 import SendRPX from "./components/SendRPX";
+import SendDBC from "./components/SendDBC";
+import SendQLK from "./components/SendQLK";
+import SendHP from "./components/SendHP";
 
 export default (
   <Route path="/" component={App}>
@@ -29,6 +32,9 @@ export default (
     <Route path="/dashboard" component={Dashboard}>
       <Route path="/send" component={Send} />
       <Route path="/sendRPX" component={SendRPX} />
+      <Route path="/sendDBC" component={SendDBC} />
+      <Route path="/sendQLK" component={SendQLK} />
+      <Route path="/sendHP" component={SendHP} />
       <Route path="/receive" component={Receive} />
       <Route path="/settings" component={Settings} />
       <Route path="/exchange" component={Exchange} />

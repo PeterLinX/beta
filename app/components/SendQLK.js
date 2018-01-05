@@ -7,7 +7,7 @@ import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
-import deepLogo from "../img/deep.png";
+import qlinkLogo from "../img/qlink.png";
 import Claim from "./Claim.js";
 import TopBar from "./TopBar";
 import Assets from "./Assets";
@@ -119,7 +119,7 @@ const sendTransaction = (
   confirmButton.blur();
 };
 
-class SendDBC extends Component {
+class SendQLK extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -198,7 +198,7 @@ class SendDBC extends Component {
     if (selectedAsset === "Neo") {
       btnClass = "btn-send";
       convertFunction = this.handleChangeNeo;
-      formClass = "form-send-dbc";
+      formClass = "form-send-qlk";
       priceUSD = this.state.neo_usd;
       inputEnabled = true;
     } else if (selectedAsset === "Gas") {
@@ -218,12 +218,12 @@ class SendDBC extends Component {
           <div className="row dash-chart-panel">
             <div className="col-xs-9">
               <img
-                src={deepLogo}
+                src={qlinkLogo}
                 alt=""
-                width="48"
+                width="96"
                 className="neo-logo"
               />
-              <h2> Send DeepBrain Tokens</h2>
+              <h2> Send QLink Tokens</h2>
             </div>
 
             <div className="col-xs-3 top-20 center com-soon">
@@ -241,7 +241,7 @@ class SendDBC extends Component {
                   <input
                     className={formClass}
                     id="center"
-                    placeholder="Enter a valid DBC public address here"
+                    placeholder="Enter a valid QKL public address here"
                     ref={node => {
                       sendAddress = node;
                     }}
@@ -250,8 +250,8 @@ class SendDBC extends Component {
 
                 <div className="col-xs-3">
                   <Link to="/send">
-                    <div className="blue-button">
-                      DBC
+                    <div className="purple-button">
+                      QLK
                     </div>
                   </Link>
                 </div>
@@ -270,7 +270,7 @@ class SendDBC extends Component {
                     }}
                   />
                   <div className="clearboth"/>
-                  <span className="com-soon block top-10">Amount in BDBC to send</span>
+                  <span className="com-soon block top-10">Amount in QKL to send</span>
                 </div>
                 <div className="col-xs-4 top-20">
                   <input
@@ -289,7 +289,7 @@ class SendDBC extends Component {
                 <div className="col-xs-3 top-20">
                   <div id="sendAddress">
                     <button
-                      className="dbc-button"
+                      className="qlk-button"
                       onClick={() =>
                         sendTransaction(
                           dispatch,
@@ -316,7 +316,7 @@ class SendDBC extends Component {
 
         <div className="send-notice">
           <p>
-            All DeepBrain Chain transactions are FREE. Only send DeepBrain Chain to a valid address that supports NEP tokens on the NEO blockchain. When sending DeepBrain Chain to an exchange please ensure the address supports DeepBrain Chain tokens.
+            All QLink transactions are FREE. Only send QLink to a valid address that supports NEP tokens on the NEO blockchain. When sending QLink to an exchange please ensure the address supports QLink tokens.
           </p>
           <div className="col-xs-2 top-20"/>
           <div className="col-xs-8 top-20">
@@ -337,10 +337,6 @@ class SendDBC extends Component {
           </div>
         </div>
 
-
-
-
-
       </div>
     );
   }
@@ -357,6 +353,6 @@ const mapStateToProps = state => ({
   confirmPane: state.dashboard.confirmPane
 });
 
-SendDBC = connect(mapStateToProps)(SendDBC);
+SendQLK = connect(mapStateToProps)(SendQLK);
 
-export default SendDBC;
+export default SendQLK;

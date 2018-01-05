@@ -373,6 +373,121 @@
   background: #86080c;
 }
 
+.pink-button {
+  padding: 6px 16px;
+    height: 42px;
+    font-size: 18px;
+    border: thin solid rgba(255, 166, 182, 0.6);
+    cursor: pointer;
+    text-align: center;
+    border-radius: 5px;
+    color: #ddd;
+    margin: 2px 0px;
+    background: rgba(255, 166, 182, 0.3);
+    text-shadow: none;
+    font-weight: 200;
+    width: 100%;
+}
+
+.blue-button {
+  padding: 6px 16px;
+      height: 42px;
+      font-size: 18px;
+      border: thin solid rgba(90, 193, 212, 0.5);
+      cursor: pointer;
+      text-align: center;
+      border-radius: 5px;
+      color: #ddd;
+      margin: 2px 0px;
+      background: rgba(67, 139, 153, 0.56);
+      text-shadow: none;
+      font-weight: 200;
+      width: 100%;
+}
+
+.purple-button {
+  padding: 6px 16px;
+      height: 42px;
+      font-size: 18px;
+      border: thin solid rgb(79, 40, 164);
+      cursor: pointer;
+      text-align: center;
+      border-radius: 5px;
+      color: #ddd;
+      margin: 2px 0px;
+      background: rgba(127, 50, 188, 0.3);
+      text-shadow: none;
+      font-weight: 200;
+      width: 100%;
+}
+
+
+.dbc-button {
+  padding: 6px 16px;
+    height: 42px;
+    font-size: 18px;
+    border: thin solid #337ab7;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 5px;
+    color: #222;
+    margin: 2px 0px;
+    background: #5ac1d4;
+    text-shadow: none;
+    font-weight: 200;
+    width: 100%;
+}
+
+.dbc-button:hover {
+  border: 0px solid #5ac1d4;
+  color: #fff;
+  background: #337ab7;
+}
+
+.qlk-button {
+  padding: 6px 16px;
+      height: 42px;
+      font-size: 18px;
+      border: thin solid #6c2db1;
+      cursor: pointer;
+      text-align: center;
+      border-radius: 5px;
+      color: #f5f5f5;
+      margin: 2px 0px;
+      background: #7f32bc;
+      text-shadow: none;
+      font-weight: 200;
+      width: 100%;
+}
+
+.qlk-button:hover {
+  border: 0px solid #ae00d6;
+  color: #fff;
+  background: #ae00d6;
+}
+
+.hp-button {
+  padding: 6px 16px;
+      height: 42px;
+      font-size: 18px;
+      border: thin solid #ffa6b6;
+      cursor: pointer;
+      text-align: center;
+      border-radius: 5px;
+      color: #f5f5f5;
+      margin: 2px 0px;
+      background: rgba(255, 127, 131, 0.87);
+      text-shadow: none;
+      font-weight: 200;
+      width: 100%;
+}
+
+.hp-button:hover {
+  border: 0px solid #ffa6b6;
+  color: #333;
+  background: #ffa6b6;
+}
+
 .refresh-icon {
   font-size: 24px;
   padding-top: 12px;
