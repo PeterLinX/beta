@@ -19,7 +19,7 @@ import Logout from "../components/Logout";
 import Send from "../components/Send";
 import SendRPX from "../components/SendRPX";
 import SendDBC from "../components/SendDBC";
-import SendQLK from "../components/SendQLK";
+import SendQLC from "../components/SendQLC";
 import SendHP from "../components/SendHP";
 import { togglePane } from "../modules/dashboard";
 import { version } from "../../package.json";
@@ -173,7 +173,7 @@ class Dashboard extends Component {
             </div>
           </div>
           <span className="dashnetwork">Network: {this.props.net}</span>
-          <div className="copyright">&copy; Copyright 2017 Morpheus</div>
+          <div className="copyright">&copy; Copyright 2018 Morpheus</div>
         </div>
         <div style={{ marginLeft: 230, marginTop: 20 }}>
           <div className="container">{this.props.children}</div>

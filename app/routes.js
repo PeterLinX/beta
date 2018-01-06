@@ -3,7 +3,6 @@ import { Route, Router, IndexRoute, browserHistory } from "react-router";
 import App from "./components/App";
 import LoginNep2 from "./components/LoginNep2";
 import LoginPrivateKey from "./components/LoginPrivateKey";
-import Home from "./components/Home";
 import Settings from "./components/Settings";
 import Exchange from "./components/Exchange";
 import ExchangeAddress from "./components/ExchangeAddress";
@@ -23,17 +22,16 @@ import Tokens from "./components/Tokens";
 import Sale from "./components/Sale";
 import SendRPX from "./components/SendRPX";
 import SendDBC from "./components/SendDBC";
-import SendQLK from "./components/SendQLK";
+import SendQLC from "./components/SendQLC";
 import SendHP from "./components/SendHP";
 
 export default (
   <Route path="/" component={App}>
-    <Route component={Home} />
     <Route path="/dashboard" component={Dashboard}>
       <Route path="/send" component={Send} />
       <Route path="/sendRPX" component={SendRPX} />
       <Route path="/sendDBC" component={SendDBC} />
-      <Route path="/sendQLK" component={SendQLK} />
+      <Route path="/sendQLC" component={SendQLC} />
       <Route path="/sendHP" component={SendHP} />
       <Route path="/receive" component={Receive} />
       <Route path="/settings" component={Settings} />

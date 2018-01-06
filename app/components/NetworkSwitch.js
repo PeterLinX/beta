@@ -49,7 +49,7 @@ const getGasPrice = async gasVal => {
 const getMarketPrice = async () => {
   try {
     let marketPrices = await axios.get(
-      "https://min-api.cryptocompare.com/data/pricemulti?fsyms=NEO,GAS&tsyms=USD"
+      "https://min-api.cryptocompare.com/data/pricemulti?fsyms=NEO,GAS,RPX,DBC,QLC&tsyms=USD"
     );
     return marketPrices;
   } catch (error) {
@@ -82,7 +82,10 @@ const initiateGetBalance = (dispatch, net, address) => {
                 combinedPrice,
                 gasPrice,
                 marketPrices.data.NEO.USD,
-                marketPrices.data.GAS.USD
+                marketPrices.data.GAS.USD,
+                marketPrices.data.RPX.USD,
+                marketPrices.data.DBC.USD,
+                marketPrices.data.QLC.USD
               )
             );
           }

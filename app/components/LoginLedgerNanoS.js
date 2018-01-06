@@ -83,7 +83,7 @@ const openAndValidate = (dispatch, ledgerBalanceNeo, ledgerBalanceGAS, asset) =>
 const sendTransaction = (
   dispatch,
   net,
-  selfAddress,
+  LedgerAddress,
   wif,
   asset,
   ledgerBalanceNeo,
@@ -92,7 +92,7 @@ const sendTransaction = (
   // validate fields again for good measure (might have changed?)
   if (validateForm(dispatch, ledgerBalanceNeo, ledgerBalanceGAS, asset) === true) {
     dispatch(sendEvent(true, "Processing..."));
-    log(net, "SEND", selfAddress, {
+    log(net, "SEND", LedgerAddress, {
       to: sendAddress.value,
       asset: asset,
       amount: sendAmount.value
@@ -359,7 +359,7 @@ class LoginLedgerNanoS extends Component {
                 data-for="copyTip"
                 className="pointer"
                 onClick={() => clipboard.writeText(this.state.ledgerAddress)}
-                >Copy Ledger Address</h4>{" "}
+                >NEO Ledger Address</h4>{" "}
               </div>{" "}
 
               <ReactTooltip
@@ -373,13 +373,13 @@ class LoginLedgerNanoS extends Component {
               </ReactTooltip>
 
               <div className="col-xs-8">
-
-              <div
+              <input
                 className="ledger-address"
-                id="center">
-              {this.state.ledgerAddress}
-              </div>
-
+                onClick={() => clipboard.writeText(this.props.ledgerAddress)}
+                id="center"
+                value={this.state.ledgerAddress}
+                placeholder={this.state.ledgerAddress}
+              />
               </div>
 
 
@@ -487,7 +487,9 @@ class LoginLedgerNanoS extends Component {
                         wif,
                         selectedAsset,
                         neo,
-                        gas
+                        gas,
+                        ledgerBalanceNeo,
+                        ledgerBalanceGas
                       )
                     }
                     ref={node => {

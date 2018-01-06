@@ -38,7 +38,7 @@ class TopBar extends Component {
               </p>
               <hr className="dash-hr" />
               <p className="neo-balance">
-                {numeral(this.props.price).format("$0,0.00")} US
+                {numeral(this.props.price).format("$0,0.00")} USD
               </p>
             </div>
             <div className="col-xs-2">{<Claim />}</div>

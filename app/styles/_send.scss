@@ -222,7 +222,7 @@ box-shadow: inset 0px 0px 12px #000000;
   outline: none;
 }
 
-.form-send-qlk {
+.form-send-qlc {
   display: inline-block;
   width: 100%;
   text-align: left;
@@ -911,6 +911,10 @@ webview {
   font-size: 16px;
 }
 
+.dash-portfolio {
+  margin: 10px 10px 10px 0px;
+}
+
 .dash-hr {
   margin: 5px auto 5px;
   border-bottom: 1px solid rgba(34, 34, 34, 0.79);
@@ -941,22 +945,22 @@ webview {
 }
 
 .col-5 {
-  width: 130px;
-      float: left;
-      max-height: 100px;
-          color: #9d9d9d;
-      margin: 10px;
-      padding: 16px 8px;
-      font-size: 0.8em;
-      border: 3px solid #1d1b1d;
-      background: rgba(12, 12, 14, 0.85);
-      border-radius: 20px;
-      box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
-      -moz-box-shadow: inset 0 0 12px #000000;
-      -webkit-box-shadow: inset 0 0 12px #000000;
-      box-shadow: inset 0px 0px 12px #000000;
-      opacity: 0.9;
-cursor: pointer;
+  width: 135px;
+  float: left;
+  height: 95px;
+  color: #9d9d9d;
+  margin: 10px 10px 10px 0px;
+  padding: 15px 2px;
+  font-size: 0.8em;
+  border: 3px solid #1d1b1d;
+  background: rgba(12, 12, 14, 0.85);
+  border-radius: 20px;
+  box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
+  -moz-box-shadow: inset 0 0 12px #000000;
+  -webkit-box-shadow: inset 0 0 12px #000000;
+  box-shadow: inset 0px 0px 12px #000000;
+  opacity: 0.9;
+  cursor: pointer;
 }
 
 .col-5:hover {
@@ -968,6 +972,7 @@ cursor: pointer;
   margin: 12px;
   color: #353535;
   opacity: 0.6;
+  cursor: pointer;
 }
 
 .col-5:hover h2 {
@@ -1149,7 +1154,7 @@ cursor: pointer;
 }
 
 .market-price {
-  color: #646464;
+  color: #7b7b7b;
 font-size: 10px;
 padding: 0px;
 margin: 0px;
@@ -1157,11 +1162,12 @@ margin: 0px;
 
 
 .dash-portfolio h3 {
-  font-size: 16px;
-      margin: 0px;
-      font-weight: 200;
-      word-wrap: break-word;
-      overflow: visible;
+  font-size: 14px;
+  margin: 0px;
+  font-weight: 200;
+  word-wrap: break-word;
+  overflow: visible;
+  color: #fff;
 }
 
 .market-window {

@@ -12,7 +12,6 @@ import { generateEncryptedWif } from "neon-js";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import Logo from "./Brand/LogoBlank";
 import NeoLogo from "./Brand/Neo";
-import IconBar from "./IconBar";
 
 const logo = require("../img/app-logo.png");
 const { dialog } = require("electron").remote;
