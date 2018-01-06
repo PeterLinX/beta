@@ -4,7 +4,7 @@ import axios from "axios";
 import numeral from "numeral";
 import Claim from "./Claim.js";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
-import { resetPrice } from "../modules/wallet";
+import { setMarketPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import btcLogo from "../img/btc-logo.png";
 import ltcLogo from "../img/litecoin.png";
@@ -16,14 +16,6 @@ import deepLogo from "../img/deep.png";
 import hashpuppiesLogo from "../img/hashpuppies.png";
 import { Link } from "react-router";
 
-// force sync with balance data
-const refreshBalance = async (dispatch, net, address) => {
-  dispatch(sendEvent(true, "Refreshing..."));
-  initiateGetBalance(dispatch, net, address).then(response => {
-    dispatch(sendEvent(true, "Received latest blockchain information."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-  });
-};
 
 class Assets extends Component {
   constructor(props) {
@@ -42,34 +34,34 @@ class Assets extends Component {
 
       <Link to="/sendRPX">
       <div className="col-5">
-      <h3>0<br />
-      <span className="rpx-price">RedPulse</span></h3>
+      <span className="market-price">RPX {numeral(this.props.marketRPXPrice).format("$0,0.00")}</span>
+      <h3>0.0000 <span className="rpx-price"> RPX</span></h3>
       <hr className="dash-hr" />
-      <span className="dash-price">$0.00 USD</span>
+      <span className="market-price">$0.00 USD</span>
       </div>
       </Link>
       <Link to="/sendDBC">
       <div className="col-5">
-      <h3>0<br />
-      <span className="dbc-price">DeepBrain</span></h3>
+      <span className="market-price">DBC {numeral(this.props.marketDBCPrice).format("$0,0.00")}</span>
+      <h3>0.0000 <span className="dbc-price"> DBC</span></h3>
       <hr className="dash-hr" />
-      <span className="dash-price">$0.00 USD</span>
+      <span className="market-price">$0.00 USD</span>
       </div>
       </Link>
-      <Link to="/sendQLK">
+      <Link to="/sendQLC">
       <div className="col-5">
-      <h3>0<br />
-      <span className="qlink-price">QLink</span></h3>
+      <span className="market-price">QLC {numeral(this.props.marketQLCPrice).format("$0,0.00")}</span>
+      <h3>0.0000 <span className="qlink-price"> QLC</span></h3>
       <hr className="dash-hr" />
-      <span className="dash-price">$0.00 USD</span>
+      <span className="market-price">$0.00 USD</span>
       </div>
       </Link>
       <Link to="/sendHP">
       <div className="col-5">
-      <h3>0<br />
-      <span className="hp-price">HashPuppies</span></h3>
+      <span className="market-price">Priceless</span>
+      <h3>0.0000 <span className="hp-price"> RHPT</span></h3>
       <hr className="dash-hr" />
-      <span className="dash-price">$0.00 USD</span>
+      <span className="market-price">$0.00 USD</span>
       </div>
       </Link>
       <Link to="/tokens">
@@ -93,7 +85,10 @@ const mapStateToProps = state => ({
   price: state.wallet.price,
   gasPrice: state.wallet.gasPrice,
   marketGASPrice: state.wallet.marketGASPrice,
-  marketNEOPrice: state.wallet.marketNEOPrice
+  marketNEOPrice: state.wallet.marketNEOPrice,
+  marketRPXPrice: state.wallet.marketRPXPrice,
+  marketDBCPrice: state.wallet.marketDBCPrice,
+  marketQLCPrice: state.wallet.marketQLCPrice
 });
 
 Assets = connect(mapStateToProps)(Assets);

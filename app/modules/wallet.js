@@ -12,7 +12,10 @@ export function setBalance(
   combined,
   gasPrice,
   marketNeoPrice,
-  marketGASPrice
+  marketGASPrice,
+  marketRPXPrice,
+  marketDBCPrice,
+  marketQLCPrice
 ) {
   return {
     type: SET_BALANCE,
@@ -22,7 +25,10 @@ export function setBalance(
     combined: combined,
     gasPrice: gasPrice,
     marketNEOPrice: marketNeoPrice,
-    marketGASPrice: marketGASPrice
+    marketGASPrice: marketGASPrice,
+    marketRPXPrice: marketRPXPrice,
+    marketDBCPrice: marketDBCPrice,
+    marketQLCPrice: marketQLCPrice
   };
 }
 
@@ -70,7 +76,10 @@ export default (
         combined: action.combined,
         gasPrice: action.gasPrice,
         marketNEOPrice: action.marketNEOPrice,
-        marketGASPrice: action.marketGASPrice
+        marketGASPrice: action.marketGASPrice,
+        marketRPXPrice: action.marketRPXPrice,
+        marketQLCPrice: action.marketQLCPrice,
+        marketDBCPrice: action.marketDBCPrice
       };
     case RESET_PRICE:
       return { ...state, price: "--" };

@@ -119,7 +119,7 @@ const sendTransaction = (
   confirmButton.blur();
 };
 
-class SendQLK extends Component {
+class SendQLC extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -198,7 +198,7 @@ class SendQLK extends Component {
     if (selectedAsset === "Neo") {
       btnClass = "btn-send";
       convertFunction = this.handleChangeNeo;
-      formClass = "form-send-qlk";
+      formClass = "form-send-qlc";
       priceUSD = this.state.neo_usd;
       inputEnabled = true;
     } else if (selectedAsset === "Gas") {
@@ -241,7 +241,7 @@ class SendQLK extends Component {
                   <input
                     className={formClass}
                     id="center"
-                    placeholder="Enter a valid QKL public address here"
+                    placeholder="Enter a valid QLC public address here"
                     ref={node => {
                       sendAddress = node;
                     }}
@@ -251,7 +251,7 @@ class SendQLK extends Component {
                 <div className="col-xs-3">
                   <Link to="/send">
                     <div className="purple-button">
-                      QLK
+                      QLC
                     </div>
                   </Link>
                 </div>
@@ -289,7 +289,7 @@ class SendQLK extends Component {
                 <div className="col-xs-3 top-20">
                   <div id="sendAddress">
                     <button
-                      className="qlk-button"
+                      className="qlc-button"
                       onClick={() =>
                         sendTransaction(
                           dispatch,
@@ -316,7 +316,7 @@ class SendQLK extends Component {
 
         <div className="send-notice">
           <p>
-            Sending QLink requires a balance of 1 GAS+. Only send QLK to a valid address that supports NEP tokens on the NEO blockchain. When sending QLK to an exchange please ensure the address supports QLK tokens.
+            Sending QLink requires a balance of 1 GAS+. Only send QLC to a valid address that supports NEP tokens on the NEO blockchain. When sending QLC to an exchange please ensure the address supports QLC tokens.
           </p>
           <div className="col-xs-2 top-20"/>
           <div className="col-xs-8 top-20">
@@ -353,6 +353,6 @@ const mapStateToProps = state => ({
   confirmPane: state.dashboard.confirmPane
 });
 
-SendQLK = connect(mapStateToProps)(SendQLK);
+SendQLC = connect(mapStateToProps)(SendQLC);
 
-export default SendQLK;
+export default SendQLC;
