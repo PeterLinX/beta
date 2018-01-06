@@ -82,7 +82,7 @@ class ClaimLedgerGas extends Component {
       );
     if (this.props.disableClaimButton === false) {
       renderButton = (
-        <div id="ledger-gas-button" onClick={doClaim}>
+        <div id="gas-button" onClick={doClaim}>
           <span className="gas-claim">
             Claim Gas<br />
             {this.props.claimAmount}
