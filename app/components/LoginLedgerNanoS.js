@@ -83,7 +83,7 @@ const openAndValidate = (dispatch, ledgerBalanceNeo, ledgerBalanceGAS, asset) =>
 const sendTransaction = (
   dispatch,
   net,
-  LedgerAddress,
+  selfAddress,
   wif,
   asset,
   ledgerBalanceNeo,
@@ -92,7 +92,7 @@ const sendTransaction = (
   // validate fields again for good measure (might have changed?)
   if (validateForm(dispatch, ledgerBalanceNeo, ledgerBalanceGAS, asset) === true) {
     dispatch(sendEvent(true, "Processing..."));
-    log(net, "SEND", LedgerAddress, {
+    log(net, "SEND", selfAddress, {
       to: sendAddress.value,
       asset: asset,
       amount: sendAmount.value
@@ -359,7 +359,7 @@ class LoginLedgerNanoS extends Component {
                 data-for="copyTip"
                 className="pointer"
                 onClick={() => clipboard.writeText(this.state.ledgerAddress)}
-                >NEO Ledger Address</h4>{" "}
+                >Copy Ledger Address</h4>{" "}
               </div>{" "}
 
               <ReactTooltip
@@ -373,13 +373,13 @@ class LoginLedgerNanoS extends Component {
               </ReactTooltip>
 
               <div className="col-xs-8">
-              <input
+
+              <div
                 className="ledger-address"
-                onClick={() => clipboard.writeText(this.props.ledgerAddress)}
-                id="center"
-                value={this.state.ledgerAddress}
-                placeholder={this.state.ledgerAddress}
-              />
+                id="center">
+              {this.state.ledgerAddress}
+              </div>
+
               </div>
 
 
@@ -487,16 +487,14 @@ class LoginLedgerNanoS extends Component {
                         wif,
                         selectedAsset,
                         neo,
-                        gas,
-                        ledgerBalanceNeo,
-                        ledgerBalanceGas
+                        gas
                       )
                     }
                     ref={node => {
                       confirmButton = node;
                     }}
                   >
-                    <span className="glyphicon glyphicon-send" /> Send
+                    <span className="glyphicon glyphicon-save" /> Send
                   </button>
                 </div>
               </div>
