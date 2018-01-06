@@ -12,6 +12,7 @@ import numeral from "numeral";
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
 import ClaimLedgerGas from "./ClaimLedgerGas.js";
+import Dashlogo from "../components/Brand/Dashlogo";
 import { togglePane } from "../modules/dashboard";
 import {
   sendEvent,
@@ -296,6 +297,56 @@ class LoginLedgerNanoS extends Component {
 
     return (
       <div>
+      <div id="mainNav" className="main-nav">
+        <div className="navbar navbar-inverse">
+          <div className="navbar-header">
+            <div
+              className="logoContainer"
+            >
+              <Dashlogo width={85} />
+            </div>
+            <div
+              id="balance"
+            >
+              $0.00
+              <span className="bal-usd">USD</span>
+              <span className="comb-bal">Available Balance</span>
+            </div>
+
+          </div>
+          <div className="clearfix" />
+          <hr className="dash-hr" />
+          <div className="navbar-collapse collapse">
+            <ul className="nav navbar-nav">
+              <li>
+                <Link to={"/LoginLedgerNanoS"} activeClassName="active">
+                  <span className="glyphicon glyphicon-th-large" /> Ledger Nano S
+                </Link>
+              </li>
+              <li>
+                <Link to={"/TransactionLedger"} activeClassName="active">
+                  <span className="glyphicon glyphicon-list-alt" /> History
+                </Link>
+              </li>
+              <li>
+                <Link to={"/"} activeClassName="active">
+                  <span className="glyphicon glyphicon-question-sign" /> Help
+                </Link>
+              </li>
+              <li>
+                <Link to={"/"} activeClassName="active">
+                  <span className="glyphicon glyphicon-chevron-left" /> Return to Login
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <span className="dashnetwork"></span>
+        <span className="dashnetwork">Network: {this.props.net}</span>
+        <div className="copyright">&copy; Copyright 2018 Morpheus</div>
+      </div>
+
+      <div className="ledger-dash-layout">
 
         <div className="ledger-header">
 
@@ -374,12 +425,14 @@ class LoginLedgerNanoS extends Component {
 
               <div className="col-xs-8">
 
-              <div
+              <input
                 className="ledger-address"
-                id="center">
-              {this.state.ledgerAddress}
-              </div>
-
+                onClick={() => clipboard.writeText(this.props.ledgerAddress)}
+                id="center"
+                placeholder={this.state.ledgerAddress}
+                value={this.state.ledgerAddress}
+              />
+              
               </div>
 
 
@@ -516,62 +569,7 @@ class LoginLedgerNanoS extends Component {
 
         </div>
 
-      {ledgerAvailable ? (
-
-      <div className="ledger-login-controls">
-
-      <div className="col-xs-1 center">
-        <Link to="/">
-          <div className="dash-icon-bar">
-            <div className="ledger-icons">
-              <span className="glyphicon glyphicon-arrow-left" />
-            </div>
-            Back
-          </div>
-        </Link>
-      </div>
-
-      <div className="col-xs-1 center">
-          <div className="dash-icon-bar"
-          onClick={() => {
-            this.getLedgerAddress();
-          }}
-          >
-            <div className="ledger-icons">
-              <span className="glyphicon glyphicon-refresh" />
-            </div>
-            Refresh
-          </div>
-      </div>
-
-      <div className="col-xs-8 center" />
-
-      <div className="col-xs-1 center">
-          <div className="dash-icon-bar"
-          onClick={() => clipboard.writeText(this.state.ledgerAddress)}
-          >{" "}
-            <div className="ledger-icons">
-              <span className="glyphicon glyphicon-duplicate" />
-            </div>
-            Copy
-          </div>
-      </div>
-
-      <div className="col-xs-1 center">
-        <Link to="/TransactionLedger">
-          <div className="dash-icon-bar">
-            <div className="ledger-icons">
-              <span className="glyphicon glyphicon-list-alt" />
-            </div>
-            History
-          </div>
-        </Link>
-      </div>
-
-      </div>
-    ) : (
-      <div />
-    )}
+    </div>
 
 
       </div>
