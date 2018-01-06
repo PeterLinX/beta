@@ -136,18 +136,16 @@ class Send extends Component {
     };
     this.handleChangeNeo = this.handleChangeNeo.bind(this);
     this.handleChangeGas = this.handleChangeGas.bind(this);
-    this.handleChangeRPX = this.handleChangeRPX.bind(this);
     this.handleChangeUSD = this.handleChangeUSD.bind(this);
   }
 
   async componentDidMount() {
     let neo = await axios.get(apiURL("NEO"));
     let gas = await axios.get(apiURL("GAS"));
-    let rpx = await axios.get(apiURL("RPX"));
     neo = neo.data.USD;
     gas = gas.data.USD;
     rpx = rpx.data.USD;
-    this.setState({ neo: neo, gas: gas, rpx: rpx });
+    this.setState({ neo: neo, gas: gas });
   }
 
   handleChangeNeo(event) {
@@ -160,12 +158,6 @@ class Send extends Component {
     this.setState({ value: event.target.value }, (sendAmount = value));
     const value = event.target.value * this.state.gas;
     this.setState({ gas_usd: value });
-  }
-
-  handleChangeRPX(event) {
-    this.setState({ value: event.target.value }, (sendAmount = value));
-    const value = event.target.value * this.state.rpx;
-    this.setState({ rpx_usd: value });
   }
 
   async handleChangeUSD(event) {
@@ -187,7 +179,6 @@ class Send extends Component {
       status,
       neo,
       gas,
-      rpx,
       net,
       confirmPane,
       selectedAsset
@@ -206,7 +197,6 @@ class Send extends Component {
     let formClass;
     let priceUSD = 0;
     let gasEnabled = false;
-    let rpxEnabled = false;
     let inputEnabled = true;
     let convertFunction = this.handleChangeNeo;
     if (selectedAsset === "Neo") {
@@ -222,13 +212,6 @@ class Send extends Component {
       formClass = "form-send-gas";
       priceUSD = this.state.gas_usd;
       convertFunction = this.handleChangeGas;
-    } else if (selectedAsset === "RPX") {
-      rpxEnabled = true;
-      inputEnabled = false;
-      btnClass = "btn-send-rpx";
-      formClass = "form-send-rpx";
-      priceUSD = this.state.rpx_usd;
-      convertFunction = this.handleChangeRPX;
     }
     return (
         <div>
@@ -366,7 +349,7 @@ class Send extends Component {
           data-tip
           data-for="donateTip"
           onClick={() => clipboard.writeText("AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b")}
-          >Morpheus DevTeam: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
+          >Morpheus: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
           <ReactTooltip
             className="solidTip"
             id="donateTip"
@@ -374,7 +357,7 @@ class Send extends Component {
             type="light"
             effect="solid"
           >
-            <span>Copy address to send donation</span>
+            <span>Copy address to send a tip to the developers</span>
           </ReactTooltip>
           </div>
         </div>
