@@ -127,10 +127,8 @@ class Send extends Component {
       open: true,
       gas: 0,
       neo: 0,
-      rpx: 0,
       neo_usd: 0,
       gas_usd: 0,
-      rpx_usd: 0,
       value: 0,
       inputEnabled: true
     };
@@ -144,7 +142,6 @@ class Send extends Component {
     let gas = await axios.get(apiURL("GAS"));
     neo = neo.data.USD;
     gas = gas.data.USD;
-    rpx = rpx.data.USD;
     this.setState({ neo: neo, gas: gas });
   }
 
@@ -217,7 +214,7 @@ class Send extends Component {
         <div>
           <TopBar />
           <Assets />
-<div id="sendPane">
+          <div id="send">
 
           <div className="row dash-chart-panel">
             <div className="col-xs-6">
@@ -260,7 +257,7 @@ class Send extends Component {
                     data-tip
                     data-for="assetTip"
                     onClick={() => {
-                      this.setState({ gas_usd: 0, neo_usd: 0, rpx_usd: 0,  value: 0 });
+                      this.setState({ gas_usd: 0, neo_usd: 0,  value: 0 });
                       document.getElementById("assetAmount").value = "";
                       dispatch(toggleAsset());
                     }}
@@ -334,33 +331,37 @@ class Send extends Component {
 
             </div>
           </div>
+
+          <div className="send-notice">
+            <p>
+              All NEO and GAS transactions are FREE. Only send NEO and GAS to a
+              valid NEO address. Sending to an address other than a NEO address
+              can result in your NEO/GAS being lost. You cannot send a fraction of
+              a NEO.
+            </p>
+            <div className="col-xs-2 top-20"/>
+            <div className="col-xs-8 top-20">
+            <p className="center donations"
+            data-tip
+            data-for="donateTip"
+            onClick={() => clipboard.writeText("AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b")}
+            >Morpheus Dev Team: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
+            <ReactTooltip
+              className="solidTip"
+              id="donateTip"
+              place="top"
+              type="light"
+              effect="solid"
+            >
+              <span>Copy address to send a tip to the developers</span>
+            </ReactTooltip>
+            </div>
+          </div>
+
+
         </div>
 
-        <div className="send-notice">
-          <p>
-            All NEO and GAS transactions are FREE. Only send NEO and GAS to a
-            valid NEO address. Sending to an address other than a NEO address
-            can result in your NEO/GAS being lost. You cannot send a fraction of
-            a NEO.
-          </p>
-          <div className="col-xs-2 top-20"/>
-          <div className="col-xs-8 top-20">
-          <p className="center donations"
-          data-tip
-          data-for="donateTip"
-          onClick={() => clipboard.writeText("AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b")}
-          >Morpheus: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
-          <ReactTooltip
-            className="solidTip"
-            id="donateTip"
-            place="top"
-            type="light"
-            effect="solid"
-          >
-            <span>Copy address to send a tip to the developers</span>
-          </ReactTooltip>
-          </div>
-        </div>
+
 
 
 

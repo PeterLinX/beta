@@ -41,10 +41,6 @@ class WalletInfo extends Component {
         <div>
           <TopBar />
           <Charts />
-          <div className="spacer" />
-          {/* <div className="qrCode">
-            <canvas id="qrCanvas" ref={node => (this.canvas = node)} />
-          </div> */}
         </div>
       );
     } else {

@@ -30,7 +30,7 @@ class Receive extends Component {
   render() {
     console.log(this.props.net);
     return (
-      <div id="send" className="">
+      <div id="" className="">
         <TopBar />
         <Assets />
         <div className="dash-chart-panel">

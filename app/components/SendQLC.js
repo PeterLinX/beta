@@ -213,7 +213,7 @@ class SendQLC extends Component {
         <div>
           <TopBar />
           <Assets />
-<div id="sendPane">
+<div id="send">
 
           <div className="row dash-chart-panel">
             <div className="col-xs-9">
@@ -312,30 +312,33 @@ class SendQLC extends Component {
 
             </div>
           </div>
+
+          <div className="send-notice">
+            <p>
+              Sending QLink requires a balance of 1 GAS+. Only send QLC to a valid address that supports NEP tokens on the NEO blockchain. When sending QLC to an exchange please ensure the address supports QLC tokens.
+            </p>
+            <div className="col-xs-2 top-20"/>
+            <div className="col-xs-8 top-20">
+            <p className="center donations"
+            data-tip
+            data-for="donateTip"
+            onClick={() => clipboard.writeText("AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b")}
+            >Morpheus Dev Team: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
+            <ReactTooltip
+              className="solidTip"
+              id="donateTip"
+              place="top"
+              type="light"
+              effect="solid"
+            >
+              <span>Copy address to send donation</span>
+            </ReactTooltip>
+            </div>
+          </div>
+
         </div>
 
-        <div className="send-notice">
-          <p>
-            Sending QLink requires a balance of 1 GAS+. Only send QLC to a valid address that supports NEP tokens on the NEO blockchain. When sending QLC to an exchange please ensure the address supports QLC tokens.
-          </p>
-          <div className="col-xs-2 top-20"/>
-          <div className="col-xs-8 top-20">
-          <p className="center donations"
-          data-tip
-          data-for="donateTip"
-          onClick={() => clipboard.writeText("AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b")}
-          >Morpheus DevTeam: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
-          <ReactTooltip
-            className="solidTip"
-            id="donateTip"
-            place="top"
-            type="light"
-            effect="solid"
-          >
-            <span>Copy address to send donation</span>
-          </ReactTooltip>
-          </div>
-        </div>
+
 
       </div>
     );
