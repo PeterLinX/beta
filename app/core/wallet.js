@@ -1,6 +1,6 @@
 // @flow
-import { ASSETS_LABELS } from "./constants"
-import { getAccountFromWIFKey, verifyAddress } from "neon-js"
+import { ASSETS_LABELS, ASSETS, TOKENS } from "./constants"
+import { wallet, getAccountFromWIFKey, verifyAddress } from "neon-js"
 
 const MIN_PASSPHRASE_LEN = 8
 
@@ -8,16 +8,8 @@ export const validatePassphrase = (passphrase: string): boolean => passphrase.le
 
 export const isToken = (symbol: SymbolType) => Object.keys(TOKENS).includes(symbol)
 
-export const obtainTokenBalance = (tokens: Object, symbol: SymbolType) => {
-  if (!isToken(symbol)) {
-    throw new Error(`${symbol} is not a valid token`)
-  }
-  const token = tokens[symbol]
-  if (token) {
-    return token.balance
-  } else {
-    throw new Error(`Could not retrieve balance for ${symbol}`)
-  }
+export const obtainBalance = (balances: Object, symbol: SymbolType) => {
+  return balances[symbol] || 0
 }
 
 export const checkMatchingPassphrases = (passphrase: string, passphrase2: string) => passphrase !== passphrase2

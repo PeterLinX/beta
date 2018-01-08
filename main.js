@@ -16,12 +16,12 @@ app.on("ready", () => {
     show: false,
     titleBarStyle: "hiddenInset",
     backgroundColor: "#000",
-    width: 1024,
-    height: 720,
-    minHeight: 720,
-    maxHeight: 720,
-    minWidth: 1024,
-    maxWidth: 1024,
+    width: 1080,
+    height: 800,
+    minHeight: 760,
+    maxHeight: 900,
+    minWidth: 1080,
+    maxWidth: 1440,
     icon: path.join(__dirname, "icons/png/64x64.png"),
     webPreferences: {
       webSecurity: false

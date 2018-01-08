@@ -1,21 +1,23 @@
 import React, { Component } from "react";
 import { Link } from "react-router";
 import { connect } from "react-redux";
-import { setBlockExplorer } from "../modules/metadata";
-import { setKeys } from "../modules/account";
+import { shell } from "electron";
+import { clipboard } from "electron";
+import Copy from "react-icons/lib/md/content-copy";
 import Delete from "react-icons/lib/md/delete";
 import _ from "lodash";
 import fs from "fs";
 import storage from "electron-json-storage";
-import { shell } from "electron";
+import ReactTooltip from "react-tooltip";
+
+import { setBlockExplorer } from "../modules/metadata";
+import { setKeys } from "../modules/account";
+import { NetworkSwitch } from "../components/NetworkSwitch";
+import { syncTransactionHistory } from "../components/NetworkSwitch";
+
 import Logo from "./Brand/LogoBlank";
 import NeoLogo from "./Brand/Neo";
 import Claim from "./Claim";
-import { NetworkSwitch } from "../components/NetworkSwitch";
-import { syncTransactionHistory } from "../components/NetworkSwitch";
-import { clipboard } from "electron";
-import Copy from "react-icons/lib/md/content-copy";
-import ReactTooltip from "react-tooltip";
 import TopBar from "./TopBar";
 import gitsmLogo from "../img/gitsm.png";
 import twitsmLogo from "../img/twitsm.png";

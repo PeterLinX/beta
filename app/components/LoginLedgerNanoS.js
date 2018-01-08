@@ -1,15 +1,19 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
-import { doSendAsset, verifyAddress } from "neon-js";
-import Neon, { wallet, api } from "@cityofzion/neon-js";
+import axios from "axios";
 import Modal from "react-bootstrap-modal";
 import QRCode from "qrcode.react";
 import { clipboard } from "electron";
-import axios from "axios";
 import SplitPane from "react-split-pane";
 import numeral from "numeral";
 import ReactTooltip from "react-tooltip";
+
+import { doSendAsset, verifyAddress } from "neon-js";
+import Neon, { wallet, api } from "@cityofzion/neon-js";
+
+import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
+import { resetPrice, setMarketPrice } from "../modules/wallet";
 import { log } from "../util/Logs";
 import ClaimLedgerGas from "./ClaimLedgerGas.js";
 import Dashlogo from "../components/Brand/Dashlogo";
@@ -30,6 +34,7 @@ const apiURL = val => {
   return `https://min-api.cryptocompare.com/data/price?fsym=${val}&tsyms=USD`;
 };
 
+
 // form validators for input fields
 const validateForm = (dispatch, ledgerBalanceNeo, ledgerBalanceGAS, asset) => {
   // check for valid address
@@ -39,12 +44,12 @@ const validateForm = (dispatch, ledgerBalanceNeo, ledgerBalanceGAS, asset) => {
       sendAddress.value.charAt(0) !== "A"
     ) {
       dispatch(sendEvent(false, "The address you entered was not valid."));
-      setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+      setTimeout(() => dispatch(clearTransactionEvent()), 1500);
       return false;
     }
   } catch (e) {
     dispatch(sendEvent(false, "The address you entered was not valid."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+    setTimeout(() => dispatch(clearTransactionEvent()), 1500);
     return false;
   }
   // check for fractional neo
@@ -53,21 +58,21 @@ const validateForm = (dispatch, ledgerBalanceNeo, ledgerBalanceGAS, asset) => {
     parseFloat(sendAmount.value) !== parseInt(sendAmount.value)
   ) {
     dispatch(sendEvent(false, "You cannot send fractional amounts of Neo."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+    setTimeout(() => dispatch(clearTransactionEvent()), 1500);
     return false;
   } else if (asset === "Neo" && parseInt(sendAmount.value) > ledgerBalanceNeo) {
     // check for value greater than account balance
     dispatch(sendEvent(false, "You do not have enough NEO to send."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+    setTimeout(() => dispatch(clearTransactionEvent()), 1500);
     return false;
   } else if (asset === "Gas" && parseFloat(sendAmount.value) > ledgerBalanceGAS) {
     dispatch(sendEvent(false, "You do not have enough GAS to send."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+    setTimeout(() => dispatch(clearTransactionEvent()), 1500);
     return false;
   } else if (parseFloat(sendAmount.value) < 0) {
     // check for negative asset
     dispatch(sendEvent(false, "You cannot send negative amounts of an asset."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+    setTimeout(() => dispatch(clearTransactionEvent()), 1500);
     return false;
   }
   return true;
@@ -84,7 +89,7 @@ const openAndValidate = (dispatch, ledgerBalanceNeo, ledgerBalanceGAS, asset) =>
 const sendTransaction = (
   dispatch,
   net,
-  selfAddress,
+  LedgerAddress,
   wif,
   asset,
   ledgerBalanceNeo,
@@ -93,7 +98,7 @@ const sendTransaction = (
   // validate fields again for good measure (might have changed?)
   if (validateForm(dispatch, ledgerBalanceNeo, ledgerBalanceGAS, asset) === true) {
     dispatch(sendEvent(true, "Processing..."));
-    log(net, "SEND", selfAddress, {
+    log(net, "SEND", LedgerAddress, {
       to: sendAddress.value,
       asset: asset,
       amount: sendAmount.value
@@ -133,6 +138,7 @@ class LoginLedgerNanoS extends Component {
       neo: 0,
       neo_usd: 0,
       gas_usd: 0,
+      gasPrice: 0,
       value: 0,
       inputEnabled: true,
       ledgerAddress: "No Address Found. Click to Refresh",
@@ -152,7 +158,7 @@ class LoginLedgerNanoS extends Component {
     let gas = await axios.get(apiURL("GAS"));
     neo = neo.data.USD;
     gas = gas.data.USD;
-    this.setState({ neo: neo, gas: gas, rpx: rpx });
+    this.setState({ neo: neo, gas: gas });
   }
 
   async getLedgerAddress() {
@@ -335,13 +341,13 @@ class LoginLedgerNanoS extends Component {
               </li>
               <li>
                 <Link to={"/"} activeClassName="active">
-                  <span className="glyphicon glyphicon-chevron-left" /> Return to Login
+                  <span className="glyphicon glyphicon-circle-arrow-left" /> Return to Login
                 </Link>
               </li>
             </ul>
           </div>
         </div>
-        <span className="dashnetwork"></span>
+
         <span className="dashnetwork">Network: {this.props.net}</span>
         <div className="copyright">&copy; Copyright 2018 Morpheus</div>
       </div>
@@ -352,7 +358,7 @@ class LoginLedgerNanoS extends Component {
 
           <div className="col-xs-5">
             <p className="market-price center">
-              NEO {numeral(this.props.neoPrice).format("$0,0.00")}
+              NEO {numeral(this.props.marketNeoPrice).format("$0,0.00")}
             </p>
             <p className="neo-text">
               {this.state.ledgerBalanceNeo} <span>NEO</span>
@@ -367,7 +373,7 @@ class LoginLedgerNanoS extends Component {
 
           <div className="col-xs-5 top-5">
             <p className="market-price center">
-              GAS {numeral(this.props.gasPrice).format("$0,0.00")}
+              GAS {numeral(this.props.marketGasPrice).format("$0,0.00")}
             </p>
             <p className="gas-text">
               {Math.floor(this.state.ledgerBalanceGas * 10000000) / 10000000}{" "}
@@ -410,7 +416,7 @@ class LoginLedgerNanoS extends Component {
                 data-for="copyTip"
                 className="pointer"
                 onClick={() => clipboard.writeText(this.state.ledgerAddress)}
-                >Copy Ledger Address</h4>{" "}
+                >Ledger Nano S Address</h4>{" "}
               </div>{" "}
 
               <ReactTooltip
@@ -432,7 +438,7 @@ class LoginLedgerNanoS extends Component {
                 placeholder={this.state.ledgerAddress}
                 value={this.state.ledgerAddress}
               />
-              
+
               </div>
 
 
@@ -444,16 +450,21 @@ class LoginLedgerNanoS extends Component {
 
 
               <div className="clearboth" />
-              <div className="row top-20" />
+              <div className="row" />
               <div className="clearboth" />
 
-              <div className="col-xs-4 top-10">
-                <div className="ledgerQRBox center animated fadeInDown">
+              <div className="col-xs-4 top-20">
+                <div className="ledgerQRBox center animated fadeInDown"
+                onClick={() => {
+                  this.getLedgerAddress();
+                }}
+                >
                   <QRCode size={120} value={this.state.ledgerAddress} />
                 </div>
               </div>
 
               <div className="col-xs-8">
+              Send from Ledger Nano S
               <input
                 className={formClass}
                 id="center"
@@ -578,14 +589,17 @@ class LoginLedgerNanoS extends Component {
 }
 
 const mapStateToProps = state => ({
-  wif: state.account.wif,
   ledgerNanoSGetInfoAsync: state.account.ledgerNanoSGetInfoAsync,
   address: state.account.ledgerAddress,
   net: state.metadata.network,
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,
   selectedAsset: state.transactions.selectedAsset,
-  confirmPane: state.dashboard.confirmPane
+  confirmPane: state.dashboard.confirmPane,
+  price: state.wallet.price,
+  gasPrice: state.wallet.gasPrice,
+  marketGASPrice: state.wallet.marketGASPrice,
+  marketNEOPrice: state.wallet.marketNEOPrice
 });
 
 LoginLedgerNanoS = connect(mapStateToProps)(LoginLedgerNanoS);

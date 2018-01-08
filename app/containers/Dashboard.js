@@ -11,6 +11,7 @@ import { NetworkSwitch } from "../components/NetworkSwitch";
 import WalletInfo from "../components/WalletInfo";
 import TransactionHistory from "../components/TransactionHistory";
 import Exchange from "../components/Exchange";
+import SelectExchange from "../components/SelectExchange";
 import Support from "../components/Support";
 import Tokens from "../components/Tokens";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
@@ -21,6 +22,7 @@ import SendRPX from "../components/SendRPX";
 import SendDBC from "../components/SendDBC";
 import SendQLC from "../components/SendQLC";
 import SendHP from "../components/SendHP";
+import AssetPortfolio from "../components/AssetPortfolio";
 import { togglePane } from "../modules/dashboard";
 import { version } from "../../package.json";
 import { log } from "../util/Logs";
@@ -140,6 +142,11 @@ class Dashboard extends Component {
                   </Link>
                 </li>
                 <li>
+                  <Link to={"/assetPortfolio"} activeClassName="active">
+                    <span className="glyphicon glyphicon-modal-window" /> Portfolio
+                  </Link>
+                </li>
+                <li>
                   <Link to={"/send"} activeClassName="active">
                     <span className="glyphicon glyphicon-send" /> Send
                   </Link>
@@ -160,7 +167,7 @@ class Dashboard extends Component {
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/exchange"} activeClassName="active">
+                  <Link to={"/selectExchange"} activeClassName="active">
                     <span className="glyphicon glyphicon-refresh" /> Exchange
                   </Link>
                 </li>
