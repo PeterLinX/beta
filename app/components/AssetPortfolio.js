@@ -49,12 +49,25 @@ class AssetPortolio extends Component {
     return (
 
 <div>
+<div className="col-xs-3" />
 
-<TopBar />
+<div className="col-xs-6 center">
+<h2 className="center">Asset Portfolio</h2>
+<img
+  src={doughnut}
+  alt=""
+  width="240"
+  className="doughnut"
+/>
+
+</div>
+
+<div className="col-xs-3" />
 
       <div className="row top-10 asset-portfolio center">
 
-      <div className="col-xs-3 top-30">
+      <div className="col-xs-12">
+
 
       <Link to="/send">
       <div className="col-5">
@@ -91,23 +104,6 @@ class AssetPortolio extends Component {
       </div>
       </Link>
 
-      </div>
-
-      <div className="col-xs-6">
-
-      <img
-        src={doughnut}
-        alt=""
-        width="300"
-        className="logobounce center asset-doughnut"
-      />
-
-
-      </div>
-
-      <div className="col-xs-3 top-30">
-
-
 
         <Link to="/sendDBC">
         <div className="col-5">
@@ -143,21 +139,12 @@ class AssetPortolio extends Component {
         </Link>
 
 
-
-        </div>
-
-        </div>
-
-        <div className="row top-10 asset-portfolio center">
-
-        <div className="col-xs-12">
-
         <Link to="/tokens">
         <div className="col-5">
         <span className="market-price">BTC {numeral(this.props.marketBTCPrice).format("$0,0.00")}</span>
         <h3>{numeral(
           Math.floor(this.props.btc * 100000) / 100000
-        ).format("0,0.0000")} <span className="rpx-price"> BTC</span></h3>
+        ).format("0,0.0000")} <span className="btc-price"> BTC</span></h3>
         <hr className="dash-hr" />
         <span className="market-price">$0.00 USD</span>
         </div>
@@ -168,7 +155,7 @@ class AssetPortolio extends Component {
         <span className="market-price">LTC {numeral(this.props.marketLTCPrice).format("$0,0.00")}</span>
         <h3>{numeral(
           Math.floor(this.props.ltc * 100000) / 100000
-        ).format("0,0.0000")} <span className="dbc-price"> LTC</span></h3>
+        ).format("0,0.0000")} <span className="ltc-price"> LTC</span></h3>
         <hr className="dash-hr" />
         <span className="market-price">$0.00 USD</span>
         </div>
@@ -179,7 +166,7 @@ class AssetPortolio extends Component {
         <span className="market-price">ETH {numeral(this.props.marketETHPrice).format("$0,0.00")}</span>
         <h3>{numeral(
           Math.floor(this.props.eth * 100000) / 100000
-        ).format("0,0.0000")} <span className="qlink-price"> ETH</span></h3>
+        ).format("0,0.0000")} <span className="eth-price"> ETH</span></h3>
         <hr className="dash-hr" />
         <span className="market-price">$0.00 USD</span>
         </div>
@@ -187,10 +174,32 @@ class AssetPortolio extends Component {
 
         <Link to="/tokens">
         <div className="col-5">
-        <span className="market-price">ETH {numeral(this.props.marketETHPrice).format("$0,0.00")}</span>
+        <span className="market-price">LRC {numeral(this.props.marketLRCPrice).format("$0,0.00")}</span>
         <h3>{numeral(
           Math.floor(this.props.eth * 100000) / 100000
-        ).format("0,0.0000")} <span className="qlink-price"> ETH</span></h3>
+        ).format("0,0.0000")} <span className="lrc-price"> LRC</span></h3>
+        <hr className="dash-hr" />
+        <span className="market-price">$0.00 USD</span>
+        </div>
+        </Link>
+
+        <Link to="/tokens">
+        <div className="col-5">
+        <span className="market-price">XMR {numeral(this.props.marketXMRPrice).format("$0,0.00")}</span>
+        <h3>{numeral(
+          Math.floor(this.props.eth * 100000) / 100000
+        ).format("0,0.0000")} <span className="xmr-price"> XMR</span></h3>
+        <hr className="dash-hr" />
+        <span className="market-price">$0.00 USD</span>
+        </div>
+        </Link>
+
+        <Link to="/tokens">
+        <div className="col-5">
+        <span className="market-price">IOTA {numeral(this.props.marketIOTAPrice).format("$0,0.00")}</span>
+        <h3>{numeral(
+          Math.floor(this.props.eth * 100000) / 100000
+        ).format("0,0.0000")} <span className="iota-price"> IOTA</span></h3>
         <hr className="dash-hr" />
         <span className="market-price">$0.00 USD</span>
         </div>
@@ -230,7 +239,10 @@ const mapStateToProps = state => ({
   marketQLCPrice: state.wallet.marketQLCPrice,
   marketBTCPrice: state.wallet.marketBTCPrice,
   marketLTCPrice: state.wallet.marketLTCPrice,
-  marketETHPrice: state.wallet.marketETHPrice
+  marketETHPrice: state.wallet.marketETHPrice,
+  marketLRCPrice: state.wallet.marketLRCPrice,
+  marketXMRPrice: state.wallet.marketXMRPrice,
+  marketIOTAPrice: state.wallet.marketIOTAPrice
 });
 
 AssetPortolio = connect(mapStateToProps)(AssetPortolio);
