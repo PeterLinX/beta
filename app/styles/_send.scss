@@ -123,7 +123,7 @@
 .dash-panel {
   margin: 30px 0 0 0;
   width: auto;
-  min-height: 500px;
+  min-height: 360px;
   padding: 30px 30px 30px 30px;
   border: 3px solid #1d1b1d;
   background: rgba(12, 12, 14, 0.85);
@@ -148,7 +148,7 @@
 }
 
 .dash-chart-panel {
-  margin: 10px 0 0 0;
+  margin: 30px 0 0 0;
 width: auto;
 padding: 30px 30px 30px 30px;
 border: 3px solid #1d1b1d;
@@ -480,10 +480,10 @@ webview {
   color: #555;
 }
 
-.changelly-logo {
-  background: url("../img/changelly.png") no-repeat center;
+.changelly-logo-sm {
+  background: url("../img/changelly-sm.png") no-repeat center;
   width: 100px;
-  height: 28px;
+  height: 34px;
   opacity: 0.6;
   margin-top: -8px;
 }
@@ -835,8 +835,6 @@ webview {
 
 .donations {
   position: fixed;
-  bottom: 5px;
-  right: 21%;
   cursor: pointer;
 }
 
@@ -992,6 +990,51 @@ webview {
 
 .col-5:hover h2 {
   opacity: 1;
+}
+
+.col-5-price {
+  width: 18%;
+  float: left;
+  height: 68px;
+  color: #9d9d9d;
+  margin: 1%;
+  padding: 15px 2px;
+  font-size: 0.8em;
+  border: 3px solid #1d1b1d;
+  background: rgba(12, 12, 14, 0.85);
+  border-radius: 20px;
+  box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
+  -moz-box-shadow: inset 0 0 12px #000000;
+  -webkit-box-shadow: inset 0 0 12px #000000;
+  box-shadow: inset 0px 0px 12px #000000;
+  margin-bottom: -10px;
+  cursor: pointer;
+}
+
+.col-5-price:hover {
+  border: 3px solid #272627;
+}
+
+.col-5-exchange {
+  width: 18%;
+  float: left;
+  height: 68px;
+  color: #9d9d9d;
+  margin: 1%;
+  padding: 15px 2px;
+  font-size: 0.8em;
+  border: 3px solid #1d1b1d;
+  background: rgba(12, 12, 14, 0.85);
+  border-radius: 20px;
+  box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
+  -moz-box-shadow: inset 0 0 12px #000000;
+  -webkit-box-shadow: inset 0 0 12px #000000;
+  box-shadow: inset 0px 0px 12px #000000;
+  cursor: pointer;
+}
+
+.col-5-exchange:hover {
+  border: 3px solid #272627;
 }
 
 .dotted {
@@ -1252,6 +1295,8 @@ margin: 0px;
       padding: 3px;
 }
 
+.neo-price {color:#7ed321; font-size: 0.8em; font-weight: 900;}
+.gas-price {color:#9013fe; font-size: 0.8em; font-weight: 900;}
 .rpx-price {color:#980300; font-size: 0.8em; font-weight: 900;}
 .dbc-price {color:#5ac1d4; font-size: 0.8em; font-weight: 900;}
 .qlink-price {color:#ae00d6; font-size: 0.8em; font-weight: 900;}

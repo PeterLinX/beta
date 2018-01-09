@@ -270,7 +270,7 @@ class Exchange extends Component {
                     </div>
                     <div className="col-xs-4">
                       <p className="sm-text">Powered by:</p>
-                      <div className="changelly-logo" />
+                      <div className="changelly-logo-sm" />
                     </div>
                   </div>
 
@@ -392,7 +392,7 @@ class Exchange extends Component {
                   </div>
                   <div className="col-xs-3">
                     <p className="sm-text">Powered by:</p>
-                    <div className="changelly-logo" />
+                    <div className="changelly-logo-sm" />
                   </div>
                 </div>
               </div>

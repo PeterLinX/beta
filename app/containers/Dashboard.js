@@ -142,11 +142,6 @@ class Dashboard extends Component {
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/assetPortfolio"} activeClassName="active">
-                    <span className="glyphicon glyphicon-modal-window" /> Portfolio
-                  </Link>
-                </li>
-                <li>
                   <Link to={"/send"} activeClassName="active">
                     <span className="glyphicon glyphicon-send" /> Send
                   </Link>
