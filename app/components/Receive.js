@@ -54,7 +54,7 @@ class Receive extends Component {
             data-for="qraddTip"
             onClick={() => clipboard.writeText(this.props.address)}
           >
-            <QRCode size={140} value={this.props.address} />
+            <QRCode size={160} className="neo-qr" value={this.props.address} />
             <ReactTooltip
               className="solidTip"
               id="qraddTip"
@@ -76,10 +76,10 @@ class Receive extends Component {
             placeholder={this.props.address}
             value={this.props.address}
           />
-
+          <div className="clearboth" />
             <div className="dash-bar top-30">
               <div
-                className="dash-icon-bar animated "
+                className="dash-icon-bar"
                 onClick={() => clipboard.writeText(this.props.address)}
               >
                 <div className="icon-border">
@@ -89,7 +89,7 @@ class Receive extends Component {
               </div>
 
               <div
-                className="dash-icon-bar animated "
+                className="dash-icon-bar"
                 onClick={() => print()}
               >
                 <div className="icon-border">
@@ -99,7 +99,7 @@ class Receive extends Component {
               </div>
 
               <div
-                className="dash-icon-bar animated "
+                className="dash-icon-bar"
                 onClick={() =>
                   openExplorer(getLink(this.props.net, this.props.address))
                 }
@@ -111,7 +111,7 @@ class Receive extends Component {
               </div>
 
               <div
-                className="dash-icon-bar animated "
+                className="dash-icon-bar"
               >
                 <div className="icon-border">
                   <span className="glyphicon glyphicon-save" />

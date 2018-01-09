@@ -81,10 +81,9 @@
   background: url("../img/gas-button@2x.png") no-repeat center;
   width: 120px;
   height: 130px;
-  position: fixed;
-  top: 32px;
-  padding: 28px 0px 0px 0px;
-  left: 53.5%;
+  margin: -8px auto 0px;
+  position: relative;
+  top: 0;
   text-align: center;
 }
 

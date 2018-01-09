@@ -90,7 +90,7 @@ class Dashboard extends Component {
     }
 
     let dash = (
-      <div className="container">
+      <div className="">
         <WalletInfo />
       </div>
     );
@@ -182,8 +182,8 @@ class Dashboard extends Component {
           <span className="dashnetwork">Network: {this.props.net}</span>
           <div className="copyright">&copy; Copyright 2018 Morpheus</div>
         </div>
-        <div style={{ marginLeft: 230, marginTop: 20 }}>
-          <div className="container">{this.props.children}</div>
+        <div className="main-container">
+          {this.props.children}
           {dash}
         </div>
       </div>

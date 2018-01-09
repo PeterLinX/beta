@@ -27,9 +27,8 @@ class TopBar extends Component {
   render() {
     return (
       <div id="send">
-        <div className="row">
           <div className="header">
-            <div className="col-xs-5">
+            <div className="col-xs-4">
               <p className="market-price center">
                 NEO {numeral(this.props.marketNEOPrice).format("$0,0.00")}
               </p>
@@ -41,8 +40,8 @@ class TopBar extends Component {
                 {numeral(this.props.price).format("$0,0.00")} USD
               </p>
             </div>
-            <div className="col-xs-2">{<Claim />}</div>
-            <div className="col-xs-5 top-5">
+            <div className="col-xs-4">{<Claim />}</div>
+            <div className="col-xs-4 top-5">
               <p className="market-price center">
                 GAS {numeral(this.props.marketGASPrice).format("$0,0.00")}
               </p>
@@ -62,7 +61,6 @@ class TopBar extends Component {
               </p>
             </div>
           </div>
-        </div>
       </div>
     );
   }
