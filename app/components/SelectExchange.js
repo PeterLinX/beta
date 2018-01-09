@@ -24,7 +24,6 @@ class SelectExchange extends Component {
     return (
       <div>
       <TopBar />
-
           <div className="row top-20">
           <Link to="/exchange">
             <div className="col-2 center">

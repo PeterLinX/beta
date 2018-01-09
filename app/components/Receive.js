@@ -32,18 +32,20 @@ class Receive extends Component {
     return (
       <div id="" className="">
         <TopBar />
-        <Assets />
         <div className="dash-chart-panel">
-        <div className="row">
-        <div className="col-xs-12">
-        <img
-          src={neoLogo}
-          alt=""
-          width="38"
-          className="neo-logo logobounce"
-        />
-        <h3 className="rec-h3">
-          Receive NEO/GAS and other NEP tokens</h3>
+        <div className="">
+        <div className="col-xs-6">
+          <img
+            src={neoLogo}
+            alt=""
+            width="38"
+            className="neo-logo logobounce"
+          />
+          <h2>Receive Neo or Gas</h2>
+        </div>
+        <div className="col-xs-3" />
+        <div className="col-xs-3 top-20 center com-soon">
+        Block: {this.props.blockHeight}
         </div>
         <hr className="dash-hr-wide" />
         <div className="clearboth" />
@@ -54,7 +56,7 @@ class Receive extends Component {
             data-for="qraddTip"
             onClick={() => clipboard.writeText(this.props.address)}
           >
-            <QRCode size={160} className="neo-qr" value={this.props.address} />
+            <QRCode size={150} className="neo-qr" value={this.props.address} />
             <ReactTooltip
               className="solidTip"
               id="qraddTip"
@@ -126,7 +128,16 @@ class Receive extends Component {
 
           </div>
           </div>
+<div className="clearboth" />
         </div>
+        <div className="clearboth" />
+        <div className="col-xs-12 top-20">
+                    <p className="send-notice">
+                    Your NEO address can be used to receive NEP tokens. Morpheus 0.0.5 does not display NEP5+ token balances at this time. Please use a NEP5+ compatible wallet to send and receive NEP5+ tokens such as RPX, BRC, QLC and HashPuppies. We apologise for the inconvenience. Please check soon for an update.
+                    </p>
+
+        </div>
+
       </div>
     );
   }

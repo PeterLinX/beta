@@ -41,10 +41,11 @@ class Affiliate extends Component {
     return (
 
 <div>
-
+      <h3>Online Exchanges</h3>
+      <hr className="dash-hr-wide" />
       <div className="row top-10 dash-portfolio center">
 
-      <div className="col-5"
+      <div className="col-5-exchange"
       onClick={() =>
               openExplorer("https://www.binance.com/?ref=10037289")
       }
@@ -52,14 +53,12 @@ class Affiliate extends Component {
       <img
         src={binanceLogo}
         alt=""
-        width="100"
+        width="90"
         className="logobounce"
       />
-      <hr className="dash-hr" />
-      NEO & GAS
       </div>
 
-      <div className="col-5"
+      <div className="col-5-exchange"
       onClick={() =>
               openExplorer("https://www.kucoin.com/#/?r=E3_rO9")
       }
@@ -67,14 +66,12 @@ class Affiliate extends Component {
       <img
         src={kucoinLogo}
         alt=""
-        width="100"
+        width="90"
         className="logobounce"
       />
-      <hr className="dash-hr" />
-      NEO, GAS & NEP Tokens
       </div>
 
-      <div className="col-5"
+      <div className="col-5-exchange"
       onClick={() =>
               openExplorer("https://bittrex.com")
       }
@@ -82,14 +79,12 @@ class Affiliate extends Component {
       <img
         src={bittrexLogo}
         alt=""
-        width="100"
+        width="90"
         className="logobounce"
       />
-      <hr className="dash-hr" />
-      NEO
       </div>
 
-      <div className="col-5"
+      <div className="col-5-exchange"
       onClick={() =>
               openExplorer("https://www.bitfinex.com")
       }
@@ -100,54 +95,8 @@ class Affiliate extends Component {
         width="100"
         className="logobounce"
       />
-      <hr className="dash-hr" />
-      NEO
       </div>
 
-      <div className="col-5 com-soon"
-      onClick={() =>
-              openExplorer("https://neonexchange.org")
-      }
-      >
-      <img
-        src={nexLogo}
-        alt=""
-        width="72"
-        className="logobounce com-soon"
-      />
-      <hr className="dash-hr" />
-      Coming Soon
-      </div>
-
-      <div className="col-5 com-soon"
-      onClick={() =>
-              openExplorer("https://neonexchange.org")
-      }
-      >
-      <img
-        src={nexLogo}
-        alt=""
-        width="72"
-        className="logobounce com-soon"
-      />
-      <hr className="dash-hr" />
-      Coming Soon
-      </div>
-
-      <div className="col-5 com-soon"
-      onClick={() =>
-              openExplorer("https://neonexchange.org")
-      }
-      >
-      <img
-        src={nexLogo}
-        alt=""
-        width="72"
-        className="logobounce com-soon"
-      />
-      <hr className="dash-hr" />
-      Coming Soon
-      </div>
 
       </div>
       </div>
