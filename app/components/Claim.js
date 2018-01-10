@@ -96,6 +96,7 @@ class Claim extends Component {
               Claim Gas<br />
               {this.props.claimAmount}
             </span>
+            
           </div>
           <div id="gas-loader" />
           <ReactTooltip
@@ -110,7 +111,8 @@ class Claim extends Component {
         </div>
       );
     }
-    return <div id="claim">{renderButton}</div>;
+    return <div id="claim">{renderButton}
+    </div>;
   };
 }
 

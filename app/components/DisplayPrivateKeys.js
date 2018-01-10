@@ -86,6 +86,7 @@ class DisplayWalletKeys extends Component {
                         contentEditable={false}
                         readOnly={true}
                         value={this.props.address}
+                        placeholder={this.props.address}
                         data-tip
                         data-for="copyPublicKeyTip"
                       />
@@ -103,6 +104,7 @@ class DisplayWalletKeys extends Component {
                         contentEditable={false}
                         readOnly={true}
                         value={this.props.passphrase}
+                        placeholder={this.props.passphrase}
                         data-tip
                         data-for="copyPassphraseTip"
                         onClick={() =>
@@ -184,12 +186,13 @@ class DisplayWalletKeys extends Component {
                     contentEditable={false}
                     readOnly={true}
                     value={this.props.wif}
+                    placeholder={this.props.wif}
                     data-tip
                     data-for="copyPrivateKeyTip"
                   />
                 </div>
 
-                <div className="col-xs-4 top-50">
+                <div className="col-xs-4 top-20">
                 <p className="key-label">Name Your Address:</p>
                   <input
                     type="text"
@@ -212,6 +215,7 @@ class DisplayWalletKeys extends Component {
                     contentEditable={false}
                     readOnly={true}
                     value={this.props.passphraseKey}
+                    placeholder={this.props.passphraseKey}
                     data-tip
                     data-for="copyPassphraseKeyTip"
                   />
