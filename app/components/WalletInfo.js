@@ -39,7 +39,6 @@ class WalletInfo extends Component {
     if (this.props.address != null) {
       return (
         <div>
-          <TopBar />
           <Charts />
         </div>
       );

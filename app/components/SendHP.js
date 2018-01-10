@@ -211,7 +211,7 @@ class SendHP extends Component {
     }
     return (
         <div>
-          <TopBar />
+
           <Assets />
 <div id="send">
 

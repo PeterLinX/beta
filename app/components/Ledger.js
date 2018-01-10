@@ -298,7 +298,7 @@ class Ledger extends Component {
     return (
       <div id="send">
         <div id="sendPane">
-          <TopBar />
+
 
           {ledgerAvailable ? (
             <div className="ledger-nanos animated fadeInUp" />

@@ -9,6 +9,7 @@ import { setMarketPrice, resetPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 
+
 import btcLogo from "../img/btc-logo.png";
 import ltcLogo from "../img/litecoin.png";
 import rpxLogo from "../img/rpx.png";

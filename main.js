@@ -21,7 +21,7 @@ app.on("ready", () => {
     minHeight: 760,
     maxHeight: 900,
     minWidth: 1080,
-    maxWidth: 1440,
+    maxWidth: 1080,
     icon: path.join(__dirname, "icons/png/64x64.png"),
     webPreferences: {
       webSecurity: false
@@ -111,7 +111,7 @@ app.on("ready", () => {
           label: "Learn More",
           click() {
             require("electron").shell.openExternal(
-              "https://morpheuswallet.com/frequently-asked-questions"
+              "https://morpheuswallet.com/"
             );
           }
         }

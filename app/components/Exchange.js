@@ -157,7 +157,7 @@ class Exchange extends Component {
     if (this.state.status !== null) {
       return (
         <div>
-          <TopBar />
+
           <div className="progress-bar3 fadeInLeft-ex" />
           <div className="row prog-info top-20">
             <div className="col-xs-2 col-xs-offset-1 sm-text center">
@@ -211,7 +211,7 @@ class Exchange extends Component {
     if (this.state.payinAddress != null) {
       return (
         <div>
-          <TopBar />
+
           <div className="progress-bar2 fadeInLeft-ex" />
           <div className="row prog-info top-20">
             <div className="col-xs-2 col-xs-offset-1 sm-text center">
@@ -292,7 +292,7 @@ class Exchange extends Component {
     } else {
       return (
         <div>
-          <TopBar />
+          
           <div className="progress-bar fadeInLeft-ex" />
           <div className="row prog-info top-20">
             <div className="col-xs-2 col-xs-offset-1 sm-text center">

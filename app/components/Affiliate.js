@@ -43,7 +43,7 @@ class Affiliate extends Component {
 <div>
       <h3>Online Exchanges</h3>
       <hr className="dash-hr-wide" />
-      <div className="row top-10 dash-portfolio center">
+      <div className="row top-10 center">
 
       <div className="col-5-exchange"
       onClick={() =>
