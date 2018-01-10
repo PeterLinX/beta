@@ -29,6 +29,7 @@ import { log } from "../util/Logs";
 import Dashlogo from "../components/Brand/Dashlogo";
 import ReactTooltip from "react-tooltip";
 import CountUp, { startAnimation } from "react-countup";
+import TopBar from "../components/TopBar";
 
 const refreshBalance = (dispatch, net, address) => {
   dispatch(sendEvent(true, "Refreshing..."));
@@ -117,7 +118,7 @@ class Dashboard extends Component {
               >
                 <Dashlogo width={85} />
               </div>
-              
+
               <div
                 id="balance"
                 onClick={(event) => {
@@ -194,6 +195,7 @@ class Dashboard extends Component {
           <div className="copyright">&copy; Copyright 2018 Morpheus</div>
         </div>
         <div className="main-container">
+        <TopBar />
           {this.props.children}
           {dash}
         </div>

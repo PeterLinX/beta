@@ -211,7 +211,7 @@ class SendDBC extends Component {
     }
     return (
         <div>
-          <TopBar />
+
           <Assets />
 <div id="send">
 

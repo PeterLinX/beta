@@ -9,7 +9,6 @@ import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
 import neoLogo from "../img/neo.png";
 import Claim from "./Claim.js";
-import TopBar from "./TopBar";
 import Assets from "./Assets";
 import { clipboard } from "electron";
 import { togglePane } from "../modules/dashboard";
@@ -212,7 +211,8 @@ class Send extends Component {
     }
     return (
         <div>
-          <TopBar />
+
+          <Assets />
           <div id="send">
 
           <div className="row dash-chart-panel">

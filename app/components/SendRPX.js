@@ -212,7 +212,6 @@ class SendRPX extends Component {
     }
     return (
         <div>
-          <TopBar />
           <Assets />
 <div id="send">
 
