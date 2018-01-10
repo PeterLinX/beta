@@ -45,6 +45,7 @@ const StatusMessage = ({ status, statusMessage }) => {
           <div className="center modal-alert">
             <div id="preloader">
             <div id="loader"></div>
+            <audio src="../audio/gas.mp3" autoPlay></audio>
           </div>
           </div>
           <div className="center modal-alert">
@@ -65,6 +66,7 @@ const StatusMessage = ({ status, statusMessage }) => {
           <div className="center modal-alert">
             <div id="preloader">
             <div id="loader"></div>
+            <audio src="../audio/notification.mp3" autoPlay></audio>
           </div>
           </div>
           <div className="center modal-alert">
