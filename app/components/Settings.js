@@ -213,21 +213,23 @@ class Settings extends Component {
                 </Link>
               </div>
 
+              <Link to="/LoginLedgerNanoS">
+              <div className="col-xs-2 center">
+                <div className="dash-icon-bar">
+                  <div className="icon-border">
+                    <div className="ledger-sm" />
+                  </div>
+                  Login with Ledger
+                </div>
+              </div>
+              </Link>
+
               <div className="col-xs-2 center com-soon">
                 <div className="dash-icon-bar">
                   <div className="icon-border">
                     <span className="glyphicon glyphicon-heart" />
                   </div>
-                  Token Sale
-                </div>
-              </div>
-
-              <div className="col-xs-2 center com-soon">
-                <div className="dash-icon-bar">
-                  <div className="icon-border">
-                    <span className="glyphicon glyphicon-transfer" />
-                  </div>
-                  Morpheus Exchange
+                  Vote for New Features
                 </div>
               </div>
 
