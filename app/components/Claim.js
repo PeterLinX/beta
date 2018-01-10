@@ -90,8 +90,8 @@ class Claim extends Component {
       );
     } else {
       renderButton = (
-        <div>
-          <div id="gas-button" data-tip data-for="claimTip" className="">
+        <div data-tip data-for="claimTip" >
+          <div id="gas-button"  className="">
             <span className="gas-claim">
               Claim Gas<br />
               {this.props.claimAmount}

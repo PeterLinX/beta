@@ -133,7 +133,7 @@ class Charts extends Component {
       gradientStroke.addColorStop(0, "#7ED321");
       gradientStroke.addColorStop(1, "#7ED321");
 
-      let gradientFill = ctx.createLinearGradient(0, 0, 0, 260);
+      let gradientFill = ctx.createLinearGradient(0, 0, 0, 360);
       gradientFill.addColorStop(0, "rgba(68,147,33,0.8)");
       gradientFill.addColorStop(1, "rgba(68,147,33,0)");
       const gradient = ctx.createLinearGradient(0, 0, 100, 0);
@@ -142,7 +142,7 @@ class Charts extends Component {
       gasGradientStroke.addColorStop(0, "#9013FE");
       gasGradientStroke.addColorStop(1, "#9013FE");
 
-      let gasGradientFill = ctx.createLinearGradient(0, 0, 0, 260);
+      let gasGradientFill = ctx.createLinearGradient(0, 0, 0, 360);
       gasGradientFill.addColorStop(0, "rgba(144,147,254, 1)");
       gasGradientFill.addColorStop(1, "rgba(144,147,254, 0)");
 
@@ -150,7 +150,7 @@ class Charts extends Component {
       ltcGradientStroke.addColorStop(0, "#ececec");
       ltcGradientStroke.addColorStop(1, "#ececec");
 
-      let ltcGradientFill = ctx.createLinearGradient(0, 0, 0, 260);
+      let ltcGradientFill = ctx.createLinearGradient(0, 0, 0, 360);
       ltcGradientFill.addColorStop(0, "rgba(255,255,255, 0.5)");
       ltcGradientFill.addColorStop(1, "rgba(255,255,255, 0)");
 
@@ -158,7 +158,7 @@ class Charts extends Component {
       btcGradientStroke.addColorStop(0, "#ffc000");
       btcGradientStroke.addColorStop(1, "#ffc000");
 
-      let btcGradientFill = ctx.createLinearGradient(0, 0, 0, 260);
+      let btcGradientFill = ctx.createLinearGradient(0, 0, 0, 360);
       btcGradientFill.addColorStop(0, "rgba(229,172,0, 0.5)");
       btcGradientFill.addColorStop(1, "rgba(229,172,0, 0)");
 
@@ -166,7 +166,7 @@ class Charts extends Component {
       ethGradientStroke.addColorStop(0, "#646464");
       ethGradientStroke.addColorStop(1, "#646464");
 
-      let ethGradientFill = ctx.createLinearGradient(0, 0, 0, 260);
+      let ethGradientFill = ctx.createLinearGradient(0, 0, 0, 360);
       ethGradientFill.addColorStop(0, "rgba(175,175,175, 0.5)");
       ethGradientFill.addColorStop(1, "rgba(175,175,175, 0)");
 
@@ -174,7 +174,7 @@ class Charts extends Component {
       rpxGradientStroke.addColorStop(0, "#C60307");
       rpxGradientStroke.addColorStop(1, "#C60307");
 
-      let rpxGradientFill = ctx.createLinearGradient(0, 0, 0, 260);
+      let rpxGradientFill = ctx.createLinearGradient(0, 0, 0, 360);
       rpxGradientFill.addColorStop(0, "rgba(169,3,41, 0.5)");
       rpxGradientFill.addColorStop(1, "rgba(169,3,41, 0)");
 
@@ -182,7 +182,7 @@ class Charts extends Component {
       dashGradientStroke.addColorStop(0, "#005aff");
       dashGradientStroke.addColorStop(1, "#005aff");
 
-      let dashGradientFill = ctx.createLinearGradient(0, 0, 0, 260);
+      let dashGradientFill = ctx.createLinearGradient(0, 0, 0, 360);
       dashGradientFill.addColorStop(0, "rgba(0,90,255, 0.5)");
       dashGradientFill.addColorStop(1, "rgba(0,90,255, 0)");
 // Chart Content

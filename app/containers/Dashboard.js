@@ -28,6 +28,7 @@ import { version } from "../../package.json";
 import { log } from "../util/Logs";
 import Dashlogo from "../components/Brand/Dashlogo";
 import ReactTooltip from "react-tooltip";
+import CountUp, { startAnimation } from "react-countup";
 
 const refreshBalance = (dispatch, net, address) => {
   dispatch(sendEvent(true, "Refreshing..."));
@@ -116,17 +117,32 @@ class Dashboard extends Component {
               >
                 <Dashlogo width={85} />
               </div>
+              
               <div
                 id="balance"
-                onClick={() =>
-                  refreshBalance(
-                    this.props.dispatch,
-                    this.props.net,
-                    this.props.address
-                  )
-                }
+                onClick={(event) => {
+                  startAnimation(
+                  this.totalCountUp
+                )
+              }}
               >
-                {numeral(this.props.combined).format("$0,0.00")}
+
+                <CountUp
+                  className="account-balance"
+                  start={0}
+                  end={this.props.combined}
+                  duration={2}
+                  useEasing={true}
+                  useGrouping={true}
+                  separator=","
+                  decimals={2}
+                  decimal="."
+                  prefix="$"
+                  ref={(countUp) => {
+                    this.totalCountUp = countUp;
+                  }}
+                />
+
                 <span className="bal-usd">USD</span>
                 <span className="comb-bal">Available Balance</span>
               </div>

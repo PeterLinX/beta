@@ -1141,18 +1141,17 @@ webview {
 
 #gas-loader {
   display: block;
-  position: fixed;
-  z-index: 0;
-  top: 26px;
-  left: 546px;
-  width: 123px;
-  height: 123px;
-  margin: 0px auto 10px;
-  border-radius: 50%;
-  border: 7px solid rgba(0,0,0,.5);
-  border-top-color: #7054e3;
-  -webkit-animation: spin 4s linear infinite;
-  animation: spin 4s linear infinite;
+      position: relative;
+      top: -35px;
+      margin: -100px auto;
+      z-index: 99;
+      width: 122px;
+      height: 122px;
+      border-radius: 50%;
+      border: 10px solid rgba(0, 0, 0, 0.5);
+      border-top-color: #7054e3;
+      -webkit-animation: spin 5s linear infinite;
+      animation: spin 5s linear infinite;
 }
 #gas-loader:before {
     content: "";
