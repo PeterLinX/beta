@@ -221,7 +221,7 @@ class SendHP extends Component {
                 src={hashpuppiesLogo}
                 alt=""
                 width="48"
-                className="neo-logo"
+                className="neo-logo fadeInDown"
               />
               <h2> Send HashPuppies Tokens</h2>
             </div>

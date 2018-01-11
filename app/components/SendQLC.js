@@ -211,7 +211,7 @@ class SendQLC extends Component {
     }
     return (
         <div>
-          
+
           <Assets />
 <div id="send">
 
@@ -221,7 +221,7 @@ class SendQLC extends Component {
                 src={qlinkLogo}
                 alt=""
                 width="96"
-                className="neo-logo"
+                className="neo-logo fadeInDown"
               />
               <h2> Send QLink Tokens</h2>
             </div>

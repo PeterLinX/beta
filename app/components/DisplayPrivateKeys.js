@@ -28,6 +28,33 @@ const saveKey = async (dispatch, encWifValue, history) => {
   });
 };
 
+const saveKeyRecovery = keys => {
+  const content = JSON.stringify(keys);
+  dialog.showSaveDialog(
+    {
+      filters: [
+        {
+          name: "JSON",
+          extensions: ["json"]
+        }
+      ]
+    },
+    fileName => {
+      if (fileName === undefined) {
+        console.log("File failed to save...");
+        return;
+      }
+      // fileName is a string that contains the path and filename created in the save file dialog.
+      fs.writeFile(fileName, content, err => {
+        if (err) {
+          alert("An error ocurred creating the file " + err.message);
+        }
+        alert("The file has been succesfully saved");
+      });
+    }
+  );
+};
+
 const resetGeneratedKey = dispatch => {
   dispatch(resetKey());
 };
@@ -52,6 +79,16 @@ class DisplayWalletKeys extends Component {
       }
     );
   };
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
 
   render = () => (
     <div>

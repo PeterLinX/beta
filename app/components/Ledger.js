@@ -307,7 +307,7 @@ class Ledger extends Component {
           )}
 
           <div className="row dash-panel fadeInDown">
-            <div className="col-xs-4">
+            <div className="col-xs-3">
               <img
                 src={ledgerLogo}
                 alt=""
@@ -328,14 +328,6 @@ class Ledger extends Component {
             >
               <span>Copy Ledger Nano S NEO Address</span>
             </ReactTooltip>
-            <div className="col-xs-3 center">
-              <h4 className="neo-text">
-                {this.state.ledgerBalanceNeo} <span>NEO</span>
-              </h4>
-              <span className="com-soon">
-                {numeral(this.state.ledgerNEOUSD).format("$0,0.00")}{" "}
-              </span>
-            </div>
 
             <div className="col-xs-1 center">
               <span
@@ -346,6 +338,16 @@ class Ledger extends Component {
                 }}
               />
             </div>
+            
+            <div className="col-xs-4 center">
+              <h4 className="neo-text">
+                {this.state.ledgerBalanceNeo} <span>NEO</span>
+              </h4>
+              <span className="com-soon">
+                {numeral(this.state.ledgerNEOUSD).format("$0,0.00")}{" "}
+              </span>
+            </div>
+
 
             <div className="col-xs-4 center">
               <h4 className="gas-text-ledger top-10 ">

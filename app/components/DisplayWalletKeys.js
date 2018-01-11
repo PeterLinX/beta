@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router";
-// import QRCode from "qrcode";
 import { clipboard } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import ReactTooltip from "react-tooltip";

@@ -40,6 +40,7 @@ const StatusMessage = ({ status, statusMessage }) => {
         closeTimeoutMS={5}
         style={styles}
         contentLabel="Modal"
+        ariaHideApp={false}
       >
         <div>
           <div className="center modal-alert">
@@ -61,6 +62,7 @@ const StatusMessage = ({ status, statusMessage }) => {
         closeTimeoutMS={5}
         style={styles}
         contentLabel="Modal"
+        ariaHideApp={false}
       >
         <div>
           <div className="center modal-alert">
