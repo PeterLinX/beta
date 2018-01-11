@@ -104,7 +104,7 @@ class CreateWallet extends Component {
             <div className="col-xs-10 col-xs-offset-1">
               <div className="">
                 <br />
-                <h1 style={{ color: "white", textAlign: "center" }}>
+                <h1 className="center">
                   Create a NEO Address
                 </h1>
               </div>
@@ -164,7 +164,7 @@ class CreateWallet extends Component {
                 <div className="icon-border">
                   <span className="glyphicon glyphicon-qrcode" />
                 </div>
-                Login Via Private Key
+                Login Using Private Key
               </div>
             </Link>
 
@@ -173,7 +173,7 @@ class CreateWallet extends Component {
                 <div className="icon-border">
                   <span className="glyphicon glyphicon-lock" />
                 </div>
-                Login Via Encrypted Key
+                Login Using Encrypted Key
               </div>
             </Link>
 

@@ -221,7 +221,7 @@ class SendRPX extends Component {
                 src={rpxLogo}
                 alt=""
                 width="96"
-                className="neo-logo"
+                className="neo-logo fadeInDown"
               />
               <h2>Send Red Pulse Tokens</h2>
             </div>

@@ -52,7 +52,7 @@ class TransactionHistory extends Component {
 
   render = () => (
     <div id="send">
-      <div className="dash-panel fadeInDown">
+      <div className="dash-panel">
         <div className="row">
           <div className="col-xs-9">
             <h2>Transaction History</h2>

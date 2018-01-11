@@ -107,7 +107,7 @@ class Dashboard extends Component {
           <div className="navbar navbar-inverse">
             <div className="navbar-header">
               <div
-                className="logoContainer"
+                className="logoContainer fadeInDown"
                 onClick={() =>
                   refreshBalance(
                     this.props.dispatch,
@@ -130,7 +130,6 @@ class Dashboard extends Component {
 
                 <CountUp
                   className="account-balance"
-                  start={0}
                   end={this.props.combined}
                   duration={2}
                   useEasing={true}

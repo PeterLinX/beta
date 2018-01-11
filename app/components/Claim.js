@@ -22,7 +22,7 @@ const doClaimNotify = (dispatch, net, selfAddress, wif) => {
     } else {
       dispatch(sendEvent(false, "Sorry. Claim failed. Please try again."));
     }
-    setTimeout(() => dispatch(clearTransactionEvent()), 5000);
+    setTimeout(() => dispatch(clearTransactionEvent()), 2000);
   });
 };
 
@@ -47,7 +47,7 @@ const doGasClaim = (dispatch, net, wif, selfAddress, ans) => {
       } else {
         dispatch(sendEvent(true, "Waiting for the transaction to clear..."));
         dispatch(setClaimRequest(true));
-        dispatch(disableClaim(true));
+        setTimeout(() => dispatch(disableClaim(true)), 3000);
       }
     });
   }
@@ -96,7 +96,7 @@ class Claim extends Component {
               Claim Gas<br />
               {this.props.claimAmount}
             </span>
-            
+
           </div>
           <div id="gas-loader" />
           <ReactTooltip

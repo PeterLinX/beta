@@ -134,7 +134,7 @@ class Settings extends Component {
 
   render = () => (
     <div id="send">
-      <div className="dash-panel fadeInDown">
+      <div className="dash-panel ">
         <div className="description">
 
           <div className="row">
@@ -168,7 +168,7 @@ class Settings extends Component {
 
 
 
-            <div className="col-xs-12 center">
+            <div className="col-xs-12 center fadeInDown">
             <hr className="dash-hr-wide" />
             </div>
 
@@ -234,7 +234,7 @@ class Settings extends Component {
 
             </div>
 
-            <div className="row top-20 settings-padding">
+            <div className="row top-20 settings-padding fadeInDown">
 
               <div
                 className="col-xs-2 center"

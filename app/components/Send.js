@@ -221,7 +221,7 @@ class Send extends Component {
                 src={neoLogo}
                 alt=""
                 width="38"
-                className="neo-logo logobounce"
+                className="neo-logo fadeInDown"
               />
               <h2>Send Neo or Gas</h2>
             </div>

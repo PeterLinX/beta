@@ -221,7 +221,7 @@ class SendDBC extends Component {
                 src={deepLogo}
                 alt=""
                 width="48"
-                className="neo-logo"
+                className="neo-logo fadeInDown"
               />
               <h2> Send DeepBrain Tokens</h2>
             </div>
