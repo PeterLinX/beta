@@ -159,6 +159,7 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => {
         </Link>
 
       </div>
+      <div className="login-copyright">&copy; Copyright 2018 Morpheus</div>
     </div>
   );
 };

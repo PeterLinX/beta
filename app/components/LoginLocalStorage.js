@@ -203,6 +203,7 @@ class LoginLocalStorage extends Component {
           </Link>
 
         </div>
+        <div className="login-copyright">&copy; Copyright 2018 Morpheus</div>
       </div>
     );
   };
