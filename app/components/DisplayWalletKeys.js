@@ -230,12 +230,6 @@ class DisplayWalletKeys extends Component {
                     ) : (
                       <div />
                     )}
-
-                    {this.props.decrypting === true ? (
-                      <div className="decrypting">Decrypting keys...</div>
-                    ) : (
-                      <div />
-                    )}
                   </div>
                 </div>
               </div>

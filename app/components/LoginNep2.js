@@ -134,6 +134,9 @@ class LoginNep2 extends Component {
 
           </div>
         </div>
+
+        <div className="login-copyright">&copy; Copyright 2018 Morpheus</div>
+
       </div>
     );
   };

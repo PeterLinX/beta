@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router";
 import { connect } from "react-redux";
-import { shell } from "electron";
-import { clipboard } from "electron";
+import { shell, clipboard } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import Delete from "react-icons/lib/md/delete";
 import _ from "lodash";
