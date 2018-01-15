@@ -33,35 +33,6 @@ const openExplorer = srcLink => {
   shell.openExternal(srcLink);
 };
 
-
-const { dialog } = require("electron").remote;
-const saveTransactionHistory = keys => {
-  const content = JSON.stringify(keys);
-  dialog.showSaveDialog(
-    {
-      filters: [
-        {
-          name: "JSON",
-          extensions: ["json"]
-        }
-      ]
-    },
-    fileName => {
-      if (fileName === undefined) {
-        console.log("File failed to save...");
-        return;
-      }
-      // fileName is a string that contains the path and filename created in the save file dialog.
-      fs.writeFile(fileName, content, err => {
-        if (err) {
-          alert("An error ocurred creating the file " + err.message);
-        }
-        alert("The file has been succesfully saved");
-      });
-    }
-  );
-};
-
 const refreshBalance = (dispatch, net, address) => {
   dispatch(sendEvent(true, "Refreshing..."));
   initiateGetBalance(dispatch, net, address).then(response => {
@@ -81,23 +52,27 @@ class TransactionHistory extends Component {
 
   render = () => (
     <div id="send">
-      <div className="dash-panel">
+      <TopBar />
+      <div className="dash-panel fadeInDown">
         <div className="row">
           <div className="col-xs-9">
             <h2>Transaction History</h2>
           </div>
-          <div className="col-xs-3 center top-10 send-info pointer"
-          onClick={() =>
-        refreshBalance(
-          this.props.dispatch,
-          this.props.net,
-          this.props.address
-        )}
+          <div
+            className="col-xs-3 center top-10 send-info"
+            onClick={() =>
+              refreshBalance(
+                this.props.dispatch,
+                this.props.net,
+                this.props.address
+              )
+            }
           >
-        <span className="glyphicon glyphicon-refresh marg-right-5"/>  Block: {this.props.blockHeight}
+            <span className="glyphicon glyphicon-refresh marg-right-5" /> Block:{" "}
+            {this.props.blockHeight}
           </div>
           <div className="col-xs-12">
-          <hr className="dash-hr-wide" />
+            <hr className="dash-hr-wide" />
           </div>
           <ul id="transactionList">
             {this.props.transactions.map(t => {
@@ -120,7 +95,7 @@ class TransactionHistory extends Component {
                     }
                   >
                     <span className="glyphicon glyphicon-link marg-right-5" />
-                    {t.txid.substring(0, 64)} {" "}
+                    {t.txid.substring(0, 64)}{" "}
                   </div>
                   <div className="col-xs-3 center font-16">
                     {formatAmount} {t.type}
