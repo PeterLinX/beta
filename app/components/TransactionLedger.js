@@ -8,6 +8,7 @@ import { clipboard, shell } from "electron";
 import SplitPane from "react-split-pane";
 import numeral from "numeral";
 import ReactTooltip from "react-tooltip";
+import CountUp, { startAnimation } from "react-countup";
 
 import { doSendAsset, verifyAddress, getTransactionHistory } from "neon-js";
 import Neon, { wallet, api } from "@cityofzion/neon-js";
@@ -349,7 +350,9 @@ class LoginLedgerNanoS extends Component {
     const { ledgerAvailable } = this.state;
 
     return (
-      <div>
+      <div onLoad={() => {
+        this.getLedgerAddress();
+      }}>
         <div id="mainNav" className="main-nav">
           <div className="navbar navbar-inverse">
             <div className="navbar-header">
@@ -369,7 +372,11 @@ class LoginLedgerNanoS extends Component {
                 <li>
                   <Link to={"/LoginLedgerNanoS"} activeClassName="active">
                     <span className="glyphicon glyphicon-th-large" /> Ledger
-                    Nano S
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"/LedgerNanoSend"} activeClassName="active">
+                    <span className="glyphicon glyphicon-send" /> Send
                   </Link>
                 </li>
                 <li>
@@ -400,7 +407,7 @@ class LoginLedgerNanoS extends Component {
           <div className="header">
             <div className="col-xs-5">
               <p className="market-price center">
-                NEO {numeral(this.props.marketNeoPrice).format("$0,0.00")}
+                NEO {numeral(this.props.marketNEOPrice).format("$0,0.00")}
               </p>
               <p className="neo-text">
                 {this.state.ledgerBalanceNeo} <span>NEO</span>
@@ -415,7 +422,7 @@ class LoginLedgerNanoS extends Component {
 
             <div className="col-xs-5 top-5">
               <p className="market-price center">
-                GAS {numeral(this.props.marketGasPrice).format("$0,0.00")}
+                GAS {numeral(this.props.marketGASPrice).format("$0,0.00")}
               </p>
               <p className="gas-text">
                 {Math.floor(this.state.ledgerBalanceGas * 10000000) / 10000000}{" "}
@@ -502,7 +509,9 @@ const mapStateToProps = state => ({
   combined: state.wallet.combined,
   explorer: state.metadata.blockExplorer,
   blockHeight: state.metadata.blockHeight,
-  transactions: state.wallet.transactions
+  transactions: state.wallet.transactions,
+  marketGASPrice: state.wallet.marketGASPrice,
+  marketNEOPrice: state.wallet.marketNEOPrice
 });
 
 LoginLedgerNanoS = connect(mapStateToProps)(LoginLedgerNanoS);
