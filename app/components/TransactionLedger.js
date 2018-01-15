@@ -396,8 +396,8 @@ class LoginLedgerNanoS extends Component {
           <div className="copyright">&copy; Copyright 2018 Morpheus</div>
         </div>
 
-        <div className="ledger-dash-layout">
-          <div className="ledger-header">
+        <div className="main-container">
+          <div className="header">
             <div className="col-xs-5">
               <p className="market-price center">
                 NEO {numeral(this.props.marketNeoPrice).format("$0,0.00")}
