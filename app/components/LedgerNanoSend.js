@@ -18,7 +18,6 @@ import ClaimLedgerGas from "./ClaimLedgerGas.js";
 import Dashlogo from "../components/Brand/Dashlogo";
 import { togglePane } from "../modules/dashboard";
 import { resetPrice } from "../modules/wallet";
-import neoLogo from "../img/neo.png";
 
 import {
   initiateGetBalance,
@@ -135,6 +134,7 @@ const getExplorerLink = (net, explorer, txid) => {
   return base + txid;
 };
 
+// helper to open an external web link
 const openExplorer = srcLink => {
   shell.openExternal(srcLink);
 };
@@ -185,7 +185,7 @@ const sendTransaction = (
   confirmButton.blur();
 };
 
-class LoginLedgerNanoS extends Component {
+class LedgerNanoSend extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -499,93 +499,140 @@ class LoginLedgerNanoS extends Component {
 
           {ledgerAvailable ? (
             <div className="row ledger-login-panel fadeInDown">
-
-            <div className="col-xs-9">
-              <img
-                src={neoLogo}
-                alt=""
-                width="38"
-                className="neo-logo logobounce"
-              />
-              <h2>Receive Neo or Gas on Ledger</h2>
-            </div>
-
-            <div className="col-xs-3 top-20 center com-soon">
-            Block: {this.props.blockHeight}
-            </div>
-
-            <hr className="dash-hr-wide" />
-            <div className="clearboth" />
-
-
-            <div className="col-xs-4 top-20">
-            <div className="ledgerQRBox center animated fadeInDown">
-              <QRCode size={150} value={this.state.ledgerAddress} />
-            </div>
-            </div>
-
-            <div className="col-xs-8 top-20">
-              <input
-                className="ledger-address"
-                onClick={() => clipboard.writeText(this.props.ledgerAddress)}
-                id="center"
-                placeholder={this.state.ledgerAddress}
-                value={this.state.ledgerAddress}
-              />
-
+              <div className="col-xs-4 center">
+                <h4
+                  data-tip
+                  data-for="copyTip"
+                  className="pointer"
+                  onClick={() => clipboard.writeText(this.state.ledgerAddress)}
+                >
+                  Copy Ledger Address
+                </h4>{" "}
+              </div>{" "}
+              <ReactTooltip
+                className="solidTip"
+                id="copyTip"
+                place="top"
+                type="light"
+                effect="solid"
+              >
+                <span>Copy Ledger Nano S NEO Address</span>
+              </ReactTooltip>
+              <div className="col-xs-8">
+                <input
+                  className="ledger-address"
+                  onClick={() => clipboard.writeText(this.props.ledgerAddress)}
+                  id="center"
+                  placeholder={this.state.ledgerAddress}
+                  value={this.state.ledgerAddress}
+                />
+              </div>
               <div className="clearboth" />
-            <div className="dash-bar top-30">
-              <div
-                className="dash-icon-bar"
-                onClick={() => clipboard.writeText(this.props.ledgerAddress)}
-              >
-                <div className="icon-border">
-                  <span className="glyphicon glyphicon-duplicate" />
-                </div>
-                Copy Public Address
+              <div className="col-xs-12 center">
+                <hr className="dash-hr-wide" />
               </div>
-
-              <div
-                className="dash-icon-bar"
-                onClick={() => print()}
-              >
-                <div className="icon-border">
-                  <span className="glyphicon glyphicon-print" />
+              <div className="clearboth" />
+              <div className="row top-20" />
+              <div className="clearboth" />
+              <div className="col-xs-4">
+                <div className="ledgerQRBox center animated fadeInDown">
+                  <QRCode size={120} value={this.state.ledgerAddress} />
                 </div>
-                Print Public Address
               </div>
-
-              <div
-                className="dash-icon-bar"
-                onClick={() =>
-                openExplorer(getLink(this.props.net, this.props.ledgerAddress))
-                }
-              >
-                <div className="icon-border">
-                  <span className="glyphicon glyphicon-link" />
+              <div className="col-xs-8">
+                <h4 className="zero-margin">Send NEO/GAS from Ledger Nano S</h4>
+                <div className="top-10">
+                  <input
+                    className={formClass}
+                    id="center"
+                    placeholder="Enter a valid NEO public address here"
+                    ref={node => {
+                      sendAddress = node;
+                    }}
+                  />
                 </div>
-                View On Blockchain
               </div>
+              <div className="col-xs-4  top-10">
+                Amount to Send in NEO/GAS
+                <input
+                  className={formClass}
+                  type="number"
+                  id="assetAmount"
+                  min="1"
+                  onChange={convertFunction}
+                  value={this.state.value}
+                  placeholder="0"
+                  ref={node => {
+                    sendAmount = node;
+                  }}
+                />
+              </div>
+              <div className="col-xs-4 top-10">
+                Value in USD
+                <input
+                  className={formClass}
+                  id="sendAmount"
+                  onChange={this.handleChangeUSD}
+                  onClick={this.handleChangeUSD}
+                  disabled={gasEnabled === false ? true : false}
+                  placeholder="Amount in US"
+                  value={`${priceUSD}`}
+                />
+                <label className="amount-dollar-ledger">$</label>
+              </div>
+              <div className="col-xs-4 top-10">
+                <div id="sendAddress">
+                  <div
+                    id="sendAsset"
+                    className={btnClass}
+                    style={{ width: "100%" }}
+                    data-tip
+                    data-for="assetTip"
+                    onClick={() => {
+                      this.setState({ gas_usd: 0, neo_usd: 0, value: 0 });
+                      document.getElementById("assetAmount").value = "";
+                      dispatch(toggleAsset());
+                    }}
+                  >
+                    {selectedAsset}
+                  </div>
 
-              <div
-                className="dash-icon-bar"
-              >
-                <div className="icon-border">
-                  <span className="glyphicon glyphicon-save" />
+                  <ReactTooltip
+                    className="solidTip"
+                    id="assetTip"
+                    place="top"
+                    type="light"
+                    effect="solid"
+                  >
+                    <span>Click to switch between NEO and GAS</span>
+                  </ReactTooltip>
                 </div>
-                Download Encrypted Key
               </div>
-
-
-            </div>
-
-            <div className="clearboth" />
-            </div>{" "}
-
-
-
-  <div className="clearboth" />
-
+              <div className="col-xs-4 top-10">
+                <div id="sendAddress">
+                  <button
+                    className="grey-button"
+                    data-tip
+                    data-for="sendTip"
+                    onClick={() =>
+                      sendTransaction(
+                        dispatch,
+                        net,
+                        address,
+                        wif,
+                        selectedAsset,
+                        neo,
+                        gas
+                      )
+                    }
+                    ref={node => {
+                      confirmButton = node;
+                    }}
+                  >
+                    <span className="glyphicon glyphicon-send" /> Send
+                  </button>
+                </div>
+              </div>
             </div>
           ) : (
             <div />
@@ -627,6 +674,6 @@ const mapStateToProps = state => ({
   marketNEOPrice: state.wallet.marketNEOPrice
 });
 
-LoginLedgerNanoS = connect(mapStateToProps)(LoginLedgerNanoS);
+LedgerNanoSend = connect(mapStateToProps)(LedgerNanoSend);
 
-export default LoginLedgerNanoS;
+export default LedgerNanoSend;
