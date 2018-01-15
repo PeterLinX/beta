@@ -3,6 +3,7 @@ export const SET_BALANCE = "SET_BALANCE";
 export const SET_MARKET_PRICE = "SET_MARKET_PRICE";
 export const RESET_PRICE = "RESET_PRICE";
 export const SET_TRANSACTION_HISTORY = "SET_TRANSACTION_HISTORY";
+export const SET_COMBINED_BALANCE = "SET_COMBINED_BALANCE";
 
 // Actions
 export function setBalance(
@@ -15,13 +16,7 @@ export function setBalance(
   marketGASPrice,
   marketRPXPrice,
   marketDBCPrice,
-  marketQLCPrice,
-  marketBTCPrice,
-  marketLTCPrice,
-  marketETHPrice,
-  marketLRCPrice,
-  marketXMRPrice,
-  marketIOTAPrice
+  marketQLCPrice
 ) {
   return {
     type: SET_BALANCE,
@@ -34,13 +29,14 @@ export function setBalance(
     marketGASPrice: marketGASPrice,
     marketRPXPrice: marketRPXPrice,
     marketDBCPrice: marketDBCPrice,
-    marketQLCPrice: marketQLCPrice,
-    marketBTCPrice: marketBTCPrice,
-    marketLTCPrice: marketLTCPrice,
-    marketETHPrice: marketETHPrice,
-    marketLRCPrice: marketLRCPrice,
-    marketXMRPrice: marketXMRPrice,
-    marketIOTAPrice: marketIOTAPrice
+    marketQLCPrice: marketQLCPrice
+  };
+}
+
+export function setCombinedBalance(combinedBalance) {
+  return {
+    type: SET_COMBINED_BALANCE,
+    combined: combinedBalance
   };
 }
 
@@ -91,16 +87,12 @@ export default (
         marketGASPrice: action.marketGASPrice,
         marketRPXPrice: action.marketRPXPrice,
         marketQLCPrice: action.marketQLCPrice,
-        marketDBCPrice: action.marketDBCPrice,
-        marketBTCPrice: action.marketBTCPrice,
-        marketLTCPrice: action.marketLTCPrice,
-        marketETHPrice: action.marketETHPrice,
-        marketLRCPrice: action.marketLRCPrice,
-        marketXMRPrice: action.marketXMRPrice,
-        marketIOTAPrice: action.marketIOTAPrice
+        marketDBCPrice: action.marketDBCPrice
       };
     case RESET_PRICE:
       return { ...state, price: "--" };
+    case SET_COMBINED_BALANCE:
+      return { ...state, combined: action.combined };
     case SET_MARKET_PRICE: //current market price action type
       let currentPrice;
       if (action.price !== undefined) {
