@@ -537,13 +537,9 @@ class LoginLedgerNanoS extends Component {
               <div className="clearboth" />
               <div className="row top-20" />
               <div className="clearboth" />
-              <div className="col-xs-4">
-                <div className="ledgerQRBox center animated fadeInDown">
-                  <QRCode size={150} value={this.state.ledgerAddress} />
-                </div>
-              </div>
-              <div className="col-xs-8">
-                <div className="top-10">
+
+              <div className="col-xs-8 top-10">
+
                   <input
                     className={formClass}
                     id="center"
@@ -552,36 +548,9 @@ class LoginLedgerNanoS extends Component {
                       sendAddress = node;
                     }}
                   />
-                </div>
+
               </div>
-              <div className="col-xs-4  top-10">
-                Amount to Send in NEO/GAS
-                <input
-                  className={formClass}
-                  type="number"
-                  id="assetAmount"
-                  min="1"
-                  onChange={convertFunction}
-                  value={this.state.value}
-                  placeholder="0"
-                  ref={node => {
-                    sendAmount = node;
-                  }}
-                />
-              </div>
-              <div className="col-xs-4 top-10">
-                Value in USD
-                <input
-                  className={formClass}
-                  id="sendAmount"
-                  onChange={this.handleChangeUSD}
-                  onClick={this.handleChangeUSD}
-                  disabled={gasEnabled === false ? true : false}
-                  placeholder="Amount in US"
-                  value={`${priceUSD}`}
-                />
-                <label className="amount-dollar-ledger">$</label>
-              </div>
+
               <div className="col-xs-4 top-10">
                 <div id="sendAddress">
                   <div
@@ -610,7 +579,43 @@ class LoginLedgerNanoS extends Component {
                   </ReactTooltip>
                 </div>
               </div>
+
+              <div className="clearboth" />
+              <div className="row top-20" />
+              <div className="clearboth" />
+
+              <div className="col-xs-4  top-10">
+                Amount to Send in NEO/GAS
+                <input
+                  className={formClass}
+                  type="number"
+                  id="assetAmount"
+                  min="1"
+                  onChange={convertFunction}
+                  value={this.state.value}
+                  placeholder="0"
+                  ref={node => {
+                    sendAmount = node;
+                  }}
+                />
+              </div>
               <div className="col-xs-4 top-10">
+                Value in USD
+                <input
+                  className={formClass}
+                  id="sendAmount"
+                  onChange={this.handleChangeUSD}
+                  onClick={this.handleChangeUSD}
+                  disabled={gasEnabled === false ? true : false}
+                  placeholder="Amount in US"
+                  value={`${priceUSD}`}
+                />
+                <label className="amount-dollar-ledger">$</label>
+              </div>
+
+
+
+              <div className="col-xs-4 top-30">
                 <div id="sendAddress">
                   <button
                     className="grey-button"
@@ -635,6 +640,8 @@ class LoginLedgerNanoS extends Component {
                   </button>
                 </div>
               </div>
+
+
             </div>
           ) : (
             <div />
