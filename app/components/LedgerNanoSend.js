@@ -435,7 +435,11 @@ class LoginLedgerNanoS extends Component {
                 <li>
                   <Link to={"/LoginLedgerNanoS"} activeClassName="active">
                     <span className="glyphicon glyphicon-th-large" /> Ledger
-                    Nano S
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"/LedgerNanoSend"} activeClassName="active">
+                    <span className="glyphicon glyphicon-send" /> Send
                   </Link>
                 </li>
                 <li>
