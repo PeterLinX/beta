@@ -211,7 +211,9 @@ class Settings extends Component {
                 </Link>
               </div>
 
-              <Link to="/LoginLedgerNanoS">
+              <Link to="/LoginLedgerNanoS"
+              onClick={() => dispatch(logout())}
+              >
               <div className="col-xs-2 center">
                 <div className="dash-icon-bar">
                   <div className="icon-border">

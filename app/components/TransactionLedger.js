@@ -9,6 +9,7 @@ import SplitPane from "react-split-pane";
 import numeral from "numeral";
 import ReactTooltip from "react-tooltip";
 import CountUp, { startAnimation } from "react-countup";
+import neoLogo from "../img/neo.png";
 
 import { doSendAsset, verifyAddress, getTransactionHistory } from "neon-js";
 import Neon, { wallet, api } from "@cityofzion/neon-js";
@@ -391,8 +392,7 @@ class LoginLedgerNanoS extends Component {
                 </li>
                 <li>
                   <Link to={"/"} activeClassName="active">
-                    <span className="glyphicon glyphicon-circle-arrow-left" />{" "}
-                    Return to Login
+                    <span className="glyphicon glyphicon-circle-arrow-left" />{" "} Login
                   </Link>
                 </li>
               </ul>
@@ -456,7 +456,30 @@ class LoginLedgerNanoS extends Component {
           </ReactTooltip>
 
           <div className="row ledger-login-panel fadeInDown">
-            Ledger Nano S Transaction Hisotry
+
+
+          <div className="col-xs-9">
+            <img
+              src={neoLogo}
+              alt=""
+              width="38"
+              className="neo-logo logobounce"
+            />
+            <h2>Ledger Transaction History</h2>
+          </div>
+
+          <div className="col-xs-3 top-20 center com-soon">
+          Block: {this.props.blockHeight}
+          </div>
+
+          <div className="clearboth" />
+          <div className="col-xs-12 center">
+            <hr className="dash-hr-wide" />
+          </div>
+          <div className="clearboth" />
+
+
+
             <ul id="transactionList">
               {this.props.transactions.map(t => {
                 const formatGas = gas =>
