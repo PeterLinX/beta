@@ -1,56 +1,35 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
-import CountUp, { startAnimation } from "react-countup";
-
-import { doSendAsset, verifyAddress, getTransactionHistory } from "neon-js";
+import { doSendAsset, verifyAddress } from "neon-js";
 import Neon, { wallet, api } from "@cityofzion/neon-js";
-
 import Modal from "react-bootstrap-modal";
 import QRCode from "qrcode.react";
-import { clipboard, shell } from "electron";
+import { clipboard } from "electron";
 import axios from "axios";
 import SplitPane from "react-split-pane";
 import numeral from "numeral";
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
+import CountUp, { startAnimation } from "react-countup";
 import ClaimLedgerGas from "./ClaimLedgerGas.js";
 import Dashlogo from "../components/Brand/Dashlogo";
 import { togglePane } from "../modules/dashboard";
-import { resetPrice } from "../modules/wallet";
-
-import {
-  initiateGetBalance,
-  intervals,
-  syncTransactionHistory
-} from "../components/NetworkSwitch";
-
-
+import neoLogo from "../img/neo.png";
 import {
   sendEvent,
   clearTransactionEvent,
   toggleAsset
 } from "../modules/transactions";
-
 import { setCombinedBalance } from "../modules/wallet";
 import commNode from "../modules/ledger/ledger-comm-node";
 import { setAddress } from "../modules/account";
+import { initiateGetBalance } from "./NetworkSwitch";
 
 const BIP44_PATH =
   "8000002C" + "80000378" + "80000000" + "00000000" + "00000000";
 
 let sendAddress, sendAmount, confirmButton;
-
-// force sync with balance data
-const refreshBalance = async (dispatch, net, address) => {
-  dispatch(sendEvent(true, "Refreshing..."));
-  initiateGetBalance(dispatch, net, address).then(response => {
-    dispatch(sendEvent(true, "Received latest blockchain information."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-  });
-};
-
-
 
 const apiURL = val => {
   return `https://min-api.cryptocompare.com/data/price?fsym=${val}&tsyms=USD`;
@@ -116,27 +95,73 @@ const openAndValidate = (
   }
 };
 
-const getExplorerLink = (net, explorer, txid) => {
-  let base;
-  if (explorer === "Neotracker") {
-    if (net === "MainNet") {
-      base = "https://neotracker.io/tx/";
-    } else {
-      base = "https://testnet.neotracker.io/tx/";
-    }
-  } else {
-    if (net === "MainNet") {
-      base = "http://antcha.in/tx/hash/";
-    } else {
-      base = "http://testnet.antcha.in/tx/hash/";
-    }
-  }
-  return base + txid;
-};
+export const sendTransactionLedger = (
+  sendEntries: Array<SendEntryType>
+) => async (dispatch: DispatchType, getState: GetStateType): Promise<*> => {
+  const state = getState();
+  const wif = getWIF(state);
+  const fromAddress = getAddress(state);
+  const net = getNetwork(state);
+  const balances = getBalances(state);
+  const signingFunction = getSigningFunction(state);
+  const publicKey = getPublicKey(state);
+  const isHardwareSend = getIsHardwareLogin(state);
 
-// helper to open an external web link
-const openExplorer = srcLink => {
-  shell.openExternal(srcLink);
+  const rejectTransaction = (message: string) =>
+    dispatch(showErrorNotification({ message }));
+
+  const error = validateTransactionsBeforeSending(balances, sendEntries);
+
+  if (error) {
+    return rejectTransaction(error);
+  }
+
+  dispatch(
+    showInfoNotification({ message: "Sending Transaction...", autoDismiss: 0 })
+  );
+
+  log(
+    net,
+    "SEND",
+    fromAddress,
+    // $FlowFixMe
+    sendEntries.map(({ address, amount, symbol }) => ({
+      to: address,
+      asset: symbol,
+      amount: parseFloat(amount)
+    }))
+  );
+
+  if (isHardwareSend) {
+    dispatch(
+      showInfoNotification({
+        message: "Please sign the transaction on your Ledger Nano S",
+        autoDismiss: 0
+      })
+    );
+  }
+
+  const [err, config] = await asyncWrap(
+    makeRequest(sendEntries, {
+      net,
+      address: fromAddress,
+      publicKey,
+      privateKey: new wallet.Account(wif).privateKey,
+      signingFunction: isHardwareSend ? signingFunction : null
+    })
+  );
+
+  if (err || !config || !config.response || !config.response.result) {
+    console.log(err);
+    return rejectTransaction("Transaction failed!");
+  } else {
+    return dispatch(
+      showSuccessNotification({
+        message:
+          "Transaction complete! Your balance will automatically update when the blockchain has processed it."
+      })
+    );
+  }
 };
 
 // perform send transaction
@@ -153,7 +178,9 @@ const sendTransaction = (
   if (
     validateForm(dispatch, ledgerBalanceNeo, ledgerBalanceGAS, asset) === true
   ) {
-    dispatch(sendEvent(true, "Processing..."));
+    dispatch(
+      sendEvent(true, "Please sign the transaction on your hardware device")
+    );
     log(net, "SEND", selfAddress, {
       to: sendAddress.value,
       asset: asset,
@@ -185,7 +212,7 @@ const sendTransaction = (
   confirmButton.blur();
 };
 
-class LedgerNanoSend extends Component {
+class LoginLedgerNanoS extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -194,7 +221,6 @@ class LedgerNanoSend extends Component {
       neo: 0,
       neo_usd: 0,
       gas_usd: 0,
-      gasPrice: 0,
       value: 0,
       inputEnabled: true,
       ledgerAddress: "No Address Found. Click to Refresh",
@@ -233,16 +259,20 @@ class LedgerNanoSend extends Component {
 
       let loadAccount = new wallet.Account(publicKeyEncoded);
 
+      this.props.dispatch(setAddress(loadAccount.address));
+
       this.setState({
         ledgerAddress: loadAccount.address,
         ledgerAvailable: true
       });
 
       this.getLedgerBalance(loadAccount.address, this.props.net);
-      initiateGetBalance(
+
+      await initiateGetBalance(
         this.props.dispatch,
         this.props.net,
-        loadAccount.address
+        loadAccount.address,
+        this.props.price
       );
 
       return loadAccount.address;
@@ -273,12 +303,13 @@ class LedgerNanoSend extends Component {
       { net: net, address: address },
       api.neonDB
     );
+
     this.setState({
       ledgerBalanceNeo: filledBalance.balance.NEO.balance,
       ledgerBalanceGas: filledBalance.balance.GAS.balance
     });
 
-    this.getPrice(
+    await this.getPrice(
       filledBalance.balance.NEO.balance,
       filledBalance.balance.GAS.balance
     );
@@ -365,21 +396,11 @@ class LedgerNanoSend extends Component {
     const { ledgerAvailable } = this.state;
 
     return (
-      <div onLoad={() => {
-        this.getLedgerAddress();
-      }}>
+      <div>
         <div id="mainNav" className="main-nav">
           <div className="navbar navbar-inverse">
             <div className="navbar-header">
-              <div className="logoContainer fadeInDown"
-              onClick={() =>
-                refreshBalance(
-                  this.props.dispatch,
-                  this.props.net,
-                  this.props.address
-                )
-              }
-              >
+              <div className="logoContainer">
                 <Dashlogo width={85} />
               </div>
               <div id="balance"
@@ -414,11 +435,7 @@ class LedgerNanoSend extends Component {
                 <li>
                   <Link to={"/LoginLedgerNanoS"} activeClassName="active">
                     <span className="glyphicon glyphicon-th-large" /> Ledger
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"/LedgerNanoSend"} activeClassName="active">
-                    <span className="glyphicon glyphicon-send" /> Send
+                    Nano S
                   </Link>
                 </li>
                 <li>
@@ -433,8 +450,7 @@ class LedgerNanoSend extends Component {
                 </li>
                 <li>
                   <Link to={"/"} activeClassName="active">
-                    <span className="glyphicon glyphicon-chevron-left" /> Return
-                    to Login
+                    <span className="glyphicon glyphicon-chevron-left" /> Logout
                   </Link>
                 </li>
               </ul>
@@ -499,34 +515,21 @@ class LedgerNanoSend extends Component {
 
           {ledgerAvailable ? (
             <div className="row ledger-login-panel fadeInDown">
-              <div className="col-xs-4 center">
-                <h4
-                  data-tip
-                  data-for="copyTip"
-                  className="pointer"
-                  onClick={() => clipboard.writeText(this.state.ledgerAddress)}
-                >
-                  Copy Ledger Address
-                </h4>{" "}
-              </div>{" "}
-              <ReactTooltip
-                className="solidTip"
-                id="copyTip"
-                place="top"
-                type="light"
-                effect="solid"
-              >
-                <span>Copy Ledger Nano S NEO Address</span>
-              </ReactTooltip>
-              <div className="col-xs-8">
-                <input
-                  className="ledger-address"
-                  onClick={() => clipboard.writeText(this.props.ledgerAddress)}
-                  id="center"
-                  placeholder={this.state.ledgerAddress}
-                  value={this.state.ledgerAddress}
-                />
-              </div>
+
+            <div className="col-xs-9">
+              <img
+                src={neoLogo}
+                alt=""
+                width="38"
+                className="neo-logo logobounce"
+              />
+              <h2>Send Neo or Gas from Ledger</h2>
+            </div>
+
+            <div className="col-xs-3 top-20 center com-soon">
+            Block: {this.props.blockHeight}
+            </div>
+
               <div className="clearboth" />
               <div className="col-xs-12 center">
                 <hr className="dash-hr-wide" />
@@ -536,11 +539,10 @@ class LedgerNanoSend extends Component {
               <div className="clearboth" />
               <div className="col-xs-4">
                 <div className="ledgerQRBox center animated fadeInDown">
-                  <QRCode size={120} value={this.state.ledgerAddress} />
+                  <QRCode size={150} value={this.state.ledgerAddress} />
                 </div>
               </div>
               <div className="col-xs-8">
-                <h4 className="zero-margin">Send NEO/GAS from Ledger Nano S</h4>
                 <div className="top-10">
                   <input
                     className={formClass}
@@ -669,11 +671,9 @@ const mapStateToProps = state => ({
   combined: state.wallet.combined,
   explorer: state.metadata.blockExplorer,
   blockHeight: state.metadata.blockHeight,
-  transactions: state.wallet.transactions,
-  marketGASPrice: state.wallet.marketGASPrice,
-  marketNEOPrice: state.wallet.marketNEOPrice
+  transactions: state.wallet.transactions
 });
 
-LedgerNanoSend = connect(mapStateToProps)(LedgerNanoSend);
+LoginLedgerNanoS = connect(mapStateToProps)(LoginLedgerNanoS);
 
-export default LedgerNanoSend;
+export default LoginLedgerNanoS;

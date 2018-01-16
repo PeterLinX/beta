@@ -433,8 +433,7 @@ class LoginLedgerNanoS extends Component {
                 </li>
                 <li>
                   <Link to={"/"} activeClassName="active">
-                    <span className="glyphicon glyphicon-chevron-left" /> Return
-                    to Login
+                    <span className="glyphicon glyphicon-chevron-left" /> Log
                   </Link>
                 </li>
               </ul>
@@ -622,9 +621,7 @@ const mapStateToProps = state => ({
   combined: state.wallet.combined,
   explorer: state.metadata.blockExplorer,
   blockHeight: state.metadata.blockHeight,
-  transactions: state.wallet.transactions,
-  marketGASPrice: state.wallet.marketGASPrice,
-  marketNEOPrice: state.wallet.marketNEOPrice
+  transactions: state.wallet.transactions
 });
 
 LoginLedgerNanoS = connect(mapStateToProps)(LoginLedgerNanoS);

@@ -92,6 +92,7 @@
     "react-icons": "^2.2.5",
     "react-modal": "^3.1.2",
     "react-redux": "^4.4.5",
+    "react-responsive-accordion": "^1.0.0",
     "react-router": "^2.4.0",
     "react-router-redux": "^4.0.4",
     "react-spinkit": "^3.0.0",
