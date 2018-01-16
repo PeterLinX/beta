@@ -433,7 +433,7 @@ class LoginLedgerNanoS extends Component {
                 </li>
                 <li>
                   <Link to={"/"} activeClassName="active">
-                    <span className="glyphicon glyphicon-chevron-left" /> Log
+                    <span className="glyphicon glyphicon-chevron-left" /> Logout
                   </Link>
                 </li>
               </ul>
