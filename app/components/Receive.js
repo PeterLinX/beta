@@ -9,7 +9,7 @@ import printIcon from "../images/print-icon.png";
 import emailIcon from "../images/email-icon.png";
 import linkIcon from "../images/link-icon.png";
 import TopBar from "./TopBar";
-import Assets from "./Assets";
+import DashPrices from "./DashPrices";
 import ReactTooltip from "react-tooltip";
 
 const getLink = (net, address) => {
@@ -31,7 +31,7 @@ class Receive extends Component {
     console.log(this.props.net);
     return (
       <div id="" className="">
-        <Assets />
+        <DashPrices />
         <div className="dash-chart-panel">
         <div className="">
         <div className="col-xs-6">
