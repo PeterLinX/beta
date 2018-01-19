@@ -58,7 +58,7 @@ class ShapeShift extends Component {
       </div>
 
       <div className="top-130 dash-panel">
-      <h2>ShapeShift Exchange Service</h2>
+      <h2 className="center">ShapeShift Exchange Service</h2>
       <hr className="dash-hr-wide" />
         <div className="row top-10">
 
@@ -136,9 +136,6 @@ class ShapeShift extends Component {
             </button>
           </div>
         </div>
-        <div className="row top-10" />
-        <hr className="dash-hr-wide" />
-
 
         <div className="row">
           <div className="col-xs-9 top-20">
