@@ -11,6 +11,7 @@ import { NetworkSwitch } from "../components/NetworkSwitch";
 import WalletInfo from "../components/WalletInfo";
 import TransactionHistory from "../components/TransactionHistory";
 import Exchange from "../components/Exchange";
+import ShapeShift from "../components/ShapeShift";
 import SelectExchange from "../components/SelectExchange";
 import Support from "../components/Support";
 import Tokens from "../components/Tokens";

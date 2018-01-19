@@ -12,7 +12,7 @@ import ReactTooltip from "react-tooltip";
 import neoLogo from "../img/neo.png";
 import NeoLogo from "./Brand/Neo";
 import BtcLogo from "./Brand/Bitcoin";
-import TopBar from "./TopBar";
+
 import { Link } from "react-router";
 import crypto from "crypto";
 import axios from "axios";
@@ -292,7 +292,7 @@ class Exchange extends Component {
     } else {
       return (
         <div>
-          
+
           <div className="progress-bar fadeInLeft-ex" />
           <div className="row prog-info top-20">
             <div className="col-xs-2 col-xs-offset-1 sm-text center">

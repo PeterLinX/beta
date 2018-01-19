@@ -26,7 +26,7 @@ class SelectExchange extends Component {
 
           <div className="row top-20">
           <Link to="/exchange">
-            <div className="col-2 center">
+            <div className="col-2 center pointer">
             <img
               src={changellyLogo}
               alt=""
@@ -37,7 +37,9 @@ class SelectExchange extends Component {
             <span className="top-20">"Exchange cryptocurrency at the best rate. Transfer from one wallet to another within seconds. It is that simple."</span>
             </div>
             </Link>
-            <div className="col-2 center com-soon">
+
+            <Link to="/shapeshift">
+            <div className="col-2 center pointer">
             <img
               src={shapeshiftLogo}
               alt=""
@@ -48,6 +50,7 @@ class SelectExchange extends Component {
             <span className="top-20">"The Safest, Fastest Asset Exchange on Earth. Trade any leading blockchain asset for any other. Protection by Design..."
             </span>
             </div>
+            </Link>
 
         </div>
         <Affiliate />
