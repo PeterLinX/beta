@@ -229,7 +229,7 @@ class Exchange extends Component {
             </div>
           </div>
 
-          <div className="top-100" id="payIn">
+          <div className="top-130" id="payIn">
             <div className="dash-panel fadeInDown">
               <div className="com-soon row fadeInDown">
                 <div className="col-xs-4">
@@ -263,7 +263,7 @@ class Exchange extends Component {
                         onClick={() => {
                           this.getStatus();
                         }}
-                        className="grey-button"
+                        className="btn-send"
                       >
                         Continue
                       </button>
@@ -312,7 +312,7 @@ class Exchange extends Component {
             </div>
           </div>
 
-          <div className="top-100">
+          <div className="top-130">
             {this.state.error === false ? (
               <div className="dash-panel fadeInDown">
                 <div className="com-soon row fadeInDown">
@@ -385,7 +385,7 @@ class Exchange extends Component {
                           this.props.address
                         );
                       }}
-                      className="grey-button"
+                      className="btn-send"
                     >
                       Continue
                     </button>
