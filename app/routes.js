@@ -5,6 +5,7 @@ import LoginNep2 from "./components/LoginNep2";
 import LoginPrivateKey from "./components/LoginPrivateKey";
 import Settings from "./components/Settings";
 import Exchange from "./components/Exchange";
+import ShapeShift from "./components/ShapeShift";
 import SelectExchange from "./components/SelectExchange";
 import ExchangeAddress from "./components/ExchangeAddress";
 import LoginLocalStorage from "./components/LoginLocalStorage";
@@ -39,6 +40,7 @@ export default (
       <Route path="/settings" component={Settings} />
       <Route path="/exchange" component={Exchange} />
       <Route path="/selectExchange" component={SelectExchange} />
+      <Route path="/shapeshift" component={ShapeShift} />
       <Route path="/exchangeAddress" component={ExchangeAddress} />
       <Route path="/ledger" component={Ledger} />
       <Route path="/transactionHistory" component={TransactionHistory} />
