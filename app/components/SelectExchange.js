@@ -44,7 +44,7 @@ class SelectExchange extends Component {
               src={shapeshiftLogo}
               alt=""
               width="240"
-              className="logobounce com-soon"
+              className="logobounce"
             />
             <hr className="dash-hr" />
             <span className="top-20">"The Safest, Fastest Asset Exchange on Earth. Trade any leading blockchain asset for any other. Protection by Design..."
