@@ -265,7 +265,7 @@ class Exchange extends Component {
                         }}
                         className="btn-send"
                       >
-                        Continue
+                        Process Order
                       </button>
                     </div>
                     <div className="col-xs-4">
@@ -284,6 +284,14 @@ class Exchange extends Component {
                     <span>Copy Deposit Address</span>
                   </ReactTooltip>
                 </div>
+                <div className="row top-20" />
+                <hr className="dash-hr-wide" />
+                <div className="col-xs-12 top-20">
+                <p className="sm-text center">
+                  Only click the Process Order button if you have successfully deposited Bitcoin to the address above. Depositing anything but Bitcoin (BTC) to the address above may result in your funds being lost.
+                </p>
+                </div>
+
               </div>
             </div>
           </div>
@@ -387,7 +395,7 @@ class Exchange extends Component {
                       }}
                       className="btn-send"
                     >
-                      Continue
+                      Place Order
                     </button>
                   </div>
                   <div className="col-xs-3">
