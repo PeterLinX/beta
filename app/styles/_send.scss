@@ -949,6 +949,8 @@ webview {
   border-bottom: 1px solid rgba(34, 34, 34, 0.79);
   border-top: 2px solid rgba(0, 0, 0, 0.6);
   width: 98%;
+  clear: both;
+  display: block;
 }
 
 #ledger-copy-icon {
