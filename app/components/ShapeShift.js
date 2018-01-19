@@ -136,7 +136,7 @@ class ShapeShift extends Component {
             </button>
           </div>
         </div>
-
+        
         <div className="row">
           <div className="col-xs-9 top-20">
             <strong>
