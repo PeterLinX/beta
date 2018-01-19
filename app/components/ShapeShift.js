@@ -11,6 +11,7 @@ import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import neoLogo from "../img/neo.png";
 import NeoLogo from "./Brand/Neo";
 import BtcLogo from "./Brand/Bitcoin";
+import shapeshiftLogo from "../img/shapeshift.png";
 
 // force sync with balance data
 const refreshBalance = async (dispatch, net, address) => {
@@ -38,12 +39,14 @@ class ShapeShift extends Component {
 
       <div>
       <div className="progress-bar fadeInLeft-ex" />
+
       <div className="row prog-info top-20">
         <div className="col-xs-2 col-xs-offset-1 sm-text center">
           Enter Amount to Deposit
         </div>
-        <div className="col-xs-2 sm-text center">Placing Your Order</div>
-        <div className="col-xs-2 sm-text center">
+        <div className="col-xs-2 sm-text center grey-out">
+        Placing Your Order</div>
+        <div className="col-xs-2 sm-text center grey-out">
           Generating Deposit Address
         </div>
         <div className="col-xs-2 sm-text center grey-out">
@@ -54,10 +57,13 @@ class ShapeShift extends Component {
         </div>
       </div>
 
-      <div className="top-130 dash-panel fadeInDown">
-        <div className="com-soon row fadeInDown">
-          <div className="col-xs-4 col-xs-offset-1">
-            <h4 className="top-20"><select
+      <div className="top-130 dash-panel">
+      <h2>ShapeShift Exchange Service</h2>
+      <hr className="dash-hr-wide" />
+        <div className="row top-10">
+
+          <div className="col-xs-4">
+            <select
               name="select-profession"
               id="select-profession"
               className=""
@@ -77,43 +83,42 @@ class ShapeShift extends Component {
                 <option>
                 Monero (XMR)
                 </option>
-            </select></h4>
-          </div>
-          <div className="col-xs-2" />
-          <div className="col-xs-4">
-            <div className="exch-logos">
-              <NeoLogo width={32} />
-            </div>
-            <h4 className="top-20">Receive NEO</h4>
-          </div>
-          <div className="col-xs-1" />
-          <div className="clearboth" />
-          <div className="col-xs-4 top-10 center col-xs-offset-1">
-            <input
-              className="form-control-exchange center"
-              placeholder="0.000001"
-              type="number"
-              min={0.01}
-            />
-          </div>
-          <div className="col-xs-2 center">
-            <div className="exchange-glyph">
-              <span className="glyphicon glyphicon-transfer" />
-            </div>
+            </select>
+            <p className="sm-text top-10">
+            Select Asset to Exchange
+            </p>
           </div>
 
-          <div className="col-xs-4 center">
-            <input
-              className="form-control-exchange center"
-              value="0"
-              placeholder="0"
-              disabled
-            />
+          <div className="col-xs-4">
+          <input
+            className="form-control-exchange center"
+            placeholder="0.000001"
+            type="number"
+            min={0.01}
+          />
+          <p className="sm-text">
+          Amount to Deposit
+          </p>
           </div>
+
+
+          <div className="col-xs-4">
+          <input
+            className="form-control-exchange center"
+            value="0"
+            placeholder="0"
+            disabled
+          />
+          <p className="sm-text">
+          Amount of NEO Received
+          </p>
+          </div>
+
         </div>
 
         <div className="row">
-          <div className="col-xs-10 center col-xs-offset-1  top-20">
+          <div className="col-xs-8 top-20">
+
             <input
               className="form-control-exchange center"
               disabled
@@ -123,27 +128,35 @@ class ShapeShift extends Component {
               Once complete, NEO will be deposited to the address above
             </p>
           </div>
-        </div>
-        <div className="row top-20">
-          <div className="col-xs-3 col-xs-offset-1 ">
-            <strong>
-              Minimum Order:<br />
-              0.000000
-            </strong>
-            <br />
-            <span className="sm-text">Transaction fees included.</span>
-          </div>
-          <div className="col-xs-4 center">
+          <div className="col-xs-4 center top-20">
             <button
               className="btn-send"
             >
-              Continue
+              Place Oder
             </button>
           </div>
-          <div className="col-xs-3">
-            <p className="sm-text">Powered by:</p>
-            <div className="shapeshift-logo-sm" />
+        </div>
+        <div className="row top-10" />
+        <hr className="dash-hr-wide" />
+
+
+        <div className="row">
+          <div className="col-xs-9 top-20">
+            <strong>
+              Minimum Order: 0.000000
+            </strong><br />
+            <span className="sm-text">Transaction fees included.</span>
           </div>
+
+          <div className="col-xs-3">
+          <img
+            src={shapeshiftLogo}
+            alt=""
+            width="160"
+            className="logobounce"
+          />
+          </div>
+
         </div>
       </div>
 
