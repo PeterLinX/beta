@@ -9,12 +9,12 @@ import dashboard from "../modules/dashboard";
 import shapeshift from "../modules/shapeshift";
 
 export default combineReducers({
-  account,
-  generateWallet,
-  wallet,
-  transactions,
-  dashboard,
-  metadata,
-  claim,
+    account,
+    generateWallet,
+    wallet,
+    transactions,
+    dashboard,
+    metadata,
+    claim,
     shapeshift
 });
