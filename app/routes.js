@@ -29,36 +29,36 @@ import SendQLC from "./components/SendQLC";
 import SendHP from "./components/SendHP";
 
 export default (
-  <Route path="/" component={App}>
-    <Route path="/dashboard" component={Dashboard}>
-      <Route path="/send" component={Send} />
-      <Route path="/sendRPX" component={SendRPX} />
-      <Route path="/sendDBC" component={SendDBC} />
-      <Route path="/sendQLC" component={SendQLC} />
-      <Route path="/sendHP" component={SendHP} />
-      <Route path="/receive" component={Receive} />
-      <Route path="/settings" component={Settings} />
-      <Route path="/exchange" component={Exchange} />
-      <Route path="/selectExchange" component={SelectExchange} />
-      <Route path="/shapeshift" component={ShapeShift} />
-      <Route path="/exchangeAddress" component={ExchangeAddress} />
-      <Route path="/ledger" component={Ledger} />
-      <Route path="/transactionHistory" component={TransactionHistory} />
-      <Route path="/support" component={Support} />
-      <Route path="/tokens" component={Tokens} />
-      <Route path="/sale" component={Sale} />
+    <Route path="/" component={App}>
+        <Route path="/dashboard" component={Dashboard}>
+            <Route path="/send" component={Send} />
+            <Route path="/sendRPX" component={SendRPX} />
+            <Route path="/sendDBC" component={SendDBC} />
+            <Route path="/sendQLC" component={SendQLC} />
+            <Route path="/sendHP" component={SendHP} />
+            <Route path="/receive" component={Receive} />
+            <Route path="/settings" component={Settings} />
+            <Route path="/exchange" component={Exchange} />
+            <Route path="/selectExchange" component={SelectExchange} />
+            <Route path="/shapeshift" component={ShapeShift} />
+            <Route path="/exchangeAddress" component={ExchangeAddress} />
+            <Route path="/ledger" component={Ledger} />
+            <Route path="/transactionHistory" component={TransactionHistory} />
+            <Route path="/support" component={Support} />
+            <Route path="/tokens" component={Tokens} />
+            <Route path="/sale" component={Sale} />
+        </Route>
+        <Route path="/create" component={CreateWallet} />
+        <Route path="/encryptKey" component={EncryptKey} />
+        <Route path="/DisplayWalletKeys" component={DisplayWalletKeys} />
+        <Route path="/LoginNep2" component={LoginNep2} />
+        <IndexRoute component={LoginLocalStorage} />
+        <Route path="/LoginPrivateKey" component={LoginPrivateKey} />
+        <Route path="/LoginLedgerNanoS" component={LoginLedgerNanoS} />
+        <Route path="/TransactionLedger" component={TransactionLedger} />
+        <Route path="/LedgerNanoSend" component={LedgerNanoSend} />
+        <Route path="/LoginEncrypted" component={LoginNep2} />
+        {/* <Route path="/settings" component={Settings} /> */}
+        <Route path="/settingsw" component={Settings} />
     </Route>
-    <Route path="/create" component={CreateWallet} />
-    <Route path="/encryptKey" component={EncryptKey} />
-    <Route path="/DisplayWalletKeys" component={DisplayWalletKeys} />
-    <Route path="/LoginNep2" component={LoginNep2} />
-    <IndexRoute component={LoginLocalStorage} />
-    <Route path="/LoginPrivateKey" component={LoginPrivateKey} />
-    <Route path="/LoginLedgerNanoS" component={LoginLedgerNanoS} />
-    <Route path="/TransactionLedger" component={TransactionLedger} />
-    <Route path="/LedgerNanoSend" component={LedgerNanoSend} />
-    <Route path="/LoginEncrypted" component={LoginNep2} />
-    {/* <Route path="/settings" component={Settings} /> */}
-    <Route path="/settingsw" component={Settings} />
-  </Route>
 );

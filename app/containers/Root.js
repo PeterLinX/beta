@@ -11,12 +11,12 @@ export default class Root extends Component {
         const { store, history } = this.props;
         return (
             <Provider store={store}>
-              <div className="container-fluid">
-                <Router history={history} routes={routes} />
-                  {
-                      process.env.NODE_ENV !== "production" && <DevTools />
-                  }
-              </div>
+                <div className="container-fluid">
+                    <Router history={history} routes={routes} />
+                    {
+                        process.env.NODE_ENV !== "production" && <DevTools />
+                    }
+                </div>
             </Provider>
         );
     }
