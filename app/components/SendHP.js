@@ -10,7 +10,7 @@ import { log } from "../util/Logs";
 import hashpuppiesLogo from "../img/hashpuppies.png";
 import Claim from "./Claim.js";
 import TopBar from "./TopBar";
-import Assets from "./Assets";
+import DashPrices from "./DashPrices";
 import { clipboard } from "electron";
 import { togglePane } from "../modules/dashboard";
 import {
@@ -212,7 +212,7 @@ class SendHP extends Component {
     return (
         <div>
 
-          <Assets />
+          <DashPrices />
 <div id="send">
 
           <div className="row dash-chart-panel">

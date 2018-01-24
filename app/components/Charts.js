@@ -7,7 +7,7 @@ import _ from "lodash";
 import moment from "moment";
 import neoLogo from "../images/neo.png";
 import { Link } from "react-router";
-import Assets from "./Assets";
+import DashPrices from "./DashPrices";
 
 // CryptoCompare API for ChartJS
 const api = val => {
@@ -346,7 +346,7 @@ class Charts extends Component {
     };
     return (
       <div>
-      <Assets />
+      <DashPrices />
         <div className="dash-chart-panel top-20">
           <div className="row">
             <div className="col-xs-12">
