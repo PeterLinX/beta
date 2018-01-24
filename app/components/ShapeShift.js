@@ -7,6 +7,7 @@ import { Link } from "react-router";
 import { setMarketPrice, resetPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
+import { fetchNeoStatus } from "../modules/shapeshift";
 
 import neoLogo from "../img/neo.png";
 import NeoLogo from "./Brand/Neo";
@@ -34,9 +35,13 @@ class ShapeShift extends Component {
     };
   }
 
+  componentDidMount() {
+    console.log(this.props);
+    this.props.fetchNeoStatus();
+  }
+
   render() {
     return (
-
       <div>
       <div className="progress-bar fadeInLeft-ex" />
 
@@ -177,9 +182,16 @@ const mapStateToProps = state => ({
   marketNEOPrice: state.wallet.marketNEOPrice,
   marketRPXPrice: state.wallet.marketRPXPrice,
   marketDBCPrice: state.wallet.marketDBCPrice,
-  marketQLCPrice: state.wallet.marketQLCPrice
+  marketQLCPrice: state.wallet.marketQLCPrice,
+    fetching: state.shapeshift.fetching,
+    available: state.shapeshift.available,
+    error: state.shapeshift.error
 });
 
-ShapeShift = connect(mapStateToProps)(ShapeShift);
+const mapDispatchToProps = ({
+    fetchNeoStatus
+});
+
+ShapeShift = connect(mapStateToProps, mapDispatchToProps)(ShapeShift);
 
 export default ShapeShift;
