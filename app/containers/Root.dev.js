@@ -13,7 +13,9 @@ export default class Root extends Component {
       <Provider store={store}>
         <div className="container-fluid">
           <Router history={history} routes={routes} />
-          <DevTools />
+            {
+              process.env.NODE_ENV !== "production" && <DevTools />
+            }
         </div>
       </Provider>
     );
