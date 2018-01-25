@@ -95,6 +95,7 @@
     "react-responsive-accordion": "^1.0.0",
     "react-router": "^2.4.0",
     "react-router-redux": "^4.0.4",
+    "react-sanfona": "^1.0.6",
     "react-spinkit": "^3.0.0",
     "react-split-pane": "^0.1.65",
     "react-syntax-highlighter": "^5.1.3",
