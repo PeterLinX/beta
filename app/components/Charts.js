@@ -23,9 +23,8 @@ class Charts extends Component {
       neoData: [],
       gasData: [],
       btcData: [],
-      dashData: [],
-      ltcData: [],
-      ethData: [],
+      dbcData: [],
+      qlcData: [],
       rpxData: [],
       open: "--",
       high: "--",
@@ -37,9 +36,8 @@ class Charts extends Component {
     await this.getGasData();
     await this.getNeoData();
     await this.getBtcData();
-    await this.getLtcData();
-    await this.getDashData();
-    await this.getEthData();
+    await this.getDbcData();
+    await this.getQlcData();
     await this.getRpxData();
   }
 
@@ -74,35 +72,26 @@ class Charts extends Component {
     }
   }
 // LTC
-  async getLtcData() {
+  async getDbcData() {
     try {
-      let req = await axios.get(api("LTC"));
+      let req = await axios.get(api("DBC"));
       let data = req.data.Data;
-      this.setState({ ltcData: data });
+      this.setState({ dbcData: data });
     } catch (error) {
       console.log(error);
     }
   }
 // ETH
-  async getEthData() {
+  async getQlcData() {
     try {
-      let req = await axios.get(api("ETH"));
+      let req = await axios.get(api("QLC"));
       let data = req.data.Data;
-      this.setState({ ethData: data });
+      this.setState({ qlcData: data });
     } catch (error) {
       console.log(error);
     }
   }
-// DASH
-  async getDashData() {
-    try {
-      let req = await axios.get(api("DASH"));
-      let data = req.data.Data;
-      this.setState({ dashData: data });
-    } catch (error) {
-      console.log(error);
-    }
-  }
+
 // RPX
   async getRpxData() {
     try {
@@ -120,10 +109,9 @@ class Charts extends Component {
 
     const convertedTime = neoHours.map(val => moment.unix(val).format("LLL"));
 
-    const ltcPrices = _.map(this.state.ltcData, "close");
+    const dbcPrices = _.map(this.state.dbcData, "close");
     const btcPrices = _.map(this.state.btcData, "close");
-    const dashPrices = _.map(this.state.dashData, "close");
-    const ethPrices = _.map(this.state.ethData, "close");
+    const qlcPrices = _.map(this.state.qlcData, "close");
     const rpxPrices = _.map(this.state.rpxData, "close");
     const gasPrices = _.map(this.state.gasData, "close");
 // Chart Styling
@@ -146,13 +134,13 @@ class Charts extends Component {
       gasGradientFill.addColorStop(0, "rgba(144,147,254, 1)");
       gasGradientFill.addColorStop(1, "rgba(144,147,254, 0)");
 
-      let ltcGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
-      ltcGradientStroke.addColorStop(0, "#ececec");
-      ltcGradientStroke.addColorStop(1, "#ececec");
+      let dbcGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
+      dbcGradientStroke.addColorStop(0, "#5ac1d4");
+      dbcGradientStroke.addColorStop(1, "#5ac1d4");
 
-      let ltcGradientFill = ctx.createLinearGradient(0, 0, 0, 360);
-      ltcGradientFill.addColorStop(0, "rgba(255,255,255, 0.5)");
-      ltcGradientFill.addColorStop(1, "rgba(255,255,255, 0)");
+      let dbcGradientFill = ctx.createLinearGradient(0, 0, 0, 360);
+      dbcGradientFill.addColorStop(0, "rgba(90,193,212, 0.5)");
+      dbcGradientFill.addColorStop(1, "rgba(90,193,212, 0)");
 
       let btcGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
       btcGradientStroke.addColorStop(0, "#ffc000");
@@ -162,13 +150,13 @@ class Charts extends Component {
       btcGradientFill.addColorStop(0, "rgba(229,172,0, 0.5)");
       btcGradientFill.addColorStop(1, "rgba(229,172,0, 0)");
 
-      let ethGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
-      ethGradientStroke.addColorStop(0, "#646464");
-      ethGradientStroke.addColorStop(1, "#646464");
+      let qlcGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
+      qlcGradientStroke.addColorStop(0, "#ae00d6");
+      qlcGradientStroke.addColorStop(1, "#ae00d6");
 
-      let ethGradientFill = ctx.createLinearGradient(0, 0, 0, 360);
-      ethGradientFill.addColorStop(0, "rgba(175,175,175, 0.5)");
-      ethGradientFill.addColorStop(1, "rgba(175,175,175, 0)");
+      let qlcGradientFill = ctx.createLinearGradient(0, 0, 0, 360);
+      qlcGradientFill.addColorStop(0, "rgba(175,0,214, 0.5)");
+      qlcGradientFill.addColorStop(1, "rgba(175,0,214, 0)");
 
       let rpxGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
       rpxGradientStroke.addColorStop(0, "#C60307");
@@ -178,13 +166,6 @@ class Charts extends Component {
       rpxGradientFill.addColorStop(0, "rgba(169,3,41, 0.5)");
       rpxGradientFill.addColorStop(1, "rgba(169,3,41, 0)");
 
-      let dashGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
-      dashGradientStroke.addColorStop(0, "#005aff");
-      dashGradientStroke.addColorStop(1, "#005aff");
-
-      let dashGradientFill = ctx.createLinearGradient(0, 0, 0, 360);
-      dashGradientFill.addColorStop(0, "rgba(0,90,255, 0.5)");
-      dashGradientFill.addColorStop(1, "rgba(0,90,255, 0)");
 // Chart Content
       return {
         labels: convertedTime,
@@ -254,12 +235,12 @@ class Charts extends Component {
             data: btcPrices
           },
           {
-            label: "DASH",
+            label: "QLC",
             fill: true,
             hidden: true,
             lineTension: 0.25,
-            backgroundColor: dashGradientFill,
-            borderColor: dashGradientStroke,
+            backgroundColor: qlcGradientFill,
+            borderColor: qlcGradientStroke,
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
@@ -267,21 +248,21 @@ class Charts extends Component {
             pointBorderWidth: 1,
             pointHoverRadius: 3,
             pointHoverBorderWidth: 0,
-            pointBorderColor: dashGradientStroke,
-            pointBackgroundColor: dashGradientStroke,
-            pointHoverBackgroundColor: dashGradientStroke,
-            pointHoverBorderColor: dashGradientStroke,
+            pointBorderColor: qlcGradientStroke,
+            pointBackgroundColor: qlcGradientStroke,
+            pointHoverBackgroundColor: qlcGradientStroke,
+            pointHoverBorderColor: qlcGradientStroke,
             pointHitRadius: 3,
             pointRadius: 0,
-            data: dashPrices
+            data: qlcPrices
           },
           {
-            label: "ETH",
+            label: "DBC",
             fill: true,
             hidden: true,
             lineTension: 0.25,
-            backgroundColor: ethGradientFill,
-            borderColor: ethGradientStroke,
+            backgroundColor: dbcGradientFill,
+            borderColor: dbcGradientStroke,
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
@@ -289,35 +270,13 @@ class Charts extends Component {
             pointBorderWidth: 1,
             pointHoverRadius: 3,
             pointHoverBorderWidth: 0,
-            pointBorderColor: ethGradientStroke,
-            pointBackgroundColor: ethGradientStroke,
-            pointHoverBackgroundColor: ethGradientStroke,
-            pointHoverBorderColor: ethGradientStroke,
+            pointBorderColor: dbcGradientStroke,
+            pointBackgroundColor: dbcGradientStroke,
+            pointHoverBackgroundColor: dbcGradientStroke,
+            pointHoverBorderColor: dbcGradientStroke,
             pointHitRadius: 3,
             pointRadius: 0,
-            data: ethPrices
-          },
-          {
-            label: "LTC",
-            fill: true,
-            hidden: true,
-            lineTension: 0.25,
-            backgroundColor: ltcGradientFill,
-            borderColor: ltcGradientStroke,
-            borderCapStyle: "butt",
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: "miter",
-            pointBorderWidth: 1,
-            pointHoverRadius: 3,
-            pointHoverBorderWidth: 0,
-            pointBorderColor: ltcGradientStroke,
-            pointBackgroundColor: ltcGradientStroke,
-            pointHoverBackgroundColor: ltcGradientStroke,
-            pointHoverBorderColor: ltcGradientStroke,
-            pointHitRadius: 3,
-            pointRadius: 0,
-            data: ltcPrices
+            data: dbcPrices
           },
           {
             label: "RPX",
