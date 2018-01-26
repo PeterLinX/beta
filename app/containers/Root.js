@@ -7,22 +7,22 @@ import routes from "../routes";
 import background from "../img/background_logins.png";
 
 export default class Root extends Component {
-    render() {
-        const { store, history } = this.props;
-        return (
-            <Provider store={store}>
-                <div className="container-fluid">
-                    <Router history={history} routes={routes} />
-                    {
-                        process.env.NODE_ENV !== "production" && <DevTools />
-                    }
-                </div>
-            </Provider>
-        );
-    }
+	render() {
+		const { store, history } = this.props;
+		return (
+			<Provider store={store}>
+				<div className="container-fluid">
+					<Router history={history} routes={routes} />
+					{
+						process.env.NODE_ENV !== "production" && <DevTools />
+					}
+				</div>
+			</Provider>
+		);
+	}
 }
 
 Root.propTypes = {
-    store: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired
+	store: PropTypes.object.isRequired,
+	history: PropTypes.object.isRequired
 };

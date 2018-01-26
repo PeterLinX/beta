@@ -3,7 +3,7 @@
         "es6": true,
         "node": true
     },
-    "extends": ["eslint:recommended"],
+    "extends": "eslint:recommended",
     "parserOptions": {
         "ecmaFeatures": {
             "experimentalObjectRestSpread": true,
@@ -15,11 +15,9 @@
         "react"
     ],
     "rules": {
-        "react/jsx-uses-react": "error",
-        "react/jsx-uses-vars": "error",
         "indent": [
             "error",
-            4
+            "tab"
         ],
         "linebreak-style": [
             "error",
