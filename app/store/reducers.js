@@ -6,13 +6,15 @@ import metadata from "../modules/metadata";
 import wallet from "../modules/wallet";
 import claim from "../modules/claim";
 import dashboard from "../modules/dashboard";
+import shapeshift from "../modules/shapeshift";
 
 export default combineReducers({
-  account,
-  generateWallet,
-  wallet,
-  transactions,
-  dashboard,
-  metadata,
-  claim,
+    account,
+    generateWallet,
+    wallet,
+    transactions,
+    dashboard,
+    metadata,
+    claim,
+    shapeshift
 });
