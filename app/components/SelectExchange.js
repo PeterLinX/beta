@@ -16,7 +16,7 @@ class SelectExchange extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			gasPrice: 0,
+			gasPrice: 0
 		};
 	}
 

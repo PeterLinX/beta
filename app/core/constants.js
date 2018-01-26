@@ -23,7 +23,7 @@ export const ASSETS_LABELS = {
 };
 
 export const ROUTES = {
-	DASHBOARD: "/dashboard",
+	DASHBOARD: "/dashboard"
 };
 
 export const NOTIFICATION_LEVELS = {
