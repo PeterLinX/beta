@@ -199,7 +199,7 @@ app.on("ready", () => {
   let url = require("url").format({
     protocol: "file",
     slashes: true,
-    pathname: require("path").join(__dirname, "/app/dist/index.html")
+    pathname: require("path").join(__dirname, "/dist/index.html")
   });
   mainWindow.loadURL(url);
 
