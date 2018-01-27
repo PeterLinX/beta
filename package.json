@@ -13,16 +13,17 @@
     "test": "jest",
     "test-watch": "jest --watch",
     "pack": "build --dir",
-    "dist": "build -mw"
+    "dist": "build -mw",
+    "lint-fix": "eslint app/** --fix"
   },
   "keywords": [],
   "build": {
     "appId": "com.electron.morpheus",
     "files": [
       "./main.js",
-      "app/dist/index.html",
-      "app/dist/bundle.js",
-      "app/dist/"
+      "dist/index.html",
+      "dist/bundle.js",
+      "dist/"
     ],
     "dmg": {
       "contents": [
@@ -126,7 +127,7 @@
     "enzyme-to-json": "^3.1.1",
     "eslint": "^2.9.0",
     "eslint-loader": "^1.5.0",
-    "eslint-plugin-react": "^5.0.1",
+    "eslint-plugin-react": "^7.6.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "history": "^4.7.2",
     "html-webpack-plugin": "^2.16.1",
