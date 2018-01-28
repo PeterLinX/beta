@@ -23,7 +23,7 @@ import {
 let sendAddress, sendAmount, confirmButton;
 
 const apiURL = val => {
-	return `https://min-api.cryptocompare.com/data/price?fsym=RPX&tsyms=USD`;
+	return "https://min-api.cryptocompare.com/data/price?fsym=RPX&tsyms=USD";
 };
 
 // form validators for input fields
