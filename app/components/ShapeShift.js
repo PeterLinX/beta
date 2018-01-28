@@ -37,13 +37,14 @@ class ShapeShift extends Component {
 	}
 
 	componentDidMount() {
+		this.props.fetchNeoStatus();		
 		setInterval(() => {
-			this.props.fetchNeoStatus();
-		}, 60000);
+			this.props.fetchNeoStatus();					
+		}, 30000);
 	}
 
 	render() {
-		if (!this.props.available) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
+		if (!this.props.available && !this.props.fetching) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
 		return (
 			<div>
 				<div className="progress-bar fadeInLeft-ex" />
