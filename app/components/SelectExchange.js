@@ -52,7 +52,6 @@ class SelectExchange extends Component {
 						</div>
 					</Link>
 
-
 				</div>
 				<Affiliate />
 			</div>

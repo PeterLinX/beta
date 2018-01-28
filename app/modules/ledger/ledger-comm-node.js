@@ -64,10 +64,9 @@ LedgerNode.prototype.exchange = function(apduHex, statusList) {
 			tmp[2] = 0x05; // TAG_APDU
 			tmp.writeUInt16BE(sequenceIdx, 3);
 			sequenceIdx++;
-			blockSize =
-        command.length - offset > packetSize - 5
-        	? packetSize - 5
-        	: command.length - offset;
+			blockSize = command.length - offset > packetSize - 5
+				? packetSize - 5
+				: command.length - offset;
 			result = Buffer.concat(
 				[result, tmp, command.slice(offset, offset + blockSize)],
 				result.length + blockSize + 5
@@ -129,10 +128,9 @@ LedgerNode.prototype.exchange = function(apduHex, statusList) {
 			if (data[offset++] !== (sequenceIdx & 0xff)) {
 				throw new Error("Invalid sequence");
 			}
-			blockSize =
-        responseLength - response.length > packetSize - 5
-        	? packetSize - 5
-        	: responseLength - response.length;
+			blockSize = responseLength - response.length > packetSize - 5
+				? packetSize - 5
+				: responseLength - response.length;
 			if (blockSize > data.length - offset) {
 				return;
 			}
@@ -208,9 +206,9 @@ LedgerNode.prototype.exchange = function(apduHex, statusList) {
 						return receivePart();
 					}
 					var blockSize =
-            deferred.promise.transport.length - offsetSent > 64
-            	? 64
-            	: deferred.promise.transport.length - offsetSent;
+						deferred.promise.transport.length - offsetSent > 64
+							? 64
+							: deferred.promise.transport.length - offsetSent;
 					var block = deferred.promise.transport.slice(
 						offsetSent,
 						offsetSent + blockSize
