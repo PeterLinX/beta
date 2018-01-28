@@ -13,7 +13,8 @@
     "test": "jest",
     "test-watch": "jest --watch",
     "pack": "build --dir",
-    "dist": "build -mw"
+    "dist": "build -mw",
+    "lint-fix": "eslint app/** --fix"
   },
   "keywords": [],
   "build": {
