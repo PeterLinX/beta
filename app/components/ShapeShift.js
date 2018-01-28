@@ -7,6 +7,7 @@ import { Link } from "react-router";
 import { setMarketPrice, resetPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
+import UnavailableExchange from "../components/UnavailableExchange";
 import { fetchNeoStatus } from "../modules/shapeshift";
 
 import neoLogo from "../img/neo.png";
@@ -36,11 +37,13 @@ class ShapeShift extends Component {
 	}
 
 	componentDidMount() {
-		console.log(this.props);
-		this.props.fetchNeoStatus();
+		setInterval(() => {
+			this.props.fetchNeoStatus();
+		}, 60000);
 	}
 
 	render() {
+		if (!this.props.available) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
 		return (
 			<div>
 				<div className="progress-bar fadeInLeft-ex" />
