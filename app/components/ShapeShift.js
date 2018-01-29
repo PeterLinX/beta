@@ -87,6 +87,7 @@ class ShapeShift extends Component {
 			returnAddress: "shapeshift_address_here_based_on_selected_asset",
 			apiKey: shapeshiftPk
 		};
+		this.props.startShiftOrder(shiftConfig);
 	}
 
 	calcExpectedNeo() {
@@ -95,11 +96,11 @@ class ShapeShift extends Component {
 	}
 
 	render() {
-		if (!this.props.available && !this.props.fetching) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
+		if (!this.props.available && !this.props.fetching && !this.props.stage) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
 		return (
 			<div>
 				<div className="progress-bar fadeInLeft-ex" />
-
+				<div>Shapeshift stage: {this.props.stage}</div>
 				<div className="row prog-info top-20">
 					<div className="col-xs-2 col-xs-offset-1 sm-text center">
 						Enter Amount to Deposit
@@ -239,8 +240,10 @@ const mapStateToProps = state => ({
 	marketDBCPrice: state.wallet.marketDBCPrice,
 	marketQLCPrice: state.wallet.marketQLCPrice,
 	fetching: state.shapeshift.fetching,
-	posting: state.shapeshift.posting,
 	available: state.shapeshift.available,
+	stage: state.shapeshift.stage, // possible states - null, ordering, depositing, processing, complete
+	txData: state.shapeshift.txData,
+	completeData: state.shapeshift.completeData,
 	error: state.shapeshift.error
 });
 
