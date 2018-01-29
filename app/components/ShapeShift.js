@@ -198,7 +198,6 @@ class ShapeShift extends Component {
 								isValidNeoOutput
 									? <div></div>
 									: <div style={{ color: "red" }}>Sorry, NEO outputs must be whole numbers :(</div>
-
 							}
 							<input
 								className="form-control-exchange center"
@@ -225,9 +224,11 @@ class ShapeShift extends Component {
 							</p>
 						</div>
 						<div className="col-xs-4 center top-20">
-							<button onClick={this.handleOrderClick} className="btn-send">
-								Place Oder
-							</button>
+							{
+								isValidNeoOutput
+									? (<button onClick={this.handleOrderClick} className="btn-send">Place Oder</button>)
+									: (<div></div>)
+							}
 						</div>
 					</div>
         
