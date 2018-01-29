@@ -94,7 +94,7 @@ class ShapeShift extends Component {
 	}
 
 	handleDepositAmtChange(e) {
-		const { value } = e.target;
+		const { value } = e.target;"pair"
 		this.setState({ depositAmt: value });
 	}
 
