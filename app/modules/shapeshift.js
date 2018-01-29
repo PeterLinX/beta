@@ -127,17 +127,17 @@ export default (
 	case POST_ORDER:
 		return { ...state, stage: "ordering" };
 	case ORDER_SUCCESS:
-		return { ...state, stage: "depositing", txData: action.txData };
+		return { ...state, stage: "depositing", txData: action.txData, error: null };
 	case ORDER_FAIL:
 		return { ...state, error: action.error, stage: null };
 	case DEPOSIT_STATUS_REQUEST:
 		return { ...state, fetching: true };
 	case DEPOSIT_STATUS_SUCCESS:
-		return { ...state, stage: "processing", fetching: false };
+		return { ...state, stage: "processing", fetching: false, error: null };
 	case DEPOSIT_STATUS_FAIL:
 		return { ...state, fetching: false, error: action.error };
 	case PROCESS_SUCCESS:
-		return { ...state, fetching: false, stage: "complete", completeData: action.completeData };
+		return { ...state, fetching: false, stage: "complete", completeData: action.completeData, error: null };
 	case RESET_ORDER:
 		return initialState;
 	default:
