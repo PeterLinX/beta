@@ -56,13 +56,15 @@ class ShapeShift extends Component {
 
 	componentDidMount() {
 		this.pollForNeoConditonallyEvery(30000);
-		this.pollForDepositStatusConditionallyEvery(5000);
+		// this.pollForDepositStatusConditionallyEvery(5000);
 	}
 
 	pollForNeoConditonallyEvery(ms) {
-		const { available, stage, fetchNeoStatus, address } = this.props;
+		let { available, stage, fetchNeoStatus, address } = this.props;
 		if (!available && !stage) fetchNeoStatus();
 		setInterval(() => {
+			// Get the latest stage. If in the middle of the stage, it should not poll for NEO availability
+			let { stage, fetchNeoStatus, address } = this.props;
 			!stage && fetchNeoStatus(address);
 		}, ms);
 	}
@@ -128,7 +130,7 @@ class ShapeShift extends Component {
 	// should I design this to be other way?
 
 	render() {
-		// if (!this.props.available && !this.props.fetching && !this.props.stage) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
+		if (!this.props.available && !this.props.fetching && !this.props.stage) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
 		const isValidNeoOutput = this.determineNeoOutputAmtValidity();
 
 		return (
