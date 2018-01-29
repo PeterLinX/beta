@@ -6,9 +6,10 @@ import { Link } from "react-router";
 
 import { setMarketPrice, resetPrice } from "../modules/wallet";
 import { togglePane } from "../modules/dashboard";
-import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import UnavailableExchange from "../components/UnavailableExchange";
+import Deposit from "../components/Deposit";
+import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import {fetchNeoStatus, startShiftOrder, fetchDepositStatus, resetOrderState} from "../modules/shapeshift";
 
 import neoLogo from "../img/neo.png";
@@ -131,7 +132,10 @@ class ShapeShift extends Component {
 	// should I design this to be other way?
 
 	render() {
-		if (!this.props.available && !this.props.fetching && !this.props.stage) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
+		const { available, fetching, stage, txData } = this.props;
+		if (!available && !fetching && !stage) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
+		else if (stage === "depositing") return <Deposit payinAddress={txData.deposit}/>;
+
 		const isValidNeoOutput = this.determineNeoOutputAmtValidity();
 
 		return (

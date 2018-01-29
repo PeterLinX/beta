@@ -34,7 +34,7 @@ const apiKey = "1befd82a2ef24c359c3106f96b5217c0";
 const secret =
   "eeea2b75ae6a627e69bd39a0de64675a2b0a414b0b9a9513355ba9e30eb6cb2f";
 
-let changelly = new Changelly(apiKey, secret);
+const changelly = new Changelly(apiKey, secret);
 
 class Exchange extends Component {
   constructor(props) {
