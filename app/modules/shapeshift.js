@@ -86,11 +86,17 @@ export function fetchDepositStatus(depositAddress) {
 			const depositData = response.data;
 
 			if (depositData.status === "no_deposits") dispatch(setDepositStatusFail());
-			else if (depositData.status === "failed") dispatch(setDepositStatusFail(depositData.error));
+			else if (depositData.status === "failed") {
+				dispatch(setDepositStatusFail(depositData.error));
+				dispatch(sendEvent(false, depositData.error));
+				setTimeout(() => dispatch(clearTransactionEvent()), 3000);
+			}
 			else if (depositData.status === "received") dispatch(setDepositStatusSuccess());
 			else if (depositData.status === "complete") dispatch(setProcessingSuccess(depositData));
 		} catch(e) {
-			dispatch(setDepositStatusFail());
+			dispatch(setDepositStatusFail(e));
+			dispatch(sendEvent(false, e));
+			setTimeout(() => dispatch(clearTransactionEvent()), 3000);
 		}
 	};
 }
@@ -99,7 +105,7 @@ export function fetchDepositStatus(depositAddress) {
 // Reducer
 
 const initialState = {
-	fetching: false,
+	fetching: false, // true when fetching NEO status or deposit status at address
 	available: false,
 	stage: null, // possible states - null, ordering, depositing, processing, complete
 	txData: {},
@@ -139,5 +145,50 @@ export default (
 	}
 };
 
+// success order
+// const response = {
+// 	"success": {
+// 	"orderId": "7e96d399-161b-4d7e-86e8-4526ee0267a2",
+// 		"pair": "eth_btc",
+// 		"withdrawal": "18J5MzAASt2FEAiFaM7RCG2Wm8xsV5Ttb2",
+// 		"withdrawalAmount": "0.001",
+// 		"deposit": "0x8c12e756075039cfaccfc911bf1e176ec1ecae42",
+// 		"depositAmount": "0.01737582",
+// 		"expiration": 1517257160162,
+// 		"quotedRate": "0.10359224",
+// 		"maxLimit": 4.28045779,
+// 		"returnAddress": "0xa4ece67a446ff949c2cb27ad76439b39740164bb",
+// 		"apiPubKey": "5aad9888213a9635ecda3ed8bb2dc45c0a8d95dc36da7533c78f3eba8f765ce77538aae79d0e35642e39f208b7428631188f03c930e91f299f9eb40556f8e74d",
+// 		"minerFee": "0.0008"
+// }
+// }
 
+
+// deposit
+
+// no deposits = {
+//	"status": "no_deposits"
+//}
+
+
+// deposit received = {
+// "status": "received",
+// 	"address": "0x8c12e756075039cfaccfc911bf1e176ec1ecae42",
+// 	"withdraw": "18J5MzAASt2FEAiFaM7RCG2Wm8xsV5Ttb2",
+// 	"incomingCoin": 0.01737582,
+// 	"incomingType": "ETH"
+// }
+
+
+// {
+// 	"status": "complete",
+// 	"address": "0x8c12e756075039cfaccfc911bf1e176ec1ecae42",
+// 	"withdraw": "18J5MzAASt2FEAiFaM7RCG2Wm8xsV5Ttb2",
+// 	"incomingCoin": 0.01737582,
+// 	"incomingType": "ETH",
+// 	"outgoingCoin": "0.001",
+// 	"outgoingType": "BTC",
+// 	"transaction": "81d85afaac59d41135fbbae3306818e79d8801029786f0d60f9c850523e30bca",
+// 	"transactionURL": "https://blockchain.info/tx/81d85afaac59d41135fbbae3306818e79d8801029786f0d60f9c850523e30bca"
+// }
 
