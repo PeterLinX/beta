@@ -8,7 +8,7 @@ import { setMarketPrice, resetPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import UnavailableExchange from "../components/UnavailableExchange";
-import { fetchNeoStatus, sendShift } from "../modules/shapeshift";
+import { fetchNeoStatus, startShiftOrder } from "../modules/shapeshift";
 
 import neoLogo from "../img/neo.png";
 import NeoLogo from "./Brand/Neo";
@@ -246,7 +246,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = ({
 	fetchNeoStatus,
-	sendShift
+	startShiftOrder
 
 });
 
