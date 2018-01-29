@@ -41,6 +41,8 @@ class ShapeShift extends Component {
 			minerFee: 0,
 			depositAmt: 0.000001
 		};
+		this.pollForNeoEvery = this.pollForNeoEvery.bind(this);
+		this.pollForDepositStatusEvery = this.pollForDepositStatusEvery.bind(this);
 		this.getMarketInfo = this.getMarketInfo.bind(this);
 		this.handleSelectAsset = this.handleSelectAsset.bind(this);
 		this.handleDepositAmtChange = this.handleDepositAmtChange.bind(this);
@@ -49,10 +51,23 @@ class ShapeShift extends Component {
 	}
 
 	componentDidMount() {
-		this.props.fetchNeoStatus();		
+		const { available, stage } = this.props;
+		if (!stage && !available) this.pollForNeoEvery(5000);
+		else if (!stage && available ) this.pollForNeoEvery(30000);
+		else if (stage === "depositing" || stage === "processing") this.pollForDepositStatusEvery(5000);
+	}
+
+	pollForNeoEvery(ms) {
 		setInterval(() => {
 			this.props.fetchNeoStatus();
-		}, 30000);
+		}, ms);
+	}
+
+	pollForDepositStatusEvery(ms) {
+		this.props.fetchDepositStatus();
+		setInterval(() => {
+			this.props.fetchDepositStatus();
+		}, ms);
 	}
 
 	async getMarketInfo(asset) {
