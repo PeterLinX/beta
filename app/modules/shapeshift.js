@@ -73,6 +73,7 @@ export function startShiftOrder(shiftConfig) {
 				setTimeout(() => dispatch(clearTransactionEvent()), 3000))
 				: dispatch(setOrderSuccess(txData.success));
 		} catch(e) {
+			console.log('error**', e);
 			dispatch(setOrderFail(e));
 			dispatch(sendEvent(false, e.message));
 			setTimeout(() => dispatch(clearTransactionEvent()), 3000);
