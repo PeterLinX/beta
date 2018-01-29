@@ -48,6 +48,7 @@ class ShapeShift extends Component {
 		this.handleDepositAmtChange = this.handleDepositAmtChange.bind(this);
 		this.calcExpectedNeo = this.calcExpectedNeo.bind(this);
 		this.handleOrderClick = this.handleOrderClick.bind(this);
+		this.conditionalWarningForNeoOutput = this.conditionalWarningForNeoOutput.bind(this);
 	}
 
 	componentDidMount() {
@@ -96,10 +97,11 @@ class ShapeShift extends Component {
 
 	handleOrderClick() {
 		const { address } = this.props;
-		const { selectedAsset } = this.state;
+		const { selectedAsset, depositAmt } = this.state;
 		const shiftConfig = {
 			withdrawal: address,
 			pair: `${selectedAsset}_neo`,
+			amount: this.calcExpectedNeo(),
 			returnAddress: "shapeshift_address_here_based_on_selected_asset",
 			apiKey: shapeshiftPk
 		};
@@ -111,8 +113,19 @@ class ShapeShift extends Component {
 		return depositAmt * selectedAssetToNeoRate;
 	}
 
+	conditionalWarningForNeoOutput() {
+		const neoOutput = this.calcExpectedNeo();
+		if (parseInt(neoOutput) !== neoOutput) {
+			return (<div style={{ color: "red" }}>Sorry, NEO outputs must be whole numbers :(</div>);
+		} else {
+			return (<div></div>);
+		}
+	}
+
+	// should I design this to be other way?
+
 	render() {
-		if (!this.props.available && !this.props.fetching && !this.props.stage) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
+		// if (!this.props.available && !this.props.fetching && !this.props.stage) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
 		return (
 			<div>
 				<div className="progress-bar fadeInLeft-ex" />
@@ -183,6 +196,7 @@ class ShapeShift extends Component {
 
 
 						<div className="col-xs-4">
+							{this.conditionalWarningForNeoOutput()}
 							<input
 								className="form-control-exchange center"
 								value={this.calcExpectedNeo()}
@@ -204,7 +218,7 @@ class ShapeShift extends Component {
 								placeholder={this.props.address}
 							/>
 							<p className="sm-text">
-              Once complete, NEO will be deposited to the address above
+								Once complete, NEO will be deposited to the address above
 							</p>
 						</div>
 						<div className="col-xs-4 center top-20">

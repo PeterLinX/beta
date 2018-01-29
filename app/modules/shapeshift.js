@@ -52,7 +52,7 @@ export function fetchNeoStatus() {
 export function startShiftOrder(shiftConfig) {
 	return async function(dispatch) {
 		dispatch(startOrder());
-		const url = "https://shapeshift.io/shift";
+		const url = "https://shapeshift.io/sendamount";
 		console.log('before try block', shiftConfig);
 		try {
 			// deleting returnAddress for now as it is not a valid one currently being passed
