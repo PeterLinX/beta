@@ -27,7 +27,7 @@ export const requestNeoStatus = () => ({ type: NEO_STATUS_REQUEST });
 export const setNeoAvailable = () => ({ type: NEO_STATUS_AVAILABLE });
 export const setNeoUnavailable = (error = null) => ({ type: NEO_STATUS_UNAVAILABLE, error });
 
-export const startOrder = () => () => ({ type: POST_ORDER });
+export const startOrder = () => ({ type: POST_ORDER });
 export const setOrderSuccess = (txData) => ({ type: ORDER_SUCCESS, txData });
 export const setOrderFail = (error) => ({ type: ORDER_FAIL, error });
 
@@ -42,7 +42,7 @@ export const resetOrderState = () => ({ type: RESET_ORDER });
 
 // Thunks
 export function fetchNeoStatus() {
-	return async function (dispatch) {
+	return async function(dispatch) {
 		dispatch(requestNeoStatus());
 		const url = `${baseUrl}/getcoins`;
 		console.log('neostatus url', url);
@@ -58,6 +58,7 @@ export function fetchNeoStatus() {
 
 export function startShiftOrder(shiftConfig) {
 	return async function(dispatch) {
+		// why isn't this dispatching startOrder?
 		dispatch(startOrder());
 		const url = `${baseUrl}/sendamount`;
 		try {

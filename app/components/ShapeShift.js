@@ -69,6 +69,7 @@ class ShapeShift extends Component {
 		}, ms);
 	}
 
+	// fix this like above
 	pollForDepositStatusConditionallyEvery(ms) {
 		const { fetchDepositStatus, stage } = this.props;
 		if (stage === "depositing" || stage === "processing") fetchDepositStatus();
