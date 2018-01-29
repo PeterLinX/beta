@@ -4,6 +4,7 @@ import Claim from "./Claim.js";
 import MdSync from "react-icons/lib/md/sync";
 import QRCode from "qrcode.react";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
+import UnavailableExchange from "../components/UnavailableExchange";
 import { resetPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { clipboard } from "electron";
@@ -405,20 +406,7 @@ class Exchange extends Component {
                 </div>
               </div>
             ) : (
-              <div className="dash-panel fadeInDown">
-                <div className="com-soon row fadeInDown center">
-                <div id="preloader">
-                <div id="loader"></div>
-              </div>
-                <h1 className="top-20">Exchange not available</h1>
-                <div className="col-xs-10 col-xs-offset-1">
-                  <h4 className="top-20 lineheight-up">
-                    We apologise but our exchange partner Changelly currently does not have NEO available. Please try again soon.
-                  </h4>
-                  </div>
-                  <div className="clear-both" />
-                </div>
-              </div>
+              <UnavailableExchange exchangeName={"Changelly"}/>
             )}
 
             <p className="center send-notice top-10">
