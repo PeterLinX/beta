@@ -134,7 +134,7 @@ class ShapeShift extends Component {
 	render() {
 		const { available, fetching, stage, txData } = this.props;
 		if (!available && !fetching && !stage) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
-		else if (stage === "depositing") return <Deposit payinAddress={txData.deposit}/>;
+		else if (stage === "depositing") return <Deposit txData={txData}/>;
 
 		const isValidNeoOutput = this.determineNeoOutputAmtValidity();
 
