@@ -1,4 +1,8 @@
 import axios from "axios";
+import {
+	sendEvent,
+	clearTransactionEvent
+} from "../modules/transactions";
 
 // Constants
 export const NEO_STATUS_REQUEST = "NEO_STATUS_REQUEST";
@@ -58,10 +62,16 @@ export function startShiftOrder(shiftConfig) {
 			delete shiftConfig.returnAddress;
 			const response = await axios.post(url, shiftConfig);
 			const txData = response.data;
-			console.log('txData', txData);
-			txData.error ? dispatch(setOrderFail(txData.error)) : dispatch(setOrderSuccess());
+			console.log("txData", txData);
+			txData.error
+				? dispatch(setOrderFail(txData.error),
+				dispatch(sendEvent(false, txData.error)),
+				setTimeout(() => dispatch(clearTransactionEvent()), 3000))
+				: dispatch(setOrderSuccess());
 		} catch(e) {
 			dispatch(setOrderFail(e));
+			dispatch(sendEvent(false, e.message));
+			setTimeout(() => dispatch(clearTransactionEvent()), 3000);
 		}
 	};
 }
@@ -113,7 +123,7 @@ export default (
 	case ORDER_SUCCESS:
 		return { ...state, stage: "depositing", txData: action.txData };
 	case ORDER_FAIL:
-		return { ...state, error: action.error, stage: null, };
+		return { ...state, error: action.error, stage: null };
 	case DEPOSIT_STATUS_REQUEST:
 		return { ...state, fetching: true };
 	case DEPOSIT_STATUS_SUCCESS:

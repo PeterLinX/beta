@@ -5,6 +5,7 @@ import numeral from "numeral";
 import { Link } from "react-router";
 
 import { setMarketPrice, resetPrice } from "../modules/wallet";
+import { togglePane } from "../modules/dashboard";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import UnavailableExchange from "../components/UnavailableExchange";
@@ -14,6 +15,7 @@ import neoLogo from "../img/neo.png";
 import NeoLogo from "./Brand/Neo";
 import BtcLogo from "./Brand/Bitcoin";
 import shapeshiftLogo from "../img/shapeshift.png";
+
 
 // force sync with balance data
 const refreshBalance = async (dispatch, net, address) => {
@@ -39,7 +41,7 @@ class ShapeShift extends Component {
 			maxLimit: 0,
 			minLimit: 0,
 			minerFee: 0,
-			depositAmt: 0.000001
+			depositAmt: 0.000001,
 		};
 		this.pollForNeoConditonallyEvery = this.pollForNeoConditonallyEvery.bind(this);
 		this.pollForDepositStatusConditionallyEvery = this.pollForDepositStatusConditionallyEvery.bind(this);
@@ -49,7 +51,7 @@ class ShapeShift extends Component {
 		this.calcExpectedNeo = this.calcExpectedNeo.bind(this);
 		this.handleOrderClick = this.handleOrderClick.bind(this);
 		this.determineNeoOutputAmtValidity = this.determineNeoOutputAmtValidity.bind(this);
-		this.renderErrorMessage = this.renderErrorMessage.bind(this);
+		this.closeModal = this.closeModal.bind(this);
 	}
 
 	componentDidMount() {
@@ -119,14 +121,8 @@ class ShapeShift extends Component {
 		return parseInt(neoOutput) === neoOutput ? true : false;
 	}
 
-	renderErrorMessage() {
-		return (
-			<div className="top-10 center send-notice">
-				<p>
-					{this.props.error}
-				</p>
-			</div>
-		);
+	closeModal() {
+		this.setState({ open: false });
 	}
 
 	// should I design this to be other way?
@@ -262,7 +258,6 @@ class ShapeShift extends Component {
 
 					</div>
 				</div>
-				{this.props.error && this.renderErrorMessage()}
 			</div>
 		);
 	}
@@ -296,7 +291,8 @@ const mapDispatchToProps = ({
 	fetchNeoStatus,
 	startShiftOrder,
 	fetchDepositStatus,
-	resetOrderState
+	resetOrderState,
+	sendEvent
 });
 
 ShapeShift = connect(mapStateToProps, mapDispatchToProps)(ShapeShift);
