@@ -8,7 +8,7 @@ import { setMarketPrice, resetPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import UnavailableExchange from "../components/UnavailableExchange";
-import { fetchNeoStatus } from "../modules/shapeshift";
+import { fetchNeoStatus, sendShift } from "../modules/shapeshift";
 
 import neoLogo from "../img/neo.png";
 import NeoLogo from "./Brand/Neo";
@@ -23,6 +23,7 @@ const refreshBalance = async (dispatch, net, address) => {
 		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
 	});
 };
+const shapeshiftPk = "5aad9888213a9635ecda3ed8bb2dc45c0a8d95dc36da7533c78f3eba8f765ce77538aae79d0e35642e39f208b7428631188f03c930e91f299f9eb40556f8e74d";
 
 
 class ShapeShift extends Component {
@@ -32,19 +33,34 @@ class ShapeShift extends Component {
 			gasPrice: 0,
 			rpxPrice: 0,
 			qlcPrice: 0,
-			dbcPrice: 0
+			dbcPrice: 0,
+			selectedAsset: "btc"
 		};
+		this.handlerOrderClick = this.handlerOrderClick.bind(this);
 	}
 
 	componentDidMount() {
 		this.props.fetchNeoStatus();		
 		setInterval(() => {
-			this.props.fetchNeoStatus();					
+			this.props.fetchNeoStatus();
 		}, 30000);
+	}
+
+	handlerOrderClick() {
+		const { address } = this.props;
+		const { selectedAsset } = this.state;
+		const shiftConfig = {
+			withdrawal: address,
+			pair: `${selectedAsset}_neo`,
+			returnAddress: "shapeshift_address_here_based_on_selected_asset",
+			apiKey: shapeshiftPk
+		};
+
 	}
 
 	render() {
 		if (!this.props.available && !this.props.fetching) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
+		console.log(this.props);
 		return (
 			<div>
 				<div className="progress-bar fadeInLeft-ex" />
@@ -188,12 +204,15 @@ const mapStateToProps = state => ({
 	marketDBCPrice: state.wallet.marketDBCPrice,
 	marketQLCPrice: state.wallet.marketQLCPrice,
 	fetching: state.shapeshift.fetching,
+	posting: state.shapeshift.posting,
 	available: state.shapeshift.available,
 	error: state.shapeshift.error
 });
 
 const mapDispatchToProps = ({
-	fetchNeoStatus
+	fetchNeoStatus,
+	sendShift
+
 });
 
 ShapeShift = connect(mapStateToProps, mapDispatchToProps)(ShapeShift);
