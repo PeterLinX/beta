@@ -37,87 +37,13 @@ const secret =
 const changelly = new Changelly(apiKey, secret);
 
 export default class Deposit extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			address: "",
-			from: "btc",
-			to: "neo",
-			fromValue: 0,
-			toValue: 0,
-			minAmount: 0,
-			transactionId: null,
-			status: null,
-			message: null,
-			statusMessage: null,
-			error: false
-		};
-		// this.handleChange = this.handleChange.bind(this);
-		// this.getStatus = this.getStatus.bind(this);
-	}
-
-	// async getStatus() {
-	// 	setInterval(() => {
-	// 		changelly.getStatus(this.state.transactionId, (err, data) => {
-	// 			if (err) {
-	// 				console.log("Error!", err);
-	// 			} else {
-	// 				this.setState({ status: data.result });
-	// 				if (data.result === "confirming") {
-	// 					this.setState({
-	// 						message:
-	// 							"Your transaction is awaiting confirmation. Please don't quit Morpheus until payment status is received",
-	// 						statusMessage: "Confirming"
-	// 					});
-	// 				} else if (data.result === "waiting") {
-	// 					this.setState({
-	// 						message:
-	// 							"Please do not close window until you receive a confirmation notification. Please copy your transaction ID below for support.",
-	// 						statusMessage: "Waiting for Bitcoin Deposit"
-	// 					});
-	// 				} else if (data.result === "refunded") {
-	// 					this.setState({
-	// 						message: "Exchange failed and Bitcoin refunded.",
-	// 						statusMessage: "Refunded"
-	// 					});
-	// 				} else if (data.result === "sending") {
-	// 					this.setState({
-	// 						message: "NEO is being sent to your address in Morpheus.",
-	// 						statusMessage: "Success. Sending NEO"
-	// 					});
-	// 				} else if (data.result === "exchanging") {
-	// 					this.setState({
-	// 						message:
-	// 							"Your payment was received and is being exchanged via our exchange partner Changelly.",
-	// 						statusMessage: "Exchanging"
-	// 					});
-	// 				}
-	// 			}
-	// 		});
-	// 	}, 6000);
-	// }
-
-	// handleChange(event) {
-	// 	const { fromValue } = this.state;
-	// 	this.setState({ fromValue: event.target.value }, () => {
-	// 		changelly.getExchangeAmount(
-	// 			this.state.from,
-	// 			this.state.to,
-	// 			this.state.fromValue,
-	// 			(err, data) => {
-	// 				if (err) {
-	// 					console.log("Error!", err);
-	// 				} else {
-	// 					console.log(data);
-	// 					this.setState({ toValue: data.result });
-	// 				}
-	// 			}
-	// 		);
-	// 	});
-	// }
 
 	render() {
-		const { payinAddress } = this.props;
+		const { txData } = this.props;
+		const { pair, depositAmount, withdrawalAmount } = txData;
+		const splitUpperCaseSymbolsArr = pair.toUpperCase().split("_");
+		const inputAsset = splitUpperCaseSymbolsArr[0];
+		const outputAsset = splitUpperCaseSymbolsArr[1];
 		return (
 			<div>
 
@@ -128,7 +54,7 @@ export default class Deposit extends Component {
 					</div>
 					<div className="col-xs-2 sm-text center">Placing Your Order</div>
 					<div className="col-xs-2 sm-text center">
-						Generating Bitcoin Address
+						Generating {outputAsset} Address
 					</div>
 					<div className="col-xs-2 sm-text center grey-out">
 						Processing Your Order
@@ -143,7 +69,7 @@ export default class Deposit extends Component {
 						<div className="com-soon row fadeInDown">
 							<div className="col-xs-4">
 								<div className="exchange-qr center animated fadeInDown">
-									<QRCode size={150} value={payinAddress} />
+									<QRCode size={150} value={txData.deposit} />
 								</div>
 							</div>
 							<div className="col-xs-8">
@@ -151,29 +77,30 @@ export default class Deposit extends Component {
 									<BtcLogo width={40} />
 								</div>
 								<h4 className="top-20">
-									Deposit {this.state.fromValue} BTC and receive{" "}
-									{Math.floor(this.state.toValue)} NEO
+									Deposit {depositAmount} {inputAsset} and receive {withdrawalAmount} {outputAsset}
 								</h4>
 								<input
 									className="form-control-exchange center top-10"
 									readOnly
 									data-tip
 									data-for="copypayInAddressTip"
-									onClick={() => clipboard.writeText(this.state.payinAddress)}
-									placeholder={this.state.payinAddress}
+									onClick={() => clipboard.writeText(txData.deposit)}
+									placeholder={txData.deposit}
 								/>
 								<p className="sm-text">
-									Only deposit Bitcoin (BTC) to the address above to receive
-									NEO.
+									Only deposit {inputAsset} to the address above to receive {outputAsset}.
 								</p>
 								<div className="row top-10">
+									{/*TODO: Create a loading indicator and/or loading bar expressing waiting for a deposit confirmation*/}
 									<div className="col-xs-8 center">
-										<button
-											className="btn-send"
-										>
-											Process Order
-										</button>
+										<input
+											className="form-control-exchange center"
+											readOnly
+											data-tip
+											placeholder={"Waiting for a deposit..."}
+										/>
 									</div>
+									{/*TODO: Dynamically render exchange logo based on passed in exchange in props*/}
 									<div className="col-xs-4">
 										<p className="sm-text">Powered by:</p>
 										<div className="changelly-logo-sm" />
@@ -194,7 +121,7 @@ export default class Deposit extends Component {
 							<hr className="dash-hr-wide" />
 							<div className="col-xs-12 top-20">
 								<p className="sm-text center">
-									Only click the Process Order button if you have successfully deposited Bitcoin to the address above. Depositing anything but Bitcoin (BTC) to the address above may result in your funds being lost.
+									Only click the Process Order button if you have successfully deposited {outputAsset} to the address above. Depositing anything but {outputAsset} to the address above may result in your funds being lost.
 								</p>
 							</div>
 
