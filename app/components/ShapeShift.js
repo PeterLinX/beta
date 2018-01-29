@@ -39,10 +39,10 @@ class ShapeShift extends Component {
 			maxLimit: 0,
 			minLimit: 0,
 			minerFee: 0,
-			depositAmt: 0.000001,
+			depositAmt: 0.000001
 		};
 		this.pollForNeoConditonallyEvery = this.pollForNeoConditonallyEvery.bind(this);
-		// this.pollForDepositStatusEvery = this.pollForDepositStatusEvery.bind(this);
+		this.pollForDepositStatusConditionallyEvery = this.pollForDepositStatusConditionallyEvery.bind(this);
 		this.getMarketInfo = this.getMarketInfo.bind(this);
 		this.handleSelectAsset = this.handleSelectAsset.bind(this);
 		this.handleDepositAmtChange = this.handleDepositAmtChange.bind(this);
@@ -51,26 +51,25 @@ class ShapeShift extends Component {
 	}
 
 	componentDidMount() {
-		const { stage } = this.props;
 		this.pollForNeoConditonallyEvery(30000);
-		// if (stage === "depositing" || stage === "processing") this.pollForDepositStatusEvery(5000);
+		this.pollForDepositStatusConditionallyEvery(5000);
 	}
 
 	pollForNeoConditonallyEvery(ms) {
-		const { available, stage, fetchNeoStatus } = this.props;
+		const { available, stage, fetchNeoStatus, address } = this.props;
 		if (!available && !stage) fetchNeoStatus();
 		setInterval(() => {
-			!stage && fetchNeoStatus();
+			!stage && fetchNeoStatus(address);
 		}, ms);
 	}
 
-	// pollForDepositStatusEvery(ms) {
-	// 	const { fetchDepositStatus, stage } = this.props;
-	// 	fetchDepositStatus();
-	// 	setInterval(() => {
-	// 		this.props.fetchDepositStatus();
-	// 	}, ms);
-	// }
+	pollForDepositStatusConditionallyEvery(ms) {
+		const { fetchDepositStatus, stage } = this.props;
+		if (stage === "depositing" || stage === "processing") fetchDepositStatus();
+		setInterval(() => {
+			if (stage === "depositing" || stage === "processing") fetchDepositStatus();
+		}, ms);
+	}
 
 	async getMarketInfo(asset) {
 		const url = `https://shapeshift.io/marketinfo/${asset}_neo`;

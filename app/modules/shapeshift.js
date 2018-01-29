@@ -21,7 +21,7 @@ export const requestNeoStatus = () => ({ type: NEO_STATUS_REQUEST });
 export const setNeoAvailable = () => ({ type: NEO_STATUS_AVAILABLE });
 export const setNeoUnavailable = (error = null) => ({ type: NEO_STATUS_UNAVAILABLE, error });
 
-export const postOrder = () => () => ({ type: POST_ORDER });
+export const startOrder = () => () => ({ type: POST_ORDER });
 export const setOrderSuccess = (txData) => ({ type: ORDER_SUCCESS, txData });
 export const setOrderFail = (error) => ({ type: ORDER_FAIL, error });
 
@@ -51,13 +51,18 @@ export function fetchNeoStatus() {
 
 export function startShiftOrder(shiftConfig) {
 	return async function(dispatch) {
-		dispatch(postOrder());
+		dispatch(startOrder());
 		const url = "https://shapeshift.io/shift";
+		console.log('before try block', shiftConfig);
 		try {
+			// deleting returnAddress for now as it is not a valid one currently being passed
+			delete shiftConfig.returnAddress;
 			const response = await axios.post(url, shiftConfig);
 			const txData = response.data;
+			console.log('txData', txData);
 			dispatch(setOrderSuccess(txData));
 		} catch(e) {
+			console.log('error', e)
 			dispatch(setOrderFail());
 		}
 	};
