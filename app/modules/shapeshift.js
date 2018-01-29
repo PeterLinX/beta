@@ -145,8 +145,11 @@ export default (
 	}
 };
 
-// success order
-// const response = {
+// As of Jan 29, 2018
+
+// Create Order (POST /shapeshift.io/sendamount)
+
+// response0 = {
 // 	"success": {
 // 	"orderId": "7e96d399-161b-4d7e-86e8-4526ee0267a2",
 // 		"pair": "eth_btc",
@@ -162,25 +165,25 @@ export default (
 // 		"minerFee": "0.0008"
 // }
 // }
+// response1 = {
+// 	"error": "NEO is currently unavailable."
+// }
 
-
-// deposit
-
-// no deposits = {
+// Fetch Deposit Status (GET /shapeshift.io/txStat/txId
+// response0 = {
 //	"status": "no_deposits"
+// }
+// response1 = {
+//	"status": "error"
 //}
-
-
-// deposit received = {
+// response2 = {
 // "status": "received",
 // 	"address": "0x8c12e756075039cfaccfc911bf1e176ec1ecae42",
 // 	"withdraw": "18J5MzAASt2FEAiFaM7RCG2Wm8xsV5Ttb2",
 // 	"incomingCoin": 0.01737582,
 // 	"incomingType": "ETH"
 // }
-
-
-// {
+// response3 = {
 // 	"status": "complete",
 // 	"address": "0x8c12e756075039cfaccfc911bf1e176ec1ecae42",
 // 	"withdraw": "18J5MzAASt2FEAiFaM7RCG2Wm8xsV5Ttb2",
