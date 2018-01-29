@@ -53,17 +53,15 @@ export function startShiftOrder(shiftConfig) {
 	return async function(dispatch) {
 		dispatch(startOrder());
 		const url = "https://shapeshift.io/sendamount";
-		console.log('before try block', shiftConfig);
 		try {
 			// deleting returnAddress for now as it is not a valid one currently being passed
 			delete shiftConfig.returnAddress;
 			const response = await axios.post(url, shiftConfig);
 			const txData = response.data;
 			console.log('txData', txData);
-			dispatch(setOrderSuccess(txData));
+			txData.error ? dispatch(setOrderFail(txData.error)) : dispatch(setOrderSuccess());
 		} catch(e) {
-			console.log('error', e)
-			dispatch(setOrderFail());
+			dispatch(setOrderFail(e));
 		}
 	};
 }
