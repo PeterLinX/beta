@@ -49,6 +49,7 @@ class ShapeShift extends Component {
 		this.calcExpectedNeo = this.calcExpectedNeo.bind(this);
 		this.handleOrderClick = this.handleOrderClick.bind(this);
 		this.determineNeoOutputAmtValidity = this.determineNeoOutputAmtValidity.bind(this);
+		this.renderErrorMessage = this.renderErrorMessage.bind(this);
 	}
 
 	componentDidMount() {
@@ -116,6 +117,16 @@ class ShapeShift extends Component {
 	determineNeoOutputAmtValidity() {
 		const neoOutput = this.calcExpectedNeo();
 		return parseInt(neoOutput) === neoOutput ? true : false;
+	}
+
+	renderErrorMessage() {
+		return (
+			<div className="top-10 center send-notice">
+				<p>
+					{this.props.error}
+				</p>
+			</div>
+		);
 	}
 
 	// should I design this to be other way?
@@ -251,7 +262,7 @@ class ShapeShift extends Component {
 
 					</div>
 				</div>
-
+				{this.props.error && this.renderErrorMessage()}
 			</div>
 		);
 	}

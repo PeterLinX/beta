@@ -113,7 +113,7 @@ export default (
 	case ORDER_SUCCESS:
 		return { ...state, stage: "depositing", txData: action.txData };
 	case ORDER_FAIL:
-		return { ...state, stage: null };
+		return { ...state, error: action.error, stage: null, };
 	case DEPOSIT_STATUS_REQUEST:
 		return { ...state, fetching: true };
 	case DEPOSIT_STATUS_SUCCESS:
