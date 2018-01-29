@@ -90,7 +90,8 @@ class ShapeShift extends Component {
 	}
 
 	calcExpectedNeo() {
-
+		const { depositAmt, selectedAssetToNeoRate } = this.state;
+		return depositAmt * selectedAssetToNeoRate;
 	}
 
 	render() {
