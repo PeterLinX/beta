@@ -39,36 +39,38 @@ class ShapeShift extends Component {
 			maxLimit: 0,
 			minLimit: 0,
 			minerFee: 0,
-			depositAmt: 0.000001
+			depositAmt: 0.000001,
 		};
-		this.pollForNeoEvery = this.pollForNeoEvery.bind(this);
-		this.pollForDepositStatusEvery = this.pollForDepositStatusEvery.bind(this);
+		this.pollForNeoConditonallyEvery = this.pollForNeoConditonallyEvery.bind(this);
+		// this.pollForDepositStatusEvery = this.pollForDepositStatusEvery.bind(this);
 		this.getMarketInfo = this.getMarketInfo.bind(this);
 		this.handleSelectAsset = this.handleSelectAsset.bind(this);
 		this.handleDepositAmtChange = this.handleDepositAmtChange.bind(this);
 		this.calcExpectedNeo = this.calcExpectedNeo.bind(this);
-		this.handlerOrderClick = this.handlerOrderClick.bind(this);
+		this.handleOrderClick = this.handleOrderClick.bind(this);
 	}
 
 	componentDidMount() {
-		const { available, stage } = this.props;
-		if (!stage && !available) this.pollForNeoEvery(5000);
-		else if (!stage && available ) this.pollForNeoEvery(30000);
-		else if (stage === "depositing" || stage === "processing") this.pollForDepositStatusEvery(5000);
+		const { stage } = this.props;
+		this.pollForNeoConditonallyEvery(30000);
+		// if (stage === "depositing" || stage === "processing") this.pollForDepositStatusEvery(5000);
 	}
 
-	pollForNeoEvery(ms) {
+	pollForNeoConditonallyEvery(ms) {
+		const { available, stage, fetchNeoStatus } = this.props;
+		if (!available && !stage) fetchNeoStatus();
 		setInterval(() => {
-			this.props.fetchNeoStatus();
+			!stage && fetchNeoStatus();
 		}, ms);
 	}
 
-	pollForDepositStatusEvery(ms) {
-		this.props.fetchDepositStatus();
-		setInterval(() => {
-			this.props.fetchDepositStatus();
-		}, ms);
-	}
+	// pollForDepositStatusEvery(ms) {
+	// 	const { fetchDepositStatus, stage } = this.props;
+	// 	fetchDepositStatus();
+	// 	setInterval(() => {
+	// 		this.props.fetchDepositStatus();
+	// 	}, ms);
+	// }
 
 	async getMarketInfo(asset) {
 		const url = `https://shapeshift.io/marketinfo/${asset}_neo`;
@@ -93,7 +95,7 @@ class ShapeShift extends Component {
 		this.setState({ depositAmt: value });
 	}
 
-	handlerOrderClick() {
+	handleOrderClick() {
 		const { address } = this.props;
 		const { selectedAsset } = this.state;
 		const shiftConfig = {
@@ -207,8 +209,8 @@ class ShapeShift extends Component {
 							</p>
 						</div>
 						<div className="col-xs-4 center top-20">
-							<button className="btn-send">
-								Place Order
+							<button onClick={this.handleOrderClick} className="btn-send">
+								Place Oder
 							</button>
 						</div>
 					</div>
