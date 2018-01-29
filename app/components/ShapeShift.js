@@ -34,8 +34,12 @@ class ShapeShift extends Component {
 			rpxPrice: 0,
 			qlcPrice: 0,
 			dbcPrice: 0,
-			selectedAsset: "btc"
+			selectedAsset: "select",
+			depositAmt: 0.000001
 		};
+		this.handleSelectAsset = this.handleSelectAsset.bind(this);
+		this.handleDepositAmtChange = this.handleDepositAmtChange.bind(this);
+		this.calcExpectedNeo = this.calcExpectedNeo.bind(this);
 		this.handlerOrderClick = this.handlerOrderClick.bind(this);
 	}
 
@@ -44,6 +48,16 @@ class ShapeShift extends Component {
 		setInterval(() => {
 			this.props.fetchNeoStatus();
 		}, 30000);
+	}
+
+	handleSelectAsset(e) {
+		const { value } = e.target;
+		this.setState({ selectedAsset: value });
+	}
+
+	handleDepositAmtChange(e) {
+		const { value } = e.target;
+		this.setState({ depositAmt: value });
 	}
 
 	handlerOrderClick() {
@@ -55,30 +69,37 @@ class ShapeShift extends Component {
 			returnAddress: "shapeshift_address_here_based_on_selected_asset",
 			apiKey: shapeshiftPk
 		};
+	}
 
+	calcExpectedNeo() {
+		const { selectedAsset, depositAmt } = this.state;
+		if (selectedAsset === "select") {
+			return 0;
+		}
+		return 0;
+		// const depositValue = depositAmt *
 	}
 
 	render() {
 		if (!this.props.available && !this.props.fetching) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
-		console.log(this.props);
 		return (
 			<div>
 				<div className="progress-bar fadeInLeft-ex" />
 
 				<div className="row prog-info top-20">
 					<div className="col-xs-2 col-xs-offset-1 sm-text center">
-          Enter Amount to Deposit
+						Enter Amount to Deposit
 					</div>
 					<div className="col-xs-2 sm-text center grey-out">
-        Placing Your Order</div>
+						Placing Your Order</div>
 					<div className="col-xs-2 sm-text center grey-out">
-          Generating Deposit Address
+						Generating Deposit Address
 					</div>
 					<div className="col-xs-2 sm-text center grey-out">
-          Processing Your Order
+						Processing Your Order
 					</div>
 					<div className="col-xs-2 sm-text center grey-out">
-          Transaction Complete!
+						Transaction Complete!
 					</div>
 				</div>
 
@@ -92,37 +113,40 @@ class ShapeShift extends Component {
 								name="select-profession"
 								id="select-profession"
 								className=""
+								value={this.state.selectedAsset}
+								onChange={this.handleSelectAsset}
 							>
-								<option selected disabled={true}>
-                Select Asset
+								<option value="select" disabled={true}>
+									Select Asset
 								</option>
-								<option>
-                Bitcoin (BTC)
+								<option value="btc">
+									Bitcoin (BTC)
 								</option>
-								<option>
-                Ethereum (ETH)
+								<option value="eth">
+									Ethereum (ETH)
 								</option>
-								<option>
-                Litecoin (LTC)
+								<option value="ltc">
+									Litecoin (LTC)
 								</option>
-								<option>
-                Monero (XMR)
+								<option value="xmr">
+									Monero (XMR)
 								</option>
 							</select>
 							<p className="sm-text top-10">
-            Select Asset to Exchange
+								Select Asset to Exchange
 							</p>
 						</div>
 
 						<div className="col-xs-4">
 							<input
+								value={this.state.depositAmt}
+								onChange={this.handleDepositAmtChange}
 								className="form-control-exchange center"
-								placeholder="0.000001"
 								type="number"
 								min={0.01}
 							/>
 							<p className="sm-text">
-          Amount to Deposit
+								Amount to Deposit
 							</p>
 						</div>
 
@@ -130,15 +154,14 @@ class ShapeShift extends Component {
 						<div className="col-xs-4">
 							<input
 								className="form-control-exchange center"
-								value="0"
+								value={this.calcExpectedNeo()}
 								placeholder="0"
 								disabled
 							/>
 							<p className="sm-text">
-          Amount of NEO Received
+								Amount of NEO Received
 							</p>
 						</div>
-
 					</div>
 
 					<div className="row">
@@ -154,10 +177,8 @@ class ShapeShift extends Component {
 							</p>
 						</div>
 						<div className="col-xs-4 center top-20">
-							<button
-								className="btn-send"
-							>
-              Place Oder
+							<button className="btn-send">
+								Place Order
 							</button>
 						</div>
 					</div>
