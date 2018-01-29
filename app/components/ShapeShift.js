@@ -48,7 +48,7 @@ class ShapeShift extends Component {
 		this.handleDepositAmtChange = this.handleDepositAmtChange.bind(this);
 		this.calcExpectedNeo = this.calcExpectedNeo.bind(this);
 		this.handleOrderClick = this.handleOrderClick.bind(this);
-		this.conditionalWarningForNeoOutput = this.conditionalWarningForNeoOutput.bind(this);
+		this.determineNeoOutputAmtValidity = this.determineNeoOutputAmtValidity.bind(this);
 	}
 
 	componentDidMount() {
@@ -113,19 +113,17 @@ class ShapeShift extends Component {
 		return depositAmt * selectedAssetToNeoRate;
 	}
 
-	conditionalWarningForNeoOutput() {
+	determineNeoOutputAmtValidity() {
 		const neoOutput = this.calcExpectedNeo();
-		if (parseInt(neoOutput) !== neoOutput) {
-			return (<div style={{ color: "red" }}>Sorry, NEO outputs must be whole numbers :(</div>);
-		} else {
-			return (<div></div>);
-		}
+		return parseInt(neoOutput) === neoOutput ? true : false;
 	}
 
 	// should I design this to be other way?
 
 	render() {
 		// if (!this.props.available && !this.props.fetching && !this.props.stage) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
+		const isValidNeoOutput = this.determineNeoOutputAmtValidity();
+
 		return (
 			<div>
 				<div className="progress-bar fadeInLeft-ex" />
@@ -196,7 +194,12 @@ class ShapeShift extends Component {
 
 
 						<div className="col-xs-4">
-							{this.conditionalWarningForNeoOutput()}
+							{
+								isValidNeoOutput
+									? <div></div>
+									: <div style={{ color: "red" }}>Sorry, NEO outputs must be whole numbers :(</div>
+
+							}
 							<input
 								className="form-control-exchange center"
 								value={this.calcExpectedNeo()}
