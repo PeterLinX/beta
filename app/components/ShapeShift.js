@@ -35,8 +35,13 @@ class ShapeShift extends Component {
 			qlcPrice: 0,
 			dbcPrice: 0,
 			selectedAsset: "select",
+			selectedAssetToNeoRate: 0,
+			maxLimit: 0,
+			minLimit: 0,
+			minerFee: 0,
 			depositAmt: 0.000001
 		};
+		this.getMarketInfo = this.getMarketInfo.bind(this);
 		this.handleSelectAsset = this.handleSelectAsset.bind(this);
 		this.handleDepositAmtChange = this.handleDepositAmtChange.bind(this);
 		this.calcExpectedNeo = this.calcExpectedNeo.bind(this);
@@ -50,8 +55,21 @@ class ShapeShift extends Component {
 		}, 30000);
 	}
 
+	async getMarketInfo(asset) {
+		const url = `https://shapeshift.io/marketinfo/${asset}_neo`;
+		const response = await axios.get(url);
+		const { data } = await response;
+		this.setState({
+			selectedAssetToNeoRate: data.rate,
+			maxLimit: data.maxLimit,
+			minLimit: data.minimum,
+			minerFee: data.minerFee
+		});
+	}
+
 	handleSelectAsset(e) {
 		const { value } = e.target;
+		this.getMarketInfo(value);
 		this.setState({ selectedAsset: value });
 	}
 
@@ -72,12 +90,7 @@ class ShapeShift extends Component {
 	}
 
 	calcExpectedNeo() {
-		const { selectedAsset, depositAmt } = this.state;
-		if (selectedAsset === "select") {
-			return 0;
-		}
-		return 0;
-		// const depositValue = depositAmt *
+
 	}
 
 	render() {

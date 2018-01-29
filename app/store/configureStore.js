@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === "production") {
 	);
 } else {
 	enhancer = compose(
-		applyMiddleware(thunk, logger),
+		applyMiddleware(thunk),
 		DevTools.instrument()
 	);
 }
