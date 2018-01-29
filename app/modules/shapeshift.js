@@ -3,6 +3,8 @@ import {
 	sendEvent,
 	clearTransactionEvent
 } from "../modules/transactions";
+// Use either official ShapeShift API or Postman mock API based on environment
+const baseUrl = process.env.NODE_ENV === "production" ? "https://shapeshift.io" : "https://3e84236c-9ef9-47dc-ba46-c51fdd34411a.mock.pstmn.io";
 
 // Constants
 export const NEO_STATUS_REQUEST = "NEO_STATUS_REQUEST";
@@ -42,7 +44,8 @@ export const resetOrderState = () => ({ type: RESET_ORDER });
 export function fetchNeoStatus() {
 	return async function (dispatch) {
 		dispatch(requestNeoStatus());
-		const url = "https://shapeshift.io/getcoins";
+		const url = `${baseUrl}/getcoins`;
+		console.log('neostatus url', url);
 		try {
 			const response = await axios.get(url);
 			const NEO = await response.data.NEO;
@@ -56,7 +59,7 @@ export function fetchNeoStatus() {
 export function startShiftOrder(shiftConfig) {
 	return async function(dispatch) {
 		dispatch(startOrder());
-		const url = "https://shapeshift.io/sendamount";
+		const url = `${baseUrl}/sendamount`;
 		try {
 			// deleting returnAddress for now as it is not a valid one currently being passed
 			delete shiftConfig.returnAddress;
@@ -67,7 +70,7 @@ export function startShiftOrder(shiftConfig) {
 				? dispatch(setOrderFail(txData.error),
 				dispatch(sendEvent(false, txData.error)),
 				setTimeout(() => dispatch(clearTransactionEvent()), 3000))
-				: dispatch(setOrderSuccess());
+				: dispatch(setOrderSuccess(txData.success));
 		} catch(e) {
 			dispatch(setOrderFail(e));
 			dispatch(sendEvent(false, e.message));
@@ -80,7 +83,7 @@ export function startShiftOrder(shiftConfig) {
 export function fetchDepositStatus(depositAddress) {
 	return async function(dispatch) {
 		dispatch(requestDepositStatus());
-		const url = `https://shapeshift.io/txStat/${depositAddress}`;
+		const url = `${baseUrl}/txStat/${depositAddress}`;
 		try {
 			const response = await axios.post(url);
 			const depositData = response.data;
@@ -163,7 +166,7 @@ export default (
 // 		"returnAddress": "0xa4ece67a446ff949c2cb27ad76439b39740164bb",
 // 		"apiPubKey": "5aad9888213a9635ecda3ed8bb2dc45c0a8d95dc36da7533c78f3eba8f765ce77538aae79d0e35642e39f208b7428631188f03c930e91f299f9eb40556f8e74d",
 // 		"minerFee": "0.0008"
-// }
+// 	}
 // }
 // response1 = {
 // 	"error": "NEO is currently unavailable."
@@ -171,7 +174,7 @@ export default (
 
 // Fetch Deposit Status (GET /shapeshift.io/txStat/txId
 // response0 = {
-//	"status": "no_deposits"
+// 	"status": "no_deposits"
 // }
 // response1 = {
 //	"status": "error"
