@@ -55,7 +55,6 @@ class ShapeShift extends Component {
 		this.calcExpectedNeo = this.calcExpectedNeo.bind(this);
 		this.handleOrderClick = this.handleOrderClick.bind(this);
 		this.determineNeoOutputAmtValidity = this.determineNeoOutputAmtValidity.bind(this);
-		this.closeModal = this.closeModal.bind(this);
 	}
 
 	componentDidMount() {
@@ -129,19 +128,13 @@ class ShapeShift extends Component {
 		return parseInt(neoOutput) === neoOutput ? true : false;
 	}
 
-	closeModal() {
-		this.setState({ open: false });
-	}
-
-	// Make Complete component
-	// Make Ordering component
 	// Make null stage component
 
 	render() {
 		const { available, fetching, stage, txData, completeData } = this.props;
 		if (!available && !fetching && !stage) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
 		else if (stage === "ordering") return <Order exchangeName={"ShapeShift"}/>;
-		else if (stage === "depositing") return <Deposit txData={txData}/>;
+		else if (stage === "depositing") return <Deposit txData={txData} exchangeName={"shapeshift"}/>;
 		else if (stage === "processing") return <Process txData={txData}/>;
 		else if (stage === "complete") return <Complete completeData={completeData}/>;
 		// render component specially for a null stage

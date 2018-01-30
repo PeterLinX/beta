@@ -27,15 +27,14 @@ const refreshBalance = (dispatch, net, address) => {
 export default class Deposit extends Component {
 
 	render() {
-		const { txData } = this.props;
+		const { txData, exchangeName } = this.props;
 		const { pair, deposit, depositAmount, withdrawalAmount } = txData;
 		const splitUpperCaseSymbolsArr = pair.toUpperCase().split("_");
 		const inputAsset = splitUpperCaseSymbolsArr[0];
 		const outputAsset = splitUpperCaseSymbolsArr[1];
 		return (
 			<div>
-				{/*// TODO: Add image for 2/5 progressbar and render style*/}
-				<div className="progress-bar fadeInLeft-ex" />
+				<div className="progress-bar3 fadeInLeft-ex" />
 				<div className="row prog-info top-20">
 					<div className="col-xs-2 col-xs-offset-1 sm-text center">
 						Enter Amount to Deposit
@@ -81,17 +80,14 @@ export default class Deposit extends Component {
 								<div className="row top-10">
 									{/*TODO: Create a loading indicator and/or loading bar expressing waiting for a deposit confirmation*/}
 									<div className="col-xs-8 center">
-										<input
-											className="form-control-exchange center"
-											readOnly
-											data-tip
-											placeholder={"Waiting for a deposit..."}
-										/>
+										<div id="preloader">
+											<div id="loader"></div>
+										</div>
 									</div>
 									{/*TODO: Dynamically render exchange logo based on passed in exchange in props*/}
 									<div className="col-xs-4">
 										<p className="sm-text">Powered by:</p>
-										<div className="changelly-logo-sm" />
+										<div className={`${exchangeName}-logo-sm`} />
 									</div>
 								</div>
 
@@ -109,7 +105,7 @@ export default class Deposit extends Component {
 							<hr className="dash-hr-wide" />
 							<div className="col-xs-12 top-20">
 								<p className="sm-text center">
-									Depositing anything but {outputAsset} to the address above may result in your funds being lost.
+									Depositing anything but {inputAsset} to the address above may result in your funds being lost.
 								</p>
 							</div>
 

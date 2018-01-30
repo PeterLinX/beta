@@ -6,6 +6,7 @@ export default function Order(props) {
 	const { exchangeName  } = props;
 	return (
 		<div>
+			{/*// TODO: Add image for 2/5 progressbar and render style*/}
 			<div className="progress-bar fadeInLeft-ex" />
 			<div className="row prog-info top-20">
 				<div className="col-xs-2 col-xs-offset-1 sm-text center">
@@ -25,7 +26,7 @@ export default function Order(props) {
 			</div>
 
 			<div className="top-130 dash-panel">
-				<h2 className="center">Placing Order on {exchangeName} </h2>
+				<h2 className="center">Placing Your Order on {exchangeName} </h2>
 				<hr className="dash-hr-wide" />
 				<div className="row top-10">
 					<div id="preloader">
