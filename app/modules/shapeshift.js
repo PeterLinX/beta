@@ -1,8 +1,9 @@
 import axios from "axios";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 // Use either official ShapeShift API or Postman mock API based on environment
-const baseUrl = process.env.NODE_ENV === "production" ? "https://shapeshift.io" : "https://3e84236c-9ef9-47dc-ba46-c51fdd34411a.mock.pstmn.io";
-// const baseUrl = "https://shapeshift.io";
+const baseUrl = process.env.NODE_ENV === "mock"
+	? "https://3e84236c-9ef9-47dc-ba46-c51fdd34411a.mock.pstmn.io"
+	: "https://shapeshift.io";
 
 // Constants
 export const NEO_STATUS_REQUEST = "NEO_STATUS_REQUEST";
