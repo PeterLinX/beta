@@ -8,6 +8,7 @@
     "postinstall": "electron-rebuild",
     "electron-rebuild": "electron-rebuild",
     "start": "electron .",
+    "start-mock": "SHAPESHIFT_API=mock electron .",
     "assets": "webpack",
     "assets-watch": "webpack --watch",
     "test": "jest",
