@@ -45,7 +45,6 @@ export function fetchNeoStatus() {
 	return async function(dispatch) {
 		dispatch(requestNeoStatus());
 		const url = `${baseUrl}/getcoins`;
-		console.log('neostatus url', url);
 		try {
 			const response = await axios.get(url);
 			const NEO = await response.data.NEO;
@@ -66,14 +65,12 @@ export function startShiftOrder(shiftConfig) {
 			delete shiftConfig.returnAddress;
 			const response = await axios.post(url, shiftConfig);
 			const txData = response.data;
-			console.log("txData", txData);
 			txData.error
 				? dispatch(setOrderFail(txData.error),
 				dispatch(sendEvent(false, txData.error)),
 				setTimeout(() => dispatch(clearTransactionEvent()), 3000))
 				: dispatch(setOrderSuccess(txData.success));
 		} catch(e) {
-			console.log('error**', e);
 			dispatch(setOrderFail(e));
 			dispatch(sendEvent(false, e.message));
 			setTimeout(() => dispatch(clearTransactionEvent()), 3000);
@@ -86,10 +83,11 @@ export function fetchDepositStatus(depositAddress) {
 	return async function(dispatch) {
 		dispatch(requestDepositStatus());
 		const url = `${baseUrl}/txStat/${depositAddress}`;
+		console.log('url**', url);
 		try {
-			const response = await axios.post(url);
+			const response = await axios.get(url);
 			const depositData = response.data;
-
+			console.log('depositData***', depositData);
 			if (depositData.status === "no_deposits") dispatch(setDepositStatusFail());
 			else if (depositData.status === "failed") {
 				dispatch(setDepositStatusFail(depositData.error));
@@ -99,8 +97,9 @@ export function fetchDepositStatus(depositAddress) {
 			else if (depositData.status === "received") dispatch(setDepositStatusSuccess());
 			else if (depositData.status === "complete") dispatch(setProcessingSuccess(depositData));
 		} catch(e) {
-			dispatch(setDepositStatusFail(e));
-			dispatch(sendEvent(false, e));
+			console.log('catch e**', e);
+			dispatch(setDepositStatusFail(e.message));
+			dispatch(sendEvent(false, e.message));
 			setTimeout(() => dispatch(clearTransactionEvent()), 3000);
 		}
 	};

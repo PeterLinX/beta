@@ -57,12 +57,12 @@ class ShapeShift extends Component {
 
 	componentDidMount() {
 		this.pollForNeoConditonallyEvery(30000);
-		// this.pollForDepositStatusConditionallyEvery(5000);
+		this.pollForDepositStatusConditionallyEvery(5000);
 	}
 
 	pollForNeoConditonallyEvery(ms) {
 		let { available, stage, fetchNeoStatus, address } = this.props;
-		if (!available && !stage) fetchNeoStatus();
+		if (!available && !stage) fetchNeoStatus(address);
 		setInterval(() => {
 			// Get the latest stage. If in the middle of the stage, it should not poll for NEO availability
 			let { stage, fetchNeoStatus, address } = this.props;
@@ -72,10 +72,11 @@ class ShapeShift extends Component {
 
 	// fix this like above
 	pollForDepositStatusConditionallyEvery(ms) {
-		const { fetchDepositStatus, stage } = this.props;
-		if (stage === "depositing" || stage === "processing") fetchDepositStatus();
+		const { fetchDepositStatus, stage, txData } = this.props;
+		if (stage === "depositing" || stage === "processing") fetchDepositStatus(txData.deposit);
 		setInterval(() => {
-			if (stage === "depositing" || stage === "processing") fetchDepositStatus();
+			const { fetchDepositStatus, stage, txData } = this.props;
+			if (stage === "depositing" || stage === "processing") fetchDepositStatus(txData.deposit);
 		}, ms);
 	}
 
@@ -135,12 +136,14 @@ class ShapeShift extends Component {
 		const { available, fetching, stage, txData } = this.props;
 		if (!available && !fetching && !stage) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
 		else if (stage === "depositing") return <Deposit txData={txData}/>;
+		// else if (stage === "complete") return
 
 		const isValidNeoOutput = this.determineNeoOutputAmtValidity();
 
 		return (
 			<div>
-				<div className="progress-bar fadeInLeft-ex" />
+				<div className="progress-bar3 fadeInLeft-ex" />
+				{/*<div className="progress-bar fadeInLeft-ex" />*/}
 				<div>Shapeshift stage: {this.props.stage}</div>
 				<div className="row prog-info top-20">
 					<div className="col-xs-2 col-xs-offset-1 sm-text center">
@@ -159,7 +162,7 @@ class ShapeShift extends Component {
 					</div>
 				</div>
 
-				<div className="top-130 dash-panel">
+				{!stage && ( <div className="top-130 dash-panel">
 					<h2 className="center">ShapeShift Exchange Service</h2>
 					<hr className="dash-hr-wide" />
 					<div className="row top-10">
@@ -264,7 +267,8 @@ class ShapeShift extends Component {
 						</div>
 
 					</div>
-				</div>
+				</div> )}
+
 			</div>
 		);
 	}
