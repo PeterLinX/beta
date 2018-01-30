@@ -29,12 +29,10 @@ class ShapeShift extends Component {
 		this.pollForNeoConditonallyEvery = this.pollForNeoConditonallyEvery.bind(this);
 		this.pollForDepositStatusConditionallyEvery = this.pollForDepositStatusConditionallyEvery.bind(this);
 	}
-
 	componentDidMount() {
 		this.pollForNeoConditonallyEvery(30000);
 		this.pollForDepositStatusConditionallyEvery(5000);
 	}
-
 	pollForNeoConditonallyEvery(ms) {
 		let { available, stage, fetchNeoStatus, address } = this.props;
 		if (!available && !stage) fetchNeoStatus(address);
@@ -44,7 +42,6 @@ class ShapeShift extends Component {
 			!stage && fetchNeoStatus(address);
 		}, ms);
 	}
-
 	pollForDepositStatusConditionallyEvery(ms) {
 		const { fetchDepositStatus, stage, txData } = this.props;
 		if (stage === "depositing" || stage === "processing") fetchDepositStatus(txData.deposit);
