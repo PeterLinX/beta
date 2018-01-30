@@ -24,7 +24,7 @@ const refreshBalance = (dispatch, net, address) => {
 };
 
 
-export default class Deposit extends Component {
+export default class Exchange_Deposit extends Component {
 
 	render() {
 		const { txData, exchangeName } = this.props;
@@ -37,7 +37,7 @@ export default class Deposit extends Component {
 				<div className="progress-bar3 fadeInLeft-ex" />
 				<div className="row prog-info top-20">
 					<div className="col-xs-2 col-xs-offset-1 sm-text center">
-						Enter Amount to Deposit
+						Enter Amount to Exchange_Deposit
 					</div>
 					<div className="col-xs-2 sm-text center">Placing Your Order</div>
 					<div className="col-xs-2 sm-text center">
@@ -64,7 +64,7 @@ export default class Deposit extends Component {
 									<BtcLogo width={40} />
 								</div>
 								<h4 className="top-20">
-									Deposit {depositAmount} {inputAsset} and receive {withdrawalAmount} {outputAsset}
+									Exchange_Deposit {depositAmount} {inputAsset} and receive {withdrawalAmount} {outputAsset}
 								</h4>
 								<input
 									className="form-control-exchange center top-10"
@@ -98,7 +98,7 @@ export default class Deposit extends Component {
 									type="dark"
 									effect="solid"
 								>
-									<span>Copy Deposit Address</span>
+									<span>Copy Exchange_Deposit Address</span>
 								</ReactTooltip>
 							</div>
 							<div className="row top-20" />

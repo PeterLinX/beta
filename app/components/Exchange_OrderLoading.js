@@ -2,7 +2,7 @@ import React from "react";
 import { clipboard } from "electron";
 import ReactTooltip from "react-tooltip";
 
-export default function Order(props) {
+export default function Exchange_OrderLoading(props) {
 	const { exchangeName  } = props;
 	return (
 		<div>
@@ -13,12 +13,12 @@ export default function Order(props) {
 					Enter Amount to Deposit
 				</div>
 				<div className="col-xs-2 sm-text center grey-out">
-					Placing Your Order</div>
+					Placing Your Exchange_OrderLoading</div>
 				<div className="col-xs-2 sm-text center grey-out">
 					Generating Deposit Address
 				</div>
 				<div className="col-xs-2 sm-text center grey-out">
-					Processing Your Order
+					Processing Your Exchange_OrderLoading
 				</div>
 				<div className="col-xs-2 sm-text center grey-out">
 					Transaction Complete!
@@ -26,7 +26,7 @@ export default function Order(props) {
 			</div>
 
 			<div className="top-130 dash-panel">
-				<h2 className="center">Placing Your Order on {exchangeName} </h2>
+				<h2 className="center">Placing Your Exchange_OrderLoading on {exchangeName} </h2>
 				<hr className="dash-hr-wide" />
 				<div className="row top-10">
 					<div id="preloader">

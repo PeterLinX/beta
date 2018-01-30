@@ -5,7 +5,7 @@ import shapeshiftLogo from "../img/shapeshift.png";
 const shapeshiftPk = "5aad9888213a9635ecda3ed8bb2dc45c0a8d95dc36da7533c78f3eba8f765ce77538aae79d0e35642e39f208b7428631188f03c930e91f299f9eb40556f8e74d";
 
 // declare state without constructor and without linting issues
-export default class OrderForm extends Component {
+export default class Exchange_OrderForm extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
