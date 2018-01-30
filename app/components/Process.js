@@ -13,8 +13,9 @@ export default function Process(props) {
 					Enter Amount to Deposit
 				</div>
 				<div className="col-xs-2 sm-text center">Placing Your Order</div>
+				{/*TODO: Specify asset name for deposit address*/}
 				<div className="col-xs-2 sm-text center">
-					Generating Bitcoin Address for Deposit
+					Generating Address for Deposit
 				</div>
 				<div className="col-xs-2 sm-text center grey-out">
 					Processing Your Order
@@ -24,12 +25,12 @@ export default function Process(props) {
 				</div>
 			</div>
 
-			<div className="top-50" id="exchange-messages">
-				<div className="dash-panel fadeInDown">
+			<div className="top-130 dash-panel">
+				<div className="top-50" id="exchange-messages">
 					<div className="com-soon row fadeInDown">
 						<div className="col-md-12">
 							<h1>{"Deposit Received"}</h1>
-							<p>{"Processing..."}</p>
+							<p>{"Processing transaction..."}</p>
 							<p
 								className="trasactionId"
 								data-tip
@@ -41,9 +42,9 @@ export default function Process(props) {
 								Transaction ID: {txData.deposit}
 							</p>
 							{/*TODO: Add blockchain.info transaction URL?*/}
+							{/*TODO: Render # of confirmations?*/}
 						</div>
 					</div>
-				</div>
 
 				<ReactTooltip
 					className="solidTip"
@@ -55,6 +56,9 @@ export default function Process(props) {
 					<span>Copy Transaction ID</span>
 				</ReactTooltip>
 			</div>
+			</div>
+
+
 		</div>
 	);
 }
