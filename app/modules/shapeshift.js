@@ -111,9 +111,8 @@ export function fetchDepositStatus(depositAddress) {
 const initialState = {
 	fetching: false, // true when fetching NEO status or deposit status at address
 	available: false,
-	stage: "processing", // possible states - null, ordering, depositing, processing, complete
-	// txData: {},
-	txData: {deposit: 1},
+	stage: null, // possible states - null, ordering, depositing, processing, complete
+	txData: {},
 	completeData: {},
 	error: null
 };
