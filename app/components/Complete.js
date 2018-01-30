@@ -26,22 +26,22 @@ export default function Complete(props) {
 
 			<div className="top-130 dash-panel">
 				<div className="top-50" id="exchange-messages">
-						<div className="com-soon row fadeInDown">
-							<div className="col-md-12">
-								<h1>{"Transaction Complete!"}</h1>
-								<p
-									className="trasactionId"
-									data-tip
-									data-for="copyTransactionIdTip"
-									onClick={() =>
-										clipboard.writeText(completeData.transactionURL)
-									}
-								>
-									{/*TODO: Design indicator of being copyable and give feedback when copied*/}
+					<div className="com-soon row fadeInDown">
+						<div className="col-md-12">
+							<h1>{"Transaction Complete!"}</h1>
+							<p
+								className="trasactionId"
+								data-tip
+								data-for="copyTransactionIdTip"
+								onClick={() =>
+									clipboard.writeText(completeData.transactionURL)
+								}
+							>
+								{/*TODO: Design indicator of being copyable and give feedback when copied*/}
 									Transaction URL: {completeData.transactionURL}
-								</p>
-							</div>
+							</p>
 						</div>
+					</div>
 					<ReactTooltip
 						className="solidTip"
 						id="copyTransactionUrlTip"
