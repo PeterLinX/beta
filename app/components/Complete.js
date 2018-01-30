@@ -4,7 +4,6 @@ import ReactTooltip from "react-tooltip";
 
 export default function Complete(props) {
 	const { completeData  } = props;
-	console.log('complete component', completeData);
 	return (
 		<div>
 			<div className="progress-bar4 fadeInLeft-ex" />
