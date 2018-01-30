@@ -14,12 +14,6 @@ import neoLogo from "../img/neo.png";
 import NeoLogo from "./Brand/Neo";
 import BtcLogo from "./Brand/Bitcoin";
 
-import { Link } from "react-router";
-import crypto from "crypto";
-import axios from "axios";
-import Changelly from "../modules/changelly";
-import { error } from "util";
-
 // force sync with balance data
 const refreshBalance = (dispatch, net, address) => {
 	dispatch(sendEvent(true, "Refreshing..."));
@@ -29,18 +23,12 @@ const refreshBalance = (dispatch, net, address) => {
 	});
 };
 
-const apiUrl = "https://api.changelly.com";
-const apiKey = "1befd82a2ef24c359c3106f96b5217c0";
-const secret =
-	"eeea2b75ae6a627e69bd39a0de64675a2b0a414b0b9a9513355ba9e30eb6cb2f";
-
-const changelly = new Changelly(apiKey, secret);
 
 export default class Deposit extends Component {
 
 	render() {
 		const { txData } = this.props;
-		const { pair, depositAmount, withdrawalAmount } = txData;
+		const { pair, deposit, depositAmount, withdrawalAmount } = txData;
 		const splitUpperCaseSymbolsArr = pair.toUpperCase().split("_");
 		const inputAsset = splitUpperCaseSymbolsArr[0];
 		const outputAsset = splitUpperCaseSymbolsArr[1];
@@ -69,7 +57,7 @@ export default class Deposit extends Component {
 						<div className="com-soon row fadeInDown">
 							<div className="col-xs-4">
 								<div className="exchange-qr center animated fadeInDown">
-									<QRCode size={150} value={txData.deposit} />
+									<QRCode size={150} value={deposit} />
 								</div>
 							</div>
 							<div className="col-xs-8">
@@ -84,8 +72,8 @@ export default class Deposit extends Component {
 									readOnly
 									data-tip
 									data-for="copypayInAddressTip"
-									onClick={() => clipboard.writeText(txData.deposit)}
-									placeholder={txData.deposit}
+									onClick={() => clipboard.writeText(deposit)}
+									placeholder={deposit}
 								/>
 								<p className="sm-text">
 									Only deposit {inputAsset} to the address above to receive {outputAsset}.
@@ -121,7 +109,7 @@ export default class Deposit extends Component {
 							<hr className="dash-hr-wide" />
 							<div className="col-xs-12 top-20">
 								<p className="sm-text center">
-									Only click the Process Order button if you have successfully deposited {outputAsset} to the address above. Depositing anything but {outputAsset} to the address above may result in your funds being lost.
+									Depositing anything but {outputAsset} to the address above may result in your funds being lost.
 								</p>
 							</div>
 
