@@ -10,6 +10,7 @@ import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import UnavailableExchange from "../components/UnavailableExchange";
 import Deposit from "../components/Deposit";
 import Process from "../components/Process";
+import Complete from "../components/Complete";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import {fetchNeoStatus, startShiftOrder, fetchDepositStatus, resetOrderState} from "../modules/shapeshift";
 
@@ -140,6 +141,7 @@ class ShapeShift extends Component {
 		if (!available && !fetching && !stage) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
 		else if (stage === "depositing") return <Deposit txData={txData}/>;
 		else if (stage === "processing") return <Process txData={txData}/>;
+		else if (stage === "complete") return <Complete txData={txData}/>;
 		// render component specially for a null stage
 		// render component specially for a ordering stage
 		// render component specially for a complete stage
