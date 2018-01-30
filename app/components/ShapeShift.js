@@ -40,8 +40,8 @@ class ShapeShift extends Component {
 	}
 
 	render() {
-		const { available, fetching, stage, txData, completeData, resetOrderState } = this.props;
-		if (!available && !fetching && !stage) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
+		const { available, stage, txData, completeData, resetOrderState } = this.props;
+		if (!available && !stage) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
 		else if (!stage) return <Exchange_OrderForm {...this.props} />;
 		else if (stage === "ordering") return <Exchange_OrderLoading exchangeName={"ShapeShift"}/>;
 		else if (stage === "depositing") return <Exchange_Deposit txData={txData} exchangeName={"shapeshift"}/>;
