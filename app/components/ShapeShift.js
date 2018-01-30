@@ -18,7 +18,7 @@ class ShapeShift extends Component {
 		this.pollForDepositStatusConditionallyEvery = this.pollForDepositStatusConditionallyEvery.bind(this);
 	}
 	componentDidMount() {
-		this.pollForNeoConditonallyEvery(30000);
+		this.pollForNeoConditonallyEvery(15000);
 		this.pollForDepositStatusConditionallyEvery(5000);
 	}
 	pollForNeoConditonallyEvery(ms) {
@@ -40,13 +40,13 @@ class ShapeShift extends Component {
 	}
 
 	render() {
-		const { available, fetching, stage, txData, completeData } = this.props;
+		const { available, fetching, stage, txData, completeData, resetOrderState } = this.props;
 		if (!available && !fetching && !stage) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
 		else if (!stage) return <Exchange_OrderForm {...this.props} />;
 		else if (stage === "ordering") return <Exchange_OrderLoading exchangeName={"ShapeShift"}/>;
 		else if (stage === "depositing") return <Exchange_Deposit txData={txData} exchangeName={"shapeshift"}/>;
 		else if (stage === "processing") return <Exchange_Processing txData={txData}/>;
-		else if (stage === "complete") return <Exchange_Complete completeData={completeData}/>;
+		else if (stage === "complete") return <Exchange_Complete completeData={completeData} resetOrderState={resetOrderState}/>;
 	}
 }
 

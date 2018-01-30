@@ -76,6 +76,24 @@ export default class Exchange_OrderForm extends Component {
 		return (
 			
 			<div>
+				<div className="progress-bar fadeInLeft-ex" />
+				<div className="row prog-info top-20">
+					<div className="col-xs-2 col-xs-offset-1 sm-text center">
+						Enter Amount to Deposit
+					</div>
+					<div className="col-xs-2 sm-text center grey-out">
+						Placing Your Order</div>
+					<div className="col-xs-2 sm-text center grey-out">
+						Generating Deposit Address
+					</div>
+					<div className="col-xs-2 sm-text center grey-out">
+						Processing Your Order
+					</div>
+					<div className="col-xs-2 sm-text center grey-out">
+						Transaction Complete
+					</div>
+				</div>
+
 				<div className="top-130 dash-panel">
 					<h2 className="center">ShapeShift Exchange Service</h2>
 					<hr className="dash-hr-wide" />
