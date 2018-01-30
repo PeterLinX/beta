@@ -1,173 +1,52 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import axios from "axios";
-import numeral from "numeral";
-import { Link } from "react-router";
 
-import { setMarketPrice, resetPrice } from "../modules/wallet";
-import { sendEvent, clearTransactionEvent } from "../modules/transactions";
-import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import UnavailableExchange from "../components/UnavailableExchange";
-import { fetchNeoStatus } from "../modules/shapeshift";
+import Exchange_OrderForm from "../components/Exchange_OrderForm";
+import Exchange_OrderLoading from "../components/Exchange_OrderLoading";
+import Exchange_Deposit from "../components/Exchange_Deposit";
+import Exchange_Processing from "../components/Exchange_Processing";
+import Exchange_Complete from "../components/Exchange_Complete";
 
-import neoLogo from "../img/neo.png";
-import NeoLogo from "./Brand/Neo";
-import BtcLogo from "./Brand/Bitcoin";
-import shapeshiftLogo from "../img/shapeshift.png";
-
-// force sync with balance data
-const refreshBalance = async (dispatch, net, address) => {
-	dispatch(sendEvent(true, "Refreshing..."));
-	initiateGetBalance(dispatch, net, address).then(response => {
-		dispatch(sendEvent(true, "Received latest blockchain information."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-	});
-};
-
+import { sendEvent, clearTransactionEvent } from "../modules/transactions";
+import { fetchNeoStatus, startShiftOrder, fetchDepositStatus, resetOrderState } from "../modules/shapeshift";
 
 class ShapeShift extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			gasPrice: 0,
-			rpxPrice: 0,
-			qlcPrice: 0,
-			dbcPrice: 0
-		};
+		this.pollForNeoConditonallyEvery = this.pollForNeoConditonallyEvery.bind(this);
+		this.pollForDepositStatusConditionallyEvery = this.pollForDepositStatusConditionallyEvery.bind(this);
 	}
-
 	componentDidMount() {
-		this.props.fetchNeoStatus();		
+		this.pollForNeoConditonallyEvery(15000);
+		this.pollForDepositStatusConditionallyEvery(5000);
+	}
+	pollForNeoConditonallyEvery(ms) {
+		let { available, stage, fetchNeoStatus, address } = this.props;
+		if (!available && !stage) fetchNeoStatus(address);
 		setInterval(() => {
-			this.props.fetchNeoStatus();					
-		}, 30000);
+			// Get the latest stage. If in the middle of the stage, it should not poll for NEO availability
+			let { stage, fetchNeoStatus, address } = this.props;
+			!stage && fetchNeoStatus(address);
+		}, ms);
+	}
+	pollForDepositStatusConditionallyEvery(ms) {
+		const { fetchDepositStatus, stage, txData } = this.props;
+		if (stage === "depositing" || stage === "processing") fetchDepositStatus(txData.deposit);
+		setInterval(() => {
+			const { fetchDepositStatus, stage, txData } = this.props;
+			if (stage === "depositing" || stage === "processing") fetchDepositStatus(txData.deposit);
+		}, ms);
 	}
 
 	render() {
-		if (!this.props.available && !this.props.fetching) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
-		return (
-			<div>
-				<div className="progress-bar fadeInLeft-ex" />
-
-				<div className="row prog-info top-20">
-					<div className="col-xs-2 col-xs-offset-1 sm-text center">
-          Enter Amount to Deposit
-					</div>
-					<div className="col-xs-2 sm-text center grey-out">
-        Placing Your Order</div>
-					<div className="col-xs-2 sm-text center grey-out">
-          Generating Deposit Address
-					</div>
-					<div className="col-xs-2 sm-text center grey-out">
-          Processing Your Order
-					</div>
-					<div className="col-xs-2 sm-text center grey-out">
-          Transaction Complete!
-					</div>
-				</div>
-
-				<div className="top-130 dash-panel">
-					<h2 className="center">ShapeShift Exchange Service</h2>
-					<hr className="dash-hr-wide" />
-					<div className="row top-10">
-
-						<div className="col-xs-4">
-							<select
-								name="select-profession"
-								id="select-profession"
-								className=""
-							>
-								<option selected disabled={true}>
-                Select Asset
-								</option>
-								<option>
-                Bitcoin (BTC)
-								</option>
-								<option>
-                Ethereum (ETH)
-								</option>
-								<option>
-                Litecoin (LTC)
-								</option>
-								<option>
-                Monero (XMR)
-								</option>
-							</select>
-							<p className="sm-text top-10">
-            Select Asset to Exchange
-							</p>
-						</div>
-
-						<div className="col-xs-4">
-							<input
-								className="form-control-exchange center"
-								placeholder="0.000001"
-								type="number"
-								min={0.01}
-							/>
-							<p className="sm-text">
-          Amount to Deposit
-							</p>
-						</div>
-
-
-						<div className="col-xs-4">
-							<input
-								className="form-control-exchange center"
-								value="0"
-								placeholder="0"
-								disabled
-							/>
-							<p className="sm-text">
-          Amount of NEO Received
-							</p>
-						</div>
-
-					</div>
-
-					<div className="row">
-						<div className="col-xs-8 top-20">
-
-							<input
-								className="form-control-exchange center"
-								disabled
-								placeholder={this.props.address}
-							/>
-							<p className="sm-text">
-              Once complete, NEO will be deposited to the address above
-							</p>
-						</div>
-						<div className="col-xs-4 center top-20">
-							<button
-								className="btn-send"
-							>
-              Place Oder
-							</button>
-						</div>
-					</div>
-        
-					<div className="row">
-						<div className="col-xs-9 top-20">
-							<strong>
-              Minimum Order: 0.000000
-							</strong><br />
-							<span className="sm-text">Transaction fees included.</span>
-						</div>
-
-						<div className="col-xs-3">
-							<img
-								src={shapeshiftLogo}
-								alt=""
-								width="160"
-								className="logobounce"
-							/>
-						</div>
-
-					</div>
-				</div>
-
-			</div>
-		);
+		const { available, fetching, stage, txData, completeData, resetOrderState } = this.props;
+		if (!available && !fetching && !stage) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
+		else if (!stage) return <Exchange_OrderForm {...this.props} />;
+		else if (stage === "ordering") return <Exchange_OrderLoading exchangeName={"ShapeShift"}/>;
+		else if (stage === "depositing") return <Exchange_Deposit txData={txData} exchangeName={"shapeshift"}/>;
+		else if (stage === "processing") return <Exchange_Processing txData={txData}/>;
+		else if (stage === "complete") return <Exchange_Complete completeData={completeData} resetOrderState={resetOrderState}/>;
 	}
 }
 
@@ -189,11 +68,18 @@ const mapStateToProps = state => ({
 	marketQLCPrice: state.wallet.marketQLCPrice,
 	fetching: state.shapeshift.fetching,
 	available: state.shapeshift.available,
+	stage: state.shapeshift.stage, // possible states - null, ordering, depositing, processing, complete
+	txData: state.shapeshift.txData,
+	completeData: state.shapeshift.completeData,
 	error: state.shapeshift.error
 });
 
 const mapDispatchToProps = ({
-	fetchNeoStatus
+	fetchNeoStatus,
+	startShiftOrder,
+	fetchDepositStatus,
+	resetOrderState,
+	sendEvent
 });
 
 ShapeShift = connect(mapStateToProps, mapDispatchToProps)(ShapeShift);

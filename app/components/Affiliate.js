@@ -39,7 +39,6 @@ class Affiliate extends Component {
 
 	render() {
 		return (
-
 			<div>
 				<h3>Online Exchanges</h3>
 				<hr className="dash-hr-wide" />
