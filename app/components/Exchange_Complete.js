@@ -3,7 +3,7 @@ import { clipboard } from "electron";
 import ReactTooltip from "react-tooltip";
 
 export default function Exchange_Complete(props) {
-	const { completeData  } = props;
+	const { completeData, resetOrderState  } = props;
 	return (
 		<div>
 			<div className="progress-bar4 fadeInLeft-ex" />
@@ -52,6 +52,12 @@ export default function Exchange_Complete(props) {
 						<span>Copy Transaction URL</span>
 					</ReactTooltip>
 				</div>
+			</div>
+
+			<div className="col-xs-4 center top-20">
+				<button
+					onClick={resetOrderState}
+					className="btn-send">Place New Order</button>
 			</div>
 
 		</div>
