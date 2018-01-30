@@ -10,7 +10,7 @@ import Process from "../components/Process";
 import Complete from "../components/Complete";
 
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
-import {fetchNeoStatus, startShiftOrder, fetchDepositStatus, resetOrderState} from "../modules/shapeshift";
+import { fetchNeoStatus, startShiftOrder, fetchDepositStatus, resetOrderState } from "../modules/shapeshift";
 
 
 // force sync with balance data
