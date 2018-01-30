@@ -58,7 +58,7 @@ class ShapeShift extends Component {
 
 	componentDidMount() {
 		this.pollForNeoConditonallyEvery(30000);
-		// this.pollForDepositStatusConditionallyEvery(5000);
+		this.pollForDepositStatusConditionallyEvery(5000);
 	}
 
 	pollForNeoConditonallyEvery(ms) {
@@ -131,7 +131,9 @@ class ShapeShift extends Component {
 		this.setState({ open: false });
 	}
 
-	// should I design this to be other way?
+	// Make Complete component
+	// Make Ordering component
+	// Make null stage component
 
 	render() {
 		const { available, fetching, stage, txData } = this.props;
@@ -145,10 +147,10 @@ class ShapeShift extends Component {
 
 		const isValidNeoOutput = this.determineNeoOutputAmtValidity();
 
+		// Current default rendering is null stage, will render
 		return (
 			<div>
-				<div className="progress-bar3 fadeInLeft-ex" />
-				{/*<div className="progress-bar fadeInLeft-ex" />*/}
+				<div className="progress-bar fadeInLeft-ex" />
 				<div>Shapeshift stage: {this.props.stage}</div>
 				<div className="row prog-info top-20">
 					<div className="col-xs-2 col-xs-offset-1 sm-text center">
