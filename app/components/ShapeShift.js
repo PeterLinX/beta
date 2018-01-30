@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 
 import UnavailableExchange from "../components/UnavailableExchange";
 import OrderForm from "../components/OrderForm";
@@ -11,17 +10,6 @@ import Complete from "../components/Complete";
 
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { fetchNeoStatus, startShiftOrder, fetchDepositStatus, resetOrderState } from "../modules/shapeshift";
-
-
-// force sync with balance data
-const refreshBalance = async (dispatch, net, address) => {
-	dispatch(sendEvent(true, "Refreshing..."));
-	initiateGetBalance(dispatch, net, address).then(response => {
-		dispatch(sendEvent(true, "Received latest blockchain information."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-	});
-};
-
 
 class ShapeShift extends Component {
 	constructor(props) {

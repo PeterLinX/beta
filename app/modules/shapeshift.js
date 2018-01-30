@@ -5,7 +5,6 @@ const baseUrl = process.env.SHAPESHIFT_API === "mock"
 	? "https://3e84236c-9ef9-47dc-ba46-c51fdd34411a.mock.pstmn.io"
 	: "https://shapeshift.io";
 
-console.log('baseurl**', baseUrl);
 // Constants
 export const NEO_STATUS_REQUEST = "NEO_STATUS_REQUEST";
 export const NEO_STATUS_AVAILABLE = "NEO_STATUS_AVAILABLE";
@@ -31,6 +30,7 @@ export const startOrder = () => ({ type: POST_ORDER });
 export const setOrderSuccess = (txData) => ({ type: ORDER_SUCCESS, txData });
 export const setOrderFail = (error) => ({ type: ORDER_FAIL, error });
 
+// TODO: Rename to reflect its use to get both deposit and processing status
 export const requestDepositStatus = () => ({ type: DEPOSIT_STATUS_REQUEST });
 export const setDepositStatusSuccess = () => ({ type: DEPOSIT_STATUS_SUCCESS });
 export const setDepositStatusFail = (error = null) => ({ type: DEPOSIT_STATUS_FAIL, error });
@@ -92,6 +92,7 @@ export function fetchDepositStatus(depositAddress) {
 				setTimeout(() => dispatch(clearTransactionEvent()), 3000);
 			}
 			else if (depositData.status === "received") dispatch(setDepositStatusSuccess());
+			// TODO: Also dispatch thunk to refresh balance when processing is complete
 			else if (depositData.status === "complete") dispatch(setProcessingSuccess(depositData));
 		} catch(e) {
 			dispatch(setDepositStatusFail(e.message));
