@@ -1,10 +1,8 @@
 import axios from "axios";
-import {
-	sendEvent,
-	clearTransactionEvent
-} from "../modules/transactions";
+import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 // Use either official ShapeShift API or Postman mock API based on environment
 const baseUrl = process.env.NODE_ENV === "production" ? "https://shapeshift.io" : "https://3e84236c-9ef9-47dc-ba46-c51fdd34411a.mock.pstmn.io";
+// const baseUrl = "https://shapeshift.io";
 
 // Constants
 export const NEO_STATUS_REQUEST = "NEO_STATUS_REQUEST";
@@ -77,7 +75,6 @@ export function startShiftOrder(shiftConfig) {
 		}
 	};
 }
-
 // create a thunk that will check the deposit status at an address and dispatch the proper actions based on the outcome
 export function fetchDepositStatus(depositAddress) {
 	return async function(dispatch) {
@@ -104,7 +101,6 @@ export function fetchDepositStatus(depositAddress) {
 
 
 // Reducer
-
 const initialState = {
 	fetching: false, // true when fetching NEO status or deposit status at address
 	available: false,
