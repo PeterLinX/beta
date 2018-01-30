@@ -4,7 +4,7 @@ import App from "./components/App";
 import LoginNep2 from "./components/LoginNep2";
 import LoginPrivateKey from "./components/LoginPrivateKey";
 import Settings from "./components/Settings";
-import Exchange from "./components/Exchange";
+import Changelly from "./components/Changelly";
 import ShapeShift from "./components/ShapeShift";
 import SelectExchange from "./components/SelectExchange";
 import ExchangeAddress from "./components/ExchangeAddress";
@@ -38,8 +38,8 @@ export default (
 			<Route path="/sendHP" component={SendHP} />
 			<Route path="/receive" component={Receive} />
 			<Route path="/settings" component={Settings} />
-			<Route path="/exchange" component={Exchange} />
 			<Route path="/selectExchange" component={SelectExchange} />
+			<Route path="/changelly" component={Changelly} />
 			<Route path="/shapeshift" component={ShapeShift} />
 			<Route path="/exchangeAddress" component={ExchangeAddress} />
 			<Route path="/ledger" component={Ledger} />

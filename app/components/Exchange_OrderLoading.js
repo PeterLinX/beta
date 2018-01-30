@@ -13,12 +13,12 @@ export default function Exchange_OrderLoading(props) {
 					Enter Amount to Deposit
 				</div>
 				<div className="col-xs-2 sm-text center grey-out">
-					Placing Your Exchange_OrderLoading</div>
+					Placing Your Order</div>
 				<div className="col-xs-2 sm-text center grey-out">
 					Generating Deposit Address
 				</div>
 				<div className="col-xs-2 sm-text center grey-out">
-					Processing Your Exchange_OrderLoading
+					Processing Your Order
 				</div>
 				<div className="col-xs-2 sm-text center grey-out">
 					Transaction Complete!
@@ -26,7 +26,7 @@ export default function Exchange_OrderLoading(props) {
 			</div>
 
 			<div className="top-130 dash-panel">
-				<h2 className="center">Placing Your Exchange_OrderLoading on {exchangeName} </h2>
+				<h2 className="center">Placing Your Order on {exchangeName} </h2>
 				<hr className="dash-hr-wide" />
 				<div className="row top-10">
 					<div id="preloader">

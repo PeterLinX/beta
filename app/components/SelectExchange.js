@@ -25,7 +25,7 @@ class SelectExchange extends Component {
 			<div>
 
 				<div className="row top-20">
-					<Link to="/exchange">
+					<Link to="/changelly">
 						<div className="col-2 center pointer">
 							<img
 								src={changellyLogo}
