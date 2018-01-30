@@ -7,10 +7,10 @@ export const SET_EXPLORER = "SET_EXPLORER";
 export function setNetwork(net) {
 	const network =
 	net === "MainNet"
-	? "MainNet"
-	: net === "MainNet-A"
-	? "MainNet-A"
-	: net === "TestNet-A" ? "TestNet-A" : "TestNet";
+		? "MainNet"
+		: net === "MainNet-A"
+			? "MainNet-A"
+			: net === "TestNet-A" ? "TestNet-A" : "TestNet";
 	return {
 		type: SET_NETWORK,
 		net: network

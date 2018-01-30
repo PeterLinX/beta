@@ -46,16 +46,16 @@ export default function Process(props) {
 						</div>
 					</div>
 
-				<ReactTooltip
-					className="solidTip"
-					id="copyTransactionIdTip"
-					place="bottom"
-					type="dark"
-					effect="solid"
-				>
-					<span>Copy Transaction ID</span>
-				</ReactTooltip>
-			</div>
+					<ReactTooltip
+						className="solidTip"
+						id="copyTransactionIdTip"
+						place="bottom"
+						type="dark"
+						effect="solid"
+					>
+						<span>Copy Transaction ID</span>
+					</ReactTooltip>
+				</div>
 			</div>
 
 

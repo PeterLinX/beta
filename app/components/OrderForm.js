@@ -155,7 +155,7 @@ export default class OrderForm extends Component {
 									? (<button onClick={this.handleOrderClick} className="btn-send">Place Oder</button>)
 									: (<div></div>)
 							}
-							</div>
+						</div>
 					</div>
 
 					<div className="row">

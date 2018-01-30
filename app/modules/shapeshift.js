@@ -65,8 +65,8 @@ export function startShiftOrder(shiftConfig) {
 			const txData = response.data;
 			txData.error
 				? dispatch(setOrderFail(txData.error),
-				dispatch(sendEvent(false, txData.error)),
-				setTimeout(() => dispatch(clearTransactionEvent()), 3000))
+					dispatch(sendEvent(false, txData.error)),
+					setTimeout(() => dispatch(clearTransactionEvent()), 3000))
 				: dispatch(setOrderSuccess(txData.success));
 		} catch(e) {
 			dispatch(setOrderFail(e));
