@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import UnavailableExchange from "../components/UnavailableExchange";
-import OrderForm from "../components/OrderForm";
-import Order from "./Order";
-import Deposit from "../components/Deposit";
-import Process from "../components/Process";
-import Complete from "../components/Complete";
+import Exchange_OrderForm from "../components/Exchange_OrderForm";
+import Exchange_OrderLoading from "../components/Exchange_OrderLoading";
+import Exchange_Deposit from "../components/Exchange_Deposit";
+import Exchange_Process from "../components/Exchange_Process";
+import Exchange_Complete from "../components/Exchange_Complete";
 
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { fetchNeoStatus, startShiftOrder, fetchDepositStatus, resetOrderState } from "../modules/shapeshift";
@@ -42,11 +42,11 @@ class ShapeShift extends Component {
 	render() {
 		const { available, fetching, stage, txData, completeData } = this.props;
 		if (!available && !fetching && !stage) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
-		else if (!stage) return <OrderForm {...this.props} />;
-		else if (stage === "ordering") return <Order exchangeName={"ShapeShift"}/>;
-		else if (stage === "depositing") return <Deposit txData={txData} exchangeName={"shapeshift"}/>;
-		else if (stage === "processing") return <Process txData={txData}/>;
-		else if (stage === "complete") return <Complete completeData={completeData}/>;
+		else if (!stage) return <Exchange_OrderForm {...this.props} />;
+		else if (stage === "ordering") return <Exchange_OrderLoading exchangeName={"ShapeShift"}/>;
+		else if (stage === "depositing") return <Exchange_Deposit txData={txData} exchangeName={"shapeshift"}/>;
+		else if (stage === "processing") return <Exchange_Process txData={txData}/>;
+		else if (stage === "complete") return <Exchange_Complete completeData={completeData}/>;
 	}
 }
 
