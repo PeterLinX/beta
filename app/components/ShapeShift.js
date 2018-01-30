@@ -5,7 +5,7 @@ import UnavailableExchange from "../components/UnavailableExchange";
 import Exchange_OrderForm from "../components/Exchange_OrderForm";
 import Exchange_OrderLoading from "../components/Exchange_OrderLoading";
 import Exchange_Deposit from "../components/Exchange_Deposit";
-import Exchange_Process from "../components/Exchange_Process";
+import Exchange_Processing from "../components/Exchange_Processing";
 import Exchange_Complete from "../components/Exchange_Complete";
 
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
@@ -45,7 +45,7 @@ class ShapeShift extends Component {
 		else if (!stage) return <Exchange_OrderForm {...this.props} />;
 		else if (stage === "ordering") return <Exchange_OrderLoading exchangeName={"ShapeShift"}/>;
 		else if (stage === "depositing") return <Exchange_Deposit txData={txData} exchangeName={"shapeshift"}/>;
-		else if (stage === "processing") return <Exchange_Process txData={txData}/>;
+		else if (stage === "processing") return <Exchange_Processing txData={txData}/>;
 		else if (stage === "complete") return <Exchange_Complete completeData={completeData}/>;
 	}
 }
