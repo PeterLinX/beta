@@ -34,8 +34,8 @@ export default class Deposit extends Component {
 		const outputAsset = splitUpperCaseSymbolsArr[1];
 		return (
 			<div>
-
-				<div className="progress-bar2 fadeInLeft-ex" />
+				{/*// TODO: Add image for 2/5 progressbar and render style*/}
+				<div className="progress-bar fadeInLeft-ex" />
 				<div className="row prog-info top-20">
 					<div className="col-xs-2 col-xs-offset-1 sm-text center">
 						Enter Amount to Deposit

@@ -18,6 +18,7 @@ import neoLogo from "../img/neo.png";
 import NeoLogo from "./Brand/Neo";
 import BtcLogo from "./Brand/Bitcoin";
 import shapeshiftLogo from "../img/shapeshift.png";
+import Order from "./Order";
 
 
 // force sync with balance data
@@ -137,11 +138,12 @@ class ShapeShift extends Component {
 	// Make null stage component
 
 	render() {
-		const { available, fetching, stage, txData } = this.props;
+		const { available, fetching, stage, txData, completeData } = this.props;
 		if (!available && !fetching && !stage) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
+		else if (stage === "ordering") return <Order exchangeName={"ShapeShift"}/>;
 		else if (stage === "depositing") return <Deposit txData={txData}/>;
 		else if (stage === "processing") return <Process txData={txData}/>;
-		else if (stage === "complete") return <Complete txData={txData}/>;
+		else if (stage === "complete") return <Complete completeData={completeData}/>;
 		// render component specially for a null stage
 		// render component specially for a ordering stage
 		// render component specially for a complete stage

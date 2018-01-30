@@ -83,11 +83,9 @@ export function fetchDepositStatus(depositAddress) {
 	return async function(dispatch) {
 		dispatch(requestDepositStatus());
 		const url = `${baseUrl}/txStat/${depositAddress}`;
-		console.log('url**', url);
 		try {
 			const response = await axios.get(url);
 			const depositData = response.data;
-			console.log('depositData***', depositData);
 			if (depositData.status === "no_deposits") dispatch(setDepositStatusFail());
 			else if (depositData.status === "failed") {
 				dispatch(setDepositStatusFail(depositData.error));
@@ -97,7 +95,6 @@ export function fetchDepositStatus(depositAddress) {
 			else if (depositData.status === "received") dispatch(setDepositStatusSuccess());
 			else if (depositData.status === "complete") dispatch(setProcessingSuccess(depositData));
 		} catch(e) {
-			console.log('catch e**', e);
 			dispatch(setDepositStatusFail(e.message));
 			dispatch(sendEvent(false, e.message));
 			setTimeout(() => dispatch(clearTransactionEvent()), 3000);
