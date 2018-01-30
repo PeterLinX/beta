@@ -9,6 +9,7 @@ import { togglePane } from "../modules/dashboard";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import UnavailableExchange from "../components/UnavailableExchange";
 import Deposit from "../components/Deposit";
+import Process from "../components/Process";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import {fetchNeoStatus, startShiftOrder, fetchDepositStatus, resetOrderState} from "../modules/shapeshift";
 
@@ -57,7 +58,7 @@ class ShapeShift extends Component {
 
 	componentDidMount() {
 		this.pollForNeoConditonallyEvery(30000);
-		this.pollForDepositStatusConditionallyEvery(5000);
+		// this.pollForDepositStatusConditionallyEvery(5000);
 	}
 
 	pollForNeoConditonallyEvery(ms) {
@@ -99,7 +100,7 @@ class ShapeShift extends Component {
 	}
 
 	handleDepositAmtChange(e) {
-		const { value } = e.target;"pair"
+		const { value } = e.target;
 		this.setState({ depositAmt: value });
 	}
 
@@ -136,7 +137,11 @@ class ShapeShift extends Component {
 		const { available, fetching, stage, txData } = this.props;
 		if (!available && !fetching && !stage) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
 		else if (stage === "depositing") return <Deposit txData={txData}/>;
-		// else if (stage === "complete") return
+		else if (stage === "processing") return <Process txData={txData}/>;
+		// render component specially for a null stage
+		// render component specially for a ordering stage
+		// render component specially for a complete stage
+
 
 		const isValidNeoOutput = this.determineNeoOutputAmtValidity();
 
