@@ -1,6 +1,6 @@
 # Morpheus Wallet
 
-Morpheus is an all-in-one client side desktop wallet that allows you to send and recieive NEO/GAS and other popular cryptocrurrencies as well as monitor and manage your portfolio.
+Morpheus is an all-in-one client-side desktop wallet that allows you to send and receive NEO/GAS and other popular cryptocurrencies as well as monitor and manages your portfolio.
 
 ## License
 
