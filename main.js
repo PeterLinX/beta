@@ -4,12 +4,7 @@ const path = require("path");
 
 let mainWindow = null;
 
-crashReporter.start({
-	productName: "dev",
-	companyName: "morpheuswallet",
-	submitURL: "https://morpheuswallet.sp.backtrace.io:6098/post?format=minidump&token=45914fd58ef5c0ea89ddfe7a4de6ffe7e1908301e6e2ef7b922f7e23df398926",
-	uploadToServer: true
-});
+// TODO: Gracefully request permission to send crash report after a crash.
 
 app.on("window-all-closed", () => {
   app.quit();
