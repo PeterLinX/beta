@@ -4,8 +4,7 @@ export default function Exchange_OrderLoading(props) {
 	const { exchangeName  } = props;
 	return (
 		<div>
-			{/*// TODO: Add image for 2/5 progressbar and render style*/}
-			<div className="progress-bar fadeInLeft-ex" />
+			<div className="progress-bar2 fadeInLeft-ex" />
 			<div className="row prog-info top-20">
 				<div className="col-xs-2 col-xs-offset-1 sm-text center">
 					Enter Amount to Deposit
