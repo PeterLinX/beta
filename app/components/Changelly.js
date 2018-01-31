@@ -4,7 +4,7 @@ import Claim from "./Claim.js";
 import MdSync from "react-icons/lib/md/sync";
 import QRCode from "qrcode.react";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
-import UnavailableExchange from "../components/UnavailableExchange";
+import Exchange_Unavailable from "../components/Exchange_Unavailable";
 import { resetPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { clipboard } from "electron";
@@ -406,7 +406,7 @@ class Exchange extends Component {
                 </div>
               </div>
             ) : (
-              <UnavailableExchange exchangeName={"Changelly"}/>
+              <Exchange_Unavailable exchangeName={"Changelly"}/>
             )}
 
             <p className="center send-notice top-10">
