@@ -1,10 +1,15 @@
 const electron = require("electron");
+const { app, Menu, crashReporter, BrowserWindow } = electron;
 const path = require("path");
-const app = electron.app;
-const Menu = electron.Menu;
-const BrowserWindow = electron.BrowserWindow;
 
 let mainWindow = null;
+
+crashReporter.start({
+	productName: "dev",
+	companyName: "morpheuswallet",
+	submitURL: "https://morpheuswallet.sp.backtrace.io:6098/post?format=minidump&token=45914fd58ef5c0ea89ddfe7a4de6ffe7e1908301e6e2ef7b922f7e23df398926",
+	uploadToServer: true
+});
 
 app.on("window-all-closed", () => {
   app.quit();
