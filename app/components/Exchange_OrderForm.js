@@ -139,20 +139,18 @@ export default class Exchange_OrderForm extends Component {
 						</div>
 
 						<div className="col-xs-4">
-							{
-								isValidNeoOutput
-									? <div></div>
-									: <div style={{ color: "red" }}>Sorry, NEO outputs must be whole numbers :(</div>
-							}
 							<input
 								className="form-control-exchange center"
 								value={this.calcExpectedNeo()}
 								placeholder="0"
 								disabled
 							/>
-							<p className="sm-text">
-								Amount of NEO Received
-							</p>
+							{
+								isValidNeoOutput
+									? <p className="sm-text">Amount of NEO Received</p>
+									: <p style={{ color: "red" }}>Sorry, NEO outputs must be whole numbers :(</p>
+							}
+
 						</div>
 					</div>
 

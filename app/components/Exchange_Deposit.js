@@ -1,28 +1,8 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import Claim from "./Claim.js";
-import MdSync from "react-icons/lib/md/sync";
 import QRCode from "qrcode.react";
-import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
-import UnavailableExchange from "../components/UnavailableExchange";
-import { resetPrice } from "../modules/wallet";
-import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { clipboard } from "electron";
-import Copy from "react-icons/lib/md/content-copy";
 import ReactTooltip from "react-tooltip";
-import neoLogo from "../img/neo.png";
-import NeoLogo from "./Brand/Neo";
 import BtcLogo from "./Brand/Bitcoin";
-
-// force sync with balance data
-const refreshBalance = (dispatch, net, address) => {
-	dispatch(sendEvent(true, "Refreshing..."));
-	initiateGetBalance(dispatch, net, address).then(response => {
-		dispatch(sendEvent(true, "Received latest blockchain information."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-	});
-};
-
 
 export default class Exchange_Deposit extends Component {
 

@@ -1,6 +1,4 @@
 import React from "react";
-import { clipboard } from "electron";
-import ReactTooltip from "react-tooltip";
 
 export default function Exchange_OrderLoading(props) {
 	const { exchangeName  } = props;
