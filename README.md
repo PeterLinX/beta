@@ -31,6 +31,7 @@ This application is product of Morpheus Software Solutions Limited. A Limited Li
 Founder, Creator/Lead Designer: Aaron Besson
 Chief Business OfficerChristian Stone
 Lead Developer: Krs Joseph
+Developer: Tawsif Ahmed
 
 This application uses Open Source components created by Ethan Fast and City of Zion (COZ) Dev Team under the MIT License agreement. You can find the source code of their open source projects along with license information below. We would like to thank and acknowledge Ethan Fast and the developers at City of Zion (COZ) for their contributions to open source and making projects like this possible.
 
