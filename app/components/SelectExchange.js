@@ -39,7 +39,7 @@ class SelectExchange extends Component {
 					</Link>
 
 					<Link to="/shapeshift">
-						<div className="col-2 center pointer com-soon">
+						<div className="col-2 center pointer">
 							<img
 								src={shapeshiftLogo}
 								alt=""
