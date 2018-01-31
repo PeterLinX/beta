@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import UnavailableExchange from "../components/UnavailableExchange";
+import Exchange_Unavailable from "../components/Exchange_Unavailable";
 import Exchange_OrderForm from "../components/Exchange_OrderForm";
 import Exchange_OrderLoading from "../components/Exchange_OrderLoading";
 import Exchange_Deposit from "../components/Exchange_Deposit";
@@ -41,7 +41,7 @@ class ShapeShift extends Component {
 
 	render() {
 		const { available, stage, txData, completeData, resetOrderState } = this.props;
-		if (!available && !stage) return <UnavailableExchange exchangeName={"ShapeShift"}/>;
+		if (!available && !stage) return <Exchange_Unavailable exchangeName={"ShapeShift"}/>;
 		else if (!stage) return <Exchange_OrderForm {...this.props} />;
 		else if (stage === "ordering") return <Exchange_OrderLoading exchangeName={"ShapeShift"}/>;
 		else if (stage === "depositing") return <Exchange_Deposit txData={txData} exchangeName={"shapeshift"}/>;
