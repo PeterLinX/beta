@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function UnavailableExchange(props)  {
+export default function Exchange_Unavailable(props)  {
 	const { exchangeName } = props;
 	return  (
 		<div className="dash-panel fadeInDown">
