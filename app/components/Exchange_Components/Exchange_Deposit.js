@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import QRCode from "qrcode.react";
 import { clipboard } from "electron";
 import ReactTooltip from "react-tooltip";
-import BtcLogo from "./Brand/Bitcoin";
+import BtcLogo from "../Brand/Bitcoin";
 
 export default class Exchange_Deposit extends Component {
 

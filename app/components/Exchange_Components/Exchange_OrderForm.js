@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import shapeshiftLogo from "../img/shapeshift.png";
+import shapeshiftLogo from "../../img/shapeshift.png";
 
 const shapeshiftPk = "5aad9888213a9635ecda3ed8bb2dc45c0a8d95dc36da7533c78f3eba8f765ce77538aae79d0e35642e39f208b7428631188f03c930e91f299f9eb40556f8e74d";
 
@@ -168,7 +168,7 @@ export default class Exchange_OrderForm extends Component {
 						<div className="col-xs-4 center top-20">
 							{
 								isValidNeoOutput
-									? (<button onClick={this.handleOrderClick} className="btn-send">Place Oder</button>)
+									? (<button onClick={this.handleOrderClick} className="btn-send">Place Order</button>)
 									: (<div></div>)
 							}
 						</div>
