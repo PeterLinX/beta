@@ -39,12 +39,12 @@ class SelectExchange extends Component {
 					</Link>
 
 					<Link to="/shapeshift">
-						<div className="col-2 center pointer ">
+						<div className="col-2 center pointer">
 							<img
 								src={shapeshiftLogo}
 								alt=""
 								width="240"
-								className="logobounce "
+								className="logobounce"
 							/>
 							<hr className="dash-hr" />
 							<span className="top-20">"The Safest, Fastest Asset Exchange on Earth. Trade any leading blockchain asset for any other. Protection by Design..."

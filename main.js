@@ -1,10 +1,10 @@
 const electron = require("electron");
+const { app, Menu, crashReporter, BrowserWindow } = electron;
 const path = require("path");
-const app = electron.app;
-const Menu = electron.Menu;
-const BrowserWindow = electron.BrowserWindow;
 
 let mainWindow = null;
+
+// TODO: Gracefully request permission to send crash report after a crash.
 
 app.on("window-all-closed", () => {
   app.quit();
