@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
+import Neon from "@cityofzion/neon-js";
 import { doSendAsset, verifyAddress } from "neon-js";
+import { api,wallet,sc,rpc } from "@cityofzion/neon-js";
 import Modal from "react-bootstrap-modal";
 import axios from "axios";
 import SplitPane from "react-split-pane";
@@ -20,14 +22,19 @@ import {
 } from "../modules/transactions";
 
 
-let sendAddress, sendAmount, confirmButton;
+let sendAddress, sendAmount, confirmButton,scriptHash ,rpx_usd, gas_usd;
 
 const apiURL = val => {
 	return "https://min-api.cryptocompare.com/data/price?fsym=RPX&tsyms=USD";
 };
 
+const apiURLForGas = val => {
+    return "https://min-api.cryptocompare.com/data/price?fsym=GAS&tsyms=USD";
+};
+
 // form validators for input fields
 const validateForm = (dispatch, neo_balance, gas_balance, asset) => {
+    alert(asset);
 	// check for valid address
 	try {
 		if (
@@ -94,24 +101,46 @@ const sendTransaction = (
 			asset: asset,
 			amount: sendAmount.value
 		});
-		doSendAsset(net, sendAddress.value, wif, asset, sendAmount.value)
-			.then(response => {
-				if (response.result === undefined || response.result === false) {
-					dispatch(sendEvent(false, "Transaction failed!"));
-				} else {
-					dispatch(
-						sendEvent(
-							true,
-							"Transaction complete! Your balance will automatically update when the blockchain has processed it."
-						)
-					);
-				}
-				setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+
+		if (net=="MainNet"){
+			scriptHash = Neon.CONST.CONTRACTS.RPX;
+		} else {
+			scriptHash = Neon.CONST.CONTRACTS.TEST_RPX;
+		}
+
+        axios.get(apiURL("RPX"))
+		.then(function (response) {
+            rpx_usd = parseFloat(response.data.USD);
+            axios.get(apiURLForGas("GAS"))
+			.then(function (response) {
+                gas_usd = parseFloat(response.data.USD);
+                let amountGASForPay = parseInt(parseInt(sendAmount.value)*rpx_usd/gas_usd);
+                api.nep5.doTransferToken(net, scriptHash, wif, sendAddress.value ,parseInt(sendAmount.value) ,amountGASForPay)
+                    .then(response => {
+                        if (response.result === undefined || response.result === false) {
+                            dispatch(sendEvent(false, "Transaction failed for RPX!"));
+                        } else {
+                            dispatch(
+                                sendEvent(
+                                    true,
+                                    "Transaction complete for RPX! Your balance will automatically update when the blockchain has processed it."
+                                )
+                            );
+                        }
+                        setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                    }).catch(e=>{
+                    alert(e.message);
+                    dispatch(sendEvent(false, "Transaction failed for RPX!"));
+                    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                });
 			})
-			.catch(e => {
-				dispatch(sendEvent(false, "Transaction failed!"));
-				setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+			.catch(function (error) {
+				console.log(error);
 			});
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
 	}
 	// close confirm pane and clear fields
 	dispatch(togglePane("confirmPane"));
@@ -296,7 +325,7 @@ class SendRPX extends Component {
 												net,
 												address,
 												wif,
-												selectedAsset,
+												"RPX",
 												neo,
 												gas
 											)

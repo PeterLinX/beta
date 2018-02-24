@@ -21,6 +21,7 @@ import SendRPX from "../components/SendRPX";
 import SendDBC from "../components/SendDBC";
 import SendQLC from "../components/SendQLC";
 import SendHP from "../components/SendHP";
+import SendBTC from "../components/SendBTC";
 import AssetPortfolio from "../components/AssetPortfolio";
 import { togglePane } from "../modules/dashboard";
 import { version } from "../../package.json";
@@ -29,6 +30,8 @@ import Dashlogo from "../components/Brand/Dashlogo";
 import ReactTooltip from "react-tooltip";
 import CountUp, { startAnimation } from "react-countup";
 import TopBar from "../components/TopBar";
+import NewBitcoin from "../components/NewBitcoin";
+import ReceiveBitcoin from "../components/ReceiveBitcoin";
 
 const refreshBalance = (dispatch, net, address) => {
   dispatch(sendEvent(true, "Refreshing..."));
@@ -154,6 +157,11 @@ class Dashboard extends Component {
                 <li>
                   <Link to={"/dashboard"} activeClassName="active">
                     <div className="glyphicon glyphicon-stats" /> Dashboard
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"/assetPortfolio"} activeClassName="active">
+                    <div className="glyphicon glyphicon-dashboard" /> Portfolio
                   </Link>
                 </li>
                 <li>

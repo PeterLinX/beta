@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-
 import { ROUTES, FINDING_LEDGER_NOTICE } from "../../core/constants";
 import commNode from "../../modules/ledger/ledger-comm-node";
 import { ledgerNanoSCreateSignatureAsync } from "../../modules/ledger/ledgerNanoS";
 import asyncWrap from "../../core/asyncHelper";
 import { BIP44_PATH } from "../../core/constants";
 import { error } from "util";
+
 
 export default class LoginLedgerNanoS extends Component {
   state = {

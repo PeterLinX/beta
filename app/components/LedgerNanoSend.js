@@ -212,7 +212,7 @@ const sendTransaction = (
   confirmButton.blur();
 };
 
-class LoginLedgerNanoS extends Component {
+class LedgerNanoSend extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -360,310 +360,320 @@ class LoginLedgerNanoS extends Component {
   }
 
   render() {
-    const {
-      dispatch,
-      wif,
-      address,
-      status,
-      neo,
-      gas,
-      net,
-      confirmPane,
-      selectedAsset
-    } = this.props;
+    try{
+        console.log("LoginNanoSend")
+        const {
+            dispatch,
+            wif,
+            address,
+            status,
+            neo,
+            gas,
+            net,
+            confirmPane,
+            selectedAsset
+        } = this.props;
 
-    let btnClass;
-    let formClass;
-    let priceUSD = 0;
-    let gasEnabled = false;
-    let inputEnabled = true;
-    let convertFunction = this.handleChangeNeo;
-    if (selectedAsset === "Neo") {
-      btnClass = "btn-send";
-      convertFunction = this.handleChangeNeo;
-      formClass = "form-send-neo";
-      priceUSD = this.state.neo_usd;
-      inputEnabled = true;
-    } else if (selectedAsset === "Gas") {
-      gasEnabled = true;
-      inputEnabled = false;
-      btnClass = "btn-send-gas";
-      formClass = "form-send-gas";
-      priceUSD = this.state.gas_usd;
-      convertFunction = this.handleChangeGas;
-    }
+        let btnClass;
+        let formClass;
+        let priceUSD = 0;
+        let gasEnabled = false;
+        let inputEnabled = true;
+        let convertFunction = this.handleChangeNeo;
+        if (selectedAsset === "Neo") {
+            btnClass = "btn-send";
+            convertFunction = this.handleChangeNeo;
+            formClass = "form-send-neo";
+            priceUSD = this.state.neo_usd;
+            inputEnabled = true;
+        } else if (selectedAsset === "Gas") {
+            gasEnabled = true;
+            inputEnabled = false;
+            btnClass = "btn-send-gas";
+            formClass = "form-send-gas";
+            priceUSD = this.state.gas_usd;
+            convertFunction = this.handleChangeGas;
+        }
 
-    const { ledgerAvailable } = this.state;
+        const { ledgerAvailable } = this.state;
 
-    return (
-      <div>
-        <div id="mainNav" className="main-nav">
-          <div className="navbar navbar-inverse">
-            <div className="navbar-header">
-              <div className="logoContainer">
-                <Dashlogo width={85} />
-              </div>
-              <div id="balance"
-              onClick={(event) => {
-                startAnimation(
-                this.totalCountUp
-              )
-              }}
-              >
-              <CountUp
-                className="account-balance"
-                end={this.props.combined}
-                duration={2}
-                useEasing={true}
-                useGrouping={true}
-                separator=","
-                decimals={2}
-                decimal="."
-                prefix="$"
-                ref={(countUp) => {
-                  this.totalCountUp = countUp;
-                }}
-              />
-                <span className="bal-usd">USD</span>
-                <span className="comb-bal">Available Balance</span>
-              </div>
-            </div>
-            <div className="clearfix" />
-            <hr className="dash-hr" />
-            <div className="navbar-collapse collapse">
-              <ul className="nav navbar-nav">
-                <li>
-                  <Link to={"/LoginLedgerNanoS"} activeClassName="active">
-                    <span className="glyphicon glyphicon-th-large" /> Ledger
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"/LedgerNanoSend"} activeClassName="active">
-                    <span className="glyphicon glyphicon-send" /> Send
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"/TransactionLedger"} activeClassName="active">
-                    <span className="glyphicon glyphicon-list-alt" /> History
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"/"} activeClassName="active">
-                    <span className="glyphicon glyphicon-question-sign" /> Help
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"/"} activeClassName="active">
-                    <span className="glyphicon glyphicon-chevron-left" /> Logout
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <span className="dashnetwork" />
-          <span className="dashnetwork">Network: {this.props.net}</span>
-          <div className="copyright">&copy; Copyright 2018 Morpheus</div>
-        </div>
-
-        <div className="main-container">
-          <div className="header">
-            <div className="col-xs-5">
-              <p className="market-price center">
-                NEO {numeral(this.props.marketNEOPrice).format("$0,0.00")}
-              </p>
-              <p className="neo-text">
-                {this.state.ledgerBalanceNeo} <span>NEO</span>
-              </p>
-              <hr className="dash-hr" />
-              <p className="neo-balance">
-                {numeral(this.state.ledgerNEOUSD).format("$0,0.00")} US
-              </p>
-            </div>
-
-            <div className="col-xs-2">{<ClaimLedgerGas />}</div>
-
-            <div className="col-xs-5 top-5">
-              <p className="market-price center">
-                GAS {numeral(this.props.marketGASPrice).format("$0,0.00")}
-              </p>
-              <p className="gas-text">
-                {Math.floor(this.state.ledgerBalanceGas * 10000000) / 10000000}{" "}
-                <span>GAS</span>
-              </p>
-              <hr className="dash-hr" />
-              <p className="neo-balance">
-                {" "}
-                {numeral(this.state.ledgerGASUSD).format("$0,0.00")} USD
-              </p>
-            </div>
-          </div>
-
-          <div
-            onClick={() => {
-              this.getLedgerAddress();
-            }}
-            data-tip
-            data-for="refreshTip"
-            className="ledger-nanos animated fadeInUp"
-          />
-
-          <ReactTooltip
-            className="solidTip"
-            id="refreshTip"
-            place="top"
-            type="light"
-            effect="solid"
-          >
-            <span>Click to Load Ledger Nano S</span>
-          </ReactTooltip>
-
-          {ledgerAvailable ? (
-            <div className="row ledger-login-panel fadeInDown">
-
-            <div className="col-xs-9">
-              <img
-                src={neoLogo}
-                alt=""
-                width="38"
-                className="neo-logo logobounce"
-              />
-              <h2>Send Neo or Gas from Ledger</h2>
-            </div>
-
-            <div className="col-xs-3 top-20 center com-soon">
-            Block: {this.props.blockHeight}
-            </div>
-
-              <div className="clearboth" />
-              <div className="col-xs-12 center">
-                <hr className="dash-hr-wide" />
-              </div>
-              <div className="clearboth" />
-              <div className="row top-20" />
-              <div className="clearboth" />
-
-              <div className="col-xs-8 top-10">
-
-                  <input
-                    className={formClass}
-                    id="center"
-                    placeholder="Enter a valid NEO public address here"
-                    ref={node => {
-                      sendAddress = node;
-                    }}
-                  />
-
+        return (
+            <div>
+              <div id="mainNav" className="main-nav">
+                <div className="navbar navbar-inverse">
+                  <div className="navbar-header">
+                    <div className="logoContainer">
+                      <Dashlogo width={85} />
+                    </div>
+                    <div id="balance"
+                         onClick={(event) => {
+                             startAnimation(
+                                 this.totalCountUp
+                             )
+                         }}
+                    >
+                      <CountUp
+                          className="account-balance"
+                          end={this.props.combined}
+                          duration={2}
+                          useEasing={true}
+                          useGrouping={true}
+                          separator=","
+                          decimals={2}
+                          decimal="."
+                          prefix="$"
+                          ref={(countUp) => {
+                              this.totalCountUp = countUp;
+                          }}
+                      />
+                      <span className="bal-usd">USD</span>
+                      <span className="comb-bal">Available Balance</span>
+                    </div>
+                  </div>
+                  <div className="clearfix" />
+                  <hr className="dash-hr" />
+                  <div className="navbar-collapse collapse">
+                    <ul className="nav navbar-nav">
+                      <li>
+                        <Link to={"/LoginLedgerNanoS"} activeClassName="active">
+                          <span className="glyphicon glyphicon-th-large" /> Ledger
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to={"/LedgerNanoSend"} activeClassName="active">
+                          <span className="glyphicon glyphicon-send" /> Send
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to={"/TransactionLedger"} activeClassName="active">
+                          <span className="glyphicon glyphicon-list-alt" /> History
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to={"/"} activeClassName="active">
+                          <span className="glyphicon glyphicon-question-sign" /> Help
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to={"/"} activeClassName="active">
+                          <span className="glyphicon glyphicon-chevron-left" /> Logout
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <span className="dashnetwork" />
+                <span className="dashnetwork">Network: {this.props.net}</span>
+                <div className="copyright">&copy; Copyright 2018 Morpheus</div>
               </div>
 
-              <div className="col-xs-4 top-10">
-                <div id="sendAddress">
-                  <div
-                    id="sendAsset"
-                    className={btnClass}
-                    style={{ width: "100%" }}
-                    data-tip
-                    data-for="assetTip"
-                    onClick={() => {
-                      this.setState({ gas_usd: 0, neo_usd: 0, value: 0 });
-                      document.getElementById("assetAmount").value = "";
-                      dispatch(toggleAsset());
-                    }}
-                  >
-                    {selectedAsset}
+              <div className="main-container">
+                <div className="header">
+                  <div className="col-xs-5">
+                    <p className="market-price center">
+                      NEO {numeral(this.props.marketNEOPrice).format("$0,0.00")}
+                    </p>
+                    <p className="neo-text">
+                        {this.state.ledgerBalanceNeo} <span>NEO</span>
+                    </p>
+                    <hr className="dash-hr" />
+                    <p className="neo-balance">
+                        {numeral(this.state.ledgerNEOUSD).format("$0,0.00")} US
+                    </p>
                   </div>
 
-                  <ReactTooltip
+                  <div className="col-xs-2">{<ClaimLedgerGas />}</div>
+
+                  <div className="col-xs-5 top-5">
+                    <p className="market-price center">
+                      GAS {numeral(this.props.marketGASPrice).format("$0,0.00")}
+                    </p>
+                    <p className="gas-text">
+                        {Math.floor(this.state.ledgerBalanceGas * 10000000) / 10000000}{" "}
+                      <span>GAS</span>
+                    </p>
+                    <hr className="dash-hr" />
+                    <p className="neo-balance">
+                        {" "}
+                        {numeral(this.state.ledgerGASUSD).format("$0,0.00")} USD
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                    onClick={() => {
+                        this.getLedgerAddress();
+                    }}
+                    data-tip
+                    data-for="refreshTip"
+                    className="ledger-nanos animated fadeInUp"
+                />
+
+                <ReactTooltip
                     className="solidTip"
-                    id="assetTip"
+                    id="refreshTip"
                     place="top"
                     type="light"
                     effect="solid"
-                  >
-                    <span>Click to switch between NEO and GAS</span>
-                  </ReactTooltip>
+                >
+                  <span>Click to Load Ledger Nano S</span>
+                </ReactTooltip>
+
+                  {ledgerAvailable ? (
+                      <div className="row ledger-login-panel fadeInDown">
+
+                        <div className="col-xs-9">
+                          <img
+                              src={neoLogo}
+                              alt=""
+                              width="38"
+                              className="neo-logo logobounce"
+                          />
+                          <h2>Send Neo or Gas from Ledger</h2>
+                        </div>
+
+                        <div className="col-xs-3 top-20 center com-soon">
+                          Block: {this.props.blockHeight}
+                        </div>
+
+                        <div className="clearboth" />
+                        <div className="col-xs-12 center">
+                          <hr className="dash-hr-wide" />
+                        </div>
+                        <div className="clearboth" />
+                        <div className="row top-20" />
+                        <div className="clearboth" />
+
+                        <div className="col-xs-8 top-10">
+
+                          <input
+                              className={formClass}
+                              id="center"
+                              placeholder="Enter a valid NEO public address here"
+                              ref={node => {
+                                  sendAddress = node;
+                              }}
+                          />
+
+                        </div>
+
+                        <div className="col-xs-4 top-10">
+                          <div id="sendAddress">
+                            <div
+                                id="sendAsset"
+                                className={btnClass}
+                                style={{ width: "100%" }}
+                                data-tip
+                                data-for="assetTip"
+                                onClick={() => {
+                                    this.setState({ gas_usd: 0, neo_usd: 0, value: 0 });
+                                    document.getElementById("assetAmount").value = "";
+                                    dispatch(toggleAsset());
+                                }}
+                            >
+                                {selectedAsset}
+                            </div>
+
+                            <ReactTooltip
+                                className="solidTip"
+                                id="assetTip"
+                                place="top"
+                                type="light"
+                                effect="solid"
+                            >
+                              <span>Click to switch between NEO and GAS</span>
+                            </ReactTooltip>
+                          </div>
+                        </div>
+
+                        <div className="clearboth" />
+                        <div className="row top-20" />
+                        <div className="clearboth" />
+
+                        <div className="col-xs-4  top-10">
+                          Amount to Send in NEO/GAS
+                          <input
+                              className={formClass}
+                              type="number"
+                              id="assetAmount"
+                              min="1"
+                              onChange={convertFunction}
+                              value={this.state.value}
+                              placeholder="0"
+                              ref={node => {
+                                  sendAmount = node;
+                              }}
+                          />
+                        </div>
+                        <div className="col-xs-4 top-10">
+                          Value in USD
+                          <input
+                              className={formClass}
+                              id="sendAmount"
+                              onChange={this.handleChangeUSD}
+                              onClick={this.handleChangeUSD}
+                              disabled={gasEnabled === false ? true : false}
+                              placeholder="Amount in US"
+                              value={`${priceUSD}`}
+                          />
+                          <label className="amount-dollar-ledger">$</label>
+                        </div>
+
+
+
+                        <div className="col-xs-4 top-30">
+                          <div id="sendAddress">
+                            <button
+                                className="grey-button"
+                                data-tip
+                                data-for="sendTip"
+                                onClick={() =>
+                                    sendTransaction(
+                                        dispatch,
+                                        net,
+                                        address,
+                                        wif,
+                                        selectedAsset,
+                                        neo,
+                                        gas
+                                    )
+                                }
+                                ref={node => {
+                                    confirmButton = node;
+                                }}
+                            >
+                              <span className="glyphicon glyphicon-send" /> Send
+                            </button>
+                          </div>
+                        </div>
+
+
+                      </div>
+                  ) : (
+                      <div />
+                  )}
+
+                <div className="top-10 center send-notice">
+                  <p>
+                    Please ensure that your Ledger Nano S is plugged in, unlocked and
+                    has the NEO app installed. Once plugged in your NEO address from
+                    your Ledger Nano S should appear above.{" "}
+                    <strong> If not please click on Ledger to refresh.</strong> Ledger
+                    is a trademark of Ledger SAS, Paris, France. All original owner
+                    Copyright and Trademark laws apply.
+                  </p>
                 </div>
               </div>
-
-              <div className="clearboth" />
-              <div className="row top-20" />
-              <div className="clearboth" />
-
-              <div className="col-xs-4  top-10">
-                Amount to Send in NEO/GAS
-                <input
-                  className={formClass}
-                  type="number"
-                  id="assetAmount"
-                  min="1"
-                  onChange={convertFunction}
-                  value={this.state.value}
-                  placeholder="0"
-                  ref={node => {
-                    sendAmount = node;
-                  }}
-                />
-              </div>
-              <div className="col-xs-4 top-10">
-                Value in USD
-                <input
-                  className={formClass}
-                  id="sendAmount"
-                  onChange={this.handleChangeUSD}
-                  onClick={this.handleChangeUSD}
-                  disabled={gasEnabled === false ? true : false}
-                  placeholder="Amount in US"
-                  value={`${priceUSD}`}
-                />
-                <label className="amount-dollar-ledger">$</label>
-              </div>
-
-
-
-              <div className="col-xs-4 top-30">
-                <div id="sendAddress">
-                  <button
-                    className="grey-button"
-                    data-tip
-                    data-for="sendTip"
-                    onClick={() =>
-                      sendTransaction(
-                        dispatch,
-                        net,
-                        address,
-                        wif,
-                        selectedAsset,
-                        neo,
-                        gas
-                      )
-                    }
-                    ref={node => {
-                      confirmButton = node;
-                    }}
-                  >
-                    <span className="glyphicon glyphicon-send" /> Send
-                  </button>
-                </div>
-              </div>
-
-
             </div>
-          ) : (
-            <div />
-          )}
-
-          <div className="top-10 center send-notice">
-            <p>
-              Please ensure that your Ledger Nano S is plugged in, unlocked and
-              has the NEO app installed. Once plugged in your NEO address from
-              your Ledger Nano S should appear above.{" "}
-              <strong> If not please click on Ledger to refresh.</strong> Ledger
-              is a trademark of Ledger SAS, Paris, France. All original owner
-              Copyright and Trademark laws apply.
-            </p>
+        );
+    }catch(e){
+      return (
+          <div>
+              {e.message}
           </div>
-        </div>
-      </div>
-    );
+      );
+    }
+
   }
 }
 
@@ -685,6 +695,6 @@ const mapStateToProps = state => ({
   transactions: state.wallet.transactions
 });
 
-LoginLedgerNanoS = connect(mapStateToProps)(LoginLedgerNanoS);
+LedgerNanoSend = connect(mapStateToProps)(LedgerNanoSend);
 
-export default LoginLedgerNanoS;
+export default LedgerNanoSend;

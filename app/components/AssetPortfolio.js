@@ -4,14 +4,9 @@ import axios from "axios";
 import numeral from "numeral";
 import { Link } from "react-router";
 
-import Claim from "./Claim.js";
-import Assets from "./Assets";
-import PortfolioCharts from "./PortfolioCharts";
-
 import { setMarketPrice, resetPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
-import TopBar from "./TopBar";
 
 import btcLogo from "../img/btc-logo.png";
 import ltcLogo from "../img/litecoin.png";
@@ -43,32 +38,18 @@ class AssetPortolio extends Component {
 			qlcPrice: 0,
 			dbcPrice: 0
 		};
+
 	}
 
 	render() {
 		return (
 
 			<div>
-				<div className="col-xs-3" />
-
-				<div className="col-xs-6 center">
-					<h2 className="center">Asset Portfolio</h2>
-					<img
-						src={doughnut}
-						alt=""
-						width="240"
-						className="doughnut"
-					/>
-
-				</div>
-
-				<div className="col-xs-3" />
 
 				<div className="row top-10 asset-portfolio center">
 
-					<div className="col-xs-12">
-
-
+				<div className="clearboth" />
+				<div className="row" />
 						<Link to="/send">
 							<div className="col-5">
 								<span className="market-price">NEO {numeral(this.props.marketNEOPrice).format("$0,0.00")}</span>
@@ -139,7 +120,7 @@ class AssetPortolio extends Component {
 						</Link>
 
 
-						<Link to="/tokens">
+						<Link to={"/newBitcoin"} >
 							<div className="col-5">
 								<span className="market-price">BTC {numeral(this.props.marketBTCPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
@@ -194,16 +175,6 @@ class AssetPortolio extends Component {
 							</div>
 						</Link>
 
-						<Link to="/tokens">
-							<div className="col-5">
-								<span className="market-price">IOTA {numeral(this.props.marketIOTAPrice).format("$0,0.00")}</span>
-								<h3>{numeral(
-									Math.floor(this.props.eth * 100000) / 100000
-								).format("0,0.0000")} <span className="iota-price"> IOTA</span></h3>
-								<hr className="dash-hr" />
-								<span className="market-price">$0.00 USD</span>
-							</div>
-						</Link>
 
 						<Link to="/tokens">
 							<div className="col-5 dotted">
@@ -211,8 +182,6 @@ class AssetPortolio extends Component {
 									<span className="glyphicon glyphicon-plus-sign" /></h2>
 							</div>
 						</Link>
-
-					</div>
 
 				</div>
 
@@ -242,7 +211,10 @@ const mapStateToProps = state => ({
 	marketETHPrice: state.wallet.marketETHPrice,
 	marketLRCPrice: state.wallet.marketLRCPrice,
 	marketXMRPrice: state.wallet.marketXMRPrice,
-	marketIOTAPrice: state.wallet.marketIOTAPrice
+	btcLoggedIn: state.account.btcLoggedIn,
+	btcPrivKey: state.account.btcPrivKey,
+	btcPubAddr: state.account.btcPubAddr,
+	btcLoginRedirect: state.account.btcLoginRedirect,
 });
 
 AssetPortolio = connect(mapStateToProps)(AssetPortolio);

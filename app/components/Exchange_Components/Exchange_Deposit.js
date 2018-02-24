@@ -2,34 +2,20 @@ import React, { Component } from "react";
 import QRCode from "qrcode.react";
 import { clipboard } from "electron";
 import ReactTooltip from "react-tooltip";
-import BtcLogo from "../Brand/Bitcoin";
+import Exchange_ProgressBar from "./Exchange_ProgressBar";
 
 export default class Exchange_Deposit extends Component {
 
 	render() {
-		const { txData, exchangeName } = this.props;
+		const { txData, exchangeName, stage } = this.props;
 		const { pair, deposit, depositAmount, withdrawalAmount } = txData;
 		const splitUpperCaseSymbolsArr = pair.toUpperCase().split("_");
 		const inputAsset = splitUpperCaseSymbolsArr[0];
 		const outputAsset = splitUpperCaseSymbolsArr[1];
 		return (
 			<div>
-				<div className="progress-bar3 fadeInLeft-ex" />
-				<div className="row prog-info top-20">
-					<div className="col-xs-2 col-xs-offset-1 sm-text center">
-						Enter Amount to Deposit
-					</div>
-					<div className="col-xs-2 sm-text center">Placing Your Order</div>
-					<div className="col-xs-2 sm-text center">
-						Generating {outputAsset} Address
-					</div>
-					<div className="col-xs-2 sm-text center grey-out">
-						Processing Your Order
-					</div>
-					<div className="col-xs-2 sm-text center grey-out">
-						Transaction Complete!
-					</div>
-				</div>
+
+				<Exchange_ProgressBar stage={stage} />
 
 				<div className="top-130" id="payIn">
 					<div className="dash-panel fadeInDown">
@@ -41,7 +27,7 @@ export default class Exchange_Deposit extends Component {
 							</div>
 							<div className="col-xs-8">
 								<div className="exch-logos">
-									<BtcLogo width={40} />
+									<img src={"https://shapeshift.io/images/coins/'{inputAsset}'.png"} width={40} />
 								</div>
 								<h4 className="top-20">
 									Deposit {depositAmount} {inputAsset} and receive {withdrawalAmount} {outputAsset}

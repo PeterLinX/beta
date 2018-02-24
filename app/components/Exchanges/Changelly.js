@@ -159,8 +159,8 @@ class Exchange extends Component {
       return (
         <div>
 
-          <div className="progress-bar3 fadeInLeft-ex" />
-          <div className="row prog-info top-20">
+          <div className="progress-bar4 fadeInLeft-ex" />
+          <div className="row prog-info">
             <div className="col-xs-2 col-xs-offset-1 sm-text center">
               Enter Amount to Deposit
             </div>
@@ -213,8 +213,8 @@ class Exchange extends Component {
       return (
         <div>
 
-          <div className="progress-bar2 fadeInLeft-ex" />
-          <div className="row prog-info top-20">
+          <div className="progress-bar3 fadeInLeft-ex" />
+          <div className="row prog-info">
             <div className="col-xs-2 col-xs-offset-1 sm-text center">
               Enter Amount to Deposit
             </div>
@@ -302,8 +302,8 @@ class Exchange extends Component {
       return (
         <div>
 
-          <div className="progress-bar fadeInLeft-ex" />
-          <div className="row prog-info top-20">
+          <div className="progress-bar1 fadeInLeft-ex" />
+          <div className="row prog-info">
             <div className="col-xs-2 col-xs-offset-1 sm-text center">
               Enter Amount to Deposit
             </div>

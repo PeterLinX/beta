@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import shapeshiftLogo from "../../img/shapeshift.png";
-
-const shapeshiftPk = "5aad9888213a9635ecda3ed8bb2dc45c0a8d95dc36da7533c78f3eba8f765ce77538aae79d0e35642e39f208b7428631188f03c930e91f299f9eb40556f8e74d";
+import Exchange_ProgressBar from "./Exchange_ProgressBar";
 
 // declare state without constructor and without linting issues
 export default class Exchange_OrderForm extends Component {
@@ -13,8 +12,8 @@ export default class Exchange_OrderForm extends Component {
 			selectedAssetToNeoRate: 0,
 			maxLimit: 0,
 			minLimit: 0,
-			minerFee: 0,
-			depositAmt: 0.000001
+			minerFee: 0.001,
+			depositAmt: 0
 		};
 		this.getMarketInfo = this.getMarketInfo.bind(this);
 		this.handleSelectAsset = this.handleSelectAsset.bind(this);
@@ -54,8 +53,7 @@ export default class Exchange_OrderForm extends Component {
 			withdrawal: address,
 			pair: `${selectedAsset}_neo`,
 			amount: this.calcExpectedNeo(),
-			returnAddress: "shapeshift_address_here_based_on_selected_asset",
-			apiKey: shapeshiftPk
+			returnAddress: "address_here_based_on_selected_asset"
 		};
 		this.props.startShiftOrder(shiftConfig);
 	}
@@ -74,25 +72,10 @@ export default class Exchange_OrderForm extends Component {
 	render() {
 		const isValidNeoOutput = this.determineNeoOutputAmtValidity();
 		return (
-			
+
 			<div>
-				<div className="progress-bar fadeInLeft-ex" />
-				<div className="row prog-info top-20">
-					<div className="col-xs-2 col-xs-offset-1 sm-text center">
-						Enter Amount to Deposit
-					</div>
-					<div className="col-xs-2 sm-text center grey-out">
-						Placing Your Order</div>
-					<div className="col-xs-2 sm-text center grey-out">
-						Generating Deposit Address
-					</div>
-					<div className="col-xs-2 sm-text center grey-out">
-						Processing Your Order
-					</div>
-					<div className="col-xs-2 sm-text center grey-out">
-						Transaction Complete
-					</div>
-				</div>
+
+				<Exchange_ProgressBar stage={this.props.stage} />
 
 				<div className="top-130 dash-panel">
 					<h2 className="center">ShapeShift Exchange Service</h2>
@@ -133,7 +116,6 @@ export default class Exchange_OrderForm extends Component {
 								onChange={this.handleDepositAmtChange}
 								className="form-control-exchange center"
 								type="number"
-								min={0.01}
 							/>
 							<p className="sm-text">Amount to Deposit</p>
 						</div>
@@ -142,8 +124,9 @@ export default class Exchange_OrderForm extends Component {
 							<input
 								className="form-control-exchange center"
 								value={this.calcExpectedNeo()}
-								placeholder="0"
-								disabled
+								type="number"
+								placeholder="1"
+								min={1}
 							/>
 							{
 								isValidNeoOutput
@@ -175,11 +158,14 @@ export default class Exchange_OrderForm extends Component {
 					</div>
 
 					<div className="row">
-						<div className="col-xs-9 top-20">
+						<div className="col-xs-9 top-20 no-drag">
 							<strong>
-								Minimum Order: 0.000000
+								Minimum Order: {this.state.minLimit} {this.state.selectedAsset}
 							</strong><br />
-							<span className="sm-text">Transaction fees included.</span>
+							<strong>
+								Maximum Order: {this.state.maxLimit} {this.state.selectedAsset}
+							</strong><br />
+							<span className="sm-text">{this.state.minerFee} transaction fees included.</span>
 						</div>
 						<div className="col-xs-3">
 							<img

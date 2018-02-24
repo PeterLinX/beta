@@ -4,6 +4,8 @@ import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 const baseUrl = process.env.SHAPESHIFT_API === "mock"
 	? "https://3e84236c-9ef9-47dc-ba46-c51fdd34411a.mock.pstmn.io"
 	: "https://shapeshift.io";
+const shapeshiftPk = "5aad9888213a9635ecda3ed8bb2dc45c0a8d95dc36da7533c78f3eba8f765ce77538aae79d0e35642e39f208b7428631188f03c930e91f299f9eb40556f8e74d";
+
 
 // Constants
 export const NEO_STATUS_REQUEST = "NEO_STATUS_REQUEST";
@@ -63,6 +65,8 @@ export function startShiftOrder(shiftConfig) {
 		try {
 			// deleting returnAddress for now as it is not a valid one currently being passed
 			delete shiftConfig.returnAddress;
+			// add API key for commission
+			shiftConfig.apiKey = shapeshiftPk;
 			const response = await axios.post(url, shiftConfig);
 			const txData = response.data;
 			txData.error

@@ -9,7 +9,7 @@ import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
 import neoLogo from "../img/neo.png";
 import Claim from "./Claim.js";
-import DashPrices from "./DashPrices";
+import Assets from "./Assets";
 import { clipboard } from "electron";
 import { togglePane } from "../modules/dashboard";
 import {
@@ -134,6 +134,7 @@ class Send extends Component {
 		this.handleChangeNeo = this.handleChangeNeo.bind(this);
 		this.handleChangeGas = this.handleChangeGas.bind(this);
 		this.handleChangeUSD = this.handleChangeUSD.bind(this);
+
 	}
 
 	async componentDidMount() {
@@ -212,7 +213,7 @@ class Send extends Component {
 		return (
 			<div>
 
-				<DashPrices />
+				<Assets />
 				<div id="send">
 
 					<div className="row dash-chart-panel">

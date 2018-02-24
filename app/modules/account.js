@@ -3,6 +3,8 @@ import { ledgerNanoSCreateSignatureAsync } from "../modules/ledger/ledgerNanoS";
 
 // Constants
 export const LOGIN = "LOGIN";
+export const BTC_LOGIN = "BTCLOGIN";
+export const BTC_LOGIN_REDIRECT = "BTCLOGIN_REDIRECT";
 export const LOGOUT = "LOGOUT";
 export const SET_ADDRESS = "SET_ADDRESS";
 export const SET_DECRYPTING = "SET_DECRYPTING";
@@ -170,6 +172,21 @@ export function setAddress(address) {
 	};
 }
 
+export function btcLogIn(pa, pk){
+	return {
+		type: BTC_LOGIN,
+		pa: pa,
+		pk: pk
+	}
+}
+
+export function btcLoginRedirect(path) {
+	return {
+		type: BTC_LOGIN_REDIRECT,
+		path: path,
+	}
+}
+
 // Reducer that manages account state (account now = private key)
 export default (
 	state = {
@@ -178,7 +195,10 @@ export default (
 		loggedIn: false,
 		redirectUrl: null,
 		decrypting: false,
-		accountKeys: []
+		accountKeys: [],
+		btcLoggedIn: false,
+		btcPrivKey: null,
+		btcPubAddr: null,
 	},
 	action
 ) => {
@@ -222,6 +242,19 @@ export default (
 		return { ...state, decrypting: action.state };
 	case SET_KEYS:
 		return { ...state, accountKeys: action.keys };
+	case BTC_LOGIN:
+		return {
+			...state,
+			btcLoggedIn: true,
+			btcPrivKey: action.pk,
+			btcPubAddr: action.pa
+		};
+
+	case BTC_LOGIN_REDIRECT:
+		return {
+			...state,
+			btcLoginRedirect: action.path,
+		}
 	default:
 		return state;
 	}

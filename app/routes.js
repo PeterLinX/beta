@@ -27,6 +27,10 @@ import SendRPX from "./components/SendRPX";
 import SendDBC from "./components/SendDBC";
 import SendQLC from "./components/SendQLC";
 import SendHP from "./components/SendHP";
+import SendBTC from "./components/SendBTC";
+import AssetPortfolio from "./components/AssetPortfolio";
+import NewBitcoin from "./components/NewBitcoin";
+import ReceiveBitcoin from "./components/ReceiveBitcoin";
 
 export default (
 	<Route path="/" component={App}>
@@ -35,6 +39,7 @@ export default (
 			<Route path="/sendRPX" component={SendRPX} />
 			<Route path="/sendDBC" component={SendDBC} />
 			<Route path="/sendQLC" component={SendQLC} />
+			<Route path="/sendBTC" component={SendBTC} />
 			<Route path="/sendHP" component={SendHP} />
 			<Route path="/receive" component={Receive} />
 			<Route path="/settings" component={Settings} />
@@ -47,8 +52,13 @@ export default (
 			<Route path="/support" component={Support} />
 			<Route path="/tokens" component={Tokens} />
 			<Route path="/sale" component={Sale} />
+			<Route path="/assetPortfolio" component={AssetPortfolio} />
+			<Route path="/newBitcoin" component={NewBitcoin} />
+			<Route path="/receiveBitcoin" component={ReceiveBitcoin} />
 		</Route>
 		<Route path="/create" component={CreateWallet} />
+
+
 		<Route path="/encryptKey" component={EncryptKey} />
 		<Route path="/DisplayWalletKeys" component={DisplayWalletKeys} />
 		<Route path="/LoginNep2" component={LoginNep2} />

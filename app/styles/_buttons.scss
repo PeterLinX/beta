@@ -374,6 +374,28 @@
   background: #86080c;
 }
 
+.btc-button {
+  padding: 6px 16px;
+  height: 42px;
+  font-size: 18px;
+  border: thin solid #ffc000;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: #000;
+  margin: 2px 0px;
+  background: #ffc000;
+  text-shadow: none;
+  font-weight: 200;
+  width: 100%;
+}
+
+.btc-button:hover {
+  border: 0px solid #ffc000;
+  color: #000;
+  background: #e6ad00;
+}
+
 .pink-button {
   padding: 6px 16px;
     height: 42px;

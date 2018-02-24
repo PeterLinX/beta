@@ -148,7 +148,7 @@
 }
 
 .dash-chart-panel {
-  margin: 30px 0 0 0;
+  margin: 10px 0 0 0;
 width: auto;
 padding: 30px 30px 30px 30px;
 border: 3px solid #1d1b1d;
@@ -205,6 +205,19 @@ box-shadow: inset 0px 0px 12px #000000;
   font-size: 18px;
   background-color: rgba(0, 0, 0, 0.62);
   border: 1px solid #8a1a1e;
+  border-radius: 9px;
+  outline: none;
+}
+
+.form-send-btc {
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  min-height: 25px;
+  padding: 8px 25px;
+  font-size: 18px;
+  background-color: rgba(0, 0, 0, 0.62);
+  border: 1px solid #ffc000;
   border-radius: 9px;
   outline: none;
 }
@@ -495,7 +508,7 @@ webview {
   margin-top: -8px;
 }
 
-.progress-bar {
+.progress-bar1 {
   background: url("../img/progress-bar1.png") no-repeat center;
   width: 500px;
   height: 17px;
@@ -516,23 +529,7 @@ webview {
   width: 500px;
   height: 17px;
   position: absolute;
-  top: 25%;
-  left: 35%;
-  border: none;
-  box-shadow: none;
-  -moz-box-shadow: none;
-  -o-box-shadow: none;
-  -webkit-box-shadow: none;
-  -webkit-transition: width 1s; /* For Safari 3.1 to 6.0 */
-  transition: width 1s;
-}
-
-.progress-bar2 {
-  background: url("../img/progress-bar2.png") no-repeat center;
-  width: 500px;
-  height: 17px;
-  position: absolute;
-  top: 25%;
+  top: 23%;
   left: 35%;
   border: none;
   box-shadow: none;
@@ -548,7 +545,7 @@ webview {
   width: 500px;
   height: 17px;
   position: absolute;
-  top: 25%;
+  top: 23%;
   left: 35%;
   border: none;
   box-shadow: none;
@@ -564,7 +561,23 @@ webview {
   width: 500px;
   height: 17px;
   position: absolute;
-  top: 25%;
+  top: 23%;
+  left: 35%;
+  border: none;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -o-box-shadow: none;
+  -webkit-box-shadow: none;
+  -webkit-transition: width 1s; /* For Safari 3.1 to 6.0 */
+  transition: width 1s;
+}
+
+.progress-bar5 {
+  background: url("../img/progress-bar5.png") no-repeat center;
+  width: 500px;
+  height: 17px;
+  position: absolute;
+  top: 23%;
   left: 35%;
   border: none;
   box-shadow: none;
@@ -592,7 +605,7 @@ webview {
 .prog-info {
   position: absolute;
   left: 26%;
-  top: 24%;
+  top: 26%;
   max-width: 715px;
 }
 
@@ -1485,4 +1498,12 @@ figure {
   right: 10px;
   font-size: 14px;
   cursor: help;
+}
+
+
+.mnemonic {
+  display: inline;
+  float: left;
+  padding-left: 20px;
+  max-width: 200px;
 }

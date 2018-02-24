@@ -1,5 +1,6 @@
 // Constants
 export const SET_BALANCE = "SET_BALANCE";
+export const SET_BTC_BALANCE = "SET_BTC_BALANCE";
 export const SET_MARKET_PRICE = "SET_MARKET_PRICE";
 export const RESET_PRICE = "RESET_PRICE";
 export const SET_TRANSACTION_HISTORY = "SET_TRANSACTION_HISTORY";
@@ -16,7 +17,12 @@ export function setBalance(
 	marketGASPrice,
 	marketRPXPrice,
 	marketDBCPrice,
-	marketQLCPrice
+	marketQLCPrice,
+	marketBTCPrice,
+	marketETHPrice,
+	marketLTCPrice,
+	marketLRCPrice,
+	marketXMRPrice
 ) {
 	return {
 		type: SET_BALANCE,
@@ -29,8 +35,20 @@ export function setBalance(
 		marketGASPrice: marketGASPrice,
 		marketRPXPrice: marketRPXPrice,
 		marketDBCPrice: marketDBCPrice,
-		marketQLCPrice: marketQLCPrice
+		marketQLCPrice: marketQLCPrice,
+		marketBTCPrice: marketBTCPrice,
+		marketETHPrice: marketETHPrice,
+		marketLTCPrice: marketLTCPrice,
+		marketLRCPrice: marketLRCPrice,
+		marketXMRPrice: marketXMRPrice
 	};
+}
+
+export function setBtcBalance(balance){
+	return {
+		type: SET_BTC_BALANCE,
+		balance: balance
+	}
 }
 
 export function setCombinedBalance(combinedBalance) {
@@ -80,6 +98,7 @@ export default (
 			...state,
 			Neo: action.Neo,
 			Gas: action.Gas,
+			Rpx: action.Rpx,
 			price: action.price,
 			combined: action.combined,
 			gasPrice: action.gasPrice,
@@ -87,7 +106,12 @@ export default (
 			marketGASPrice: action.marketGASPrice,
 			marketRPXPrice: action.marketRPXPrice,
 			marketQLCPrice: action.marketQLCPrice,
-			marketDBCPrice: action.marketDBCPrice
+			marketDBCPrice: action.marketDBCPrice,
+			marketBTCPrice: action.marketBTCPrice,
+			marketETHPrice: action.marketETHPrice,
+			marketLTCPrice: action.marketLTCPrice,
+			marketLRCPrice: action.marketLRCPrice,
+			marketXMRPrice: action.marketXMRPrice
 		};
 	case RESET_PRICE:
 		return { ...state, price: "--" };
@@ -103,6 +127,11 @@ export default (
 		return { ...state, price: currentPrice };
 	case SET_TRANSACTION_HISTORY:
 		return { ...state, transactions: action.transactions };
+	case SET_BTC_BALANCE:
+		return {
+			...state,
+			Btc: action.balance
+		}
 	default:
 		return state;
 	}

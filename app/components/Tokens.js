@@ -28,7 +28,7 @@ import { syncTransactionHistory } from "../components/NetworkSwitch";
 import { clipboard } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import ReactTooltip from "react-tooltip";
-import TopBar from "./TopBar";
+import { Link } from "react-router";
 
 // helper to open an external web link
 const openExplorer = srcLink => {
@@ -407,12 +407,14 @@ Add Address
 
 <div className="row top-30"/>
 <div className="col-xs-2  top-20">
+<Link to={"/receiveBitcoin"}>
 <img
   src={btcLogo}
   alt=""
   width="64"
   className="tokens"
 />
+</Link>
 </div>
 <div className="col-xs-8 ">
 <h4>Bitcoin (BTC)</h4>
@@ -435,13 +437,16 @@ onClick={() =>
 ><img src={twitsmLogo} alt="" width="16" className="" /> Twitter</li>
 </ul>
 </div>
+<Link to={"/newBitcoin"}>
 <div className="col-xs-2 center add-token top-20 token-soon"
 data-tip
 data-for="tokenTip"
 >
-<div className="token-icon-border"><span className="glyphicon glyphicon-plus" /></div>
+<div className="token-icon-border">
+<span className="glyphicon glyphicon-plus" /></div>
 Add Address
-</div>
+</div></Link>
+
 <div className="clearboth" />
 
 <div className="row top-30"/>
@@ -587,7 +592,10 @@ const mapStateToProps = state => ({
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,
   price: state.wallet.price,
-  transactions: state.wallet.transactions
+  transactions: state.wallet.transactions,
+  btcLoggedIn: state.account.btcLoggedIn,
+	btcPrivKey: state.account.btcPrivKey,
+	btcPubAddr: state.account.btcPubAddr,
 });
 
 Tokens = connect(mapStateToProps)(Tokens);

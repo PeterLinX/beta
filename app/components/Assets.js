@@ -9,7 +9,7 @@ import { setMarketPrice, resetPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 
-import btcLogo from "../img/btc-logo.png";
+import bitcoinLogo from "../img/btc-logo.png";
 import ltcLogo from "../img/litecoin.png";
 import rpxLogo from "../img/rpx.png";
 import qlinkLogo from "../img/qlink.png";
@@ -87,10 +87,14 @@ class Assets extends Component {
 							<span className="market-price">$0.00 USD</span>
 						</div>
 					</Link>
-					<Link to="/tokens">
-						<div className="col-5 dotted">
-							<h2 className="center">
-								<span className="glyphicon glyphicon-plus-sign" /></h2>
+					<Link  to={ "/sendBTC" }>
+						<div className="col-5">
+							<span className="market-price">BTC {numeral(this.props.marketBTCPrice).format("$0,0.00")}</span>
+							<h3>{numeral(
+								Math.floor(this.props.btc * 10) / 10
+							).format("0,0.0000")} <span className="btc-price"> BTC</span></h3>
+							<hr className="dash-hr" />
+							<span className="market-price">{numeral(this.props.btc * this.props.marketBTCPrice).format("$0,0.0000")}USD</span>
 						</div>
 					</Link>
 
@@ -107,6 +111,7 @@ const mapStateToProps = state => ({
 	dbc: state.wallet.Dbc,
 	qlc: state.wallet.Qlc,
 	Rhpt: state.wallet.Rhpt,
+	btc: state.wallet.Btc,
 	address: state.account.address,
 	net: state.metadata.network,
 	price: state.wallet.price,
@@ -115,7 +120,11 @@ const mapStateToProps = state => ({
 	marketNEOPrice: state.wallet.marketNEOPrice,
 	marketRPXPrice: state.wallet.marketRPXPrice,
 	marketDBCPrice: state.wallet.marketDBCPrice,
-	marketQLCPrice: state.wallet.marketQLCPrice
+	marketQLCPrice: state.wallet.marketQLCPrice,
+	marketBTCPrice: state.wallet.marketBTCPrice,
+	btcLoggedIn: state.account.btcLoggedIn,
+	btcPrivKey: state.account.btcPrivKey,
+	btcPubAddr: state.account.btcPubAddr,
 });
 
 Assets = connect(mapStateToProps)(Assets);

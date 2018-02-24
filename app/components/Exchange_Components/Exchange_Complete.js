@@ -1,28 +1,14 @@
 import React from "react";
 import { clipboard } from "electron";
 import ReactTooltip from "react-tooltip";
+import Exchange_ProgressBar from "./Exchange_ProgressBar";
 
 export default function Exchange_Complete(props) {
-	const { completeData, resetOrderState  } = props;
+	const { completeData, resetOrderState, stage  } = props;
 	return (
 		<div>
-			<div className="progress-bar4 fadeInLeft-ex" />
-			<div className="row prog-info top-20">
-				<div className="col-xs-2 col-xs-offset-1 sm-text center">
-					Enter Amount to Deposit
-				</div>
-				<div className="col-xs-2 sm-text center grey-out">
-					Placing Your Order</div>
-				<div className="col-xs-2 sm-text center grey-out">
-					Generating Deposit Address
-				</div>
-				<div className="col-xs-2 sm-text center grey-out">
-					Processing Your Order
-				</div>
-				<div className="col-xs-2 sm-text center grey-out">
-					Transaction Complete
-				</div>
-			</div>
+
+			<Exchange_ProgressBar stage={stage} />
 
 			<div className="top-130 dash-panel">
 				<div className="top-50" id="exchange-messages">

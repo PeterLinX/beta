@@ -15,12 +15,14 @@ import ledgerLogo from "../images/ledger-logo.png";
 import Claim from "./Claim.js";
 import TopBar from "./TopBar";
 import { togglePane } from "../modules/dashboard";
+
 import {
 	sendEvent,
 	clearTransactionEvent,
 	toggleAsset
 } from "../modules/transactions";
 import commNode from "../modules/ledger/ledger-comm-node";
+
 
 const BIP44_PATH =
   "8000002C" + "80000378" + "80000000" + "00000000" + "00000000";
@@ -376,7 +378,6 @@ class Ledger extends Component {
 								className="ledger-address"
 								id="center"
 								placeholder={this.state.ledgerAddress}
-								value={this.state.ledgerAddress}
 							/>
 						</div>
 						<div className="col-xs-4  top-10">

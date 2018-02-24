@@ -7,7 +7,7 @@
   "scripts": {
     "postinstall": "electron-rebuild",
     "electron-rebuild": "electron-rebuild",
-    "start": "electron .",
+    "start": "electron --enable-logging .",
     "start-mock": "SHAPESHIFT_API=mock electron .",
     "assets": "webpack",
     "assets-watch": "webpack --watch",
@@ -52,10 +52,11 @@
     }
   },
   "dependencies": {
-    "@cityofzion/neon-js": "^2.2.2",
+    "@cityofzion/neon-js": "^3.3.0",
     "axios": "^0.17.0",
     "base-x": "^3.0.2",
     "bigi": "^1.4.2",
+    "bitcoinjs-lib": "^3.3.2",
     "bootstrap": "^3.3.7",
     "bs58check": "^2.0.2",
     "buffer": "^5.0.6",
@@ -73,6 +74,7 @@
     "isomorphic-fetch": "^2.2.1",
     "jayson": "^2.0.1",
     "js-scrypt": "^0.2.0",
+    "ledger-node-js-api": "0.0.0",
     "ledgerco": "^1.1.3",
     "lodash": "^4.17.4",
     "moment": "^2.19.1",

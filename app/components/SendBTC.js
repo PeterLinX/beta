@@ -7,9 +7,7 @@ import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
-import hashpuppiesLogo from "../img/hashpuppies.png";
-import Claim from "./Claim.js";
-import TopBar from "./TopBar";
+import btcLogo from "../img/btc-logo.png";
 import Assets from "./Assets";
 import { clipboard } from "electron";
 import { togglePane } from "../modules/dashboard";
@@ -19,10 +17,13 @@ import {
 	toggleAsset
 } from "../modules/transactions";
 
+import { btcLoginRedirect } from '../modules/account';
+
+
 let sendAddress, sendAmount, confirmButton;
 
 const apiURL = val => {
-	return "https://min-api.cryptocompare.com/data/price?fsym=RPX&tsyms=USD";
+	return "https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD";
 };
 
 // form validators for input fields
@@ -83,11 +84,15 @@ const sendTransaction = (
 	wif,
 	asset,
 	neo_balance,
-	gas_balance
+	gas_balance,
+	btc
 ) => {
 	// validate fields again for good measure (might have changed?)
 	if (validateForm(dispatch, neo_balance, gas_balance, asset) === true) {
 		dispatch(sendEvent(true, "Processing..."));
+
+		
+
 		log(net, "SEND", selfAddress, {
 			to: sendAddress.value,
 			asset: asset,
@@ -119,7 +124,7 @@ const sendTransaction = (
 	confirmButton.blur();
 };
 
-class SendHP extends Component {
+class SendBTC extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -134,6 +139,11 @@ class SendHP extends Component {
 		this.handleChangeNeo = this.handleChangeNeo.bind(this);
 		this.handleChangeGas = this.handleChangeGas.bind(this);
 		this.handleChangeUSD = this.handleChangeUSD.bind(this);
+
+		if(!this.props.btcLoggedIn){
+			this.props.dispatch(btcLoginRedirect("/sendBTC"));
+			this.props.history.push("/newBitcoin");
+		}
 	}
 
 	async componentDidMount() {
@@ -177,7 +187,8 @@ class SendHP extends Component {
 			gas,
 			net,
 			confirmPane,
-			selectedAsset
+			selectedAsset,
+			btc
 		} = this.props;
 		let confirmPaneClosed;
 		let open = true;
@@ -198,7 +209,7 @@ class SendHP extends Component {
 		if (selectedAsset === "Neo") {
 			btnClass = "btn-send";
 			convertFunction = this.handleChangeNeo;
-			formClass = "form-send-hp";
+			formClass = "form-send-btc";
 			priceUSD = this.state.neo_usd;
 			inputEnabled = true;
 		} else if (selectedAsset === "Gas") {
@@ -211,23 +222,27 @@ class SendHP extends Component {
 		}
 		return (
 			<div>
-
 				<Assets />
 				<div id="send">
 
 					<div className="row dash-chart-panel">
-						<div className="col-xs-9">
+						<div className="col-xs-8">
 							<img
-								src={hashpuppiesLogo}
+								src={btcLogo}
 								alt=""
-								width="48"
+								width="45"
 								className="neo-logo fadeInDown"
 							/>
-							<h2> Send HashPuppies Tokens</h2>
+							<h2>Send Bitcoin (BTC)</h2>
 						</div>
 
-						<div className="col-xs-3 top-20 center com-soon">
-            Block: {this.props.blockHeight}
+						<div className="col-xs-4 center">
+						<Link to={ "/receiveBitcoin" }><div
+							className="grey-button"
+						>
+							<span className="glyphicon glyphicon-bitcoin marg-right-5"/>  View BTC Address
+						</div>
+						</Link>
 						</div>
 
 						<div className="col-xs-12 center">
@@ -237,23 +252,15 @@ class SendHP extends Component {
 						<div className="clearboth" />
 
 						<div className="top-20">
-							<div className="col-xs-9">
+							<div className="col-xs-12">
 								<input
 									className={formClass}
 									id="center"
-									placeholder="Enter a valid RHPT public address here"
+									placeholder="Enter a valid BTC public address here"
 									ref={node => {
 										sendAddress = node;
 									}}
 								/>
-							</div>
-
-							<div className="col-xs-3">
-								<Link to="/send">
-									<div className="pink-button">
-                      RHPT
-									</div>
-								</Link>
 							</div>
 
 							<div className="col-xs-5  top-20">
@@ -270,7 +277,7 @@ class SendHP extends Component {
 									}}
 								/>
 								<div className="clearboth"/>
-								<span className="com-soon block top-10">Amount in RHPT to send</span>
+								<span className="com-soon block top-10">Amount in BTC to send</span>
 							</div>
 							<div className="col-xs-4 top-20">
 								<input
@@ -289,7 +296,7 @@ class SendHP extends Component {
 							<div className="col-xs-3 top-20">
 								<div id="sendAddress">
 									<button
-										className="hp-button"
+										className="btc-button"
 										onClick={() =>
 											sendTransaction(
 												dispatch,
@@ -315,15 +322,15 @@ class SendHP extends Component {
 
 					<div className="send-notice">
 						<p>
-              Sending HashPuppies requires a balance of 1 GAS+. Only send RHPT to a valid address that supports NEP tokens on the NEO blockchain. When sending RHPT to an exchange please ensure the address supports RHPT tokens.
+              Your BTC address can be used to receive Bitcoin ONLY. Sending funds other than Bitcoin (BTC) to this address may result in your funds being lost.
 						</p>
 						<div className="col-xs-2 top-20"/>
 						<div className="col-xs-8 top-20">
 							<p className="center donations"
 								data-tip
 								data-for="donateTip"
-								onClick={() => clipboard.writeText("AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b")}
-							>Morpheus Dev Team: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
+								onClick={() => clipboard.writeText("17mE9Y7ERqpn6oUn5TEteNrnEmmXUsQw76")}
+							>Morpheus Dev Team: 17mE9Y7ERqpn6oUn5TEteNrnEmmXUsQw76</p>
 							<ReactTooltip
 								className="solidTip"
 								id="donateTip"
@@ -336,7 +343,12 @@ class SendHP extends Component {
 						</div>
 					</div>
 
+
 				</div>
+
+
+
+
 
 
 
@@ -352,10 +364,15 @@ const mapStateToProps = state => ({
 	net: state.metadata.network,
 	neo: state.wallet.Neo,
 	gas: state.wallet.Gas,
+	btc: state.wallet.Btc,
+	marketBTCPrice: state.wallet.marketBTCPrice,
 	selectedAsset: state.transactions.selectedAsset,
-	confirmPane: state.dashboard.confirmPane
+	confirmPane: state.dashboard.confirmPane,
+	btcLoggedIn: state.account.btcLoggedIn,
+	btcPrivKey: state.account.btcPrivKey,
+	btcPubAddr: state.account.btcPubAddr,
 });
 
-SendHP = connect(mapStateToProps)(SendHP);
+SendBTC = connect(mapStateToProps)(SendBTC);
 
-export default SendHP;
+export default SendBTC;

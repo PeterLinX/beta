@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
 import { doSendAsset, verifyAddress } from "neon-js";
+import { api,wallet,sc,rpc } from "@cityofzion/neon-js";
 import Modal from "react-bootstrap-modal";
 import axios from "axios";
 import SplitPane from "react-split-pane";
@@ -11,6 +12,8 @@ import qlinkLogo from "../img/qlink.png";
 import Claim from "./Claim.js";
 import TopBar from "./TopBar";
 import Assets from "./Assets";
+import { TOKENS_TEST } from  "../core/constants";
+import  { TOKENS } from  "../core/constants";
 import { clipboard } from "electron";
 import { togglePane } from "../modules/dashboard";
 import {
@@ -19,10 +22,14 @@ import {
 	toggleAsset
 } from "../modules/transactions";
 
-let sendAddress, sendAmount, confirmButton;
+let sendAddress, sendAmount, confirmButton, scriptHash, gas_usd ,qlc_usd;
 
 const apiURL = val => {
-	return "https://min-api.cryptocompare.com/data/price?fsym=RPX&tsyms=USD";
+	return "https://min-api.cryptocompare.com/data/price?fsym=QLC&tsyms=USD";
+};
+
+const apiURLForGas = val => {
+    return "https://min-api.cryptocompare.com/data/price?fsym=GAS&tsyms=USD";
 };
 
 // form validators for input fields
@@ -75,6 +82,17 @@ const openAndValidate = (dispatch, neo_balance, gas_balance, asset) => {
 	}
 };
 
+// async function getQLC() {
+//     let qlc = await  axios.get(apiURL("QLC"));
+//     qlc = qlc.data.USD;
+//     return  JSON.stringify(qlc);
+// }
+//
+// async function getGAS() {
+// 	let gas = await  axios.get(apiURLForGas("GAS"));
+// 	gas = gas.data.USD;
+// 	return JSON.stringify(gas.then(f));
+// }
 // perform send transaction
 const sendTransaction = (
 	dispatch,
@@ -93,24 +111,47 @@ const sendTransaction = (
 			asset: asset,
 			amount: sendAmount.value
 		});
-		doSendAsset(net, sendAddress.value, wif, asset, sendAmount.value)
-			.then(response => {
-				if (response.result === undefined || response.result === false) {
-					dispatch(sendEvent(false, "Transaction failed!"));
-				} else {
-					dispatch(
-						sendEvent(
-							true,
-							"Transaction complete! Your balance will automatically update when the blockchain has processed it."
-						)
-					);
-				}
-				setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-			})
-			.catch(e => {
-				dispatch(sendEvent(false, "Transaction failed!"));
-				setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-			});
+
+		if (net == "MainNet") {
+			scriptHash = TOKENS.QLC;
+		} else {
+			scriptHash = TOKENS_TEST.QLC;
+		}
+
+        axios.get(apiURL("QLC"))
+        .then(function (response) {
+            qlc_usd = parseFloat(response.data.USD);
+            axios.get(apiURLForGas("GAS"))
+            .then(function (response) {
+                gas_usd = parseFloat(response.data.USD);
+                let amountGASForPay = parseInt(parseInt(sendAmount.value)*qlc_usd/gas_usd);
+                api.nep5.doTransferToken(net, scriptHash, wif, sendAddress.value ,parseInt(sendAmount.value) ,amountGASForPay)
+                    .then(response => {
+                        if (response.result === undefined || response.result === false) {
+                            dispatch(sendEvent(false, "Transaction failed for DBC!"));
+                        } else {
+                            dispatch(
+                                sendEvent(
+                                    true,
+                                    "Transaction complete for QLC! Your balance will automatically update when the blockchain has processed it."
+                                )
+                            );
+                        }
+                        setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                    }).catch(e=>{
+                    alert(e.message);
+                    dispatch(sendEvent(false, "Transaction failed for QLC!"));
+                    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                });
+            })
+            .catch(function (error) {
+                alert(error);
+            });
+
+        })
+        .catch(function (error) {
+            alert(error);
+        });
 	}
 	// close confirm pane and clear fields
 	dispatch(togglePane("confirmPane"));
@@ -296,7 +337,7 @@ class SendQLC extends Component {
 												net,
 												address,
 												wif,
-												selectedAsset,
+												"QLC",
 												neo,
 												gas
 											)

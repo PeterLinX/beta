@@ -7,6 +7,8 @@ import {
   getWalletDBHeight,
   getAPIEndpoint
 } from "neon-js";
+import { api } from '@cityofzion/neon-js'
+import Neon from '@cityofzion/neon-js'
 import { setClaim } from "../modules/claim";
 import { setBlockHeight, setNetwork } from "../modules/metadata";
 import {
@@ -20,7 +22,7 @@ import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import axios from "axios";
 
 let intervals = {};
-
+let rpxScriptHash , qlcScriptHash,dbcScriptHash,rhptScriptHash;
 let netSelect;
 
 // https://bittrex.com/api/v1.1/public/getmarkethistory?market=BTC-NEO
@@ -34,6 +36,18 @@ export const getMarketPriceUSD = amount => {
       return lastUSDNEO * amount;
     });
 };
+
+const getRpxBalance = async (scriptHash,address) => {
+    api.nep5.getTokenBalance("http://seed1.neo.org:20332",scriptHash,address)
+    .then(response =>{
+        let rpxBal = Number(response);
+        return rpxBal;
+    })
+    .catch(error =>{
+      console.log("rpx balance\n")
+       console.log(error.message);
+    });
+}
 
 const getGasPrice = async gasVal => {
   try {
@@ -49,7 +63,7 @@ const getGasPrice = async gasVal => {
 const getMarketPrice = async () => {
   try {
     let marketPrices = await axios.get(
-      "https://min-api.cryptocompare.com/data/pricemulti?fsyms=NEO,GAS,RPX,DBC,QLC&tsyms=USD"
+      "https://min-api.cryptocompare.com/data/pricemulti?fsyms=NEO,GAS,RPX,DBC,QLC,BTC,ETH,LTC,LRC,XMR&tsyms=USD"
     );
     return marketPrices;
   } catch (error) {
@@ -63,6 +77,13 @@ const initiateGetBalance = (dispatch, net, address) => {
   syncTransactionHistory(dispatch, net, address);
   syncAvailableClaim(dispatch, net, address);
   syncBlockHeight(dispatch, net);
+
+  if (net == "MainNet") {
+      rpxScriptHash = Neon.CONST.CONTRACTS.RPX;
+  } else {
+      rpxScriptHash = Neon.CONST.CONTRACTS.TEST_RPX;
+  }
+
   return getBalance(net, address)
     .then(resultBalance => {
       return getMarketPriceUSD(resultBalance.Neo)
@@ -73,6 +94,7 @@ const initiateGetBalance = (dispatch, net, address) => {
             let gasPrice = await getGasPrice(resultBalance.Gas);
             let marketPrices = await getMarketPrice();
             let combinedPrice = gasPrice + resultPrice;
+            let rpxBal = await getRpxBalance(rpxScriptHash,address);
             dispatch(
               setBalance(
                 resultBalance.Neo,
@@ -84,7 +106,12 @@ const initiateGetBalance = (dispatch, net, address) => {
                 marketPrices.data.GAS.USD,
                 marketPrices.data.RPX.USD,
                 marketPrices.data.DBC.USD,
-                marketPrices.data.QLC.USD
+                marketPrices.data.QLC.USD,
+                marketPrices.data.BTC.USD,
+                marketPrices.data.ETH.USD,
+                marketPrices.data.LTC.USD,
+                marketPrices.data.LRC.USD,
+                marketPrices.data.XMR.USD
               )
             );
           }

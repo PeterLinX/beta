@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
+import { api,wallet,sc,rpc } from "@cityofzion/neon-js";
 import { doSendAsset, verifyAddress } from "neon-js";
 import Modal from "react-bootstrap-modal";
 import axios from "axios";
@@ -13,16 +14,21 @@ import TopBar from "./TopBar";
 import Assets from "./Assets";
 import { clipboard } from "electron";
 import { togglePane } from "../modules/dashboard";
+import { TOKENS_TEST } from  "../core/constants";
+import  { TOKENS } from  "../core/constants";
 import {
 	sendEvent,
 	clearTransactionEvent,
 	toggleAsset
 } from "../modules/transactions";
 
-let sendAddress, sendAmount, confirmButton;
+let sendAddress, sendAmount, confirmButton, scriptHash,dbc_usd ,gas_usd;
 
 const apiURL = val => {
-	return "https://min-api.cryptocompare.com/data/price?fsym=RPX&tsyms=USD";
+	return "https://min-api.cryptocompare.com/data/price?fsym=DBC&tsyms=USD";
+};
+const apiURLForGas = val => {
+    return "https://min-api.cryptocompare.com/data/price?fsym=GAS&tsyms=USD";
 };
 
 // form validators for input fields
@@ -93,24 +99,47 @@ const sendTransaction = (
 			asset: asset,
 			amount: sendAmount.value
 		});
-		doSendAsset(net, sendAddress.value, wif, asset, sendAmount.value)
-			.then(response => {
-				if (response.result === undefined || response.result === false) {
-					dispatch(sendEvent(false, "Transaction failed!"));
-				} else {
-					dispatch(
-						sendEvent(
-							true,
-							"Transaction complete! Your balance will automatically update when the blockchain has processed it."
-						)
-					);
-				}
-				setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-			})
-			.catch(e => {
-				dispatch(sendEvent(false, "Transaction failed!"));
-				setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-			});
+
+		if (net== "MainNet") {
+			scriptHash = TOKENS.DBC;
+		} else {
+			scriptHash = TOKENS_TEST.DBC;
+		}
+
+        axios.get(apiURL("DBC"))
+		.then(function (response) {
+            dbc_usd = parseFloat(response.data.USD);
+            axios.get(apiURLForGas("GAS"))
+                .then(function (response) {
+                    gas_usd = parseFloat(response.data.USD);
+                    let amountGASForPay = parseInt(parseInt(sendAmount.value)*dbc_usd/gas_usd);
+                    api.nep5.doTransferToken(net, scriptHash, wif, sendAddress.value ,parseInt(sendAmount.value) ,amountGASForPay)
+                        .then(response => {
+                            if (response.result === undefined || response.result === false) {
+                                dispatch(sendEvent(false, "Transaction failed for DBC!"));
+                            } else {
+                                dispatch(
+                                    sendEvent(
+                                        true,
+                                        "Transaction complete for DBC! Your balance will automatically update when the blockchain has processed it."
+                                    )
+                                );
+                            }
+                            setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                        }).catch(e=>{
+                        alert(e.message);
+                        dispatch(sendEvent(false, "Transaction failed for DBC!"));
+                        setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                    });
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+
 	}
 	// close confirm pane and clear fields
 	dispatch(togglePane("confirmPane"));
@@ -296,7 +325,7 @@ class SendDBC extends Component {
 												net,
 												address,
 												wif,
-												selectedAsset,
+												"DBC",
 												neo,
 												gas
 											)
