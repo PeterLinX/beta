@@ -38,7 +38,7 @@ export const getMarketPriceUSD = amount => {
 };
 
 const getRpxBalance = async (scriptHash,address) => {
-    api.nep5.getTokenBalance("http://seed1.neo.org:20332",scriptHash,address)
+    api.nep5.getTokenBalance("https://seed1.neo.org:20332",scriptHash,address)
     .then(response =>{
         let rpxBal = Number(response);
         return rpxBal;

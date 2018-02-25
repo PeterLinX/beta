@@ -90,11 +90,9 @@ class Assets extends Component {
 					<Link  to={ "/sendBTC" }>
 						<div className="col-5">
 							<span className="market-price">BTC {numeral(this.props.marketBTCPrice).format("$0,0.00")}</span>
-							<h3>{numeral(
-								Math.floor(this.props.btc * 10) / 10
-							).format("0,0.0000")} <span className="btc-price"> BTC</span></h3>
+							<h3>{this.props.btc} <span className="btc-price"> BTC</span></h3>
 							<hr className="dash-hr" />
-							<span className="market-price">{numeral(this.props.btc * this.props.marketBTCPrice).format("$0,0.0000")}USD</span>
+							<span className="market-price">{numeral(this.props.btc * this.props.marketBTCPrice).format("$0,0.00")}USD</span>
 						</div>
 					</Link>
 
