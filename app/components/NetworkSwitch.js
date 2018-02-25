@@ -22,7 +22,7 @@ import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import axios from "axios";
 
 let intervals = {};
-let rpxScriptHash , qlcScriptHash,dbcScriptHash,rhptScriptHash;
+let rpxScriptHash, qlcScriptHash, dbcScriptHash, rhptScriptHash;
 let netSelect;
 
 // https://bittrex.com/api/v1.1/public/getmarkethistory?market=BTC-NEO

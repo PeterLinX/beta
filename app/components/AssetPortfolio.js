@@ -46,7 +46,7 @@ class AssetPortolio extends Component {
 
 			<div>
 
-				<div className="row top-10 asset-portfolio center">
+				<div className="row top-10 dash-portfolio center">
 
 				<div className="clearboth" />
 				<div className="row" />

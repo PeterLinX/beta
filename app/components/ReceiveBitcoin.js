@@ -117,9 +117,7 @@ class ReceiveBitcoin extends Component {
                 View On Blockchain
 								</div>
 
-								<div
-									className="dash-icon-bar"
-								>
+								<div className="dash-icon-bar">
 									<div className="icon-border">
 										<span className="glyphicon glyphicon-save" />
 									</div>

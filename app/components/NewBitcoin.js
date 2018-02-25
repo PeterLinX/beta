@@ -15,8 +15,8 @@ var bitcoin = require('bitcoinjs-lib');
 
 // var blocktrail = require('blocktrail-sdk');
 
-var key = "5150cb37187737d3b20b02fe02585e181e79b26b";
-var secret = "20a05d922df92cdca8885287cee30c623146403d";
+var key = "c6294d6b9e829b485a6dc5842a44e2de5f8e5c57";
+var secret = "073a794fbd48c76ccdde0f9d8fa12c19de554487";
 
 const getBalanceLink = (net, addr) => {
 	let url;
@@ -39,7 +39,7 @@ class NewBitcoin extends Component {
 		super(props);
 		this.state={
 			pa: '',
-			pk: ''			
+			pk: ''
 		}
 
 		if(this.props.btcLoggedIn){
@@ -103,10 +103,9 @@ class NewBitcoin extends Component {
 		console.log(this.props.net);
 		return (
 			<div id="" className="">
-				<div className="dash-chart-panel">
-					<div className="">
+				<div className="dash-panel">
 
-						<div className="col-xs-11">
+						<div className="col-xs-12">
 							<img
 								src={bitcoinLogo}
 								alt=""
@@ -114,99 +113,66 @@ class NewBitcoin extends Component {
 								className="neo-logo logobounce"
 							/>
 							<h2>Create New Bitcoin Address</h2>
-						</div>
-						</div>
-						{/* <div className="col-xs-1">
-						<h4>
-						<div className="glyphicon glyphicon-print com-soon" /></h4>
-						</div>
-
-						<hr className="dash-hr-wide" />
-						<div className="clearboth" />
-
-						<div className="col-xs-12 ">
-						<h3 className="mnemonic">handle</h3>
-						<h3 className="mnemonic">guitar</h3>
-						<h3 className="mnemonic">rainbow</h3>
-						<h3 className="mnemonic">nerves</h3>
-						<h3 className="mnemonic">golf</h3>
-						<h3 className="mnemonic">remote</h3>
-						<h3 className="mnemonic">candle</h3>
-						<h3 className="mnemonic">planet</h3>
-						<h3 className="mnemonic">card</h3>
-						<h3 className="mnemonic">fridge</h3>
-						<h3 className="mnemonic">studio</h3>
-						<h3 className="mnemonic">panel</h3>
-
-						<div className="clearboth" />
-
 							</div>
-							<div className="clearboth" />
-							<br />
-							<hr className="dash-hr-wide" />
-
-							<div className="col-xs-8">
-							<h5>Please write down your unique 12-word mnemonic backup passphrase above. You may use it to access your Bitcoin (BTC) funds from other wallets.</h5>
+							<div className="col-xs-12 center">
+								<hr className="dash-hr-wide" />
 							</div>
-							<div className="col-xs-4 top-20">
-							<Link to={"/receiveBitcoin"}><div
-								className="grey-button"
-							>
-								<span className="glyphicon glyphicon-bitcoin marg-right-5"/>  Generate Address
-							</div>
+							<div className="col-xs-12">
+							<input
+								className="trans-form"
+								placeholder="Enter a Bitcoin (BTC) private key to acces your funds"
+							 	onChange={
+									(val)=>{
+										this.state.pk = val.target.value;
+									}
+								} />
+							<Link>
+								<div className="grey-button" onClick={()=>this.login(dispatch)} >Login</div>
 							</Link>
 							</div>
-						</div> */}
+							<div className="col-xs-12">
+							<h4 className="center">- Or -</h4>
+							<Link>
+							<div className="grey-button" onClick={this.getRandomAddress}>Generate new Bitcoin (BTC) address</div>
+							</Link>
+							</div>
 
-					<div className="clearboth" />
-				</div>
 
-				Login with bitcoin private key
-				<input
-					className="trans-form"
-					placeholder="Enter a Bitcoin private key"
-				 	onChange={
-						(val)=>{
-							this.state.pk = val.target.value;
-						}
-					} />
-				<Link>
-					<div className="grey-button" onClick={()=>this.login(dispatch)} >Login</div>
-				</Link>
-				or generate random address
-				<Link>
-					<div className="grey-button" onClick={this.getRandomAddress}>Generate random address</div>
-				</Link>
+							{
+								this.state.pk !== '' ? (
+									<div className="col-xs-12">
+									<h4>Private key</h4>
+									<input  className="form-control-exchange" value={this.state.pk} />
+									{/* {this.state.pk} */}
+									<br/>
+									</div>
+								): null
+							}
 
-				{
-					this.state.pk !== '' ? (
-						<div>
-						Private key<br/>
-						<input  style={{color: "#dddddd", backgroundColor : '#333333', width: 500, borderRadius: 6, fontSize: 16, padding: 4, margin: 4, }} value={this.state.pk} />
-						{/* {this.state.pk} */}
-						<br/><br/>
-						</div>
-					): null
-				}
+							{
+								this.state.pa !== '' ? (
+									<div className="col-xs-12">
+									<h4>Public address</h4>
+									<input className="form-control-exchange" value={this.state.pa} />
+									<br/>
+									</div>
+								): null
+							}
 
-				{
-					this.state.pa !== '' ? (
-						<div>
-						Public address<br/>
-						<input style={{color: "#dddddd", backgroundColor : '#333333', width: 500, borderRadius: 6, fontSize: 16, padding: 4, margin: 4, }} value={this.state.pa} />
-						<br/>
-						</div>
-					): null
-				}
 
-				<div className="clearboth" />
+
+						<div className="clearboth" />
+
+			<div className="clearboth" />
+
+			</div>
+
 				<div className="col-xs-12">
 					<p className="send-notice">
                     You should store your private key off-line in a safe dry place such as a safety deposit box or fire-proof safe. Saving your private key on your computer or mobile device is not reccomended.
 					</p>
 
 				</div>
-
 			</div>
 		);
 	}

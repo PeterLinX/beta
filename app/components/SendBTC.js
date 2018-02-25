@@ -91,7 +91,7 @@ const sendTransaction = (
 	if (validateForm(dispatch, neo_balance, gas_balance, asset) === true) {
 		dispatch(sendEvent(true, "Processing..."));
 
-		
+
 
 		log(net, "SEND", selfAddress, {
 			to: sendAddress.value,
@@ -226,7 +226,7 @@ class SendBTC extends Component {
 				<div id="send">
 
 					<div className="row dash-chart-panel">
-						<div className="col-xs-8">
+						<div className="col-xs-9">
 							<img
 								src={btcLogo}
 								alt=""
@@ -236,13 +236,8 @@ class SendBTC extends Component {
 							<h2>Send Bitcoin (BTC)</h2>
 						</div>
 
-						<div className="col-xs-4 center">
-						<Link to={ "/receiveBitcoin" }><div
-							className="grey-button"
-						>
-							<span className="glyphicon glyphicon-bitcoin marg-right-5"/>  View BTC Address
-						</div>
-						</Link>
+						<div className="col-xs-3 center">
+
 						</div>
 
 						<div className="col-xs-12 center">
@@ -252,7 +247,7 @@ class SendBTC extends Component {
 						<div className="clearboth" />
 
 						<div className="top-20">
-							<div className="col-xs-12">
+							<div className="col-xs-9">
 								<input
 									className={formClass}
 									id="center"
@@ -261,6 +256,15 @@ class SendBTC extends Component {
 										sendAddress = node;
 									}}
 								/>
+							</div>
+
+							<div className="col-xs-3">
+							<div id="sendAddress">
+							<Link to={ "/receiveBitcoin" }>
+								<button className="btc-button com-soon" >
+									<span className="glyphicon glyphicon-qrcode marg-right-5"/>  Receive
+								</button></Link>
+							</div>
 							</div>
 
 							<div className="col-xs-5  top-20">
