@@ -25,7 +25,7 @@ const saveKey = async (dispatch, encWifValue, history) => {
     dispatch(sendEvent(true, "Saved key as " + key_name.value));
     await storage.set("keys", data);
     await setTimeout(() => dispatch(clearTransactionEvent()), 5000);
-    setTimeout(() => history.push("/loginLocalStorage"), 5000);
+    setTimeout(() => history.push("/"), 5000);
   });
 };
 
@@ -98,9 +98,7 @@ class DisplayWalletKeys extends Component {
               <NeoLogo width={115} />
             </div>
             <div className="col-xs-12">
-              <p className="welcome">
-                Congratulations! NEO Address Encrypted
-              </p>
+              <p className="welcome">Congratulations! NEO Address Encrypted</p>
               {/* qr */}
               <div className="row">
                 <div className="col-xs-4">
