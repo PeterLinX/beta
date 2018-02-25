@@ -121,14 +121,12 @@ class AssetPortolio extends Component {
 
 
 						<Link to={"/newBitcoin"} >
-							<div className="col-5">
-								<span className="market-price">BTC {numeral(this.props.marketBTCPrice).format("$0,0.00")}</span>
-								<h3>{numeral(
-									Math.floor(this.props.btc * 100000) / 100000
-								).format("0,0.0000")} <span className="btc-price"> BTC</span></h3>
-								<hr className="dash-hr" />
-								<span className="market-price">$0.00 USD</span>
-							</div>
+						<div className="col-5">
+							<span className="market-price">BTC {numeral(this.props.marketBTCPrice).format("$0,0.00")}</span>
+							<h3>{this.props.btc} <span className="btc-price"> BTC</span></h3>
+							<hr className="dash-hr" />
+							<span className="market-price">{numeral(this.props.btc * this.props.marketBTCPrice).format("$0,0.00")}USD</span>
+						</div>
 						</Link>
 
 						<Link to="/tokens">
@@ -197,6 +195,7 @@ const mapStateToProps = state => ({
 	dbc: state.wallet.Dbc,
 	qlc: state.wallet.Qlc,
 	Rhpt: state.wallet.Rhpt,
+	btc: state.wallet.Btc,
 	address: state.account.address,
 	net: state.metadata.network,
 	price: state.wallet.price,
