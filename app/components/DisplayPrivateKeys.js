@@ -24,7 +24,7 @@ const saveKey = async (dispatch, encWifValue, history) => {
     dispatch(sendEvent(true, "Saved key as " + key_name.value));
     await storage.set("keys", data);
     await setTimeout(() => dispatch(clearTransactionEvent()), 5000);
-    setTimeout(() => history.push("/loginLocalStorage"), 5000);
+    setTimeout(() => history.push("/"), 5000);
   });
 };
 
@@ -92,7 +92,6 @@ class DisplayWalletKeys extends Component {
 
   render = () => (
     <div>
-
       <div className="displayWalletKeys">
         <div className="row send-neo-wide">
           <div className="row ">
@@ -115,7 +114,10 @@ class DisplayWalletKeys extends Component {
                   <div className="keyList">
                     {/* public address */}
                     <div className="keyListItem">
-                      <span className="wallet-logo"><NeoLogo width="24" /></span> <h3>New NEO Address Created</h3>
+                      <span className="wallet-logo">
+                        <NeoLogo width="24" />
+                      </span>{" "}
+                      <h3>New NEO Address Created</h3>
                       <input
                         type="text"
                         onClick={() => clipboard.writeText(this.props.address)}
@@ -215,7 +217,9 @@ class DisplayWalletKeys extends Component {
               <div className="keyList">
                 {/* Your Encrypted Private Key*/}
                 <div className="col-xs-8 top-20">
-                  <p className="key-label">Please make a backup of your NEO Private Key:</p>
+                  <p className="key-label">
+                    Please make a backup of your NEO Private Key:
+                  </p>
                   <input
                     type="text"
                     onClick={() => clipboard.writeText(this.props.wif)}
@@ -230,7 +234,7 @@ class DisplayWalletKeys extends Component {
                 </div>
 
                 <div className="col-xs-4 top-20">
-                <p className="key-label">Name Your Address:</p>
+                  <p className="key-label">Name Your Address:</p>
                   <input
                     type="text"
                     className="form-control saveKey font-plus"
@@ -242,7 +246,10 @@ class DisplayWalletKeys extends Component {
 
                 {/* Your Encrypted Private Key*/}
                 <div className="col-xs-8">
-                  <p className="key-label">Please make a backup of your Encrypted Private Key and Password:</p>
+                  <p className="key-label">
+                    Please make a backup of your Encrypted Private Key and
+                    Password:
+                  </p>
                   <input
                     type="text"
                     onClick={() =>
@@ -322,14 +329,12 @@ class DisplayWalletKeys extends Component {
           </div>
         </Link>
 
-          <div className="dash-icon-bar">
-            <div className="icon-border">
-              <span className="glyphicon glyphicon-save" />
-            </div>
-            Download Recovery File
+        <div className="dash-icon-bar">
+          <div className="icon-border">
+            <span className="glyphicon glyphicon-save" />
           </div>
-
-
+          Download Recovery File
+        </div>
       </div>
     </div>
   );
