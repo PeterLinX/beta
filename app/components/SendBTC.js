@@ -259,12 +259,12 @@ class SendBTC extends Component {
 							</div>
 
 							<div className="col-xs-3">
-							<div id="sendAddress">
+
 							<Link to={ "/receiveBitcoin" }>
 								<button className="btc-button com-soon" >
 									<span className="glyphicon glyphicon-qrcode marg-right-5"/>  Receive
 								</button></Link>
-							</div>
+							
 							</div>
 
 							<div className="col-xs-5  top-20">

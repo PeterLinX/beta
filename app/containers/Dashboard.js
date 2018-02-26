@@ -15,6 +15,11 @@ import Support from "../components/Support";
 import Tokens from "../components/Tokens";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
+import { togglePane } from "../modules/dashboard";
+import { version } from "../../package.json";
+import { log } from "../util/Logs";
+import { Accordion, AccordionItem } from "react-sanfona";
+
 import Logout from "../components/Logout";
 import Send from "../components/Send";
 import SendRPX from "../components/SendRPX";
@@ -23,9 +28,6 @@ import SendQLC from "../components/SendQLC";
 import SendHP from "../components/SendHP";
 import SendBTC from "../components/SendBTC";
 import AssetPortfolio from "../components/AssetPortfolio";
-import { togglePane } from "../modules/dashboard";
-import { version } from "../../package.json";
-import { log } from "../util/Logs";
 import Dashlogo from "../components/Brand/Dashlogo";
 import ReactTooltip from "react-tooltip";
 import CountUp, { startAnimation } from "react-countup";
@@ -170,14 +172,45 @@ class Dashboard extends Component {
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/send"} activeClassName="active">
-                    <span className="glyphicon glyphicon-send" /> Send
+                <div className="margin-10">
+                <span className="glyphicon glyphicon-send float-left" /> <Accordion>
+                <AccordionItem title="Send" titleClassName="menu-accord-item">
+                  <ul className="menu-accord">
+                  <li className="menu-accord-li">
+                  <Link to={"/send"} >
+                     NEO/GAS
                   </Link>
+                  </li>
+                  <li className="menu-accord-li">
+                  <Link to={"/sendBTC"} >
+                     Bitcoin (BTC)
+                  </Link>
+                  </li>
+                  </ul>
+                </AccordionItem>
+                  </Accordion>
+                  </div>
                 </li>
                 <li>
+                <div className="margin-10">
+                <span className="glyphicon glyphicon-qrcode float-left" />
+                <Accordion>
+                <AccordionItem title="Receive" titleClassName="menu-accord-item">
+                  <ul className="menu-accord">
+                  <li className="menu-accord-li">
                   <Link to={"/receive"} activeClassName="active">
-                    <span className="glyphicon glyphicon-qrcode" /> Receive
+                     NEO/GAS/NEP5
                   </Link>
+                  </li>
+                  <li className="menu-accord-li">
+                  <Link to={"/receiveBitcoin"} activeClassName="active">
+                     Bitcoin (BTC)
+                  </Link>
+                  </li>
+                  </ul>
+                </AccordionItem>
+                  </Accordion>
+                </div>
                 </li>
                 <li>
                   <Link to={"/transactionHistory"} activeClassName="active">

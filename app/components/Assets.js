@@ -47,6 +47,16 @@ class Assets extends Component {
 
 				<div className="row top-10 dash-portfolio center">
 
+				<Link  to={ "/sendBTC" }>
+					<div className="col-5">
+						<span className="market-price">BTC {numeral(this.props.marketBTCPrice).format("$0,0.00")}</span>
+						<h3>{this.props.btc} <span className="btc-price"> BTC</span></h3>
+						<hr className="dash-hr" />
+						<span className="market-price">{numeral(this.props.btc * this.props.marketBTCPrice).format("$0,0.00")} USD</span>
+					</div>
+				</Link>
+
+
 					<Link to="/sendRPX">
 						<div className="col-5">
 							<span className="market-price">RPX {numeral(this.props.marketRPXPrice).format("$0,0.00")}</span>
@@ -57,6 +67,8 @@ class Assets extends Component {
 							<span className="market-price">$0.00 USD</span>
 						</div>
 					</Link>
+
+
 					<Link to="/sendDBC">
 						<div className="col-5">
 							<span className="market-price">DBC {numeral(this.props.marketDBCPrice).format("$0,0.00")}</span>
@@ -67,6 +79,8 @@ class Assets extends Component {
 							<span className="market-price">$0.00 USD</span>
 						</div>
 					</Link>
+
+
 					<Link to="/sendQLC">
 						<div className="col-5">
 							<span className="market-price">QLC {numeral(this.props.marketQLCPrice).format("$0,0.00")}</span>
@@ -77,6 +91,8 @@ class Assets extends Component {
 							<span className="market-price">$0.00 USD</span>
 						</div>
 					</Link>
+
+					
 					<Link to="/sendHP">
 						<div className="col-5">
 							<span className="market-price">Priceless</span>
@@ -87,14 +103,7 @@ class Assets extends Component {
 							<span className="market-price">$0.00 USD</span>
 						</div>
 					</Link>
-					<Link  to={ "/sendBTC" }>
-						<div className="col-5">
-							<span className="market-price">BTC {numeral(this.props.marketBTCPrice).format("$0,0.00")}</span>
-							<h3>{this.props.btc} <span className="btc-price"> BTC</span></h3>
-							<hr className="dash-hr" />
-							<span className="market-price">{numeral(this.props.btc * this.props.marketBTCPrice).format("$0,0.00")} USD</span>
-						</div>
-					</Link>
+
 
 				</div>
 			</div>

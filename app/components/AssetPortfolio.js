@@ -8,6 +8,8 @@ import { setMarketPrice, resetPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 
+
+import neoLogo from "../img/neo.png";
 import btcLogo from "../img/btc-logo.png";
 import ltcLogo from "../img/litecoin.png";
 import rpxLogo from "../img/rpx.png";
@@ -51,16 +53,26 @@ class AssetPortolio extends Component {
 				<div className="clearboth" />
 				<div className="row" />
 						<Link to="/send">
-							<div className="col-5">
+							<div className="col-3">
+							<div className="col-xs-4">
+							<img
+								src={neoLogo}
+								alt=""
+								width="38"
+								className="neo-logo fadeInDown"
+							/>
+							</div>
+							<div className="col-xs-8">
 								<span className="market-price">NEO {numeral(this.props.marketNEOPrice).format("$0,0.00")}</span>
 								<h3>{numeral(this.props.neo).format("0,0")} <span className="neo-price"> NEO</span></h3>
 								<hr className="dash-hr" />
 								<span className="market-price">{numeral(this.props.price).format("$0,0.00")} USD</span>
 							</div>
+							</div>
 						</Link>
 
 						<Link to="/send">
-							<div className="col-5">
+							<div className="col-3">
 								<span className="market-price">GAS {numeral(this.props.marketGASPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.gas * 100000) / 100000
@@ -75,7 +87,7 @@ class AssetPortolio extends Component {
 						</Link>
 
 						<Link to="/sendRPX">
-							<div className="col-5">
+							<div className="col-3">
 								<span className="market-price">RPX {numeral(this.props.marketRPXPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.rpx * 100000) / 100000
@@ -87,7 +99,7 @@ class AssetPortolio extends Component {
 
 
 						<Link to="/sendDBC">
-							<div className="col-5">
+							<div className="col-3">
 								<span className="market-price">DBC {numeral(this.props.marketDBCPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.bdc * 100000) / 100000
@@ -98,7 +110,7 @@ class AssetPortolio extends Component {
 						</Link>
 
 						<Link to="/sendQLC">
-							<div className="col-5">
+							<div className="col-3">
 								<span className="market-price">QLC {numeral(this.props.marketQLCPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.qlc * 100000) / 100000
@@ -109,7 +121,7 @@ class AssetPortolio extends Component {
 						</Link>
 
 						<Link to="/sendHP">
-							<div className="col-5">
+							<div className="col-3">
 								<span className="market-price">Priceless</span>
 								<h3>{numeral(
 									Math.floor(this.props.rhpt * 10) / 10
@@ -121,7 +133,7 @@ class AssetPortolio extends Component {
 
 
 						<Link to={"/newBitcoin"} >
-						<div className="col-5">
+						<div className="col-3">
 							<span className="market-price">BTC {numeral(this.props.marketBTCPrice).format("$0,0.00")}</span>
 							<h3>{this.props.btc} <span className="btc-price"> BTC</span></h3>
 							<hr className="dash-hr" />
@@ -130,7 +142,7 @@ class AssetPortolio extends Component {
 						</Link>
 
 						<Link to="/tokens">
-							<div className="col-5">
+							<div className="col-3">
 								<span className="market-price">LTC {numeral(this.props.marketLTCPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.ltc * 100000) / 100000
@@ -141,7 +153,7 @@ class AssetPortolio extends Component {
 						</Link>
 
 						<Link to="/tokens">
-							<div className="col-5">
+							<div className="col-3">
 								<span className="market-price">ETH {numeral(this.props.marketETHPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.eth * 100000) / 100000
@@ -152,7 +164,7 @@ class AssetPortolio extends Component {
 						</Link>
 
 						<Link to="/tokens">
-							<div className="col-5">
+							<div className="col-3">
 								<span className="market-price">LRC {numeral(this.props.marketLRCPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.eth * 100000) / 100000
@@ -163,7 +175,7 @@ class AssetPortolio extends Component {
 						</Link>
 
 						<Link to="/tokens">
-							<div className="col-5">
+							<div className="col-3">
 								<span className="market-price">XMR {numeral(this.props.marketXMRPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.eth * 100000) / 100000
@@ -175,7 +187,7 @@ class AssetPortolio extends Component {
 
 
 						<Link to="/tokens">
-							<div className="col-5 dotted">
+							<div className="col-3 dotted">
 								<h2 className="center">
 									<span className="glyphicon glyphicon-plus-sign" /></h2>
 							</div>
