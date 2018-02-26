@@ -268,10 +268,10 @@ class AssetPortolio extends Component {
 							<div className="port-price-col">
 								<span className="market-price">Red Pulse {numeral(this.props.marketRPXPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
-									Math.floor(this.props.rpx * 100000) / 100000
+									Math.floor(this.props.rpxBal * 100000) / 100000
 								).format("0,0.0000")} <span className="rpx-price"> RPX</span></h3>
 								<hr className="dash-hr" />
-								<span className="market-price">{numeral(this.props.rpx * this.props.marketRPXPrice).format("$0,0.00")} USD</span>
+								<span className="market-price">{numeral(this.props.rpxBal * this.props.marketRPXPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
 						</Link>
@@ -443,7 +443,7 @@ class AssetPortolio extends Component {
 const mapStateToProps = state => ({
 	neo: state.wallet.Neo,
 	gas: state.wallet.Gas,
-	rpx: state.wallet.Rpx,
+	rpx: state.wallet.rbxBal,
 	dbc: state.wallet.Dbc,
 	qlc: state.wallet.Qlc,
 	Rhpt: state.wallet.Rhpt,
