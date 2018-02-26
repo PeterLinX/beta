@@ -27,6 +27,7 @@ import SendDBC from "../components/SendDBC";
 import SendQLC from "../components/SendQLC";
 import SendHP from "../components/SendHP";
 import SendBTC from "../components/SendBTC";
+import SendLTC from "../components/SendLTC";
 import AssetPortfolio from "../components/AssetPortfolio";
 import Dashlogo from "../components/Brand/Dashlogo";
 import ReactTooltip from "react-tooltip";
@@ -34,6 +35,8 @@ import CountUp, { startAnimation } from "react-countup";
 import TopBar from "../components/TopBar";
 import NewBitcoin from "../components/NewBitcoin";
 import ReceiveBitcoin from "../components/ReceiveBitcoin";
+import NewLitecoin from "../components/NewLitecoin";
+import ReceiveLitecoin from "../components/ReceiveLitecoin";
 
 const refreshBalance = (dispatch, net, address) => {
   dispatch(sendEvent(true, "Refreshing..."));
@@ -186,11 +189,17 @@ class Dashboard extends Component {
                      Bitcoin (BTC)
                   </Link>
                   </li>
+                  <li className="menu-accord-li">
+                  <Link to={"/sendLTC"} >
+                     Litecoin (LTC)
+                  </Link>
+                  </li>
                   </ul>
                 </AccordionItem>
                   </Accordion>
                   </div>
                 </li>
+
                 <li>
                 <div className="margin-10">
                 <span className="glyphicon glyphicon-qrcode float-left" />
@@ -207,16 +216,45 @@ class Dashboard extends Component {
                      Bitcoin (BTC)
                   </Link>
                   </li>
+                  <li className="menu-accord-li">
+                  <Link to={"/receiveLitecoin"} activeClassName="active">
+                     Litecoin (LTC)
+                  </Link>
+                  </li>
                   </ul>
                 </AccordionItem>
                   </Accordion>
                 </div>
                 </li>
+
+
                 <li>
+                <div className="margin-10">
+                <span className="glyphicon glyphicon-list-alt float-left" />
+                <Accordion>
+                <AccordionItem title="Transactions" titleClassName="menu-accord-item">
+                  <ul className="menu-accord">
+                  <li className="menu-accord-li">
                   <Link to={"/transactionHistory"} activeClassName="active">
-                    <span className="glyphicon glyphicon-list-alt" /> History
+                     NEO/GAS/NEP5
                   </Link>
+                  </li>
+                  <li className="menu-accord-li">
+                  <Link to={"/transactionHistoryBTC"} activeClassName="active">
+                     Bitcoin (BTC)
+                  </Link>
+                  </li>
+                  <li className="menu-accord-li">
+                  <Link to={"/transactionHistoryLTC"} activeClassName="active">
+                     Litecoin (LTC)
+                  </Link>
+                  </li>
+                  </ul>
+                </AccordionItem>
+                  </Accordion>
+                </div>
                 </li>
+                
                 <li>
                   <Link to={"/ledger"} activeClassName="active">
                     <span className="glyphicon glyphicon-th-large" /> Ledger

@@ -8,7 +8,7 @@ import Claim from "./Claim";
 import TopBar from "./TopBar";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
-import neoLogo from "../img/neo.png";
+import litecoinLogo from "../img/litecoin.png";
 
 // TODO: make this a user setting
 const getExplorerLink = (net, explorer, txid) => {
@@ -42,7 +42,7 @@ const refreshBalance = (dispatch, net, address) => {
   });
 };
 
-class TransactionHistory extends Component {
+class TransactionHistoryLTC extends Component {
   componentDidMount = () => {
     syncTransactionHistory(
       this.props.dispatch,
@@ -57,12 +57,12 @@ class TransactionHistory extends Component {
         <div className="row">
           <div className="col-xs-9">
           <img
-            src={neoLogo}
+            src={litecoinLogo}
             alt=""
             width="45"
             className="neo-logo fadeInDown"
           />
-            <h2>NEO/GAS/NEP Transaction History</h2>
+            <h2>Litecoin Transaction History</h2>
           </div>
           <div
             className="col-xs-3 center top-10 send-info"
@@ -127,6 +127,6 @@ const mapStateToProps = state => ({
   explorer: state.metadata.blockExplorer
 });
 
-TransactionHistory = connect(mapStateToProps)(TransactionHistory);
+TransactionHistoryLTC = connect(mapStateToProps)(TransactionHistoryLTC);
 
-export default TransactionHistory;
+export default TransactionHistoryLTC;

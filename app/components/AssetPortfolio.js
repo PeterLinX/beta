@@ -58,7 +58,7 @@ class AssetPortolio extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className="com-soon glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/send"><span className="com-soon glyphicon glyphicon-send "/></Link></h3>
+							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/send"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 							<div className="port-price-col">
 								<span className="market-price">NEO {numeral(this.props.marketNEOPrice).format("$0,0.00")}</span>
@@ -79,7 +79,7 @@ class AssetPortolio extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className="com-soon glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/send"><span className="com-soon glyphicon glyphicon-send "/></Link></h3>
+							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/send"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 							<div className="port-price-col">
 								<span className="market-price">GAS {numeral(this.props.marketGASPrice).format("$0,0.00")}</span>
@@ -107,7 +107,7 @@ class AssetPortolio extends Component {
 							className="port-logos"
 						/>
 						<hr className="dash-hr" />
-						<h3><Link to="/receiveBitcoin"><span className="com-soon glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendBTC"><span className="com-soon glyphicon glyphicon-send "/></Link></h3>
+						<h3><Link to="/receiveBitcoin"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendBTC"><span className=" glyphicon glyphicon-send "/></Link></h3>
 						</div>
 
 						<div className="port-price-col">
@@ -131,7 +131,7 @@ class AssetPortolio extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className="com-soon glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/tokens"><span className="com-soon glyphicon glyphicon-send "/></Link></h3>
+							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/tokens"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
 							<div className="port-price-col">
@@ -158,7 +158,7 @@ class AssetPortolio extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className="com-soon glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendDBC"><span className="com-soon glyphicon glyphicon-send "/></Link></h3>
+							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendDBC"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
 							<div className="port-price-col">
@@ -184,7 +184,7 @@ class AssetPortolio extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className="com-soon glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendHP"><span className="com-soon glyphicon glyphicon-send "/></Link></h3>
+							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendHP"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
 							<div className="port-price-col">
@@ -210,7 +210,7 @@ class AssetPortolio extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className="com-soon glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/tokens"><span className="com-soon glyphicon glyphicon-send "/></Link></h3>
+							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/tokens"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
 							<div className="port-price-col">
@@ -236,7 +236,7 @@ class AssetPortolio extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className="com-soon glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendQLC"><span className="com-soon glyphicon glyphicon-send "/></Link></h3>
+							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendQLC"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
 							<div className="port-price-col">
@@ -262,7 +262,7 @@ class AssetPortolio extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className="com-soon glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendRPX"><span className="com-soon glyphicon glyphicon-send "/></Link></h3>
+							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendRPX"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
 							<div className="port-price-col">
@@ -288,7 +288,7 @@ class AssetPortolio extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className="com-soon glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendQLC"><span className="com-soon glyphicon glyphicon-send "/></Link></h3>
+							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendQLC"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
 							<div className="port-price-col">
@@ -314,7 +314,7 @@ class AssetPortolio extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className="com-soon glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendQLC"><span className="com-soon glyphicon glyphicon-send "/></Link></h3>
+							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendQLC"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
 							<div className="port-price-col">
@@ -343,7 +343,7 @@ class AssetPortolio extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className="com-soon glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/tokens"><span className="com-soon glyphicon glyphicon-send "/></Link></h3>
+							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/tokens"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
 							<div className="port-price-col">
@@ -358,7 +358,7 @@ class AssetPortolio extends Component {
 						</Link>
 
 
-						<Link to="/tokens">
+						<Link to="/SendLTC">
 							<div className="col-3">
 
 							<div className="port-logo-col">
@@ -369,7 +369,7 @@ class AssetPortolio extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><span className="com-soon glyphicon glyphicon-qrcode marg-right-5"/>   <span className="com-soon glyphicon glyphicon-send "/></h3>
+							<h3><Link to={"/receiveLitecoin"} ><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to={"/sendLTC"} ><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
 							<div className="port-price-col">
@@ -394,7 +394,7 @@ class AssetPortolio extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><span className="com-soon glyphicon glyphicon-qrcode marg-right-5"/>   <span className="com-soon glyphicon glyphicon-send "/></h3>
+							<h3><span className=" glyphicon glyphicon-qrcode marg-right-5"/>   <span className=" glyphicon glyphicon-send "/></h3>
 							</div>
 
 							<div className="port-price-col">
@@ -419,7 +419,7 @@ class AssetPortolio extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><span className="com-soon glyphicon glyphicon-qrcode marg-right-5"/>   <span className="com-soon glyphicon glyphicon-send "/></h3>
+							<h3><span className=" glyphicon glyphicon-qrcode marg-right-5"/>   <span className=" glyphicon glyphicon-send "/></h3>
 							</div>
 
 							<div className="port-price-col">

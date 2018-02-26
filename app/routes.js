@@ -13,6 +13,8 @@ import LoginLedgerNanoS from "./components/LoginLedgerNanoS";
 import TransactionLedger from "./components/TransactionLedger";
 import LedgerNanoSend from "./components/LedgerNanoSend";
 import TransactionHistory from "./components/TransactionHistory";
+import TransactionHistoryBTC from "./components/TransactionHistoryBTC";
+import TransactionHistoryLTC from "./components/TransactionHistoryLTC";
 import DisplayWalletKeys from "./components/DisplayWalletKeys";
 import CreateWallet from "./components/CreateWallet";
 import EncryptKey from "./components/EncryptKey";
@@ -28,9 +30,12 @@ import SendDBC from "./components/SendDBC";
 import SendQLC from "./components/SendQLC";
 import SendHP from "./components/SendHP";
 import SendBTC from "./components/SendBTC";
+import SendLTC from "./components/SendLTC";
 import AssetPortfolio from "./components/AssetPortfolio";
 import NewBitcoin from "./components/NewBitcoin";
 import ReceiveBitcoin from "./components/ReceiveBitcoin";
+import NewLitecoin from "./components/NewLitecoin";
+import ReceiveLitecoin from "./components/ReceiveLitecoin";
 
 export default (
 	<Route path="/" component={App}>
@@ -40,6 +45,7 @@ export default (
 			<Route path="/sendDBC" component={SendDBC} />
 			<Route path="/sendQLC" component={SendQLC} />
 			<Route path="/sendBTC" component={SendBTC} />
+			<Route path="/sendLTC" component={SendLTC} />
 			<Route path="/sendHP" component={SendHP} />
 			<Route path="/receive" component={Receive} />
 			<Route path="/settings" component={Settings} />
@@ -49,16 +55,18 @@ export default (
 			<Route path="/exchangeAddress" component={ExchangeAddress} />
 			<Route path="/ledger" component={Ledger} />
 			<Route path="/transactionHistory" component={TransactionHistory} />
+			<Route path="/transactionHistoryBTC" component={TransactionHistoryBTC} />
+			<Route path="/transactionHistoryLTC" component={TransactionHistoryLTC} />
 			<Route path="/support" component={Support} />
 			<Route path="/tokens" component={Tokens} />
 			<Route path="/sale" component={Sale} />
 			<Route path="/assetPortfolio" component={AssetPortfolio} />
 			<Route path="/newBitcoin" component={NewBitcoin} />
 			<Route path="/receiveBitcoin" component={ReceiveBitcoin} />
+			<Route path="/newLitecoin" component={NewLitecoin} />
+			<Route path="/receiveLitecoin" component={ReceiveLitecoin} />
 		</Route>
 		<Route path="/create" component={CreateWallet} />
-
-
 		<Route path="/encryptKey" component={EncryptKey} />
 		<Route path="/DisplayWalletKeys" component={DisplayWalletKeys} />
 		<Route path="/LoginNep2" component={LoginNep2} />
@@ -68,7 +76,6 @@ export default (
 		<Route path="/TransactionLedger" component={TransactionLedger} />
 		<Route path="/LedgerNanoSend" component={LedgerNanoSend} />
 		<Route path="/LoginEncrypted" component={LoginNep2} />
-		{/* <Route path="/settings" component={Settings} /> */}
 		<Route path="/settingsw" component={Settings} />
 	</Route>
 );
