@@ -1300,7 +1300,7 @@ margin: 0px;
 
 
 .dash-portfolio h3 {
-  font-size: 16px;
+  font-size: 17px;
   margin: 6px 0px;
   font-weight: 200;
   word-wrap: break-word;
@@ -1567,4 +1567,15 @@ figure {
 a:focus, a:hover, a:active {
   color: #fff;
   text-decoration: none;
+}
+
+.port-logo-col {
+  width: 30%;
+    float: left;
+    padding-left: 10px;
+}
+
+.port-price-col {
+  width: 70%;
+  float: right;
 }
