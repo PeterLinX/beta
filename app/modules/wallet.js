@@ -13,16 +13,20 @@ export function setBalance(
 	price,
 	combined,
 	gasPrice,
-	marketNeoPrice,
 	marketGASPrice,
-	marketRPXPrice,
-	marketDBCPrice,
-	marketQLCPrice,
+	marketNEOPrice,
 	marketBTCPrice,
+	marketDBCPrice,
+	marketELAPrice,
 	marketETHPrice,
 	marketLTCPrice,
 	marketLRCPrice,
-	marketXMRPrice
+	marketQLCPrice,
+	marketRPXPrice,
+	marketTNCPrice,
+	marketTKYPrice,
+	marketXMRPrice,
+	marketZPTPrice
 ) {
 	return {
 		type: SET_BALANCE,
@@ -31,16 +35,19 @@ export function setBalance(
 		price: price,
 		combined: combined,
 		gasPrice: gasPrice,
-		marketNEOPrice: marketNeoPrice,
 		marketGASPrice: marketGASPrice,
-		marketRPXPrice: marketRPXPrice,
-		marketDBCPrice: marketDBCPrice,
-		marketQLCPrice: marketQLCPrice,
+		marketNEOPrice: marketNEOPrice,
 		marketBTCPrice: marketBTCPrice,
-		marketETHPrice: marketETHPrice,
+		marketDBCPrice: marketDBCPrice,
+		marketELAPrice: marketELAPrice,
 		marketLTCPrice: marketLTCPrice,
 		marketLRCPrice: marketLRCPrice,
-		marketXMRPrice: marketXMRPrice
+		marketQLCPrice: marketQLCPrice,
+		marketRPXPrice: marketRPXPrice,
+		marketTNCPrice: marketTNCPrice,
+		marketTKYPrice: marketTKYPrice,
+		marketXMRPrice: marketXMRPrice,
+		marketZPTPrice: marketZPTPrice
 	};
 }
 
@@ -102,16 +109,20 @@ export default (
 			price: action.price,
 			combined: action.combined,
 			gasPrice: action.gasPrice,
-			marketNEOPrice: action.marketNEOPrice,
 			marketGASPrice: action.marketGASPrice,
-			marketRPXPrice: action.marketRPXPrice,
-			marketQLCPrice: action.marketQLCPrice,
-			marketDBCPrice: action.marketDBCPrice,
+			marketNEOPrice: action.marketNEOPrice,
 			marketBTCPrice: action.marketBTCPrice,
+			marketDBCPrice: action.marketDBCPrice,
+			marketELAPrice: action.marketELAPrice,
 			marketETHPrice: action.marketETHPrice,
 			marketLTCPrice: action.marketLTCPrice,
 			marketLRCPrice: action.marketLRCPrice,
-			marketXMRPrice: action.marketXMRPrice
+			marketQLCPrice: action.marketQLCPrice,
+			marketRPXPrice: action.marketRPXPrice,
+			marketTNCPrice: action.marketTNCPrice,
+			marketTKYPrice: action.marketTKYPrice,
+			marketXMRPrice: action.marketXMRPrice,
+			marketZPTPrice: action.marketZPTPrice
 		};
 	case RESET_PRICE:
 		return { ...state, price: "--" };

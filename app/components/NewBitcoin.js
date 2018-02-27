@@ -6,8 +6,13 @@ import { shell } from "electron";
 import bitcoinLogo from "../img/btc-logo.png";
 import ReactTooltip from "react-tooltip";
 import { Link } from "react-router";
-import axios from 'axios';
-import { setBtcBalance } from '../modules/wallet'
+import axios from "axios";
+import { setBtcBalance } from "../modules/wallet"
+import { getWIFFromPrivateKey } from "neon-js";
+import { encrypt_wif, decrypt_wif } from "neon-js";
+import { getAccountsFromWIFKey } from "neon-js";
+
+let wif;
 
 import { btcLogIn, btcLoginRedirect } from '../modules/account';
 
@@ -112,36 +117,47 @@ class NewBitcoin extends Component {
 								width="38"
 								className="neo-logo logobounce"
 							/>
-							<h2>Create New Bitcoin Address</h2>
+							<h2>Login or Create New Bitcoin Address</h2>
 							</div>
-							<div className="col-xs-12 center">
-								<hr className="dash-hr-wide" />
-							</div>
-							<div className="col-xs-12">
+
+							<div className="col-xs-9">
 							<input
-								className="trans-form"
-								placeholder="Enter a Bitcoin (BTC) private key to acces your funds"
+								className="form-control-exchange"
+								placeholder="Enter a Bitcoin or NEO private key"
+								type="password"
 							 	onChange={
 									(val)=>{
 										this.state.pk = val.target.value;
 									}
 								} />
+							</div>
+
+							<div className="col-xs-3">
 							<Link>
-								<div className="grey-button" onClick={()=>this.login(dispatch)} >Login</div>
+								<div className="btc-button" onClick={()=>this.login(dispatch)} ><span className="glyphicon glyphicon-eye-close marg-right-5"/> Login</div>
 							</Link>
 							</div>
-							<div className="col-xs-12">
-							<h4 className="center">- Or -</h4>
+
+							<div className="col-xs-12 center top-10">
+								<hr className="dash-hr-wide" />
+							</div>
+
+							<div className="col-xs-9 top-10">
+							<p className="btc-notice">You can use an existing Bitcoin Private Key to load your BTC funds or use your NEO Priavte Key to unlock your Bitcoin (BTC) address. If you would like to generate a new random Bitcoin (BTC) address, click the "New" button.</p>
+							</div>
+
+							<div className="col-xs-3">
 							<Link>
-							<div className="grey-button" onClick={this.getRandomAddress}>Generate new Bitcoin (BTC) address</div>
+							<div className="btc-button top-20 com-soon" onClick={this.getRandomAddress}><span className="glyphicon glyphicon-bitcoin marg-right-5"/> New</div>
 							</Link>
 							</div>
 
 
 							{
 								this.state.pk !== '' ? (
-									<div className="col-xs-12">
-									<h4>Private key</h4>
+
+									<div className="col-xs-12 top-10">
+									<h4>New Bitcoin (BTC) Private Key</h4>
 									<input  className="form-control-exchange" value={this.state.pk} />
 									{/* {this.state.pk} */}
 									<br/>
@@ -152,7 +168,7 @@ class NewBitcoin extends Component {
 							{
 								this.state.pa !== '' ? (
 									<div className="col-xs-12">
-									<h4>Public address</h4>
+									<h4>New Bitcoin (BTC) Public Address</h4>
 									<input className="form-control-exchange" value={this.state.pa} />
 									<br/>
 									</div>
@@ -169,7 +185,7 @@ class NewBitcoin extends Component {
 
 				<div className="col-xs-12">
 					<p className="send-notice">
-                    You should store your private key off-line in a safe dry place such as a safety deposit box or fire-proof safe. Saving your private key on your computer or mobile device is not reccomended.
+                    You should store your private key off-line in a safe dry place such as a safety deposit box or fire-proof safe.
 					</p>
 
 				</div>
@@ -185,7 +201,7 @@ const mapStateToProps = state => ({
 	neo: state.wallet.Neo,
 	price: state.wallet.price,
 	gas: state.wallet.Gas,
-
+	wif: state.account.wif,
 	btcLoggedIn: state.account.btcLoggedIn,
 	btcPrivKey: state.account.btcPrivKey,
 	btcPubAddr: state.account.btcPubAddr,
