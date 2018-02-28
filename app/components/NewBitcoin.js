@@ -121,36 +121,6 @@ class NewBitcoin extends Component {
 							</div>
 
 							<div className="col-xs-9">
-<<<<<<< HEAD
-							<input
-								className="form-control-exchange"
-								placeholder="Enter a Bitcoin or NEO private key"
-								type="password"
-							 	onChange={
-									(val)=>{
-										this.state.pk = val.target.value;
-									}
-								} />
-							</div>
-
-							<div className="col-xs-3">
-							<Link>
-								<div className="btc-button" onClick={()=>this.login(dispatch)} ><span className="glyphicon glyphicon-eye-close marg-right-5"/> Login</div>
-							</Link>
-							</div>
-
-							<div className="col-xs-12 center top-10">
-								<hr className="dash-hr-wide" />
-							</div>
-
-							<div className="col-xs-9 top-10">
-							<p className="btc-notice">You can use an existing Bitcoin Private Key to load your BTC funds or use your NEO Priavte Key to unlock your Bitcoin (BTC) address. If you would like to generate a new random Bitcoin (BTC) address, click the "New" button.</p>
-							</div>
-
-							<div className="col-xs-3">
-							<Link>
-							<div className="btc-button top-20 com-soon" onClick={this.getRandomAddress}><span className="glyphicon glyphicon-bitcoin marg-right-5"/> New</div>
-=======
 							<p className="btc-notice">Click "View" to load your BTC address then click the "Login" button to access your BTC wallet in Morpheus. You can access your Bitcoin address in other wallets using your NEO Private Key.</p>
 							</div>
 
@@ -158,7 +128,6 @@ class NewBitcoin extends Component {
 
 							<Link>
 							<div className="btc-button top-20 com-soon" onClick={this.getRandomAddress}><span className="glyphicon glyphicon-bitcoin marg-right-5"/> View</div>
->>>>>>> a47b40218f50717fe960a1a6e2e83ff4ba413435
 							</Link>
 
 							</div>
@@ -167,28 +136,10 @@ class NewBitcoin extends Component {
 								<hr className="dash-hr-wide" />
 							</div>
 
-<<<<<<< HEAD
-							{
-								this.state.pk !== '' ? (
-
-									<div className="col-xs-12 top-10">
-									<h4>New Bitcoin (BTC) Private Key</h4>
-									<input  className="form-control-exchange" value={this.state.pk} />
-									{/* {this.state.pk} */}
-									<br/>
-									</div>
-								): null
-							}
-
-							{
-								this.state.pa !== '' ? (
-									<div className="col-xs-12">
-=======
 
 							{
 								this.state.pa !== '' ? (
 									<div className="col-xs-9">
->>>>>>> a47b40218f50717fe960a1a6e2e83ff4ba413435
 									<h4>New Bitcoin (BTC) Public Address</h4>
 									<input className="form-control-exchange" value={this.state.pa} />
 									<br/>
@@ -212,16 +163,6 @@ class NewBitcoin extends Component {
 
 			<div className="clearboth" />
 			</div>
-<<<<<<< HEAD
-
-				<div className="col-xs-12">
-					<p className="send-notice">
-                    You should store your private key off-line in a safe dry place such as a safety deposit box or fire-proof safe.
-					</p>
-
-				</div>
-=======
->>>>>>> a47b40218f50717fe960a1a6e2e83ff4ba413435
 			</div>
 		);
 	}
