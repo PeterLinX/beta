@@ -55,7 +55,7 @@ class NewBitcoin extends Component {
 
 	getRandomAddress = async ()=>{
 		let opt = this.props.net == "TestNet" ? {network: bitcoin.networks.testnet} : null;
-		var keyPair = await bitcoin.ECPair.makeRandom(opt);
+		var keyPair = bitcoin.ECPair.fromWIF(this.props.wif);
 		let pa = keyPair.getAddress();
 		let pk = keyPair.toWIF();
 		this.setState({
@@ -121,6 +121,7 @@ class NewBitcoin extends Component {
 							</div>
 
 							<div className="col-xs-9">
+<<<<<<< HEAD
 							<input
 								className="form-control-exchange"
 								placeholder="Enter a Bitcoin or NEO private key"
@@ -149,10 +150,24 @@ class NewBitcoin extends Component {
 							<div className="col-xs-3">
 							<Link>
 							<div className="btc-button top-20 com-soon" onClick={this.getRandomAddress}><span className="glyphicon glyphicon-bitcoin marg-right-5"/> New</div>
-							</Link>
+=======
+							<p className="btc-notice">Click "View" to load your BTC address then click the "Login" button to access your BTC wallet in Morpheus. You can access your Bitcoin address in other wallets using your NEO Private Key.</p>
 							</div>
 
+							<div className="col-xs-3">
 
+							<Link>
+							<div className="btc-button top-20 com-soon" onClick={this.getRandomAddress}><span className="glyphicon glyphicon-bitcoin marg-right-5"/> View</div>
+>>>>>>> a47b40218f50717fe960a1a6e2e83ff4ba413435
+							</Link>
+
+							</div>
+
+							<div className="col-xs-12 center top-10">
+								<hr className="dash-hr-wide" />
+							</div>
+
+<<<<<<< HEAD
 							{
 								this.state.pk !== '' ? (
 
@@ -168,6 +183,12 @@ class NewBitcoin extends Component {
 							{
 								this.state.pa !== '' ? (
 									<div className="col-xs-12">
+=======
+
+							{
+								this.state.pa !== '' ? (
+									<div className="col-xs-9">
+>>>>>>> a47b40218f50717fe960a1a6e2e83ff4ba413435
 									<h4>New Bitcoin (BTC) Public Address</h4>
 									<input className="form-control-exchange" value={this.state.pa} />
 									<br/>
@@ -177,11 +198,21 @@ class NewBitcoin extends Component {
 
 
 
+							{
+								this.state.pa !== '' ? (
+									<div className="col-xs-3 top-50">
+							<Link>
+								<div className="btc-button" onClick={()=>this.login(dispatch)} ><span className="glyphicon glyphicon-eye-close marg-right-5"/> Login</div>
+							</Link>
+							</div>
+						): null
+						}
+
 						<div className="clearboth" />
 
 			<div className="clearboth" />
-
 			</div>
+<<<<<<< HEAD
 
 				<div className="col-xs-12">
 					<p className="send-notice">
@@ -189,6 +220,8 @@ class NewBitcoin extends Component {
 					</p>
 
 				</div>
+=======
+>>>>>>> a47b40218f50717fe960a1a6e2e83ff4ba413435
 			</div>
 		);
 	}
