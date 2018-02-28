@@ -6,8 +6,13 @@ import { shell } from "electron";
 import bitcoinLogo from "../img/btc-logo.png";
 import ReactTooltip from "react-tooltip";
 import { Link } from "react-router";
-import axios from 'axios';
-import { setBtcBalance } from '../modules/wallet'
+import axios from "axios";
+import { setBtcBalance } from "../modules/wallet"
+import { getWIFFromPrivateKey } from "neon-js";
+import { encrypt_wif, decrypt_wif } from "neon-js";
+import { getAccountsFromWIFKey } from "neon-js";
+
+let wif;
 
 import { btcLogIn, btcLoginRedirect } from '../modules/account';
 
@@ -50,7 +55,7 @@ class NewBitcoin extends Component {
 
 	getRandomAddress = async ()=>{
 		let opt = this.props.net == "TestNet" ? {network: bitcoin.networks.testnet} : null;
-		var keyPair = await bitcoin.ECPair.makeRandom(opt);
+		var keyPair = bitcoin.ECPair.fromWIF(this.props.wif);
 		let pa = keyPair.getAddress();
 		let pk = keyPair.toWIF();
 		this.setState({
@@ -112,47 +117,30 @@ class NewBitcoin extends Component {
 								width="38"
 								className="neo-logo logobounce"
 							/>
-							<h2>Create New Bitcoin Address</h2>
+							<h2>Login or Create New Bitcoin Address</h2>
 							</div>
-							<div className="col-xs-12 center">
+
+							<div className="col-xs-9">
+							<p className="btc-notice">Click "View" to load your BTC address then click the "Login" button to access your BTC wallet in Morpheus. You can access your Bitcoin address in other wallets using your NEO Private Key.</p>
+							</div>
+
+							<div className="col-xs-3">
+
+							<Link>
+							<div className="btc-button top-20 com-soon" onClick={this.getRandomAddress}><span className="glyphicon glyphicon-bitcoin marg-right-5"/> View</div>
+							</Link>
+
+							</div>
+
+							<div className="col-xs-12 center top-10">
 								<hr className="dash-hr-wide" />
 							</div>
-							<div className="col-xs-12">
-							<input
-								className="trans-form"
-								placeholder="Enter a Bitcoin (BTC) private key to acces your funds"
-							 	onChange={
-									(val)=>{
-										this.state.pk = val.target.value;
-									}
-								} />
-							<Link>
-								<div className="grey-button" onClick={()=>this.login(dispatch)} >Login</div>
-							</Link>
-							</div>
-							<div className="col-xs-12">
-							<h4 className="center">- Or -</h4>
-							<Link>
-							<div className="grey-button" onClick={this.getRandomAddress}>Generate new Bitcoin (BTC) address</div>
-							</Link>
-							</div>
 
-
-							{
-								this.state.pk !== '' ? (
-									<div className="col-xs-12">
-									<h4>Private key</h4>
-									<input  className="form-control-exchange" value={this.state.pk} />
-									{/* {this.state.pk} */}
-									<br/>
-									</div>
-								): null
-							}
 
 							{
 								this.state.pa !== '' ? (
-									<div className="col-xs-12">
-									<h4>Public address</h4>
+									<div className="col-xs-9">
+									<h4>New Bitcoin (BTC) Public Address</h4>
 									<input className="form-control-exchange" value={this.state.pa} />
 									<br/>
 									</div>
@@ -161,18 +149,20 @@ class NewBitcoin extends Component {
 
 
 
+							{
+								this.state.pa !== '' ? (
+									<div className="col-xs-3 top-50">
+							<Link>
+								<div className="btc-button" onClick={()=>this.login(dispatch)} ><span className="glyphicon glyphicon-eye-close marg-right-5"/> Login</div>
+							</Link>
+							</div>
+						): null
+						}
+
 						<div className="clearboth" />
 
 			<div className="clearboth" />
-
 			</div>
-
-				<div className="col-xs-12">
-					<p className="send-notice">
-                    You should store your private key off-line in a safe dry place such as a safety deposit box or fire-proof safe. Saving your private key on your computer or mobile device is not reccomended.
-					</p>
-
-				</div>
 			</div>
 		);
 	}
@@ -185,7 +175,7 @@ const mapStateToProps = state => ({
 	neo: state.wallet.Neo,
 	price: state.wallet.price,
 	gas: state.wallet.Gas,
-
+	wif: state.account.wif,
 	btcLoggedIn: state.account.btcLoggedIn,
 	btcPrivKey: state.account.btcPrivKey,
 	btcPubAddr: state.account.btcPubAddr,
