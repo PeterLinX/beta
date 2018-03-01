@@ -44,6 +44,7 @@ const getRpxBalance = async (net,address) => {
     //Neon.create.balance({net: net, address: address});
     const balance = new wallet.Balance({net: net, address: address});
     if (balance.tokens["RPX"] == undefined) {
+        console.log("init\n")
         balance.addToken("RPX",0)
     }
     console.log(JSON.stringify(balance.tokens["RPX"]));
