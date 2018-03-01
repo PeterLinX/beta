@@ -6,7 +6,7 @@ import Copy from "react-icons/lib/md/content-copy";
 import { clipboard } from "electron";
 import Claim from "./Claim";
 import TopBar from "./TopBar";
-import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
+import { initiateLtcGetBalance, intervals } from "../components/NetworkSwitch";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import litecoinLogo from "../img/litecoin.png";
 
@@ -36,7 +36,7 @@ const openExplorer = srcLink => {
 
 const refreshBalance = (dispatch, net, address) => {
   dispatch(sendEvent(true, "Refreshing..."));
-  initiateGetBalance(dispatch, net, address).then(response => {
+    initiateLtcGetBalance(dispatch, net, address).then(response => {
     dispatch(sendEvent(true, "Received latest blockchain information."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
   });
@@ -47,7 +47,7 @@ class TransactionHistoryLTC extends Component {
     syncTransactionHistory(
       this.props.dispatch,
       this.props.net,
-      this.props.address
+      this.props.ltc_address
     );
   };
 
@@ -70,7 +70,7 @@ class TransactionHistoryLTC extends Component {
               refreshBalance(
                 this.props.dispatch,
                 this.props.net,
-                this.props.address
+                this.props.ltc_address
               )
             }
           >
@@ -81,7 +81,7 @@ class TransactionHistoryLTC extends Component {
             <hr className="dash-hr-wide" />
           </div>
           <ul id="transactionList">
-            {this.props.transactions.map(t => {
+            {this.props.ltc_transactions.map(t => {
               const formatGas = gas =>
                 Math.floor(parseFloat(gas) * 10000) / 10000;
               let formatAmount =
@@ -119,6 +119,8 @@ class TransactionHistoryLTC extends Component {
 const mapStateToProps = state => ({
   blockHeight: state.metadata.blockHeight,
   address: state.account.address,
+  ltc_address: state.account.ltcPubAddr,
+  ltc_transactions: state.wallet.ltc_transactions,
   net: state.metadata.network,
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,

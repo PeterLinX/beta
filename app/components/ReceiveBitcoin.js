@@ -7,15 +7,20 @@ import bitcoinLogo from "../img/btc-logo.png";
 import ReactTooltip from "react-tooltip";
 import { Link } from "react-router";
 import Assets from "./Assets";
+import axios from "axios";
+import numeral from "numeral";
 
 import { btcLoginRedirect } from "../modules/account";
+import { setMarketPrice, resetPrice } from "../modules/wallet";
+import { sendEvent, clearTransactionEvent } from "../modules/transactions";
+import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 
 const getLink = (net, address) => {
 	let base;
 	if (net === "MainNet") {
-		base = "https://neotracker.io/address/";
+		base = "https://live.blockcypher.com/btc/address/";
 	} else {
-		base = "https://testnet.neotracker.io/address/";
+		base = "https://live.blockcypher.com/btc/address/";
 	}
 	return base + address;
 };
@@ -39,10 +44,9 @@ class ReceiveBitcoin extends Component {
 		console.log(this.props.net);
 		return (
 			<div id="" className="">
-			<Assets />
-				<div className="dash-chart-panel">
+				<div className="dash-panel">
 					<div className="">
-						<div className="col-xs-11">
+						<div className="col-xs-9">
 							<img
 								src={bitcoinLogo}
 								alt=""
@@ -51,7 +55,11 @@ class ReceiveBitcoin extends Component {
 							/>
 							<h2>Receive Bitcoin (BTC)</h2>
 						</div>
-						<div className="col-xs-1" />
+						<div className="col-xs-3 center">
+						<div className="send-panel-price">{numeral(this.props.btc).format("0,0.0000000")} <span className="btc-price"> BTC</span></div>
+
+						<span className="market-price">{numeral(this.props.btc * this.props.marketBTCPrice).format("$0,0.00")} USD</span>
+						</div>
 						<hr className="dash-hr-wide" />
 						<div className="clearboth" />
 						<div className="col-xs-4 top-20">
@@ -153,10 +161,12 @@ const mapStateToProps = state => ({
 	neo: state.wallet.Neo,
 	price: state.wallet.price,
 	gas: state.wallet.Gas,
-
+	btc: state.wallet.Btc,
+	marketBTCPrice: state.wallet.marketBTCPrice,
 	btcLoggedIn: state.account.btcLoggedIn,
 	btcPrivKey: state.account.btcPrivKey,
 	btcPubAddr: state.account.btcPubAddr,
+	btcLoginRedirect: state.account.btcLoginRedirect
 });
 
 ReceiveBitcoin = connect(mapStateToProps)(ReceiveBitcoin);

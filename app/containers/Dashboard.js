@@ -86,7 +86,7 @@ class Dashboard extends Component {
     gasPrice = gasPrice.data[0].price_usd;
     btcPrice = btcPrice.data[0].price_usd;
 
-    let value = neoPrice * neo + gasPrice * gas + btcPrice * btc;
+    let value = neoPrice * neo + gasPrice * gas + marketBTCPrice * btc;
     let combinedPrice = Math.round(value * 100) / 100;
     this.setState({ combinedPrice: combinedPrice });
   };
@@ -254,7 +254,7 @@ class Dashboard extends Component {
                   </Accordion>
                 </div>
                 </li>
-                
+
                 <li>
                   <Link to={"/ledger"} activeClassName="active">
                     <span className="glyphicon glyphicon-th-large" /> Ledger
@@ -295,9 +295,10 @@ const mapStateToProps = state => ({
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,
   btc: state.wallet.Btc,
-	btcLoggedIn: state.account.btcLoggedIn,
+  btcLoggedIn: state.account.btcLoggedIn,
 	btcPrivKey: state.account.btcPrivKey,
 	btcPubAddr: state.account.btcPubAddr,
+	btcLoginRedirect: state.account.btcLoginRedirect,
   price: state.wallet.price,
   combined: state.wallet.combined
 });

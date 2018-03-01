@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import numeral from "numeral";
-import Claim from "./Claim.js";
 import { Link } from "react-router";
 
 import { setMarketPrice, resetPrice } from "../modules/wallet";
@@ -34,9 +33,9 @@ class Assets extends Component {
 		super(props);
 		this.state = {
 			gasPrice: 0,
-			rpxPrice: 0,
-			qlcPrice: 0,
-			dbcPrice: 0
+			rpx: 0,
+			qlc: 0,
+			dbc: 0
 		};
 	}
 

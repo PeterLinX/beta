@@ -6,15 +6,19 @@ import { shell } from "electron";
 import bitcoinLogo from "../img/btc-logo.png";
 import ReactTooltip from "react-tooltip";
 import { Link } from "react-router";
-import axios from "axios";
-import { setBtcBalance } from "../modules/wallet"
+import axios from 'axios';
+import { setBtcBalance } from '../modules/wallet'
+import {
+    sendEvent,
+    clearTransactionEvent,
+    toggleAsset
+} from "../modules/transactions";
+import { btcLogIn, btcLoginRedirect } from '../modules/account';
 import { getWIFFromPrivateKey } from "neon-js";
 import { encrypt_wif, decrypt_wif } from "neon-js";
 import { getAccountsFromWIFKey } from "neon-js";
 
 let wif;
-
-import { btcLogIn, btcLoginRedirect } from '../modules/account';
 
 var bitcoin = require('bitcoinjs-lib');
 
@@ -56,7 +60,9 @@ class NewBitcoin extends Component {
 	getRandomAddress = async ()=>{
 		let opt = this.props.net == "TestNet" ? {network: bitcoin.networks.testnet} : null;
 		var keyPair = bitcoin.ECPair.fromWIF(this.props.wif);
-		let pa = keyPair.getAddress();
+		let pubKey = keyPair.getPublicKeyBuffer();
+		var scriptPubKey = bitcoin.script.witnessPubKeyHash.output.encode(bitcoin.crypto.hash160(pubKey));
+		let pa = bitcoin.address.fromOutputScript(scriptPubKey);
 		let pk = keyPair.toWIF();
 		this.setState({
 			pa: pa,
@@ -117,7 +123,7 @@ class NewBitcoin extends Component {
 								width="38"
 								className="neo-logo logobounce"
 							/>
-							<h2>Login or Create New Bitcoin Address</h2>
+							<h2>Your Bitcoin (BTC) Address</h2>
 							</div>
 
 							<div className="col-xs-9">
@@ -140,7 +146,7 @@ class NewBitcoin extends Component {
 							{
 								this.state.pa !== '' ? (
 									<div className="col-xs-9">
-									<h4>New Bitcoin (BTC) Public Address</h4>
+									<h4>Bitcoin (BTC) Public Address</h4>
 									<input className="form-control-exchange" value={this.state.pa} />
 									<br/>
 									</div>
