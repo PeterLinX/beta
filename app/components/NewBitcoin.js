@@ -79,7 +79,6 @@ class NewBitcoin extends Component {
 
 		let keyPair = await bitcoin.ECPair.fromWIF(pk, this.props.net == "TestNet" ? bitcoin.networks.testnet : null);
 		let pa = keyPair.getAddress();
-
 		if(pa != null){
 			dispatch(btcLogIn(pa, pk));
 

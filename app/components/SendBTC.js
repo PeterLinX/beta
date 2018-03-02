@@ -4,11 +4,11 @@ import { Link } from "react-router";
 import { doSendAsset, verifyAddress } from "neon-js";
 import Modal from "react-bootstrap-modal";
 import axios from "axios";
+import numeral from "numeral";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
 import btcLogo from "../img/btc-logo.png";
-import Assets from "./Assets";
 import { clipboard } from "electron";
 import { togglePane } from "../modules/dashboard";
 import {
@@ -16,7 +16,9 @@ import {
 	clearTransactionEvent,
 	toggleAsset
 } from "../modules/transactions";
-import { btcLoginRedirect } from '../modules/account';
+import { btcLoginRedirect } from "../modules/account";
+import { setMarketPrice, resetPrice } from "../modules/wallet";
+import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 
 var bitcoin = require("bitcoinjs-lib");
 var WAValidator = require("wallet-address-validator");
@@ -24,7 +26,6 @@ var bigi = require("bigi");
 var buffer = require("buffer");
 var bcypher = require("blockcypher");
 var CoinKey = require("coinkey")
-
 
 //var sleep = require("sleep");
 //var regtestUtils = require("../modules/_regtest");
@@ -99,84 +100,6 @@ function sleep(milliseconds) {
 	}
 }
 
-// function logAddr(addr) {
-//     dest = addr;
-//     log("Generated new address " + dest.address)
-// }
-//
-// function newTransaction(net) {
-//     var newtx = {
-//         "inputs": [{"addresses": [source.address]}],
-//         "outputs": [{"addresses": [dest.address], "value": 25000}]
-//     }
-//
-//     let rootUrl;
-//     if (net === "MainNet"){
-//         rootUrl = "https://api.blockcypher.com/v1/btc/main";
-// 	} else {
-// 		rootUrl = "https://api.blockcypher.com/v1/btc/test3";
-// 	}
-//     return $.post(rootUrl+"/txs/new", JSON.stringify(newtx));
-// }
-//
-// function signAndSend(newtx) {
-//     if (checkError(newtx)) return;
-//
-//     newtx.pubkeys     = [];
-//     newtx.signatures  = newtx.tosign.map(function(tosign) {
-//         newtx.pubkeys.push(source.public);
-//         return key.sign(new buffer.Buffer(tosign, "hex")).toDER().toString("hex");
-//     });
-//
-//     let rootUrl;
-//     if (net === "MainNet"){
-//         rootUrl = "https://api.blockcypher.com/v1/btc/main";
-//     } else {
-//         rootUrl = "https://api.blockcypher.com/v1/btc/test3";
-//     }
-//     return $.post(rootUrl+"/txs/send", JSON.stringify(newtx));
-// }
-//
-// function waitForConfirmation(finaltx) {
-//     if (checkError(finaltx)) return;
-//     log("Transaction " + finaltx.tx.hash + " to " + dest.address + " of " +
-//         finaltx.tx.outputs[0].value/100000000 + " BTC sent.");
-//
-//     var ws = new WebSocket("wss://socket.blockcypher.com/v1/btc/test3");
-//
-//     // We keep pinging on a timer to keep the websocket alive
-//     var ping = pinger(ws);
-//
-//     ws.onmessage = function (event) {
-//         if (JSON.parse(event.data).confirmations > 0) {
-//             log("Transaction confirmed.");
-//             ping.stop();
-//             ws.close();
-//         }
-//     }
-//     ws.onopen = function(event) {
-//         ws.send(JSON.stringify({filter: "event=new-block-tx&hash="+finaltx.tx.hash}));
-//     }
-//     console.log("Waiting for confirmation... (may take > 10 min)")
-// }
-//
-// function checkError(msg) {
-//     if (msg.errors && msg.errors.length) {
-//         log("Errors occured!!/n" + msg.errors.join("/n"));
-//         return true;
-//     }
-// }
-
-// function pinger(ws) {
-//     var timer = setInterval(function() {
-//         if (ws.readyState == 1) {
-//             ws.send(JSON.stringify({event: "ping"}));
-//         }
-//     }, 5000);
-//     return {stop: function() { clearInterval(timer); }};
-// }
-
-
 
 // perform send transaction
 const sendTransaction = async (
@@ -214,26 +137,21 @@ const sendTransaction = async (
         } else {
             let i = 0;
             let new_base,send_base;
-            let satoshi_amount = parseInt(send_amount * 100000000)
-			// if (net === "MainNet") {
-             //    var bcapi = new bcypher("btc","main","9ba58edd979a467a96f361a45b040b75")
-			// } else {
-             //    var bcapi = new bcypher("btc","test","9ba58edd979a467a96f361a45b040b75")
-			// }
-            //
-			// bcapi.sendTX()
+            let satoshi_amount = parseInt(send_amount * 100000000);
+						dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
+						dispatch(sendEvent(false, "Transaction Failed. Please try again in a few minutes."));
+						setTimeout(() => dispatch(clearTransactionEvent()), 3000);
 			console.log("wif ="+wif);
-            var ck = CoinKey.fromWif(wif);
-            var privateKey = ck.privateKey.toString('hex');
+      var ck = CoinKey.fromWif(wif);
+      var privateKey = ck.privateKey.toString('hex');
 			console.log("hex private key = "+privateKey);
-            var keys    = new bitcoin.ECPair(bigi.fromHex(privateKey));
-            console.log("keys ="+keys);
+      var keys = new bitcoin.ECPair(bigi.fromHex(privateKey));
+      console.log("keys ="+keys);
 			let token = "9ba58edd979a467a96f361a45b040b75";
 			var newtx = {
-                inputs: [{addresses: [selfAddress]}],
-                outputs: [{addresses: [sendAddress.value], value: satoshi_amount}]
+      inputs: [{addresses: [selfAddress]}],
+      outputs: [{addresses: [sendAddress.value], value: satoshi_amount}]
 			};
-
             if(net === "MainNet") {
             	new_base = "https://api.blockcypher.com/v1/btc/main/txs/new?token=" + token;
                 send_base = "https://api.blockcypher.com/v1/btc/main/txs/send?token=" + token;
@@ -261,143 +179,10 @@ const sendTransaction = async (
                         console.log("finaltx= "+ finaltx);
                     })
                 });
-            // var guid = "7406150b-d7cd-43d1-9abf-91c5962edc74";
-            // var fromaddress = selfAddress;
-            // var toaddress = sendAddress.value;
-            // var main_password = "";
-            // var second_password = "";
-            // var url = "http://localhost:3000/merchant/" + guid + "/payment?password=" + main_password + "&second_password=" + second_password
-            //     + "&to=" + toaddress + "&amount=" + sendAmount.value + "&from=" + fromaddress;
-            // var response = await axios.get(url);
-            // console.log(JSON.stringify(response.data));
+
         }
     }
-            // var from = selfAddress;
-            // var to = sendAddress.value;
-            // var privKeyWIF = wif;
 
-
-            // var key   = new bitcoin.ECKey(bigi.fromHex(source.private), true);
-			// dest  = null;
-            // let rootUrl;
-            // if (net === "MainNet"){
-            //     rootUrl = "https://api.blockcypher.com/v1/btc/main";
-            // } else {
-            //     rootUrl = "https://api.blockcypher.com/v1/btc/test3";
-            // }
-
-
-            //await axios.post(rootUrl+"/addrs")
-                // .then(logAddr)
-                // .then(newTransaction)
-                // .then(signAndSend)
-                // .then(waitForConfirmation);
-
-
-
-
-            // if (net == "MainNet") {
-             //    bitcoinTransaction.getBalance(from, { network: "mainnet" }).then((balanceInBTC) => {
-             //        return bitcoinTransaction.sendTransaction({
-             //            from: from,
-             //            to: to,
-             //            privKeyWIF: privKeyWIF,
-             //            btc: parseFloat(sendAmount.value),
-             //            network: "testnet"
-             //        });
-             //    });
-			// } else {
-             //    bitcoinTransaction.getBalance(from, { network: "testnet" }).then((balanceInBTC) => {
-             //        return bitcoinTransaction.sendTransaction({
-             //            from: from,
-             //            to: to,
-             //            privKeyWIF: privKeyWIF,
-             //            btc: parseFloat(sendAmount.value),
-             //            network: "testnet"
-             //        });
-             //    });
-             //    console.log("OK");
-			// }
-            // if (net == "MainNet") {
-            //     var alice = bitcoin.ECPair.fromWIF(wif);
-            //     var txb = new bitcoin.TransactionBuilder();
-            //     unspents.forEach(function (item) {
-            //         if(loop_amount>0){
-            //             console.log("index:" + i.toString() + "\n");
-            //             txb.addInput(item.txid ,i);
-            //             if (loop_amount>item.amount){
-            //                 txb.addOutput(sendAddress.value,parseFloat(item.amount)*100000000);
-            //                 loop_amount = loop_amount - parseFloat(item.amount);
-            //                 let output = parseFloat(item.amount);
-            //                 console.log("output amount " + output.toString());
-            //             } else {
-            //                 txb.addOutput(sendAddress.value,parseFloat(loop_amount)*10000000);
-            //             }
-            //             txb.sign(i,alice);
-            //             i = i + 1;
-            //         }
-            //     });
-            // } else {
-				// console.log("SendBTC Test Net.")
-				// console.log("WIF= "+wif);
-				// console.log("bitcoin network testnet= "+bitcoin.networks.testnet);
-            //     var alice = bitcoin.ECPair.fromWIF(wif , bitcoin.networks.testnet);
-				// console.log("alice = ", alice);
-            //     var txb = new bitcoin.TransactionBuilder(bitcoin.networks.testnet);
-            //     console.log("txb = ", txb);
-            //     for (let i = 0; i < unspents.length; i++) {
-            //         if (loop_amount > 0) {
-            //         	console.log( "txid = " + unspents[i].txid + " : amount = " + unspents[i].amount );
-            //             txb.addInput(unspents[i].txid, i);
-            //             if (loop_amount > unspents[i].amount) {
-            //                 txb.addOutput(sendAddress.value, parseInt(parseFloat(unspents[i].amount) * 100000000));
-            //                 loop_amount = loop_amount - parseFloat(unspents[i].amount);
-            //                 console.log("loop amount = " + loop_amount);
-            //             } else {
-            //                 txb.addOutput(sendAddress.value, parseInt(parseFloat(loop_amount) * 10000000));
-            //             }
-            //
-            //         }
-            //     }
-            //     console.log("sign before");
-            //     txb.sign(0, alice);
-            //     txb.sign(1, alice);
-            //     console.log("broad cast before");
-            //     regtestUtils.broadcast(txb.build().toHex(), function () {
-				// 	console.log("done");
-            //     });
-            //     console.log("broad cast after");
-            // }
-
-			// dispatch(
-            // sendEvent(
-			// 		false,
-			// 		"Transaction complete! Your balance will automatically update when the blockchain has processed it."
-			// 	)
-			// );
-		//}
-
-
-		// doSendAsset(net, sendAddress.value, wif, asset, sendAmount.value)
-		// 	.then(response => {
-		// 		if (response.result === undefined || response.result === false) {
-		// 			dispatch(sendEvent(false, "Transaction failed!"));
-		// 		} else {
-		// 			dispatch(
-		// 				sendEvent(
-		// 					true,
-		// 					"Transaction complete! Your balance will automatically update when the blockchain has processed it."
-		// 				)
-		// 			);
-		// 		}
-		// 		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-		// 	})
-		// 	.catch(e => {
-		// 		dispatch(sendEvent(false, "Transaction failed!"));
-		// 		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-		// 	});
-	//}
-	// close confirm pane and clear fields
 	dispatch(togglePane("confirmPane"));
 	sendAddress.value = "";
 	sendAmount.value = "";
@@ -504,10 +289,9 @@ class SendBTC extends Component {
 		}
 		return (
 			<div>
-				<Assets />
 				<div id="send">
 
-					<div className="row dash-chart-panel">
+					<div className="row dash-panel">
 						<div className="col-xs-9">
 							<img
 								src={btcLogo}
@@ -519,7 +303,9 @@ class SendBTC extends Component {
 						</div>
 
 						<div className="col-xs-3 center">
+						<div className="send-panel-price">{numeral(this.props.btc).format("0,0.0000000")} <span className="btc-price"> BTC</span></div>
 
+						<span className="market-price">{numeral(this.props.btc * this.props.marketBTCPrice).format("$0,0.00")} USD</span>
 						</div>
 
 						<div className="col-xs-12 center">
@@ -554,7 +340,7 @@ class SendBTC extends Component {
 									className={formClass}
 									type="number"
 									id="assetAmount"
-									min="1"
+									min="0.0001"
 									onChange={convertFunction}
 									value={this.state.value}
 									placeholder="Enter amount to send"
@@ -603,13 +389,21 @@ class SendBTC extends Component {
 									</button>
 								</div>
 							</div>
+							<div className="clearboth"/>
+							<div className="col-xs-12 center">
+								<hr className="dash-hr-wide top-10" />
+							</div>
 
+							<div className="col-xs-6 top-10">
+							Estimated transaction fees: 0.0001 BTC/KB<br />
+							Block Height: 511523
+							</div>
 						</div>
 					</div>
 
 					<div className="send-notice">
 						<p>
-              Your BTC address can be used to receive Bitcoin ONLY. Sending funds other than Bitcoin (BTC) to this address may result in your funds being lost.
+              BTC Transactions usually require 3-6+ confirmations and may take up to 10 minutes or more to confirm due to BTC network traffic. All transactions are set by default at medium priority to ensure transaction confirmation and keep transaction fees low. Your BTC address can be used to receive Bitcoin ONLY. Sending funds other than Bitcoin (BTC) to this address may result in your funds being lost.
 						</p>
 						<div className="col-xs-2 top-20"/>
 						<div className="col-xs-8 top-20">
@@ -630,14 +424,7 @@ class SendBTC extends Component {
 						</div>
 					</div>
 
-
 				</div>
-
-
-
-
-
-
 
 			</div>
 		);

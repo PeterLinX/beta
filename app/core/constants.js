@@ -53,27 +53,24 @@ export const MODAL_TYPES = {
 	SEND_TRANSACTION: "SEND_TRANSACTION",
 	CONFIRM: "CONFIRM",
 	SEND: "SEND",
-	TOKEN_INFO: 'TOKEN_INFO',
-  TOKEN: 'TOKEN',
 	RECEIVE: "RECEIVE"
 };
 
 // TestNet
 export const TOKENS_TEST = {
 	DBC: "b951ecbbc5fe37a9c280a76cb0ce0014827294cf",
-	RPX: "5b7074e873973a6ed3708862f219a6fbf4d1c411",
+	RPX: "ecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9",
+	//"5b7074e873973a6ed3708862f219a6fbf4d1c411",
 	QLC: "0d821bd7b6d53f5c2b40e217c6defc8bbe896cf5"
 };
 
 // MainNet
 export const TOKENS = {
-	DBC: 'b951ecbbc5fe37a9c280a76cb0ce0014827294cf',
-  RPX: 'ecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9',
-  RHT: '2328008e6f6c7bd157a342e789389eb034d9cbc4',
-  QLC: '0d821bd7b6d53f5c2b40e217c6defc8bbe896cf5',
-  NRVE: 'a721d5893480260bd28ca1f395f2c465d0b5b1c2',
-	ONT: "ceab719b8baa2310f232ee0d277c061704541cfb",
-	ZPT: "ac116d4b8d4ca55e6b6d4ecce2192039b51cccc5"
+	DBC: "b951ecbbc5fe37a9c280a76cb0ce0014827294cf",
+	RPX: "ecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9",
+	RHT: "2328008e6f6c7bd157a342e789389eb034d9cbc4",
+	QLC: "0d821bd7b6d53f5c2b40e217c6defc8bbe896cf5"
 };
 
+export  const BLOCK_TOKEN = "9ba58edd979a467a96f361a45b040b75";
 export const FINDING_LEDGER_NOTICE = "Looking for USB Devices. Please plugin your device and login.";

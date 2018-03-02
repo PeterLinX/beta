@@ -33,9 +33,9 @@ class Assets extends Component {
 		super(props);
 		this.state = {
 			gasPrice: 0,
-			rpx: 0,
-			qlc: 0,
-			dbc: 0
+			rpxPrice: 0,
+			qlcPrice: 0,
+			dbcPrice: 0
 		};
 	}
 
@@ -63,7 +63,7 @@ class Assets extends Component {
 								Math.floor(this.props.rpx * 100000) / 100000
 							).format("0,0.0000")} <span className="rpx-price"> RPX</span></h3>
 							<hr className="dash-hr" />
-							<span className="market-price">$0.00 USD</span>
+							<span className="market-price">{numeral(this.props.rpx*this.props.marketRPXPrice).format("$0,0.00")} USD</span>
 						</div>
 					</Link>
 

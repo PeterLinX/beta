@@ -29,6 +29,15 @@ import hashpuppiesLogo from "../img/hashpuppies.png";
 import moneroLogo from "../img/monero.png";
 import ethLogo from "../img/eth.png";
 
+// force sync with balance data
+const refreshBalance = async (dispatch, net, address) => {
+	dispatch(sendEvent(true, "Refreshing..."));
+	initiateGetBalance(dispatch, net, address).then(response => {
+		dispatch(sendEvent(true, "Received latest blockchain information."));
+		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+	});
+};
+
 
 class AssetPortolio extends Component {
 	constructor(props) {
@@ -378,7 +387,7 @@ class AssetPortolio extends Component {
 									Math.floor(this.props.qlc * 100000) / 100000
 								).format("0,0.0000")} <span className="qlink-price"> QLC</span></h3>
 								<hr className="dash-hr" />
-								<span className="market-price">$0.00 USD</span>
+								<span className="market-price">${numeral(this.props.qlc*this.props.marketQLCPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
 						</Link>
@@ -501,7 +510,7 @@ class AssetPortolio extends Component {
 const mapStateToProps = state => ({
 	neo: state.wallet.Neo,
 	gas: state.wallet.Gas,
-	rpx: state.wallet.rbx,
+	rpx: state.wallet.Rpx,
 	dbc: state.wallet.Dbc,
 	qlc: state.wallet.Qlc,
 	Rhpt: state.wallet.Rhpt,

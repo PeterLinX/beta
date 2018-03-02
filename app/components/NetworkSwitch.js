@@ -7,8 +7,8 @@ import {
   getWalletDBHeight,
   getAPIEndpoint
 } from "neon-js";
-import { api,wallet } from '@cityofzion/neon-js'
-import Neon from '@cityofzion/neon-js'
+import { api,wallet } from "@cityofzion/neon-js";
+import Neon from "@cityofzion/neon-js";
 import { setClaim } from "../modules/claim";
 import { setBlockHeight, setNetwork } from "../modules/metadata";
 import {
@@ -23,6 +23,8 @@ import {
 import { version } from "../../package.json";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import axios from "axios";
+import {TOKENS_TEST} from "../core/constants";
+import {TOKENS} from "../core/constants";
 
 let intervals = {};
 let rpxScriptHash, qlcScriptHash, dbcScriptHash, rhptScriptHash;
@@ -41,14 +43,33 @@ export const getMarketPriceUSD = amount => {
 };
 
 const getRpxBalance = async (net,address) => {
-    //Neon.create.balance({net: net, address: address});
-    const balance = new wallet.Balance({net: net, address: address});
-    if (balance.tokens["RPX"] == undefined) {
-        console.log("init\n")
-        balance.addToken("RPX",0)
+    let rpx_token;
+    if (net === "MainNet") {
+        rpx_token = TOKENS.RPX;
+    } else {
+        rpx_token = TOKENS_TEST.RPX;
     }
-    console.log(JSON.stringify(balance.tokens["RPX"]));
-    return Number(balance.tokens["RPX"]);
+    return getBalace(net,address,rpx_token);
+}
+
+const getBalace = async (net,address,token) => {
+    const endpoint = await api.neonDB.getRPCEndpoint(net);
+    console.log("endpoint = "+endpoint);
+
+    const  scriptHash  = token;
+
+    try {
+        const response = await api.nep5.getToken(endpoint, scriptHash, address);
+        console.log("nep5 balance response = "+JSON.stringify(response));
+        //const balance = toBigNumber(response.balance || 0).round(response.decimals).toString();
+        //console.log("balance success "+balance);
+        return response.balance;
+
+    } catch (err) {
+        // invalid scriptHash
+        console.log("invalid scriptHash")
+        return 0;
+    }
 }
 
 const getDbcBalance = async (net,address) => {
@@ -70,7 +91,7 @@ const getQlcBalance = async (net,address) => {
 }
 
 const getBalanceFromApi = async (scriptHash,address) => {
-    api.nep5.getTokenBalance("https://seed1.neo.org:10331",scriptHash,address)
+    api.nep5.getTokenBalance("http://seed3.neo.org:10332",scriptHash,address)
     .then(response =>{
         console.log(JSON.stringify(response));
         let rpxBal = Number(response);
@@ -264,6 +285,12 @@ const initiateGetBalance = (dispatch, net, address) => {
   syncTransactionHistory(dispatch, net, address);
   syncAvailableClaim(dispatch, net, address);
   syncBlockHeight(dispatch, net);
+
+  if (net == "MainNet") {
+      rpxScriptHash = Neon.CONST.CONTRACTS.RPX;
+  } else {
+      rpxScriptHash = Neon.CONST.CONTRACTS.TEST_RPX;
+  }
 
   return getBalance(net, address)
     .then(resultBalance => {

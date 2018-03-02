@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { syncTransactionHistory ,syncBtcTransactionHistory} from "../components/NetworkSwitch";
+import { syncTransactionHistory ,syncBtcTransactionHistory, block_index} from "../components/NetworkSwitch";
 import { shell } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import { clipboard } from "electron";
@@ -68,7 +68,7 @@ class TransactionHistoryBTC extends Component {
             }
           >
             <span className="glyphicon glyphicon-refresh marg-right-5" /> Block:{" "}
-            {this.props.blockHeight}
+            {this.props.blockIndex}
           </div>
           <div className="col-xs-12">
             <hr className="dash-hr-wide" />
@@ -110,6 +110,7 @@ class TransactionHistoryBTC extends Component {
 
 const mapStateToProps = state => ({
   blockHeight: state.metadata.blockHeight,
+  blockIndex: state.metadata.block_index,
   address: state.account.address,
   btc_address: state.account.btcPubAddr,
   net: state.metadata.network,

@@ -6,7 +6,6 @@ import { shell } from "electron";
 import bitcoinLogo from "../img/btc-logo.png";
 import ReactTooltip from "react-tooltip";
 import { Link } from "react-router";
-import Assets from "./Assets";
 import axios from "axios";
 import numeral from "numeral";
 

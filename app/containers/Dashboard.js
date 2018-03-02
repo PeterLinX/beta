@@ -86,7 +86,7 @@ class Dashboard extends Component {
     gasPrice = gasPrice.data[0].price_usd;
     btcPrice = btcPrice.data[0].price_usd;
 
-    let value = neoPrice * neo + gasPrice * gas + marketBTCPrice * btc;
+    let value = neoPrice * neo + gasPrice * gas + btcPrice * btc;
     let combinedPrice = Math.round(value * 100) / 100;
     this.setState({ combinedPrice: combinedPrice });
   };
