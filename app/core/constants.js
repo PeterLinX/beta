@@ -59,16 +59,21 @@ export const MODAL_TYPES = {
 // TestNet
 export const TOKENS_TEST = {
 	DBC: "b951ecbbc5fe37a9c280a76cb0ce0014827294cf",
+	ONT: "ceab719b8baa2310f232ee0d277c061704541cfb",
 	RPX: "ecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9",
-	QLC: "0d821bd7b6d53f5c2b40e217c6defc8bbe896cf5"
+	QLC: "0d821bd7b6d53f5c2b40e217c6defc8bbe896cf5",
+	TKY: "132947096727c84c7f9e076c90f08fec3bc17f18",
+	ZPT: "ac116d4b8d4ca55e6b6d4ecce2192039b51cccc5",
 };
 
 // MainNet
 export const TOKENS = {
-	RPX: "ecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9",
 	DBC: "b951ecbbc5fe37a9c280a76cb0ce0014827294cf",
+	ONT: "ceab719b8baa2310f232ee0d277c061704541cfb",
+	RPX: "ecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9",
 	QLC: "0d821bd7b6d53f5c2b40e217c6defc8bbe896cf5",
-	RHT: "2328008e6f6c7bd157a342e789389eb034d9cbc4"
+	TKY: "132947096727c84c7f9e076c90f08fec3bc17f18",
+	ZPT: "ac116d4b8d4ca55e6b6d4ecce2192039b51cccc5",
 
 };
 

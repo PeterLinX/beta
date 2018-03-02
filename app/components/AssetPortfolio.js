@@ -44,9 +44,13 @@ class AssetPortolio extends Component {
 		super(props);
 		this.state = {
 			gasPrice: 0,
-			rpxPrice: 0,
+			dbcPrice: 0,
+			ontPrice: 0,
 			qlcPrice: 0,
-			dbcPrice: 0
+			rpxPrice: 0,
+			tkyPrice: 0,
+			tncPrice: 0,
+			zptPrice: 0
 		};
 
 	}
@@ -387,7 +391,7 @@ class AssetPortolio extends Component {
 									Math.floor(this.props.qlc * 100000) / 100000
 								).format("0,0.0000")} <span className="qlink-price"> QLC</span></h3>
 								<hr className="dash-hr" />
-								<span className="market-price">${numeral(this.props.qlc*this.props.marketQLCPrice).format("$0,0.00")} USD</span>
+								<span className="market-price">{numeral(this.props.qlc*this.props.marketQLCPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
 						</Link>
@@ -439,7 +443,7 @@ class AssetPortolio extends Component {
 									Math.floor(this.props.tky * 100000) / 100000
 								).format("0,0.0000")} <span className="dbc-price"> TKY</span></h3>
 								<hr className="dash-hr" />
-								<span className="market-price">$0.00 USD</span>
+								<span className="market-price">{numeral(this.props.tky*this.props.marketTKYPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
 						</Link>
@@ -465,7 +469,7 @@ class AssetPortolio extends Component {
 									Math.floor(this.props.tnc * 100000) / 100000
 								).format("0,0.0000")} <span className="qlink-price"> TNC</span></h3>
 								<hr className="dash-hr" />
-								<span className="market-price">$0.00 USD</span>
+								<span className="market-price">{numeral(this.props.tnc*this.props.marketTNCPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
 						</Link>
@@ -494,7 +498,7 @@ class AssetPortolio extends Component {
 									Math.floor(this.props.zpt * 100000) / 100000
 								).format("0,0.0000")} <span className="neo-price"> ZPT</span></h3>
 								<hr className="dash-hr" />
-								<span className="market-price">$0.00 USD</span>
+								<span className="market-price">{numeral(this.props.zpt*this.props.marketZPTPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
 						</Link>
@@ -508,13 +512,15 @@ class AssetPortolio extends Component {
 }
 
 const mapStateToProps = state => ({
-	neo: state.wallet.Neo,
 	gas: state.wallet.Gas,
-	rpx: state.wallet.Rpx,
-	dbc: state.wallet.Dbc,
-	qlc: state.wallet.Qlc,
-	Rhpt: state.wallet.Rhpt,
+	neo: state.wallet.Neo,
 	btc: state.wallet.Btc,
+	dbc: state.wallet.Dbc,
+	ont: state.wallet.Ont,
+	qlc: state.wallet.Qlc,
+	rpx: state.wallet.Rpx,
+	tky: state.wallet.Tky,
+	zpt: state.wallet.Zpt,
 	address: state.account.address,
 	net: state.metadata.network,
 	price: state.wallet.price,

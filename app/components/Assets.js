@@ -33,9 +33,13 @@ class Assets extends Component {
 		super(props);
 		this.state = {
 			gasPrice: 0,
-			rpxPrice: 0,
+			dbcPrice: 0,
+			ontPrice: 0,
 			qlcPrice: 0,
-			dbcPrice: 0
+			rpxPrice: 0,
+			tkyPrice: 0,
+			tncPrice: 0,
+			zptPrice: 0
 		};
 	}
 
@@ -87,7 +91,7 @@ class Assets extends Component {
 								Math.floor(this.props.qlc * 100000) / 100000
 							).format("0,0.0000")} <span className="qlink-price"> QLC</span></h3>
 							<hr className="dash-hr" />
-							<span className="market-price">$0.00 USD</span>
+							<span className="market-price">{numeral(this.props.qlc*this.props.marketQLCPrice).format("$0,0.00")} USD</span>
 						</div>
 					</Link>
 
@@ -111,13 +115,13 @@ class Assets extends Component {
 }
 
 const mapStateToProps = state => ({
-	neo: state.wallet.Neo,
 	gas: state.wallet.Gas,
-	rpx: state.wallet.Rpx,
+	neo: state.wallet.Neo,
+	btc: state.wallet.Btc,
 	dbc: state.wallet.Dbc,
 	qlc: state.wallet.Qlc,
-	Rhpt: state.wallet.Rhpt,
-	btc: state.wallet.Btc,
+	rpx: state.wallet.Rpx,
+	zpt: state.wallet.Zpt,
 	address: state.account.address,
 	net: state.metadata.network,
 	price: state.wallet.price,
@@ -128,6 +132,7 @@ const mapStateToProps = state => ({
 	marketDBCPrice: state.wallet.marketDBCPrice,
 	marketQLCPrice: state.wallet.marketQLCPrice,
 	marketRPXPrice: state.wallet.marketRPXPrice,
+	marketZPTPrice: state.wallet.marketZPTPrice,
 	btcLoggedIn: state.account.btcLoggedIn,
 	btcPrivKey: state.account.btcPrivKey,
 	btcPubAddr: state.account.btcPubAddr,

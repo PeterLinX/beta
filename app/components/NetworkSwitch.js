@@ -27,7 +27,7 @@ import {TOKENS_TEST} from "../core/constants";
 import {TOKENS} from "../core/constants";
 
 let intervals = {};
-let rpxScriptHash, qlcScriptHash, dbcScriptHash, rhptScriptHash;
+let dbcScriptHash, ontScriptHash, qlcScriptHash, rpxScriptHash, rhptScriptHash, tkyScriptHash, zptScriptHash;
 let netSelect;
 
 // https://bittrex.com/api/v1.1/public/getmarkethistory?market=BTC-NEO
@@ -42,15 +42,17 @@ export const getMarketPriceUSD = amount => {
     });
 };
 
-const getRpxBalance = async (net,address) => {
-    let rpx_token;
+
+const getOntBalance = async (net,address) => {
+    let ont_token;
     if (net === "MainNet") {
-        rpx_token = TOKENS.RPX;
+        ont_token = TOKENS.ONT;
     } else {
-        rpx_token = TOKENS_TEST.RPX;
+        ont_token = TOKENS_TEST.ONT;
     }
-    return getBalace(net,address,rpx_token);
+    return getBalace(net,address,ont_token);
 }
+
 
 const getDbcBalance = async (net,address) => {
     let dbc_token;
@@ -70,6 +72,36 @@ const getQlcBalance = async (net,address) => {
         qlc_token = TOKENS_TEST.QLC;
     }
     return getBalace(net,address,qlc_token);
+}
+
+const getRpxBalance = async (net,address) => {
+    let rpx_token;
+    if (net === "MainNet") {
+        rpx_token = TOKENS.RPX;
+    } else {
+        rpx_token = TOKENS_TEST.RPX;
+    }
+    return getBalace(net,address,rpx_token);
+}
+
+const getTkyBalance = async (net,address) => {
+    let tky_token;
+    if (net === "MainNet") {
+        tky_token = TOKENS.TKY;
+    } else {
+        tky_token = TOKENS_TEST.TKY;
+    }
+    return getBalace(net,address,tky_token);
+}
+
+const getZptBalance = async (net,address) => {
+    let zpt_token;
+    if (net === "MainNet") {
+        zpt_token = TOKENS.ZPT;
+    } else {
+        zpt_token = TOKENS_TEST.ZPT;
+    }
+    return getBalace(net,address,zpt_token);
 }
 
 const getBalace = async (net,address,token) => {
@@ -286,6 +318,7 @@ const initiateGetBalance = (dispatch, net, address) => {
   if (net == "MainNet") {
       rpxScriptHash = Neon.CONST.CONTRACTS.RPX;
       dbcScriptHash = Neon.CONST.CONTRACTS.DBC;
+      zptScriptHash = Neon.CONST.CONTRACTS.ZPT;
   } else {
       rpxScriptHash = Neon.CONST.CONTRACTS.TEST_RPX;
       dbcScriptHash = Neon.CONST.CONTRACTS.TEST_DBC;
@@ -303,20 +336,34 @@ const initiateGetBalance = (dispatch, net, address) => {
             let combinedPrice = gasPrice + resultPrice;
             //let rpxBal = await getBalanceFromApi(rpxScriptHash,address);
 
-            let rpxBalance = await getRpxBalance(net,address);
-            console.log("rpx balance= " + rpxBalance);
             let dbcBalance = await getDbcBalance(net,address);
             console.log("dbc balance= " + dbcBalance);
+
+            let ontBalance = await getOntBalance(net,address);
+            console.log("ont balance= " + ontBalance);
+
             let qlcBalance = await getQlcBalance(net,address);
             console.log("qlc balance= " + qlcBalance);
+
+            let rpxBalance = await getRpxBalance(net,address);
+            console.log("rpx balance= " + rpxBalance);
+
+            let tkyBalance = await getTkyBalance(net,address);
+            console.log("tky balance= " + tkyBalance);
+
+            let zptBalance = await getZptBalance(net,address);
+            console.log("zpt balance= " + zptBalance);
 
             dispatch(
               setBalance(
                 resultBalance.Neo,
                 resultBalance.Gas,
-                rpxBalance,
                 dbcBalance,
+                ontBalance,
                 qlcBalance,
+                rpxBalance,
+                tkyBalance,
+                zptBalance,
                 resultPrice,
                 combinedPrice,
                 gasPrice,
@@ -333,7 +380,8 @@ const initiateGetBalance = (dispatch, net, address) => {
                 marketPrices.data.TNC.USD,
                 marketPrices.data.TKY.USD,
                 marketPrices.data.XMR.USD,
-                marketPrices.data.ZPT.USD
+                marketPrices.data.ZPT.USD,
+
               )
             );
           }
