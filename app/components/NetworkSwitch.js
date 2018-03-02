@@ -84,7 +84,6 @@ const getQlcBalance = async (net,address) => {
     return getBalace(net,address,qlc_token);
 }
 
-
 const getRpxBalance = async (net,address) => {
     let rpx_token;
     if (net === "MainNet") {
@@ -354,6 +353,7 @@ const initiateGetBalance = (dispatch, net, address) => {
           } else {
             let gasPrice = await getGasPrice(resultBalance.Gas);
             let marketPrices = await getMarketPrice();
+            let combinedPrice = gasPrice + resultPrice;
             //let rpxBal = await getBalanceFromApi(rpxScriptHash,address);
 
             let dbcBalance = await getDbcBalance(net,address);
@@ -379,8 +379,6 @@ const initiateGetBalance = (dispatch, net, address) => {
 
             let zptBalance = await getZptBalance(net,address);
             console.log("zpt balance= " + zptBalance);
-
-            let combinedPrice = gasPrice + resultPrice;
 
             dispatch(
               setBalance(

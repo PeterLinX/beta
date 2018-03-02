@@ -396,7 +396,7 @@ class SendBTC extends Component {
 
 							<div className="col-xs-6 top-10">
 							Estimated transaction fees: 0.0001 BTC/KB<br />
-							Block Height: 511523
+							Block Height: 511702
 							</div>
 						</div>
 					</div>
