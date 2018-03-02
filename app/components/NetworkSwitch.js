@@ -52,42 +52,39 @@ const getRpxBalance = async (net,address) => {
     return getBalace(net,address,rpx_token);
 }
 
+const getDbcBalance = async (net,address) => {
+    let dbc_token;
+    if (net === "MainNet") {
+        dbc_token = TOKENS.DBC;
+    } else {
+        dbc_token = TOKENS_TEST.DBC;
+    }
+    return getBalace(net,address,dbc_token);
+}
+
+const getQlcBalance = async (net,address) => {
+    let qlc_token;
+    if (net === "MainNet") {
+        qlc_token = TOKENS.QLC;
+    } else {
+        qlc_token = TOKENS_TEST.QLC;
+    }
+    return getBalace(net,address,qlc_token);
+}
+
 const getBalace = async (net,address,token) => {
     const endpoint = await api.neonDB.getRPCEndpoint(net);
     console.log("endpoint = "+endpoint);
-
     const  scriptHash  = token;
-
     try {
         const response = await api.nep5.getToken(endpoint, scriptHash, address);
         console.log("nep5 balance response = "+JSON.stringify(response));
-        //const balance = toBigNumber(response.balance || 0).round(response.decimals).toString();
-        //console.log("balance success "+balance);
         return response.balance;
-
     } catch (err) {
         // invalid scriptHash
         console.log("invalid scriptHash")
         return 0;
     }
-}
-
-const getDbcBalance = async (net,address) => {
-    const balance = new wallet.Balance({net: net, address: address});
-    if (balance.tokens["DBC"] == undefined ) {
-        balance.addToken("DBC" ,0);
-    }
-    console.log("dbc bal="+JSON.stringify(balance.tokens["DBC"]));
-    return Number(balance.tokens["DBC"]);
-}
-
-const getQlcBalance = async (net,address) => {
-    const balance = new wallet.Balance({net: net, address: address});
-    if (balance.tokens["QLC"] == undefined) {
-        balance.addToken("QLC" ,0);
-    }
-    console.log("dbc bal="+JSON.stringify(balance.tokens["QLC"]));
-    return Number(balance.tokens["QLC"]);
 }
 
 const getBalanceFromApi = async (scriptHash,address) => {
@@ -288,8 +285,10 @@ const initiateGetBalance = (dispatch, net, address) => {
 
   if (net == "MainNet") {
       rpxScriptHash = Neon.CONST.CONTRACTS.RPX;
+      dbcScriptHash = Neon.CONST.CONTRACTS.DBC;
   } else {
       rpxScriptHash = Neon.CONST.CONTRACTS.TEST_RPX;
+      dbcScriptHash = Neon.CONST.CONTRACTS.TEST_DBC;
   }
 
   return getBalance(net, address)
@@ -306,10 +305,11 @@ const initiateGetBalance = (dispatch, net, address) => {
 
             let rpxBalance = await getRpxBalance(net,address);
             console.log("rpx balance= " + rpxBalance);
-            let qlcBalance = await getQlcBalance(net,address);
-            console.log("qlc balance= " + qlcBalance);
             let dbcBalance = await getDbcBalance(net,address);
             console.log("dbc balance= " + dbcBalance);
+            let qlcBalance = await getQlcBalance(net,address);
+            console.log("qlc balance= " + qlcBalance);
+
             dispatch(
               setBalance(
                 resultBalance.Neo,
