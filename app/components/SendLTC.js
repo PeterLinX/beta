@@ -16,10 +16,16 @@ import {
 	clearTransactionEvent,
 	toggleAsset
 } from "../modules/transactions";
+import {BLOCK_TOKEN} from "../core/constants";
 
 import { btcLoginRedirect } from '../modules/account';
 
-
+var bitcoin = require("bitcoinjs-lib");
+var WAValidator = require("wallet-address-validator");
+var bigi = require("bigi");
+var buffer = require("buffer");
+var bcypher = require("blockcypher");
+var CoinKey = require('coinkey')
 let sendAddress, sendAmount, confirmButton;
 
 const apiURL = val => {
@@ -85,37 +91,66 @@ const sendTransaction = (
 	asset,
 	neo_balance,
 	gas_balance,
-	btc
+	ltc_balance
 ) => {
 	// validate fields again for good measure (might have changed?)
 	if (validateForm(dispatch, neo_balance, gas_balance, asset) === true) {
 		dispatch(sendEvent(true, "Processing..."));
-
-
 
 		log(net, "SEND", selfAddress, {
 			to: sendAddress.value,
 			asset: asset,
 			amount: sendAmount.value
 		});
-		doSendAsset(net, sendAddress.value, wif, asset, sendAmount.value)
-			.then(response => {
-				if (response.result === undefined || response.result === false) {
-					dispatch(sendEvent(false, "Transaction failed!"));
-				} else {
-					dispatch(
-						sendEvent(
-							true,
-							"Transaction complete! Your balance will automatically update when the blockchain has processed it."
-						)
-					);
-				}
-				setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-			})
-			.catch(e => {
-				dispatch(sendEvent(false, "Transaction failed!"));
-				setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-			});
+        console.log("Display ltc balance\n");
+        console.log(ltc_balance);
+		//Send litecoin
+        let send_amount = parseFloat(sendAmount.value);
+
+        if (ltc_balance <= 0) {
+            dispatch(sendEvent(false, "There is not balance for LTC."));
+		} else if (ltc_balance < sendAmount.value) {
+            dispatch(sendEvent(false, "The LTC balance is less than the send amount."));
+		} else {
+            let new_base,send_base;
+            let satoshi_amount = parseInt(send_amount * 100000000);
+            console.log("wif ="+wif);
+            var ck = CoinKey.fromWif(wif);
+            var privateKey = ck.privateKey.toString('hex');
+            console.log("hex private key = "+privateKey);
+            var keys    = new bitcoin.ECPair(bigi.fromHex(privateKey));
+            console.log("keys ="+keys);
+            var newtx = {
+                inputs: [{addresses: [selfAddress]}],
+                outputs: [{addresses: [sendAddress.value], value: satoshi_amount}]
+            };
+
+            if(net === "MainNet") {
+                new_base = "https://api.blockcypher.com/v1/ltc/main/txs/new?token=" + BLOCK_TOKEN;
+                send_base = "https://api.blockcypher.com/v1/ltc/main/txs/send?token=" + BLOCK_TOKEN;
+            } else {
+                new_base = "https://api.blockcypher.com/v1/ltc/test3/txs/new?token="+BLOCK_TOKEN;
+                send_base = "https://api.blockcypher.com/v1/ltc/test3/txs/send?token="+BLOCK_TOKEN;
+            }
+
+            axios.post(new_base,newtx)
+                .then(function (tmptx) {
+                    console.log("create new transaction= "+JSON.stringify(tmptx));
+                    var sendtx = {
+                        tx: tmptx.data.tx
+                    }
+                    sendtx.pubkeys = [];
+                    sendtx.signatures = tmptx.data.tosign.map(function(tosign, n) {
+                        sendtx.pubkeys.push(keys.getPublicKeyBuffer().toString("hex"));
+                        return keys.sign(new buffer.Buffer(tosign, "hex")).toDER().toString("hex");
+
+                    });
+
+                    axios.post(send_base, sendtx).then(function(finaltx) {
+                        console.log("finaltx= "+ finaltx);
+                    })
+                });
+		}
 	}
 	// close confirm pane and clear fields
 	dispatch(togglePane("confirmPane"));
@@ -182,13 +217,15 @@ class SendLTC extends Component {
 			dispatch,
 			wif,
 			address,
+			ltc_address,
+			ltc_prvkey,
 			status,
 			neo,
 			gas,
+			ltc,
 			net,
 			confirmPane,
 			selectedAsset,
-			btc
 		} = this.props;
 		let confirmPaneClosed;
 		let open = true;
@@ -305,11 +342,12 @@ class SendLTC extends Component {
 											sendTransaction(
 												dispatch,
 												net,
-												address,
-												wif,
+												ltc_address,
+												ltc_prvkey,
 												selectedAsset,
 												neo,
-												gas
+												gas,
+												this.props.ltc
 											)
 										}
 										ref={node => {
@@ -365,10 +403,12 @@ const mapStateToProps = state => ({
 	blockHeight: state.metadata.blockHeight,
 	wif: state.account.wif,
 	address: state.account.address,
+	ltc_address:state.account.ltcPubAddr,
+	ltc_prvkey:state.account.ltcPrivKey,
 	net: state.metadata.network,
 	neo: state.wallet.Neo,
 	gas: state.wallet.Gas,
-	btc: state.wallet.Btc,
+	ltc: state.wallet.Ltc,
 	marketBTCPrice: state.wallet.marketBTCPrice,
 	selectedAsset: state.transactions.selectedAsset,
 	confirmPane: state.dashboard.confirmPane,

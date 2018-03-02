@@ -106,14 +106,16 @@ const sendTransaction = (
 			scriptHash = TOKENS_TEST.DBC;
 		}
 
+		console.log("sendAddress = "+sendAddress.value);
+
         axios.get(apiURL("DBC"))
 		.then(function (response) {
             dbc_usd = parseFloat(response.data.USD);
             axios.get(apiURLForGas("GAS"))
                 .then(function (response) {
                     gas_usd = parseFloat(response.data.USD);
-                    let amountGASForPay = parseInt(parseInt(sendAmount.value)*dbc_usd/gas_usd);
-                    api.nep5.doTransferToken(net, scriptHash, wif, sendAddress.value ,parseInt(sendAmount.value) ,amountGASForPay)
+                    let amountGASForPay = parseFloat(parseInt(sendAmount.value)*dbc_usd/gas_usd);
+                    api.nep5.doTransferToken(net, scriptHash, wif, sendAddress.value ,parseInt(sendAmount.value)*100000000 ,amountGASForPay*100000000)
                         .then(response => {
                             if (response.result === undefined || response.result === false) {
                                 dispatch(sendEvent(false, "Transaction failed for DBC!"));

@@ -121,10 +121,10 @@ class AssetPortolio extends Component {
 							<div className="port-price-col">
 								<span className="market-price">Deep Brain {numeral(this.props.marketDBCPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
-									Math.floor(this.props.bdc * 100000) / 100000
+									Math.floor(this.props.dbc * 100000) / 100000
 								).format("0,0.0000")} <span className="dbc-price"> DBC</span></h3>
 								<hr className="dash-hr" />
-								<span className="market-price">$0.00 USD</span>
+								<span className="market-price">{numeral(this.props.dbc*this.props.marketDBCPrice).format("$0,0.00")}</span>
 							</div>
 							</div>
 						</Link>
@@ -378,7 +378,7 @@ class AssetPortolio extends Component {
 									Math.floor(this.props.qlc * 100000) / 100000
 								).format("0,0.0000")} <span className="qlink-price"> QLC</span></h3>
 								<hr className="dash-hr" />
-								<span className="market-price">$0.00 USD</span>
+								<span className="market-price">${numeral(this.props.qlc*this.props.marketQLCPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
 						</Link>
@@ -501,7 +501,7 @@ class AssetPortolio extends Component {
 const mapStateToProps = state => ({
 	neo: state.wallet.Neo,
 	gas: state.wallet.Gas,
-	rpx: state.wallet.rbx,
+	rpx: state.wallet.Rpx,
 	dbc: state.wallet.Dbc,
 	qlc: state.wallet.Qlc,
 	Rhpt: state.wallet.Rhpt,

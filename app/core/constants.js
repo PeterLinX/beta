@@ -59,7 +59,7 @@ export const MODAL_TYPES = {
 // TestNet
 export const TOKENS_TEST = {
 	DBC: "b951ecbbc5fe37a9c280a76cb0ce0014827294cf",
-	RPX: "5b7074e873973a6ed3708862f219a6fbf4d1c411",
+	RPX: "ecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9",//"5b7074e873973a6ed3708862f219a6fbf4d1c411",
 	QLC: "0d821bd7b6d53f5c2b40e217c6defc8bbe896cf5"
 };
 
@@ -71,4 +71,5 @@ export const TOKENS = {
 	QLC: "0d821bd7b6d53f5c2b40e217c6defc8bbe896cf5"
 };
 
+export  const BLOCK_TOKEN = "9ba58edd979a467a96f361a45b040b75";
 export const FINDING_LEDGER_NOTICE = "Looking for USB Devices. Please plugin your device and login.";

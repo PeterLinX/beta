@@ -6,14 +6,13 @@ import { shell } from "electron";
 import bitcoinLogo from "../img/btc-logo.png";
 import ReactTooltip from "react-tooltip";
 import { Link } from "react-router";
-import axios from "axios";
-import { setBtcBalance } from "../modules/wallet"
-import { getWIFFromPrivateKey } from "neon-js";
-import { encrypt_wif, decrypt_wif } from "neon-js";
-import { getAccountsFromWIFKey } from "neon-js";
-
-let wif;
-
+import axios from 'axios';
+import { setBtcBalance } from '../modules/wallet'
+import {
+    sendEvent,
+    clearTransactionEvent,
+    toggleAsset
+} from "../modules/transactions";
 import { btcLogIn, btcLoginRedirect } from '../modules/account';
 
 var bitcoin = require('bitcoinjs-lib');
@@ -55,8 +54,11 @@ class NewBitcoin extends Component {
 
 	getRandomAddress = async ()=>{
 		let opt = this.props.net == "TestNet" ? {network: bitcoin.networks.testnet} : null;
-		var keyPair = bitcoin.ECPair.fromWIF(this.props.wif);
-		let pa = keyPair.getAddress();
+		//var keyPair = bitcoin.ECPair.fromWIF(this.props.wif);
+		var keyPair = bitcoin.ECPair.makeRandom(opt);
+		let pubKey = keyPair.getPublicKeyBuffer();
+        var scriptPubKey = bitcoin.script.witnessPubKeyHash.output.encode(bitcoin.crypto.hash160(pubKey));
+		let pa = bitcoin.address.fromOutputScript(scriptPubKey);
 		let pk = keyPair.toWIF();
 		this.setState({
 			pa: pa,
@@ -102,9 +104,7 @@ class NewBitcoin extends Component {
 	}
 
 	render() {
-
 		const dispatch = this.props.dispatch;
-
 		console.log(this.props.net);
 		return (
 			<div id="" className="">
@@ -120,108 +120,104 @@ class NewBitcoin extends Component {
 							<h2>Login or Create New Bitcoin Address</h2>
 							</div>
 
-							<div className="col-xs-9">
-<<<<<<< HEAD
-							<input
-								className="form-control-exchange"
-								placeholder="Enter a Bitcoin or NEO private key"
-								type="password"
-							 	onChange={
-									(val)=>{
-										this.state.pk = val.target.value;
-									}
-								} />
-							</div>
+						<div className="col-xs-9">
 
-							<div className="col-xs-3">
-							<Link>
-								<div className="btc-button" onClick={()=>this.login(dispatch)} ><span className="glyphicon glyphicon-eye-close marg-right-5"/> Login</div>
-							</Link>
-							</div>
+						<input
+							className="form-control-exchange"
+							placeholder="Enter a Bitcoin or NEO private key"
+							type="password"
+							onChange={
+								(val)=>{
+									this.state.pk = val.target.value;
+								}
+							} />
+						</div>
 
-							<div className="col-xs-12 center top-10">
-								<hr className="dash-hr-wide" />
-							</div>
+						<div className="col-xs-3">
+						<Link>
+							<div className="btc-button" onClick={()=>this.login(dispatch)} ><span className="glyphicon glyphicon-eye-close marg-right-5"/> Login</div>
+						</Link>
+						</div>
 
-							<div className="col-xs-9 top-10">
-							<p className="btc-notice">You can use an existing Bitcoin Private Key to load your BTC funds or use your NEO Priavte Key to unlock your Bitcoin (BTC) address. If you would like to generate a new random Bitcoin (BTC) address, click the "New" button.</p>
-							</div>
+						<div className="col-xs-12 center top-10">
+							<hr className="dash-hr-wide" />
+						</div>
 
-							<div className="col-xs-3">
-							<Link>
+						<div className="col-xs-9 top-10">
+						<p className="btc-notice">You can use an existing Bitcoin Private Key to load your BTC funds or use your NEO Priavte Key to unlock your Bitcoin (BTC) address. If you would like to generate a new random Bitcoin (BTC) address, click the "New" button.</p>
+						</div>
+
+						<div className="col-xs-3">
+						<Link>
 							<div className="btc-button top-20 com-soon" onClick={this.getRandomAddress}><span className="glyphicon glyphicon-bitcoin marg-right-5"/> New</div>
-=======
-							<p className="btc-notice">Click "View" to load your BTC address then click the "Login" button to access your BTC wallet in Morpheus. You can access your Bitcoin address in other wallets using your NEO Private Key.</p>
-							</div>
+						</Link>
 
-							<div className="col-xs-3">
+						<p className="btc-notice">Click "View" to load your BTC address then click the "Login" button to access your BTC wallet in Morpheus. You can access your Bitcoin address in other wallets using your NEO Private Key.</p>
 
-							<Link>
+
+						<div className="col-xs-3">
+
+						<Link>
 							<div className="btc-button top-20 com-soon" onClick={this.getRandomAddress}><span className="glyphicon glyphicon-bitcoin marg-right-5"/> View</div>
->>>>>>> a47b40218f50717fe960a1a6e2e83ff4ba413435
-							</Link>
 
-							</div>
+						</Link>
 
-							<div className="col-xs-12 center top-10">
-								<hr className="dash-hr-wide" />
-							</div>
+						</div>
 
-<<<<<<< HEAD
-							{
-								this.state.pk !== '' ? (
-
-									<div className="col-xs-12 top-10">
-									<h4>New Bitcoin (BTC) Private Key</h4>
-									<input  className="form-control-exchange" value={this.state.pk} />
-									{/* {this.state.pk} */}
-									<br/>
-									</div>
-								): null
-							}
-
-							{
-								this.state.pa !== '' ? (
-									<div className="col-xs-12">
-=======
-
-							{
-								this.state.pa !== '' ? (
-									<div className="col-xs-9">
->>>>>>> a47b40218f50717fe960a1a6e2e83ff4ba413435
-									<h4>New Bitcoin (BTC) Public Address</h4>
-									<input className="form-control-exchange" value={this.state.pa} />
-									<br/>
-									</div>
-								): null
-							}
+						<div className="col-xs-12 center top-10">
+							<hr className="dash-hr-wide" />
+						</div>
 
 
+						{
+							this.state.pk !== '' ? (
 
-							{
-								this.state.pa !== '' ? (
-									<div className="col-xs-3 top-50">
-							<Link>
-								<div className="btc-button" onClick={()=>this.login(dispatch)} ><span className="glyphicon glyphicon-eye-close marg-right-5"/> Login</div>
-							</Link>
-							</div>
-						): null
+								<div className="col-xs-12 top-10">
+								<h4>New Bitcoin (BTC) Private Key</h4>
+								<input  className="form-control-exchange" value={this.state.pk} />
+								{/* {this.state.pk} */}
+								<br/>
+								</div>
+							): null
 						}
 
-						<div className="clearboth" />
 
-			<div className="clearboth" />
-			</div>
-<<<<<<< HEAD
+						{
+							this.state.pa !== '' ? (
+								<div className="col-xs-9">
+									>>>>>>> a47b40218f50717fe960a1a6e2e83ff4ba413435
+								<h4>New Bitcoin (BTC) Public Address</h4>
+								<input className="form-control-exchange" value={this.state.pa} />
+								<br/>
+								</div>
+							): null
+						}
 
-				<div className="col-xs-12">
-					<p className="send-notice">
-                    You should store your private key off-line in a safe dry place such as a safety deposit box or fire-proof safe.
-					</p>
 
+
+						{
+							this.state.pa !== '' ? (
+								<div className="col-xs-3 top-50">
+						<Link>
+							<div className="btc-button" onClick={()=>this.login(dispatch)} ><span className="glyphicon glyphicon-eye-close marg-right-5"/> Login</div>
+						</Link>
+						</div>
+					): null
+					}
+
+					<div className="clearboth" />
+
+		<div className="clearboth" />
+		</div>
+
+						<div className="col-xs-12">
+							<p className="send-notice">
+							You should store your private key off-line in a safe dry place such as a safety deposit box or fire-proof safe.
+							</p>
+
+						</div>
 				</div>
-=======
->>>>>>> a47b40218f50717fe960a1a6e2e83ff4ba413435
+
 			</div>
 		);
 	}

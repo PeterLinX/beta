@@ -64,7 +64,7 @@ class Assets extends Component {
 								Math.floor(this.props.rpx * 100000) / 100000
 							).format("0,0.0000")} <span className="rpx-price"> RPX</span></h3>
 							<hr className="dash-hr" />
-							<span className="market-price">$0.00 USD</span>
+							<span className="market-price">{numeral(this.props.rpx*this.props.marketRPXPrice).format("$0,0.00")} USD</span>
 						</div>
 					</Link>
 
@@ -73,10 +73,10 @@ class Assets extends Component {
 						<div className="col-5">
 							<span className="market-price">DBC {numeral(this.props.marketDBCPrice).format("$0,0.00")}</span>
 							<h3>{numeral(
-								Math.floor(this.props.bdc * 100000) / 100000
+								Math.floor(this.props.dbc * 100000) / 100000
 							).format("0,0.0000")} <span className="dbc-price"> DBC</span></h3>
 							<hr className="dash-hr" />
-							<span className="market-price">$0.00 USD</span>
+							<span className="market-price">{numeral(this.props.dbc*this.props.marketDBCPrice).format("$0,0.00")} USD</span>
 						</div>
 					</Link>
 
@@ -88,7 +88,7 @@ class Assets extends Component {
 								Math.floor(this.props.qlc * 100000) / 100000
 							).format("0,0.0000")} <span className="qlink-price"> QLC</span></h3>
 							<hr className="dash-hr" />
-							<span className="market-price">$0.00 USD</span>
+							<span className="market-price">{numeral(this.props.qlc*this.props.marketQLCPrice).format("$0,0.00")} USD</span>
 						</div>
 					</Link>
 

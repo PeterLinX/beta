@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import axios from 'axios';
 import QRCode from "qrcode.react";
 import { clipboard } from "electron";
 import { shell } from "electron";
@@ -23,6 +24,7 @@ const getLink = (net, address) => {
 const openExplorer = srcLink => {
 	shell.openExternal(srcLink);
 };
+
 
 class ReceiveBitcoin extends Component {
 

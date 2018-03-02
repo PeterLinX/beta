@@ -102,6 +102,7 @@ const sendTransaction = (
 			amount: sendAmount.value
 		});
 
+		console.log(sendAddress.value);
 		if (net=="MainNet"){
 			scriptHash = Neon.CONST.CONTRACTS.RPX;
 		} else {
@@ -114,8 +115,9 @@ const sendTransaction = (
             axios.get(apiURLForGas("GAS"))
 			.then(function (response) {
                 gas_usd = parseFloat(response.data.USD);
-                let amountGASForPay = parseInt(parseInt(sendAmount.value)*rpx_usd/gas_usd);
-                api.nep5.doTransferToken(net, scriptHash, wif, sendAddress.value ,parseInt(sendAmount.value) ,amountGASForPay)
+                let amountGASForPay = parseFloat(parseInt(sendAmount.value)*rpx_usd/gas_usd);
+                console.log("gas sending amount = "+amountGASForPay);
+                api.nep5.doTransferToken(net, scriptHash, wif, sendAddress.value ,parseInt(sendAmount.value)*100000000 ,amountGASForPay*100000000)
                     .then(response => {
                         if (response.result === undefined || response.result === false) {
                             dispatch(sendEvent(false, "Transaction failed for RPX!"));

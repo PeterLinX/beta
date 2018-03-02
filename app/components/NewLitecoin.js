@@ -7,96 +7,99 @@ import litecoinLogo from "../img/litecoin.png";
 import ReactTooltip from "react-tooltip";
 import { Link } from "react-router";
 import axios from 'axios';
-import { setBtcBalance } from '../modules/wallet'
+import { setLtcBalance } from '../modules/wallet'
 
-import { btcLogIn, btcLoginRedirect } from '../modules/account';
+import { ltcLogIn, ltcLoginRedirect } from '../modules/account';
 
 var bitcoin = require('bitcoinjs-lib');
+var litecoin = bitcoin.networks.litecoin;
 
 // var blocktrail = require('blocktrail-sdk');
 
-var key = "c6294d6b9e829b485a6dc5842a44e2de5f8e5c57";
-var secret = "073a794fbd48c76ccdde0f9d8fa12c19de554487";
+var key = "5150cb37187737d3b20b02fe02585e181e79b26b";
+var secret = "20a05d922df92cdca8885287cee30c623146403d";
 
 const getBalanceLink = (net, addr) => {
-	let url;
+    let url;
 
-	if (net === "MainNet") {
-		url = 'https://blockexplorer.com/api/addr/' + addr + '/balance';
-	} else {
-		url = 'https://testnet.blockexplorer.com/api/addr/' + addr + '/balance';
-	}
-	return url;
+    if (net === "MainNet") {
+        url = 'https://blockexplorer.com/api/addr/' + addr + '/balance';
+    } else {
+        url = 'https://testnet.blockexplorer.com/api/addr/' + addr + '/balance';
+    }
+    return url;
 };
 
 const openExplorer = srcLink => {
-	shell.openExternal(srcLink);
+    shell.openExternal(srcLink);
 };
 
 class NewLitecoin extends Component {
 
-	constructor(props){
-		super(props);
-		this.state={
-			pa: '',
-			pk: ''
-		}
+    constructor(props){
+        super(props);
+        this.state={
+            pa: '',
+            pk: ''
+        }
 
-		if(this.props.btcLoggedIn){
-			this.props.history.push("/receiveLitecoin");
-		}
+        if(this.props.ltcLoggedIn){
+            this.props.history.push("/receiveLitecoin");
+        }
 
-	}
+    }
 
-	getRandomAddress = async ()=>{
-		let opt = this.props.net == "TestNet" ? {network: bitcoin.networks.testnet} : null;
-		var keyPair = await bitcoin.ECPair.makeRandom(opt);
-		let pa = keyPair.getAddress();
-		let pk = keyPair.toWIF();
-		this.setState({
-			pa: pa,
-			pk: pk,
-		});
-	};
+    getRandomAddress = async ()=>{
+        let opt = this.props.net == "TestNet" ? {network:bitcoin.networks.testnet}:{network: bitcoin.networks.litecoin} ;
+        var keyPair = await bitcoin.ECPair.makeRandom(opt);
+        let pubKey = keyPair.getPublicKeyBuffer();
+        var scriptPubKey = bitcoin.script.witnessPubKeyHash.output.encode(bitcoin.crypto.hash160(pubKey));
+        let pa = keyPair.getAddress();
+        let pk = keyPair.toWIF();
+        this.setState({
+            pa: pa,
+            pk: pk,
+        });
+    };
 
-	login = async (dispatch) => {
-		let pk = this.state.pk;
-		if(pk == '') {
-			alert("Please input your bitcoin private key");
-			return;
-		}
+    login = async (dispatch) => {
+        let pk = this.state.pk;
+        if(pk == '') {
+            alert("Please input your litecoin private key");
+            return;
+        }
 
-		let keyPair = await bitcoin.ECPair.fromWIF(pk, this.props.net == "TestNet" ? bitcoin.networks.testnet : null);
-		let pa = keyPair.getAddress();
+        let keyPair = await bitcoin.ECPair.fromWIF(pk, this.props.net == "TestNet" ? {network:bitcoin.networks.testnet}:litecoin.networks.litecoin);
+        let pa = keyPair.getAddress();
 
-		if(pa != null){
-			dispatch(btcLogIn(pa, pk));
+        if(pa != null){
+            dispatch(ltcLogIn(pa, pk));
 
-			let balance = await axios.get(getBalanceLink(this.props.net, pa));
-			// alert("address: " + pa + "\nbalance: " + JSON.stringify(balance.data));
-			dispatch(setBtcBalance(parseFloat(balance.data) / 100000000));
+            let balance = await axios.get(getBalanceLink(this.props.net, pa));
+            // alert("address: " + pa + "\nbalance: " + JSON.stringify(balance.data));
+            dispatch(setLtcBalance(parseFloat(balance.data) / 100000000));
 
-			// var client = blocktrail.BlocktrailSDK({apiKey: key, apiSecret: secret, network: "BTC", testnet: this.props.net == "TestNet"});
+            // var client = blocktrail.BlocktrailSDK({apiKey: key, apiSecret: secret, network: "BTC", testnet: this.props.net == "TestNet"});
 
-			// client.address(pa, function(err, address) { alert(address.balance); });
+            // client.address(pa, function(err, address) { alert(address.balance); });
 
 
-			let redirectUrl = this.props.btcLoginRedirect || "/receiveLitecoin";
-			let self = this;
-			setTimeout(()=>{
-				self.props.history.push(redirectUrl);
-			}, 1000);
-		}else{
-			alert("Failed to login");
-		}
+            let redirectUrl = this.props.ltcLoginRedirect || "/receiveLitecoin";
+            let self = this;
+            setTimeout(()=>{
+                self.props.history.push(redirectUrl);
+            }, 1000);
+        }else{
+            alert("Failed to login");
+        }
 
-		this.setState({
-			pa: pa,
-			pk: ''
-		});
-	}
+        this.setState({
+            pa: pa,
+            pk: ''
+        });
+    }
 
-	render() {
+    render() {
 
 		const dispatch = this.props.dispatch;
 
@@ -186,10 +189,10 @@ const mapStateToProps = state => ({
 	price: state.wallet.price,
 	gas: state.wallet.Gas,
 
-	btcLoggedIn: state.account.btcLoggedIn,
-	btcPrivKey: state.account.btcPrivKey,
-	btcPubAddr: state.account.btcPubAddr,
-	btcLoginRedirect: state.account.btcLoginRedirect,
+    ltcLoggedIn: state.account.ltcLoggedIn,
+    ltcPrivKey: state.account.ltcPrivKey,
+    ltcPubAddr: state.account.ltcPubAddr,
+    ltcLoginRedirect: state.account.ltcLoginRedirect,
 });
 
 NewLitecoin = connect(mapStateToProps)(NewLitecoin);

@@ -1,31 +1,24 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { syncTransactionHistory } from "../components/NetworkSwitch";
+import { syncTransactionHistory ,syncBtcTransactionHistory} from "../components/NetworkSwitch";
 import { shell } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import { clipboard } from "electron";
 import Claim from "./Claim";
 import TopBar from "./TopBar";
-import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
+import { initiateBtcGetBalance, intervals } from "../components/NetworkSwitch";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import bitcoinLogo from "../img/btc-logo.png";
 
 // TODO: make this a user setting
-const getExplorerLink = (net, explorer, txid) => {
+const getBtcExplorerLink = (net, txid) => {
   let base;
-  if (explorer === "Neotracker") {
-    if (net === "MainNet") {
-      base = "https://neotracker.io/tx/";
-    } else {
-      base = "https://testnet.neotracker.io/tx/";
-    }
+  if ( net === "MainNet") {
+      base = "https://live.blockcypher.com/btc/tx/"
   } else {
-    if (net === "MainNet") {
-      base = "http://antcha.in/tx/hash/";
-    } else {
-      base = "http://testnet.antcha.in/tx/hash/";
-    }
+      base = "https://live.blockcypher.com/btc-testnet/tx/"
   }
+
   return base + txid;
 };
 
@@ -34,9 +27,9 @@ const openExplorer = srcLink => {
   shell.openExternal(srcLink);
 };
 
-const refreshBalance = (dispatch, net, address) => {
+const refreshBalance = (dispatch, net, btc_address) => {
   dispatch(sendEvent(true, "Refreshing..."));
-  initiateGetBalance(dispatch, net, address).then(response => {
+  initiateBtcGetBalance(dispatch, net, btc_address).then(response => {
     dispatch(sendEvent(true, "Received latest blockchain information."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
   });
@@ -44,10 +37,10 @@ const refreshBalance = (dispatch, net, address) => {
 
 class TransactionHistoryBTC extends Component {
   componentDidMount = () => {
-    syncTransactionHistory(
+      syncBtcTransactionHistory(
       this.props.dispatch,
       this.props.net,
-      this.props.address
+      this.props.btc_address
     );
   };
 
@@ -70,7 +63,7 @@ class TransactionHistoryBTC extends Component {
               refreshBalance(
                 this.props.dispatch,
                 this.props.net,
-                this.props.address
+                this.props.btc_address
               )
             }
           >
@@ -81,7 +74,7 @@ class TransactionHistoryBTC extends Component {
             <hr className="dash-hr-wide" />
           </div>
           <ul id="transactionList">
-            {this.props.transactions.map(t => {
+            {this.props.btc_transactions.map(t => {
               const formatGas = gas =>
                 Math.floor(parseFloat(gas) * 10000) / 10000;
               let formatAmount =
@@ -92,9 +85,8 @@ class TransactionHistoryBTC extends Component {
                     className="col-xs-9 support-qs"
                     onClick={() =>
                       openExplorer(
-                        getExplorerLink(
+                          getBtcExplorerLink(
                           this.props.net,
-                          this.props.explorer,
                           t.txid
                         )
                       )
@@ -119,11 +111,12 @@ class TransactionHistoryBTC extends Component {
 const mapStateToProps = state => ({
   blockHeight: state.metadata.blockHeight,
   address: state.account.address,
+  btc_address: state.account.btcPubAddr,
   net: state.metadata.network,
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,
   price: state.wallet.price,
-  transactions: state.wallet.transactions,
+  btc_transactions: state.wallet.btc_transactions,
   explorer: state.metadata.blockExplorer
 });
 
