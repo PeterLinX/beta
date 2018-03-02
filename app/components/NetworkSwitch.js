@@ -27,7 +27,7 @@ import {TOKENS_TEST} from "../core/constants";
 import {TOKENS} from "../core/constants";
 
 let intervals = {};
-let dbcScriptHash, ontScriptHash, qlcScriptHash, rpxScriptHash, rhptScriptHash, tkyScriptHash, zptScriptHash;
+let dbcScriptHash, nrveScriptHash, ontScriptHash, qlcScriptHash, rpxScriptHash, tkyScriptHash, tncScriptHash, zptScriptHash;
 let netSelect;
 
 // https://bittrex.com/api/v1.1/public/getmarkethistory?market=BTC-NEO
@@ -41,6 +41,16 @@ export const getMarketPriceUSD = amount => {
       return lastUSDNEO * amount;
     });
 };
+
+const getNrveBalance = async (net,address) => {
+    let nrve_token;
+    if (net === "MainNet") {
+        nrve_token = TOKENS.NRVE;
+    } else {
+        nrve_token = TOKENS_TEST.NRVE;
+    }
+    return getBalace(net,address,nrve_token);
+}
 
 
 const getOntBalance = async (net,address) => {
@@ -74,6 +84,7 @@ const getQlcBalance = async (net,address) => {
     return getBalace(net,address,qlc_token);
 }
 
+
 const getRpxBalance = async (net,address) => {
     let rpx_token;
     if (net === "MainNet") {
@@ -92,6 +103,16 @@ const getTkyBalance = async (net,address) => {
         tky_token = TOKENS_TEST.TKY;
     }
     return getBalace(net,address,tky_token);
+}
+
+const getTncBalance = async (net,address) => {
+    let tnc_token;
+    if (net === "MainNet") {
+        tnc_token = TOKENS.TNC;
+    } else {
+        tnc_token = TOKENS_TEST.TNC;
+    }
+    return getBalace(net,address,tnc_token);
 }
 
 const getZptBalance = async (net,address) => {
@@ -333,11 +354,13 @@ const initiateGetBalance = (dispatch, net, address) => {
           } else {
             let gasPrice = await getGasPrice(resultBalance.Gas);
             let marketPrices = await getMarketPrice();
-            let combinedPrice = gasPrice + resultPrice;
             //let rpxBal = await getBalanceFromApi(rpxScriptHash,address);
 
             let dbcBalance = await getDbcBalance(net,address);
             console.log("dbc balance= " + dbcBalance);
+
+            let nrveBalance = await getNrveBalance(net,address);
+            console.log("nrve balance= " + nrveBalance);
 
             let ontBalance = await getOntBalance(net,address);
             console.log("ont balance= " + ontBalance);
@@ -351,18 +374,25 @@ const initiateGetBalance = (dispatch, net, address) => {
             let tkyBalance = await getTkyBalance(net,address);
             console.log("tky balance= " + tkyBalance);
 
+            let tncBalance = await getTncBalance(net,address);
+            console.log("tnc balance= " + tncBalance);
+
             let zptBalance = await getZptBalance(net,address);
             console.log("zpt balance= " + zptBalance);
+
+            let combinedPrice = gasPrice + resultPrice;
 
             dispatch(
               setBalance(
                 resultBalance.Neo,
                 resultBalance.Gas,
                 dbcBalance,
+                nrveBalance,
                 ontBalance,
                 qlcBalance,
                 rpxBalance,
                 tkyBalance,
+                tncBalance,
                 zptBalance,
                 resultPrice,
                 combinedPrice,

@@ -1093,6 +1093,12 @@ webview {
       box-shadow: inset 0px 0px 12px #000000;
       cursor: pointer;
       -webkit-app-region: no-drag;
+      opacity: 0.85;
+}
+
+.col-3:hover {
+  opacity: 1;
+  border: 3px solid #272627;
 }
 
 .dotted {

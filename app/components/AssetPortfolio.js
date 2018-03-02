@@ -9,6 +9,7 @@ import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 
 
+import nrveLogo from "../img/nrve.png";
 import neoLogo from "../img/neo.png";
 import gasLogo from "../img/gas.png";
 import btcLogo from "../img/btc-logo.png";
@@ -238,7 +239,7 @@ class AssetPortolio extends Component {
 								<h3>{numeral(
 									Math.floor(this.props.rhpt * 10) / 10
 								).format("0,0")} <span className="hp-price"> RHPT</span></h3>
-								<hr className="dash-hr" />
+								<hr className="dash-hr" />Priceless
 								<span className="market-price">$0.00 USD</span>
 							</div>
 							</div>
@@ -321,6 +322,26 @@ class AssetPortolio extends Component {
 							</div>
 							</div>
 						</Link>
+
+
+						<div className="col-3">
+						<div className="port-logo-col">
+						<img
+							src={nrveLogo}
+							alt=""
+							width="36"
+							className="port-logos"
+						/>
+						<hr className="dash-hr" />
+						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendNRVE"><span className=" glyphicon glyphicon-send "/></Link></h3>
+						</div>
+						<div className="port-price-col">
+							<span className="market-price">Narrative $0.00</span>
+							<h3>{numeral(this.props.nrve).format("0,0.0000")} <span className="dbc-price"> NRVE</span></h3>
+							<hr className="dash-hr" />
+							<span className="market-price">$0.00 USD</span>
+						</div>
+						</div>
 
 
 
@@ -520,6 +541,7 @@ const mapStateToProps = state => ({
 	qlc: state.wallet.Qlc,
 	rpx: state.wallet.Rpx,
 	tky: state.wallet.Tky,
+	tnc: state.wallet.Tnc,
 	zpt: state.wallet.Zpt,
 	address: state.account.address,
 	net: state.metadata.network,

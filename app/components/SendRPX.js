@@ -22,7 +22,7 @@ import {
 } from "../modules/transactions";
 
 
-let sendAddress, sendAmount, confirmButton, scriptHash ,rpx_usd, gas_usd;
+let sendAddress, sendAmount, confirmButton, scriptHash, rpx_usd, gas_usd;
 
 const apiURL = val => {
 	return "https://min-api.cryptocompare.com/data/price?fsym=RPX&tsyms=USD";
@@ -102,26 +102,26 @@ const sendTransaction = (
 			amount: sendAmount.value
 		});
 
+		console.log(sendAddress.value);
 		if (net=="MainNet"){
 			scriptHash = Neon.CONST.CONTRACTS.RPX;
 		} else {
 			scriptHash = Neon.CONST.CONTRACTS.TEST_RPX;
 		}
 
-        axios.get(apiURL("RPX"))
+    axios.get(apiURL("RPX"))
 		.then(function (response) {
-            rpx_usd = parseFloat(response.data.USD);
-
-            axios.get(apiURLForGas("GAS"))
-			.then(function (response) {
-                gas_usd = parseFloat(response.data.USD);
-
-      let amountGASForPay = parseInt(parseInt(sendAmount.value)*rpx_usd/gas_usd);
-      api.nep5.doTransferToken(net, scriptHash, wif, sendAddress.value ,parseInt(sendAmount.value * 100000000) ,amountGASForPay)
+    rpx_usd = parseFloat(response.data.USD);
+    axios.get(apiURLForGas("GAS"))
+		.then(function (response) {
+    gas_usd = parseFloat(response.data.USD);
+    let amountGASForPay = parseFloat(parseInt(sendAmount.value)*rpx_usd/gas_usd);
+      console.log("gas sending amount = "+amountGASForPay);
+      api.nep5.doTransferToken(net, scriptHash, wif, sendAddress.value ,parseInt(sendAmount.value)*100000000)
       .then(response => {
-      if (response.result === undefined || response.result === false) {
-      dispatch(sendEvent(false, "Transaction failed!"));
-      } else {
+                        if (response.result === undefined || response.result === false) {
+                            dispatch(sendEvent(false, "Transaction failed for RPX!"));
+                        } else {
                             dispatch(
                                 sendEvent(
                                     true,
@@ -129,11 +129,11 @@ const sendTransaction = (
                                 )
                             );
                         }
-                        setTimeout(() => dispatch(clearTransactionEvent()), 3000);
+                        setTimeout(() => dispatch(clearTransactionEvent()), 1000);
                     }).catch(e=>{
                     alert(e.message);
-                    dispatch(sendEvent(false, "Transaction failed!"));
-                    setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+                    dispatch(sendEvent(false, "Transaction failed for RPX!"));
+                    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
                 });
 			})
 			.catch(function (error) {
