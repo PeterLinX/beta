@@ -289,7 +289,9 @@ class Settings extends Component {
               </div>
 
               <div className="col-xs-2 center">
-                <Link to="/">
+                <Link to="/"
+                onClick={() => dispatch(logout())}
+                >
                   <div className="dash-icon-bar">
                     <div className="icon-border">
                       <span className="glyphicon glyphicon-remove" />

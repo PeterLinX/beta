@@ -351,57 +351,7 @@ class LoginLedgerNanoS extends Component {
 		const { ledgerAvailable } = this.state;
 
 		return (
-			<div onLoad={() => {
-				this.getLedgerAddress();
-			}}>
-				<div id="mainNav" className="main-nav">
-					<div className="navbar navbar-inverse">
-						<div className="navbar-header">
-							<div className="logoContainer">
-								<Dashlogo width={85} />
-							</div>
-							<div id="balance">
-								{numeral(this.props.combined).format("$0,0.00")}
-								<span className="bal-usd">USD</span>
-								<span className="comb-bal">Available Balance</span>
-							</div>
-						</div>
-						<div className="clearfix" />
-						<hr className="dash-hr" />
-						<div className="navbar-collapse collapse">
-							<ul className="nav navbar-nav">
-								<li>
-									<Link to={"/LoginLedgerNanoS"} activeClassName="active">
-										<span className="glyphicon glyphicon-th-large" /> Ledger
-									</Link>
-								</li>
-								<li>
-									<Link to={"/LedgerNanoSend"} activeClassName="active">
-										<span className="glyphicon glyphicon-send" /> Send
-									</Link>
-								</li>
-								<li>
-									<Link to={"/TransactionLedger"} activeClassName="active">
-										<span className="glyphicon glyphicon-list-alt" /> History
-									</Link>
-								</li>
-								<li>
-									<Link to={"/"} activeClassName="active">
-										<span className="glyphicon glyphicon-question-sign" /> Help
-									</Link>
-								</li>
-								<li>
-									<Link to={"/"} activeClassName="active">
-										<span className="glyphicon glyphicon-circle-arrow-left" />{" "} Logout
-									</Link>
-								</li>
-							</ul>
-						</div>
-					</div>
-
-					<span className="dashnetwork">Network: {this.props.net}</span>
-					<div className="copyright">&copy; Copyright 2018 Morpheus</div>
-				</div>
+			<div >
 
 				<div className="main-container">
 					<div className="header">
@@ -410,11 +360,11 @@ class LoginLedgerNanoS extends Component {
                 NEO {numeral(this.props.marketNEOPrice).format("$0,0.00")}
 							</p>
 							<p className="neo-text">
-								{this.state.ledgerBalanceNeo} <span>NEO</span>
+								{this.props.neo} <span>NEO</span>
 							</p>
 							<hr className="dash-hr" />
 							<p className="neo-balance">
-								{numeral(this.state.ledgerNEOUSD).format("$0,0.00")} US
+								{numeral(this.props.price).format("$0,0.00")} US
 							</p>
 						</div>
 
@@ -425,13 +375,13 @@ class LoginLedgerNanoS extends Component {
                 GAS {numeral(this.props.marketGASPrice).format("$0,0.00")}
 							</p>
 							<p className="gas-text">
-								{Math.floor(this.state.ledgerBalanceGas * 10000000) / 10000000}{" "}
+								{Math.floor(this.props.gas * 10000000) / 10000000}{" "}
 								<span>GAS</span>
 							</p>
 							<hr className="dash-hr" />
 							<p className="neo-balance">
 								{" "}
-								{numeral(this.state.ledgerGASUSD).format("$0,0.00")} USD
+								{numeral(this.props.gasPrice).format("$0,0.00")} USD
 							</p>
 						</div>
 					</div>

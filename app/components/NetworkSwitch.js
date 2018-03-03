@@ -130,7 +130,7 @@ const getBalace = async (net,address,token) => {
 }
 
 const getBalanceFromApi = async (scriptHash,address) => {
-    api.nep5.getTokenBalance("http://seed3.neo.org:10332",scriptHash,address)
+    api.nep5.getTokenBalance("http://seed2.bridgeprotocol.io:10332",scriptHash,address)
     .then(response =>{
         console.log(JSON.stringify(response));
         let rpxBal = Number(response);
