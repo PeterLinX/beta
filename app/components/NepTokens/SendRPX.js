@@ -1,32 +1,38 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
+import Neon from "@cityofzion/neon-js";
 import { doSendAsset, verifyAddress } from "neon-js";
+import { api,wallet,sc,rpc } from "@cityofzion/neon-js";
 import Modal from "react-bootstrap-modal";
 import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
-import { log } from "../util/Logs";
-import hashpuppiesLogo from "../img/hashpuppies.png";
-import Claim from "./Claim.js";
-import TopBar from "./TopBar";
-import Assets from "./Assets";
+import { log } from "../../util/Logs";
+import rpxLogo from "../../img/rpx.png";
+import Assets from "./../Assets";
 import { clipboard } from "electron";
-import { togglePane } from "../modules/dashboard";
+import { togglePane } from "../../modules/dashboard";
 import {
 	sendEvent,
 	clearTransactionEvent,
 	toggleAsset
-} from "../modules/transactions";
+} from "../../modules/transactions";
 
-let sendAddress, sendAmount, confirmButton;
+
+let sendAddress, sendAmount, confirmButton, scriptHash, rpx_usd, gas_usd;
 
 const apiURL = val => {
 	return "https://min-api.cryptocompare.com/data/price?fsym=RPX&tsyms=USD";
 };
 
+const apiURLForGas = val => {
+    return "https://min-api.cryptocompare.com/data/price?fsym=GAS&tsyms=USD";
+};
+
 // form validators for input fields
 const validateForm = (dispatch, neo_balance, gas_balance, asset) => {
+    alert(asset);
 	// check for valid address
 	try {
 		if (
@@ -93,24 +99,48 @@ const sendTransaction = (
 			asset: asset,
 			amount: sendAmount.value
 		});
-		doSendAsset(net, sendAddress.value, wif, asset, sendAmount.value)
-			.then(response => {
-				if (response.result === undefined || response.result === false) {
-					dispatch(sendEvent(false, "Transaction failed!"));
-				} else {
-					dispatch(
-						sendEvent(
-							true,
-							"Transaction complete! Your balance will automatically update when the blockchain has processed it."
-						)
-					);
-				}
-				setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+
+		console.log(sendAddress.value);
+		if (net=="MainNet"){
+			scriptHash = Neon.CONST.CONTRACTS.RPX;
+		} else {
+			scriptHash = Neon.CONST.CONTRACTS.TEST_RPX;
+		}
+
+    axios.get(apiURL("RPX"))
+		.then(function (response) {
+    rpx_usd = parseFloat(response.data.USD);
+    axios.get(apiURLForGas("GAS"))
+		.then(function (response) {
+    gas_usd = parseFloat(response.data.USD);
+    let amountGASForPay = parseFloat(parseInt(sendAmount.value)*rpx_usd/gas_usd);
+      console.log("gas sending amount = "+amountGASForPay);
+      api.nep5.doTransferToken(net, scriptHash, wif, sendAddress.value ,parseInt(sendAmount.value)*100000000)
+      .then(response => {
+                        if (response.result === undefined || response.result === false) {
+                            dispatch(sendEvent(false, "Transaction failed for RPX!"));
+                        } else {
+                            dispatch(
+                                sendEvent(
+                                    true,
+                                    "Transaction complete for RPX! Your balance will automatically update when the blockchain has processed it."
+                                )
+                            );
+                        }
+                        setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                    }).catch(e=>{
+                    alert(e.message);
+                    dispatch(sendEvent(false, "Transaction failed for RPX!"));
+                    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                });
 			})
-			.catch(e => {
-				dispatch(sendEvent(false, "Transaction failed!"));
-				setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+			.catch(function (error) {
+				console.log(error);
 			});
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
 	}
 	// close confirm pane and clear fields
 	dispatch(togglePane("confirmPane"));
@@ -119,7 +149,7 @@ const sendTransaction = (
 	confirmButton.blur();
 };
 
-class SendHP extends Component {
+class SendRPX extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -198,7 +228,7 @@ class SendHP extends Component {
 		if (selectedAsset === "Neo") {
 			btnClass = "btn-send";
 			convertFunction = this.handleChangeNeo;
-			formClass = "form-send-hp";
+			formClass = "form-send-rpx";
 			priceUSD = this.state.neo_usd;
 			inputEnabled = true;
 		} else if (selectedAsset === "Gas") {
@@ -211,19 +241,18 @@ class SendHP extends Component {
 		}
 		return (
 			<div>
-
 				<Assets />
 				<div id="send">
 
 					<div className="row dash-chart-panel">
 						<div className="col-xs-9">
 							<img
-								src={hashpuppiesLogo}
+								src={rpxLogo}
 								alt=""
-								width="48"
+								width="96"
 								className="neo-logo fadeInDown"
 							/>
-							<h2> Send HashPuppies Tokens</h2>
+							<h2>Send Red Pulse Tokens</h2>
 						</div>
 
 						<div className="col-xs-3 top-20 center com-soon">
@@ -241,7 +270,7 @@ class SendHP extends Component {
 								<input
 									className={formClass}
 									id="center"
-									placeholder="Enter a valid RHPT public address here"
+									placeholder="Enter a valid RPX public address here"
 									ref={node => {
 										sendAddress = node;
 									}}
@@ -250,8 +279,8 @@ class SendHP extends Component {
 
 							<div className="col-xs-3">
 								<Link to="/send">
-									<div className="pink-button">
-                      RHPT
+									<div className="btn-red">
+                      RPX
 									</div>
 								</Link>
 							</div>
@@ -270,7 +299,7 @@ class SendHP extends Component {
 									}}
 								/>
 								<div className="clearboth"/>
-								<span className="com-soon block top-10">Amount in RHPT to send</span>
+								<span className="com-soon block top-10">Amount in RPX to send</span>
 							</div>
 							<div className="col-xs-4 top-20">
 								<input
@@ -289,14 +318,14 @@ class SendHP extends Component {
 							<div className="col-xs-3 top-20">
 								<div id="sendAddress">
 									<button
-										className="hp-button"
+										className="rpx-button"
 										onClick={() =>
 											sendTransaction(
 												dispatch,
 												net,
 												address,
 												wif,
-												selectedAsset,
+												"RPX",
 												neo,
 												gas
 											)
@@ -315,7 +344,7 @@ class SendHP extends Component {
 
 					<div className="send-notice">
 						<p>
-              Sending HashPuppies requires a balance of 1 GAS+. Only send RHPT to a valid address that supports NEP tokens on the NEO blockchain. When sending RHPT to an exchange please ensure the address supports RHPT tokens.
+              Sending RPX requires a balance of 1 GAS+. Only send RPX to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending RPX to an exchange please ensure the address supports RPX tokens.
 						</p>
 						<div className="col-xs-2 top-20"/>
 						<div className="col-xs-8 top-20">
@@ -336,7 +365,12 @@ class SendHP extends Component {
 						</div>
 					</div>
 
+
 				</div>
+
+
+
+
 
 
 
@@ -356,6 +390,5 @@ const mapStateToProps = state => ({
 	confirmPane: state.dashboard.confirmPane
 });
 
-SendHP = connect(mapStateToProps)(SendHP);
-
-export default SendHP;
+SendRPX = connect(mapStateToProps)(SendRPX);
+export default SendRPX;

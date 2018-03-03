@@ -22,10 +22,10 @@ import { Accordion, AccordionItem } from "react-sanfona";
 
 import Logout from "../components/Logout";
 import Send from "../components/Send";
-import SendRPX from "../components/SendRPX";
-import SendDBC from "../components/SendDBC";
-import SendQLC from "../components/SendQLC";
-import SendHP from "../components/SendHP";
+import SendRPX from "../components/NepTokens/SendRPX";
+import SendDBC from "../components/NepTokens/SendDBC";
+import SendQLC from "../components/NepTokens/SendQLC";
+import SendHP from "../components/NepTokens/SendHP";
 import SendBTC from "../components/SendBTC";
 import SendLTC from "../components/SendLTC";
 import AssetPortfolio from "../components/AssetPortfolio";

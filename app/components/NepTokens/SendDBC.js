@@ -1,33 +1,30 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
-import { doSendAsset, verifyAddress } from "neon-js";
 import { api,wallet,sc,rpc } from "@cityofzion/neon-js";
+import { doSendAsset, verifyAddress } from "neon-js";
 import Modal from "react-bootstrap-modal";
 import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
-import { log } from "../util/Logs";
-import qlinkLogo from "../img/qlink.png";
-import Claim from "./Claim.js";
-import TopBar from "./TopBar";
-import Assets from "./Assets";
-import { TOKENS_TEST } from  "../core/constants";
-import  { TOKENS } from  "../core/constants";
+import { log } from "../../util/Logs";
+import deepLogo from "../../img/deep.png";
+import Assets from "./../Assets";
 import { clipboard } from "electron";
-import { togglePane } from "../modules/dashboard";
+import { togglePane } from "../../modules/dashboard";
+import { TOKENS_TEST } from  "../../core/constants";
+import  { TOKENS } from  "../../core/constants";
 import {
 	sendEvent,
 	clearTransactionEvent,
 	toggleAsset
-} from "../modules/transactions";
+} from "../../modules/transactions";
 
-let sendAddress, sendAmount, confirmButton, scriptHash, gas_usd ,qlc_usd;
+let sendAddress, sendAmount, confirmButton, scriptHash,dbc_usd ,gas_usd;
 
 const apiURL = val => {
-	return "https://min-api.cryptocompare.com/data/price?fsym=QLC&tsyms=USD";
+	return "https://min-api.cryptocompare.com/data/price?fsym=DBC&tsyms=USD";
 };
-
 const apiURLForGas = val => {
     return "https://min-api.cryptocompare.com/data/price?fsym=GAS&tsyms=USD";
 };
@@ -82,17 +79,6 @@ const openAndValidate = (dispatch, neo_balance, gas_balance, asset) => {
 	}
 };
 
-// async function getQLC() {
-//     let qlc = await  axios.get(apiURL("QLC"));
-//     qlc = qlc.data.USD;
-//     return  JSON.stringify(qlc);
-// }
-//
-// async function getGAS() {
-// 	let gas = await  axios.get(apiURLForGas("GAS"));
-// 	gas = gas.data.USD;
-// 	return JSON.stringify(gas.then(f));
-// }
 // perform send transaction
 const sendTransaction = (
 	dispatch,
@@ -112,46 +98,46 @@ const sendTransaction = (
 			amount: sendAmount.value
 		});
 
-		if (net == "MainNet") {
-			scriptHash = TOKENS.QLC;
+		if (net== "MainNet") {
+			scriptHash = TOKENS.DBC;
 		} else {
-			scriptHash = TOKENS_TEST.QLC;
+			scriptHash = TOKENS_TEST.DBC;
 		}
 
-        axios.get(apiURL("QLC"))
-        .then(function (response) {
-            qlc_usd = parseFloat(response.data.USD);
+        axios.get(apiURL("DBC"))
+		.then(function (response) {
+            dbc_usd = parseFloat(response.data.USD);
             axios.get(apiURLForGas("GAS"))
-            .then(function (response) {
-                gas_usd = parseFloat(response.data.USD);
-                let amountGASForPay = parseInt(parseInt(sendAmount.value)*qlc_usd/gas_usd);
-                api.nep5.doTransferToken(net, scriptHash, wif, sendAddress.value ,parseInt(sendAmount.value) ,amountGASForPay)
-                    .then(response => {
-                        if (response.result === undefined || response.result === false) {
-                            dispatch(sendEvent(false, "Transaction failed for DBC!"));
-                        } else {
-                            dispatch(
-                                sendEvent(
-                                    true,
-                                    "Transaction complete for QLC! Your balance will automatically update when the blockchain has processed it."
-                                )
-                            );
-                        }
+                .then(function (response) {
+                    gas_usd = parseFloat(response.data.USD);
+                    let amountGASForPay = parseInt(parseInt(sendAmount.value)*dbc_usd/gas_usd);
+                    api.nep5.doTransferToken(net, scriptHash, wif, sendAddress.value ,parseInt(sendAmount.value) ,amountGASForPay)
+                        .then(response => {
+                            if (response.result === undefined || response.result === false) {
+                                dispatch(sendEvent(false, "Transaction failed for DBC!"));
+                            } else {
+                                dispatch(
+                                    sendEvent(
+                                        true,
+                                        "Transaction complete for DBC! Your balance will automatically update when the blockchain has processed it."
+                                    )
+                                );
+                            }
+                            setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                        }).catch(e=>{
+                        alert(e.message);
+                        dispatch(sendEvent(false, "Transaction failed for DBC!"));
                         setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-                    }).catch(e=>{
-                    alert(e.message);
-                    dispatch(sendEvent(false, "Transaction failed for QLC!"));
-                    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                    });
+                })
+                .catch(function (error) {
+                    console.log(error);
                 });
-            })
-            .catch(function (error) {
-                alert(error);
-            });
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
 
-        })
-        .catch(function (error) {
-            alert(error);
-        });
 	}
 	// close confirm pane and clear fields
 	dispatch(togglePane("confirmPane"));
@@ -160,7 +146,7 @@ const sendTransaction = (
 	confirmButton.blur();
 };
 
-class SendQLC extends Component {
+class SendDBC extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -239,7 +225,7 @@ class SendQLC extends Component {
 		if (selectedAsset === "Neo") {
 			btnClass = "btn-send";
 			convertFunction = this.handleChangeNeo;
-			formClass = "form-send-qlc";
+			formClass = "form-send-dbc";
 			priceUSD = this.state.neo_usd;
 			inputEnabled = true;
 		} else if (selectedAsset === "Gas") {
@@ -259,12 +245,12 @@ class SendQLC extends Component {
 					<div className="row dash-chart-panel">
 						<div className="col-xs-9">
 							<img
-								src={qlinkLogo}
+								src={deepLogo}
 								alt=""
-								width="96"
+								width="48"
 								className="neo-logo fadeInDown"
 							/>
-							<h2> Send QLink Tokens</h2>
+							<h2> Send DeepBrain Tokens</h2>
 						</div>
 
 						<div className="col-xs-3 top-20 center com-soon">
@@ -282,7 +268,7 @@ class SendQLC extends Component {
 								<input
 									className={formClass}
 									id="center"
-									placeholder="Enter a valid QLC public address here"
+									placeholder="Enter a valid DBC public address here"
 									ref={node => {
 										sendAddress = node;
 									}}
@@ -291,8 +277,8 @@ class SendQLC extends Component {
 
 							<div className="col-xs-3">
 								<Link to="/send">
-									<div className="purple-button">
-                      QLC
+									<div className="blue-button">
+                      DBC
 									</div>
 								</Link>
 							</div>
@@ -311,7 +297,7 @@ class SendQLC extends Component {
 									}}
 								/>
 								<div className="clearboth"/>
-								<span className="com-soon block top-10">Amount in QKL to send</span>
+								<span className="com-soon block top-10">Amount in DBC to send</span>
 							</div>
 							<div className="col-xs-4 top-20">
 								<input
@@ -330,14 +316,14 @@ class SendQLC extends Component {
 							<div className="col-xs-3 top-20">
 								<div id="sendAddress">
 									<button
-										className="qlc-button"
+										className="dbc-button"
 										onClick={() =>
 											sendTransaction(
 												dispatch,
 												net,
 												address,
 												wif,
-												"QLC",
+												"DBC",
 												neo,
 												gas
 											)
@@ -356,7 +342,7 @@ class SendQLC extends Component {
 
 					<div className="send-notice">
 						<p>
-              Sending QLink requires a balance of 1 GAS+. Only send QLC to a valid address that supports NEP tokens on the NEO blockchain. When sending QLC to an exchange please ensure the address supports QLC tokens.
+              Sending DeepBrain requires a balance of 1 GAS+. Only send DBC to a valid address that supports NEP tokens on the NEO blockchain. When sending DBC to an exchange please ensure the address supports DBC tokens.
 						</p>
 						<div className="col-xs-2 top-20"/>
 						<div className="col-xs-8 top-20">
@@ -381,6 +367,10 @@ class SendQLC extends Component {
 
 
 
+
+
+
+
 			</div>
 		);
 	}
@@ -397,6 +387,6 @@ const mapStateToProps = state => ({
 	confirmPane: state.dashboard.confirmPane
 });
 
-SendQLC = connect(mapStateToProps)(SendQLC);
+SendDBC = connect(mapStateToProps)(SendDBC);
 
-export default SendQLC;
+export default SendDBC;

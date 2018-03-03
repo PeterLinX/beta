@@ -27,7 +27,7 @@ import {TOKENS_TEST} from "../core/constants";
 import {TOKENS} from "../core/constants";
 
 let intervals = {};
-let dbcScriptHash, nrveScriptHash, ontScriptHash, qlcScriptHash, rpxScriptHash, tkyScriptHash, tncScriptHash, zptScriptHash;
+let dbcScriptHash, ontScriptHash, qlcScriptHash, rpxScriptHash, tkyScriptHash, tncScriptHash, zptScriptHash;
 let netSelect;
 
 // https://bittrex.com/api/v1.1/public/getmarkethistory?market=BTC-NEO
@@ -41,16 +41,6 @@ export const getMarketPriceUSD = amount => {
       return lastUSDNEO * amount;
     });
 };
-
-const getNrveBalance = async (net,address) => {
-    let nrve_token;
-    if (net === "MainNet") {
-        nrve_token = TOKENS.NRVE;
-    } else {
-        nrve_token = TOKENS_TEST.NRVE;
-    }
-    return getBalace(net,address,nrve_token);
-}
 
 
 const getOntBalance = async (net,address) => {
@@ -359,9 +349,6 @@ const initiateGetBalance = (dispatch, net, address) => {
             let dbcBalance = await getDbcBalance(net,address);
             console.log("dbc balance= " + dbcBalance);
 
-            let nrveBalance = await getNrveBalance(net,address);
-            console.log("nrve balance= " + nrveBalance);
-
             let ontBalance = await getOntBalance(net,address);
             console.log("ont balance= " + ontBalance);
 
@@ -385,7 +372,6 @@ const initiateGetBalance = (dispatch, net, address) => {
                 resultBalance.Neo,
                 resultBalance.Gas,
                 dbcBalance,
-                nrveBalance,
                 ontBalance,
                 qlcBalance,
                 rpxBalance,

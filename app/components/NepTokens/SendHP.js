@@ -1,34 +1,26 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
-import { api,wallet,sc,rpc } from "@cityofzion/neon-js";
 import { doSendAsset, verifyAddress } from "neon-js";
 import Modal from "react-bootstrap-modal";
 import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
-import { log } from "../util/Logs";
-import deepLogo from "../img/deep.png";
-import Claim from "./Claim.js";
-import TopBar from "./TopBar";
-import Assets from "./Assets";
+import { log } from "../../util/Logs";
+import hashpuppiesLogo from "../../img/hashpuppies.png";
+import Assets from "./../Assets";
 import { clipboard } from "electron";
-import { togglePane } from "../modules/dashboard";
-import { TOKENS_TEST } from  "../core/constants";
-import  { TOKENS } from  "../core/constants";
+import { togglePane } from "../../modules/dashboard";
 import {
 	sendEvent,
 	clearTransactionEvent,
 	toggleAsset
-} from "../modules/transactions";
+} from "../../modules/transactions";
 
-let sendAddress, sendAmount, confirmButton, scriptHash,dbc_usd ,gas_usd;
+let sendAddress, sendAmount, confirmButton;
 
 const apiURL = val => {
-	return "https://min-api.cryptocompare.com/data/price?fsym=DBC&tsyms=USD";
-};
-const apiURLForGas = val => {
-    return "https://min-api.cryptocompare.com/data/price?fsym=GAS&tsyms=USD";
+	return "https://min-api.cryptocompare.com/data/price?fsym=RPX&tsyms=USD";
 };
 
 // form validators for input fields
@@ -99,47 +91,24 @@ const sendTransaction = (
 			asset: asset,
 			amount: sendAmount.value
 		});
-
-		if (net== "MainNet") {
-			scriptHash = TOKENS.DBC;
-		} else {
-			scriptHash = TOKENS_TEST.DBC;
-		}
-
-        axios.get(apiURL("DBC"))
-		.then(function (response) {
-            dbc_usd = parseFloat(response.data.USD);
-            axios.get(apiURLForGas("GAS"))
-                .then(function (response) {
-                    gas_usd = parseFloat(response.data.USD);
-                    let amountGASForPay = parseInt(parseInt(sendAmount.value)*dbc_usd/gas_usd);
-                    api.nep5.doTransferToken(net, scriptHash, wif, sendAddress.value ,parseInt(sendAmount.value) ,amountGASForPay)
-                        .then(response => {
-                            if (response.result === undefined || response.result === false) {
-                                dispatch(sendEvent(false, "Transaction failed for DBC!"));
-                            } else {
-                                dispatch(
-                                    sendEvent(
-                                        true,
-                                        "Transaction complete for DBC! Your balance will automatically update when the blockchain has processed it."
-                                    )
-                                );
-                            }
-                            setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-                        }).catch(e=>{
-                        alert(e.message);
-                        dispatch(sendEvent(false, "Transaction failed for DBC!"));
-                        setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-                    });
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-
+		doSendAsset(net, sendAddress.value, wif, asset, sendAmount.value)
+			.then(response => {
+				if (response.result === undefined || response.result === false) {
+					dispatch(sendEvent(false, "Transaction failed!"));
+				} else {
+					dispatch(
+						sendEvent(
+							true,
+							"Transaction complete! Your balance will automatically update when the blockchain has processed it."
+						)
+					);
+				}
+				setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+			})
+			.catch(e => {
+				dispatch(sendEvent(false, "Transaction failed!"));
+				setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+			});
 	}
 	// close confirm pane and clear fields
 	dispatch(togglePane("confirmPane"));
@@ -148,7 +117,7 @@ const sendTransaction = (
 	confirmButton.blur();
 };
 
-class SendDBC extends Component {
+class SendHP extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -227,7 +196,7 @@ class SendDBC extends Component {
 		if (selectedAsset === "Neo") {
 			btnClass = "btn-send";
 			convertFunction = this.handleChangeNeo;
-			formClass = "form-send-dbc";
+			formClass = "form-send-hp";
 			priceUSD = this.state.neo_usd;
 			inputEnabled = true;
 		} else if (selectedAsset === "Gas") {
@@ -247,12 +216,12 @@ class SendDBC extends Component {
 					<div className="row dash-chart-panel">
 						<div className="col-xs-9">
 							<img
-								src={deepLogo}
+								src={hashpuppiesLogo}
 								alt=""
 								width="48"
 								className="neo-logo fadeInDown"
 							/>
-							<h2> Send DeepBrain Tokens</h2>
+							<h2> Send HashPuppies Tokens</h2>
 						</div>
 
 						<div className="col-xs-3 top-20 center com-soon">
@@ -270,7 +239,7 @@ class SendDBC extends Component {
 								<input
 									className={formClass}
 									id="center"
-									placeholder="Enter a valid DBC public address here"
+									placeholder="Enter a valid RHPT public address here"
 									ref={node => {
 										sendAddress = node;
 									}}
@@ -279,8 +248,8 @@ class SendDBC extends Component {
 
 							<div className="col-xs-3">
 								<Link to="/send">
-									<div className="blue-button">
-                      DBC
+									<div className="pink-button">
+                      RHPT
 									</div>
 								</Link>
 							</div>
@@ -299,7 +268,7 @@ class SendDBC extends Component {
 									}}
 								/>
 								<div className="clearboth"/>
-								<span className="com-soon block top-10">Amount in DBC to send</span>
+								<span className="com-soon block top-10">Amount in RHPT to send</span>
 							</div>
 							<div className="col-xs-4 top-20">
 								<input
@@ -318,14 +287,14 @@ class SendDBC extends Component {
 							<div className="col-xs-3 top-20">
 								<div id="sendAddress">
 									<button
-										className="dbc-button"
+										className="hp-button"
 										onClick={() =>
 											sendTransaction(
 												dispatch,
 												net,
 												address,
 												wif,
-												"DBC",
+												selectedAsset,
 												neo,
 												gas
 											)
@@ -344,7 +313,7 @@ class SendDBC extends Component {
 
 					<div className="send-notice">
 						<p>
-              Sending DeepBrain requires a balance of 1 GAS+. Only send DBC to a valid address that supports NEP tokens on the NEO blockchain. When sending DBC to an exchange please ensure the address supports DBC tokens.
+              Sending HashPuppies requires a balance of 1 GAS+. Only send RHPT to a valid address that supports NEP tokens on the NEO blockchain. When sending RHPT to an exchange please ensure the address supports RHPT tokens.
 						</p>
 						<div className="col-xs-2 top-20"/>
 						<div className="col-xs-8 top-20">
@@ -369,10 +338,6 @@ class SendDBC extends Component {
 
 
 
-
-
-
-
 			</div>
 		);
 	}
@@ -389,6 +354,6 @@ const mapStateToProps = state => ({
 	confirmPane: state.dashboard.confirmPane
 });
 
-SendDBC = connect(mapStateToProps)(SendDBC);
+SendHP = connect(mapStateToProps)(SendHP);
 
-export default SendDBC;
+export default SendHP;
