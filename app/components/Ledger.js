@@ -13,6 +13,7 @@ import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
 import ledgerLogo from "../images/ledger-logo.png";
 import Claim from "./Claim.js";
+import TopBar from "./TopBar";
 import { togglePane } from "../modules/dashboard";
 import {
   sendEvent,
@@ -298,7 +299,6 @@ class Ledger extends Component {
       <div id="send">
         <div id="sendPane">
 
-
           {ledgerAvailable ? (
             <div className="ledger-nanos animated fadeInUp" />
           ) : (
@@ -329,10 +329,10 @@ class Ledger extends Component {
             </ReactTooltip>
             <div className="col-xs-3 center">
               <h4 className="neo-text">
-                {this.props.neo} <span>NEO</span>
+                {this.state.ledgerBalanceNeo} <span>NEO</span>
               </h4>
               <span className="com-soon">
-                {numeral(this.state.price).format("$0,0.00")}{" "}
+                {numeral(this.state.ledgerNEOUSD).format("$0,0.00")}{" "}
               </span>
             </div>
 
@@ -348,11 +348,11 @@ class Ledger extends Component {
 
             <div className="col-xs-4 center">
               <h4 className="gas-text-ledger top-10 ">
-                {Math.floor(this.state.gas * 10000000) / 10000000}{" "}
+                {Math.floor(this.state.ledgerBalanceGas * 10000000) / 10000000}{" "}
                 <span>GAS</span>
               </h4>
               <span className="com-soon top-10">
-                {numeral(this.state.gasPrice).format("$0,0.00")}{" "}
+                {numeral(this.state.ledgerGASUSD).format("$0,0.00")}{" "}
               </span>
             </div>
             <div className="clearboth" />

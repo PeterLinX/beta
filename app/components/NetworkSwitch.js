@@ -43,6 +43,10 @@ export const getMarketPriceUSD = amount => {
 };
 
 
+
+https://min-api.cryptocompare.com/data/pricemulti?fsyms=RPX&tsyms=USD
+
+
 const getOntBalance = async (net,address) => {
     let ont_token;
     if (net === "MainNet") {
@@ -127,19 +131,6 @@ const getBalace = async (net,address,token) => {
         console.log("invalid scriptHash")
         return 0;
     }
-}
-
-const getBalanceFromApi = async (scriptHash,address) => {
-    api.nep5.getTokenBalance("http://seed2.bridgeprotocol.io:10332",scriptHash,address)
-    .then(response =>{
-        console.log(JSON.stringify(response));
-        let rpxBal = Number(response);
-        return rpxBal;
-    })
-    .catch(error =>{
-      console.log("rpx balance\n")
-       console.log(error.message);
-    });
 }
 
 const getGasPrice = async gasVal => {
@@ -325,26 +316,16 @@ const initiateGetBalance = (dispatch, net, address) => {
   syncAvailableClaim(dispatch, net, address);
   syncBlockHeight(dispatch, net);
 
-  if (net == "MainNet") {
-      rpxScriptHash = Neon.CONST.CONTRACTS.RPX;
-      dbcScriptHash = Neon.CONST.CONTRACTS.DBC;
-      zptScriptHash = Neon.CONST.CONTRACTS.ZPT;
-  } else {
-      rpxScriptHash = Neon.CONST.CONTRACTS.TEST_RPX;
-      dbcScriptHash = Neon.CONST.CONTRACTS.TEST_DBC;
-  }
-
   return getBalance(net, address)
     .then(resultBalance => {
-      return getMarketPriceUSD(resultBalance.Neo)
-        .then(async resultPrice => {
+    return getMarketPriceUSD(resultBalance.Neo)
+      .then(async resultPrice => {
           if (resultPrice === undefined || resultPrice === null) {
             dispatch(setBalance(resultBalance.Neo, resultBalance.Gas, "--"));
           } else {
             let gasPrice = await getGasPrice(resultBalance.Gas);
             let marketPrices = await getMarketPrice();
-            let combinedPrice = gasPrice + resultPrice;
-            //let rpxBal = await getBalanceFromApi(rpxScriptHash,address);
+
 
             let dbcBalance = await getDbcBalance(net,address);
             console.log("dbc balance= " + dbcBalance);
@@ -366,6 +347,8 @@ const initiateGetBalance = (dispatch, net, address) => {
 
             let zptBalance = await getZptBalance(net,address);
             console.log("zpt balance= " + zptBalance);
+
+            let combinedPrice = gasPrice + resultPrice;
 
             dispatch(
               setBalance(
@@ -458,7 +441,7 @@ const resetBalanceSync = (dispatch, net, address) => {
   }
   intervals.balance = setInterval(() => {
     initiateGetBalance(dispatch, net, address);
-  }, 30000);
+  }, 300000);
 };
 
 const toggleNet = (dispatch, net, address) => {

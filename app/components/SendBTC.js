@@ -4,11 +4,11 @@ import { Link } from "react-router";
 import { doSendAsset, verifyAddress } from "neon-js";
 import Modal from "react-bootstrap-modal";
 import axios from "axios";
-import numeral from "numeral";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
 import btcLogo from "../img/btc-logo.png";
+import Assets from "./Assets";
 import { clipboard } from "electron";
 import { togglePane } from "../modules/dashboard";
 import {
@@ -16,20 +16,15 @@ import {
 	clearTransactionEvent,
 	toggleAsset
 } from "../modules/transactions";
-import { btcLoginRedirect } from "../modules/account";
-import { setMarketPrice, resetPrice } from "../modules/wallet";
-import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
+import { btcLoginRedirect } from '../modules/account';
+import {BLOCK_TOKEN} from "../core/constants";
 
 var bitcoin = require("bitcoinjs-lib");
 var WAValidator = require("wallet-address-validator");
 var bigi = require("bigi");
 var buffer = require("buffer");
 var bcypher = require("blockcypher");
-var CoinKey = require("coinkey")
-
-//var sleep = require("sleep");
-//var regtestUtils = require("../modules/_regtest");
-//var bitcoinTransaction = require("bitcoin-transaction");
+var CoinKey = require('coinkey')
 
 let sendAddress, sendAmount, confirmButton ,dest;
 
@@ -48,13 +43,6 @@ const getUnspentOutputsForBtc = async (net,address) =>{
     var response = await axios.get(base);
     console.log(response.data);
     return response.data;
-        // .then(function (response) {
-        //  	console.log("response:" + JSON.stringify(response.data));
-        //
-        // })
-        // .catch(function (error) {
-        //     console.log(error);
-        // });
 };
 
 
@@ -124,43 +112,41 @@ const sendTransaction = async (
         console.log("Display btc balance\n");
         console.log(btc_balance);
         //Send bitcoin
-        let unspents = await getUnspentOutputsForBtc(net, selfAddress);
-
-        console.log("unspent: " + JSON.stringify(unspents));
         let send_amount = parseFloat(sendAmount.value);
-        let loop_amount = send_amount;
 
         if (btc_balance <= 0) {
-            dispatch(sendEvent(false, "There is not balance for BTC."));
+            dispatch(sendEvent(false, "Sorry, transaction failed. Please try again in a few minutes."));
+						setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+						return false;
         } else if (btc_balance < sendAmount.value) {
-            dispatch(sendEvent(false, "The BTC balance is less than the send amount."));
+            dispatch(sendEvent(false, "Your BTC balance is less than the amount your are sending."));
+						setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+						return false;
         } else {
-            let i = 0;
             let new_base,send_base;
             let satoshi_amount = parseInt(send_amount * 100000000);
-						dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
-						dispatch(sendEvent(false, "Transaction Failed. Please try again in a few minutes."));
-						setTimeout(() => dispatch(clearTransactionEvent()), 3000);
+            dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
+						setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+						return true;
+
 			console.log("wif ="+wif);
-      var ck = CoinKey.fromWif(wif);
-      var privateKey = ck.privateKey.toString('hex');
+            var ck = CoinKey.fromWif(wif);
+            var privateKey = ck.privateKey.toString('hex');
 			console.log("hex private key = "+privateKey);
-      var keys = new bitcoin.ECPair(bigi.fromHex(privateKey));
-      console.log("keys ="+keys);
-			let token = "9ba58edd979a467a96f361a45b040b75";
+            var keys    = new bitcoin.ECPair(bigi.fromHex(privateKey));
+            console.log("keys ="+keys);
 			var newtx = {
-      inputs: [{addresses: [selfAddress]}],
-      outputs: [{addresses: [sendAddress.value], value: satoshi_amount}]
+                inputs: [{addresses: [selfAddress]}],
+                outputs: [{addresses: [sendAddress.value], value: satoshi_amount}]
 			};
+
             if(net === "MainNet") {
-            	new_base = "https://api.blockcypher.com/v1/btc/main/txs/new?token=" + token;
-                send_base = "https://api.blockcypher.com/v1/btc/main/txs/send?token=" + token;
+            	new_base = "https://api.blockcypher.com/v1/btc/main/txs/new?token=" + BLOCK_TOKEN;
+                send_base = "https://api.blockcypher.com/v1/btc/main/txs/send?token=" + BLOCK_TOKEN;
 			} else {
-                new_base = "https://api.blockcypher.com/v1/btc/test3/txs/new?token="+token;
-                send_base = "https://api.blockcypher.com/v1/btc/test3/txs/send?token="+token;
+                new_base = "https://api.blockcypher.com/v1/btc/test3/txs/new?token="+BLOCK_TOKEN;
+                send_base = "https://api.blockcypher.com/v1/btc/test3/txs/send?token="+BLOCK_TOKEN;
 			}
-
-
 
 			 axios.post(new_base,newtx)
 				.then(function (tmptx) {
@@ -179,7 +165,6 @@ const sendTransaction = async (
                         console.log("finaltx= "+ finaltx);
                     })
                 });
-
         }
     }
 
@@ -247,8 +232,8 @@ class SendBTC extends Component {
 			dispatch,
 			wif,
 			address,
-      btc_address,
-      btc_prvkey,
+            btc_address,
+            btc_prvkey,
 			status,
 			neo,
 			gas,
@@ -291,7 +276,7 @@ class SendBTC extends Component {
 			<div>
 				<div id="send">
 
-					<div className="row dash-panel">
+					<div className="row dash-chart-panel">
 						<div className="col-xs-9">
 							<img
 								src={btcLogo}
@@ -303,9 +288,7 @@ class SendBTC extends Component {
 						</div>
 
 						<div className="col-xs-3 center">
-						<div className="send-panel-price">{numeral(this.props.btc).format("0,0.0000000")} <span className="btc-price"> BTC</span></div>
 
-						<span className="market-price">{numeral(this.props.btc * this.props.marketBTCPrice).format("$0,0.00")} USD</span>
 						</div>
 
 						<div className="col-xs-12 center">
@@ -340,7 +323,7 @@ class SendBTC extends Component {
 									className={formClass}
 									type="number"
 									id="assetAmount"
-									min="0.0001"
+									min="1"
 									onChange={convertFunction}
 									value={this.state.value}
 									placeholder="Enter amount to send"
@@ -374,7 +357,7 @@ class SendBTC extends Component {
 												dispatch,
 												net,
 												btc_address,
-                        btc_prvkey,
+                        						btc_prvkey,
 												selectedAsset,
 												neo,
 												gas,
@@ -389,21 +372,23 @@ class SendBTC extends Component {
 									</button>
 								</div>
 							</div>
-							<div className="clearboth"/>
+
+              <div className="clearboth"/>
 							<div className="col-xs-12 center">
 								<hr className="dash-hr-wide top-10" />
 							</div>
 
 							<div className="col-xs-6 top-10">
 							Estimated transaction fees: 0.0001 BTC/KB<br />
-							Block Height: 511702
+							Block Height: NaN
 							</div>
+
 						</div>
 					</div>
 
 					<div className="send-notice">
 						<p>
-              BTC Transactions usually require 3-6+ confirmations and may take up to 10 minutes or more to confirm due to BTC network traffic. All transactions are set by default at medium priority to ensure transaction confirmation and keep transaction fees low. Your BTC address can be used to receive Bitcoin ONLY. Sending funds other than Bitcoin (BTC) to this address may result in your funds being lost.
+              Your BTC address can be used to receive Bitcoin ONLY. Sending funds other than Bitcoin (BTC) to this address may result in your funds being lost.
 						</p>
 						<div className="col-xs-2 top-20"/>
 						<div className="col-xs-8 top-20">
@@ -424,7 +409,14 @@ class SendBTC extends Component {
 						</div>
 					</div>
 
+
 				</div>
+
+
+
+
+
+
 
 			</div>
 		);

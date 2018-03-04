@@ -58,38 +58,7 @@ class Dashboard extends Component {
     };
   }
 
-  async componentDidMount() {
-    // only logging public information here
-    await log(this.props.net, "LOGIN", this.props.address, {});
-    await initiateGetBalance(
-      this.props.dispatch,
-      this.props.net,
-      this.props.address,
-      this.props.btc,
-      this.props.price
-    );
-    resetGeneratedKey(this.props.dispatch);
-    await this.getCombinedBalance(this.props.neo, this.props.gas, this.props.btc);
-  }
 
-  getCombinedBalance = async (neo, gas, btc) => {
-    let neoPrice = await axios.get(
-      "https://api.coinmarketcap.com/v1/ticker/neo/"
-    );
-    let gasPrice = await axios.get(
-      "https://api.coinmarketcap.com/v1/ticker/gas/"
-    );
-    let btcPrice = await axios.get(
-      "https://api.coinmarketcap.com/v1/ticker/bitcoin/"
-    );
-    neoPrice = neoPrice.data[0].price_usd;
-    gasPrice = gasPrice.data[0].price_usd;
-    btcPrice = btcPrice.data[0].price_usd;
-
-    let value = neoPrice * neo + gasPrice * gas + btcPrice * btc;
-    let combinedPrice = Math.round(value * 100) / 100;
-    this.setState({ combinedPrice: combinedPrice });
-  };
 
   render = () => {
     let sendPaneClosed;

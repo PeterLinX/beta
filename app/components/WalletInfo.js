@@ -10,17 +10,7 @@ import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { clipboard } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import ReactTooltip from "react-tooltip";
-import demoChart from "../images/demoChart.png";
-import TopBar from "./TopBar";
 
-// force sync with balance data
-const refreshBalance = (dispatch, net, address) => {
-  dispatch(sendEvent(true, "Refreshing..."));
-  initiateGetBalance(dispatch, net, address).then(response => {
-    dispatch(sendEvent(true, "Received latest blockchain information."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-  });
-};
 
 class WalletInfo extends Component {
   constructor(props) {
