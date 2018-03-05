@@ -18,7 +18,6 @@ import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { togglePane } from "../modules/dashboard";
 import { version } from "../../package.json";
 import { log } from "../util/Logs";
-import { Accordion, AccordionItem } from "react-sanfona";
 
 import Logout from "../components/Logout";
 import Send from "../components/Send";
@@ -138,90 +137,29 @@ class Dashboard extends Component {
                     <div className="glyphicon glyphicon-stats" /> Dashboard
                   </Link>
                 </li>
+
                 <li>
                   <Link to={"/assetPortfolio"} activeClassName="active">
                     <div className="glyphicon glyphicon-dashboard" /> Portfolio
                   </Link>
                 </li>
+
                 <li>
-                <div className="margin-10">
-                <span className="glyphicon glyphicon-send float-left" /> <Accordion>
-                <AccordionItem title="Send" titleClassName="menu-accord-item">
-                  <ul className="menu-accord">
-                  <li className="menu-accord-li">
-                  <Link to={"/send"} >
-                     NEO/GAS
+                  <Link to={"/send"} activeClassName="active">
+                    <span className="glyphicon glyphicon-send" /> Send
                   </Link>
-                  </li>
-                  <li className="menu-accord-li">
-                  <Link to={"/sendBTC"} >
-                     Bitcoin (BTC)
-                  </Link>
-                  </li>
-                  <li className="menu-accord-li">
-                  <Link to={"/sendLTC"} >
-                     Litecoin (LTC)
-                  </Link>
-                  </li>
-                  </ul>
-                </AccordionItem>
-                  </Accordion>
-                  </div>
                 </li>
 
                 <li>
-                <div className="margin-10">
-                <span className="glyphicon glyphicon-qrcode float-left" />
-                <Accordion>
-                <AccordionItem title="Receive" titleClassName="menu-accord-item">
-                  <ul className="menu-accord">
-                  <li className="menu-accord-li">
                   <Link to={"/receive"} activeClassName="active">
-                     NEO/GAS/NEP5
+                    <span className="glyphicon glyphicon-qrcode" /> Receive
                   </Link>
-                  </li>
-                  <li className="menu-accord-li">
-                  <Link to={"/receiveBitcoin"} activeClassName="active">
-                     Bitcoin (BTC)
-                  </Link>
-                  </li>
-                  <li className="menu-accord-li">
-                  <Link to={"/receiveLitecoin"} activeClassName="active">
-                     Litecoin (LTC)
-                  </Link>
-                  </li>
-                  </ul>
-                </AccordionItem>
-                  </Accordion>
-                </div>
                 </li>
 
-
                 <li>
-                <div className="margin-10">
-                <span className="glyphicon glyphicon-list-alt float-left" />
-                <Accordion>
-                <AccordionItem title="Transactions" titleClassName="menu-accord-item">
-                  <ul className="menu-accord">
-                  <li className="menu-accord-li">
                   <Link to={"/transactionHistory"} activeClassName="active">
-                     NEO/GAS/NEP5
+                    <span className="glyphicon glyphicon-list-alt" /> Transactions
                   </Link>
-                  </li>
-                  <li className="menu-accord-li">
-                  <Link to={"/transactionHistoryBTC"} activeClassName="active">
-                     Bitcoin (BTC)
-                  </Link>
-                  </li>
-                  <li className="menu-accord-li">
-                  <Link to={"/transactionHistoryLTC"} activeClassName="active">
-                     Litecoin (LTC)
-                  </Link>
-                  </li>
-                  </ul>
-                </AccordionItem>
-                  </Accordion>
-                </div>
                 </li>
 
                 <li>

@@ -225,17 +225,17 @@ class SendRPX extends Component {
 		let gasEnabled = false;
 		let inputEnabled = true;
 		let convertFunction = this.handleChangeNeo;
-		if (selectedAsset === "Neo") {
+		if (selectedAsset === "Gas") {
 			btnClass = "btn-send";
 			convertFunction = this.handleChangeNeo;
 			formClass = "form-send-rpx";
 			priceUSD = this.state.neo_usd;
 			inputEnabled = true;
-		} else if (selectedAsset === "Gas") {
+		} else if (selectedAsset === "Neo") {
 			gasEnabled = true;
-			inputEnabled = false;
-			btnClass = "btn-send-gas";
-			formClass = "form-send-gas";
+			inputEnabled = true;
+			btnClass = "btn-send";
+			formClass = "form-send-rpx";
 			priceUSD = this.state.gas_usd;
 			convertFunction = this.handleChangeGas;
 		}

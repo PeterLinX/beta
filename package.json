@@ -93,7 +93,7 @@
     "react-ace": "^5.0.1",
     "react-bootstrap-modal": "^4.0.0",
     "react-chartjs-2": "^2.6.4",
-    "react-countup": "^3.0.2",
+    "react-countup": "^3.0.3",
     "react-data-grid": "^2.0.33",
     "react-dom": "^15.0.2",
     "react-grid-layout": "^0.16.5",

@@ -138,7 +138,7 @@ class AssetPortolio extends Component {
 									Math.floor(this.props.dbc * 100000) / 100000
 								).format("0,0.0000")} <span className="dbc-price"> DBC</span></h3>
 								<hr className="dash-hr" />
-								<span className="market-price"><span className="market-price">{numeral(this.props.dbc*this.props.marketDBCPrice).format("$0,0.00")} USD</span> USD</span>
+								<span className="market-price">{numeral(this.props.dbc*this.props.marketDBCPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
 						</Link>
@@ -239,8 +239,8 @@ class AssetPortolio extends Component {
 								<h3>{numeral(
 									Math.floor(this.props.rhpt * 10) / 10
 								).format("0,0")} <span className="hp-price"> RHPT</span></h3>
-								<hr className="dash-hr" />Priceless
-								<span className="market-price">$0.00 USD</span>
+								<hr className="dash-hr" />
+								<span className="market-price">Priceless</span>
 							</div>
 							</div>
 						</Link>

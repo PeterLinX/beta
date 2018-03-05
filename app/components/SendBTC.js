@@ -8,7 +8,7 @@ import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
 import btcLogo from "../img/btc-logo.png";
-import Assets from "./Assets";
+import TransactionHistoryBTC from "./TransactionHistoryBTC";
 import { clipboard } from "electron";
 import { togglePane } from "../modules/dashboard";
 import {
@@ -18,6 +18,8 @@ import {
 } from "../modules/transactions";
 import { btcLoginRedirect } from '../modules/account';
 import {BLOCK_TOKEN} from "../core/constants";
+import { block_index} from "../components/NetworkSwitch";
+import numeral from "numeral";
 
 var bitcoin = require("bitcoinjs-lib");
 var WAValidator = require("wallet-address-validator");
@@ -56,7 +58,7 @@ const validateForm = (dispatch, asset ,net) => {
 			 return true;
 		} else {
             dispatch(sendEvent(false, "The address you entered was not valid."));
-            setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+            setTimeout(() => dispatch(clearTransactionEvent()), 2000);
             return false;
 		}
 	} else {
@@ -65,7 +67,7 @@ const validateForm = (dispatch, asset ,net) => {
         	return true;
 		} else {
             dispatch(sendEvent(false, "The address you entered was not valid."));
-            setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+            setTimeout(() => dispatch(clearTransactionEvent()), 2000);
             return false;
         }
 	}
@@ -232,8 +234,8 @@ class SendBTC extends Component {
 			dispatch,
 			wif,
 			address,
-            btc_address,
-            btc_prvkey,
+      btc_address,
+      btc_prvkey,
 			status,
 			neo,
 			gas,
@@ -258,17 +260,17 @@ class SendBTC extends Component {
 		let gasEnabled = false;
 		let inputEnabled = true;
 		let convertFunction = this.handleChangeNeo;
-		if (selectedAsset === "Neo") {
+		if (selectedAsset === "Gas") {
 			btnClass = "btn-send";
 			convertFunction = this.handleChangeNeo;
 			formClass = "form-send-btc";
 			priceUSD = this.state.neo_usd;
 			inputEnabled = true;
-		} else if (selectedAsset === "Gas") {
+		} else if (selectedAsset === "Neo") {
 			gasEnabled = true;
-			inputEnabled = false;
-			btnClass = "btn-send-gas";
-			formClass = "form-send-gas";
+			inputEnabled = true;
+			btnClass = "btn-send";
+			formClass = "form-send-btc";
 			priceUSD = this.state.gas_usd;
 			convertFunction = this.handleChangeGas;
 		}
@@ -276,8 +278,8 @@ class SendBTC extends Component {
 			<div>
 				<div id="send">
 
-					<div className="row dash-chart-panel">
-						<div className="col-xs-9">
+					<div className="row dash-panel">
+						<div className="col-xs-8">
 							<img
 								src={btcLogo}
 								alt=""
@@ -287,8 +289,23 @@ class SendBTC extends Component {
 							<h2>Send Bitcoin (BTC)</h2>
 						</div>
 
-						<div className="col-xs-3 center">
+						<div
+            className="col-xs-1 center top-10 send-info"
+            onClick={() =>
+              refreshBalance(
+                this.props.dispatch,
+                this.props.net,
+                this.props.btc_address
+              )
+            }
+          >
+            <h3><span className="glyphicon glyphicon-refresh marg-right-5" /></h3>
+          </div>
 
+						<div className="col-xs-3 center">
+						<div className="send-panel-price">{numeral(this.props.btc).format("0,0.0000000")} <span className="btc-price"> BTC</span></div>
+
+						<span className="market-price">{numeral(this.props.btc * this.props.marketBTCPrice).format("$0,0.00")} USD</span>
 						</div>
 
 						<div className="col-xs-12 center">
@@ -323,7 +340,7 @@ class SendBTC extends Component {
 									className={formClass}
 									type="number"
 									id="assetAmount"
-									min="1"
+									min="0.0001"
 									onChange={convertFunction}
 									value={this.state.value}
 									placeholder="Enter amount to send"
@@ -338,6 +355,7 @@ class SendBTC extends Component {
 								<input
 									className={formClass}
 									id="sendAmount"
+									min="1"
 									onChange={this.handleChangeUSD}
 									onClick={this.handleChangeUSD}
 									disabled={gasEnabled === false ? true : false}
@@ -374,24 +392,21 @@ class SendBTC extends Component {
 							</div>
 
               <div className="clearboth"/>
-							<div className="col-xs-12 center">
-								<hr className="dash-hr-wide top-10" />
-							</div>
 
-							<div className="col-xs-6 top-10">
-							Estimated transaction fees: 0.0001 BTC/KB<br />
-							Block Height: NaN
-							</div>
+							<div className="col-xs-12 com-soon">
+							Fees: 0.0001 BTC/KB<br />
+							Block: {this.props.blockIndex}{" "}
 
+							</div>
+							<div className="col-xs-12 top-30">
+							<TransactionHistoryBTC />
+							</div>
 						</div>
 					</div>
 
 					<div className="send-notice">
-						<p>
-              Your BTC address can be used to receive Bitcoin ONLY. Sending funds other than Bitcoin (BTC) to this address may result in your funds being lost.
-						</p>
-						<div className="col-xs-2 top-20"/>
-						<div className="col-xs-8 top-20">
+						<div className="col-xs-2"/>
+						<div className="col-xs-8 center">
 							<p className="center donations"
 								data-tip
 								data-for="donateTip"
@@ -407,16 +422,10 @@ class SendBTC extends Component {
 								<span>Copy address to send donation</span>
 							</ReactTooltip>
 						</div>
+
 					</div>
 
-
 				</div>
-
-
-
-
-
-
 
 			</div>
 		);
@@ -425,6 +434,7 @@ class SendBTC extends Component {
 
 const mapStateToProps = state => ({
 	blockHeight: state.metadata.blockHeight,
+	blockIndex: state.metadata.block_index,
 	wif: state.account.wif,
 	address: state.account.address,
 	btc_address: state.account.btcPubAddr,

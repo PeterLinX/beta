@@ -8,7 +8,7 @@ import ReactTooltip from "react-tooltip";
 import { Link } from "react-router";
 import axios from "axios";
 import numeral from "numeral";
-
+import TransactionHistoryBTC from "./TransactionHistoryBTC";
 import { btcLoginRedirect } from "../modules/account";
 import { setMarketPrice, resetPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
@@ -45,7 +45,7 @@ class ReceiveBitcoin extends Component {
 			<div id="" className="">
 				<div className="dash-panel">
 					<div className="">
-						<div className="col-xs-9">
+						<div className="col-xs-8">
 							<img
 								src={bitcoinLogo}
 								alt=""
@@ -54,11 +54,27 @@ class ReceiveBitcoin extends Component {
 							/>
 							<h2>Receive Bitcoin (BTC)</h2>
 						</div>
+
+						<div
+            className="col-xs-1 center top-10 send-info"
+            onClick={() =>
+              refreshBalance(
+                this.props.dispatch,
+                this.props.net,
+                this.props.btc_address
+              )
+            }
+          >
+            <h3><span className="glyphicon glyphicon-refresh marg-right-5" /></h3>
+          </div>
+
 						<div className="col-xs-3 center">
 						<div className="send-panel-price">{numeral(this.props.btc).format("0,0.0000000")} <span className="btc-price"> BTC</span></div>
 
 						<span className="market-price">{numeral(this.props.btc * this.props.marketBTCPrice).format("$0,0.00")} USD</span>
 						</div>
+
+
 						<hr className="dash-hr-wide" />
 						<div className="clearboth" />
 						<div className="col-xs-4 top-20">
@@ -68,7 +84,7 @@ class ReceiveBitcoin extends Component {
 								data-for="qraddTip"
 								onClick={() => clipboard.writeText(this.props.btcPubAddr)}
 							>
-								<QRCode size={150} className="neo-qr" value={this.props.btcPubAddr} />
+								<QRCode size={130} className="neo-qr" value={this.props.btcPubAddr} />
 								<ReactTooltip
 									className="solidTip"
 									id="qraddTip"
@@ -82,14 +98,26 @@ class ReceiveBitcoin extends Component {
 						</div>
 
 						<div className="col-xs-8">
-							<h5>Your Bitcoin (BTC) Public Address</h5>
+						<div className="col-xs-12">
+						<h5>Your Bitcoin (BTC) Public Address</h5>
+						</div>
+						<div className="col-xs-10 top-10">
 							<input
-								className="ledger-address top-10"
+								className="ledger-address"
 								onClick={() => clipboard.writeText(this.props.btcPubAddr)}
 								id="center"
 								placeholder={this.props.address}
 								value={this.props.btcPubAddr}
 							/>
+							</div>
+							<div className="col-xs-2 top-10">
+							<Link to={ "/sendBTC" }>
+							<button className="btc-button com-soon">
+								<span className="glyphicon glyphicon-send"/></button>
+							</Link>
+							</div>
+
+
 							<div className="clearboth" />
 							<div className="dash-bar top-30">
 								<div
@@ -138,12 +166,18 @@ class ReceiveBitcoin extends Component {
 
 						</div>
 					</div>
+
+					<div className="col-xs-12 top-10">
+					<TransactionHistoryBTC />
+					</div>
+
+
 					<div className="clearboth" />
 				</div>
 				<div className="clearboth" />
 				<div className="col-xs-12">
 					<p className="send-notice">
-                    Your BTC address can be used to receive Bitcoin ONLY. Sending funds other than Bitcoin (BTC) to this address may result in your funds being lost.
+           Sending funds other than Bitcoin (BTC) to this address may result in your funds being lost.
 					</p>
 
 				</div>

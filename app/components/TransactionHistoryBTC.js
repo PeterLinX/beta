@@ -4,11 +4,9 @@ import { syncTransactionHistory ,syncBtcTransactionHistory, block_index} from ".
 import { shell } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import { clipboard } from "electron";
-import Claim from "./Claim";
-import TopBar from "./TopBar";
 import { initiateBtcGetBalance, intervals } from "../components/NetworkSwitch";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
-import bitcoinLogo from "../img/btc-logo.png";
+import { Accordion, AccordionItem } from "react-sanfona";
 
 // TODO: make this a user setting
 const getBtcExplorerLink = (net, txid) => {
@@ -18,7 +16,6 @@ const getBtcExplorerLink = (net, txid) => {
   } else {
       base = "https://live.blockcypher.com/btc-testnet/tx/"
   }
-
   return base + txid;
 };
 
@@ -28,10 +25,10 @@ const openExplorer = srcLink => {
 };
 
 const refreshBalance = (dispatch, net, btc_address) => {
-  dispatch(sendEvent(true, "Refreshing..."));
+  dispatch(sendEvent(true, "Refreshing the BTC blockchain may take 5 minutes or more. Please wait..."));
   initiateBtcGetBalance(dispatch, net, btc_address).then(response => {
-    dispatch(sendEvent(true, "Received latest blockchain information."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+    dispatch(sendEvent(true, "Your BTC transaction history and availabe funds have been updated."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 4000);
   });
 };
 
@@ -46,34 +43,12 @@ class TransactionHistoryBTC extends Component {
 
   render = () => (
     <div id="send">
-      <div className="dash-panel fadeInDown">
         <div className="row">
-          <div className="col-xs-9">
-          <img
-            src={bitcoinLogo}
-            alt=""
-            width="45"
-            className="neo-logo fadeInDown"
-          />
-            <h2>Bitcoin Transaction History</h2>
-          </div>
-          <div
-            className="col-xs-3 center top-10 send-info"
-            onClick={() =>
-              refreshBalance(
-                this.props.dispatch,
-                this.props.net,
-                this.props.btc_address
-              )
-            }
-          >
-            <span className="glyphicon glyphicon-refresh marg-right-5" /> Block:{" "}
-            {this.props.blockIndex}
-          </div>
-          <div className="col-xs-12">
-            <hr className="dash-hr-wide" />
-          </div>
-          <ul id="transactionList">
+        <div className="col-xs-12 top-20">
+          <span className="glyphicon glyphicon-list-alt float-left marg-right-10" /> <Accordion>
+          <AccordionItem title="Bitcoin Transaction History" titleClassName="menu-accord-item">
+          <hr className="dash-hr-wide" />
+          <ul id="BTCtransactionList">
             {this.props.btc_transactions.map(t => {
               const formatGas = gas =>
                 Math.floor(parseFloat(gas) * 10000) / 10000;
@@ -102,11 +77,17 @@ class TransactionHistoryBTC extends Component {
               );
             })}
           </ul>
+
+          </AccordionItem>
+            </Accordion>
+
+
+            </div>
         </div>
-      </div>
     </div>
   );
 }
+
 
 const mapStateToProps = state => ({
   blockHeight: state.metadata.blockHeight,
