@@ -18,7 +18,10 @@ import {
     setBtcBalance,
     setTransactionHistory,
     setBtcTransactionHistory,
-    setLtcTransactionHistory, setLtcBalance
+    setLtcTransactionHistory,
+    setLtcBalance,
+    setBtcBalance,
+    setCombinedBalance
 } from "../modules/wallet";
 import { version } from "../../package.json";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
@@ -259,37 +262,58 @@ const syncBtcTransactionHistory = async (dispatch,net,address) => {
 
 }
 
-const initiateLtcGetBalance = async (dispatch, net, ltc_address) => {
+const getLtcBalance = async (net , ltc_address) => {
     let base;
-    syncLtcTransactionHistory(dispatch,net,ltc_address);
+    if (net === "MainNet") {
+        base = "http://api.blockcypher.com/v1/ltc/main/addrs/";
+    } else {
+        base = "http://api.blockcypher.com/v1/ltc/test3/addrs/";
+    }
 
+    let response = await axios.get(base+ltc_address);
+
+    if (response != undefined) {
+        return parseFloat(response.data/100000000)
+    } else  {
+        return 0
+    }
+}
+
+const getBtcBalance = async (net , btc_address) => {
+    let base;
     if (net === "MainNet") {
         base = "http://api.blockcypher.com/v1/btc/main/addrs/";
     } else {
         base = "http://api.blockcypher.com/v1/btc/test3/addrs/";
     }
 
-    let response = await axios.get(base+ltc_address);
+    let response = await axios.get(base+btc_address);
 
-    if (response.balance !== undefined) {
-        setLtcBalance(parseFloat(repsonse.balance/100000000));
+    if (response != undefined) {
+        return parseFloat(response.data/100000000)
+    } else  {
+        return 0
     }
+}
+
+const initiateLtcGetBalance = async (dispatch, net, ltc_address) => {
+    let base;
+    syncLtcTransactionHistory(dispatch,net,ltc_address);
+    const ltc_balance = getLtcBalance(net,ltc_address);
+    setLtcBalance(ltc_balance);
+    let marketPrices = await getMarketPrice();
+    let combinedPrice = marketPrices.LTC.USD * ltc_balance;
+    setCombinedBalance(combinedPrice);
 }
 
 const initiateBtcGetBalance = async (dispatch, net, btc_address) => {
     let base;
     syncBtcTransactionHistory(dispatch ,net ,btc_address);
-
-    if (net === "MainNet") {
-        base = "http://api.blockcypher.com/v1/btc/main/addrs/";
-    } else {
-        base  = "http://api.blockcypher.com/v1/btc/test3/addrs/";
-    }
-
-    let repsonse = await axios.get(base+btc_address);
-    if (response !== undefined) {
-        setBtcBalance(parseFloat(repsonse.balance/100000000));
-    }
+    const btc_balance = getBtcBalance(net,btc_address);
+    setBtcBalance(btc_balance);
+    let marketPrices = await getMarketPrice();
+    let combinedPrice = marketPrices.BTC.USD * btc_balance
+    setCombinedBalance(combinedPrice);
 }
 // TODO: this is being imported by Balance.js, maybe refactor to helper file/
 
@@ -313,15 +337,18 @@ const initiateGetBalance = (dispatch, net, address) => {
           } else {
             let gasPrice = await getGasPrice(resultBalance.Gas);
             let marketPrices = await getMarketPrice();
-            let combinedPrice = gasPrice + resultPrice;
-            //let rpxBal = await getBalanceFromApi(rpxScriptHash,address);
 
+            let rpx_usd = parseFloat(marketPrices.data.RPX.USD);
+            let qlc_usd = parseFloat(marketPrices.data.QLC.USD);
+            let dbc_usd = parseFloat(marketPrices.data.DBC.USD)
             let rpxBalance = await getRpxBalance(net,address);
             console.log("rpx balance= " + rpxBalance);
             let qlcBalance = await getQlcBalance(net,address);
             console.log("qlc balance= " + qlcBalance);
             let dbcBalance = await getDbcBalance(net,address);
             console.log("dbc balance= " + dbcBalance);
+            //combined balance updating
+            let combinedPrice = gasPrice + resultPrice + rpxBalance*rpx_usd + dbcBalance*dbc_usd + qlcBalance*qlc_usd;
             dispatch(
               setBalance(
                 resultBalance.Neo,
