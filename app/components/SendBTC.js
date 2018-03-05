@@ -18,8 +18,8 @@ import {
 } from "../modules/transactions";
 import { btcLoginRedirect } from '../modules/account';
 import {BLOCK_TOKEN} from "../core/constants";
-import { block_index} from "../components/NetworkSwitch";
 import numeral from "numeral";
+import { syncTransactionHistory ,syncBtcTransactionHistory, block_index} from "../components/NetworkSwitch";
 
 var bitcoin = require("bitcoinjs-lib");
 var WAValidator = require("wallet-address-validator");
@@ -299,7 +299,7 @@ class SendBTC extends Component {
               )
             }
           >
-            <h3><span className="glyphicon glyphicon-refresh marg-right-5" /></h3>
+            <span className="glyphicon glyphicon-refresh font24" />
           </div>
 
 						<div className="col-xs-3 center">

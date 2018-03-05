@@ -832,6 +832,7 @@ webview {
 
 .marg-right-10 {
   margin-right: 10px;
+  font-size: 24px;
 }
 
 .marg-right-20 {
@@ -840,6 +841,10 @@ webview {
 
 .font-16 {
   font-size: 16px;
+}
+
+.font24 {
+    font-size: 24px;
 }
 
 .pointer {
@@ -1391,6 +1396,7 @@ margin: 0px;
 .gas-price {color:#9013fe; font-size: 0.8em; font-weight: 900;}
 .rpx-price {color:#980300; font-size: 0.8em; font-weight: 900;}
 .dbc-price {color:#5ac1d4; font-size: 0.8em; font-weight: 900;}
+.thor-price {color:#047ecd; font-size: 0.8em; font-weight: 900;}
 .qlink-price {color:#ae00d6; font-size: 0.8em; font-weight: 900;}
 .nex-price {color:#003fff; font-size: 0.8em; font-weight: 900;}
 .hp-price {color:#ffa6b6; font-size: 0.8em; font-weight: 900;}
@@ -1570,7 +1576,7 @@ figure {
 .menu-accord {
   margin: 0px 0px 0px 0px;
   padding: 10px;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .menu-accord-li {
@@ -1580,7 +1586,7 @@ figure {
 .menu-accord-item {
   cursor: pointer;
   margin: 10px 0px 10px 58px;
-  font-size: 18px;
+  font-size: 16px;
   color: #999;
 }
 

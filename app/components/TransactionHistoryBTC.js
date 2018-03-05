@@ -46,7 +46,7 @@ class TransactionHistoryBTC extends Component {
         <div className="row">
         <div className="col-xs-12 top-20">
           <span className="glyphicon glyphicon-list-alt float-left marg-right-10" /> <Accordion>
-          <AccordionItem title="Bitcoin Transaction History" titleClassName="menu-accord-item">
+          <AccordionItem expanded={true} title="Bitcoin Transaction History"  ClassName="menu-accord-item">
           <hr className="dash-hr-wide" />
           <ul id="BTCtransactionList">
             {this.props.btc_transactions.map(t => {

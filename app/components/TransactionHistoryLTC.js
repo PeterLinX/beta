@@ -11,20 +11,13 @@ import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import litecoinLogo from "../img/litecoin.png";
 
 // TODO: make this a user setting
-const getExplorerLink = (net, explorer, txid) => {
+const getExplorerLink = (net, txid) => {
   let base;
-  if (explorer === "Neotracker") {
-    if (net === "MainNet") {
-      base = "https://neotracker.io/tx/";
-    } else {
-      base = "https://testnet.neotracker.io/tx/";
-    }
+
+  if (net === "MainNet") {
+      base = "https://live.blockcypher.com/ltc/tx/"
   } else {
-    if (net === "MainNet") {
-      base = "http://antcha.in/tx/hash/";
-    } else {
-      base = "http://testnet.antcha.in/tx/hash/";
-    }
+      base = "https://live.blockcypher.com/ltc-testnet/tx/"
   }
   return base + txid;
 };

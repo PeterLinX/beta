@@ -13,6 +13,7 @@ import { btcLoginRedirect } from "../modules/account";
 import { setMarketPrice, resetPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
+import { syncTransactionHistory ,syncBtcTransactionHistory, block_index} from "../components/NetworkSwitch";
 
 const getLink = (net, address) => {
 	let base;
@@ -49,7 +50,7 @@ class ReceiveBitcoin extends Component {
 							<img
 								src={bitcoinLogo}
 								alt=""
-								width="38"
+								width="45"
 								className="neo-logo logobounce"
 							/>
 							<h2>Receive Bitcoin (BTC)</h2>
@@ -65,7 +66,7 @@ class ReceiveBitcoin extends Component {
               )
             }
           >
-            <h3><span className="glyphicon glyphicon-refresh marg-right-5" /></h3>
+            <span className="glyphicon glyphicon-refresh font24" />
           </div>
 
 						<div className="col-xs-3 center">
@@ -112,7 +113,7 @@ class ReceiveBitcoin extends Component {
 							</div>
 							<div className="col-xs-2 top-10">
 							<Link to={ "/sendBTC" }>
-							<button className="btc-button com-soon">
+							<button className="btc-button">
 								<span className="glyphicon glyphicon-send"/></button>
 							</Link>
 							</div>

@@ -7,8 +7,8 @@ import {
   getWalletDBHeight,
   getAPIEndpoint
 } from "neon-js";
-import { api,wallet } from "@cityofzion/neon-js";
-import Neon from "@cityofzion/neon-js";
+import { api,wallet } from '@cityofzion/neon-js'
+import Neon from '@cityofzion/neon-js'
 import { setClaim } from "../modules/claim";
 import { setBlockHeight, setNetwork } from "../modules/metadata";
 import {
@@ -18,7 +18,9 @@ import {
     setBtcBalance,
     setTransactionHistory,
     setBtcTransactionHistory,
-    setLtcTransactionHistory, setLtcBalance
+    setLtcTransactionHistory,
+    setLtcBalance,
+    setCombinedBalance
 } from "../modules/wallet";
 import { version } from "../../package.json";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
@@ -41,11 +43,6 @@ export const getMarketPriceUSD = amount => {
       return lastUSDNEO * amount;
     });
 };
-
-
-
-https://min-api.cryptocompare.com/data/pricemulti?fsyms=RPX&tsyms=USD
-
 
 const getOntBalance = async (net,address) => {
     let ont_token;
@@ -121,16 +118,35 @@ const getZptBalance = async (net,address) => {
 const getBalace = async (net,address,token) => {
     const endpoint = await api.neonDB.getRPCEndpoint(net);
     console.log("endpoint = "+endpoint);
+
     const  scriptHash  = token;
+
     try {
         const response = await api.nep5.getToken(endpoint, scriptHash, address);
         console.log("nep5 balance response = "+JSON.stringify(response));
+        //const balance = toBigNumber(response.balance || 0).round(response.decimals).toString();
+        //console.log("balance success "+balance);
         return response.balance;
+
     } catch (err) {
         // invalid scriptHash
         console.log("invalid scriptHash")
         return 0;
     }
+}
+
+
+const getBalanceFromApi = async (scriptHash,address) => {
+    api.nep5.getTokenBalance("http://seed3.neo.org:10332",scriptHash,address)
+    .then(response =>{
+        console.log(JSON.stringify(response));
+        let rpxBal = Number(response);
+        return rpxBal;
+    })
+    .catch(error =>{
+      console.log("rpx balance\n")
+       console.log(error.message);
+    });
 }
 
 const getGasPrice = async gasVal => {
@@ -277,37 +293,58 @@ const syncBtcTransactionHistory = async (dispatch,net,address) => {
 
 }
 
-const initiateLtcGetBalance = async (dispatch, net, ltc_address) => {
+const getLtcBalance = async (net , ltc_address) => {
     let base;
-    syncLtcTransactionHistory(dispatch,net,ltc_address);
+    if (net === "MainNet") {
+        base = "http://api.blockcypher.com/v1/ltc/main/addrs/";
+    } else {
+        base = "http://api.blockcypher.com/v1/ltc/test3/addrs/";
+    }
 
+    let response = await axios.get(base+ltc_address);
+
+    if (response != undefined) {
+        return parseFloat(response.data/100000000)
+    } else  {
+        return 0
+    }
+}
+
+const getBtcBalance = async (net , btc_address) => {
+    let base;
     if (net === "MainNet") {
         base = "http://api.blockcypher.com/v1/btc/main/addrs/";
     } else {
         base = "http://api.blockcypher.com/v1/btc/test3/addrs/";
     }
 
-    let response = await axios.get(base+ltc_address);
+    let response = await axios.get(base+btc_address);
 
-    if (response.balance !== undefined) {
-        setLtcBalance(parseFloat(repsonse.balance/100000000));
+    if (response != undefined) {
+        return parseFloat(response.data/100000000)
+    } else  {
+        return 0
     }
+}
+
+const initiateLtcGetBalance = async (dispatch, net, ltc_address) => {
+    let base;
+    syncLtcTransactionHistory(dispatch,net,ltc_address);
+    const ltc_balance = getLtcBalance(net,ltc_address);
+    setLtcBalance(ltc_balance);
+    let marketPrices = await getMarketPrice();
+    let combinedPrice = marketPrices.LTC.USD * ltc_balance;
+    setCombinedBalance(combinedPrice);
 }
 
 const initiateBtcGetBalance = async (dispatch, net, btc_address) => {
     let base;
     syncBtcTransactionHistory(dispatch ,net ,btc_address);
-
-    if (net === "MainNet") {
-        base = "http://api.blockcypher.com/v1/btc/main/addrs/";
-    } else {
-        base  = "http://api.blockcypher.com/v1/btc/test3/addrs/";
-    }
-
-    let repsonse = await axios.get(base+btc_address);
-    if (response !== undefined) {
-        setBtcBalance(parseFloat(repsonse.balance/100000000));
-    }
+    const btc_balance = getBtcBalance(net,btc_address);
+    setBtcBalance(btc_balance);
+    let marketPrices = await getMarketPrice();
+    let combinedPrice = marketPrices.BTC.USD * btc_balance
+    setCombinedBalance(combinedPrice);
 }
 // TODO: this is being imported by Balance.js, maybe refactor to helper file/
 
@@ -316,15 +353,28 @@ const initiateGetBalance = (dispatch, net, address) => {
   syncAvailableClaim(dispatch, net, address);
   syncBlockHeight(dispatch, net);
 
+  if (net == "MainNet") {
+      rpxScriptHash = Neon.CONST.CONTRACTS.RPX;
+  } else {
+      rpxScriptHash = Neon.CONST.CONTRACTS.TEST_RPX;
+  }
+
   return getBalance(net, address)
     .then(resultBalance => {
-    return getMarketPriceUSD(resultBalance.Neo)
-      .then(async resultPrice => {
+      return getMarketPriceUSD(resultBalance.Neo)
+        .then(async resultPrice => {
           if (resultPrice === undefined || resultPrice === null) {
             dispatch(setBalance(resultBalance.Neo, resultBalance.Gas, "--"));
           } else {
             let gasPrice = await getGasPrice(resultBalance.Gas);
             let marketPrices = await getMarketPrice();
+
+
+            let dbc_usd = parseFloat(marketPrices.data.DBC.USD);
+
+            let qlc_usd = parseFloat(marketPrices.data.QLC.USD);
+
+            let rpx_usd = parseFloat(marketPrices.data.RPX.USD);
 
 
             let dbcBalance = await getDbcBalance(net,address);
@@ -348,8 +398,8 @@ const initiateGetBalance = (dispatch, net, address) => {
             let zptBalance = await getZptBalance(net,address);
             console.log("zpt balance= " + zptBalance);
 
-            let combinedPrice = gasPrice + resultPrice;
-
+            //combined balance updating
+            let combinedPrice = gasPrice + resultPrice + rpxBalance*rpx_usd + dbcBalance*dbc_usd + qlcBalance*qlc_usd;
             dispatch(
               setBalance(
                 resultBalance.Neo,
@@ -377,8 +427,7 @@ const initiateGetBalance = (dispatch, net, address) => {
                 marketPrices.data.TNC.USD,
                 marketPrices.data.TKY.USD,
                 marketPrices.data.XMR.USD,
-                marketPrices.data.ZPT.USD,
-
+                marketPrices.data.ZPT.USD
               )
             );
           }
@@ -441,7 +490,7 @@ const resetBalanceSync = (dispatch, net, address) => {
   }
   intervals.balance = setInterval(() => {
     initiateGetBalance(dispatch, net, address);
-  }, 300000);
+  }, 30000);
 };
 
 const toggleNet = (dispatch, net, address) => {

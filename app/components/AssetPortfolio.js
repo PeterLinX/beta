@@ -8,8 +8,11 @@ import { setMarketPrice, resetPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 
-
+import acatLogo from "../img/acat.png";
+import apexLogo from "../img/apex.png";
+import thorLogo from "../img/thor.png";
 import nrveLogo from "../img/nrve.png";
+import effectLogo from "../img/effect.png";
 import neoLogo from "../img/neo.png";
 import gasLogo from "../img/gas.png";
 import btcLogo from "../img/btc-logo.png";
@@ -67,7 +70,49 @@ class AssetPortolio extends Component {
 				<div className="row" />
 
 
-						<Link to={"/newBitcoin"} >
+
+				<div className="col-3">
+				<div className="port-logo-col">
+				<img
+					src={acatLogo}
+					alt="Alpha Cat"
+					width="66"
+					className="port-logos"
+				/>
+				<hr className="dash-hr" />
+				<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/receive"><span className=" glyphicon glyphicon-send "/></Link></h3>
+				</div>
+
+				<div className="port-price-col">
+					<span className="market-price">Alpha Cat $0.00</span>
+					<h3>{numeral(this.props.acat).format("0,0.00000")} <span className="ltc-price"> ACAT</span></h3>
+					<hr className="dash-hr" />
+					<span className="market-price">$0.00 USD</span>
+				</div>
+				</div>
+
+
+				<div className="col-3">
+				<div className="port-logo-col">
+				<img
+					src={apexLogo}
+					alt="Apex"
+					width="44"
+					className="port-logos"
+				/>
+				<hr className="dash-hr" />
+				<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/receive"><span className=" glyphicon glyphicon-send "/></Link></h3>
+				</div>
+
+				<div className="port-price-col">
+					<span className="market-price">Apex $0.00</span>
+					<h3>{numeral(this.props.cpx).format("0,0.00000")} <span className="btc-price"> CPX</span></h3>
+					<hr className="dash-hr" />
+					<span className="market-price">$0.00 USD</span>
+				</div>
+				</div>
+
+
 						<div className="col-3">
 
 						<div className="port-logo-col">
@@ -88,7 +133,7 @@ class AssetPortolio extends Component {
 							<span className="market-price">{numeral(this.props.btc * this.props.marketBTCPrice).format("$0,0.00")} USD</span>
 						</div>
 						</div>
-						</Link>
+
 
 
 
@@ -142,6 +187,28 @@ class AssetPortolio extends Component {
 							</div>
 							</div>
 						</Link>
+
+
+						<div className="col-3">
+						<div className="port-logo-col">
+						<img
+							src={effectLogo}
+							alt="Effect.ai"
+							width="44"
+							className="port-logos"
+						/>
+						<hr className="dash-hr" />
+						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/receive"><span className=" glyphicon glyphicon-send "/></Link></h3>
+						</div>
+
+						<div className="port-price-col">
+							<span className="market-price">Effect.ai $0.00</span>
+							<h3>{numeral(this.props.efx).format("0,0.00000")} <span className="ltc-price"> EFX</span></h3>
+							<hr className="dash-hr" />
+							<span className="market-price">$0.00 USD</span>
+						</div>
+						</div>
+
 
 						<Link to="/tokens">
 							<div className="col-3">
@@ -272,7 +339,7 @@ class AssetPortolio extends Component {
 						</Link>
 
 
-						<Link to="/SendLTC">
+						<Link to="/NewLitecoin">
 							<div className="col-3">
 
 							<div className="port-logo-col">
@@ -364,6 +431,26 @@ class AssetPortolio extends Component {
 						</div>
 						</div>
 
+						<div className="col-3">
+						<div className="port-logo-col">
+						<img
+							src={nexLogo}
+							alt=""
+							width="44"
+							className="port-logos top-10"
+						/>
+						<hr className="dash-hr" />
+						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/receive"><span className=" glyphicon glyphicon-send "/></Link></h3>
+						</div>
+
+						<div className="port-price-col">
+							<span className="market-price">Neon Exchange $0.00</span>
+							<h3>{numeral(this.props.cpx).format("0,0.00000")} <span className="nex-price"> NEX</span></h3>
+							<hr className="dash-hr" />
+							<span className="market-price">$0.00 USD</span>
+						</div>
+						</div>
+
 
 
 						<Link to="/tokens">
@@ -442,6 +529,26 @@ class AssetPortolio extends Component {
 							</div>
 							</div>
 						</Link>
+
+						<div className="col-3">
+						<div className="port-logo-col">
+						<img
+							src={thorLogo}
+							alt=""
+							width="44"
+							className="port-logos"
+						/>
+						<hr className="dash-hr" />
+						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/receive"><span className=" glyphicon glyphicon-send "/></Link></h3>
+						</div>
+
+						<div className="port-price-col">
+							<span className="market-price">THOR $0.00</span>
+							<h3>{numeral(this.props.cpx).format("0,0.00000")} <span className="thor-price"> THOR</span></h3>
+							<hr className="dash-hr" />
+							<span className="market-price">$0.00 USD</span>
+						</div>
+						</div>
 
 
 						<Link to="/tokens">
