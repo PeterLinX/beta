@@ -81,7 +81,7 @@ class NewBitcoin extends Component {
 
             let balance = await axios.get(getBalanceLink(this.props.net, pa));
 			// alert("address: " + pa + "\nbalance: " + JSON.stringify(balance.data));
-            dispatch(setLtcBalance(parseFloat(balance.data) / 100000000));
+            dispatch(setBtcBalance(parseFloat(balance.data) / 100000000));
 
 			// var client = blocktrail.BlocktrailSDK({apiKey: key, apiSecret: secret, network: "BTC", testnet: this.props.net == "TestNet"});
 
