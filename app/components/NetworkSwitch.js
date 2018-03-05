@@ -20,7 +20,6 @@ import {
     setBtcTransactionHistory,
     setLtcTransactionHistory,
     setLtcBalance,
-    setBtcBalance,
     setCombinedBalance
 } from "../modules/wallet";
 import { version } from "../../package.json";

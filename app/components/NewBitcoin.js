@@ -23,14 +23,14 @@ var key = "c6294d6b9e829b485a6dc5842a44e2de5f8e5c57";
 var secret = "073a794fbd48c76ccdde0f9d8fa12c19de554487";
 
 const getBalanceLink = (net, addr) => {
-	let url;
+    let url;
 
-	if (net === "MainNet") {
-		url = 'https://blockexplorer.com/api/addr/' + addr + '/balance';
-	} else {
-		url = 'https://testnet.blockexplorer.com/api/addr/' + addr + '/balance';
-	}
-	return url;
+    if (net === "MainNet") {
+        url = 'https://blockexplorer.com/api/addr/' + addr + '/balance';
+    } else {
+        url = 'https://testnet.blockexplorer.com/api/addr/' + addr + '/balance';
+    }
+    return url;
 };
 
 const openExplorer = srcLink => {
@@ -79,9 +79,9 @@ class NewBitcoin extends Component {
 		if(pa != null){
 			dispatch(btcLogIn(pa, pk));
 
-			let balance = await axios.get(getBalanceLink(this.props.net, pa));
+            let balance = await axios.get(getBalanceLink(this.props.net, pa));
 			// alert("address: " + pa + "\nbalance: " + JSON.stringify(balance.data));
-			dispatch(setBtcBalance(parseFloat(balance.data) / 100000000));
+            dispatch(setLtcBalance(parseFloat(balance.data) / 100000000));
 
 			// var client = blocktrail.BlocktrailSDK({apiKey: key, apiSecret: secret, network: "BTC", testnet: this.props.net == "TestNet"});
 

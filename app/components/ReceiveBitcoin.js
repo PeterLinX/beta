@@ -12,13 +12,13 @@ import Assets from "./Assets";
 import { btcLoginRedirect } from "../modules/account";
 
 const getLink = (net, address) => {
-	let base;
-	if (net === "MainNet") {
-		base = "https://neotracker.io/address/";
-	} else {
-		base = "https://testnet.neotracker.io/address/";
-	}
-	return base + address;
+    let base;
+    if (net === "MainNet") {
+        base = "https://live.blockcypher.com/btc/addrs/"
+    } else {
+        base = "https://live.blockcypher.com/btc-testnet/addrs/"
+    }
+    return base + address;
 };
 
 const openExplorer = srcLink => {
@@ -110,7 +110,7 @@ class ReceiveBitcoin extends Component {
 								<div
 									className="dash-icon-bar"
 									onClick={() =>
-										openExplorer(getLink(this.props.net, this.props.btcPubAddr))
+										openExplorer(getLink(this.props.net, this.props.ltcPubAddr))
 									}
 								>
 									<div className="icon-border">

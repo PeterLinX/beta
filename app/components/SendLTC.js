@@ -18,7 +18,7 @@ import {
 } from "../modules/transactions";
 import {BLOCK_TOKEN} from "../core/constants";
 
-import { btcLoginRedirect } from '../modules/account';
+import { ltcLoginRedirect } from '../modules/account';
 
 var bitcoin = require("bitcoinjs-lib");
 var WAValidator = require("wallet-address-validator");
@@ -118,7 +118,7 @@ const sendTransaction = (
             var ck = CoinKey.fromWif(wif);
             var privateKey = ck.privateKey.toString('hex');
             console.log("hex private key = "+privateKey);
-            var keys    = new bitcoin.ECPair(bigi.fromHex(privateKey));
+            var keys = new bitcoin.ECPair(bigi.fromHex(privateKey));
             console.log("keys ="+keys);
             var newtx = {
                 inputs: [{addresses: [selfAddress]}],
@@ -175,9 +175,9 @@ class SendLTC extends Component {
 		this.handleChangeGas = this.handleChangeGas.bind(this);
 		this.handleChangeUSD = this.handleChangeUSD.bind(this);
 
-		if(!this.props.btcLoggedIn){
-			this.props.dispatch(btcLoginRedirect("/sendBTC"));
-			this.props.history.push("/newBitcoin");
+		if(!this.props.ltcLoggedIn){
+			this.props.dispatch(ltcLoginRedirect("/sendLTC"));
+			this.props.history.push("/newLitecoin");
 		}
 	}
 
@@ -218,7 +218,7 @@ class SendLTC extends Component {
 			wif,
 			address,
 			ltc_address,
-			ltc_prvkey,
+            ltc_wif,
 			status,
 			neo,
 			gas,
@@ -288,7 +288,7 @@ class SendLTC extends Component {
 								<input
 									className={formClass}
 									id="center"
-									placeholder="Enter a valid BTC public address here"
+									placeholder="Enter a valid LTC public address here"
 									ref={node => {
 										sendAddress = node;
 									}}
@@ -318,7 +318,7 @@ class SendLTC extends Component {
 									}}
 								/>
 								<div className="clearboth"/>
-								<span className="com-soon block top-10">Amount in BTC to send</span>
+								<span className="com-soon block top-10">Amount in LTC to send</span>
 							</div>
 							<div className="col-xs-4 top-20">
 								<input
@@ -343,7 +343,7 @@ class SendLTC extends Component {
 												dispatch,
 												net,
 												ltc_address,
-												ltc_prvkey,
+												ltc_wif,
 												selectedAsset,
 												neo,
 												gas,
@@ -404,7 +404,7 @@ const mapStateToProps = state => ({
 	wif: state.account.wif,
 	address: state.account.address,
 	ltc_address:state.account.ltcPubAddr,
-	ltc_prvkey:state.account.ltcPrivKey,
+    ltc_wif:state.account.ltcPrivKey,
 	net: state.metadata.network,
 	neo: state.wallet.Neo,
 	gas: state.wallet.Gas,
@@ -412,9 +412,9 @@ const mapStateToProps = state => ({
 	marketBTCPrice: state.wallet.marketBTCPrice,
 	selectedAsset: state.transactions.selectedAsset,
 	confirmPane: state.dashboard.confirmPane,
-	btcLoggedIn: state.account.btcLoggedIn,
-	btcPrivKey: state.account.btcPrivKey,
-	btcPubAddr: state.account.btcPubAddr,
+	ltcLoggedIn: state.account.ltcLoggedIn,
+	ltcPrivKey: state.account.ltcPrivKey,
+	ltcPubAddr: state.account.ltcPubAddr,
 });
 
 SendLTC = connect(mapStateToProps)(SendLTC);

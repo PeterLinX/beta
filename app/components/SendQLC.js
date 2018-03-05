@@ -21,7 +21,7 @@ import {
 	clearTransactionEvent,
 	toggleAsset
 } from "../modules/transactions";
-import { ASSETS,TOKENS,TOKENS_TEST } from "../core/constants";
+import { ASSETS } from "../core/constants";
 import { flatMap, keyBy ,get, omit, pick} from "lodash";
 // import {
 //     extractAssets,

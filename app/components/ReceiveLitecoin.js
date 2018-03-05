@@ -8,16 +8,16 @@ import ReactTooltip from "react-tooltip";
 import { Link } from "react-router";
 import Assets from "./Assets";
 
-import { btcLoginRedirect } from "../modules/account";
+import { ltcLoginRedirect } from "../modules/account";
 
 const getLink = (net, address) => {
-	let base;
-	if (net === "MainNet") {
-		base = "https://neotracker.io/address/";
-	} else {
-		base = "https://testnet.neotracker.io/address/";
-	}
-	return base + address;
+    let base;
+    if (net === "MainNet") {
+        base = "https://live.blockcypher.com/ltc/addrs/"
+    } else {
+        base = "https://live.blockcypher.com/ltc-testnet/addrs/"
+    }
+    return base + address;
 };
 
 const openExplorer = srcLink => {
@@ -29,9 +29,9 @@ class ReceiveLitecoin extends Component {
 	constructor(props){
 		super(props);
 
-		if(!this.props.btcLoggedIn){
-			this.props.dispatch(btcLoginRedirect("/ReceiveLitecoin"));
-			this.props.history.push("/newBitcoin");
+		if(!this.props.ltcLoggedIn){
+			this.props.dispatch(ltcLoginRedirect("/ReceiveLitecoin"));
+			this.props.history.push("/newLitecoin");
 		}
 	}
 
@@ -59,9 +59,9 @@ class ReceiveLitecoin extends Component {
 								className="addressBox-send center animated fadeInDown pointer"
 								data-tip
 								data-for="qraddTip"
-								onClick={() => clipboard.writeText(this.props.btcPubAddr)}
+								onClick={() => clipboard.writeText(this.props.ltcPubAddr)}
 							>
-								<QRCode size={150} className="neo-qr" value={this.props.btcPubAddr} />
+								<QRCode size={150} className="neo-qr" value={this.props.ltcPubAddr} />
 								<ReactTooltip
 									className="solidTip"
 									id="qraddTip"
@@ -78,16 +78,16 @@ class ReceiveLitecoin extends Component {
 							<h5>Your Litecoin (LTC) Public Address</h5>
 							<input
 								className="ledger-address top-10"
-								onClick={() => clipboard.writeText(this.props.btcPubAddr)}
+								onClick={() => clipboard.writeText(this.props.ltcPubAddr)}
 								id="center"
 								placeholder={this.props.address}
-								value={this.props.btcPubAddr}
+								value={this.props.ltcPubAddr}
 							/>
 							<div className="clearboth" />
 							<div className="dash-bar top-30">
 								<div
 									className="dash-icon-bar"
-									onClick={() => clipboard.writeText(this.props.btcPubAddr)}
+									onClick={() => clipboard.writeText(this.props.ltcPubAddr)}
 								>
 									<div className="icon-border">
 										<span className="glyphicon glyphicon-duplicate" />
@@ -108,7 +108,7 @@ class ReceiveLitecoin extends Component {
 								<div
 									className="dash-icon-bar"
 									onClick={() =>
-										openExplorer(getLink(this.props.net, this.props.btcPubAddr))
+										openExplorer(getLink(this.props.net, this.props.ltcPubAddr))
 									}
 								>
 									<div className="icon-border">
@@ -154,9 +154,9 @@ const mapStateToProps = state => ({
 	price: state.wallet.price,
 	gas: state.wallet.Gas,
 
-	btcLoggedIn: state.account.btcLoggedIn,
-	btcPrivKey: state.account.btcPrivKey,
-	btcPubAddr: state.account.btcPubAddr,
+	ltcLoggedIn: state.account.ltcLoggedIn,
+	ltcPrivKey: state.account.ltcPrivKey,
+	ltcPubAddr: state.account.ltcPubAddr,
 });
 
 ReceiveLitecoin = connect(mapStateToProps)(ReceiveLitecoin);
