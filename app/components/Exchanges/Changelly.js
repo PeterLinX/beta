@@ -21,9 +21,9 @@ import Changelly from "../../modules/changelly";
 import { error } from "util";
 
 // force sync with balance data
-const refreshBalance = (dispatch, net, address) => {
+const refreshBalance = (dispatch, net, address, btc_address, ltc_address) => {
   dispatch(sendEvent(true, "Refreshing..."));
-  initiateGetBalance(dispatch, net, address).then(response => {
+  initiateGetBalance(dispatch, net, address, btc_address ,ltc_address).then(response => {
     dispatch(sendEvent(true, "Received latest blockchain information."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
   });
@@ -58,7 +58,7 @@ class Exchange extends Component {
   }
 
   componentDidMount() {
-    initiateGetBalance(this.props.dispatch, this.props.net, this.props.address);
+    initiateGetBalance(this.props.dispatch, this.props.net, this.props.address, this.props.btc_address, this.props.ltc_address);
 
     changelly.getMinAmount(this.state.from, this.state.to, (err, data) => {
       if (err) {
@@ -426,7 +426,9 @@ const mapStateToProps = state => ({
   gas: state.wallet.Gas,
   address: state.account.address,
   net: state.metadata.network,
-  price: state.wallet.price
+  price: state.wallet.price,
+  btc_address: state.account.btcPubAddr,
+  ltc_address: state.account.ltcPubAddr
 });
 
 Exchange = connect(mapStateToProps)(Exchange);

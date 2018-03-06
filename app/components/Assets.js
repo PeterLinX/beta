@@ -20,9 +20,9 @@ import hashpuppiesLogo from "../img/hashpuppies.png";
 
 
 // force sync with balance data
-const refreshBalance = async (dispatch, net, address) => {
+const refreshBalance = async (dispatch, net, address, btc_address, ltc_address) => {
 	dispatch(sendEvent(true, "Refreshing..."));
-	initiateGetBalance(dispatch, net, address).then(response => {
+	initiateGetBalance(dispatch, net, address, btc_address, ltc_address).then(response => {
 		dispatch(sendEvent(true, "Received latest blockchain information."));
 		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
 	});

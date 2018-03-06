@@ -102,10 +102,10 @@ export function setBtcTransactionHistory(btc_transactions) {
 	};
 }
 
-export function setLtcTransactionHistory(transactions) {
+export function setLtcTransactionHistory(ltc_transactions) {
 	return {
 		type:SET_LTC_TRANSACTION_HISTORY,
-		transactions
+        ltc_transactions
 	};
 }
 

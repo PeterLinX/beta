@@ -20,9 +20,9 @@ import hashpuppiesLogo from "../img/hashpuppies.png";
 
 
 // force sync with balance data
-const refreshBalance = async (dispatch, net, address) => {
+const refreshBalance = async (dispatch, net, address ,btc_balance, ltc_balance) => {
 	dispatch(sendEvent(true, "Refreshing..."));
-	initiateGetBalance(dispatch, net, address).then(response => {
+	initiateGetBalance(dispatch, net, address ,btc_balance ,ltc_balance).then(response => {
 		dispatch(sendEvent(true, "Received latest blockchain information."));
 		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
 	});
@@ -95,7 +95,9 @@ const mapStateToProps = state => ({
 	marketDBCPrice: state.wallet.marketDBCPrice,
 	marketQLCPrice: state.wallet.marketQLCPrice,
 	marketBTCPrice: state.wallet.marketBTCPrice,
-	marketETHPrice: state.wallet.marketETHPrice
+	marketETHPrice: state.wallet.marketETHPrice,
+	btc_address: state.account.btcPubAddr,
+	ltc_address: state.account.ltcPubAddr
 });
 
 DashPrices = connect(mapStateToProps)(DashPrices);

@@ -86,7 +86,7 @@ class TokenSale extends Component {
 
   componentDidMount = () => {
     this.props.dispatch(updateRpxBalance(0))
-    initiateGetBalance(this.props.dispatch, this.props.net, this.props.address)
+    initiateGetBalance(this.props.dispatch, this.props.net, this.props.address , this.props.btc_address , this.props.ltc_address)
     refreshTokenBalance(this.props.dispatch, this.props.net, this.props.address, true)
 
   }
@@ -138,7 +138,9 @@ const mapStateToProps = (state) => ({
   net: state.metadata.network,
   address: state.account.address,
   wallets: state.account.accountKeys,
-  rpx: state.rpx.RPX
+  rpx: state.rpx.RPX,
+  btc_address: state.account.btcPubAddr,
+  ltc_address: state.account.ltcPubAddr
 });
 
 TokenSale = connect(mapStateToProps)(TokenSale);

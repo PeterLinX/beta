@@ -34,9 +34,9 @@ const openExplorer = srcLink => {
   shell.openExternal(srcLink);
 };
 
-const refreshBalance = (dispatch, net, address) => {
+const refreshBalance = (dispatch, net, address, btc_address, ltc_address) => {
   dispatch(sendEvent(true, "Refreshing..."));
-  initiateGetBalance(dispatch, net, address).then(response => {
+  initiateGetBalance(dispatch, net, address, btc_address, ltc_address).then(response => {
     dispatch(sendEvent(true, "Received latest blockchain information."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
   });
@@ -70,7 +70,9 @@ class TransactionHistory extends Component {
               refreshBalance(
                 this.props.dispatch,
                 this.props.net,
-                this.props.address
+                this.props.address,
+                this.props.btc_address,
+                this.props.ltc_address
               )
             }
           >
@@ -124,7 +126,9 @@ const mapStateToProps = state => ({
   gas: state.wallet.Gas,
   price: state.wallet.price,
   transactions: state.wallet.transactions,
-  explorer: state.metadata.blockExplorer
+  explorer: state.metadata.blockExplorer,
+  btc_address: state.account.btcPubAddr,
+  ltc_address: state.account.ltcPubAddr
 });
 
 TransactionHistory = connect(mapStateToProps)(TransactionHistory);

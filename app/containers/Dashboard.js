@@ -38,9 +38,9 @@ import ReceiveBitcoin from "../components/ReceiveBitcoin";
 import NewLitecoin from "../components/NewLitecoin";
 import ReceiveLitecoin from "../components/ReceiveLitecoin";
 
-const refreshBalance = (dispatch, net, address) => {
+const refreshBalance = (dispatch, net, address , btc_address , ltc_address) => {
   dispatch(sendEvent(true, "Refreshing..."));
-  initiateGetBalance(dispatch, net, address).then(response => {
+  initiateGetBalance(dispatch, net, address, btc_address, ltc_address).then(response => {
     dispatch(sendEvent(true, "Received latest blockchain information."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
   });
@@ -124,7 +124,9 @@ class Dashboard extends Component {
                   refreshBalance(
                     this.props.dispatch,
                     this.props.net,
-                    this.props.address
+                    this.props.address,
+                    this.props.btcPubAddr,
+                    this.props.ltcPubAddr
                   )
                 }
               >
@@ -295,9 +297,12 @@ const mapStateToProps = state => ({
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,
   btc: state.wallet.Btc,
-	btcLoggedIn: state.account.btcLoggedIn,
-	btcPrivKey: state.account.btcPrivKey,
-	btcPubAddr: state.account.btcPubAddr,
+  btcLoggedIn: state.account.btcLoggedIn,
+  btcPrivKey: state.account.btcPrivKey,
+  btcPubAddr: state.account.btcPubAddr,
+  ltcLoggedIn: state.account.btcLoggedIn,
+  ltcPrivKey: state.account.btcPrivKey,
+  ltcPubAddr: state.account.btcPubAddr,
   price: state.wallet.price,
   combined: state.wallet.combined
 });

@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { syncTransactionHistory } from "../components/NetworkSwitch";
+import { syncLtcTransactionHistory } from "../components/NetworkSwitch";
 import { shell } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import { clipboard } from "electron";
 import Claim from "./Claim";
 import TopBar from "./TopBar";
-import { initiateLtcGetBalance, intervals } from "../components/NetworkSwitch";
+import { initiateLtcGetBalance, intervals,initiateGetBalance } from "../components/NetworkSwitch";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import litecoinLogo from "../img/litecoin.png";
 
@@ -27,9 +28,9 @@ const openExplorer = srcLink => {
   shell.openExternal(srcLink);
 };
 
-const refreshBalance = (dispatch, net, address) => {
+const refreshBalance = (dispatch, net, address, btc_address, ltc_address) => {
   dispatch(sendEvent(true, "Refreshing..."));
-    initiateLtcGetBalance(dispatch, net, address).then(response => {
+    initiateGetBalance(dispatch, net, address, btc_address, ltc_address).then(response => {
     dispatch(sendEvent(true, "Received latest blockchain information."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
   });
@@ -37,7 +38,7 @@ const refreshBalance = (dispatch, net, address) => {
 
 class TransactionHistoryLTC extends Component {
   componentDidMount = () => {
-    syncTransactionHistory(
+      syncLtcTransactionHistory(
       this.props.dispatch,
       this.props.net,
       this.props.ltc_address
@@ -63,6 +64,8 @@ class TransactionHistoryLTC extends Component {
               refreshBalance(
                 this.props.dispatch,
                 this.props.net,
+                this.props.address,
+                this.props.btc_address,
                 this.props.ltc_address
               )
             }
@@ -87,7 +90,6 @@ class TransactionHistoryLTC extends Component {
                       openExplorer(
                         getExplorerLink(
                           this.props.net,
-                          this.props.explorer,
                           t.txid
                         )
                       )
@@ -112,6 +114,7 @@ class TransactionHistoryLTC extends Component {
 const mapStateToProps = state => ({
   blockHeight: state.metadata.blockHeight,
   address: state.account.address,
+  btc_address: state.account.btcPubAddr,
   ltc_address: state.account.ltcPubAddr,
   ltc_transactions: state.wallet.ltc_transactions,
   net: state.metadata.network,

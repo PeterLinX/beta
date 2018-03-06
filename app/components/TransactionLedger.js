@@ -230,7 +230,9 @@ class LoginLedgerNanoS extends Component {
 			initiateGetBalance(
 				this.props.dispatch,
 				this.props.net,
-				loadAccount.address
+				loadAccount.address,
+				this.props.btc_address,
+				this.props.ltc_address
 			);
 
 			return loadAccount.address;
@@ -534,7 +536,9 @@ const mapStateToProps = state => ({
 	blockHeight: state.metadata.blockHeight,
 	transactions: state.wallet.transactions,
 	marketGASPrice: state.wallet.marketGASPrice,
-	marketNEOPrice: state.wallet.marketNEOPrice
+	marketNEOPrice: state.wallet.marketNEOPrice,
+	btc_address: state.account.btcPubAddr,
+	ltc_address: state.account.ltcPubAddr
 });
 
 LoginLedgerNanoS = connect(mapStateToProps)(LoginLedgerNanoS);

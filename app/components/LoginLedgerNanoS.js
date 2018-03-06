@@ -43,9 +43,9 @@ const BIP44_PATH =
 let sendAddress, sendAmount, confirmButton;
 
 // force sync with balance data
-const refreshBalance = async (dispatch, net, address) => {
+const refreshBalance = async (dispatch, net, address, btc_address, ltc_address) => {
 	dispatch(sendEvent(true, "Refreshing..."));
-	initiateGetBalance(dispatch, net, address).then(response => {
+	initiateGetBalance(dispatch, net, address, btc_address ,ltc_address).then(response => {
 		dispatch(sendEvent(true, "Received latest blockchain information."));
 		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
 	});
@@ -376,7 +376,9 @@ class LoginLedgerNanoS extends Component {
 									refreshBalance(
 										this.props.dispatch,
 										this.props.net,
-										this.props.address
+										this.props.address,
+										this.props.btc_address,
+										this.props.ltc_address
 									)
 								}
 							>
@@ -621,7 +623,9 @@ const mapStateToProps = state => ({
 	combined: state.wallet.combined,
 	explorer: state.metadata.blockExplorer,
 	blockHeight: state.metadata.blockHeight,
-	transactions: state.wallet.transactions
+	transactions: state.wallet.transactions,
+	btc_address: state.account.btcPubAddr,
+	ltc_address: state.account.ltcPubAddr
 });
 
 LoginLedgerNanoS = connect(mapStateToProps)(LoginLedgerNanoS);
