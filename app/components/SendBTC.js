@@ -18,6 +18,7 @@ import {
 } from "../modules/transactions";
 import { btcLoginRedirect } from '../modules/account';
 import {BLOCK_TOKEN} from "../core/constants";
+import {StatusMessage} from "../components/App";
 
 var bitcoin = require("bitcoinjs-lib");
 var WAValidator = require("wallet-address-validator");
@@ -177,7 +178,9 @@ class SendBTC extends Component {
 			neo_usd: 0,
 			gas_usd: 0,
 			value: 0,
-			inputEnabled: true
+			inputEnabled: true,
+            statusMessage: "Test message",
+            modalStatus: false
 		};
 		this.handleChangeNeo = this.handleChangeNeo.bind(this);
 		this.handleChangeGas = this.handleChangeGas.bind(this);
@@ -267,6 +270,32 @@ class SendBTC extends Component {
 		}
 		return (
 			<div>
+                {
+                    this.state.modalStatus ?
+						<StatusMessage
+							statusMessage={this.state.statusMessage}
+							onConfirm={
+                                () => {
+                                    sendTransaction(
+                                        dispatch,
+                                        net,
+                                        btc_address,
+                                        btc_prvkey,
+                                        selectedAsset,
+                                        neo,
+                                        gas,
+                                        this.props.btc
+                                    )
+                                    this.setState({modalStatus: false});
+                                }
+                            }
+							onCancel = {
+                                () => {
+                                    this.setState({modalStatus: false});
+                                }
+                            }
+						/> : null
+                }
 				<Assets />
 				<div id="send">
 
@@ -346,18 +375,18 @@ class SendBTC extends Component {
 								<div id="sendAddress">
 									<button
 										className="btc-button"
+
 										onClick={() =>
-											sendTransaction(
-												dispatch,
-												net,
-												btc_address,
-                        						btc_prvkey,
-												selectedAsset,
-												neo,
-												gas,
-												this.props.btc
-											)
-										}
+
+                                            this.setState({
+                                                modalStatus: true,
+                                                statusMessage: "Please confirm transaction of "
+                                                + sendAmount.value.toString()+" BTC to "
+                                                + address.toString() + ".\n"
+                                                + "Network Fees = " + parseFloat(sendAmount.value/10).toString() + "BTC"
+                                            })
+                                        }
+
 										ref={node => {
 											confirmButton = node;
 										}}

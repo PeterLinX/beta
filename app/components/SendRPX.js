@@ -20,6 +20,7 @@ import {
 	clearTransactionEvent,
 	toggleAsset
 } from "../modules/transactions";
+import {StatusMessage} from "../components/App";
 import { ASSETS,TOKENS,TOKENS_TEST } from "../core/constants";
 // import {
 //     extractAssets,
@@ -272,7 +273,9 @@ class SendRPX extends Component {
 			neo_usd: 0,
 			gas_usd: 0,
 			value: 0,
-			inputEnabled: true
+			inputEnabled: true,
+            statusMessage: "Test message",
+            modalStatus: false
 		};
 		this.handleChangeNeo = this.handleChangeNeo.bind(this);
 		this.handleChangeGas = this.handleChangeGas.bind(this);
@@ -355,6 +358,28 @@ class SendRPX extends Component {
 		}
 		return (
 			<div>
+                {
+                    this.state.modalStatus ?
+						<StatusMessage
+							statusMessage={this.state.statusMessage}
+							onConfirm={
+                                () => {
+                                    sendRpxTransaction(
+                                        dispatch,
+                                        net,
+                                        address,
+                                        wif
+                                    );
+                                    this.setState({modalStatus: false});
+                                }
+                            }
+							onCancel = {
+                                () => {
+                                    this.setState({modalStatus: false});
+                                }
+                            }
+						/> : null
+                }
 				<Assets />
 				<div id="send">
 
@@ -434,13 +459,14 @@ class SendRPX extends Component {
 									<button
 										className="rpx-button"
 										onClick={() =>
-                                            sendRpxTransaction(
-												dispatch,
-												net,
-												address,
-												wif
-											)
-										}
+                                            this.setState({
+                                                modalStatus: true,
+                                                statusMessage: "Please confirm transaction of "
+                                                + sendAmount.value.toString()+" RPX to "
+                                                + address.toString() + ".\n"
+                                                + "Network Fees = " + parseFloat(sendAmount.value/10).toString() + "RPX"
+                                            })
+                                        }
 										ref={node => {
 											confirmButton = node;
 										}}

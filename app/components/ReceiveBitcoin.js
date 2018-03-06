@@ -110,7 +110,7 @@ class ReceiveBitcoin extends Component {
 								<div
 									className="dash-icon-bar"
 									onClick={() =>
-										openExplorer(getLink(this.props.net, this.props.btcPubAddr))
+										openExplorer(getLink(this.props.net, this.props.ltcPubAddr))
 									}
 								>
 									<div className="icon-border">

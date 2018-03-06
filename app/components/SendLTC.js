@@ -17,7 +17,7 @@ import {
 	toggleAsset
 } from "../modules/transactions";
 import {BLOCK_TOKEN} from "../core/constants";
-
+import {StatusMessage} from "../components/App";
 import { ltcLoginRedirect } from '../modules/account';
 
 var bitcoin = require("bitcoinjs-lib");
@@ -35,44 +35,25 @@ const apiURL = val => {
 // form validators for input fields
 const validateForm = (dispatch, neo_balance, gas_balance, asset) => {
 	// check for valid address
-	try {
-		if (
-			verifyAddress(sendAddress.value) !== true ||
-      sendAddress.value.charAt(0) !== "A"
-		) {
-			dispatch(sendEvent(false, "The address you entered was not valid."));
-			setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-			return false;
-		}
-	} catch (e) {
-		dispatch(sendEvent(false, "The address you entered was not valid."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-		return false;
-	}
-	// check for fractional neo
-	if (
-		asset === "Neo" &&
-    parseFloat(sendAmount.value) !== parseInt(sendAmount.value)
-	) {
-		dispatch(sendEvent(false, "You cannot send fractional amounts of Neo."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-		return false;
-	} else if (asset === "Neo" && parseInt(sendAmount.value) > neo_balance) {
-		// check for value greater than account balance
-		dispatch(sendEvent(false, "You do not have enough NEO to send."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-		return false;
-	} else if (asset === "Gas" && parseFloat(sendAmount.value) > gas_balance) {
-		dispatch(sendEvent(false, "You do not have enough GAS to send."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-		return false;
-	} else if (parseFloat(sendAmount.value) < 0) {
-		// check for negative asset
-		dispatch(sendEvent(false, "You cannot send negative amounts of an asset."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-		return false;
-	}
-	return true;
+    if (net == "MainNet") {
+        var validMain = WAValidator.validate(sendAddress.value,"litecoin");
+        if(validMain) {
+            return true;
+        } else {
+            dispatch(sendEvent(false, "The address you entered was not valid."));
+            setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+            return false;
+        }
+    } else {
+        var validTest = WAValidator.validate(sendAddress.value,"litecoin","testnet");
+        if (validTest) {
+            return true;
+        } else {
+            dispatch(sendEvent(false, "The address you entered was not valid."));
+            setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+            return false;
+        }
+    }
 };
 
 // open confirm pane and validate fields
@@ -169,7 +150,9 @@ class SendLTC extends Component {
 			neo_usd: 0,
 			gas_usd: 0,
 			value: 0,
-			inputEnabled: true
+			inputEnabled: true,
+            statusMessage: "Test message",
+            modalStatus: false
 		};
 		this.handleChangeNeo = this.handleChangeNeo.bind(this);
 		this.handleChangeGas = this.handleChangeGas.bind(this);
@@ -259,6 +242,33 @@ class SendLTC extends Component {
 		}
 		return (
 			<div>
+                {
+                    this.state.modalStatus ?
+						<StatusMessage
+							statusMessage={this.state.statusMessage}
+							onConfirm={
+                                () => {
+                                    sendTransaction(
+                                        dispatch,
+                                        net,
+                                        ltc_address,
+                                        ltc_wif,
+                                        selectedAsset,
+                                        neo,
+                                        gas,
+                                        this.props.ltc
+                                    )
+                                    this.setState({modalStatus: false});
+                                }
+                            }
+							onCancel = {
+                                () => {
+                                    this.setState({modalStatus: false});
+                                }
+                            }
+						/> : null
+                }
+
 				<Assets />
 				<div id="send">
 
@@ -339,17 +349,14 @@ class SendLTC extends Component {
 									<button
 										className="grey-button"
 										onClick={() =>
-											sendTransaction(
-												dispatch,
-												net,
-												ltc_address,
-												ltc_wif,
-												selectedAsset,
-												neo,
-												gas,
-												this.props.ltc
-											)
-										}
+                                            this.setState({
+                                                modalStatus: true,
+                                                statusMessage: "Please confirm transaction of "
+                                                + sendAmount.value.toString()+" LTC to "
+                                                + address.toString() + ".\n"
+                                                + "Network Fees = " + parseFloat(sendAmount.value/10).toString() + "LTC"
+                                            })
+                                        }
 										ref={node => {
 											confirmButton = node;
 										}}

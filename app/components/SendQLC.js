@@ -23,6 +23,7 @@ import {
 } from "../modules/transactions";
 import { ASSETS } from "../core/constants";
 import { flatMap, keyBy ,get, omit, pick} from "lodash";
+import {StatusMessage} from "../components/App";
 // import {
 //     extractAssets,
 //     isToken,
@@ -271,7 +272,9 @@ class SendQLC extends Component {
 			neo_usd: 0,
 			gas_usd: 0,
 			value: 0,
-			inputEnabled: true
+			inputEnabled: true,
+            statusMessage: "Test message",
+            modalStatus: false
 		};
 		this.handleChangeNeo = this.handleChangeNeo.bind(this);
 		this.handleChangeGas = this.handleChangeGas.bind(this);
@@ -353,7 +356,28 @@ class SendQLC extends Component {
 		}
 		return (
 			<div>
-
+                {
+                    this.state.modalStatus ?
+						<StatusMessage
+							statusMessage={this.state.statusMessage}
+							onConfirm={
+                                () => {
+                                    sendQlcTransaction(
+                                        dispatch,
+                                        net,
+                                        address,
+                                        wif
+                                    )
+                                    this.setState({modalStatus: false});
+                                }
+                            }
+							onCancel = {
+                                () => {
+                                    this.setState({modalStatus: false});
+                                }
+                            }
+						/> : null
+                }
 				<Assets />
 				<div id="send">
 
@@ -433,13 +457,16 @@ class SendQLC extends Component {
 									<button
 										className="qlc-button"
 										onClick={() =>
-                                            sendQlcTransaction(
-                                                dispatch,
-                                                net,
-                                                address,
-                                                wif
-                                            )
-										}
+
+                                            this.setState({
+                                                modalStatus: true,
+                                                statusMessage: "Please confirm transaction of "
+                                                + sendAmount.value.toString()+" QLC to "
+                                                + address.toString() + ".\n"
+                                                + "Network Fees = " + parseFloat(sendAmount.value/10).toString() + "QLC"
+                                            })
+                                        }
+
 										ref={node => {
 											confirmButton = node;
 										}}
