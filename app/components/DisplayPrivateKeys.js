@@ -19,12 +19,15 @@ let key_name;
 let wif;
 
 const saveKey = async (dispatch, encWifValue, history) => {
+  console.log("starting here")
   await storage.get("keys", async (error, data) => {
     data[key_name.value] = encWifValue;
     dispatch(sendEvent(true, "Saved key as " + key_name.value));
-    await storage.set("keys", data);
-    await setTimeout(() => dispatch(clearTransactionEvent()), 5000);
-    setTimeout(() => history.push("/"), 5000);
+    await storage.set('keys', data, function(error) {
+      if (error) console.log(error);
+    }); 
+    await setTimeout(() => dispatch(clearTransactionEvent()), 3000);
+    setTimeout(() => history.push("/"), 3000);
   });
 };
 
