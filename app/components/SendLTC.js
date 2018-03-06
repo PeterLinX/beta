@@ -35,48 +35,47 @@ const apiURL = val => {
 	return "https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD";
 };
 
-// form validators for input fields
-const validateForm = (dispatch, neo_balance, gas_balance, asset) => {
-	// check for valid address
-	try {
-		if (
-			verifyAddress(sendAddress.value) !== true ||
-      sendAddress.value.charAt(0) !== "A"
-		) {
-			dispatch(sendEvent(false, "The address you entered was not valid."));
-			setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-			return false;
-		}
-	} catch (e) {
-		dispatch(sendEvent(false, "The address you entered was not valid."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-		return false;
-	}
-	// check for fractional neo
-	if (
-		asset === "Neo" &&
-    parseFloat(sendAmount.value) !== parseInt(sendAmount.value)
-	) {
-		dispatch(sendEvent(false, "You cannot send fractional amounts of Neo."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-		return false;
-	} else if (asset === "Neo" && parseInt(sendAmount.value) > neo_balance) {
-		// check for value greater than account balance
-		dispatch(sendEvent(false, "You do not have enough NEO to send."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-		return false;
-	} else if (asset === "Gas" && parseFloat(sendAmount.value) > gas_balance) {
-		dispatch(sendEvent(false, "You do not have enough GAS to send."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-		return false;
-	} else if (parseFloat(sendAmount.value) < 0) {
-		// check for negative asset
-		dispatch(sendEvent(false, "You cannot send negative amounts of an asset."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-		return false;
-	}
-	return true;
+
+const getUnspentOutputsForLtc = async (net,address) =>{
+    let base;
+    if(net === "MainNet") {
+        base = "https://live.blockcypher.com/ltc/address/"+address+"/utxo";
+    }	else {
+        base = "https://live.blockcypher.com/ltc-testnet/address/"+address+"/utxo";
+    }
+
+    var response = await axios.get(base);
+    console.log(response.data);
+    return response.data;
 };
+
+
+// form validators for input fields
+
+// form validators for input fields
+const validateForm = (dispatch, asset ,net) => {
+    // check for valid address
+	if (net == "MainNet") {
+		var validMain = WAValidator.validate(sendAddress.value,"litecoin");
+		if(validMain) {
+			 return true;
+		} else {
+            dispatch(sendEvent(false, "The address you entered was not valid."));
+            setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+            return false;
+		}
+	} else {
+        var validTest = WAValidator.validate(sendAddress.value,"litecoin","testnet");
+        if (validTest) {
+        	return true;
+		} else {
+            dispatch(sendEvent(false, "The address you entered was not valid."));
+            setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+            return false;
+        }
+	}
+};
+
 
 // open confirm pane and validate fields
 const openAndValidate = (dispatch, neo_balance, gas_balance, asset) => {
@@ -84,6 +83,15 @@ const openAndValidate = (dispatch, neo_balance, gas_balance, asset) => {
 		dispatch(togglePane("confirmPane"));
 	}
 };
+
+function sleep(milliseconds) {
+	var start = new Date().getTime();
+	for (var i = 0; i < 1e7; i++) {
+		if ((new Date().getTime()-start) > milliseconds) {
+			break;
+		}
+	}
+}
 
 // perform send transaction
 const sendTransaction = (
@@ -97,44 +105,52 @@ const sendTransaction = (
 	ltc_balance
 ) => {
 	// validate fields again for good measure (might have changed?)
-	if (validateForm(dispatch, neo_balance, gas_balance, asset) === true) {
+	if (validateForm(dispatch, asset ,net) === true) {
 		dispatch(sendEvent(true, "Processing..."));
 
 		log(net, "SEND", selfAddress, {
-			to: sendAddress.value,
-			asset: asset,
-			amount: sendAmount.value
+				to: sendAddress.value,
+				asset: asset,
+				amount: sendAmount.value
 		});
-        console.log("Display ltc balance\n");
-        console.log(ltc_balance);
-		//Send litecoin
-        let send_amount = parseFloat(sendAmount.value);
+		console.log("Display ltc balance\n");
+		console.log(ltc_balance);
+		//Send bitcoin
+		let send_amount = parseFloat(sendAmount.value);
 
-        if (ltc_balance <= 0) {
-            dispatch(sendEvent(false, "There is not balance for LTC."));
+		if (ltc_balance <= 0) {
+				dispatch(sendEvent(false, "Sorry, transaction failed. Please try again in a few minutes."));
+				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+				return false;
 		} else if (ltc_balance < sendAmount.value) {
-            dispatch(sendEvent(false, "The LTC balance is less than the send amount."));
+				dispatch(sendEvent(false, "Your LTC balance is less than the amount your are sending."));
+				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+				return false;
 		} else {
-            let new_base,send_base;
-            let satoshi_amount = parseInt(send_amount * 100000000);
-            console.log("wif ="+wif);
-            var ck = CoinKey.fromWif(wif);
-            var privateKey = ck.privateKey.toString('hex');
-            console.log("hex private key = "+privateKey);
-            var keys = new bitcoin.ECPair(bigi.fromHex(privateKey));
-            console.log("keys ="+keys);
-            var newtx = {
-                inputs: [{addresses: [selfAddress]}],
-                outputs: [{addresses: [sendAddress.value], value: satoshi_amount}]
-            };
+				let new_base,send_base;
+				let satoshi_amount = parseInt(send_amount * 100000000);
+				dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
+				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+				return true;
 
-            if(net === "MainNet") {
-                new_base = "https://api.blockcypher.com/v1/ltc/main/txs/new?token=" + BLOCK_TOKEN;
-                send_base = "https://api.blockcypher.com/v1/ltc/main/txs/send?token=" + BLOCK_TOKEN;
-            } else {
-                new_base = "https://api.blockcypher.com/v1/ltc/test3/txs/new?token="+BLOCK_TOKEN;
-                send_base = "https://api.blockcypher.com/v1/ltc/test3/txs/send?token="+BLOCK_TOKEN;
-            }
+	console.log("wif ="+wif);
+				var ck = CoinKey.fromWif(wif);
+				var privateKey = ck.privateKey.toString('hex');
+	console.log("hex private key = "+privateKey);
+				var keys    = new bitcoin.ECPair(bigi.fromHex(privateKey));
+				console.log("keys ="+keys);
+	var newtx = {
+						inputs: [{addresses: [selfAddress]}],
+						outputs: [{addresses: [sendAddress.value], value: satoshi_amount}]
+	};
+
+				if(net === "MainNet") {
+					new_base = "https://api.blockcypher.com/v1/ltc/main/txs/new?token=" + BLOCK_TOKEN;
+						send_base = "https://api.blockcypher.com/v1/ltc/main/txs/send?token=" + BLOCK_TOKEN;
+	} else {
+						new_base = "https://api.blockcypher.com/v1/ltc/test3/txs/new?token="+BLOCK_TOKEN;
+						send_base = "https://api.blockcypher.com/v1/ltc/test3/txs/send?token="+BLOCK_TOKEN;
+	}
 
             axios.post(new_base,newtx)
                 .then(function (tmptx) {
@@ -221,7 +237,7 @@ class SendLTC extends Component {
 			wif,
 			address,
 			ltc_address,
-            ltc_wif,
+      ltc_wif,
 			status,
 			neo,
 			gas,
@@ -374,6 +390,14 @@ class SendLTC extends Component {
 										<span className="glyphicon glyphicon-send marg-right-5"/>  Send
 									</button>
 								</div>
+							</div>
+
+							<div className="clearboth"/>
+
+							<div className="col-xs-12 com-soon">
+							Fees: 0.0001 LTC/KB<br />
+							Block: {this.props.blockIndex}{" "}
+
 							</div>
 							<div className="col-xs-12 top-20">
 							<TransactionHistoryLTC />
