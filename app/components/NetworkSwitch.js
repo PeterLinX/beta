@@ -15,10 +15,10 @@ import {
     setBalance,
     setMarketPrice,
     resetPrice,
-    setBtcBalance,
     setTransactionHistory,
     setBtcTransactionHistory,
     setLtcTransactionHistory,
+    setBtcBalance,
     setLtcBalance,
     setCombinedBalance
 } from "../modules/wallet";
@@ -29,6 +29,9 @@ import {TOKENS_TEST} from "../core/constants";
 import {TOKENS} from "../core/constants";
 
 let intervals = {};
+let dbcScriptHash, iamScriptHash, nrveScriptHash, ontScriptHash, qlcScriptHash, rhtScriptHash, rpxScriptHash, tkyScriptHash, tncScriptHash, zptScriptHash;
+let netSelect;
+
 // https://bittrex.com/api/v1.1/public/getmarkethistory?market=BTC-NEO
 
 // putting this back in wallet, does not belong in neon-js
@@ -40,28 +43,6 @@ export const getMarketPriceUSD = amount => {
       return lastUSDNEO * amount;
     });
 };
-
-
-const getBalace = async (net,address,token) => {
-    const endpoint = await api.neonDB.getRPCEndpoint(net);
-    console.log("endpoint = "+endpoint);
-
-    const  scriptHash  = token;
-
-    try {
-        const response = await api.nep5.getToken(endpoint, scriptHash, address);
-        console.log("nep5 balance response = "+JSON.stringify(response));
-        //const balance = toBigNumber(response.balance || 0).round(response.decimals).toString();
-        //console.log("balance success "+balance);
-        return response.balance;
-
-    } catch (err) {
-        // invalid scriptHash
-        console.log("invalid scriptHash")
-        return 0;
-    }
-}
-
 
 const getDbcBalance = async (net,address) => {
     let dbc_token;
@@ -164,18 +145,24 @@ const getZptBalance = async (net,address) => {
     return getBalace	(net,address,zpt_token);
 }
 
-const getBalanceFromApi = async (scriptHash,address) => {
-    api.nep5.getTokenBalance("http://seed3.neo.org:10332",scriptHash,address)
-    .then(response =>{
-        console.log(JSON.stringify(response));
-        let rpxBal = Number(response);
-        return rpxBal;
-    })
-    .catch(error =>{
-      console.log("rpx balance\n")
-       console.log(error.message);
-    });
+const getBalace = async (net,address,token) => {
+    const endpoint = await api.neonDB.getRPCEndpoint(net);
+    console.log("endpoint = "+endpoint);
+    const  scriptHash  = token;
+    try {
+        const response = await api.nep5.getToken(endpoint, scriptHash, address);
+        console.log("nep5 balance response = "+JSON.stringify(response));
+        //const balance = toBigNumber(response.balance || 0).round(response.decimals).toString();
+        //console.log("balance success "+balance);
+        return response.balance;
+
+    } catch (err) {
+        // invalid scriptHash
+        console.log("invalid scriptHash")
+        return 0;
+    }
 }
+
 
 const getGasPrice = async gasVal => {
   try {
@@ -200,16 +187,28 @@ const getMarketPrice = async () => {
   }
 };
 
-const getLtcTransactions = async (net,address) => {
+const getLtcOutputTransactions = async (net,address) => {
     let base;
     if(net === "MainNet") {
-        base = "https://api.blockcypher.com/v1/ltc/main/addrs/" + address;
+        base = "https://api.blockcypher.com/v1/ltc/main/txs/" + address;
     } else {
-        base = "https://api.blockcypher.com/v1/ltc/test3/addrs/" + address;
+        base = "https://api.blockcypher.com/v1/ltc/test3/txs/" + address;
     }
 
     let response = await axios.get(base);
-    return response.data.txrefs;
+    return response.data.outputs;
+}
+
+const getLtcInputTransactions = async (net,address) => {
+    let base;
+    if(net === "MainNet") {
+        base = "https://api.blockcypher.com/v1/ltc/main/txs/" + address;
+    } else {
+        base = "https://api.blockcypher.com/v1/ltc/test3/txs/" + address;
+    }
+
+    let response = await axios.get(base);
+    return response.data.inputs;
 }
 
 
@@ -230,28 +229,30 @@ const getBtcTransactions =  async (net,address) => {
 
 const syncLtcTransactionHistory = async (dispatch,net,address) => {
     let txs = [];
-    let transactions = await getLtcTransactions(net,address);
-    if (transactions != undefined) {
-        for (let i = 0; i < transactions.length; i++) {
-            let amount;
-            if (transactions[i].spent == false){
-                amount = parseFloat(transactions[i].value/100000000)
-            } else {
-                amount = (-1) * parseFloat(transactions[i].value/100000000)
+    let input_transactions = await getLtcInputTransactions(net,address);
+    let output_transactions = await  getLtcOutputTransactions(net,address);
+    for (let i = 0; i < input_transactions.length; i++) {
+        txs = txs.concat([
+            {
+                type: "LTC",
+                amount: parseFloat(input_transactions[i].value/100000000),
+                txid: input_transactions[i].txid,
+                block_index: input_transactions[i].block_index
             }
-            txs = txs.concat([
-                {
-                    type: "LTC",
-                    amount: amount,
-                    txid: transactions[i].tx_hash,
-                    block_index: transactions[i].block_height
-                }
-            ]);
-        }
-
+        ]);
     }
 
-    dispatch(setLtcTransactionHistory(txs));
+    for(let j = 0; j<output_transactions.length ;j++) {
+        txs = txs.concat([
+            {
+                type: "LTC",
+                amount: parseFloat(input_transactions[i].value/100000000),
+                txid: input_transactions[i].txid,
+                block_index: input_transactions[i].block_index
+            }
+        ]);
+    }
+
 }
 
 const  getInputVal = (vinlist , addr) => {
@@ -318,7 +319,7 @@ const getLtcBalance = async (net , ltc_address) => {
     let response = await axios.get(base+ltc_address);
 
     if (response != undefined) {
-        return parseFloat(response.data.final_balance/100000000)
+        return parseFloat(response.data/100000000)
     } else  {
         return 0
     }
@@ -335,13 +336,14 @@ const getBtcBalance = async (net , btc_address) => {
     let response = await axios.get(base+btc_address);
 
     if (response != undefined) {
-        return parseFloat(response.data.final_balance/100000000)
+        return parseFloat(response.data/100000000)
     } else  {
         return 0
     }
 }
 
 const initiateLtcGetBalance = async (dispatch, net, ltc_address) => {
+    let base;
     syncLtcTransactionHistory(dispatch,net,ltc_address);
     const ltc_balance = getLtcBalance(net,ltc_address);
     setLtcBalance(ltc_balance);
@@ -351,6 +353,7 @@ const initiateLtcGetBalance = async (dispatch, net, ltc_address) => {
 }
 
 const initiateBtcGetBalance = async (dispatch, net, btc_address) => {
+    let base;
     syncBtcTransactionHistory(dispatch ,net ,btc_address);
     const btc_balance = getBtcBalance(net,btc_address);
     setBtcBalance(btc_balance);
@@ -360,30 +363,16 @@ const initiateBtcGetBalance = async (dispatch, net, btc_address) => {
 }
 // TODO: this is being imported by Balance.js, maybe refactor to helper file/
 
-const initiateGetBalance = (dispatch, net, address,btc_address,ltc_address) => {
-   let btc_balance,ltc_balance;
+const initiateGetBalance = (dispatch, net, address) => {
   syncTransactionHistory(dispatch, net, address);
   syncAvailableClaim(dispatch, net, address);
   syncBlockHeight(dispatch, net);
 
-  if (btc_address != null) {
-      syncBtcTransactionHistory(dispatch ,net ,btc_address);
-      btc_balance = getBtcBalance(net,btc_address);
-      setBtcBalance(btc_balance);
+  if (net == "MainNet") {
+      rpxScriptHash = Neon.CONST.CONTRACTS.RPX;
   } else {
-      btc_balance = 0;
-      setBtcBalance(btc_balance);
+      rpxScriptHash = Neon.CONST.CONTRACTS.TEST_RPX;
   }
-
-  if (ltc_address != null ){
-      syncLtcTransactionHistory(dispatch,net,ltc_address);
-      const ltc_balance = getLtcBalance(net,ltc_address);
-      setLtcBalance(ltc_balance);
-  } else {
-      ltc_balance = 0;
-      setLtcBalance(ltc_balance);
-  }
-
 
   return getBalance(net, address)
     .then(resultBalance => {
@@ -438,11 +427,7 @@ const initiateGetBalance = (dispatch, net, address,btc_address,ltc_address) => {
             console.log("zpt balance= " + zptBalance);
 
             //combined balance updating
-            let btc_usd = parseFloat(marketPrices.data.BTC.USD);
-            let ltc_usd = parseFloat(marketPrices.data.LTC.USD);
-            let combinedPrice = gasPrice + resultPrice + rpxBalance*rpx_usd + dbcBalance*dbc_usd
-                + qlcBalance*qlc_usd; + btc_balance*btc_usd + ltc_balance*ltc_usd;
-
+            let combinedPrice = gasPrice + resultPrice + dbcBalance*dbc_usd + qlcBalance*qlc_usd + rpxBalance*rpx_usd + tkyBalance*tky_usd + tncBalance*tnc_usd + zptBalance*zpt_usd;
             dispatch(
               setBalance(
                 resultBalance.Neo,
@@ -529,16 +514,16 @@ const syncTransactionHistory = (dispatch, net, address) => {
   });
 };
 
-const resetBalanceSync = (dispatch, net, address, btc_address, ltc_address) => {
+const resetBalanceSync = (dispatch, net, address) => {
   if (intervals.balance !== undefined) {
     clearInterval(intervals.balance);
   }
   intervals.balance = setInterval(() => {
-    initiateGetBalance(dispatch, net, address, btc_address, ltc_address);
+    initiateGetBalance(dispatch, net, address);
   }, 30000);
 };
 
-const toggleNet = (dispatch, net, address, btc_address, ltc_address) => {
+const toggleNet = (dispatch, net, address) => {
   let newNet;
   if (net === "MainNet") {
     newNet = "TestNet";
@@ -546,21 +531,21 @@ const toggleNet = (dispatch, net, address, btc_address, ltc_address) => {
     newNet = "MainNet";
   }
   dispatch(setNetwork(newNet));
-  resetBalanceSync(dispatch, newNet, address, btc_address, ltc_address);
+  resetBalanceSync(dispatch, newNet, address);
   if (address !== null) {
-    initiateGetBalance(dispatch, newNet, address, btc_address, ltc_address);
+    initiateGetBalance(dispatch, newNet, address);
   }
 };
 
 class NetworkSwitch extends Component {
   componentDidMount = () => {
-    resetBalanceSync(this.props.dispatch, this.props.net, this.props.address, this.props.btc_address, this.props.ltc_address);
+    resetBalanceSync(this.props.dispatch, this.props.net, this.props.address);
   };
   render = () => (
     <div
       id="network"
       onClick={() =>
-        toggleNet(this.props.dispatch, this.props.net, this.props.address, this.props.btc_address, this.props.ltc_address)
+        toggleNet(this.props.dispatch, this.props.net, this.props.address)
       }
     >
       <div className="dash-icon-bar">
@@ -576,9 +561,7 @@ class NetworkSwitch extends Component {
 
 const mapStateToProps = state => ({
   net: state.metadata.network,
-  address: state.account.address,
-  btc_address: state.account.btcPubAddr,
-  ltc_address: state.account.ltcPubAddr
+  address: state.account.address
 });
 
 NetworkSwitch = connect(mapStateToProps)(NetworkSwitch);
@@ -588,7 +571,6 @@ export {
   initiateGetBalance,
   syncTransactionHistory,
   syncBtcTransactionHistory,
-  syncLtcTransactionHistory,
   initiateBtcGetBalance,
   initiateLtcGetBalance,
   intervals,
