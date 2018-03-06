@@ -5,6 +5,7 @@ import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { doClaimAllGas, doSendAsset } from "neon-js";
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
+import { StatusMessage } from "../components/App";
 
 // wrap claiming with notifications
 

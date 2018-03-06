@@ -23,9 +23,9 @@ const getBalanceLink = (net, addr) => {
     let url;
 
     if (net === "MainNet") {
-        url = 'https://blockexplorer.com/api/addr/' + addr + '/balance';
+        url = 'https://api.blockcypher.com/v1/ltc/main/addrs/'+addr+'/balance';
     } else {
-        url = 'https://testnet.blockexplorer.com/api/addr/' + addr + '/balance';
+        url = 'https://api.blockcypher.com/v1/ltc/test3/addrs/'+addr+'/balance';
     }
     return url;
 };
@@ -50,12 +50,18 @@ class NewLitecoin extends Component {
     }
 
     getRandomAddress = async ()=>{
-        let opt = this.props.net == "TestNet" ? {network:bitcoin.networks.testnet}:{network: bitcoin.networks.litecoin} ;
-        var keyPair = await bitcoin.ECPair.makeRandom(opt);
-        let pubKey = keyPair.getPublicKeyBuffer();
-        var scriptPubKey = bitcoin.script.witnessPubKeyHash.output.encode(bitcoin.crypto.hash160(pubKey));
-        let pa = keyPair.getAddress();
-        let pk = keyPair.toWIF();
+        // let opt = this.props.net == "TestNet" ? {network:bitcoin.networks.testnet}:{network: bitcoin.networks.litecoin} ;
+        // var keyPair = await bitcoin.ECPair.makeRandom(opt);
+        // let pubKey = keyPair.getPublicKeyBuffer();
+        // var scriptPubKey = bitcoin.script.witnessPubKeyHash.output.encode(bitcoin.crypto.hash160(pubKey));
+        // let pa = keyPair.getAddress();
+        // let pk = keyPair.toWIF();
+        let res = await axios.post('https://api.blockcypher.com/v1/ltc/main/addrs');
+        let priKey = res.data.private;
+        let pubKey = res.data.public;
+        let pa = res.data.address;
+        let pk = res.data.wif;
+
         this.setState({
             pa: pa,
             pk: pk,
@@ -69,15 +75,16 @@ class NewLitecoin extends Component {
             return;
         }
 
-        let keyPair = await bitcoin.ECPair.fromWIF(pk, this.props.net == "TestNet" ? {network:bitcoin.networks.testnet}:litecoin.networks.litecoin);
+        let keyPair = await bitcoin.ECPair.fromWIF(pk, this.props.net == "TestNet" ? {network:bitcoin.networks.testnet}:bitcoin.networks.litecoin);
         let pa = keyPair.getAddress();
 
         if(pa != null){
             dispatch(ltcLogIn(pa, pk));
 
-            let balance = await axios.get(getBalanceLink(this.props.net, pa));
+            let res = await axios.get(getBalanceLink(this.props.net, pa));
+            dispatch(setLtcBalance(parseFloat(res.data.balance) / 100000000));
             // alert("address: " + pa + "\nbalance: " + JSON.stringify(balance.data));
-            dispatch(setLtcBalance(parseFloat(balance.data) / 100000000));
+
 
             // var client = blocktrail.BlocktrailSDK({apiKey: key, apiSecret: secret, network: "BTC", testnet: this.props.net == "TestNet"});
 
@@ -112,7 +119,7 @@ class NewLitecoin extends Component {
 							<img
 								src={litecoinLogo}
 								alt=""
-								width="38"
+								width="44"
 								className="neo-logo logobounce"
 							/>
 							<h2>Create New Litecoin Address</h2>
@@ -188,7 +195,6 @@ const mapStateToProps = state => ({
 	neo: state.wallet.Neo,
 	price: state.wallet.price,
 	gas: state.wallet.Gas,
-
     ltcLoggedIn: state.account.ltcLoggedIn,
     ltcPrivKey: state.account.ltcPrivKey,
     ltcPubAddr: state.account.ltcPubAddr,

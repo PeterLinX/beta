@@ -15,10 +15,10 @@ import {
     setBalance,
     setMarketPrice,
     resetPrice,
-    setBtcBalance,
     setTransactionHistory,
     setBtcTransactionHistory,
     setLtcTransactionHistory,
+    setBtcBalance,
     setLtcBalance,
     setCombinedBalance
 } from "../modules/wallet";
@@ -29,7 +29,7 @@ import {TOKENS_TEST} from "../core/constants";
 import {TOKENS} from "../core/constants";
 
 let intervals = {};
-let dbcScriptHash, ontScriptHash, qlcScriptHash, rpxScriptHash, tkyScriptHash, tncScriptHash, zptScriptHash;
+let dbcScriptHash, iamScriptHash, nrveScriptHash, ontScriptHash, qlcScriptHash, rhtScriptHash, rpxScriptHash, tkyScriptHash, tncScriptHash, zptScriptHash;
 let netSelect;
 
 // https://bittrex.com/api/v1.1/public/getmarkethistory?market=BTC-NEO
@@ -44,17 +44,6 @@ export const getMarketPriceUSD = amount => {
     });
 };
 
-const getOntBalance = async (net,address) => {
-    let ont_token;
-    if (net === "MainNet") {
-        ont_token = TOKENS.ONT;
-    } else {
-        ont_token = TOKENS_TEST.ONT;
-    }
-    return getBalace(net,address,ont_token);
-}
-
-
 const getDbcBalance = async (net,address) => {
     let dbc_token;
     if (net === "MainNet") {
@@ -62,7 +51,38 @@ const getDbcBalance = async (net,address) => {
     } else {
         dbc_token = TOKENS_TEST.DBC;
     }
-    return getBalace(net,address,dbc_token);
+    return getBalace (net,address,dbc_token);
+}
+
+const getIamBalance = async (net,address) => {
+    let iam_token;
+    if (net === "MainNet") {
+        iam_token = TOKENS.IAM;
+    } else {
+        iam_token = TOKENS_TEST.IAM;
+    }
+    return getBalace (net,address,iam_token);
+}
+
+const getNrveBalance = async (net,address) => {
+    let nrve_token;
+    if (net === "MainNet") {
+        nrve_token = TOKENS.NRVE;
+    } else {
+        nrve_token = TOKENS_TEST.NRVE;
+    }
+    return getBalace (net,address,nrve_token);
+}
+
+
+const getOntBalance = async (net,address) => {
+    let ont_token;
+    if (net === "MainNet") {
+        ont_token = TOKENS.ONT;
+    } else {
+        ont_token = TOKENS_TEST.ONT;
+    }
+    return getBalace (net,address,ont_token);
 }
 
 const getQlcBalance = async (net,address) => {
@@ -72,7 +92,17 @@ const getQlcBalance = async (net,address) => {
     } else {
         qlc_token = TOKENS_TEST.QLC;
     }
-    return getBalace(net,address,qlc_token);
+    return getBalace	(net,address,qlc_token);
+}
+
+const getRhtBalance = async (net,address) => {
+    let rht_token;
+    if (net === "MainNet") {
+        rht_token = TOKENS.RHT;
+    } else {
+        rht_token = TOKENS_TEST.RHT;
+    }
+    return getBalace	(net,address,rht_token);
 }
 
 const getRpxBalance = async (net,address) => {
@@ -82,7 +112,7 @@ const getRpxBalance = async (net,address) => {
     } else {
         rpx_token = TOKENS_TEST.RPX;
     }
-    return getBalace(net,address,rpx_token);
+    return getBalace	(net,address,rpx_token);
 }
 
 const getTkyBalance = async (net,address) => {
@@ -92,7 +122,7 @@ const getTkyBalance = async (net,address) => {
     } else {
         tky_token = TOKENS_TEST.TKY;
     }
-    return getBalace(net,address,tky_token);
+    return getBalace	(net,address,tky_token);
 }
 
 const getTncBalance = async (net,address) => {
@@ -102,7 +132,7 @@ const getTncBalance = async (net,address) => {
     } else {
         tnc_token = TOKENS_TEST.TNC;
     }
-    return getBalace(net,address,tnc_token);
+    return getBalace	(net,address,tnc_token);
 }
 
 const getZptBalance = async (net,address) => {
@@ -112,15 +142,13 @@ const getZptBalance = async (net,address) => {
     } else {
         zpt_token = TOKENS_TEST.ZPT;
     }
-    return getBalace(net,address,zpt_token);
+    return getBalace	(net,address,zpt_token);
 }
 
 const getBalace = async (net,address,token) => {
     const endpoint = await api.neonDB.getRPCEndpoint(net);
     console.log("endpoint = "+endpoint);
-
     const  scriptHash  = token;
-
     try {
         const response = await api.nep5.getToken(endpoint, scriptHash, address);
         console.log("nep5 balance response = "+JSON.stringify(response));
@@ -135,19 +163,6 @@ const getBalace = async (net,address,token) => {
     }
 }
 
-
-const getBalanceFromApi = async (scriptHash,address) => {
-    api.nep5.getTokenBalance("http://seed3.neo.org:10332",scriptHash,address)
-    .then(response =>{
-        console.log(JSON.stringify(response));
-        let rpxBal = Number(response);
-        return rpxBal;
-    })
-    .catch(error =>{
-      console.log("rpx balance\n")
-       console.log(error.message);
-    });
-}
 
 const getGasPrice = async gasVal => {
   try {
@@ -369,22 +384,35 @@ const initiateGetBalance = (dispatch, net, address) => {
             let gasPrice = await getGasPrice(resultBalance.Gas);
             let marketPrices = await getMarketPrice();
 
-
             let dbc_usd = parseFloat(marketPrices.data.DBC.USD);
 
             let qlc_usd = parseFloat(marketPrices.data.QLC.USD);
 
             let rpx_usd = parseFloat(marketPrices.data.RPX.USD);
 
+            let tky_usd = parseFloat(marketPrices.data.TKY.USD);
+
+            let tnc_usd = parseFloat(marketPrices.data.TNC.USD);
+
+            let zpt_usd = parseFloat(marketPrices.data.ZPT.USD);
 
             let dbcBalance = await getDbcBalance(net,address);
             console.log("dbc balance= " + dbcBalance);
+
+            let iamBalance = await getIamBalance(net,address);
+            console.log("iam balance= " + iamBalance);
+
+            let nrveBalance = await getNrveBalance(net,address);
+            console.log("nrve balance= " + nrveBalance);
 
             let ontBalance = await getOntBalance(net,address);
             console.log("ont balance= " + ontBalance);
 
             let qlcBalance = await getQlcBalance(net,address);
             console.log("qlc balance= " + qlcBalance);
+
+            let rhtBalance = await getRhtBalance(net,address);
+            console.log("rht balance= " + rhtBalance);
 
             let rpxBalance = await getRpxBalance(net,address);
             console.log("rpx balance= " + rpxBalance);
@@ -399,7 +427,7 @@ const initiateGetBalance = (dispatch, net, address) => {
             console.log("zpt balance= " + zptBalance);
 
             //combined balance updating
-            let combinedPrice = gasPrice + resultPrice + rpxBalance*rpx_usd + dbcBalance*dbc_usd + qlcBalance*qlc_usd;
+            let combinedPrice = gasPrice + resultPrice + dbcBalance*dbc_usd + qlcBalance*qlc_usd + rpxBalance*rpx_usd + tkyBalance*tky_usd + tncBalance*tnc_usd + zptBalance*zpt_usd;
             dispatch(
               setBalance(
                 resultBalance.Neo,
@@ -427,7 +455,9 @@ const initiateGetBalance = (dispatch, net, address) => {
                 marketPrices.data.TNC.USD,
                 marketPrices.data.TKY.USD,
                 marketPrices.data.XMR.USD,
-                marketPrices.data.ZPT.USD
+                marketPrices.data.ZPT.USD,
+                rhtBalance,
+                nrveBalance
               )
             );
           }

@@ -20,173 +20,157 @@ export const HARDWARE_DEVICE_INFO = "HARDWARE_DEVICE_INFO";
 export const HARDWARE_PUBLIC_KEY_INFO = "HARDWARE_PUBLIC_KEY_INFO";
 export const HARDWARE_PUBLIC_KEY = "HARDWARE_PUBLIC_KEY";
 export const HARDWARE_LOGIN = "HARDWARE_LOGIN";
-export const SET_PUBLIC_KEY = "SET_PUBLIC_KEY";
 
 export function hardwareDeviceInfo(hardwareDeviceInfo) {
-  return {
-    type: HARDWARE_DEVICE_INFO,
-    payload: { hardwareDeviceInfo }
-  };
+	return {
+		type: HARDWARE_DEVICE_INFO,
+		payload: { hardwareDeviceInfo }
+	};
 }
 
 export function hardwarePublicKeyInfo(hardwarePublicKeyInfo) {
-  return {
-    type: HARDWARE_PUBLIC_KEY_INFO,
-    payload: { hardwarePublicKeyInfo }
-  };
+	return {
+		type: HARDWARE_PUBLIC_KEY_INFO,
+		payload: { hardwarePublicKeyInfo }
+	};
 }
 
 export function hardwarePublicKey(publicKey) {
-  return {
-    type: HARDWARE_PUBLIC_KEY,
-    payload: { publicKey }
-  };
+	return {
+		type: HARDWARE_PUBLIC_KEY,
+		payload: { publicKey }
+	};
 }
 
 export function isHardwareLogin(isHardwareLogin) {
-  return {
-    type: HARDWARE_LOGIN,
-    payload: { isHardwareLogin }
-  };
+	return {
+		type: HARDWARE_LOGIN,
+		payload: { isHardwareLogin }
+	};
 }
 
 export function ledgerNanoSGetLogin() {
-  return {
-    type: LOGIN,
-    payload: { signingFunction: ledgerNanoSCreateSignatureAsync }
-  };
+	return {
+		type: LOGIN,
+		payload: { signingFunction: ledgerNanoSCreateSignatureAsync }
+	};
 }
 
 export const ledgerNanoSGetInfoAsync = () => async dispatch => {
-  const dispatchError = (message, deviceInfoMsg) => {
-    dispatch(isHardwareLogin(false));
-    dispatch(hardwarePublicKey(null));
-    if (deviceInfoMsg) {
-      dispatch(hardwarePublicKeyInfo(null));
-      return dispatch(hardwareDeviceInfo(message));
-    } else {
-      return dispatch(hardwarePublicKeyInfo(message));
-    }
-  };
-  dispatch(hardwareDeviceInfo(FINDING_LEDGER_NOTICE));
-  let [err, result] = await asyncWrap(commNode.list_async());
-  if (err) {
-    return dispatchError(`Finding USB Error: ${err}. ${FINDING_LEDGER_NOTICE}`);
-  }
-  if (result.length === 0) {
-    return dispatchError(
-      `USB Failure: No device found. ${FINDING_LEDGER_NOTICE}`
-    );
-  } else {
-    let [err, comm] = await asyncWrap(commNode.create_async());
-    if (err) {
-      return dispatchError(
-        `Finding USB Error: ${err}. ${FINDING_LEDGER_NOTICE}`
-      );
-    }
+	const dispatchError = (message, deviceInfoMsg) => {
+		dispatch(isHardwareLogin(false));
+		dispatch(hardwarePublicKey(null));
+		if (deviceInfoMsg) {
+			dispatch(hardwarePublicKeyInfo(null));
+			return dispatch(hardwareDeviceInfo(message));
+		} else {
+			return dispatch(hardwarePublicKeyInfo(message));
+		}
+	};
+	dispatch(hardwareDeviceInfo(FINDING_LEDGER_NOTICE));
+	let [err, result] = await asyncWrap(commNode.list_async());
+	if (err) {
+		return dispatchError(`Finding USB Error: ${err}. ${FINDING_LEDGER_NOTICE}`);
+	}
+	if (result.length === 0) {
+		return dispatchError(
+			`USB Failure: No device found. ${FINDING_LEDGER_NOTICE}`
+		);
+	} else {
+		let [err, comm] = await asyncWrap(commNode.create_async());
+		if (err) {
+			return dispatchError(
+				`Finding USB Error: ${err}. ${FINDING_LEDGER_NOTICE}`
+			);
+		}
 
-    const deviceInfo = comm.device.getDeviceInfo();
-    comm.device.close();
-    dispatch(
-      hardwareDeviceInfo(
-        `Found USB ${deviceInfo.manufacturer} ${deviceInfo.product}`
-      )
-    );
-  }
-  [err, result] = await asyncWrap(commNode.list_async());
-  if (result.length === 0) {
-    return dispatchError(
-      "Hardware Device Error. Login to NEO App and try again",
-      false
-    );
-  } else {
-    let [err, comm] = await asyncWrap(commNode.create_async());
-    if (err) {
-      console.log(`Public Key Comm Init Error: ${err}`);
-      return dispatchError(
-        "Hardware Device Error. Login to NEO App and try again",
-        false
-      );
-    }
+		const deviceInfo = comm.device.getDeviceInfo();
+		comm.device.close();
+		dispatch(
+			hardwareDeviceInfo(
+				`Found USB ${deviceInfo.manufacturer} ${deviceInfo.product}`
+			)
+		);
+	}
+	[err, result] = await asyncWrap(commNode.list_async());
+	if (result.length === 0) {
+		return dispatchError(
+			"Hardware Device Error. Login to NEO App and try again",
+			false
+		);
+	} else {
+		let [err, comm] = await asyncWrap(commNode.create_async());
+		if (err) {
+			console.log(`Public Key Comm Init Error: ${err}`);
+			return dispatchError(
+				"Hardware Device Error. Login to NEO App and try again",
+				false
+			);
+		}
 
-    let message = Buffer.from(`8004000000${BIP44_PATH}`, "hex");
-    const validStatus = [0x9000];
-    let [error, response] = await asyncWrap(
-      comm.exchange(message.toString("hex"), validStatus)
-    );
-    if (error) {
-      comm.device.close(); // NOTE: do we need this close here - what about the other errors that do not have it at the moment
-      if (error === "Invalid status 28160") {
-        return dispatchError(
-          "NEO App does not appear to be open, request for private key returned error 28160.",
-          false
-        );
-      } else {
-        console.log(`Public Key Comm Messaging Error: ${error}`);
-        return dispatchError(
-          "Hardware Device Error. Login to NEO App and try again",
-          false
-        );
-      }
-    }
-    comm.device.close();
-    dispatch(isHardwareLogin(true));
-    dispatch(hardwarePublicKey(response.substring(0, 130)));
-    return dispatch(
-      hardwarePublicKeyInfo(
-        "Success. NEO App Found on Hardware Device. Click Button Above to Login"
-      )
-    );
-  }
+		let message = Buffer.from(`8004000000${BIP44_PATH}`, "hex");
+		const validStatus = [0x9000];
+		let [error, response] = await asyncWrap(
+			comm.exchange(message.toString("hex"), validStatus)
+		);
+		if (error) {
+			comm.device.close(); // NOTE: do we need this close here - what about the other errors that do not have it at the moment
+			if (error === "Invalid status 28160") {
+				return dispatchError(
+					"NEO App does not appear to be open, request for private key returned error 28160.",
+					false
+				);
+			} else {
+				console.log(`Public Key Comm Messaging Error: ${error}`);
+				return dispatchError(
+					"Hardware Device Error. Login to NEO App and try again",
+					false
+				);
+			}
+		}
+		comm.device.close();
+		dispatch(isHardwareLogin(true));
+		dispatch(hardwarePublicKey(response.substring(0, 130)));
+		return dispatch(
+			hardwarePublicKeyInfo(
+				"Success. NEO App Found on Hardware Device. Click Button Above to Login"
+			)
+		);
+	}
 };
 
 // Actions
 export function login(wif) {
-  return {
-    type: LOGIN,
-    wif: wif
-  };
+	return {
+		type: LOGIN,
+		wif: wif
+	};
 }
 
 export function logout() {
-  return {
-    type: LOGOUT
-  };
+	return {
+		type: LOGOUT
+	};
 }
 
 export function decrypting(bool) {
-  return {
-    type: SET_DECRYPTING,
-    state: bool
-  };
+	return {
+		type: SET_DECRYPTING,
+		state: bool
+	};
 }
 
 export function setKeys(keys) {
-  return {
-    type: SET_KEYS,
-    keys
-  };
+	return {
+		type: SET_KEYS,
+		keys
+	};
 }
 
 export function setAddress(address) {
-  return {
-    type: SET_ADDRESS,
-    address: address
-  };
-}
-
-export function setPublicKey(publicKey) {
-  return {
-    type: SET_ADDRESS,
-    publicKey: publicKey
-  };
-}
-
-export function ltcLogIn(pa, pk) {
 	return {
-		type: LTC_LOGIN,
-		pa: pa,
-		pk: pk
+		type: SET_ADDRESS,
+		address: address
 	};
 }
 
@@ -195,107 +179,116 @@ export function btcLogIn(pa, pk){
 		type: BTC_LOGIN,
 		pa: pa,
 		pk: pk
-	};
-}
-
-export function ltcLoginRedirect(path) {
-	return {
-		type: LTC_LOGIN_REDIRECT,
-		path: path
-	};
+	}
 }
 
 export function btcLoginRedirect(path) {
 	return {
 		type: BTC_LOGIN_REDIRECT,
 		path: path,
-	};
+	}
+}
+
+export function ltcLogIn(pa, pk){
+    return {
+        type: LTC_LOGIN,
+        pa: pa,
+        pk: pk
+    }
+}
+
+export function ltcLoginRedirect(path) {
+    return {
+        type: LTC_LOGIN_REDIRECT,
+        path: path,
+    }
 }
 
 // Reducer that manages account state (account now = private key)
 export default (
-  state = {
-    wif: null,
-    address: null,
-    loggedIn: false,
-    redirectUrl: null,
-    decrypting: false,
-    accountKeys: [],
-    publicKey: null,
-    btcLoggedIn: false,
+	state = {
+		wif: null,
+		address: null,
+		loggedIn: false,
+		redirectUrl: null,
+		decrypting: false,
+		accountKeys: [],
+		btcLoggedIn: false,
 		btcPrivKey: null,
 		btcPubAddr: null,
-		ltcLoggedIn: false,
-		ltcPrivKey: null,
-		ltcPubAddr: null
-  },
-  action
+        ltcLoggedIn: false,
+        ltcPrivKey: null,
+        ltcPubAddr: null,
+	},
+	action
 ) => {
-  switch (action.type) {
-    case LOGIN:
-      let loadAccount;
-      try {
-        loadAccount = getAccountsFromWIFKey(action.wif)[0];
-      } catch (e) {
-        loadAccount = -1;
-      }
-      if (
-        loadAccount === -1 ||
+	switch (action.type) {
+	case LOGIN:
+		let loadAccount;
+		try {
+			loadAccount = getAccountsFromWIFKey(action.wif)[0];
+		} catch (e) {
+			loadAccount = -1;
+		}
+		if (
+			loadAccount === -1 ||
         loadAccount === -2 ||
         loadAccount === undefined
-      ) {
-        return { ...state, wif: action.wif, loggedIn: false };
-      }
-      return {
-        ...state,
-        wif: action.wif,
-        address: loadAccount.address,
-        loggedIn: true,
-        decrypting: false
-      };
-    case LOGOUT:
-      return {
-        ...state,
-        wif: null,
-        address: null,
-        loggedIn: false,
-        decrypting: false
-      };
-    case SET_ADDRESS:
-      return {
-        ...state,
-        wif: null,
-        address: action.address
-      };
-    case SET_DECRYPTING:
-      return { ...state, decrypting: action.state };
-    case SET_KEYS:
-      return { ...state, accountKeys: action.keys };
-      case BTC_LOGIN:
-    		return {
-    			...state,
-    			btcLoggedIn: true,
-    			btcPrivKey: action.pk,
-    			btcPubAddr: action.pa
-    		};
-    	case LTC_LOGIN:
-    		return {
-    			...state,
-    			ltcLoggedIn: true,
-    			ltcPrivKey: action.pk,
-    			ltcPubAddr: action.pa
-    		};
-    	case BTC_LOGIN_REDIRECT:
-    		return {
-    			...state,
-    			btcLoginRedirect: action.path
-    		};
-    	case LTC_LOGIN_REDIRECT:
-    		return {
-    			...state,
-    			ltcLoginRedirect: action.path
-    		};
-    default:
-      return state;
-  }
+		) {
+			return { ...state, wif: action.wif, loggedIn: false };
+		}
+		return {
+			...state,
+			wif: action.wif,
+			address: loadAccount.address,
+			loggedIn: true,
+			decrypting: false
+		};
+	case LOGOUT:
+		return {
+			...state,
+			wif: null,
+			address: null,
+			loggedIn: false,
+			decrypting: false
+		};
+	case SET_ADDRESS:
+		return {
+			...state,
+			wif: null,
+			address: action.address
+		};
+	case SET_DECRYPTING:
+		return { ...state, decrypting: action.state };
+	case SET_KEYS:
+		return { ...state, accountKeys: action.keys };
+	case BTC_LOGIN:
+		return {
+			...state,
+			btcLoggedIn: true,
+			btcPrivKey: action.pk,
+			btcPubAddr: action.pa
+		};
+
+	case BTC_LOGIN_REDIRECT:
+		return {
+			...state,
+			btcLoginRedirect: action.path,
+		}
+	case LTC_LOGIN:
+		return {
+			...state,
+			ltcLoggedIn: true,
+			ltcPrivKey: action.pk,
+			ltcPubAddr: action.pa
+		};
+
+	case LTC_LOGIN_REDIRECT:
+		return {
+			...state,
+			ltcLoginRedirect: action.path,
+		}
+	default:
+		return state;
+	}
 };

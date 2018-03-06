@@ -34,12 +34,9 @@ class Assets extends Component {
 		this.state = {
 			gasPrice: 0,
 			dbcPrice: 0,
-			ontPrice: 0,
 			qlcPrice: 0,
-			rpxPrice: 0,
-			tkyPrice: 0,
-			tncPrice: 0,
-			zptPrice: 0
+			rhtPrice: 0,
+			rpxPrice: 0
 		};
 	}
 
@@ -100,8 +97,7 @@ class Assets extends Component {
 						<div className="col-5">
 							<span className="market-price">Priceless</span>
 							<h3>{numeral(
-								Math.floor(this.props.rhpt * 10) / 10
-							).format("0,0")} <span className="hp-price"> RHPT</span></h3>
+								Math.floor(this.props.rht * 1000000000)).format("0,0")} <span className="hp-price"> RHPT</span></h3>
 							<hr className="dash-hr" />
 							<span className="market-price">$0.00 USD</span>
 						</div>
@@ -121,7 +117,7 @@ const mapStateToProps = state => ({
 	dbc: state.wallet.Dbc,
 	qlc: state.wallet.Qlc,
 	rpx: state.wallet.Rpx,
-	zpt: state.wallet.Zpt,
+	rht: state.wallet.Rht,
 	address: state.account.address,
 	net: state.metadata.network,
 	price: state.wallet.price,

@@ -49,8 +49,11 @@ class AssetPortolio extends Component {
 		this.state = {
 			gasPrice: 0,
 			dbcPrice: 0,
+			iamPrice: 0,
+			nrvePrice: 0,
 			ontPrice: 0,
 			qlcPrice: 0,
+			rhtPrice: 0,
 			rpxPrice: 0,
 			tkyPrice: 0,
 			tncPrice: 0,
@@ -68,9 +71,6 @@ class AssetPortolio extends Component {
 				<div id="assetList">
 				<div className="clearboth" />
 				<div className="row" />
-
-
-
 				<div className="col-3">
 				<div className="port-logo-col">
 				<img
@@ -134,10 +134,6 @@ class AssetPortolio extends Component {
 						</div>
 						</div>
 
-
-
-
-
 						<Link to="/tokens">
 							<div className="col-3">
 
@@ -154,7 +150,9 @@ class AssetPortolio extends Component {
 
 							<div className="port-price-col">
 								<span className="market-price">Bridge $0.00</span>
-								<h3>0.00000 <span className="qlink-price"> IAM</span></h3>
+								<h3>{numeral(
+									Math.floor(this.props.iam * 100000) / 100000
+								).format("0,0.0000")}<span className="qlink-price"> IAM</span></h3>
 								<hr className="dash-hr" />
 								<span className="market-price">$0.00 USD</span>
 							</div>
@@ -304,8 +302,8 @@ class AssetPortolio extends Component {
 							<div className="port-price-col">
 								<span className="market-price">Hash Puppies</span>
 								<h3>{numeral(
-									Math.floor(this.props.rhpt * 10) / 10
-								).format("0,0")} <span className="hp-price"> RHPT</span></h3>
+									Math.floor(this.props.rht * 10) / 10
+								).format("0,0")} <span className="hp-price"> RHT</span></h3>
 								<hr className="dash-hr" />
 								<span className="market-price">Priceless</span>
 							</div>
@@ -359,7 +357,7 @@ class AssetPortolio extends Component {
 									Math.floor(this.props.ltc * 100000) / 100000
 								).format("0,0.0000")} <span className="ltc-price"> LTC</span></h3>
 								<hr className="dash-hr" />
-								<span className="market-price">$0.00 USD</span>
+								<span className="market-price">{numeral(this.props.ltc * this.props.marketLTCPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
 						</Link>
@@ -644,8 +642,12 @@ const mapStateToProps = state => ({
 	neo: state.wallet.Neo,
 	btc: state.wallet.Btc,
 	dbc: state.wallet.Dbc,
+	iam: state.wallet.Iam,
+	ltc: state.wallet.Ltc,
+	nrve: state.wallet.Nrve,
 	ont: state.wallet.Ont,
 	qlc: state.wallet.Qlc,
+	rht: state.wallet.Rht,
 	rpx: state.wallet.Rpx,
 	tky: state.wallet.Tky,
 	tnc: state.wallet.Tnc,
