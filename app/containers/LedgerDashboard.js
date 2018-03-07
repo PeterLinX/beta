@@ -97,13 +97,10 @@ class Dashboard extends Component {
               </div>
               <div
                 id="balance"
-                onClick={(event) => {
-                  startAnimation(
-                  this.totalCountUp
-                )
-              }}
+                onClick={event => {
+                  startAnimation(this.totalCountUp);
+                }}
               >
-
                 <CountUp
                   className="account-balance"
                   end={this.props.combined}
@@ -114,7 +111,7 @@ class Dashboard extends Component {
                   decimals={2}
                   decimal="."
                   prefix="$"
-                  ref={(countUp) => {
+                  ref={countUp => {
                     this.totalCountUp = countUp;
                   }}
                 />
@@ -159,9 +156,7 @@ class Dashboard extends Component {
           <span className="dashnetwork">Network: {this.props.net}</span>
           <div className="copyright">&copy; Copyright 2018 Morpheus</div>
         </div>
-      <div>
-        {this.props.children}
-        </div>
+        <div>{this.props.children}</div>
       </div>
     );
   };

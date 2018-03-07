@@ -57,8 +57,6 @@ class Dashboard extends Component {
     };
   }
 
-
-
   render = () => {
     let sendPaneClosed;
     if (this.props.sendPane == true) {
@@ -101,13 +99,10 @@ class Dashboard extends Component {
 
               <div
                 id="balance"
-                onClick={(event) => {
-                  startAnimation(
-                  this.totalCountUp
-                )
-              }}
+                onClick={event => {
+                  startAnimation(this.totalCountUp);
+                }}
               >
-
                 <CountUp
                   className="account-balance"
                   end={this.props.combined}
@@ -118,7 +113,7 @@ class Dashboard extends Component {
                   decimals={2}
                   decimal="."
                   prefix="$"
-                  ref={(countUp) => {
+                  ref={countUp => {
                     this.totalCountUp = countUp;
                   }}
                 />
@@ -126,7 +121,6 @@ class Dashboard extends Component {
                 <span className="bal-usd">USD</span>
                 <span className="comb-bal">Available Balance</span>
               </div>
-
             </div>
             <div className="clearfix" />
             <hr className="dash-hr" />
@@ -158,7 +152,8 @@ class Dashboard extends Component {
 
                 <li>
                   <Link to={"/transactionHistory"} activeClassName="active">
-                    <span className="glyphicon glyphicon-list-alt" /> Transactions
+                    <span className="glyphicon glyphicon-list-alt" />{" "}
+                    Transactions
                   </Link>
                 </li>
 
@@ -184,7 +179,7 @@ class Dashboard extends Component {
           <div className="copyright">&copy; Copyright 2018 Morpheus</div>
         </div>
         <div className="main-container">
-        <TopBar />
+          <TopBar />
           {this.props.children}
           {dash}
         </div>
@@ -203,9 +198,9 @@ const mapStateToProps = state => ({
   gas: state.wallet.Gas,
   btc: state.wallet.Btc,
   btcLoggedIn: state.account.btcLoggedIn,
-	btcPrivKey: state.account.btcPrivKey,
-	btcPubAddr: state.account.btcPubAddr,
-	btcLoginRedirect: state.account.btcLoginRedirect,
+  btcPrivKey: state.account.btcPrivKey,
+  btcPubAddr: state.account.btcPubAddr,
+  btcLoginRedirect: state.account.btcLoginRedirect,
   price: state.wallet.price,
   combined: state.wallet.combined
 });

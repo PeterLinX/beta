@@ -152,8 +152,9 @@ class LoginLocalStorage extends Component {
                 </div>
 
                 <div className="col-xs-10 col-xs-offset-1 center top-40 grey-out">
-                  Please enter your password for your saved address.
-                  You may login with your private key or encrypted key and password created with NEON. Your password is never shared online.
+                  Please enter your password for your saved address. You may
+                  login with your private key or encrypted key and password
+                  created with NEON. Your password is never shared online.
                 </div>
               </div>
             </div>
@@ -167,7 +168,6 @@ class LoginLocalStorage extends Component {
           )}
         </div>
         <div className="dash-bar top-50">
-
           <Link to="/create">
             <div className="dash-icon-bar">
               <div className="icon-border">
@@ -193,10 +193,11 @@ class LoginLocalStorage extends Component {
             </div>
           </Link>
 
-          <Link to="/LoginLedgerNanoS"
-          onClick={() => {
-    				this.getLedgerAddress();
-    			}}
+          <Link
+            to="/LoginLedgerNanoS"
+            onClick={() => {
+              this.getLedgerAddress();
+            }}
           >
             <div className="dash-icon-bar">
               <div className="icon-border">
@@ -205,7 +206,6 @@ class LoginLocalStorage extends Component {
               Login to Ledger Nano S
             </div>
           </Link>
-
         </div>
         <div className="login-copyright">&copy; Copyright 2018 Morpheus</div>
       </div>
