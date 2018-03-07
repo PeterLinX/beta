@@ -164,12 +164,6 @@ const getExplorerLink = (net, explorer, txid) => {
 		}
 	}
 	return base + txid;
-}
-  // close confirm pane and clear fields
-  dispatch(togglePane("confirmPane"));
-  sendAddress.value = "";
-  sendAmount.value = "";
-  confirmButton.blur();
 };
 
 class LedgerNanoSend extends Component {
