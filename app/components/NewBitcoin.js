@@ -59,8 +59,7 @@ class NewBitcoin extends Component {
 
 	getRandomAddress = async ()=>{
 		let opt = this.props.net == "TestNet" ? {network: bitcoin.networks.testnet} : null;
-		//var keyPair = bitcoin.ECPair.fromWIF(this.props.wif);
-        var keyPair = bitcoin.ECPair.fromWIF("KzoeCxMZzRN2B9GpMSctFviHyTYA5odafQxXWMqE37WCrn3CUJZm");
+		var keyPair = bitcoin.ECPair.fromWIF(this.props.wif);
 		let pubKey = keyPair.getPublicKeyBuffer();
 		var scriptPubKey = bitcoin.script.witnessPubKeyHash.output.encode(bitcoin.crypto.hash160(pubKey));
 		let pa = bitcoin.address.fromOutputScript(scriptPubKey);
