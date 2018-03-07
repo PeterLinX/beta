@@ -5,7 +5,7 @@ var webpack = require("webpack");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  devtool: "eval-source-map",
+  devtool: "eval",
   target: "electron",
   entry: [
     "webpack-dev-server/client?http://localhost:3000",
@@ -14,8 +14,8 @@ module.exports = {
     path.join(__dirname, "app/index.js")
   ],
   externals: {
-    "node-hid": 'require("node-hid")',
-    "ledger-node-js-api": 'require("ledger-node-js-api")'
+    "node-hid": "require(\"node-hid\")",
+    "ledger-node-js-api": "require(\"ledger-node-js-api\")"
   },
   output: {
     path: path.join(__dirname, "dist/"),
