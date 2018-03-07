@@ -187,30 +187,17 @@ const getMarketPrice = async () => {
   }
 };
 
-const getLtcOutputTransactions = async (net,address) => {
+const getLtcTransactions = async (net,address) => {
     let base;
     if(net === "MainNet") {
-        base = "https://api.blockcypher.com/v1/ltc/main/txs/" + address;
+        base = "https://api.blockcypher.com/v1/ltc/main/addrs/" + address;
     } else {
-        base = "https://api.blockcypher.com/v1/ltc/test3/txs/" + address;
+        base = "https://api.blockcypher.com/v1/ltc/test3/addrs/" + address;
     }
 
     let response = await axios.get(base);
-    return response.data.outputs;
+    return response.data.txrefs;
 }
-
-const getLtcInputTransactions = async (net,address) => {
-    let base;
-    if(net === "MainNet") {
-        base = "https://api.blockcypher.com/v1/ltc/main/txs/" + address;
-    } else {
-        base = "https://api.blockcypher.com/v1/ltc/test3/txs/" + address;
-    }
-
-    let response = await axios.get(base);
-    return response.data.inputs;
-}
-
 
 const getBtcTransactions =  async (net,address) => {
     let base;
@@ -229,29 +216,28 @@ const getBtcTransactions =  async (net,address) => {
 
 const syncLtcTransactionHistory = async (dispatch,net,address) => {
     let txs = [];
-    let input_transactions = await getLtcInputTransactions(net,address);
-    let output_transactions = await  getLtcOutputTransactions(net,address);
-    for (let i = 0; i < input_transactions.length; i++) {
-        txs = txs.concat([
-            {
-                type: "LTC",
-                amount: parseFloat(input_transactions[i].value/100000000),
-                txid: input_transactions[i].txid,
-                block_index: input_transactions[i].block_index
+    let transactions = await getLtcTransactions(net,address);
+    if (transactions != undefined) {
+        for (let i = 0; i < transactions.length; i++) {
+            let amount;
+            if (transactions[i].spent == false){
+                amount = parseFloat(transactions[i].value/100000000)
+            } else {
+                amount = (-1) * parseFloat(transactions[i].value/100000000)
             }
-        ]);
+            txs = txs.concat([
+                {
+                    type: "LTC",
+                    amount: amount,
+                    txid: transactions[i].tx_hash,
+                    block_index: transactions[i].block_height
+                }
+            ]);
+        }
+
     }
 
-    for(let j = 0; j<output_transactions.length ;j++) {
-        txs = txs.concat([
-            {
-                type: "LTC",
-                amount: parseFloat(input_transactions[i].value/100000000),
-                txid: input_transactions[i].txid,
-                block_index: input_transactions[i].block_index
-            }
-        ]);
-    }
+    dispatch(setLtcTransactionHistory(txs));
 
 }
 
@@ -347,9 +333,9 @@ const initiateLtcGetBalance = async (dispatch, net, ltc_address) => {
     syncLtcTransactionHistory(dispatch,net,ltc_address);
     const ltc_balance = getLtcBalance(net,ltc_address);
     setLtcBalance(ltc_balance);
-    let marketPrices = await getMarketPrice();
-    let combinedPrice = marketPrices.LTC.USD * ltc_balance;
-    setCombinedBalance(combinedPrice);
+    // let marketPrices = await getMarketPrice();
+    // let combinedPrice = marketPrices.LTC.USD * ltc_balance;
+    // setCombinedBalance(combinedPrice);
 }
 
 const initiateBtcGetBalance = async (dispatch, net, btc_address) => {
@@ -357,9 +343,9 @@ const initiateBtcGetBalance = async (dispatch, net, btc_address) => {
     syncBtcTransactionHistory(dispatch ,net ,btc_address);
     const btc_balance = getBtcBalance(net,btc_address);
     setBtcBalance(btc_balance);
-    let marketPrices = await getMarketPrice();
-    let combinedPrice = marketPrices.BTC.USD * btc_balance
-    setCombinedBalance(combinedPrice);
+    // let marketPrices = await getMarketPrice();
+    // let combinedPrice = marketPrices.BTC.USD * btc_balance
+    // setCombinedBalance(combinedPrice);
 }
 // TODO: this is being imported by Balance.js, maybe refactor to helper file/
 
@@ -395,6 +381,10 @@ const initiateGetBalance = (dispatch, net, address) => {
             let tnc_usd = parseFloat(marketPrices.data.TNC.USD);
 
             let zpt_usd = parseFloat(marketPrices.data.ZPT.USD);
+
+            let btc_usd = parseFloat(marketPrices.data.BTC.USD);
+
+            let ltc_usd = parseFloat(marketPrices.data.LTC.USD);
 
             let dbcBalance = await getDbcBalance(net,address);
             console.log("dbc balance= " + dbcBalance);

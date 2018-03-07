@@ -127,15 +127,12 @@ const sendTransaction = async (
         } else {
             let new_base,send_base;
             let satoshi_amount = parseInt(send_amount * 100000000);
-            dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
-						setTimeout(() => dispatch(clearTransactionEvent()), 2000);
-						return true;
 
 			console.log("wif ="+wif);
             var ck = CoinKey.fromWif(wif);
             var privateKey = ck.privateKey.toString('hex');
 			console.log("hex private key = "+privateKey);
-            var keys    = new bitcoin.ECPair(bigi.fromHex(privateKey));
+            var keys = new bitcoin.ECPair(bigi.fromHex(privateKey));
             console.log("keys ="+keys);
 			var newtx = {
                 inputs: [{addresses: [selfAddress]}],
@@ -165,6 +162,9 @@ const sendTransaction = async (
 
                      axios.post(send_base, sendtx).then(function(finaltx) {
                         console.log("finaltx= "+ finaltx);
+                         dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
+                         setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+                         return true;
                     })
                 });
         }
@@ -234,8 +234,8 @@ class SendBTC extends Component {
 			dispatch,
 			wif,
 			address,
-      btc_address,
-      btc_prvkey,
+      		btc_address,
+      		btc_prvkey,
 			status,
 			neo,
 			gas,
@@ -449,6 +449,7 @@ const mapStateToProps = state => ({
 	btcLoggedIn: state.account.btcLoggedIn,
 	btcPrivKey: state.account.btcPrivKey,
 	btcPubAddr: state.account.btcPubAddr,
+	combined: state.wallet.combined
 });
 
 SendBTC = connect(mapStateToProps)(SendBTC);

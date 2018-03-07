@@ -63,6 +63,8 @@ class NewBitcoin extends Component {
 		let pubKey = keyPair.getPublicKeyBuffer();
 		var scriptPubKey = bitcoin.script.witnessPubKeyHash.output.encode(bitcoin.crypto.hash160(pubKey));
 		let pa = bitcoin.address.fromOutputScript(scriptPubKey);
+		console.log("btc public address");
+		console.log(pa);
 		let pk = keyPair.toWIF();
 		this.setState({
 			pa: pa,

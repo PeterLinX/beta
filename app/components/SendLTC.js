@@ -20,11 +20,13 @@ import TransactionHistoryLTC from "./TransactionHistoryLTC";
 import { syncTransactionHistory ,syncLtcTransactionHistory, block_index} from "../components/NetworkSwitch";
 import { ltcLoginRedirect } from "../modules/account";
 import { setMarketPrice, resetPrice } from "../modules/wallet";
+import { setCombinedBalance } from "../modules/wallet";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import numeral from "numeral";
 
 var bitcoin = require("bitcoinjs-lib");
 var WAValidator = require("wallet-address-validator");
+var litecoin = bitcoin.networks.litecoin
 var bigi = require("bigi");
 var buffer = require("buffer");
 var bcypher = require("blockcypher");
@@ -35,6 +37,9 @@ const apiURL = val => {
 	return "https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD";
 };
 
+const apiURLFor = val => {
+    return "https://min-api.cryptocompare.com/data/price?fsym="+val+"&tsyms=USD";
+};
 
 const getUnspentOutputsForLtc = async (net,address) =>{
     let base;
@@ -129,46 +134,47 @@ const sendTransaction = (
 		} else {
 				let new_base,send_base;
 				let satoshi_amount = parseInt(send_amount * 100000000);
-				dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
-				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
-				return true;
 
-	console.log("wif ="+wif);
+				console.log("wif ="+wif);
 				var ck = CoinKey.fromWif(wif);
 				var privateKey = ck.privateKey.toString('hex');
-	console.log("hex private key = "+privateKey);
-				var keys    = new bitcoin.ECPair(bigi.fromHex(privateKey));
+				console.log("hex private key = "+privateKey);
+				var keys  = new bitcoin.ECPair(bigi.fromHex(privateKey),{network:litecoin});
 				console.log("keys ="+keys);
-	var newtx = {
-						inputs: [{addresses: [selfAddress]}],
-						outputs: [{addresses: [sendAddress.value], value: satoshi_amount}]
-	};
+				var newtx = {
+					inputs: [{addresses: [selfAddress]}],
+					outputs: [{addresses: [sendAddress.value], value: satoshi_amount}]
+				};
 
 				if(net === "MainNet") {
-					new_base = "https://api.blockcypher.com/v1/ltc/main/txs/new?token=" + BLOCK_TOKEN;
+						new_base = "https://api.blockcypher.com/v1/ltc/main/txs/new?token=" + BLOCK_TOKEN;
 						send_base = "https://api.blockcypher.com/v1/ltc/main/txs/send?token=" + BLOCK_TOKEN;
-	} else {
+				} else {
 						new_base = "https://api.blockcypher.com/v1/ltc/test3/txs/new?token="+BLOCK_TOKEN;
 						send_base = "https://api.blockcypher.com/v1/ltc/test3/txs/send?token="+BLOCK_TOKEN;
-	}
+				}
 
-            axios.post(new_base,newtx)
-                .then(function (tmptx) {
-                    console.log("create new transaction= "+JSON.stringify(tmptx));
-                    var sendtx = {
-                        tx: tmptx.data.tx
-                    }
-                    sendtx.pubkeys = [];
-                    sendtx.signatures = tmptx.data.tosign.map(function(tosign, n) {
-                        sendtx.pubkeys.push(keys.getPublicKeyBuffer().toString("hex"));
-                        return keys.sign(new buffer.Buffer(tosign, "hex")).toDER().toString("hex");
+				axios.post(new_base,newtx)
+					.then(function (tmptx) {
+						console.log("create new transaction= "+JSON.stringify(tmptx));
+						var sendtx = {
+							tx: tmptx.data.tx
+						}
+						sendtx.pubkeys = [];
+						sendtx.signatures = tmptx.data.tosign.map(function(tosign, n) {
+							sendtx.pubkeys.push(keys.getPublicKeyBuffer().toString("hex"));
+							return keys.sign(new buffer.Buffer(tosign, "hex")).toDER().toString("hex");
 
-                    });
+						});
 
-                    axios.post(send_base, sendtx).then(function(finaltx) {
-                        console.log("finaltx= "+ finaltx);
-                    })
-                });
+						axios.post(send_base, sendtx).then(function(finaltx) {
+							console.log("finaltx= "+ finaltx);
+                            dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
+                            setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+                            return true;
+
+                        })
+					});
 		}
 	}
 	// close confirm pane and clear fields
@@ -201,8 +207,8 @@ class SendLTC extends Component {
 	}
 
 	async componentDidMount() {
-		let neo = await axios.get(apiURL("NEO"));
-		let gas = await axios.get(apiURL("GAS"));
+		let neo = await axios.get(apiURLFor("NEO"));
+		let gas = await axios.get(apiURLFor("GAS"));
 		neo = neo.data.USD;
 		gas = gas.data.USD;
 		this.setState({ neo: neo, gas: gas });
@@ -455,6 +461,7 @@ const mapStateToProps = state => ({
 	ltcLoggedIn: state.account.ltcLoggedIn,
 	ltcPrivKey: state.account.ltcPrivKey,
 	ltcPubAddr: state.account.ltcPubAddr,
+	combined: state.wallet.combined
 });
 
 SendLTC = connect(mapStateToProps)(SendLTC);
