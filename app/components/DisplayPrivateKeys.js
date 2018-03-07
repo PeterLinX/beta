@@ -19,13 +19,12 @@ let key_name;
 let wif;
 
 const saveKey = async (dispatch, encWifValue, history) => {
-  console.log("starting here")
   await storage.get("keys", async (error, data) => {
     data[key_name.value] = encWifValue;
     dispatch(sendEvent(true, "Saved key as " + key_name.value));
-    await storage.set('keys', data, function(error) {
-      if (error) console.log(error);
-    }); 
+    await storage.set("keys", data, function(error) {
+      if (error) throw error;
+    });
     await setTimeout(() => dispatch(clearTransactionEvent()), 3000);
     setTimeout(() => history.push("/"), 3000);
   });
@@ -118,7 +117,7 @@ class DisplayWalletKeys extends Component {
                     {/* public address */}
                     <div className="keyListItem">
                       <span className="wallet-logo">
-                        <NeoLogo width="24" />
+                        <NeoLogo width={24} />
                       </span>{" "}
                       <h3>New NEO Address Created</h3>
                       <input
