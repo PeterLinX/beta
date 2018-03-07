@@ -1,33 +1,29 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import axios from "axios";
-import numeral from "numeral";
 import { Link } from "react-router";
+import { doSendAsset, verifyAddress } from "neon-js";
+import Neon, { wallet, api, addContract } from "@cityofzion/neon-js";
+import Modal from "react-bootstrap-modal";
+import QRCode from "qrcode.react";
+import { clipboard } from "electron";
+import axios from "axios";
+import SplitPane from "react-split-pane";
+import numeral from "numeral";
+import ReactTooltip from "react-tooltip";
+import CryptoJS from "crypto-js";
 
-import { setMarketPrice, resetPrice } from "../modules/wallet";
-import { sendEvent, clearTransactionEvent } from "../modules/transactions";
-import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
+import { log } from "../util/Logs";
 
-import nrveLogo from "../img/nrve.png";
-import neoLogo from "../img/neo.png";
-import gasLogo from "../img/gas.png";
-import btcLogo from "../img/btc-logo.png";
-import ltcLogo from "../img/litecoin.png";
-import rpxLogo from "../img/rpx.png";
-import tncLogo from "../img/tnc.png";
-import tkyLogo from "../img/tky.png";
-import zptLogo from "../img/zpt.png";
-import qlinkLogo from "../img/qlc.png";
-import thekeyLogo from "../img/thekey.png";
-import ontLogo from "../img/ont.png";
-import iamLogo from "../img/bridge.png";
-import nexLogo from "../img/nex.png";
-import deepLogo from "../img/deep.png";
-import elasLogo from "../img/elastos.png";
-import lrcLogo from "../img/lrc.png";
-import hashpuppiesLogo from "../img/hashpuppies.png";
-import moneroLogo from "../img/monero.png";
-import ethLogo from "../img/eth.png";
+import Dashlogo from "../components/Brand/Dashlogo";
+import { togglePane } from "../modules/dashboard";
+import {
+  sendEvent,
+  clearTransactionEvent,
+  toggleAsset
+} from "../modules/transactions";
+import { setCombinedBalance } from "../modules/wallet";
+import { setAddress, setPublicKey } from "../modules/account";
+import { initiateGetBalance } from "./NetworkSwitch";
 
 
 import commNode from "../modules/ledger/ledger-comm-node";
@@ -608,38 +604,336 @@ const openAndValidate = (
   }
 };
 
+export const sendTransactionLedger = (
+  sendEntries: Array<SendEntryType>
+) => async (dispatch: DispatchType, getState: GetStateType): Promise<*> => {
+  const state = getState();
+  const wif = getWIF(state);
+  const fromAddress = getAddress(state);
+  const net = getNetwork(state);
+  const balances = getBalances(state);
+  const signingFunction = getSigningFunction(state);
+  const publicKey = getPublicKey(state);
+  const isHardwareSend = getIsHardwareLogin(state);
 
+  const rejectTransaction = (message: string) =>
+    dispatch(showErrorNotification({ message }));
 
+  const error = validateTransactionsBeforeSending(balances, sendEntries);
 
-// force sync with balance data
-const refreshBalance = async (dispatch, net, address) => {
-	dispatch(sendEvent(true, "Refreshing..."));
-	initiateGetBalance(dispatch, net, address).then(response => {
-		dispatch(sendEvent(true, "Received latest blockchain information."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-	});
+  if (error) {
+    return rejectTransaction(error);
+  }
+
+  dispatch(
+    showInfoNotification({ message: "Sending Transaction...", autoDismiss: 0 })
+  );
+
+  log(
+    net,
+    "SEND",
+    fromAddress,
+    // $FlowFixMe
+    sendEntries.map(({ address, amount, symbol }) => ({
+      to: address,
+      asset: symbol,
+      amount: parseFloat(amount)
+    }))
+  );
+
+  if (isHardwareSend) {
+    dispatch(
+      showInfoNotification({
+        message: "Please sign the transaction on your hardware device",
+        autoDismiss: 0
+      })
+    );
+  }
+
+  const [err, config] = await asyncWrap(
+    makeRequest(sendEntries, {
+      net,
+      address: fromAddress,
+      publicKey,
+      privateKey: new wallet.Account(wif).privateKey,
+      signingFunction: isHardwareSend ? signingFunction : null
+    })
+  );
+
+  if (err || !config || !config.response || !config.response.result) {
+    console.log(err);
+    return rejectTransaction("Transaction failed!");
+  } else {
+    return dispatch(
+      showSuccessNotification({
+        message:
+          "Transaction complete! Your balance will automatically update when the blockchain has processed it."
+      })
+    );
+  }
 };
 
+// perform send transaction
+const sendTransactionOld = (
+  dispatch,
+  net,
+  selfAddress,
+  wif,
+  asset,
+  ledgerBalanceNeo,
+  ledgerBalanceGAS
+) => {
+  // validate fields again for good measure (might have changed?)
+  if (
+    validateForm(dispatch, ledgerBalanceNeo, ledgerBalanceGAS, asset) === true
+  ) {
+    dispatch(
+      sendEvent(true, "Please sign the transaction on your hardware device")
+    );
+    log(net, "SEND", selfAddress, {
+      to: sendAddress.value,
+      asset: asset,
+      amount: sendAmount.value
+    });
+    doSendAsset(net, sendAddress.value, wif, asset, sendAmount.value)
+      .then(response => {
+        if (response.result === undefined || response.result === false) {
+          dispatch(sendEvent(false, "Transaction failed!"));
+        } else {
+          dispatch(
+            sendEvent(
+              true,
+              "Transaction complete! Your balance will automatically update when the blockchain has processed it."
+            )
+          );
+        }
+        setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+      })
+      .catch(e => {
+        dispatch(sendEvent(false, "Transaction failed!"));
+        setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+      });
+  }
+  // close confirm pane and clear fields
+  dispatch(togglePane("confirmPane"));
+  sendAddress.value = "";
+  sendAmount.value = "";
+  confirmButton.blur();
+};
 
-class AssetPortolio extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			gasPrice: 0,
-			dbcPrice: 0,
-			ontPrice: 0,
-			qlcPrice: 0,
-			rpxPrice: 0,
-			tkyPrice: 0,
-			tncPrice: 0,
-			zptPrice: 0
-		};
+class LoginLedgerNanoS extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: true,
+      gas: 0,
+      neo: 0,
+      neo_usd: 0,
+      gas_usd: 0,
+      value: 0,
+      inputEnabled: true,
+      ledgerAddress: "No Address Found. Click to Refresh",
+      ledgerBalanceNeo: 0,
+      ledgerBalanceGas: 0,
+      ledgerNEOUSD: 0,
+      ledgerGASUSD: 0,
+      ledgerAvailable: false,
+      publicKey: "",
+      publicKeyEncoded: "",
+      filledBalance: {}
+    };
+    this.handleChangeNeo = this.handleChangeNeo.bind(this);
+    this.handleChangeGas = this.handleChangeGas.bind(this);
+    this.handleChangeUSD = this.handleChangeUSD.bind(this);
+  }
 
-	}
+  async componentDidMount() {
+    net = this.props.net;
+    let neo = await axios.get(apiURL("NEO"));
+    let gas = await axios.get(apiURL("GAS"));
+    neo = neo.data.USD;
+    gas = gas.data.USD;
+    this.setState({ neo: neo, gas: gas });
+  }
 
-	render() {
-		return (
+  async getLedgerAddress() {
+    try {
+      let result = await commNode.list_async();
 
+      let message = Buffer.from(`8004000000${BIP44_PATH}`, "hex");
+      let comm = await commNode.create_async();
+
+      const validStatus = [0x9000];
+      let response = await comm.exchange(message.toString("hex"), validStatus);
+
+      let publicKeyEncoded = await wallet.getPublicKeyEncoded(
+        response.substring(0, 130)
+      );
+
+      let loadAccount = new wallet.Account(publicKeyEncoded);
+
+      this.props.dispatch(setAddress(loadAccount.address));
+      this.props.dispatch(setPublicKey(publicKeyEncoded));
+
+      this.setState({
+        ledgerAddress: loadAccount.address,
+        ledgerAvailable: true,
+        publicKeyEncoded: publicKeyEncoded
+      });
+
+      this.getLedgerBalance(loadAccount.address, this.props.net);
+
+      await initiateGetBalance(
+        this.props.dispatch,
+        this.props.net,
+        loadAccount.address,
+        this.props.price
+      );
+
+      return loadAccount.address;
+    } catch (error) {
+      console.log(error);
+      this.props.dispatch(
+        sendEvent(
+          false,
+          "Please ensure that your Ledger Nano S is plugged in, unlocked and has the NEO app installed and open"
+        )
+      );
+      setTimeout(() => this.props.dispatch(clearTransactionEvent()), 5000);
+
+      if (error === "Invalid status 6e00") {
+        this.props.dispatch(
+          sendEvent(
+            false,
+            "Neo app on Ledger not open, Please open and try again"
+          )
+        );
+        setTimeout(() => this.props.dispatch(clearTransactionEvent()), 5000);
+      }
+    }
+  }
+
+  async getLedgerBalance(address, net) {
+    const filledBalance = await api.getBalanceFrom(
+      { net: net, address: address },
+      api.neonDB
+    );
+
+    this.setState({
+      filledBalance: filledBalance,
+      ledgerBalanceNeo: filledBalance.balance.NEO.balance,
+      ledgerBalanceGas: filledBalance.balance.GAS.balance
+    });
+
+    await this.getPrice(
+      filledBalance.balance.NEO.balance,
+      filledBalance.balance.GAS.balance
+    );
+  }
+
+  handleChangeNeo(event) {
+    this.setState({ value: event.target.value }, (sendAmount = value));
+    const value = event.target.value * this.state.neo;
+    this.setState({ neo_usd: value });
+  }
+
+  async getPrice(neo, gas) {
+    let ledgerNEOUSD, ledgerGASUSD;
+    try {
+      let neoPrice = await axios.get(
+        `https://min-api.cryptocompare.com/data/price?fsym=NEO&tsyms=USD`
+      );
+
+      let gasPrice = await axios.get(
+        `https://min-api.cryptocompare.com/data/price?fsym=GAS&tsyms=USD`
+      );
+
+      ledgerGASUSD = gasPrice.data.USD * gas;
+      ledgerNEOUSD = neoPrice.data.USD * neo;
+
+      this.setState({ ledgerGASUSD, ledgerNEOUSD });
+
+      this.props.dispatch(setCombinedBalance(ledgerGASUSD + ledgerNEOUSD));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  handleChangeGas(event) {
+    this.setState({ value: event.target.value }, (sendAmount = value));
+    const value = event.target.value * this.state.gas;
+    this.setState({ gas_usd: value });
+  }
+
+  async handleChangeUSD(event) {
+    this.setState({ gas_usd: event.target.value });
+    let gas = await axios.get(apiURL("GAS"));
+    gas = gas.data.USD;
+    this.setState({ gas: gas });
+    console.log("done");
+    const value = this.state.gas_usd / this.state.gas;
+    this.setState({ value: value }, (sendAmount = value));
+  }
+
+  async handleSubmit() {
+    await encodeTransaction(
+      this.state.publicKeyEncoded,
+      this.props.selectedAsset,
+      this.state.ledgerAddress,
+      this.state.ledgerBalanceNeo,
+      this.state.ledgerBalanceGas
+    );
+    await createSignature();
+    await signTransaction(this.state.publicKeyEncoded);
+
+    this.props.dispatch(
+      sendEvent(false, "Please Confirm Using the Device's Buttons")
+    );
+
+    setTimeout(() => this.props.dispatch(clearTransactionEvent()), 3000);
+  }
+
+  async send() {
+    await sendTransaction(this.props.net);
+  }
+
+  render() {
+    const {
+      dispatch,
+      wif,
+      address,
+      status,
+      neo,
+      gas,
+      net,
+      confirmPane,
+      selectedAsset
+    } = this.props;
+
+    let btnClass;
+    let formClass;
+    let priceUSD = 0;
+    let gasEnabled = false;
+    let inputEnabled = true;
+    let convertFunction = this.handleChangeNeo;
+    if (selectedAsset === "Neo") {
+      btnClass = "btn-send";
+      convertFunction = this.handleChangeNeo;
+      formClass = "form-send-neo";
+      priceUSD = this.state.neo_usd;
+      inputEnabled = true;
+    } else if (selectedAsset === "Gas") {
+      gasEnabled = true;
+      inputEnabled = false;
+      btnClass = "btn-send-gas";
+      formClass = "form-send-gas";
+      priceUSD = this.state.gas_usd;
+      convertFunction = this.handleChangeGas;
+    }
+
+    const { ledgerAvailable } = this.state;
+
+    return (
       <div className="main-container">
         <div className="">
           <div className="header">
@@ -662,11 +956,7 @@ class AssetPortolio extends Component {
               this.props.publicKey,
               this.props.neo */}
 
-            <div className="col-xs-2"
-            onClick={() => {
-              this.getLedgerAddress();
-            }}
-            >{<ClaimLedgerGas {...this.props} />}</div>
+            <div className="col-xs-2">{<ClaimLedgerGas {...this.props} />}</div>
 
             <div className="col-xs-5 top-5">
               <p className="market-price center">
@@ -678,400 +968,198 @@ class AssetPortolio extends Component {
               </p>
               <hr className="dash-hr" />
               <p className="neo-balance">
-              {" "}
-                {numeral(Math.round(this.props.gasPrice * 100) / 100).format(
-                  "$0,0.00"
-                )}{" "} USD
+                {" "}
+                {numeral(this.props.gasPrice).format("$0,0.00")} USD
               </p>
             </div>
           </div>
 
           <div
-						onClick={() => {
-							this.getLedgerAddress();
-						}}
-						data-tip
-						data-for="refreshTip"
-						className="ledger-nanos animated fadeInUp"
-					/>
+            onClick={() => {
+              this.getLedgerAddress();
+            }}
+            data-tip
+            data-for="refreshTip"
+            className="ledger-nanos animated fadeInUp"
+          />
 
-				<div className="row top-30 dash-portfolio center">
-				<div id="assetList-ledger">
-				<div className="clearboth" />
-				<div className="row" />
+          <ReactTooltip
+            className="solidTip"
+            id="refreshTip"
+            place="top"
+            type="light"
+            effect="solid"
+          >
+            <span>Click to Load Ledger Nano S</span>
+          </ReactTooltip>
 
+          {ledgerAvailable ? (
+            <div className="row ledger-login-panel fadeInDown">
+              <div className="col-xs-4 center">
+                <h4
+                  data-tip
+                  data-for="copyTip"
+                  className="pointer"
+                  onClick={() => clipboard.writeText(this.state.ledgerAddress)}
+                >
+                  Copy Ledger Address
+                </h4>{" "}
+              </div>{" "}
+              <ReactTooltip
+                className="solidTip"
+                id="copyTip"
+                place="top"
+                type="light"
+                effect="solid"
+              >
+                <span>Copy Ledger Nano S NEO Address</span>
+              </ReactTooltip>
+              <div className="col-xs-8">
+                <input
+                  className="ledger-address"
+                  onClick={() => clipboard.writeText(this.props.ledgerAddress)}
+                  id="center"
+                  placeholder={this.state.ledgerAddress}
+                  value={this.state.ledgerAddress}
+                />
+              </div>
+              <div className="clearboth" />
+              <div className="col-xs-12 center">
+                <hr className="dash-hr-wide" />
+              </div>
+              <div className="clearboth" />
+              <div className="row top-20" />
+              <div className="clearboth" />
+              <div className="col-xs-4">
+                <div className="ledgerQRBox center animated fadeInDown">
+                  <QRCode size={120} value={this.state.ledgerAddress} />
+                </div>
+              </div>
+              <div className="col-xs-8">
+                <h4 className="zero-margin">Send NEO/GAS from Ledger Nano S</h4>
+                <div className="top-10">
+                  <input
+                    className={formClass}
+                    id="center"
+                    placeholder="Enter a valid NEO public address here"
+                    ref={node => {
+                      sendAddress = node;
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="col-xs-4  top-10">
+                Amount to Send in NEO/GAS
+                <input
+                  className={formClass}
+                  type="number"
+                  id="assetAmount"
+                  min="1"
+                  onChange={convertFunction}
+                  value={this.state.value}
+                  placeholder="0"
+                  ref={node => {
+                    sendAmount = node;
+                  }}
+                />
+              </div>
+              <div className="col-xs-4 top-10">
+                Value in USD
+                <input
+                  className={formClass}
+                  id="sendAmount"
+                  onChange={this.handleChangeUSD}
+                  onClick={this.handleChangeUSD}
+                  disabled={gasEnabled === false ? true : false}
+                  placeholder="Amount in US"
+                  value={`${priceUSD}`}
+                />
+                <label className="amount-dollar-ledger">$</label>
+              </div>
+              <div className="col-xs-4 top-10">
+                <div id="sendAddress">
+                  <div
+                    id="sendAsset"
+                    className={btnClass}
+                    style={{ width: "100%" }}
+                    data-tip
+                    data-for="assetTip"
+                    onClick={() => {
+                      this.setState({ gas_usd: 0, neo_usd: 0, value: 0 });
+                      document.getElementById("assetAmount").value = "";
+                      dispatch(toggleAsset());
+                    }}
+                  >
+                    {selectedAsset}
+                  </div>
 
-						<Link to="/tokens">
-							<div className="col-3">
+                  <ReactTooltip
+                    className="solidTip"
+                    id="assetTip"
+                    place="top"
+                    type="light"
+                    effect="solid"
+                  >
+                    <span>Click to switch between NEO and GAS</span>
+                  </ReactTooltip>
+                </div>
+              </div>
+              <div className="col-xs-4 top-10">
+                <div id="sendAddress">
+                  <button
+                    className="grey-button"
+                    data-tip
+                    data-for="sendTip"
+                    onClick={() => this.handleSubmit()}
+                    ref={node => {
+                      confirmButton = node;
+                    }}
+                  >
+                    <span className="glyphicon glyphicon-send" /> Send
+                  </button>
+                  <button onClick={() => this.send()}>send</button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div />
+          )}
 
-							<div className="port-logo-col">
-							<img
-								src={iamLogo}
-								alt=""
-								width="38"
-								className="port-logos"
-							/>
-							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/tokens"><span className=" glyphicon glyphicon-send "/></Link></h3>
-							</div>
-
-							<div className="port-price-col">
-								<span className="market-price">Bridge $0.00</span>
-								<h3>0.00000 <span className="qlink-price"> IAM</span></h3>
-								<hr className="dash-hr" />
-								<span className="market-price">$0.00 USD</span>
-							</div>
-							</div>
-						</Link>
-
-
-
-						<Link to="/sendDBC">
-							<div className="col-3">
-
-							<div className="port-logo-col">
-							<img
-								src={deepLogo}
-								alt=""
-								width="44"
-								className="port-logos"
-							/>
-							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendDBC"><span className=" glyphicon glyphicon-send "/></Link></h3>
-							</div>
-
-							<div className="port-price-col">
-								<span className="market-price">Deep Brain {numeral(this.props.marketDBCPrice).format("$0,0.00")}</span>
-								<h3>{numeral(
-									Math.floor(this.props.dbc * 100000) / 100000
-								).format("0,0.0000")} <span className="dbc-price"> DBC</span></h3>
-								<hr className="dash-hr" />
-								<span className="market-price">{numeral(this.props.dbc*this.props.marketDBCPrice).format("$0,0.00")} USD</span>
-							</div>
-							</div>
-						</Link>
-
-
-						<div className="col-3">
-						<div className="port-logo-col">
-						<img
-							src={gasLogo}
-							alt=""
-							width="36"
-							className="port-logos"
-						/>
-						<hr className="dash-hr" />
-						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/send"><span className=" glyphicon glyphicon-send "/></Link></h3>
-						</div>
-						<div className="port-price-col">
-							<span className="market-price">GAS {numeral(this.props.marketGASPrice).format("$0,0.00")}</span>
-							<h3>{numeral(
-								Math.floor(this.props.gas * 100000) / 100000
-							).format("0,0.0000")} <span className="gas-price"> GAS</span></h3>
-							<hr className="dash-hr" />
-							<span className="market-price">{" "}
-								{numeral(Math.round(this.props.gasPrice * 100) / 100).format(
-									"$0,0.00"
-								)}{" "}
-		USD</span>
-						</div>
-					</div>
-
-
-						<Link to="/sendHP">
-							<div className="col-3">
-
-							<div className="port-logo-col">
-							<img
-								src={hashpuppiesLogo}
-								alt=""
-								width="44"
-								className="port-logos"
-							/>
-							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendHP"><span className=" glyphicon glyphicon-send "/></Link></h3>
-							</div>
-
-							<div className="port-price-col">
-								<span className="market-price">Hash Puppies</span>
-								<h3>{numeral(
-									Math.floor(this.props.rhpt * 10) / 10
-								).format("0,0")} <span className="hp-price"> RHPT</span></h3>
-								<hr className="dash-hr" />Priceless
-								<span className="market-price">$0.00 USD</span>
-							</div>
-							</div>
-						</Link>
-
-
-						<Link to="/tokens">
-							<div className="col-3">
-
-							<div className="port-logo-col">
-							<img
-								src={lrcLogo}
-								alt=""
-								width="40"
-								className="port-logos"
-							/>
-							<hr className="dash-hr" />
-							<h3><span className=" glyphicon glyphicon-qrcode marg-right-5"/>   <span className=" glyphicon glyphicon-send "/></h3>
-							</div>
-
-							<div className="port-price-col">
-								<span className="market-price">Loopring {numeral(this.props.marketLRCPrice).format("$0,0.00")}</span>
-								<h3>{numeral(
-									Math.floor(this.props.lrc * 100000) / 100000
-								).format("0,0.0000")} <span className="eth-price"> LRC</span></h3>
-								<hr className="dash-hr" />
-								<span className="market-price">$0.00 USD</span>
-							</div>
-							</div>
-						</Link>
-
-
-						<div className="col-3">
-						<div className="port-logo-col">
-						<img
-							src={nrveLogo}
-							alt=""
-							width="36"
-							className="port-logos"
-						/>
-						<hr className="dash-hr" />
-						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendNRVE"><span className=" glyphicon glyphicon-send "/></Link></h3>
-						</div>
-						<div className="port-price-col">
-							<span className="market-price">Narrative $0.00</span>
-							<h3>{numeral(this.props.nrve).format("0,0.0000")} <span className="dbc-price"> NRVE</span></h3>
-							<hr className="dash-hr" />
-							<span className="market-price">$0.00 USD</span>
-						</div>
-						</div>
-
-
-
-						<div className="col-3">
-						<div className="port-logo-col">
-						<img
-							src={neoLogo}
-							alt=""
-							width="36"
-							className="port-logos"
-						/>
-						<hr className="dash-hr" />
-						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/send"><span className=" glyphicon glyphicon-send "/></Link></h3>
-						</div>
-						<div className="port-price-col">
-							<span className="market-price">NEO {numeral(this.props.marketNEOPrice).format("$0,0.00")}</span>
-							<h3>{numeral(this.props.neo).format("0,0")} <span className="neo-price"> NEO</span></h3>
-							<hr className="dash-hr" />
-							<span className="market-price">{numeral(this.props.price).format("$0,0.00")} USD</span>
-						</div>
-						</div>
-
-
-
-						<Link to="/tokens">
-							<div className="col-3">
-
-							<div className="port-logo-col">
-							<img
-								src={ontLogo}
-								alt=""
-								width="48"
-								className="port-logos"
-							/>
-							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/tokens"><span className=" glyphicon glyphicon-send "/></Link></h3>
-							</div>
-
-							<div className="port-price-col">
-								<span className="market-price">Ontology $0.00</span>
-								<h3>{numeral(
-									Math.floor(this.props.ont * 100000) / 100000
-								).format("0,0.0000")} <span className="dbc-price"> ONT</span></h3>
-								<hr className="dash-hr" />
-								<span className="market-price">$0.00 USD</span>
-							</div>
-							</div>
-						</Link>
-
-
-						<Link to="/sendQLC">
-							<div className="col-3">
-
-							<div className="port-logo-col">
-							<img
-								src={qlinkLogo}
-								alt=""
-								width="50"
-								className="port-logos"
-							/>
-							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendQLC"><span className=" glyphicon glyphicon-send "/></Link></h3>
-							</div>
-
-							<div className="port-price-col">
-								<span className="market-price">QLink {numeral(this.props.marketQLCPrice).format("$0,0.00")}</span>
-								<h3>{numeral(
-									Math.floor(this.props.qlc * 100000) / 100000
-								).format("0,0.0000")} <span className="qlink-price"> QLC</span></h3>
-								<hr className="dash-hr" />
-								<span className="market-price">{numeral(this.props.qlc*this.props.marketQLCPrice).format("$0,0.00")} USD</span>
-							</div>
-							</div>
-						</Link>
-
-
-						<Link to="/sendRPX">
-							<div className="col-3">
-
-							<div className="port-logo-col">
-							<img
-								src={rpxLogo}
-								alt=""
-								width="84"
-								className="port-logos"
-							/>
-							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendRPX"><span className=" glyphicon glyphicon-send "/></Link></h3>
-							</div>
-
-							<div className="port-price-col">
-								<span className="market-price">Red Pulse {numeral(this.props.marketRPXPrice).format("$0,0.00")}</span>
-								<h3>{numeral(
-									Math.floor(this.props.rpx * 100000) / 100000
-								).format("0,0.0000")} <span className="rpx-price"> RPX</span></h3>
-								<hr className="dash-hr" />
-								<span className="market-price">{numeral(this.props.rpx * this.props.marketRPXPrice).format("$0,0.00")} USD</span>
-							</div>
-							</div>
-						</Link>
-
-
-						<Link to="/tokens">
-							<div className="col-3">
-
-							<div className="port-logo-col">
-							<img
-								src={tkyLogo}
-								alt=""
-								width="46"
-								className="port-logos"
-							/>
-							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendQLC"><span className=" glyphicon glyphicon-send "/></Link></h3>
-							</div>
-
-							<div className="port-price-col">
-								<span className="market-price">The Key {numeral(this.props.marketTKYPrice).format("$0,0.00")}</span>
-								<h3>{numeral(
-									Math.floor(this.props.tky * 100000) / 100000
-								).format("0,0.0000")} <span className="dbc-price"> TKY</span></h3>
-								<hr className="dash-hr" />
-								<span className="market-price">{numeral(this.props.tky*this.props.marketTKYPrice).format("$0,0.00")} USD</span>
-							</div>
-							</div>
-						</Link>
-
-
-						<Link to="/tokens">
-							<div className="col-3">
-
-							<div className="port-logo-col">
-							<img
-								src={tncLogo}
-								alt=""
-								width="50"
-								className="port-logos"
-							/>
-							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendQLC"><span className=" glyphicon glyphicon-send "/></Link></h3>
-							</div>
-
-							<div className="port-price-col">
-								<span className="market-price">Trinity {numeral(this.props.marketTNCPrice).format("$0,0.00")}</span>
-								<h3>{numeral(
-									Math.floor(this.props.tnc * 100000) / 100000
-								).format("0,0.0000")} <span className="qlink-price"> TNC</span></h3>
-								<hr className="dash-hr" />
-								<span className="market-price">{numeral(this.props.tnc*this.props.marketTNCPrice).format("$0,0.00")} USD</span>
-							</div>
-							</div>
-						</Link>
-
-
-
-
-
-						<Link to="/tokens">
-							<div className="col-3">
-
-							<div className="port-logo-col">
-							<img
-								src={zptLogo}
-								alt=""
-								width="38"
-								className="port-logos"
-							/>
-							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/tokens"><span className=" glyphicon glyphicon-send "/></Link></h3>
-							</div>
-
-							<div className="port-price-col">
-								<span className="market-price">Zeepin {numeral(this.props.marketZPTPrice).format("$0,0.00")}</span>
-								<h3>{numeral(
-									Math.floor(this.props.zpt * 100000) / 100000
-								).format("0,0.0000")} <span className="neo-price"> ZPT</span></h3>
-								<hr className="dash-hr" />
-								<span className="market-price">{numeral(this.props.zpt*this.props.marketZPTPrice).format("$0,0.00")} USD</span>
-							</div>
-							</div>
-						</Link>
-
-</div>
-				</div>
-				</div>
-			</div>
-		);
-	}
+          <div className="top-10 center send-notice"
+          >
+            <p>
+              Please ensure that your Ledger Nano S is plugged in, unlocked and
+              has the NEO app installed. Once plugged in your NEO address from
+              your Ledger Nano S should appear above.{" "}
+              <strong> If not please click on Ledger to refresh.</strong> Ledger
+              is a trademark of Ledger SAS, Paris, France. All original owner
+              Copyright and Trademark laws apply.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = state => ({
-  gas: state.wallet.Gas,
-  neo: state.wallet.Neo,
-  dbc: state.wallet.Dbc,
-  ont: state.wallet.Ont,
-  qlc: state.wallet.Qlc,
-  rpx: state.wallet.Rpx,
-  tky: state.wallet.Tky,
-  tnc: state.wallet.Tnc,
-  zpt: state.wallet.Zpt,
-  address: state.account.ledgerAddress,
-  net: state.metadata.network,
-  price: state.wallet.price,
-  gasPrice: state.wallet.gasPrice,
   marketGASPrice: state.wallet.marketGASPrice,
   marketNEOPrice: state.wallet.marketNEOPrice,
-  marketBTCPrice: state.wallet.marketBTCPrice,
-  marketDBCPrice: state.wallet.marketDBCPrice,
-  marketELAPrice: state.wallet.marketELAPrice,
-  marketETHPrice: state.wallet.marketETHPrice,
-  marketLTCPrice: state.wallet.marketLTCPrice,
-  marketLRCPrice: state.wallet.marketLRCPrice,
-  marketQLCPrice: state.wallet.marketQLCPrice,
-  marketRPXPrice: state.wallet.marketRPXPrice,
-  marketTNCPrice: state.wallet.marketTNCPrice,
-  marketTKYPrice: state.wallet.marketTKYPrice,
-  marketXMRPrice: state.wallet.marketXMRPrice,
-  marketZPTPrice: state.wallet.marketZPTPrice,
-  sendPane: state.dashboard.sendPane,
+  address: state.account.ledgerAddress,
+  net: state.metadata.network,
+  wif: state.account.wif,
+  ledgerNanoSGetInfoAsync: state.account.ledgerNanoSGetInfoAsync,
+  address: state.account.ledgerAddress,
+  net: state.metadata.network,
+  neo: state.wallet.Neo,
+  gas: state.wallet.Gas,
+  price: state.wallet.price,
+  selectedAsset: state.transactions.selectedAsset,
   confirmPane: state.dashboard.confirmPane,
-  blockHeight: state.metadata.blockHeight,
-  combined: state.wallet.combined
+  combined: state.wallet.combined,
+  publicKey: state.account.publicKey
 });
 
-AssetPortolio = connect(mapStateToProps)(AssetPortolio);
+LoginLedgerNanoS = connect(mapStateToProps)(LoginLedgerNanoS);
 
-export default AssetPortolio;
+export default LoginLedgerNanoS;

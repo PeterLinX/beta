@@ -10,10 +10,8 @@ import numeral from "numeral";
 import ReactTooltip from "react-tooltip";
 import CountUp, { startAnimation } from "react-countup";
 import neoLogo from "../img/neo.png";
-
 import { doSendAsset, verifyAddress, getTransactionHistory } from "neon-js";
 import Neon, { wallet, api } from "@cityofzion/neon-js";
-
 import {
 	initiateGetBalance,
 	intervals,
@@ -242,7 +240,7 @@ class LoginLedgerNanoS extends Component {
 					"Please ensure that your Ledger Nano S is plugged in, unlocked and has the NEO app installed and open"
 				)
 			);
-			setTimeout(() => this.props.dispatch(clearTransactionEvent()), 5000);
+			setTimeout(() => this.props.dispatch(clearTransactionEvent()), 3000);
 
 			if (error === "Invalid status 6e00") {
 				this.props.dispatch(
@@ -251,7 +249,7 @@ class LoginLedgerNanoS extends Component {
 						"Neo app on Ledger not open, Please open and try again"
 					)
 				);
-				setTimeout(() => this.props.dispatch(clearTransactionEvent()), 5000);
+				setTimeout(() => this.props.dispatch(clearTransactionEvent()), 3000);
 			}
 		}
 	}
