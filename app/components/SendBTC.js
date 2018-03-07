@@ -8,7 +8,7 @@ import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
 import btcLogo from "../img/btc-logo.png";
-import Assets from "./Assets";
+import TransactionHistoryBTC from "./TransactionHistoryBTC";
 import { clipboard } from "electron";
 import { togglePane } from "../modules/dashboard";
 import {
@@ -18,7 +18,8 @@ import {
 } from "../modules/transactions";
 import { btcLoginRedirect } from '../modules/account';
 import {BLOCK_TOKEN} from "../core/constants";
-import {StatusMessage} from "../components/App";
+import numeral from "numeral";
+import { syncTransactionHistory ,syncBtcTransactionHistory, block_index} from "../components/NetworkSwitch";
 
 var bitcoin = require("bitcoinjs-lib");
 var WAValidator = require("wallet-address-validator");
@@ -57,7 +58,7 @@ const validateForm = (dispatch, asset ,net) => {
 			 return true;
 		} else {
             dispatch(sendEvent(false, "The address you entered was not valid."));
-            setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+            setTimeout(() => dispatch(clearTransactionEvent()), 2000);
             return false;
 		}
 	} else {
@@ -66,7 +67,7 @@ const validateForm = (dispatch, asset ,net) => {
         	return true;
 		} else {
             dispatch(sendEvent(false, "The address you entered was not valid."));
-            setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+            setTimeout(() => dispatch(clearTransactionEvent()), 2000);
             return false;
         }
 	}
@@ -116,9 +117,13 @@ const sendTransaction = async (
         let send_amount = parseFloat(sendAmount.value);
 
         if (btc_balance <= 0) {
-            dispatch(sendEvent(false, "There is not balance for BTC."));
+            dispatch(sendEvent(false, "Sorry, transaction failed. Please try again in a few minutes."));
+						setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+						return false;
         } else if (btc_balance < sendAmount.value) {
-            dispatch(sendEvent(false, "The BTC balance is less than the send amount."));
+            dispatch(sendEvent(false, "Your BTC balance is less than the amount your are sending."));
+						setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+						return false;
         } else {
             let new_base,send_base;
             let satoshi_amount = parseInt(send_amount * 100000000);
@@ -127,7 +132,7 @@ const sendTransaction = async (
             var ck = CoinKey.fromWif(wif);
             var privateKey = ck.privateKey.toString('hex');
 			console.log("hex private key = "+privateKey);
-            var keys    = new bitcoin.ECPair(bigi.fromHex(privateKey));
+            var keys = new bitcoin.ECPair(bigi.fromHex(privateKey));
             console.log("keys ="+keys);
 			var newtx = {
                 inputs: [{addresses: [selfAddress]}],
@@ -157,6 +162,9 @@ const sendTransaction = async (
 
                      axios.post(send_base, sendtx).then(function(finaltx) {
                         console.log("finaltx= "+ finaltx);
+                         dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
+                         setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+                         return true;
                     })
                 });
         }
@@ -178,9 +186,7 @@ class SendBTC extends Component {
 			neo_usd: 0,
 			gas_usd: 0,
 			value: 0,
-			inputEnabled: true,
-            statusMessage: "Test message",
-            modalStatus: false
+			inputEnabled: true
 		};
 		this.handleChangeNeo = this.handleChangeNeo.bind(this);
 		this.handleChangeGas = this.handleChangeGas.bind(this);
@@ -228,8 +234,8 @@ class SendBTC extends Component {
 			dispatch,
 			wif,
 			address,
-            btc_address,
-            btc_prvkey,
+      		btc_address,
+      		btc_prvkey,
 			status,
 			neo,
 			gas,
@@ -254,53 +260,26 @@ class SendBTC extends Component {
 		let gasEnabled = false;
 		let inputEnabled = true;
 		let convertFunction = this.handleChangeNeo;
-		if (selectedAsset === "Neo") {
+		if (selectedAsset === "Gas") {
 			btnClass = "btn-send";
 			convertFunction = this.handleChangeNeo;
 			formClass = "form-send-btc";
 			priceUSD = this.state.neo_usd;
 			inputEnabled = true;
-		} else if (selectedAsset === "Gas") {
+		} else if (selectedAsset === "Neo") {
 			gasEnabled = true;
-			inputEnabled = false;
-			btnClass = "btn-send-gas";
-			formClass = "form-send-gas";
+			inputEnabled = true;
+			btnClass = "btn-send";
+			formClass = "form-send-btc";
 			priceUSD = this.state.gas_usd;
 			convertFunction = this.handleChangeGas;
 		}
 		return (
 			<div>
-                {
-                    this.state.modalStatus ?
-						<StatusMessage
-							statusMessage={this.state.statusMessage}
-							onConfirm={
-                                () => {
-                                    sendTransaction(
-                                        dispatch,
-                                        net,
-                                        btc_address,
-                                        btc_prvkey,
-                                        selectedAsset,
-                                        neo,
-                                        gas,
-                                        this.props.btc
-                                    )
-                                    this.setState({modalStatus: false});
-                                }
-                            }
-							onCancel = {
-                                () => {
-                                    this.setState({modalStatus: false});
-                                }
-                            }
-						/> : null
-                }
-				<Assets />
 				<div id="send">
 
-					<div className="row dash-chart-panel">
-						<div className="col-xs-9">
+					<div className="row dash-panel">
+						<div className="col-xs-8">
 							<img
 								src={btcLogo}
 								alt=""
@@ -310,8 +289,23 @@ class SendBTC extends Component {
 							<h2>Send Bitcoin (BTC)</h2>
 						</div>
 
-						<div className="col-xs-3 center">
+						<div
+            className="col-xs-1 center top-10 send-info"
+            onClick={() =>
+              refreshBalance(
+                this.props.dispatch,
+                this.props.net,
+                this.props.btc_address
+              )
+            }
+          >
+            <span className="glyphicon glyphicon-refresh font24" />
+          </div>
 
+						<div className="col-xs-3 center">
+						<div className="send-panel-price">{numeral(this.props.btc).format("0,0.0000000")} <span className="btc-price"> BTC</span></div>
+
+						<span className="market-price">{numeral(this.props.btc * this.props.marketBTCPrice).format("$0,0.00")} USD</span>
 						</div>
 
 						<div className="col-xs-12 center">
@@ -338,7 +332,7 @@ class SendBTC extends Component {
 								<button className="btc-button com-soon" >
 									<span className="glyphicon glyphicon-qrcode marg-right-5"/>  Receive
 								</button></Link>
-							
+
 							</div>
 
 							<div className="col-xs-5  top-20">
@@ -346,7 +340,7 @@ class SendBTC extends Component {
 									className={formClass}
 									type="number"
 									id="assetAmount"
-									min="1"
+									min="0.0001"
 									onChange={convertFunction}
 									value={this.state.value}
 									placeholder="Enter amount to send"
@@ -361,6 +355,7 @@ class SendBTC extends Component {
 								<input
 									className={formClass}
 									id="sendAmount"
+									min="1"
 									onChange={this.handleChangeUSD}
 									onClick={this.handleChangeUSD}
 									disabled={gasEnabled === false ? true : false}
@@ -375,18 +370,18 @@ class SendBTC extends Component {
 								<div id="sendAddress">
 									<button
 										className="btc-button"
-
 										onClick={() =>
-
-                                            this.setState({
-                                                modalStatus: true,
-                                                statusMessage: "Please confirm transaction of "
-                                                + sendAmount.value.toString()+" BTC to "
-                                                + address.toString() + ".\n"
-                                                + "Network Fees = " + parseFloat(sendAmount.value/10).toString() + "BTC"
-                                            })
-                                        }
-
+											sendTransaction(
+												dispatch,
+												net,
+												btc_address,
+                        						btc_prvkey,
+												selectedAsset,
+												neo,
+												gas,
+												this.props.btc
+											)
+										}
 										ref={node => {
 											confirmButton = node;
 										}}
@@ -396,15 +391,22 @@ class SendBTC extends Component {
 								</div>
 							</div>
 
+              <div className="clearboth"/>
+
+							<div className="col-xs-12 com-soon">
+							Fees: 0.0001 BTC/KB<br />
+							Block: {this.props.blockIndex}{" "}
+
+							</div>
+							<div className="col-xs-12 top-30">
+							<TransactionHistoryBTC />
+							</div>
 						</div>
 					</div>
 
 					<div className="send-notice">
-						<p>
-              Your BTC address can be used to receive Bitcoin ONLY. Sending funds other than Bitcoin (BTC) to this address may result in your funds being lost.
-						</p>
-						<div className="col-xs-2 top-20"/>
-						<div className="col-xs-8 top-20">
+						<div className="col-xs-2"/>
+						<div className="col-xs-8 center">
 							<p className="center donations"
 								data-tip
 								data-for="donateTip"
@@ -420,16 +422,10 @@ class SendBTC extends Component {
 								<span>Copy address to send donation</span>
 							</ReactTooltip>
 						</div>
+
 					</div>
 
-
 				</div>
-
-
-
-
-
-
 
 			</div>
 		);
@@ -438,6 +434,7 @@ class SendBTC extends Component {
 
 const mapStateToProps = state => ({
 	blockHeight: state.metadata.blockHeight,
+	blockIndex: state.metadata.block_index,
 	wif: state.account.wif,
 	address: state.account.address,
 	btc_address: state.account.btcPubAddr,
@@ -452,6 +449,7 @@ const mapStateToProps = state => ({
 	btcLoggedIn: state.account.btcLoggedIn,
 	btcPrivKey: state.account.btcPrivKey,
 	btcPubAddr: state.account.btcPubAddr,
+	combined: state.wallet.combined
 });
 
 SendBTC = connect(mapStateToProps)(SendBTC);

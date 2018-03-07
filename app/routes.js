@@ -25,10 +25,10 @@ import Support from "./components/Support";
 import Ledger from "./components/Ledger";
 import Tokens from "./components/Tokens";
 import Sale from "./components/Sale";
-import SendRPX from "./components/SendRPX";
-import SendDBC from "./components/SendDBC";
-import SendQLC from "./components/SendQLC";
-import SendHP from "./components/SendHP";
+import SendRPX from "./components/NepTokens/SendRPX";
+import SendDBC from "./components/NepTokens/SendDBC";
+import SendQLC from "./components/NepTokens/SendQLC";
+import SendHP from "./components/NepTokens/SendHP";
 import SendBTC from "./components/SendBTC";
 import SendLTC from "./components/SendLTC";
 import AssetPortfolio from "./components/AssetPortfolio";
@@ -36,6 +36,8 @@ import NewBitcoin from "./components/NewBitcoin";
 import ReceiveBitcoin from "./components/ReceiveBitcoin";
 import NewLitecoin from "./components/NewLitecoin";
 import ReceiveLitecoin from "./components/ReceiveLitecoin";
+import LedgerDashboard from "./containers/LedgerDashboard";
+import LedgerAssetPortfolio from "./components/LedgerAssetPortfolio";
 
 export default (
 	<Route path="/" component={App}>
@@ -71,11 +73,15 @@ export default (
 		<Route path="/DisplayWalletKeys" component={DisplayWalletKeys} />
 		<Route path="/LoginNep2" component={LoginNep2} />
 		<IndexRoute component={LoginLocalStorage} />
+
+		<Route path="/ledgerDashboard" component={LedgerDashboard}>
+      <Route path="/LoginLedgerNanoS" component={LoginLedgerNanoS} />
+      <Route path="/TransactionLedger" component={TransactionLedger} />
+			<Route path="/LedgerNanoSend" component={LedgerNanoSend} />
+			<Route path="/LedgerAssetPortfolio" component={LedgerAssetPortfolio} />
+    </Route>
+
 		<Route path="/LoginPrivateKey" component={LoginPrivateKey} />
-		<Route path="/LoginLedgerNanoS" component={LoginLedgerNanoS} />
-		<Route path="/TransactionLedger" component={TransactionLedger} />
-		<Route path="/LedgerNanoSend" component={LedgerNanoSend} />
 		<Route path="/LoginEncrypted" component={LoginNep2} />
-		<Route path="/settingsw" component={Settings} />
 	</Route>
 );

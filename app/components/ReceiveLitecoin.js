@@ -6,18 +6,22 @@ import { shell } from "electron";
 import litecoinLogo from "../img/litecoin.png";
 import ReactTooltip from "react-tooltip";
 import { Link } from "react-router";
-import Assets from "./Assets";
-
+import TransactionHistoryLTC from "./TransactionHistoryLTC";
+import { syncTransactionHistory ,syncLtcTransactionHistory, block_index} from "../components/NetworkSwitch";
 import { ltcLoginRedirect } from "../modules/account";
+import { setMarketPrice, resetPrice } from "../modules/wallet";
+import { sendEvent, clearTransactionEvent } from "../modules/transactions";
+import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
+import numeral from "numeral";
 
 const getLink = (net, address) => {
-    let base;
-    if (net === "MainNet") {
-        base = "https://live.blockcypher.com/ltc/addrs/"
-    } else {
-        base = "https://live.blockcypher.com/ltc-testnet/addrs/"
-    }
-    return base + address;
+	let base;
+	if (net === "MainNet") {
+		base = "https://live.blockcypher.com/ltc/address/";
+	} else {
+		base = "https://live.blockcypher.com/ltc-testnet/address/";
+	}
+	return base + address;
 };
 
 const openExplorer = srcLink => {
@@ -39,19 +43,37 @@ class ReceiveLitecoin extends Component {
 		console.log(this.props.net);
 		return (
 			<div id="" className="">
-			<Assets />
-				<div className="dash-chart-panel">
+				<div className="dash-panel">
 					<div className="">
-						<div className="col-xs-11">
+						<div className="col-xs-8">
 							<img
 								src={litecoinLogo}
 								alt=""
-								width="38"
+								width="44"
 								className="neo-logo logobounce"
 							/>
 							<h2>Receive Litecoin (LTC)</h2>
 						</div>
-						<div className="col-xs-1" />
+
+						<div
+            className="col-xs-1 center top-10 send-info"
+            onClick={() =>
+              refreshBalance(
+                this.props.dispatch,
+                this.props.net,
+                this.props.ltc_address
+              )
+            }
+          >
+            <span className="glyphicon glyphicon-refresh font24" />
+          </div>
+
+						<div className="col-xs-3 center">
+						<div className="send-panel-price">{numeral(this.props.ltc).format("0,0.0000000")} <span className="ltc-price"> LTC</span></div>
+
+						<span className="market-price">{numeral(this.props.ltc * this.props.marketLTCPrice).format("$0,0.00")} USD</span>
+						</div>
+
 						<hr className="dash-hr-wide" />
 						<div className="clearboth" />
 						<div className="col-xs-4 top-20">
@@ -75,7 +97,10 @@ class ReceiveLitecoin extends Component {
 						</div>
 
 						<div className="col-xs-8">
+							<div className="col-xs-12">
 							<h5>Your Litecoin (LTC) Public Address</h5>
+							</div>
+							<div className="col-xs-10">
 							<input
 								className="ledger-address top-10"
 								onClick={() => clipboard.writeText(this.props.ltcPubAddr)}
@@ -83,6 +108,15 @@ class ReceiveLitecoin extends Component {
 								placeholder={this.props.address}
 								value={this.props.ltcPubAddr}
 							/>
+							</div>
+							<div className="col-xs-2 top-10">
+							<Link to={ "/sendLTC" }>
+							<button className="grey-button">
+								<span className="glyphicon glyphicon-send"/></button>
+							</Link>
+							</div>
+
+
 							<div className="clearboth" />
 							<div className="dash-bar top-30">
 								<div
@@ -124,11 +158,11 @@ class ReceiveLitecoin extends Component {
                 Download Encrypted Key
 								</div>
 
-
 							</div>
+						</div>
 
-
-
+						<div className="col-xs-12 top-20">
+						<TransactionHistoryLTC />
 						</div>
 					</div>
 					<div className="clearboth" />
@@ -153,7 +187,8 @@ const mapStateToProps = state => ({
 	neo: state.wallet.Neo,
 	price: state.wallet.price,
 	gas: state.wallet.Gas,
-
+	ltc: state.wallet.Ltc,
+	marketLTCPrice: state.wallet.marketLTCPrice,
 	ltcLoggedIn: state.account.ltcLoggedIn,
 	ltcPrivKey: state.account.ltcPrivKey,
 	ltcPubAddr: state.account.ltcPubAddr,

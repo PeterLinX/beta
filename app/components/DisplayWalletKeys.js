@@ -24,8 +24,8 @@ const saveKey = async (dispatch, encWifValue, history) => {
     data[key_name.value] = encWifValue;
     dispatch(sendEvent(true, "Saved key as " + key_name.value));
     await storage.set("keys", data);
-    await setTimeout(() => dispatch(clearTransactionEvent()), 5000);
-    setTimeout(() => history.push("/"), 5000);
+    await setTimeout(() => dispatch(clearTransactionEvent()), 100);
+    setTimeout(() => history.push("/"), 100);
   });
 };
 

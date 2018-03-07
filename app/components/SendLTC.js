@@ -8,7 +8,6 @@ import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
 import litecoinLogo from "../img/litecoin.png";
-import Assets from "./Assets";
 import { clipboard } from "electron";
 import { togglePane } from "../modules/dashboard";
 import {
@@ -17,11 +16,17 @@ import {
 	toggleAsset
 } from "../modules/transactions";
 import {BLOCK_TOKEN} from "../core/constants";
-import {StatusMessage} from "../components/App";
-import { ltcLoginRedirect } from '../modules/account';
+import TransactionHistoryLTC from "./TransactionHistoryLTC";
+import { syncTransactionHistory ,syncLtcTransactionHistory, block_index} from "../components/NetworkSwitch";
+import { ltcLoginRedirect } from "../modules/account";
+import { setMarketPrice, resetPrice } from "../modules/wallet";
+import { setCombinedBalance } from "../modules/wallet";
+import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
+import numeral from "numeral";
 
 var bitcoin = require("bitcoinjs-lib");
 var WAValidator = require("wallet-address-validator");
+var litecoin = bitcoin.networks.litecoin
 var bigi = require("bigi");
 var buffer = require("buffer");
 var bcypher = require("blockcypher");
@@ -32,29 +37,50 @@ const apiURL = val => {
 	return "https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD";
 };
 
+const apiURLFor = val => {
+    return "https://min-api.cryptocompare.com/data/price?fsym="+val+"&tsyms=USD";
+};
+
+const getUnspentOutputsForLtc = async (net,address) =>{
+    let base;
+    if(net === "MainNet") {
+        base = "https://live.blockcypher.com/ltc/address/"+address+"/utxo";
+    }	else {
+        base = "https://live.blockcypher.com/ltc-testnet/address/"+address+"/utxo";
+    }
+
+    var response = await axios.get(base);
+    console.log(response.data);
+    return response.data;
+};
+
+
 // form validators for input fields
-const validateForm = (dispatch, neo_balance, gas_balance, asset) => {
-	// check for valid address
-    if (net == "MainNet") {
-        var validMain = WAValidator.validate(sendAddress.value,"litecoin");
-        if(validMain) {
-            return true;
-        } else {
+
+// form validators for input fields
+const validateForm = (dispatch, asset ,net) => {
+    // check for valid address
+	if (net == "MainNet") {
+		var validMain = WAValidator.validate(sendAddress.value,"litecoin");
+		if(validMain) {
+			 return true;
+		} else {
             dispatch(sendEvent(false, "The address you entered was not valid."));
-            setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+            setTimeout(() => dispatch(clearTransactionEvent()), 2000);
             return false;
-        }
-    } else {
+		}
+	} else {
         var validTest = WAValidator.validate(sendAddress.value,"litecoin","testnet");
         if (validTest) {
-            return true;
-        } else {
+        	return true;
+		} else {
             dispatch(sendEvent(false, "The address you entered was not valid."));
-            setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+            setTimeout(() => dispatch(clearTransactionEvent()), 2000);
             return false;
         }
-    }
+	}
 };
+
 
 // open confirm pane and validate fields
 const openAndValidate = (dispatch, neo_balance, gas_balance, asset) => {
@@ -62,6 +88,15 @@ const openAndValidate = (dispatch, neo_balance, gas_balance, asset) => {
 		dispatch(togglePane("confirmPane"));
 	}
 };
+
+function sleep(milliseconds) {
+	var start = new Date().getTime();
+	for (var i = 0; i < 1e7; i++) {
+		if ((new Date().getTime()-start) > milliseconds) {
+			break;
+		}
+	}
+}
 
 // perform send transaction
 const sendTransaction = (
@@ -75,62 +110,71 @@ const sendTransaction = (
 	ltc_balance
 ) => {
 	// validate fields again for good measure (might have changed?)
-	if (validateForm(dispatch, neo_balance, gas_balance, asset) === true) {
+	if (validateForm(dispatch, asset ,net) === true) {
 		dispatch(sendEvent(true, "Processing..."));
 
 		log(net, "SEND", selfAddress, {
-			to: sendAddress.value,
-			asset: asset,
-			amount: sendAmount.value
+				to: sendAddress.value,
+				asset: asset,
+				amount: sendAmount.value
 		});
-        console.log("Display ltc balance\n");
-        console.log(ltc_balance);
-		//Send litecoin
-        let send_amount = parseFloat(sendAmount.value);
+		console.log("Display ltc balance\n");
+		console.log(ltc_balance);
+		//Send bitcoin
+		let send_amount = parseFloat(sendAmount.value);
 
-        if (ltc_balance <= 0) {
-            dispatch(sendEvent(false, "There is not balance for LTC."));
+		if (ltc_balance <= 0) {
+				dispatch(sendEvent(false, "Sorry, transaction failed. Please try again in a few minutes."));
+				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+				return false;
 		} else if (ltc_balance < sendAmount.value) {
-            dispatch(sendEvent(false, "The LTC balance is less than the send amount."));
+				dispatch(sendEvent(false, "Your LTC balance is less than the amount your are sending."));
+				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+				return false;
 		} else {
-            let new_base,send_base;
-            let satoshi_amount = parseInt(send_amount * 100000000);
-            console.log("wif ="+wif);
-            var ck = CoinKey.fromWif(wif);
-            var privateKey = ck.privateKey.toString('hex');
-            console.log("hex private key = "+privateKey);
-            var keys = new bitcoin.ECPair(bigi.fromHex(privateKey));
-            console.log("keys ="+keys);
-            var newtx = {
-                inputs: [{addresses: [selfAddress]}],
-                outputs: [{addresses: [sendAddress.value], value: satoshi_amount}]
-            };
+				let new_base,send_base;
+				let satoshi_amount = parseInt(send_amount * 100000000);
 
-            if(net === "MainNet") {
-                new_base = "https://api.blockcypher.com/v1/ltc/main/txs/new?token=" + BLOCK_TOKEN;
-                send_base = "https://api.blockcypher.com/v1/ltc/main/txs/send?token=" + BLOCK_TOKEN;
-            } else {
-                new_base = "https://api.blockcypher.com/v1/ltc/test3/txs/new?token="+BLOCK_TOKEN;
-                send_base = "https://api.blockcypher.com/v1/ltc/test3/txs/send?token="+BLOCK_TOKEN;
-            }
+				console.log("wif ="+wif);
+				var ck = CoinKey.fromWif(wif);
+				var privateKey = ck.privateKey.toString('hex');
+				console.log("hex private key = "+privateKey);
+				var keys  = new bitcoin.ECPair(bigi.fromHex(privateKey),{network:litecoin});
+				console.log("keys ="+keys);
+				var newtx = {
+					inputs: [{addresses: [selfAddress]}],
+					outputs: [{addresses: [sendAddress.value], value: satoshi_amount}]
+				};
 
-            axios.post(new_base,newtx)
-                .then(function (tmptx) {
-                    console.log("create new transaction= "+JSON.stringify(tmptx));
-                    var sendtx = {
-                        tx: tmptx.data.tx
-                    }
-                    sendtx.pubkeys = [];
-                    sendtx.signatures = tmptx.data.tosign.map(function(tosign, n) {
-                        sendtx.pubkeys.push(keys.getPublicKeyBuffer().toString("hex"));
-                        return keys.sign(new buffer.Buffer(tosign, "hex")).toDER().toString("hex");
+				if(net === "MainNet") {
+						new_base = "https://api.blockcypher.com/v1/ltc/main/txs/new?token=" + BLOCK_TOKEN;
+						send_base = "https://api.blockcypher.com/v1/ltc/main/txs/send?token=" + BLOCK_TOKEN;
+				} else {
+						new_base = "https://api.blockcypher.com/v1/ltc/test3/txs/new?token="+BLOCK_TOKEN;
+						send_base = "https://api.blockcypher.com/v1/ltc/test3/txs/send?token="+BLOCK_TOKEN;
+				}
 
-                    });
+				axios.post(new_base,newtx)
+					.then(function (tmptx) {
+						console.log("create new transaction= "+JSON.stringify(tmptx));
+						var sendtx = {
+							tx: tmptx.data.tx
+						}
+						sendtx.pubkeys = [];
+						sendtx.signatures = tmptx.data.tosign.map(function(tosign, n) {
+							sendtx.pubkeys.push(keys.getPublicKeyBuffer().toString("hex"));
+							return keys.sign(new buffer.Buffer(tosign, "hex")).toDER().toString("hex");
 
-                    axios.post(send_base, sendtx).then(function(finaltx) {
-                        console.log("finaltx= "+ finaltx);
-                    })
-                });
+						});
+
+						axios.post(send_base, sendtx).then(function(finaltx) {
+							console.log("finaltx= "+ finaltx);
+                            dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
+                            setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+                            return true;
+
+                        })
+					});
 		}
 	}
 	// close confirm pane and clear fields
@@ -150,9 +194,7 @@ class SendLTC extends Component {
 			neo_usd: 0,
 			gas_usd: 0,
 			value: 0,
-			inputEnabled: true,
-            statusMessage: "Test message",
-            modalStatus: false
+			inputEnabled: true
 		};
 		this.handleChangeNeo = this.handleChangeNeo.bind(this);
 		this.handleChangeGas = this.handleChangeGas.bind(this);
@@ -165,8 +207,8 @@ class SendLTC extends Component {
 	}
 
 	async componentDidMount() {
-		let neo = await axios.get(apiURL("NEO"));
-		let gas = await axios.get(apiURL("GAS"));
+		let neo = await axios.get(apiURLFor("NEO"));
+		let gas = await axios.get(apiURLFor("GAS"));
 		neo = neo.data.USD;
 		gas = gas.data.USD;
 		this.setState({ neo: neo, gas: gas });
@@ -201,7 +243,7 @@ class SendLTC extends Component {
 			wif,
 			address,
 			ltc_address,
-            ltc_wif,
+      ltc_wif,
 			status,
 			neo,
 			gas,
@@ -226,15 +268,15 @@ class SendLTC extends Component {
 		let gasEnabled = false;
 		let inputEnabled = true;
 		let convertFunction = this.handleChangeNeo;
-		if (selectedAsset === "Neo") {
+		if (selectedAsset === "Gas") {
 			btnClass = "btn-send";
 			convertFunction = this.handleChangeNeo;
 			formClass = "form-control-exchange";
 			priceUSD = this.state.neo_usd;
 			inputEnabled = true;
-		} else if (selectedAsset === "Gas") {
+		} else if (selectedAsset === "Neo") {
 			gasEnabled = true;
-			inputEnabled = false;
+			inputEnabled = true;
 			btnClass = "btn-send";
 			formClass = "form-control-exchange";
 			priceUSD = this.state.gas_usd;
@@ -242,49 +284,36 @@ class SendLTC extends Component {
 		}
 		return (
 			<div>
-                {
-                    this.state.modalStatus ?
-						<StatusMessage
-							statusMessage={this.state.statusMessage}
-							onConfirm={
-                                () => {
-                                    sendTransaction(
-                                        dispatch,
-                                        net,
-                                        ltc_address,
-                                        ltc_wif,
-                                        selectedAsset,
-                                        neo,
-                                        gas,
-                                        this.props.ltc
-                                    )
-                                    this.setState({modalStatus: false});
-                                }
-                            }
-							onCancel = {
-                                () => {
-                                    this.setState({modalStatus: false});
-                                }
-                            }
-						/> : null
-                }
-
-				<Assets />
 				<div id="send">
 
-					<div className="row dash-chart-panel">
-						<div className="col-xs-9">
+					<div className="row dash-panel">
+						<div className="col-xs-8">
 							<img
 								src={litecoinLogo}
 								alt=""
-								width="45"
+								width="44"
 								className="neo-logo fadeInDown"
 							/>
 							<h2>Send Litecoin (LTC)</h2>
 						</div>
 
-						<div className="col-xs-3 center">
+						<div
+            className="col-xs-1 center top-10 send-info"
+            onClick={() =>
+              refreshBalance(
+                this.props.dispatch,
+                this.props.net,
+                this.props.ltc_address
+              )
+            }
+          >
+            <span className="glyphicon glyphicon-refresh font24" />
+          </div>
 
+						<div className="col-xs-3 center">
+						<div className="send-panel-price">{numeral(this.props.ltc).format("0,0.0000000")} <span className="ltc-price"> LTC</span></div>
+
+						<span className="market-price">{numeral(this.props.ltc * this.props.marketLTCPrice).format("$0,0.00")} USD</span>
 						</div>
 
 						<div className="col-xs-12 center">
@@ -349,14 +378,17 @@ class SendLTC extends Component {
 									<button
 										className="grey-button"
 										onClick={() =>
-                                            this.setState({
-                                                modalStatus: true,
-                                                statusMessage: "Please confirm transaction of "
-                                                + sendAmount.value.toString()+" LTC to "
-                                                + address.toString() + ".\n"
-                                                + "Network Fees = " + parseFloat(sendAmount.value/10).toString() + "LTC"
-                                            })
-                                        }
+											sendTransaction(
+												dispatch,
+												net,
+												ltc_address,
+												ltc_wif,
+												selectedAsset,
+												neo,
+												gas,
+												this.props.ltc
+											)
+										}
 										ref={node => {
 											confirmButton = node;
 										}}
@@ -366,20 +398,27 @@ class SendLTC extends Component {
 								</div>
 							</div>
 
+							<div className="clearboth"/>
+
+							<div className="col-xs-12 com-soon">
+							Fees: 0.0001 LTC/KB<br />
+							Block: {this.props.blockIndex}{" "}
+
+							</div>
+							<div className="col-xs-12 top-20">
+							<TransactionHistoryLTC />
+							</div>
 						</div>
 					</div>
 
 					<div className="send-notice">
-						<p>
-              Your LTC address can be used to receive Bitcoin ONLY. Sending funds other than Litecoin (LTC) to this address may result in your funds being lost.
-						</p>
-						<div className="col-xs-2 top-20"/>
-						<div className="col-xs-8 top-20">
+						<div className="col-xs-2"/>
+						<div className="col-xs-8">
 							<p className="center donations"
 								data-tip
 								data-for="donateTip"
-								onClick={() => clipboard.writeText("LhN4Y7QiYpefjyGHp8Fz4Jn9UoRiEf5VQs")}
-							>Morpheus Dev Team: LhN4Y7QiYpefjyGHp8Fz4Jn9UoRiEf5VQs</p>
+								onClick={() => clipboard.writeText("LP7vnYjxKQB7dkik38ghMhC724iVJ7Cqir")}
+							>Morpheus Dev Team: LP7vnYjxKQB7dkik38ghMhC724iVJ7Cqir</p>
 							<ReactTooltip
 								className="solidTip"
 								id="donateTip"
@@ -411,17 +450,18 @@ const mapStateToProps = state => ({
 	wif: state.account.wif,
 	address: state.account.address,
 	ltc_address:state.account.ltcPubAddr,
-    ltc_wif:state.account.ltcPrivKey,
+  ltc_wif:state.account.ltcPrivKey,
 	net: state.metadata.network,
 	neo: state.wallet.Neo,
-	gas: state.wallet.Gas,
-	ltc: state.wallet.Ltc,
-	marketBTCPrice: state.wallet.marketBTCPrice,
+	marketLTCPrice: state.wallet.marketLTCPrice,
 	selectedAsset: state.transactions.selectedAsset,
 	confirmPane: state.dashboard.confirmPane,
+	ltc: state.wallet.Ltc,
+	marketLTCPrice: state.wallet.marketLTCPrice,
 	ltcLoggedIn: state.account.ltcLoggedIn,
 	ltcPrivKey: state.account.ltcPrivKey,
 	ltcPubAddr: state.account.ltcPubAddr,
+	combined: state.wallet.combined
 });
 
 SendLTC = connect(mapStateToProps)(SendLTC);

@@ -6,18 +6,16 @@ import Modal from "react-bootstrap-modal";
 import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
-import { log } from "../util/Logs";
-import hashpuppiesLogo from "../img/hashpuppies.png";
-import Claim from "./Claim.js";
-import TopBar from "./TopBar";
-import Assets from "./Assets";
+import { log } from "../../util/Logs";
+import hashpuppiesLogo from "../../img/hashpuppies.png";
+import Assets from "./../Assets";
 import { clipboard } from "electron";
-import { togglePane } from "../modules/dashboard";
+import { togglePane } from "../../modules/dashboard";
 import {
 	sendEvent,
 	clearTransactionEvent,
 	toggleAsset
-} from "../modules/transactions";
+} from "../../modules/transactions";
 
 let sendAddress, sendAmount, confirmButton;
 
@@ -195,17 +193,17 @@ class SendHP extends Component {
 		let gasEnabled = false;
 		let inputEnabled = true;
 		let convertFunction = this.handleChangeNeo;
-		if (selectedAsset === "Neo") {
+		if (selectedAsset === "Gas") {
 			btnClass = "btn-send";
 			convertFunction = this.handleChangeNeo;
 			formClass = "form-send-hp";
 			priceUSD = this.state.neo_usd;
 			inputEnabled = true;
-		} else if (selectedAsset === "Gas") {
+		} else if (selectedAsset === "Neo") {
 			gasEnabled = true;
-			inputEnabled = false;
-			btnClass = "btn-send-gas";
-			formClass = "form-send-gas";
+			inputEnabled = true;
+			btnClass = "btn-send";
+			formClass = "form-send-hp";
 			priceUSD = this.state.gas_usd;
 			convertFunction = this.handleChangeGas;
 		}

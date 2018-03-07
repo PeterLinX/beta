@@ -193,7 +193,11 @@ class LoginLocalStorage extends Component {
             </div>
           </Link>
 
-          <Link to="/LoginLedgerNanoS">
+          <Link to="/LoginLedgerNanoS"
+          onClick={() => {
+    				this.getLedgerAddress();
+    			}}
+          >
             <div className="dash-icon-bar">
               <div className="icon-border">
                 <div className="ledger-sm" />

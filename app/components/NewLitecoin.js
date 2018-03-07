@@ -119,7 +119,7 @@ class NewLitecoin extends Component {
 							<img
 								src={litecoinLogo}
 								alt=""
-								width="38"
+								width="44"
 								className="neo-logo logobounce"
 							/>
 							<h2>Create New Litecoin Address</h2>
@@ -195,7 +195,6 @@ const mapStateToProps = state => ({
 	neo: state.wallet.Neo,
 	price: state.wallet.price,
 	gas: state.wallet.Gas,
-
     ltcLoggedIn: state.account.ltcLoggedIn,
     ltcPrivKey: state.account.ltcPrivKey,
     ltcPubAddr: state.account.ltcPubAddr,

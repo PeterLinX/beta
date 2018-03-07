@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import numeral from "numeral";
-import Claim from "./Claim.js";
 import { Link } from "react-router";
 
 import { setMarketPrice, resetPrice } from "../modules/wallet";
@@ -20,9 +19,9 @@ import hashpuppiesLogo from "../img/hashpuppies.png";
 
 
 // force sync with balance data
-const refreshBalance = async (dispatch, net, address, btc_address, ltc_address) => {
+const refreshBalance = async (dispatch, net, address) => {
 	dispatch(sendEvent(true, "Refreshing..."));
-	initiateGetBalance(dispatch, net, address, btc_address, ltc_address).then(response => {
+	initiateGetBalance(dispatch, net, address).then(response => {
 		dispatch(sendEvent(true, "Received latest blockchain information."));
 		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
 	});
@@ -34,9 +33,10 @@ class Assets extends Component {
 		super(props);
 		this.state = {
 			gasPrice: 0,
-			rpxPrice: 0,
+			dbcPrice: 0,
 			qlcPrice: 0,
-			dbcPrice: 0
+			rhtPrice: 0,
+			rpxPrice: 0
 		};
 	}
 
@@ -97,8 +97,7 @@ class Assets extends Component {
 						<div className="col-5">
 							<span className="market-price">Priceless</span>
 							<h3>{numeral(
-								Math.floor(this.props.rhpt * 10) / 10
-							).format("0,0")} <span className="hp-price"> RHPT</span></h3>
+								Math.floor(this.props.rht * 1000000000)).format("0,0")} <span className="hp-price"> RHPT</span></h3>
 							<hr className="dash-hr" />
 							<span className="market-price">$0.00 USD</span>
 						</div>
@@ -112,13 +111,13 @@ class Assets extends Component {
 }
 
 const mapStateToProps = state => ({
-	neo: state.wallet.Neo,
 	gas: state.wallet.Gas,
-	rpx: state.wallet.Rpx,
+	neo: state.wallet.Neo,
+	btc: state.wallet.Btc,
 	dbc: state.wallet.Dbc,
 	qlc: state.wallet.Qlc,
-	Rhpt: state.wallet.Rhpt,
-	btc: state.wallet.Btc,
+	rpx: state.wallet.Rpx,
+	rht: state.wallet.Rht,
 	address: state.account.address,
 	net: state.metadata.network,
 	price: state.wallet.price,
@@ -129,6 +128,7 @@ const mapStateToProps = state => ({
 	marketDBCPrice: state.wallet.marketDBCPrice,
 	marketQLCPrice: state.wallet.marketQLCPrice,
 	marketRPXPrice: state.wallet.marketRPXPrice,
+	marketZPTPrice: state.wallet.marketZPTPrice,
 	btcLoggedIn: state.account.btcLoggedIn,
 	btcPrivKey: state.account.btcPrivKey,
 	btcPubAddr: state.account.btcPubAddr,

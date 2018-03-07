@@ -1,21 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { syncTransactionHistory } from "../components/NetworkSwitch";
 import { syncLtcTransactionHistory } from "../components/NetworkSwitch";
 import { shell } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import { clipboard } from "electron";
-import Claim from "./Claim";
-import TopBar from "./TopBar";
-import { initiateLtcGetBalance, intervals,initiateGetBalance } from "../components/NetworkSwitch";
+import { initiateLtcGetBalance, intervals } from "../components/NetworkSwitch";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
-import litecoinLogo from "../img/litecoin.png";
+import { Accordion, AccordionItem } from "react-sanfona";
 
 // TODO: make this a user setting
-const getExplorerLink = (net, txid) => {
+const getLtcExplorerLink = (net, txid) => {
   let base;
-
-  if (net === "MainNet") {
+  if ( net === "MainNet") {
       base = "https://live.blockcypher.com/ltc/tx/"
   } else {
       base = "https://live.blockcypher.com/ltc-testnet/tx/"
@@ -28,11 +24,11 @@ const openExplorer = srcLink => {
   shell.openExternal(srcLink);
 };
 
-const refreshBalance = (dispatch, net, address, btc_address, ltc_address) => {
-  dispatch(sendEvent(true, "Refreshing..."));
-    initiateGetBalance(dispatch, net, address, btc_address, ltc_address).then(response => {
-    dispatch(sendEvent(true, "Received latest blockchain information."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+const refreshBalance = (dispatch, net, ltc_address) => {
+  dispatch(sendEvent(true, "Refreshing the LTC blockchain may take 5 minutes or more. Please wait..."));
+  initiateLtcGetBalance(dispatch, net, ltc_address).then(response => {
+    dispatch(sendEvent(true, "Your LTC transaction history and availabe funds have been updated."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 4000);
   });
 };
 
@@ -47,36 +43,12 @@ class TransactionHistoryLTC extends Component {
 
   render = () => (
     <div id="send">
-      <div className="dash-panel fadeInDown">
         <div className="row">
-          <div className="col-xs-9">
-          <img
-            src={litecoinLogo}
-            alt=""
-            width="45"
-            className="neo-logo fadeInDown"
-          />
-            <h2>Litecoin Transaction History</h2>
-          </div>
-          <div
-            className="col-xs-3 center top-10 send-info"
-            onClick={() =>
-              refreshBalance(
-                this.props.dispatch,
-                this.props.net,
-                this.props.address,
-                this.props.btc_address,
-                this.props.ltc_address
-              )
-            }
-          >
-            <span className="glyphicon glyphicon-refresh marg-right-5" /> Block:{" "}
-            {this.props.blockHeight}
-          </div>
-          <div className="col-xs-12">
-            <hr className="dash-hr-wide" />
-          </div>
-          <ul id="transactionList">
+        <div className="col-xs-12 top-20">
+          <span className="glyphicon glyphicon-list-alt float-left marg-right-10" /> <Accordion>
+          <AccordionItem expanded={true} title="Litecoin Transaction History"  ClassName="menu-accord-item">
+          <hr className="dash-hr-wide" />
+          <ul id="LTCtransactionList">
             {this.props.ltc_transactions.map(t => {
               const formatGas = gas =>
                 Math.floor(parseFloat(gas) * 10000) / 10000;
@@ -88,7 +60,7 @@ class TransactionHistoryLTC extends Component {
                     className="col-xs-9 support-qs"
                     onClick={() =>
                       openExplorer(
-                        getExplorerLink(
+                          getLtcExplorerLink(
                           this.props.net,
                           t.txid
                         )
@@ -105,16 +77,21 @@ class TransactionHistoryLTC extends Component {
               );
             })}
           </ul>
+
+          </AccordionItem>
+            </Accordion>
+
+
+            </div>
         </div>
-      </div>
     </div>
   );
 }
 
+
 const mapStateToProps = state => ({
   blockHeight: state.metadata.blockHeight,
   address: state.account.address,
-  btc_address: state.account.btcPubAddr,
   ltc_address: state.account.ltcPubAddr,
   ltc_transactions: state.wallet.ltc_transactions,
   net: state.metadata.network,

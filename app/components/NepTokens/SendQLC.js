@@ -1,27 +1,23 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
-import Neon from "@cityofzion/neon-js";
 import { doSendAsset, verifyAddress } from "neon-js";
 import { api,wallet,sc,rpc,u } from "@cityofzion/neon-js";
 import Modal from "react-bootstrap-modal";
 import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
-import { log } from "../util/Logs";
-import rpxLogo from "../img/rpx.png";
-import Claim from "./Claim.js";
-import TopBar from "./TopBar";
-import Assets from "./Assets";
+import { log } from "../../util/Logs";
+import qlinkLogo from "../../img/qlink.png";
+import Assets from "./../Assets";
 import { clipboard } from "electron";
-import { togglePane } from "../modules/dashboard";
 import {
 	sendEvent,
 	clearTransactionEvent,
 	toggleAsset
-} from "../modules/transactions";
-import {StatusMessage} from "../components/App";
-import { ASSETS,TOKENS,TOKENS_TEST } from "../core/constants";
+} from "../../modules/transactions";
+import { ASSETS,TOKENS,TOKENS_TEST } from "../../core/constants";
+import { flatMap, keyBy ,get, omit, pick} from "lodash";
 // import {
 //     extractAssets,
 //     isToken,
@@ -31,13 +27,11 @@ import { ASSETS,TOKENS,TOKENS_TEST } from "../core/constants";
 //     extractTokens,
 //     makeRequest
 // } from "./Nep5Trans";
-import { flatMap, keyBy ,get, omit, pick} from "lodash";
 
-
-let sendAddress, sendAmount, confirmButton,scriptHash ,rpx_usd, gas_usd;
+let sendAddress, sendAmount, confirmButton, scriptHash, gas_usd ,qlc_usd;
 
 const apiURL = val => {
-	return "https://min-api.cryptocompare.com/data/price?fsym=RPX&tsyms=USD";
+	return "https://min-api.cryptocompare.com/data/price?fsym=QLC&tsyms=USD";
 };
 
 const apiURLForGas = val => {
@@ -48,9 +42,9 @@ const apiURLForGas = val => {
 const isToken = (symbol) => {
     ![ASSETS.NEO, ASSETS.GAS].includes(symbol)
 }
+
 // form validators for input fields
 const validateForm = (dispatch, neo_balance, gas_balance, asset) => {
-    alert(asset);
 	// check for valid address
 	try {
 		if (
@@ -116,7 +110,6 @@ const buildIntents = (sendEntries) => {//: Array<SendEntryType>
     )
 }
 
-
 const buildIntentsForInvocation = (
     sendEntries,//: Array<SendEntryType>,
     fromAddress
@@ -147,7 +140,7 @@ const buildTransferScript = (
     //     [key: string]: TokenBalanceType
     // }
 ) => {
-   // const tokenEntries = extractTokens(sendEntries);
+    // const tokenEntries = extractTokens(sendEntries);
     //console.log("tokenEntries = " + tokenEntries);
     const fromAcct = new wallet.Account(fromAddress);
     console.log("fromAcct = " + JSON.stringify(fromAcct));
@@ -183,16 +176,16 @@ const makeRequest = (sendEntries, config) => {//: Array<SendEntryType> ,: Object
     )
 
     console.log("buildTransferScript = " + script);
-	return api.doInvoke({
-		...config,
-		intents: buildIntentsForInvocation(sendEntries, config.address),
-		script,
-		gas: 0
-	})
+    return api.doInvoke({
+        ...config,
+        intents: buildIntentsForInvocation(sendEntries, config.address),
+        script,
+        gas: 0
+    })
 }
 
-// perform send transaction for RPX
-const sendRpxTransaction = async (
+// perform send transaction for QLC
+const sendQlcTransaction = async (
     dispatch,
     net,
     selfAddress,
@@ -202,12 +195,12 @@ const sendRpxTransaction = async (
     console.log("endpoint = "+endpoint);
     let script;
     if (net == "MainNet") {
-        script = TOKENS.RPX;
+        script = TOKENS.QLC;
     } else {
-        script = TOKENS_TEST.RPX;
+        script = TOKENS_TEST.QLC;
     }
     const token_response = await api.nep5.getToken(endpoint, script, selfAddress);
-    const  rpx_balance = token_response.balance;
+    const  qlc_balance = token_response.balance;
     console.log("token_response = " + JSON.stringify(token_response))
     const tokenBalances = {
         name: token_response.name,
@@ -218,7 +211,7 @@ const sendRpxTransaction = async (
         scriptHash: script
     };
     const tokensBalanceMap = {
-        RPX: tokenBalances
+        QLC: tokenBalances
     }//keyBy(tokenBalances, 'symbol');
     console.log("tokensBalanceMap = " + JSON.stringify(tokensBalanceMap));
     let privateKey = new wallet.Account(wif).privateKey
@@ -229,14 +222,14 @@ const sendRpxTransaction = async (
     var sendEntry = {
         amount: sendAmount.value.toString(),
         address: sendAddress.value.toString(),
-        symbol: 'RPX'
+        symbol: 'QLC'
     }
     sendEntries.push(sendEntry);
     console.log("sendEntries = " + JSON.stringify(sendEntries));
-    if (rpx_balance <= sendAmount.value) {
-        dispatch(sendEvent(false,"The Rpx amount is not enough."))
+    if (qlc_balance <= sendAmount.value) {
+        dispatch(sendEvent(false,"The Qlc amount is not enough."))
     } else {
-        console.log("Sending RPX...\n");
+        console.log("Sending QLC...\n");
         try{
             const { response } = await makeRequest(sendEntries,{
                 net,
@@ -247,23 +240,23 @@ const sendRpxTransaction = async (
                 signingFunction: null
             })
 
-            console.log("sending rpx response="+response.result);
+            console.log("sending qlc response="+response.result);
             if (!response.result) {
-                dispatch(sendEvent(false, "Transaction failed for RPX!"));
+                dispatch(sendEvent(false, "Transaction failed for QLC!"));
             }
             else {
                 dispatch(sendEvent(false, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
             }
 
         } catch(err) {
-            console.log("sending rpx ="+err.message);
-            dispatch(sendEvent(false, "Transaction failed for RPX!"));
+            console.log("sending qlc ="+err.message);
+            dispatch(sendEvent(false, "Transaction failed for QLC!"));
         }
     }
 }
 
 
-class SendRPX extends Component {
+class SendQLC extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -273,9 +266,7 @@ class SendRPX extends Component {
 			neo_usd: 0,
 			gas_usd: 0,
 			value: 0,
-			inputEnabled: true,
-            statusMessage: "Test message",
-            modalStatus: false
+			inputEnabled: true
 		};
 		this.handleChangeNeo = this.handleChangeNeo.bind(this);
 		this.handleChangeGas = this.handleChangeGas.bind(this);
@@ -323,8 +314,7 @@ class SendRPX extends Component {
 			gas,
 			net,
 			confirmPane,
-			selectedAsset,
-            rpx
+			selectedAsset
 		} = this.props;
 		let confirmPaneClosed;
 		let open = true;
@@ -345,7 +335,7 @@ class SendRPX extends Component {
 		if (selectedAsset === "Neo") {
 			btnClass = "btn-send";
 			convertFunction = this.handleChangeNeo;
-			formClass = "form-send-rpx";
+			formClass = "form-send-qlc";
 			priceUSD = this.state.neo_usd;
 			inputEnabled = true;
 		} else if (selectedAsset === "Gas") {
@@ -358,40 +348,19 @@ class SendRPX extends Component {
 		}
 		return (
 			<div>
-                {
-                    this.state.modalStatus ?
-						<StatusMessage
-							statusMessage={this.state.statusMessage}
-							onConfirm={
-                                () => {
-                                    sendRpxTransaction(
-                                        dispatch,
-                                        net,
-                                        address,
-                                        wif
-                                    );
-                                    this.setState({modalStatus: false});
-                                }
-                            }
-							onCancel = {
-                                () => {
-                                    this.setState({modalStatus: false});
-                                }
-                            }
-						/> : null
-                }
+
 				<Assets />
 				<div id="send">
 
 					<div className="row dash-chart-panel">
 						<div className="col-xs-9">
 							<img
-								src={rpxLogo}
+								src={qlinkLogo}
 								alt=""
 								width="96"
 								className="neo-logo fadeInDown"
 							/>
-							<h2>Send Red Pulse Tokens</h2>
+							<h2> Send QLink Tokens</h2>
 						</div>
 
 						<div className="col-xs-3 top-20 center com-soon">
@@ -409,7 +378,7 @@ class SendRPX extends Component {
 								<input
 									className={formClass}
 									id="center"
-									placeholder="Enter a valid RPX public address here"
+									placeholder="Enter a valid QLC public address here"
 									ref={node => {
 										sendAddress = node;
 									}}
@@ -418,8 +387,8 @@ class SendRPX extends Component {
 
 							<div className="col-xs-3">
 								<Link to="/send">
-									<div className="btn-red">
-                      RPX
+									<div className="purple-button">
+                      QLC
 									</div>
 								</Link>
 							</div>
@@ -438,7 +407,7 @@ class SendRPX extends Component {
 									}}
 								/>
 								<div className="clearboth"/>
-								<span className="com-soon block top-10">Amount in RPX to send</span>
+								<span className="com-soon block top-10">Amount in QKL to send</span>
 							</div>
 							<div className="col-xs-4 top-20">
 								<input
@@ -457,16 +426,15 @@ class SendRPX extends Component {
 							<div className="col-xs-3 top-20">
 								<div id="sendAddress">
 									<button
-										className="rpx-button"
+										className="qlc-button"
 										onClick={() =>
-                                            this.setState({
-                                                modalStatus: true,
-                                                statusMessage: "Please confirm transaction of "
-                                                + sendAmount.value.toString()+" RPX to "
-                                                + address.toString() + ".\n"
-                                                + "Network Fees = " + parseFloat(sendAmount.value/10).toString() + "RPX"
-                                            })
-                                        }
+                                            sendQlcTransaction(
+                                                dispatch,
+                                                net,
+                                                address,
+                                                wif
+                                            )
+										}
 										ref={node => {
 											confirmButton = node;
 										}}
@@ -481,7 +449,7 @@ class SendRPX extends Component {
 
 					<div className="send-notice">
 						<p>
-              Sending RPX requires a balance of 1 GAS+. Only send RPX to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending RPX to an exchange please ensure the address supports RPX tokens.
+              Sending QLink requires a balance of 1 GAS+. Only send QLC to a valid address that supports NEP tokens on the NEO blockchain. When sending QLC to an exchange please ensure the address supports QLC tokens.
 						</p>
 						<div className="col-xs-2 top-20"/>
 						<div className="col-xs-8 top-20">
@@ -501,7 +469,11 @@ class SendRPX extends Component {
 							</ReactTooltip>
 						</div>
 					</div>
+
 				</div>
+
+
+
 			</div>
 		);
 	}
@@ -515,10 +487,9 @@ const mapStateToProps = state => ({
 	neo: state.wallet.Neo,
 	gas: state.wallet.Gas,
 	selectedAsset: state.transactions.selectedAsset,
-	confirmPane: state.dashboard.confirmPane,
-    rpx: state.wallet.Rpx
+	confirmPane: state.dashboard.confirmPane
 });
 
-SendRPX = connect(mapStateToProps)(SendRPX);
+SendQLC = connect(mapStateToProps)(SendQLC);
 
-export default SendRPX;
+export default SendQLC;

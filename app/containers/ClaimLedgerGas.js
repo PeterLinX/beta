@@ -5,7 +5,7 @@ import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { doClaimAllGas, doSendAsset } from "neon-js";
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
-import { StatusMessage } from "../components/App";
+import { getIsHardwareLogin } from "../modules/account";
 
 // wrap claiming with notifications
 
@@ -23,8 +23,50 @@ const doClaimNotify = (dispatch, net, selfAddress, wif) => {
     } else {
       dispatch(sendEvent(false, "Sorry. Claim failed. Please try again."));
     }
-    setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+    setTimeout(() => dispatch(clearTransactionEvent()), 5000);
   });
+};
+
+const doGasClaimLedger = () => async dispatch => {
+  const address = getAddress(state);
+  const net = getNetwork(state);
+  const signingFunction = getSigningFunction(state);
+  const publicKey = getPublicKey(state);
+  const isHardwareClaim = getIsHardwareLogin(state);
+
+  // if no NEO in account, no need to send to self first
+  if (NEO === 0) {
+    return dispatch(doClaimNotify());
+  } else {
+    dispatch(
+      sendEvent(
+        true,
+        "Sign transaction 1 of 2 to claim GAS on your hardware device (sending NEO to yourself)"
+      )
+    );
+    let sendAssetFn;
+
+    dispatch(sendEvent(true, "Sending 0 Neo in order to claim your GAS..."));
+    sendAssetFn = () =>
+      api.neonDB.doSendAsset(
+        net,
+        address,
+        publicKey,
+        { [ASSETS.NEO]: "NEO" },
+        signingFunction
+      );
+
+    const [err, response] = await asyncWrap(sendAssetFn());
+    if (err || response.result === undefined || response.result === false) {
+      return dispatch(
+        sendEvent(false, "Oops! Transaction failed. Please try again.")
+      );
+    } else {
+      dispatch(sendEvent(true, "Waiting for the transaction to clear..."));
+      dispatch(setClaimRequest(true));
+      return dispatch(disableClaim(true));
+    }
+  }
 };
 
 // To initiate claim, first send zero Neo to own address, the set claimRequest state
@@ -34,7 +76,12 @@ const doGasClaim = (dispatch, net, wif, selfAddress, ans) => {
   if (ans === 0) {
     doClaimNotify(dispatch, net, selfAddress, wif);
   } else {
-    dispatch(sendEvent(true, "Sending 0 Neo in order to claim your GAS..."));
+    dispatch(
+      sendEvent(
+        true,
+        "Sign transaction 1 of 2 to claim GAS on your hardware device (sending NEO to yourself)"
+      )
+    );
     log(net, "SEND", selfAddress, {
       to: selfAddress,
       amount: ans,
@@ -48,13 +95,13 @@ const doGasClaim = (dispatch, net, wif, selfAddress, ans) => {
       } else {
         dispatch(sendEvent(true, "Waiting for the transaction to clear..."));
         dispatch(setClaimRequest(true));
-        setTimeout(() => dispatch(disableClaim(true)), 3000);
+        dispatch(disableClaim(true));
       }
     });
   }
 };
 
-class Claim extends Component {
+class ClaimLedgerGas extends Component {
   componentDidUpdate = () => {
     if (
       this.props.claimRequest === true &&
@@ -91,13 +138,12 @@ class Claim extends Component {
       );
     } else {
       renderButton = (
-        <div data-tip data-for="claimTip" >
-          <div id="gas-button"  className="">
+        <div>
+          <div id="ledger-gas-button" data-tip data-for="claimTip" className="">
             <span className="gas-claim">
               Claim Gas<br />
               {this.props.claimAmount}
             </span>
-
           </div>
           <div id="gas-loader" />
           <ReactTooltip
@@ -112,8 +158,7 @@ class Claim extends Component {
         </div>
       );
     }
-    return <div id="claim">{renderButton}
-    </div>;
+    return <div id="claim">{renderButton}</div>;
   };
 }
 
@@ -128,6 +173,6 @@ const mapStateToProps = state => ({
   neo: state.wallet.Neo
 });
 
-Claim = connect(mapStateToProps)(Claim);
+ClaimLedgerGas = connect(mapStateToProps)(ClaimLedgerGas);
 
-export default Claim;
+export default ClaimLedgerGas;

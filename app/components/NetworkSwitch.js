@@ -15,10 +15,10 @@ import {
     setBalance,
     setMarketPrice,
     resetPrice,
-    setBtcBalance,
     setTransactionHistory,
     setBtcTransactionHistory,
     setLtcTransactionHistory,
+    setBtcBalance,
     setLtcBalance,
     setCombinedBalance
 } from "../modules/wallet";
@@ -29,6 +29,9 @@ import {TOKENS_TEST} from "../core/constants";
 import {TOKENS} from "../core/constants";
 
 let intervals = {};
+let dbcScriptHash, iamScriptHash, nrveScriptHash, ontScriptHash, qlcScriptHash, rhtScriptHash, rpxScriptHash, tkyScriptHash, tncScriptHash, zptScriptHash;
+let netSelect;
+
 // https://bittrex.com/api/v1.1/public/getmarkethistory?market=BTC-NEO
 
 // putting this back in wallet, does not belong in neon-js
@@ -41,31 +44,111 @@ export const getMarketPriceUSD = amount => {
     });
 };
 
+const getDbcBalance = async (net,address) => {
+    let dbc_token;
+    if (net === "MainNet") {
+        dbc_token = TOKENS.DBC;
+    } else {
+        dbc_token = TOKENS_TEST.DBC;
+    }
+    return getBalace (net,address,dbc_token);
+}
+
+const getIamBalance = async (net,address) => {
+    let iam_token;
+    if (net === "MainNet") {
+        iam_token = TOKENS.IAM;
+    } else {
+        iam_token = TOKENS_TEST.IAM;
+    }
+    return getBalace (net,address,iam_token);
+}
+
+const getNrveBalance = async (net,address) => {
+    let nrve_token;
+    if (net === "MainNet") {
+        nrve_token = TOKENS.NRVE;
+    } else {
+        nrve_token = TOKENS_TEST.NRVE;
+    }
+    return getBalace (net,address,nrve_token);
+}
+
+
+const getOntBalance = async (net,address) => {
+    let ont_token;
+    if (net === "MainNet") {
+        ont_token = TOKENS.ONT;
+    } else {
+        ont_token = TOKENS_TEST.ONT;
+    }
+    return getBalace (net,address,ont_token);
+}
+
+const getQlcBalance = async (net,address) => {
+    let qlc_token;
+    if (net === "MainNet") {
+        qlc_token = TOKENS.QLC;
+    } else {
+        qlc_token = TOKENS_TEST.QLC;
+    }
+    return getBalace	(net,address,qlc_token);
+}
+
+const getRhtBalance = async (net,address) => {
+    let rht_token;
+    if (net === "MainNet") {
+        rht_token = TOKENS.RHT;
+    } else {
+        rht_token = TOKENS_TEST.RHT;
+    }
+    return getBalace	(net,address,rht_token);
+}
+
 const getRpxBalance = async (net,address) => {
-    //Neon.create.balance({net: net, address: address});
-    // const balance = new wallet.Balance({net: net, address: address});
-    // if (balance.tokens["RPX"] == undefined) {
-    //     console.log("init\n")
-    //     balance.addToken("RPX",0)
-    // }
-    // console.log(JSON.stringify(balance.tokens["RPX"]));
-    // return Number(balance.tokens["RPX"]);
     let rpx_token;
     if (net === "MainNet") {
         rpx_token = TOKENS.RPX;
     } else {
         rpx_token = TOKENS_TEST.RPX;
     }
-    return getBalace(net,address,rpx_token);
+    return getBalace	(net,address,rpx_token);
+}
 
+const getTkyBalance = async (net,address) => {
+    let tky_token;
+    if (net === "MainNet") {
+        tky_token = TOKENS.TKY;
+    } else {
+        tky_token = TOKENS_TEST.TKY;
+    }
+    return getBalace	(net,address,tky_token);
+}
+
+const getTncBalance = async (net,address) => {
+    let tnc_token;
+    if (net === "MainNet") {
+        tnc_token = TOKENS.TNC;
+    } else {
+        tnc_token = TOKENS_TEST.TNC;
+    }
+    return getBalace	(net,address,tnc_token);
+}
+
+const getZptBalance = async (net,address) => {
+    let zpt_token;
+    if (net === "MainNet") {
+        zpt_token = TOKENS.ZPT;
+    } else {
+        zpt_token = TOKENS_TEST.ZPT;
+    }
+    return getBalace	(net,address,zpt_token);
 }
 
 const getBalace = async (net,address,token) => {
     const endpoint = await api.neonDB.getRPCEndpoint(net);
     console.log("endpoint = "+endpoint);
-
     const  scriptHash  = token;
-
     try {
         const response = await api.nep5.getToken(endpoint, scriptHash, address);
         console.log("nep5 balance response = "+JSON.stringify(response));
@@ -80,39 +163,6 @@ const getBalace = async (net,address,token) => {
     }
 }
 
-
-const getDbcBalance = async (net,address) => {
-    let dbc_token;
-    if (net === "MainNet") {
-        dbc_token = TOKENS.DBC;
-    } else {
-        dbc_token = TOKENS_TEST.DBC;
-    }
-    return getBalace(net,address,dbc_token);
-}
-
-const getQlcBalance = async (net,address) => {
-    let qlc_token;
-    if (net === "MainNet") {
-        qlc_token = TOKENS.QLC;
-    } else {
-        qlc_token = TOKENS_TEST.QLC;
-    }
-    return getBalace(net,address,qlc_token);
-}
-
-const getBalanceFromApi = async (scriptHash,address) => {
-    api.nep5.getTokenBalance("http://seed3.neo.org:10332",scriptHash,address)
-    .then(response =>{
-        console.log(JSON.stringify(response));
-        let rpxBal = Number(response);
-        return rpxBal;
-    })
-    .catch(error =>{
-      console.log("rpx balance\n")
-       console.log(error.message);
-    });
-}
 
 const getGasPrice = async gasVal => {
   try {
@@ -148,7 +198,6 @@ const getLtcTransactions = async (net,address) => {
     let response = await axios.get(base);
     return response.data.txrefs;
 }
-
 
 const getBtcTransactions =  async (net,address) => {
     let base;
@@ -189,6 +238,7 @@ const syncLtcTransactionHistory = async (dispatch,net,address) => {
     }
 
     dispatch(setLtcTransactionHistory(txs));
+
 }
 
 const  getInputVal = (vinlist , addr) => {
@@ -255,7 +305,7 @@ const getLtcBalance = async (net , ltc_address) => {
     let response = await axios.get(base+ltc_address);
 
     if (response != undefined) {
-        return parseFloat(response.data.final_balance/100000000)
+        return parseFloat(response.data/100000000)
     } else  {
         return 0
     }
@@ -272,55 +322,43 @@ const getBtcBalance = async (net , btc_address) => {
     let response = await axios.get(base+btc_address);
 
     if (response != undefined) {
-        return parseFloat(response.data.final_balance/100000000)
+        return parseFloat(response.data/100000000)
     } else  {
         return 0
     }
 }
 
 const initiateLtcGetBalance = async (dispatch, net, ltc_address) => {
+    let base;
     syncLtcTransactionHistory(dispatch,net,ltc_address);
     const ltc_balance = getLtcBalance(net,ltc_address);
     setLtcBalance(ltc_balance);
-    let marketPrices = await getMarketPrice();
-    let combinedPrice = marketPrices.LTC.USD * ltc_balance;
-    setCombinedBalance(combinedPrice);
+    // let marketPrices = await getMarketPrice();
+    // let combinedPrice = marketPrices.LTC.USD * ltc_balance;
+    // setCombinedBalance(combinedPrice);
 }
 
 const initiateBtcGetBalance = async (dispatch, net, btc_address) => {
+    let base;
     syncBtcTransactionHistory(dispatch ,net ,btc_address);
     const btc_balance = getBtcBalance(net,btc_address);
     setBtcBalance(btc_balance);
-    let marketPrices = await getMarketPrice();
-    let combinedPrice = marketPrices.BTC.USD * btc_balance
-    setCombinedBalance(combinedPrice);
+    // let marketPrices = await getMarketPrice();
+    // let combinedPrice = marketPrices.BTC.USD * btc_balance
+    // setCombinedBalance(combinedPrice);
 }
 // TODO: this is being imported by Balance.js, maybe refactor to helper file/
 
-const initiateGetBalance = (dispatch, net, address,btc_address,ltc_address) => {
-   let btc_balance,ltc_balance;
+const initiateGetBalance = (dispatch, net, address) => {
   syncTransactionHistory(dispatch, net, address);
   syncAvailableClaim(dispatch, net, address);
   syncBlockHeight(dispatch, net);
 
-  if (btc_address != null) {
-      syncBtcTransactionHistory(dispatch ,net ,btc_address);
-      btc_balance = getBtcBalance(net,btc_address);
-      setBtcBalance(btc_balance);
+  if (net == "MainNet") {
+      rpxScriptHash = Neon.CONST.CONTRACTS.RPX;
   } else {
-      btc_balance = 0;
-      setBtcBalance(btc_balance);
+      rpxScriptHash = Neon.CONST.CONTRACTS.TEST_RPX;
   }
-
-  if (ltc_address != null ){
-      syncLtcTransactionHistory(dispatch,net,ltc_address);
-      const ltc_balance = getLtcBalance(net,ltc_address);
-      setLtcBalance(ltc_balance);
-  } else {
-      ltc_balance = 0;
-      setLtcBalance(ltc_balance);
-  }
-
 
   return getBalance(net, address)
     .then(resultBalance => {
@@ -332,28 +370,65 @@ const initiateGetBalance = (dispatch, net, address,btc_address,ltc_address) => {
             let gasPrice = await getGasPrice(resultBalance.Gas);
             let marketPrices = await getMarketPrice();
 
-            let rpx_usd = parseFloat(marketPrices.data.RPX.USD);
+            let dbc_usd = parseFloat(marketPrices.data.DBC.USD);
+
             let qlc_usd = parseFloat(marketPrices.data.QLC.USD);
-            let dbc_usd = parseFloat(marketPrices.data.DBC.USD)
-            let rpxBalance = await getRpxBalance(net,address);
-            console.log("rpx balance= " + rpxBalance);
-            let qlcBalance = await getQlcBalance(net,address);
-            console.log("qlc balance= " + qlcBalance);
+
+            let rpx_usd = parseFloat(marketPrices.data.RPX.USD);
+
+            let tky_usd = parseFloat(marketPrices.data.TKY.USD);
+
+            let tnc_usd = parseFloat(marketPrices.data.TNC.USD);
+
+            let zpt_usd = parseFloat(marketPrices.data.ZPT.USD);
+
+            let btc_usd = parseFloat(marketPrices.data.BTC.USD);
+
+            let ltc_usd = parseFloat(marketPrices.data.LTC.USD);
+
             let dbcBalance = await getDbcBalance(net,address);
             console.log("dbc balance= " + dbcBalance);
-            //combined balance updating
-            let btc_usd = parseFloat(marketPrices.data.BTC.USD);
-            let ltc_usd = parseFloat(marketPrices.data.LTC.USD);
-            let combinedPrice = gasPrice + resultPrice + rpxBalance*rpx_usd + dbcBalance*dbc_usd
-                + qlcBalance*qlc_usd; + btc_balance*btc_usd + ltc_balance*ltc_usd;
 
+            let iamBalance = await getIamBalance(net,address);
+            console.log("iam balance= " + iamBalance);
+
+            let nrveBalance = await getNrveBalance(net,address);
+            console.log("nrve balance= " + nrveBalance);
+
+            let ontBalance = await getOntBalance(net,address);
+            console.log("ont balance= " + ontBalance);
+
+            let qlcBalance = await getQlcBalance(net,address);
+            console.log("qlc balance= " + qlcBalance);
+
+            let rhtBalance = await getRhtBalance(net,address);
+            console.log("rht balance= " + rhtBalance);
+
+            let rpxBalance = await getRpxBalance(net,address);
+            console.log("rpx balance= " + rpxBalance);
+
+            let tkyBalance = await getTkyBalance(net,address);
+            console.log("tky balance= " + tkyBalance);
+
+            let tncBalance = await getTncBalance(net,address);
+            console.log("tnc balance= " + tncBalance);
+
+            let zptBalance = await getZptBalance(net,address);
+            console.log("zpt balance= " + zptBalance);
+
+            //combined balance updating
+            let combinedPrice = gasPrice + resultPrice + dbcBalance*dbc_usd + qlcBalance*qlc_usd + rpxBalance*rpx_usd + tkyBalance*tky_usd + tncBalance*tnc_usd + zptBalance*zpt_usd;
             dispatch(
               setBalance(
                 resultBalance.Neo,
                 resultBalance.Gas,
-                rpxBalance,
                 dbcBalance,
+                ontBalance,
                 qlcBalance,
+                rpxBalance,
+                tkyBalance,
+                tncBalance,
+                zptBalance,
                 resultPrice,
                 combinedPrice,
                 gasPrice,
@@ -370,7 +445,9 @@ const initiateGetBalance = (dispatch, net, address,btc_address,ltc_address) => {
                 marketPrices.data.TNC.USD,
                 marketPrices.data.TKY.USD,
                 marketPrices.data.XMR.USD,
-                marketPrices.data.ZPT.USD
+                marketPrices.data.ZPT.USD,
+                rhtBalance,
+                nrveBalance
               )
             );
           }
@@ -427,16 +504,16 @@ const syncTransactionHistory = (dispatch, net, address) => {
   });
 };
 
-const resetBalanceSync = (dispatch, net, address, btc_address, ltc_address) => {
+const resetBalanceSync = (dispatch, net, address) => {
   if (intervals.balance !== undefined) {
     clearInterval(intervals.balance);
   }
   intervals.balance = setInterval(() => {
-    initiateGetBalance(dispatch, net, address, btc_address, ltc_address);
+    initiateGetBalance(dispatch, net, address);
   }, 30000);
 };
 
-const toggleNet = (dispatch, net, address, btc_address, ltc_address) => {
+const toggleNet = (dispatch, net, address) => {
   let newNet;
   if (net === "MainNet") {
     newNet = "TestNet";
@@ -444,21 +521,21 @@ const toggleNet = (dispatch, net, address, btc_address, ltc_address) => {
     newNet = "MainNet";
   }
   dispatch(setNetwork(newNet));
-  resetBalanceSync(dispatch, newNet, address, btc_address, ltc_address);
+  resetBalanceSync(dispatch, newNet, address);
   if (address !== null) {
-    initiateGetBalance(dispatch, newNet, address, btc_address, ltc_address);
+    initiateGetBalance(dispatch, newNet, address);
   }
 };
 
 class NetworkSwitch extends Component {
   componentDidMount = () => {
-    resetBalanceSync(this.props.dispatch, this.props.net, this.props.address, this.props.btc_address, this.props.ltc_address);
+    resetBalanceSync(this.props.dispatch, this.props.net, this.props.address);
   };
   render = () => (
     <div
       id="network"
       onClick={() =>
-        toggleNet(this.props.dispatch, this.props.net, this.props.address, this.props.btc_address, this.props.ltc_address)
+        toggleNet(this.props.dispatch, this.props.net, this.props.address)
       }
     >
       <div className="dash-icon-bar">
@@ -474,9 +551,7 @@ class NetworkSwitch extends Component {
 
 const mapStateToProps = state => ({
   net: state.metadata.network,
-  address: state.account.address,
-  btc_address: state.account.btcPubAddr,
-  ltc_address: state.account.ltcPubAddr
+  address: state.account.address
 });
 
 NetworkSwitch = connect(mapStateToProps)(NetworkSwitch);
@@ -486,7 +561,6 @@ export {
   initiateGetBalance,
   syncTransactionHistory,
   syncBtcTransactionHistory,
-  syncLtcTransactionHistory,
   initiateBtcGetBalance,
   initiateLtcGetBalance,
   intervals,

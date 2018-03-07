@@ -133,7 +133,7 @@ class Receive extends Component {
 				<div className="clearboth" />
 				<div className="col-xs-12">
 					<p className="send-notice">
-                    Your NEO address can be used to receive NEP tokens. Morpheus 0.0.5 does not display NEP5+ token balances at this time. Please use a NEP5+ compatible wallet to send and receive NEP5+ tokens such as RPX, BRC, QLC and HashPuppies. We apologise for the inconvenience. Please check soon for an update.
+          Your NEO address above can be used to receive all NEP5 tokens. All NEO and GAS transactions are FREE. Only send NEO, GAS or NEP tokens to a NEO address. Sending funds other than NEO, GAS or NEP tokens to the address above may result in those funds being lost.
 					</p>
 
 				</div>

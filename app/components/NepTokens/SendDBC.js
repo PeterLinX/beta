@@ -3,28 +3,22 @@ import { connect } from "react-redux";
 import { Link } from "react-router";
 import { api,wallet,sc,rpc,u } from "@cityofzion/neon-js";
 import { doSendAsset, verifyAddress } from "neon-js";
-//import Modal from "react-bootstrap-modal";
+import Modal from "react-bootstrap-modal";
 import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
-import { log } from "../util/Logs";
-import deepLogo from "../img/deep.png";
-import Claim from "./Claim.js";
-import TopBar from "./TopBar";
-import Assets from "./Assets";
+import { log } from "../../util/Logs";
+import deepLogo from "../../img/deep.png";
+import Assets from "./../Assets";
 import { clipboard } from "electron";
-import { togglePane } from "../modules/dashboard";
-import { TOKENS_TEST } from  "../core/constants";
-import  { TOKENS } from  "../core/constants";
+import { togglePane } from "../../modules/dashboard";
+import { ASSETS,TOKENS,TOKENS_TEST } from "../../core/constants";
 import {
 	sendEvent,
 	clearTransactionEvent,
 	toggleAsset
-} from "../modules/transactions";
+} from "../../modules/transactions";
 import { flatMap, keyBy ,get, omit, pick} from "lodash";
-import {StatusMessage} from "../components/App";
-
-import Modal from "react-modal";
 // import {
 // 	extractAssets,
 // 	isToken,
@@ -35,9 +29,8 @@ import Modal from "react-modal";
 // 	makeRequest
 // } from "./Nep5Trans";
 
+
 let sendAddress, sendAmount, confirmButton, scriptHash,dbc_usd ,gas_usd;
-
-
 
 const apiURL = val => {
 	return "https://min-api.cryptocompare.com/data/price?fsym=DBC&tsyms=USD";
@@ -275,9 +268,7 @@ class SendDBC extends Component {
 			neo_usd: 0,
 			gas_usd: 0,
 			value: 0,
-			inputEnabled: true,
-            statusMessage: "Test message",
-			modalStatus: false
+			inputEnabled: true
 		};
 		this.handleChangeNeo = this.handleChangeNeo.bind(this);
 		this.handleChangeGas = this.handleChangeGas.bind(this);
@@ -357,32 +348,8 @@ class SendDBC extends Component {
 			priceUSD = this.state.gas_usd;
 			convertFunction = this.handleChangeGas;
 		}
-
-
 		return (
 			<div>
-                {
-                    this.state.modalStatus ?
-						<StatusMessage
-							statusMessage={this.state.statusMessage}
-							onConfirm={
-                                () => {
-                                    sendDbcTransaction(
-                                        dispatch,
-                                        net,
-                                        address,
-                                        wif
-                                    );
-                                    this.setState({modalStatus: false});
-                                }
-                            }
-							onCancel = {
-                                () => {
-                                    this.setState({modalStatus: false});
-                                }
-                            }
-						/> : null
-                }
 
 				<Assets />
 				<div id="send">
@@ -463,13 +430,12 @@ class SendDBC extends Component {
 									<button
 										className="dbc-button"
 										onClick={() =>
-											this.setState({
-												modalStatus: true,
-                                                statusMessage: "Please confirm transaction of "
-                                                + sendAmount.value.toString()+" DBC to "
-                                                + address.toString() + ".\n"
-                                                + "Network Fees = " + parseFloat(sendAmount.value/10).toString() + "DBC"
-											})
+                                            sendDbcTransaction(
+                                                dispatch,
+                                                net,
+                                                address,
+                                                wif
+                                            )
 										}
 										ref={node => {
 											confirmButton = node;
@@ -507,6 +473,13 @@ class SendDBC extends Component {
 					</div>
 
 				</div>
+
+
+
+
+
+
+
 			</div>
 		);
 	}

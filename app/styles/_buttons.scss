@@ -330,8 +330,55 @@
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
+.modal-cancel {
+  padding: 6px 12px;
+  height: 42px;
+  font-size: 18px;
+  border: thin solid #616161;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: #ddd;
+  margin: 2px 5%;
+  background: #464646;
+  text-shadow: none;
+  font-weight: 200;
+  width: 40%;
+  float: left;
+}
+
+.modal-cancel:hover {
+  background: #c70000;
+  border-color: #c70000;
+  color: #fff;
+}
+
+.modal-confirm {
+  width: 40%;
+  padding: 6px 12px;
+  height: 42px;
+  font-size: 18px;
+  border: thin solid #7ed321;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: #000;
+  margin: 2px 5%;
+  opacity: 0.8;
+  float: right;
+  background: rgb(143, 196, 0);
+  background: linear-gradient(
+  to bottom,
+    rgba(143, 196, 0, 1) 0%,
+    rgb(64, 134, 0) 100%);
+}
+
+.modal-confirm:hover {
+  opacity: 0.8;
+}
+
 .grey-button {
-  padding: 6px 16px;
+  padding: 6px 12px;
   height: 42px;
   font-size: 18px;
   border: thin solid #616161;
@@ -375,19 +422,19 @@
 }
 
 .btc-button {
-  padding: 6px 16px;
-  height: 42px;
-  font-size: 18px;
-  border: thin solid #ffc000;
-  cursor: pointer;
-  text-align: center;
-  border-radius: 5px;
-  color: #000;
-  margin: 2px 0px;
-  background: #ffc000;
-  text-shadow: none;
-  font-weight: 200;
-  width: 100%;
+  padding: 6px 10px;
+    height: 42px;
+    font-size: 18px;
+    border: thin solid #ffc000;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 5px;
+    color: #000;
+    margin: 2px 0px;
+    background: #ffaa00;
+    text-shadow: none;
+    font-weight: 200;
+    width: 100%;
 }
 
 .btc-button:hover {
@@ -515,23 +562,4 @@
   font-size: 24px;
   padding-top: 12px;
   color: #646464;
-}
-
-//modal confirm button css
-.confirm_button {
-  background: #6fbcc5;
-  border-radius: 40px;
-  width: 100px;
-  height: 40px;
-  color: #000;
-  margin-top: 50px;
-}
-
-.cancel_button {
-  background: #959596;
-  border-radius: 40px;
-  width: 100px;
-  height: 40px;
-  color: #000;
-  margin-top: 50px;
 }
