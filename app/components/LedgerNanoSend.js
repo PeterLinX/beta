@@ -1,30 +1,37 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
-import { doSendAsset, verifyAddress } from "neon-js";
-import Neon, { wallet, api } from "@cityofzion/neon-js";
+import axios from "axios";
 import Modal from "react-bootstrap-modal";
 import QRCode from "qrcode.react";
-import { clipboard } from "electron";
-import axios from "axios";
+import { clipboard, shell } from "electron";
 import SplitPane from "react-split-pane";
 import numeral from "numeral";
 import ReactTooltip from "react-tooltip";
-import { log } from "../util/Logs";
 import CountUp, { startAnimation } from "react-countup";
+import neoLogo from "../img/neo.png";
+import { doSendAsset, verifyAddress, getTransactionHistory } from "neon-js";
+import Neon, { wallet, api } from "@cityofzion/neon-js";
+import {
+	initiateGetBalance,
+	intervals,
+	syncTransactionHistory
+} from "../components/NetworkSwitch";
+import {
+	resetPrice,
+	setMarketPrice,
+	setCombinedBalance
+} from "../modules/wallet";
+import { log } from "../util/Logs";
 import ClaimLedgerGas from "./ClaimLedgerGas.js";
 import Dashlogo from "../components/Brand/Dashlogo";
 import { togglePane } from "../modules/dashboard";
-import neoLogo from "../img/neo.png";
 import {
-  sendEvent,
-  clearTransactionEvent,
-  toggleAsset
+	sendEvent,
+	clearTransactionEvent,
+	toggleAsset
 } from "../modules/transactions";
-import { setCombinedBalance } from "../modules/wallet";
 import commNode from "../modules/ledger/ledger-comm-node";
-import { setAddress } from "../modules/account";
-import { initiateGetBalance } from "./NetworkSwitch";
 
 const BIP44_PATH =
   "8000002C" + "80000378" + "80000000" + "00000000" + "00000000";
@@ -32,179 +39,132 @@ const BIP44_PATH =
 let sendAddress, sendAmount, confirmButton;
 
 const apiURL = val => {
-  return `https://min-api.cryptocompare.com/data/price?fsym=${val}&tsyms=USD`;
+	return `https://min-api.cryptocompare.com/data/price?fsym=${val}&tsyms=USD`;
 };
 
 // form validators for input fields
 const validateForm = (dispatch, ledgerBalanceNeo, ledgerBalanceGAS, asset) => {
-  // check for valid address
-  try {
-    if (
-      verifyAddress(sendAddress.value) !== true ||
+	// check for valid address
+	try {
+		if (
+			verifyAddress(sendAddress.value) !== true ||
       sendAddress.value.charAt(0) !== "A"
-    ) {
-      dispatch(sendEvent(false, "The address you entered was not valid."));
-      setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-      return false;
-    }
-  } catch (e) {
-    dispatch(sendEvent(false, "The address you entered was not valid."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-    return false;
-  }
-  // check for fractional neo
-  if (
-    asset === "Neo" &&
+		) {
+			dispatch(sendEvent(false, "The address you entered was not valid."));
+			setTimeout(() => dispatch(clearTransactionEvent()), 1500);
+			return false;
+		}
+	} catch (e) {
+		dispatch(sendEvent(false, "The address you entered was not valid."));
+		setTimeout(() => dispatch(clearTransactionEvent()), 1500);
+		return false;
+	}
+	// check for fractional neo
+	if (
+		asset === "Neo" &&
     parseFloat(sendAmount.value) !== parseInt(sendAmount.value)
-  ) {
-    dispatch(sendEvent(false, "You cannot send fractional amounts of Neo."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-    return false;
-  } else if (asset === "Neo" && parseInt(sendAmount.value) > ledgerBalanceNeo) {
-    // check for value greater than account balance
-    dispatch(sendEvent(false, "You do not have enough NEO to send."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-    return false;
-  } else if (
-    asset === "Gas" &&
+	) {
+		dispatch(sendEvent(false, "You cannot send fractional amounts of Neo."));
+		setTimeout(() => dispatch(clearTransactionEvent()), 1500);
+		return false;
+	} else if (asset === "Neo" && parseInt(sendAmount.value) > ledgerBalanceNeo) {
+		// check for value greater than account balance
+		dispatch(sendEvent(false, "You do not have enough NEO to send."));
+		setTimeout(() => dispatch(clearTransactionEvent()), 1500);
+		return false;
+	} else if (
+		asset === "Gas" &&
     parseFloat(sendAmount.value) > ledgerBalanceGAS
-  ) {
-    dispatch(sendEvent(false, "You do not have enough GAS to send."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-    return false;
-  } else if (parseFloat(sendAmount.value) < 0) {
-    // check for negative asset
-    dispatch(sendEvent(false, "You cannot send negative amounts of an asset."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-    return false;
-  }
-  return true;
+	) {
+		dispatch(sendEvent(false, "You do not have enough GAS to send."));
+		setTimeout(() => dispatch(clearTransactionEvent()), 1500);
+		return false;
+	} else if (parseFloat(sendAmount.value) < 0) {
+		// check for negative asset
+		dispatch(sendEvent(false, "You cannot send negative amounts of an asset."));
+		setTimeout(() => dispatch(clearTransactionEvent()), 1500);
+		return false;
+	}
+	return true;
 };
 
 // open confirm pane and validate fields
 const openAndValidate = (
-  dispatch,
-  ledgerBalanceNeo,
-  ledgerBalanceGAS,
-  asset
+	dispatch,
+	ledgerBalanceNeo,
+	ledgerBalanceGAS,
+	asset
 ) => {
-  if (
-    validateForm(dispatch, ledgerBalanceNeo, ledgerBalanceGAS, asset) === true
-  ) {
-    dispatch(togglePane("confirmPane"));
-  }
-};
-
-export const sendTransactionLedger = (
-  sendEntries: Array<SendEntryType>
-) => async (dispatch: DispatchType, getState: GetStateType): Promise<*> => {
-  const state = getState();
-  const wif = getWIF(state);
-  const fromAddress = getAddress(state);
-  const net = getNetwork(state);
-  const balances = getBalances(state);
-  const signingFunction = getSigningFunction(state);
-  const publicKey = getPublicKey(state);
-  const isHardwareSend = getIsHardwareLogin(state);
-
-  const rejectTransaction = (message: string) =>
-    dispatch(showErrorNotification({ message }));
-
-  const error = validateTransactionsBeforeSending(balances, sendEntries);
-
-  if (error) {
-    return rejectTransaction(error);
-  }
-
-  dispatch(
-    showInfoNotification({ message: "Sending Transaction...", autoDismiss: 0 })
-  );
-
-  log(
-    net,
-    "SEND",
-    fromAddress,
-    // $FlowFixMe
-    sendEntries.map(({ address, amount, symbol }) => ({
-      to: address,
-      asset: symbol,
-      amount: parseFloat(amount)
-    }))
-  );
-
-  if (isHardwareSend) {
-    dispatch(
-      showInfoNotification({
-        message: "Please sign the transaction on your Ledger Nano S",
-        autoDismiss: 0
-      })
-    );
-  }
-
-  const [err, config] = await asyncWrap(
-    makeRequest(sendEntries, {
-      net,
-      address: fromAddress,
-      publicKey,
-      privateKey: new wallet.Account(wif).privateKey,
-      signingFunction: isHardwareSend ? signingFunction : null
-    })
-  );
-
-  if (err || !config || !config.response || !config.response.result) {
-    console.log(err);
-    return rejectTransaction("Transaction failed!");
-  } else {
-    return dispatch(
-      showSuccessNotification({
-        message:
-          "Transaction complete! Your balance will automatically update when the blockchain has processed it."
-      })
-    );
-  }
+	if (
+		validateForm(dispatch, ledgerBalanceNeo, ledgerBalanceGAS, asset) === true
+	) {
+		dispatch(togglePane("confirmPane"));
+	}
 };
 
 // perform send transaction
 const sendTransaction = (
-  dispatch,
-  net,
-  selfAddress,
-  wif,
-  asset,
-  ledgerBalanceNeo,
-  ledgerBalanceGAS
+	dispatch,
+	net,
+	LedgerAddress,
+	wif,
+	asset,
+	ledgerBalanceNeo,
+	ledgerBalanceGAS
 ) => {
-  // validate fields again for good measure (might have changed?)
-  if (
-    validateForm(dispatch, ledgerBalanceNeo, ledgerBalanceGAS, asset) === true
-  ) {
-    dispatch(
-      sendEvent(true, "Please sign the transaction on your hardware device")
-    );
-    log(net, "SEND", selfAddress, {
-      to: sendAddress.value,
-      asset: asset,
-      amount: sendAmount.value
-    });
-    doSendAsset(net, sendAddress.value, wif, asset, sendAmount.value)
-      .then(response => {
-        if (response.result === undefined || response.result === false) {
-          dispatch(sendEvent(false, "Transaction failed!"));
-        } else {
-          dispatch(
-            sendEvent(
-              true,
-              "Transaction complete! Your balance will automatically update when the blockchain has processed it."
-            )
-          );
-        }
-        setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-      })
-      .catch(e => {
-        dispatch(sendEvent(false, "Transaction failed!"));
-        setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-      });
-  }
+	// validate fields again for good measure (might have changed?)
+	if (
+		validateForm(dispatch, ledgerBalanceNeo, ledgerBalanceGAS, asset) === true
+	) {
+		dispatch(sendEvent(true, "Processing..."));
+		log(net, "SEND", LedgerAddress, {
+			to: sendAddress.value,
+			asset: asset,
+			amount: sendAmount.value
+		});
+		doSendAsset(net, sendAddress.value, wif, asset, sendAmount.value)
+			.then(response => {
+				if (response.result === undefined || response.result === false) {
+					dispatch(sendEvent(false, "Transaction failed!"));
+				} else {
+					dispatch(
+						sendEvent(
+							true,
+							"Transaction complete! Your balance will automatically update when the blockchain has processed it."
+						)
+					);
+				}
+				setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+			})
+			.catch(e => {
+				dispatch(sendEvent(false, "Transaction failed!"));
+				setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+			});
+	}
+	// close confirm pane and clear fields
+	dispatch(togglePane("confirmPane"));
+	sendAddress.value = "";
+	sendAmount.value = "";
+	confirmButton.blur();
+};
+
+const getExplorerLink = (net, explorer, txid) => {
+	let base;
+	if (explorer === "Neotracker") {
+		if (net === "MainNet") {
+			base = "https://neotracker.io/tx/";
+		} else {
+			base = "https://testnet.neotracker.io/tx/";
+		}
+	} else {
+		if (net === "MainNet") {
+			base = "http://antcha.in/tx/hash/";
+		} else {
+			base = "http://testnet.antcha.in/tx/hash/";
+		}
+	}
+	return base + txid;
+}
   // close confirm pane and clear fields
   dispatch(togglePane("confirmPane"));
   sendAddress.value = "";
@@ -399,73 +359,6 @@ class LedgerNanoSend extends Component {
 
         return (
             <div>
-              <div id="mainNav" className="main-nav">
-                <div className="navbar navbar-inverse">
-                  <div className="navbar-header">
-                    <div className="logoContainer">
-                      <Dashlogo width={85} />
-                    </div>
-                    <div id="balance"
-                         onClick={(event) => {
-                             startAnimation(
-                                 this.totalCountUp
-                             )
-                         }}
-                    >
-                      <CountUp
-                          className="account-balance"
-                          end={this.props.combined}
-                          duration={2}
-                          useEasing={true}
-                          useGrouping={true}
-                          separator=","
-                          decimals={2}
-                          decimal="."
-                          prefix="$"
-                          ref={(countUp) => {
-                              this.totalCountUp = countUp;
-                          }}
-                      />
-                      <span className="bal-usd">USD</span>
-                      <span className="comb-bal">Available Balance</span>
-                    </div>
-                  </div>
-                  <div className="clearfix" />
-                  <hr className="dash-hr" />
-                  <div className="navbar-collapse collapse">
-                    <ul className="nav navbar-nav">
-                      <li>
-                        <Link to={"/LoginLedgerNanoS"} activeClassName="active">
-                          <span className="glyphicon glyphicon-th-large" /> Ledger
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to={"/LedgerNanoSend"} activeClassName="active">
-                          <span className="glyphicon glyphicon-send" /> Send
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to={"/TransactionLedger"} activeClassName="active">
-                          <span className="glyphicon glyphicon-list-alt" /> History
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to={"/"} activeClassName="active">
-                          <span className="glyphicon glyphicon-question-sign" /> Help
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to={"/"} activeClassName="active">
-                          <span className="glyphicon glyphicon-chevron-left" /> Logout
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <span className="dashnetwork" />
-                <span className="dashnetwork">Network: {this.props.net}</span>
-                <div className="copyright">&copy; Copyright 2018 Morpheus</div>
-              </div>
 
               <div className="main-container">
                 <div className="header">
