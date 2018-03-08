@@ -163,20 +163,20 @@ export default (
 			price: action.price,
 			combined: action.combined,
 			gasPrice: action.gasPrice,
-      		marketGASPrice: action.marketGASPrice,
+      marketGASPrice: action.marketGASPrice,
 			marketNEOPrice: action.marketNEOPrice,
-      		marketBTCPrice: action.marketBTCPrice,
-		    marketDBCPrice: action.marketDBCPrice,
-		    marketELAPrice: action.marketELAPrice,
-		    marketETHPrice: action.marketETHPrice,
-		    marketLTCPrice: action.marketLTCPrice,
-		    marketLRCPrice: action.marketLRCPrice,
-		    marketQLCPrice: action.marketQLCPrice,
+      marketBTCPrice: action.marketBTCPrice,
+		  marketDBCPrice: action.marketDBCPrice,
+		  marketELAPrice: action.marketELAPrice,
+		  marketETHPrice: action.marketETHPrice,
+		  marketLTCPrice: action.marketLTCPrice,
+		  marketLRCPrice: action.marketLRCPrice,
+		  marketQLCPrice: action.marketQLCPrice,
 			marketRPXPrice: action.marketRPXPrice,
-            marketTNCPrice: action.marketTNCPrice,
-            marketTKYPrice: action.marketTKYPrice,
+      marketTNCPrice: action.marketTNCPrice,
+      marketTKYPrice: action.marketTKYPrice,
 			marketXMRPrice: action.marketXMRPrice,
-            marketZPTPrice: action.marketZPTPrice
+      marketZPTPrice: action.marketZPTPrice
 		};
 	case RESET_PRICE:
 		return { ...state, price: "--" };

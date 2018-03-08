@@ -446,8 +446,8 @@ const initiateGetBalance = (dispatch, net, address) => {
                 marketPrices.data.TKY.USD,
                 marketPrices.data.XMR.USD,
                 marketPrices.data.ZPT.USD,
-                rhtBalance,
-                nrveBalance
+                nrveBalance,
+                rhtBalance
               )
             );
           }
@@ -510,7 +510,7 @@ const resetBalanceSync = (dispatch, net, address) => {
   }
   intervals.balance = setInterval(() => {
     initiateGetBalance(dispatch, net, address);
-  }, 30000);
+  }, 500000);
 };
 
 const toggleNet = (dispatch, net, address) => {

@@ -25,7 +25,14 @@ import Support from "./components/Support";
 import Ledger from "./components/Ledger";
 import Tokens from "./components/Tokens";
 import Sale from "./components/Sale";
+import Loopring from "./components/NepTokens/Loopring";
+import SendNRVE from "./components/NepTokens/SendNRVE";
+import SendONT from "./components/NepTokens/SendONT";
+import SendZPT from "./components/NepTokens/SendZPT";
+import SendIAM from "./components/NepTokens/SendIAM";
+import SendTKY from "./components/NepTokens/SendTKY";
 import SendRPX from "./components/NepTokens/SendRPX";
+import SendTNC from "./components/NepTokens/SendTNC";
 import SendDBC from "./components/NepTokens/SendDBC";
 import SendQLC from "./components/NepTokens/SendQLC";
 import SendHP from "./components/NepTokens/SendHP";
@@ -43,7 +50,13 @@ export default (
 	<Route path="/" component={App}>
 		<Route path="/dashboard" component={Dashboard}>
 			<Route path="/send" component={Send} />
+			<Route path="/sendONT" component={SendONT} />
+			<Route path="/sendNRVE" component={SendNRVE} />
 			<Route path="/sendRPX" component={SendRPX} />
+			<Route path="/sendIAM" component={SendIAM} />
+			<Route path="/sendZPT" component={SendZPT} />
+			<Route path="/sendTKY" component={SendTKY} />
+			<Route path="/sendTNC" component={SendTNC} />
 			<Route path="/sendDBC" component={SendDBC} />
 			<Route path="/sendQLC" component={SendQLC} />
 			<Route path="/sendBTC" component={SendBTC} />
@@ -67,6 +80,7 @@ export default (
 			<Route path="/receiveBitcoin" component={ReceiveBitcoin} />
 			<Route path="/newLitecoin" component={NewLitecoin} />
 			<Route path="/receiveLitecoin" component={ReceiveLitecoin} />
+			<Route path="/loopring" component={Loopring} />
 		</Route>
 		<Route path="/create" component={CreateWallet} />
 		<Route path="/encryptKey" component={EncryptKey} />

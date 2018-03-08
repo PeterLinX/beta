@@ -34,16 +34,16 @@ class Receive extends Component {
 				<Assets />
 				<div className="dash-chart-panel">
 					<div className="">
-						<div className="col-xs-6">
+						<div className="col-xs-9">
 							<img
 								src={neoLogo}
 								alt=""
 								width="38"
 								className="neo-logo logobounce"
 							/>
-							<h2>Receive Neo or Gas</h2>
+							<h2>Receive Neo, Gas and NEP tokens</h2>
 						</div>
-						<div className="col-xs-3" />
+						
 						<div className="col-xs-3 top-20 center com-soon">
         Block: {this.props.blockHeight}
 						</div>
@@ -133,7 +133,7 @@ class Receive extends Component {
 				<div className="clearboth" />
 				<div className="col-xs-12">
 					<p className="send-notice">
-          Your NEO address above can be used to receive all NEP5 tokens. All NEO and GAS transactions are FREE. Only send NEO, GAS or NEP tokens to a NEO address. Sending funds other than NEO, GAS or NEP tokens to the address above may result in those funds being lost.
+          Your NEO address above can be used to receive NEP5 tokens. All NEO and GAS transactions are FREE. Only send NEO, GAS or NEP tokens to a verified NEO address. Sending funds other than NEO, GAS or NEP tokens to the address above may result in those funds being lost.
 					</p>
 
 				</div>

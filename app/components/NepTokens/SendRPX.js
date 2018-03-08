@@ -220,7 +220,7 @@ const sendRpxTransaction = async (dispatch, net, selfAddress, wif) => {
 		setTimeout(() => dispatch(clearTransactionEvent()), 2000);
 		return true;
   } else {
-    console.log("Sending RPX...\n");
+    dispatch(sendEvent(true, "Sending RPX...\n"));
     try {
       const { response } = await makeRequest(sendEntries, {
         net,
@@ -232,18 +232,16 @@ const sendRpxTransaction = async (dispatch, net, selfAddress, wif) => {
       });
       console.log("sending rpx response=" + response.result);
       if (!response.result) {
-        dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
+        dispatch(sendEvent(false, "Sorry, your transaction failed. Please try again soon."));
 				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
-		    return true;
       } else {
         dispatch(sendEvent(false,
-        "Transaction failed for RPX!" ));
+        "Transaction complete! Your balance will automatically update when the blockchain has processed it." ));
 				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
-				return false;
       }
     } catch (err) {
       console.log("sending rpx =" + err.message);
-      dispatch(sendEvent(false, "Transaction failed for RPX!"));
+      dispatch(sendEvent(false, "There was an error processing your trasnaction. Please check and try again."));
 			setTimeout(() => dispatch(clearTransactionEvent()), 2000);
 	    return false;
     }
@@ -343,9 +341,14 @@ class SendRPX extends Component {
                   }}
                 />
               </div>
+							<Link to="/receive">
               <div className="col-xs-3">
-                <div className="btn-red">RPX</div>
+                <div className="btn-red">
+								<span className="glyphicon glyphicon-qrcode marg-right-5" />
+								RPX</div>
               </div>
+							</Link>
+
               <div className="col-xs-5 top-20">
                 <input
                   className="form-send-rpx"

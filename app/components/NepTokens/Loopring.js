@@ -9,7 +9,7 @@ import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
 import { log } from "../../util/Logs";
-import qlcLogo from "../../img/qlc.png";
+import loopLogo from "../../img/loopring.png";
 import Assets from "./../Assets";
 import { clipboard } from "electron";
 import { togglePane } from "../../modules/dashboard";
@@ -20,11 +20,18 @@ import {
 } from "../../modules/transactions";
 import { ASSETS, TOKENS, TOKENS_TEST } from "../../core/constants";
 import { flatMap, keyBy, get, omit, pick } from "lodash";
+import gitsmLogo from "../../img/gitsm.png";
+import twitsmLogo from "../../img/twitsm.png";
 
-let sendAddress, sendAmount, confirmButton, scriptHash, qlc_usd, gas_usd;
+// helper to open an external web link
+const openExplorer = srcLink => {
+  shell.openExternal(srcLink);
+};
+
+let sendAddress, sendAmount, confirmButton, scriptHash, rpx_usd, gas_usd;
 
 const apiURL = val => {
-  return "https://min-api.cryptocompare.com/data/price?fsym=QLC&tsyms=USD";
+  return "https://min-api.cryptocompare.com/data/price?fsym=RPX&tsyms=USD";
 };
 
 const apiURLForGas = val => {
@@ -178,18 +185,18 @@ const makeRequest = (sendEntries, config) => {
   });
 };
 
-// perform send transaction for QLC
-const sendQlcTransaction = async (dispatch, net, selfAddress, wif) => {
+// perform send transaction for RPX
+const sendRpxTransaction = async (dispatch, net, selfAddress, wif) => {
   const endpoint = await api.neonDB.getRPCEndpoint(net);
   console.log("endpoint = " + endpoint);
   let script;
   if (net == "MainNet") {
-    script = TOKENS.QLC;
+    script = TOKENS.RPX;
   } else {
-    script = TOKENS_TEST.QLC;
+    script = TOKENS_TEST.RPX;
   }
   const token_response = await api.nep5.getToken(endpoint, script, selfAddress);
-  const qlc_balance = token_response.balance;
+  const rpx_balance = token_response.balance;
   console.log("token_response = " + JSON.stringify(token_response));
   const tokenBalances = {
     name: token_response.name,
@@ -200,7 +207,7 @@ const sendQlcTransaction = async (dispatch, net, selfAddress, wif) => {
     scriptHash: script
   };
   const tokensBalanceMap = {
-    QLC: tokenBalances
+    RPX: tokenBalances
   }; //keyBy(tokenBalances, 'symbol');
   console.log("tokensBalanceMap = " + JSON.stringify(tokensBalanceMap));
   let privateKey = new wallet.Account(wif).privateKey;
@@ -211,16 +218,16 @@ const sendQlcTransaction = async (dispatch, net, selfAddress, wif) => {
   var sendEntry = {
     amount: sendAmount.value.toString(),
     address: sendAddress.value.toString(),
-    symbol: "QLC"
+    symbol: "RPX"
   };
   sendEntries.push(sendEntry);
   console.log("sendEntries = " + JSON.stringify(sendEntries));
-  if (qlc_balance <= sendAmount.value) {
-    dispatch(sendEvent(false, "You are trying to send more QLC than you have available."));
+  if (rpx_balance <= sendAmount.value) {
+    dispatch(sendEvent(false, "You are trying to send more RPX than you have available."));
 		setTimeout(() => dispatch(clearTransactionEvent()), 2000);
 		return true;
   } else {
-    dispatch(sendEvent(true, "Sending QLC...\n"));
+    dispatch(sendEvent(true, "Sending RPX...\n"));
     try {
       const { response } = await makeRequest(sendEntries, {
         net,
@@ -230,7 +237,7 @@ const sendQlcTransaction = async (dispatch, net, selfAddress, wif) => {
         privateKey: privateKey,
         signingFunction: null
       });
-      console.log("sending qlc response=" + response.result);
+      console.log("sending rpx response=" + response.result);
       if (!response.result) {
         dispatch(sendEvent(false, "Sorry, your transaction failed. Please try again soon."));
 				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
@@ -240,7 +247,7 @@ const sendQlcTransaction = async (dispatch, net, selfAddress, wif) => {
 				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
       }
     } catch (err) {
-      console.log("sending qlc =" + err.message);
+      console.log("sending rpx =" + err.message);
       dispatch(sendEvent(false, "There was an error processing your trasnaction. Please check and try again."));
 			setTimeout(() => dispatch(clearTransactionEvent()), 2000);
 	    return false;
@@ -248,7 +255,7 @@ const sendQlcTransaction = async (dispatch, net, selfAddress, wif) => {
   }
 };
 
-class SendQLC extends Component {
+class SendRPX extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -302,133 +309,49 @@ class SendQLC extends Component {
       net,
       confirmPane,
       selectedAsset,
-      qlc
+      rpx
     } = this.props;
 
     return (
       <div>
-        <Assets />
+
+      <Assets />
         <div id="send">
-          <div className="row dash-chart-panel">
-            <div className="col-xs-9">
-              <img
-                src={qlcLogo}
-                alt=""
-                width="45"
-                className="neo-logo fadeInDown"
-              />
-              <h2>Send QLink Tokens</h2>
-            </div>
 
-            <div className="col-xs-3 top-20 center com-soon">
-              Block: {this.props.blockHeight}
-            </div>
-
-            <div className="col-xs-12 center">
-              <hr className="dash-hr-wide top-20" />
-            </div>
-
-            <div className="clearboth" />
-
-            <div className="top-20">
-              <div className="col-xs-9">
-                <input
-                  className="form-send-qlc"
-                  id="center"
-                  placeholder="Enter a valid QLC public address here"
-                  ref={node => {
-                    sendAddress = node;
-                  }}
-                />
-              </div>
-							<Link to="/receive">
-              <div className="col-xs-3">
-                <div className="qlc-button com-soon">
-								<span className="glyphicon glyphicon-qrcode marg-right-5" />
-								QLC</div>
-              </div>
-							</Link>
-
-              <div className="col-xs-5 top-20">
-                <input
-                  className="form-send-qlc"
-                  type="number"
-                  id="assetAmount"
-                  min="1"
-                  onChange={this.handleChange}
-                  value={this.state.value}
-                  placeholder="Enter amount to send"
-                  ref={node => {
-                    sendAmount = node;
-                  }}
-                />
-                <div className="clearboth" />
-                <span className="com-soon block top-10">
-                  Amount in QLC to send
-                </span>
-              </div>
-              <div className="col-xs-4 top-20">
-                <input
-                  className="form-send-qlc"
-                  id="sendAmount"
-                  onChange={this.handleChangeUSD}
-                  placeholder="Amount in US"
-                  value={`${this.state.fiatVal}`}
-                />
-                <label className="amount-dollar">$</label>
-                <div className="clearboth" />
-                <span className="com-soon block top-10">Calculated in USD</span>
-              </div>
-              <div className="col-xs-3 top-20">
-                <div id="sendAddress">
-                  <button
-                    className="qlc-button"
-                    onClick={() =>
-                      sendQlcTransaction(
-												dispatch, net, address, wif)
-                    }
-                    ref={node => {
-                      confirmButton = node;
-                    }}
-                  >
-                    <span className="glyphicon glyphicon-send marg-right-5" />{" "}
-                    Send
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="send-notice">
-            <p>
-              Sending QLC requires a balance of 1 GAS+. Only send QLC to a valid
-              address that supports NEP5+ tokens on the NEO blockchain. When
-              sending QLC to an exchange please ensure the address supports QLC
-              tokens.
-            </p>
-            <div className="col-xs-2 top-20" />
-            <div className="col-xs-8 top-20">
-              <p
-                className="center donations"
-                data-tip
-                data-for="donateTip"
-                onClick={() =>
-                  clipboard.writeText("AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b")
-                }
-              >
-                Morpheus Dev Team: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b
-              </p>
-              <ReactTooltip
-                className="solidTip"
-                id="donateTip"
-                place="top"
-                type="light"
-                effect="solid"
-              >
-                <span>Copy address to send donation</span>
-              </ReactTooltip>
-            </div>
-          </div>
+        <div className="dash-panel">
+        <div className="airdrop" />
+        <div className="col-xs-3 ">
+        <img
+          src={loopLogo}
+          alt=""
+          width="150"
+          className="fadeInDown"
+        />
+        <h5 className="center com-soon">NEP Token & Exchange Coming Soon</h5>
+        </div>
+        <div className="col-xs-9 ">
+        <h2>Loopring</h2>
+        <h4>Decentralized Exchange and Open Protocol</h4>
+        <span className="font-16">Loopring is the protocol for decentralized exchanges. With Loopring, all building blocks of a traditional exchange are disassembled and put together again as different roles in a decentralized environment. These roles include wallets, relays, liqudity sharing consortium blockchains, orderbook browsers, ring-miners, and asset tokenization services.</span>
+        <ul className="social-bar">
+        <li
+        onClick={() =>
+                openExplorer("https://loopring.org")
+        }
+        ><span className="glyphicon glyphicon-globe"/> Website</li>
+        <li
+        onClick={() =>
+                openExplorer("https://github.com/Loopring")
+        }
+        ><img src={gitsmLogo} alt="" width="16" className="" /> Github</li>
+        <li
+        onClick={() =>
+                openExplorer("https://twitter.com/loopringorg")
+        }
+        ><img src={twitsmLogo} alt="" width="16" className="" /> Twitter</li>
+        </ul>
+        </div>
+        </div>
         </div>
       </div>
     );
@@ -444,9 +367,9 @@ const mapStateToProps = state => ({
   gas: state.wallet.Gas,
   selectedAsset: state.transactions.selectedAsset,
   confirmPane: state.dashboard.confirmPane,
-  qlc: state.wallet.Qlc
+  rpx: state.wallet.Rpx
 });
 
-SendQLC = connect(mapStateToProps)(SendQLC);
+SendRPX = connect(mapStateToProps)(SendRPX);
 
-export default SendQLC;
+export default SendRPX;

@@ -9,7 +9,7 @@ import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
 import { log } from "../../util/Logs";
-import qlcLogo from "../../img/qlc.png";
+import iamLogo from "../../img/bridge.png";
 import Assets from "./../Assets";
 import { clipboard } from "electron";
 import { togglePane } from "../../modules/dashboard";
@@ -21,10 +21,10 @@ import {
 import { ASSETS, TOKENS, TOKENS_TEST } from "../../core/constants";
 import { flatMap, keyBy, get, omit, pick } from "lodash";
 
-let sendAddress, sendAmount, confirmButton, scriptHash, qlc_usd, gas_usd;
+let sendAddress, sendAmount, confirmButton, scriptHash, iam_usd, gas_usd;
 
 const apiURL = val => {
-  return "https://min-api.cryptocompare.com/data/price?fsym=QLC&tsyms=USD";
+  return "https://min-api.cryptocompare.com/data/price?fsym=IAM&tsyms=USD";
 };
 
 const apiURLForGas = val => {
@@ -178,18 +178,18 @@ const makeRequest = (sendEntries, config) => {
   });
 };
 
-// perform send transaction for QLC
-const sendQlcTransaction = async (dispatch, net, selfAddress, wif) => {
+// perform send transaction for IAM
+const sendIamTransaction = async (dispatch, net, selfAddress, wif) => {
   const endpoint = await api.neonDB.getRPCEndpoint(net);
   console.log("endpoint = " + endpoint);
   let script;
   if (net == "MainNet") {
-    script = TOKENS.QLC;
+    script = TOKENS.IAM;
   } else {
-    script = TOKENS_TEST.QLC;
+    script = TOKENS_TEST.IAM;
   }
   const token_response = await api.nep5.getToken(endpoint, script, selfAddress);
-  const qlc_balance = token_response.balance;
+  const iam_balance = token_response.balance;
   console.log("token_response = " + JSON.stringify(token_response));
   const tokenBalances = {
     name: token_response.name,
@@ -200,7 +200,7 @@ const sendQlcTransaction = async (dispatch, net, selfAddress, wif) => {
     scriptHash: script
   };
   const tokensBalanceMap = {
-    QLC: tokenBalances
+    IAM: tokenBalances
   }; //keyBy(tokenBalances, 'symbol');
   console.log("tokensBalanceMap = " + JSON.stringify(tokensBalanceMap));
   let privateKey = new wallet.Account(wif).privateKey;
@@ -211,16 +211,16 @@ const sendQlcTransaction = async (dispatch, net, selfAddress, wif) => {
   var sendEntry = {
     amount: sendAmount.value.toString(),
     address: sendAddress.value.toString(),
-    symbol: "QLC"
+    symbol: "IAM"
   };
   sendEntries.push(sendEntry);
   console.log("sendEntries = " + JSON.stringify(sendEntries));
-  if (qlc_balance <= sendAmount.value) {
-    dispatch(sendEvent(false, "You are trying to send more QLC than you have available."));
+  if (iam_balance <= sendAmount.value) {
+    dispatch(sendEvent(false, "You are trying to send more IAM than you have available."));
 		setTimeout(() => dispatch(clearTransactionEvent()), 2000);
 		return true;
   } else {
-    dispatch(sendEvent(true, "Sending QLC...\n"));
+    dispatch(sendEvent(true, "Sending IAM...\n"));
     try {
       const { response } = await makeRequest(sendEntries, {
         net,
@@ -230,7 +230,7 @@ const sendQlcTransaction = async (dispatch, net, selfAddress, wif) => {
         privateKey: privateKey,
         signingFunction: null
       });
-      console.log("sending qlc response=" + response.result);
+      console.log("sending iam response=" + response.result);
       if (!response.result) {
         dispatch(sendEvent(false, "Sorry, your transaction failed. Please try again soon."));
 				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
@@ -240,7 +240,7 @@ const sendQlcTransaction = async (dispatch, net, selfAddress, wif) => {
 				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
       }
     } catch (err) {
-      console.log("sending qlc =" + err.message);
+      console.log("sending iam =" + err.message);
       dispatch(sendEvent(false, "There was an error processing your trasnaction. Please check and try again."));
 			setTimeout(() => dispatch(clearTransactionEvent()), 2000);
 	    return false;
@@ -248,7 +248,7 @@ const sendQlcTransaction = async (dispatch, net, selfAddress, wif) => {
   }
 };
 
-class SendQLC extends Component {
+class SendIAM extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -302,7 +302,7 @@ class SendQLC extends Component {
       net,
       confirmPane,
       selectedAsset,
-      qlc
+      iam
     } = this.props;
 
     return (
@@ -312,12 +312,12 @@ class SendQLC extends Component {
           <div className="row dash-chart-panel">
             <div className="col-xs-9">
               <img
-                src={qlcLogo}
+                src={iamLogo}
                 alt=""
                 width="45"
                 className="neo-logo fadeInDown"
               />
-              <h2>Send QLink Tokens</h2>
+              <h2>Send Bridge Tokens</h2>
             </div>
 
             <div className="col-xs-3 top-20 center com-soon">
@@ -335,7 +335,7 @@ class SendQLC extends Component {
                 <input
                   className="form-send-qlc"
                   id="center"
-                  placeholder="Enter a valid QLC public address here"
+                  placeholder="Enter a valid IAM public address here"
                   ref={node => {
                     sendAddress = node;
                   }}
@@ -344,8 +344,7 @@ class SendQLC extends Component {
 							<Link to="/receive">
               <div className="col-xs-3">
                 <div className="qlc-button com-soon">
-								<span className="glyphicon glyphicon-qrcode marg-right-5" />
-								QLC</div>
+								<span className="glyphicon glyphicon-qrcode marg-right-5" /> IAM</div>
               </div>
 							</Link>
 
@@ -364,7 +363,7 @@ class SendQLC extends Component {
                 />
                 <div className="clearboth" />
                 <span className="com-soon block top-10">
-                  Amount in QLC to send
+                  Amount in IAM to send
                 </span>
               </div>
               <div className="col-xs-4 top-20">
@@ -384,7 +383,7 @@ class SendQLC extends Component {
                   <button
                     className="qlc-button"
                     onClick={() =>
-                      sendQlcTransaction(
+                      sendIamTransaction(
 												dispatch, net, address, wif)
                     }
                     ref={node => {
@@ -401,9 +400,9 @@ class SendQLC extends Component {
 
           <div className="send-notice">
             <p>
-              Sending QLC requires a balance of 1 GAS+. Only send QLC to a valid
+              Sending IAM requires a balance of 1 GAS+. Only send IAM to a valid
               address that supports NEP5+ tokens on the NEO blockchain. When
-              sending QLC to an exchange please ensure the address supports QLC
+              sending IAM to an exchange please ensure the address supports IAM
               tokens.
             </p>
             <div className="col-xs-2 top-20" />
@@ -444,9 +443,9 @@ const mapStateToProps = state => ({
   gas: state.wallet.Gas,
   selectedAsset: state.transactions.selectedAsset,
   confirmPane: state.dashboard.confirmPane,
-  qlc: state.wallet.Qlc
+  iam: state.wallet.Iam
 });
 
-SendQLC = connect(mapStateToProps)(SendQLC);
+SendIAM = connect(mapStateToProps)(SendIAM);
 
-export default SendQLC;
+export default SendIAM;

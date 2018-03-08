@@ -21,7 +21,7 @@ import rpxLogo from "../img/rpx.png";
 import tncLogo from "../img/tnc.png";
 import tkyLogo from "../img/tky.png";
 import zptLogo from "../img/zpt.png";
-import qlinkLogo from "../img/qlc.png";
+import qlcLogo from "../img/qlc.png";
 import thekeyLogo from "../img/thekey.png";
 import ontLogo from "../img/ont.png";
 import iamLogo from "../img/bridge.png";
@@ -32,15 +32,6 @@ import lrcLogo from "../img/lrc.png";
 import hashpuppiesLogo from "../img/hashpuppies.png";
 import moneroLogo from "../img/monero.png";
 import ethLogo from "../img/eth.png";
-
-// force sync with balance data
-const refreshBalance = async (dispatch, net, address) => {
-	dispatch(sendEvent(true, "Refreshing..."));
-	initiateGetBalance(dispatch, net, address).then(response => {
-		dispatch(sendEvent(true, "Received latest blockchain information."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-	});
-};
 
 
 class AssetPortolio extends Component {
@@ -71,7 +62,9 @@ class AssetPortolio extends Component {
 				<div id="assetList">
 				<div className="clearboth" />
 				<div className="row" />
-				<div className="col-3">
+
+
+				<div className="col-3 com-soon">
 				<div className="port-logo-col">
 				<img
 					src={acatLogo}
@@ -92,7 +85,7 @@ class AssetPortolio extends Component {
 				</div>
 
 
-				<div className="col-3">
+				<div className="col-3" com-soon>
 				<div className="port-logo-col">
 				<img
 					src={apexLogo}
@@ -134,7 +127,7 @@ class AssetPortolio extends Component {
 						</div>
 						</div>
 
-						<Link to="/tokens">
+						<Link to="/sendIAM">
 							<div className="col-3">
 
 							<div className="port-logo-col">
@@ -145,7 +138,7 @@ class AssetPortolio extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/tokens"><span className=" glyphicon glyphicon-send "/></Link></h3>
+							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendIAM"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
 							<div className="port-price-col">
@@ -187,7 +180,7 @@ class AssetPortolio extends Component {
 						</Link>
 
 
-						<div className="col-3">
+						<div className="col-3 com-soon">
 						<div className="port-logo-col">
 						<img
 							src={effectLogo}
@@ -208,34 +201,7 @@ class AssetPortolio extends Component {
 						</div>
 
 
-						<Link to="/tokens">
-							<div className="col-3">
-
-							<div className="port-logo-col">
-							<img
-								src={elasLogo}
-								alt=""
-								width="44"
-								className="port-logos"
-							/>
-							<hr className="dash-hr" />
-							<h3><span className=" glyphicon glyphicon-qrcode marg-right-5"/>   <span className=" glyphicon glyphicon-send "/></h3>
-							</div>
-
-							<div className="port-price-col">
-								<span className="market-price">Elastos {numeral(this.props.marketELAPrice).format("$0,0.00")}</span>
-								<h3>{numeral(
-									Math.floor(this.props.ela * 100000) / 100000
-								).format("0,0.0000")} <span className="neo-price"> ELA</span></h3>
-								<hr className="dash-hr" />
-								<span className="market-price">$0.00 USD</span>
-							</div>
-							</div>
-						</Link>
-
-
-						<Link to="/tokens">
-							<div className="col-3">
+							<div className="col-3 com-soon">
 
 							<div className="port-logo-col">
 							<img
@@ -257,8 +223,9 @@ class AssetPortolio extends Component {
 								<span className="market-price">$0.00 USD</span>
 							</div>
 							</div>
-						</Link>
 
+
+							<Link to="/send">
 						<div className="col-3">
 						<div className="port-logo-col">
 						<img
@@ -279,15 +246,13 @@ class AssetPortolio extends Component {
 							<span className="market-price">{" "}
 								{numeral(Math.round(this.props.gasPrice * 100) / 100).format(
 									"$0,0.00"
-								)}{" "}
-		USD</span>
+								)}{" "} USD</span>
 						</div>
 					</div>
-
+					</Link>
 
 						<Link to="/sendHP">
 							<div className="col-3">
-
 							<div className="port-logo-col">
 							<img
 								src={hashpuppiesLogo}
@@ -298,12 +263,11 @@ class AssetPortolio extends Component {
 							<hr className="dash-hr" />
 							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendHP"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
-
 							<div className="port-price-col">
 								<span className="market-price">Hash Puppies</span>
 								<h3>{numeral(
 									Math.floor(this.props.rht * 10) / 10
-								).format("0,0")} <span className="hp-price"> RHT</span></h3>
+								).format("0,0")} <span className="neo-price"> RHT</span></h3>
 								<hr className="dash-hr" />
 								<span className="market-price">Priceless</span>
 							</div>
@@ -311,7 +275,7 @@ class AssetPortolio extends Component {
 						</Link>
 
 
-						<Link to="/tokens">
+						<Link to="/loopring">
 							<div className="col-3">
 
 							<div className="port-logo-col">
@@ -364,7 +328,7 @@ class AssetPortolio extends Component {
 
 
 						<Link to="/tokens">
-							<div className="col-3">
+							<div className="col-3 com-soon">
 
 							<div className="port-logo-col">
 							<img
@@ -388,7 +352,7 @@ class AssetPortolio extends Component {
 							</div>
 						</Link>
 
-
+						<Link to="/sendNRVE">
 						<div className="col-3">
 						<div className="port-logo-col">
 						<img
@@ -407,9 +371,11 @@ class AssetPortolio extends Component {
 							<span className="market-price">$0.00 USD</span>
 						</div>
 						</div>
+						</Link>
 
 
 
+						<Link to="/send">
 						<div className="col-3">
 						<div className="port-logo-col">
 						<img
@@ -428,8 +394,11 @@ class AssetPortolio extends Component {
 							<span className="market-price">{numeral(this.props.price).format("$0,0.00")} USD</span>
 						</div>
 						</div>
+						</Link>
 
-						<div className="col-3">
+
+						<Link to="/tokens">
+						<div className="col-3 com-soon">
 						<div className="port-logo-col">
 						<img
 							src={nexLogo}
@@ -448,10 +417,10 @@ class AssetPortolio extends Component {
 							<span className="market-price">$0.00 USD</span>
 						</div>
 						</div>
+						</Link>
 
 
-
-						<Link to="/tokens">
+						<Link to="/sendONT">
 							<div className="col-3">
 
 							<div className="port-logo-col">
@@ -482,7 +451,7 @@ class AssetPortolio extends Component {
 
 							<div className="port-logo-col">
 							<img
-								src={qlinkLogo}
+								src={qlcLogo}
 								alt=""
 								width="50"
 								className="port-logos"
@@ -528,7 +497,8 @@ class AssetPortolio extends Component {
 							</div>
 						</Link>
 
-						<div className="col-3">
+						<Link to="/tokens">
+						<div className="col-3 com-soon">
 						<div className="port-logo-col">
 						<img
 							src={thorLogo}
@@ -537,7 +507,7 @@ class AssetPortolio extends Component {
 							className="port-logos"
 						/>
 						<hr className="dash-hr" />
-						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/receive"><span className=" glyphicon glyphicon-send "/></Link></h3>
+						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/tokens"><span className=" glyphicon glyphicon-send "/></Link></h3>
 						</div>
 
 						<div className="port-price-col">
@@ -547,9 +517,9 @@ class AssetPortolio extends Component {
 							<span className="market-price">$0.00 USD</span>
 						</div>
 						</div>
+						</Link>
 
-
-						<Link to="/tokens">
+						<Link to="/sendTKY">
 							<div className="col-3">
 
 							<div className="port-logo-col">
@@ -560,7 +530,7 @@ class AssetPortolio extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendQLC"><span className=" glyphicon glyphicon-send "/></Link></h3>
+							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendTKY"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
 							<div className="port-price-col">
@@ -575,7 +545,7 @@ class AssetPortolio extends Component {
 						</Link>
 
 
-						<Link to="/tokens">
+						<Link to="/SendTNC">
 							<div className="col-3">
 
 							<div className="port-logo-col">
@@ -586,7 +556,7 @@ class AssetPortolio extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendQLC"><span className=" glyphicon glyphicon-send "/></Link></h3>
+							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/SendTNC"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
 							<div className="port-price-col">
@@ -604,7 +574,7 @@ class AssetPortolio extends Component {
 
 
 
-						<Link to="/tokens">
+						<Link to="/sendZPT">
 							<div className="col-3">
 
 							<div className="port-logo-col">
@@ -615,7 +585,7 @@ class AssetPortolio extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/tokens"><span className=" glyphicon glyphicon-send "/></Link></h3>
+							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendZPT"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
 							<div className="port-price-col">
