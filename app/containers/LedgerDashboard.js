@@ -139,7 +139,7 @@ class Dashboard extends Component {
                 </li>
                 <li>
                   <Link to={"/LedgerNanoSend"} activeClassName="active">
-                    <span className="glyphicon glyphicon-send" /> Portfolio
+                    <span className="glyphicon glyphicon-send" /> Send
                   </Link>
                 </li>
                 <li>
