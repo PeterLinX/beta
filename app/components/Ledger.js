@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
-import { doSendAsset, verifyAddress, getTransactionHistory } from "neon-js";
+import { doSendAsset, verifyAddress } from "neon-js";
 import Neon, { wallet, api } from "@cityofzion/neon-js";
 import Modal from "react-bootstrap-modal";
 import QRCode from "qrcode.react";
@@ -16,19 +16,9 @@ import Claim from "./Claim.js";
 import TopBar from "./TopBar";
 import { togglePane } from "../modules/dashboard";
 import {
-	initiateGetBalance,
-	intervals,
-	syncTransactionHistory
-} from "../components/NetworkSwitch";
-import {
-	resetPrice,
-	setMarketPrice,
-	setCombinedBalance
-} from "../modules/wallet";
-import {
-	sendEvent,
-	clearTransactionEvent,
-	toggleAsset
+  sendEvent,
+  clearTransactionEvent,
+  toggleAsset
 } from "../modules/transactions";
 import commNode from "../modules/ledger/ledger-comm-node";
 
@@ -38,67 +28,54 @@ const BIP44_PATH =
 let sendAddress, sendAmount, confirmButton;
 
 const apiURL = val => {
-	return `https://min-api.cryptocompare.com/data/price?fsym=${val}&tsyms=USD`;
+  return `https://min-api.cryptocompare.com/data/price?fsym=${val}&tsyms=USD`;
 };
 
 // form validators for input fields
-const validateForm = (dispatch, ledgerBalanceNeo, ledgerBalanceGAS, asset) => {
-	// check for valid address
-	try {
-		if (
-			verifyAddress(sendAddress.value) !== true ||
-      sendAddress.value.charAt(0) !== "A"
-		) {
-			dispatch(sendEvent(false, "The address you entered was not valid."));
-			setTimeout(() => dispatch(clearTransactionEvent()), 1500);
-			return false;
-		}
-	} catch (e) {
-		dispatch(sendEvent(false, "The address you entered was not valid."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 1500);
-		return false;
-	}
-	// check for fractional neo
-	if (
-		asset === "Neo" &&
+const validateForm = (dispatch, neo_balance, gas_balance, asset) => {
+  // check for valid address
+  try {
+    if (verifyAddress(sendAddress) !== true || sendAddress.charAt(0) !== "A") {
+      dispatch(sendEvent(false, "The address you entered was not valid."));
+      setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+      return false;
+    }
+  } catch (e) {
+    dispatch(sendEvent(false, "The address you entered was not valid."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+    return false;
+  }
+  // check for fractional neo
+  if (
+    asset === "Neo" &&
     parseFloat(sendAmount.value) !== parseInt(sendAmount.value)
-	) {
-		dispatch(sendEvent(false, "You cannot send fractional amounts of Neo."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 1500);
-		return false;
-	} else if (asset === "Neo" && parseInt(sendAmount.value) > ledgerBalanceNeo) {
-		// check for value greater than account balance
-		dispatch(sendEvent(false, "You do not have enough NEO to send."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 1500);
-		return false;
-	} else if (
-		asset === "Gas" &&
-    parseFloat(sendAmount.value) > ledgerBalanceGAS
-	) {
-		dispatch(sendEvent(false, "You do not have enough GAS to send."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 1500);
-		return false;
-	} else if (parseFloat(sendAmount.value) < 0) {
-		// check for negative asset
-		dispatch(sendEvent(false, "You cannot send negative amounts of an asset."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 1500);
-		return false;
-	}
-	return true;
+  ) {
+    dispatch(sendEvent(false, "You cannot send fractional amounts of Neo."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+    return false;
+  } else if (asset === "Neo" && parseInt(sendAmount.value) > neo_balance) {
+    // check for value greater than account balance
+    dispatch(sendEvent(false, "You do not have enough NEO to send."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+    return false;
+  } else if (asset === "Gas" && parseFloat(sendAmount.value) > gas_balance) {
+    dispatch(sendEvent(false, "You do not have enough GAS to send."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+    return false;
+  } else if (parseFloat(sendAmount.value) < 0) {
+    // check for negative asset
+    dispatch(sendEvent(false, "You cannot send negative amounts of an asset."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+    return false;
+  }
+  return true;
 };
 
 // open confirm pane and validate fields
-const openAndValidate = (
-	dispatch,
-	ledgerBalanceNeo,
-	ledgerBalanceGAS,
-	asset
-) => {
-	if (
-		validateForm(dispatch, ledgerBalanceNeo, ledgerBalanceGAS, asset) === true
-	) {
-		dispatch(togglePane("confirmPane"));
-	}
+const openAndValidate = (dispatch, neo_balance, gas_balance, asset) => {
+  if (validateForm(dispatch, neo_balance, gas_balance, asset) === true) {
+    dispatch(togglePane("confirmPane"));
+  }
 };
 
 // perform send transaction
@@ -178,98 +155,94 @@ class Ledger extends Component {
     let address = await this.getLedgerAddress();
   }
 
-async getLedgerAddress() {
-		try {
-			let result = await commNode.list_async();
+  async getLedgerAddress() {
+    try {
+      let result = await commNode.list_async();
 
-			let message = Buffer.from(`8004000000${BIP44_PATH}`, "hex");
-			let comm = await commNode.create_async();
+      let message = Buffer.from(`8004000000${BIP44_PATH}`, "hex");
+      let comm = await commNode.create_async();
 
-			const validStatus = [0x9000];
-			let response = await comm.exchange(message.toString("hex"), validStatus);
+      const validStatus = [0x9000];
+      let response = await comm.exchange(message.toString("hex"), validStatus);
 
-			let publicKeyEncoded = await wallet.getPublicKeyEncoded(
-				response.substring(0, 130)
-			);
+      let publicKeyEncoded = await wallet.getPublicKeyEncoded(
+        response.substring(0, 130)
+      );
 
-			let loadAccount = new wallet.Account(publicKeyEncoded);
+      let loadAccount = new wallet.Account(publicKeyEncoded);
 
-			this.setState({
-				ledgerAddress: loadAccount.address,
-				ledgerAvailable: true
-			});
+      this.setState({
+        ledgerAddress: loadAccount.address,
+        ledgerAvailable: true
+      });
+      sendAddress = loadAccount.address;
 
-			this.getLedgerBalance(loadAccount.address, this.props.net);
-			initiateGetBalance(
-				this.props.dispatch,
-				this.props.net,
-				loadAccount.address
-			);
+      this.getLedgerBalance(loadAccount.address, this.props.net);
 
-			return loadAccount.address;
-		} catch (error) {
-			console.log(error);
-			this.props.dispatch(
-				sendEvent(
-					false,
-					"Please ensure that your Ledger Nano S is plugged in, unlocked and has the NEO app installed and open"
-				)
-			);
-			setTimeout(() => this.props.dispatch(clearTransactionEvent()), 3000);
+      return loadAccount.address;
+    } catch (error) {
+      console.log(error);
+      this.props.dispatch(
+        sendEvent(
+          false,
+          "Please ensure that your Ledger Nano S is plugged in, unlocked and has the NEO app installed and open"
+        )
+      );
+      setTimeout(() => this.props.dispatch(clearTransactionEvent()), 5000);
 
-			if (error === "Invalid status 6e00") {
-				this.props.dispatch(
-					sendEvent(
-						false,
-						"Neo app on Ledger not open, Please open and try again"
-					)
-				);
-				setTimeout(() => this.props.dispatch(clearTransactionEvent()), 3000);
-			}
-		}
-	}
+      if (error === "Invalid status 6e00") {
+        this.props.dispatch(
+          sendEvent(
+            false,
+            "Neo app on Ledger not open, Please open and try again"
+          )
+        );
+        setTimeout(() => this.props.dispatch(clearTransactionEvent()), 5000);
+      }
+    }
+  }
 
-async getLedgerBalance(address, net) {
-		const filledBalance = await api.getBalanceFrom(
-			{ net: net, address: address },
-			api.neonDB
-		);
-		this.setState({
-			ledgerBalanceNeo: filledBalance.balance.NEO.balance,
-			ledgerBalanceGas: filledBalance.balance.GAS.balance
-		});
+  async getLedgerBalance(address, net) {
+    const filledBalance = await api.getBalanceFrom(
+      { net: net, address: address },
+      api.neonDB
+    );
+    this.setState({
+      ledgerBalanceNeo: filledBalance.balance.NEO.balance,
+      ledgerBalanceGas: filledBalance.balance.GAS.balance
+    });
 
-		this.getPrice(
-			filledBalance.balance.NEO.balance,
-			filledBalance.balance.GAS.balance
-		);
-	}
+    this.getPrice(
+      filledBalance.balance.NEO.balance,
+      filledBalance.balance.GAS.balance
+    );
+  }
 
-	handleChangeNeo(event) {
-		this.setState({ value: event.target.value }, (sendAmount = value));
-		const value = event.target.value * this.state.neo;
-		this.setState({ neo_usd: value });
-	}
+  handleChangeNeo(event) {
+    this.setState({ value: event.target.value }, (sendAmount = value));
+    const value = event.target.value * this.state.neo;
+    this.setState({ neo_usd: value });
+  }
 
-	async getPrice(neo, gas) {
-		let ledgerNEOUSD, ledgerGASUSD;
-		try {
-			let neoPrice = await axios.get(
-				"https://min-api.cryptocompare.com/data/price?fsym=NEO&tsyms=USD"
-			);
+  async getPrice(neo, gas) {
+    let ledgerNEOUSD, ledgerGASUSD;
+    try {
+      let neoPrice = await axios.get(
+        `https://min-api.cryptocompare.com/data/price?fsym=NEO&tsyms=USD`
+      );
 
-			let gasPrice = await axios.get(
-				"https://min-api.cryptocompare.com/data/price?fsym=GAS&tsyms=USD"
-			);
+      let gasPrice = await axios.get(
+        `https://min-api.cryptocompare.com/data/price?fsym=GAS&tsyms=USD`
+      );
 
-			ledgerGASUSD = gasPrice.data.USD * gas;
-			ledgerNEOUSD = neoPrice.data.USD * neo;
+      ledgerGASUSD = gasPrice.data.USD * gas;
+      ledgerNEOUSD = neoPrice.data.USD * neo;
 
-			this.setState({ ledgerGASUSD, ledgerNEOUSD });
-		} catch (error) {
-			console.log(error);
-		}
-	}
+      this.setState({ ledgerGASUSD, ledgerNEOUSD });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   handleChangeGas(event) {
     this.setState({ value: event.target.value }, (sendAmount = value));
@@ -292,8 +265,6 @@ async getLedgerBalance(address, net) {
       wif,
       address,
       status,
-      ledgerBalanceNeo,
-      ledgerBalanceGas,
       neo,
       gas,
       net,
@@ -358,7 +329,7 @@ async getLedgerBalance(address, net) {
             </ReactTooltip>
             <div className="col-xs-3 center">
               <h4 className="neo-text">
-                {this.props.neo} <span>NEO</span>
+                {this.state.ledgerBalanceNeo} <span>NEO</span>
               </h4>
               <span className="com-soon">
                 {numeral(this.state.ledgerNEOUSD).format("$0,0.00")}{" "}
@@ -377,7 +348,7 @@ async getLedgerBalance(address, net) {
 
             <div className="col-xs-4 center">
               <h4 className="gas-text-ledger top-10 ">
-                {Math.floor(this.props.gas * 10000000) / 10000000}{" "}
+                {Math.floor(this.state.ledgerBalanceGas * 10000000) / 10000000}{" "}
                 <span>GAS</span>
               </h4>
               <span className="com-soon top-10">
@@ -516,14 +487,10 @@ async getLedgerBalance(address, net) {
 const mapStateToProps = state => ({
   wif: state.account.wif,
   ledgerNanoSGetInfoAsync: state.account.ledgerNanoSGetInfoAsync,
-	address: state.account.ledgerAddress,
-  ledgerBalanceNeo: state.account.ledgerBalanceNeo,
   address: state.account.address,
   net: state.metadata.network,
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,
-  marketGASPrice: state.wallet.marketGASPrice,
-  marketNEOPrice: state.wallet.marketNEOPrice,
   selectedAsset: state.transactions.selectedAsset,
   confirmPane: state.dashboard.confirmPane
 });
