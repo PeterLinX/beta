@@ -425,6 +425,7 @@ const initiateGetBalance = (dispatch, net, address) => {
                 dbcBalance,
                 ontBalance,
                 qlcBalance,
+                rhtBalance,
                 rpxBalance,
                 tkyBalance,
                 tncBalance,
@@ -446,8 +447,7 @@ const initiateGetBalance = (dispatch, net, address) => {
                 marketPrices.data.TKY.USD,
                 marketPrices.data.XMR.USD,
                 marketPrices.data.ZPT.USD,
-                nrveBalance,
-                rhtBalance
+                nrveBalance
               )
             );
           }

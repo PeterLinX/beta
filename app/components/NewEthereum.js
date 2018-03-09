@@ -134,7 +134,7 @@ class NewEthereum extends Component {
                         <img
                             src={ethLogo}
                             alt=""
-                            width="44"
+                            width="38"
                             className="neo-logo logobounce"
                         />
                         <h2>Create New Ethereum Address</h2>

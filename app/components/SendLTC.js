@@ -259,14 +259,14 @@ class SendLTC extends Component {
 		if (selectedAsset === "Gas") {
 			btnClass = "btn-send";
 			convertFunction = this.handleChangeNeo;
-			formClass = "form-control-exchange";
+			formClass = "ledger-address";
 			priceUSD = this.state.neo_usd;
 			inputEnabled = true;
 		} else if (selectedAsset === "Neo") {
 			gasEnabled = true;
 			inputEnabled = true;
 			btnClass = "btn-send";
-			formClass = "form-control-exchange";
+			formClass = "ledger-address";
 			priceUSD = this.state.gas_usd;
 			convertFunction = this.handleChangeGas;
 		}

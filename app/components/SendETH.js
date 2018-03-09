@@ -213,14 +213,14 @@ class SendETH extends Component {
         if (selectedAsset === "Gas") {
             btnClass = "eth-button";
             convertFunction = this.handleChangeNeo;
-            formClass = "form-control";
+            formClass = "ledger-address";
             priceUSD = this.state.neo_usd;
             inputEnabled = true;
         } else if (selectedAsset === "Neo") {
             gasEnabled = true;
             inputEnabled = true;
             btnClass = "eth-button";
-            formClass = "form-control";
+            formClass = "ledger-address";
             priceUSD = this.state.gas_usd;
             convertFunction = this.handleChangeGas;
         }
@@ -233,7 +233,7 @@ class SendETH extends Component {
                             <img
                                 src={ethLogo}
                                 alt=""
-                                width="44"
+                                width="32"
                                 className="neo-logo fadeInDown"
                             />
                             <h2>Send Ethereum (ETH)</h2>
@@ -253,7 +253,7 @@ class SendETH extends Component {
                         </div>
 
                         <div className="col-xs-3 center">
-                            <div className="send-panel-price">{numeral(this.props.eth).format("0,0.0000000")} <span className="ltc-price"> ETH</span></div>
+                            <div className="send-panel-price">{numeral(this.props.eth).format("0,0.0000000")} <span className="eth-price"> ETH</span></div>
 
                             <span className="market-price">{numeral(this.props.eth * this.props.marketETHPrice).format("$0,0.00")} USD</span>
                         </div>

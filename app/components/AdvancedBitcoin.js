@@ -75,9 +75,9 @@ class AdvancedBitcoin extends Component {
 
 	login = async (dispatch) => {
 		let pk = this.state.pk;
-		if(pk == '') {
-			alert("Please input your bitcoin private key");
-			return;
+		//if(pk == '') {
+			//alert("Please input your bitcoin private key");
+			//return;
 		}
 
 		let keyPair = await bitcoin.ECPair.fromWIF(pk, this.props.net == "TestNet" ? bitcoin.networks.testnet : null);
@@ -139,7 +139,7 @@ class AdvancedBitcoin extends Component {
 								width="38"
 								className="neo-logo logobounce"
 							/>
-							<h2>Your Bitcoin (BTC) Address</h2>
+							<h2>Enter your Bitcoin (BTC) WIF/Private Key</h2>
 							</div>
 
 

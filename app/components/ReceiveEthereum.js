@@ -42,7 +42,7 @@ class ReceiveEthereum extends Component {
                             <img
                                 src={ethLogo}
                                 alt=""
-                                width="45"
+                                width="32"
                                 className="neo-logo logobounce"
                             />
                             <h2>Receive Ethereum (ETH)</h2>
@@ -62,7 +62,7 @@ class ReceiveEthereum extends Component {
                         </div>
 
                         <div className="col-xs-3 center">
-                            <div className="send-panel-price">{numeral(this.props.eth).format("0,0.0000000")} <span className="btc-price"> ETH</span></div>
+                            <div className="send-panel-price">{numeral(this.props.eth).format("0,0.0000000")} <span className="eth-price"> ETH</span></div>
 
                             <span className="market-price">{numeral(this.props.eth * this.props.marketETHPrice).format("$0,0.00")} USD</span>
                         </div>
