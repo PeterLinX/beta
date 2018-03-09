@@ -2,6 +2,24 @@
 
 Neo, GAS, NEP Tokens, BTC, LTC and ETH wallets are activated. At the moment you MUST manually save your LTC and ETH private keys until update is pushed.
 
+_____
+
+## Required Tools and Dependencies
+
+  - Node (This project uses the current LTS node version, which is `v6.11.0`)
+  - Yarn (https://yarnpkg.com/lang/en/docs/install/)
+
+## Developing and Running
+
+Execute these commands in the project's root directory:
+
+  - `npm install` Installs node dependencies
+  - `npm run assets`
+  - `npm start` to run the project
+  
+  or if using Yarn: `yarn assets && yarn start`
+  
+
 
 # Morpheus Wallet
 
@@ -34,7 +52,7 @@ Morpheus is an all-in-one client-side desktop wallet that allows you to send and
 This application is product of Morpheus Software Solutions Limited. A Limited Liability Company registred in the Republic of Trinidad and Tobago. Company registration number C2018012300404.
 
 - Founder, Creator/Lead Designer: Aaron Besson
-- Chief Business OfficerChristian Stone
+- Chief Business Officer: Christian Stone
 - Lead Developer: Krs Joseph
 - Software Engineer: Tawsif Ahmed
 
@@ -44,17 +62,6 @@ This application uses Open Source components created by Ethan Fast and City of Z
  - Developers: [Ethan Fast](https://github.com/Ejhfast) and [CoZ](https://github.com/CityOfZion)
  - License: [MIT License](https://github.com/CityOfZion/neon-wallet/blob/dev/LICENSE.md)
  
-_____
 
-## Required Tools and Dependencies
 
-  - Node (This project uses the current LTS node version, which is `v6.11.0`)
-  - Yarn (https://yarnpkg.com/lang/en/docs/install/)
 
-## Developing and Running
-
-Execute these commands in the project's root directory:
-
-  - `npm install` Installs node dependencies
-  - `npm run assets`
-  - `npm start` to run the project
