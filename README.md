@@ -34,7 +34,7 @@ Morpheus is an all-in-one client-side desktop wallet that allows you to send and
 This application is product of Morpheus Software Solutions Limited. A Limited Liability Company registred in the Republic of Trinidad and Tobago. Company registration number C2018012300404.
 
 - Founder, Creator/Lead Designer: Aaron Besson
-- Chief Business OfficerChristian Stone
+- Chief Business Officer: Christian Stone
 - Lead Developer: Krs Joseph
 - Software Engineer: Tawsif Ahmed
 
