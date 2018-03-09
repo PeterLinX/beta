@@ -164,7 +164,7 @@ class ReceiveBitcoin extends Component {
 								<Link to="/advancedBitcoin">
 								<div className="dash-icon-bar not-active">
 									<div className="icon-border">
-										<span className="glyphicon glyphicon-save" />
+										<span className="glyphicon glyphicon-user" />
 									</div>
                 Advanced BTC Options
 								</div>

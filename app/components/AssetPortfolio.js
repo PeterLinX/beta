@@ -84,29 +84,7 @@ class AssetPortolio extends Component {
 				</div>
 
 
-				<div className="col-3" >
-				<div className="port-logo-col">
-				<img
-					src={apexLogo}
-					alt="Apex"
-					width="44"
-					className="port-logos"
-				/>
-				<hr className="dash-hr" />
-				<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/receive"><span className=" glyphicon glyphicon-send "/></Link></h3>
-				</div>
-
-				<div className="port-price-col">
-					<span className="market-price">Apex $0.00</span>
-					<h3>{numeral(this.props.cpx).format("0,0.00000")} <span className="btc-price"> CPX</span></h3>
-					<hr className="dash-hr" />
-					<span className="market-price">$0.00 USD</span>
-				</div>
-				</div>
-
-
 						<div className="col-3">
-
 						<div className="port-logo-col">
 						<img
 							src={btcLogo}

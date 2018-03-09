@@ -74,7 +74,7 @@ class NewEthereum extends Component {
     login = async (dispatch) => {
         let pk = this.state.pk;
         if (pk === '') {
-            alert("Please input your bitcoin private key");
+            alert("Please input your Ethereum private key");
             return;
         }
         // from private key get public address
@@ -134,7 +134,7 @@ class NewEthereum extends Component {
                         <img
                             src={ethLogo}
                             alt=""
-                            width="44"
+                            width="32"
                             className="neo-logo logobounce"
                         />
                         <h2>Create New Ethereum Address</h2>
@@ -142,7 +142,7 @@ class NewEthereum extends Component {
                     <div className="col-xs-12 center">
                         <hr className="dash-hr-wide" />
                     </div>
-                    <div className="col-xs-12">
+                    <div className="col-xs-9 top-20">
                         <input
                             className="trans-form"
                             placeholder="Enter a Ethereum (ETH) private key to acces your funds"
@@ -151,39 +151,13 @@ class NewEthereum extends Component {
                                     this.state.pk = val.target.value;
                                 }
                             } />
+
+                    </div>
+                    <div className="col-xs-3 top-20">
                         <Link>
                             <div className="grey-button" onClick={()=>this.login(dispatch)} >Login</div>
                         </Link>
                     </div>
-                    <div className="col-xs-12">
-                        <h4 className="center">- Or -</h4>
-                        <Link>
-                            <div className="grey-button" onClick={this.getRandomAddress}>Generate new Ethereum (ETH) address</div>
-                        </Link>
-                    </div>
-
-
-                    {
-                        this.state.pk !== '' ? (
-                            <div className="col-xs-12">
-                                <h4>Private key</h4>
-                                <input  className="form-control-exchange" value={this.state.pk} />
-                                {/* {this.state.pk} */}
-                                <br/>
-                            </div>
-                        ): null
-                    }
-
-                    {
-                        this.state.pa !== '' ? (
-                            <div className="col-xs-12">
-                                <h4>Public address</h4>
-                                <input className="form-control-exchange" value={this.state.pa} />
-                                <br/>
-                            </div>
-                        ): null
-                    }
-
 
 
                     <div className="clearboth" />

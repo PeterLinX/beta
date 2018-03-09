@@ -190,15 +190,6 @@ class Settings extends Component {
                 </Link>
               </div>
 
-              <div className="col-xs-2 center">
-                <Link to="/tokens">
-                  <div className="dash-icon-bar">
-                    <div className="icon-border">
-                      <span className="glyphicon glyphicon-plus-sign" />
-                    </div>Asset Manager
-                  </div>
-                </Link>
-              </div>
 
               <div className="col-xs-2 center">
                 <Link to="/support">
@@ -224,19 +215,6 @@ class Settings extends Component {
               </div>
               </Link>
 
-              <div className="col-xs-2 center com-soon">
-                <div className="dash-icon-bar">
-                  <div className="icon-border">
-                    <span className="glyphicon glyphicon-heart" />
-                  </div>
-                  Vote for New Features
-                </div>
-              </div>
-
-            </div>
-
-            <div className="row top-20 settings-padding fadeInDown">
-
               <div
                 className="col-xs-2 center"
                 onClick={() => dispatch(logout())}
@@ -261,6 +239,12 @@ class Settings extends Component {
                   </div>
                 </Link>
               </div>
+
+            </div>
+
+            <div className="row top-20 settings-padding fadeInDown">
+
+
 
               <div className="col-xs-2 center">
                 <div

@@ -141,7 +141,7 @@ class NewLitecoin extends Component {
 							<div className="col-xs-12 center">
 								<hr className="dash-hr-wide" />
 							</div>
-							<div className="col-xs-9">
+							<div className="col-xs-9 top-20">
 							<input
 								className="trans-form"
 								placeholder="Enter a Litecoin (LTC) private key to acces your funds"
@@ -151,49 +151,11 @@ class NewLitecoin extends Component {
 									}
 								} />
                 </div>
-              <div className="col-xs-3">
+              <div className="col-xs-3 top-20">
 							<Link>
 								<div className="grey-button" onClick={()=>this.login(dispatch)} >Login</div>
 							</Link>
               </div>
-
-
-
-							<div className="col-xs-12 top-20">
-							<h4 className="center">- Or -</h4>
-							<Link>
-							<div className="grey-button" onClick={this.getRandomAddress}>Generate new Litecoin (LTC) address</div>
-							</Link>
-							</div>
-							{
-								this.state.pk !== '' ? (
-									<div className="col-xs-12">
-									<h4>Private key</h4>
-									<input  className="form-control-exchange" value={this.state.pk} />
-									{/* {this.state.pk} */}
-									<br/>
-									</div>
-								): null
-							}
-							{
-								this.state.pa !== '' ? (
-									<div className="col-xs-8">
-									<h4>Public address</h4>
-									<input className="form-control-exchange" value={this.state.pa} />
-									<br/>
-									</div>
-								): null
-							}
-              {
-								this.state.pa !== '' ? (
-									<div className="col-xs-4 top-50">
-									<div className="grey-button">Save (LTC) Address</div>
-              {/* {this button save address to NEO accoount. So when user login with same NEO account this LTC account will load} */}
-									</div>
-								): null
-							}
-
-
 
 						<div className="clearboth" />
 
