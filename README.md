@@ -1,6 +1,6 @@
-#THIS REPO IS NOW ON MAINNETWORK
+# THIS REPO IS NOW ON MAIN NETWORK
 
-Neo, GAS, NEP Tokens, BTC, LTC and ETH wallets are activated. At the moment MUST manually save your LTC and ETH private keys until update is pushed.
+Neo, GAS, NEP Tokens, BTC, LTC and ETH wallets are activated. At the moment you MUST manually save your LTC and ETH private keys until update is pushed.
 
 
 # Morpheus Wallet
