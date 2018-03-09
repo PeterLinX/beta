@@ -144,6 +144,11 @@ class Dashboard extends Component {
                 </li>
                 <li>
                   <Link to={"/"} activeClassName="active">
+                    <span className="glyphicon glyphicon-question-sign" /> Help
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"/"} activeClassName="active">
                     <span className="glyphicon glyphicon-chevron-left" /> Return
                     to Login
                   </Link>

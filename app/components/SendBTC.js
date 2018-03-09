@@ -19,7 +19,7 @@ import {
 import { btcLoginRedirect } from '../modules/account';
 import {BLOCK_TOKEN} from "../core/constants";
 import numeral from "numeral";
-import { syncTransactionHistory ,syncBtcTransactionHistory, block_index} from "../components/NetworkSwitch";
+import { block_index} from "../components/NetworkSwitch";
 
 var bitcoin = require("bitcoinjs-lib");
 var WAValidator = require("wallet-address-validator");
@@ -28,7 +28,7 @@ var buffer = require("buffer");
 var bcypher = require("blockcypher");
 var CoinKey = require('coinkey')
 
-let sendAddress, sendAmount, confirmButton ,dest;
+let sendAddress, sendAmount, confirmButton;
 
 const apiURL = val => {
 	return "https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD";
@@ -127,11 +127,8 @@ const sendTransaction = async (
         } else {
             let new_base,send_base;
             let satoshi_amount = parseInt(send_amount * 100000000);
-
-			console.log("wif ="+wif);
             var ck = CoinKey.fromWif(wif);
             var privateKey = ck.privateKey.toString('hex');
-			console.log("hex private key = "+privateKey);
             var keys = new bitcoin.ECPair(bigi.fromHex(privateKey));
             console.log("keys ="+keys);
 			var newtx = {
@@ -242,7 +239,8 @@ class SendBTC extends Component {
 			net,
 			confirmPane,
 			selectedAsset,
-			btc
+			btc,
+            btcBlockHeight
 		} = this.props;
 		let confirmPaneClosed;
 		let open = true;
@@ -395,7 +393,7 @@ class SendBTC extends Component {
 
 							<div className="col-xs-12 com-soon">
 							Fees: 0.0001 BTC/KB<br />
-							Block: {this.props.blockIndex}{" "}
+							Block: {this.props.btcBlockHeight}{" "}
 
 							</div>
 							<div className="col-xs-12 top-30">
@@ -433,7 +431,7 @@ class SendBTC extends Component {
 }
 
 const mapStateToProps = state => ({
-	blockHeight: state.metadata.blockHeight,
+    btcBlockHeight: state.metadata.btcBlockHeight,
 	blockIndex: state.metadata.block_index,
 	wif: state.account.wif,
 	address: state.account.address,

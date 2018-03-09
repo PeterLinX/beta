@@ -25,6 +25,14 @@ const getLink = (net, address) => {
 	return base + address;
 };
 
+const refreshBalance = (dispatch, net, address, btc_address, ltc_address) => {
+  dispatch(sendEvent(true, "Refreshing the Bitcoin blockchain may take up to 5 minutes or more..."));
+  initiateGetBalance(dispatch, net, address, btc_address, ltc_address).then(response => {
+    dispatch(sendEvent(true, "Received latest blockchain information."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+  });
+};
+
 const openExplorer = srcLink => {
 	shell.openExternal(srcLink);
 };
@@ -153,12 +161,14 @@ class ReceiveBitcoin extends Component {
                 View On Blockchain
 								</div>
 
-								<div className="dash-icon-bar">
+								<Link to="/advancedBitcoin">
+								<div className="dash-icon-bar not-active">
 									<div className="icon-border">
 										<span className="glyphicon glyphicon-save" />
 									</div>
-                Download Encrypted Key
+                Advanced BTC Options
 								</div>
+								</Link>
 
 
 							</div>

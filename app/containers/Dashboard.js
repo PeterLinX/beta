@@ -37,16 +37,16 @@ import ReceiveBitcoin from "../components/ReceiveBitcoin";
 import NewLitecoin from "../components/NewLitecoin";
 import ReceiveLitecoin from "../components/ReceiveLitecoin";
 
-const resetGeneratedKey = dispatch => {
-  dispatch(resetKey());
-};
-
 const refreshBalance = (dispatch, net, address) => {
   dispatch(sendEvent(true, "Refreshing..."));
   initiateGetBalance(dispatch, net, address).then(response => {
     dispatch(sendEvent(true, "Received latest blockchain information."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
   });
+};
+
+const resetGeneratedKey = dispatch => {
+  dispatch(resetKey());
 };
 
 class Dashboard extends Component {

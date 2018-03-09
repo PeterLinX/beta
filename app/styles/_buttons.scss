@@ -443,20 +443,42 @@
   background: #e6ad00;
 }
 
+.eth-button {
+  padding: 6px 10px;
+    height: 42px;
+    font-size: 18px;
+    border: thin solid #28343b;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 5px;
+    color: #000;
+    margin: 2px 0px;
+    background: #828c95;
+    text-shadow: none;
+    font-weight: 200;
+    width: 100%;
+}
+
+.eth-button:hover {
+  border: 0px solid #28343b;
+  color: #000;
+  background: #848E96;
+}
+
 .pink-button {
   padding: 6px 16px;
-       height: 42px;
-       font-size: 18px;
-       border: thin solid rgb(242, 62, 144);
-       cursor: pointer;
-       text-align: center;
-       border-radius: 5px;
-       color: #ddd;
-       margin: 2px 0px;
-       background: #c40e5e;
-       text-shadow: none;
-       font-weight: 200;
-       width: 100%;
+    height: 42px;
+    font-size: 18px;
+    border: thin solid rgba(255, 166, 182, 0.6);
+    cursor: pointer;
+    text-align: center;
+    border-radius: 5px;
+    color: #ddd;
+    margin: 2px 0px;
+    background: rgba(255, 166, 182, 0.3);
+    text-shadow: none;
+    font-weight: 200;
+    width: 100%;
 }
 
 .blue-button {

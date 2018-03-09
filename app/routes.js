@@ -15,6 +15,7 @@ import LedgerNanoSend from "./components/LedgerNanoSend";
 import TransactionHistory from "./components/TransactionHistory";
 import TransactionHistoryBTC from "./components/TransactionHistoryBTC";
 import TransactionHistoryLTC from "./components/TransactionHistoryLTC";
+import TransactionHistoryETH  from "./components/TransactionHistoryETH";
 import DisplayWalletKeys from "./components/DisplayWalletKeys";
 import CreateWallet from "./components/CreateWallet";
 import EncryptKey from "./components/EncryptKey";
@@ -25,42 +26,34 @@ import Support from "./components/Support";
 import Ledger from "./components/Ledger";
 import Tokens from "./components/Tokens";
 import Sale from "./components/Sale";
-import Loopring from "./components/NepTokens/Loopring";
-import SendNRVE from "./components/NepTokens/SendNRVE";
-import SendONT from "./components/NepTokens/SendONT";
-import SendZPT from "./components/NepTokens/SendZPT";
-import SendIAM from "./components/NepTokens/SendIAM";
-import SendTKY from "./components/NepTokens/SendTKY";
 import SendRPX from "./components/NepTokens/SendRPX";
-import SendTNC from "./components/NepTokens/SendTNC";
 import SendDBC from "./components/NepTokens/SendDBC";
 import SendQLC from "./components/NepTokens/SendQLC";
 import SendHP from "./components/NepTokens/SendHP";
 import SendBTC from "./components/SendBTC";
 import SendLTC from "./components/SendLTC";
+import SendETH from "./components/SendETH";
 import AssetPortfolio from "./components/AssetPortfolio";
 import NewBitcoin from "./components/NewBitcoin";
 import ReceiveBitcoin from "./components/ReceiveBitcoin";
 import NewLitecoin from "./components/NewLitecoin";
 import ReceiveLitecoin from "./components/ReceiveLitecoin";
+import NewEthereum from "./components/NewEthereum";
+import ReceiveEthereum from "./components/ReceiveEthereum";
 import LedgerDashboard from "./containers/LedgerDashboard";
 import LedgerAssetPortfolio from "./components/LedgerAssetPortfolio";
+import AdvancedBitcoin from "./components/AdvancedBitcoin";
 
 export default (
 	<Route path="/" component={App}>
 		<Route path="/dashboard" component={Dashboard}>
 			<Route path="/send" component={Send} />
-			<Route path="/sendONT" component={SendONT} />
-			<Route path="/sendNRVE" component={SendNRVE} />
 			<Route path="/sendRPX" component={SendRPX} />
-			<Route path="/sendIAM" component={SendIAM} />
-			<Route path="/sendZPT" component={SendZPT} />
-			<Route path="/sendTKY" component={SendTKY} />
-			<Route path="/sendTNC" component={SendTNC} />
 			<Route path="/sendDBC" component={SendDBC} />
 			<Route path="/sendQLC" component={SendQLC} />
 			<Route path="/sendBTC" component={SendBTC} />
 			<Route path="/sendLTC" component={SendLTC} />
+			<Route path="/sendETH" component={SendETH} />
 			<Route path="/sendHP" component={SendHP} />
 			<Route path="/receive" component={Receive} />
 			<Route path="/settings" component={Settings} />
@@ -72,6 +65,7 @@ export default (
 			<Route path="/transactionHistory" component={TransactionHistory} />
 			<Route path="/transactionHistoryBTC" component={TransactionHistoryBTC} />
 			<Route path="/transactionHistoryLTC" component={TransactionHistoryLTC} />
+			<Route path="/transactionHistoryETH" component={TransactionHistoryETH}/>
 			<Route path="/support" component={Support} />
 			<Route path="/tokens" component={Tokens} />
 			<Route path="/sale" component={Sale} />
@@ -80,7 +74,9 @@ export default (
 			<Route path="/receiveBitcoin" component={ReceiveBitcoin} />
 			<Route path="/newLitecoin" component={NewLitecoin} />
 			<Route path="/receiveLitecoin" component={ReceiveLitecoin} />
-			<Route path="/loopring" component={Loopring} />
+			<Route path="/newEthereum" component={NewEthereum}/>
+			<Route path="/receiveEthereum" component={ReceiveEthereum}/>
+			<Route path="/advancedBitcoin" component={AdvancedBitcoin}/>
 		</Route>
 		<Route path="/create" component={CreateWallet} />
 		<Route path="/encryptKey" component={EncryptKey} />

@@ -44,7 +44,6 @@ class AssetPortolio extends Component {
 			nrvePrice: 0,
 			ontPrice: 0,
 			qlcPrice: 0,
-			rhtPrice: 0,
 			rpxPrice: 0,
 			tkyPrice: 0,
 			tncPrice: 0,
@@ -64,7 +63,7 @@ class AssetPortolio extends Component {
 				<div className="row" />
 
 
-				<div className="col-3 com-soon">
+				<div className="col-3 ">
 				<div className="port-logo-col">
 				<img
 					src={acatLogo}
@@ -85,7 +84,7 @@ class AssetPortolio extends Component {
 				</div>
 
 
-				<div className="col-3" com-soon>
+				<div className="col-3" >
 				<div className="port-logo-col">
 				<img
 					src={apexLogo}
@@ -180,7 +179,7 @@ class AssetPortolio extends Component {
 						</Link>
 
 
-						<div className="col-3 com-soon">
+						<div className="col-3 ">
 						<div className="port-logo-col">
 						<img
 							src={effectLogo}
@@ -200,8 +199,8 @@ class AssetPortolio extends Component {
 						</div>
 						</div>
 
-
-							<div className="col-3 com-soon">
+						<Link to="/NewEthereum">
+							<div className="col-3 ">
 
 							<div className="port-logo-col">
 							<img
@@ -211,7 +210,7 @@ class AssetPortolio extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><span className=" glyphicon glyphicon-qrcode marg-right-5"/>   <span className=" glyphicon glyphicon-send "/></h3>
+							<h3><Link to="/receiveEthereum"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendETH"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
 							<div className="port-price-col">
@@ -223,6 +222,7 @@ class AssetPortolio extends Component {
 								<span className="market-price">$0.00 USD</span>
 							</div>
 							</div>
+							</Link>
 
 
 							<Link to="/send">
@@ -328,7 +328,7 @@ class AssetPortolio extends Component {
 
 
 						<Link to="/tokens">
-							<div className="col-3 com-soon">
+							<div className="col-3 ">
 
 							<div className="port-logo-col">
 							<img
@@ -398,7 +398,7 @@ class AssetPortolio extends Component {
 
 
 						<Link to="/tokens">
-						<div className="col-3 com-soon">
+						<div className="col-3 ">
 						<div className="port-logo-col">
 						<img
 							src={nexLogo}
@@ -498,7 +498,7 @@ class AssetPortolio extends Component {
 						</Link>
 
 						<Link to="/tokens">
-						<div className="col-3 com-soon">
+						<div className="col-3 ">
 						<div className="port-logo-col">
 						<img
 							src={thorLogo}

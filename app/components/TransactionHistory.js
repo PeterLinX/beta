@@ -34,6 +34,13 @@ const openExplorer = srcLink => {
   shell.openExternal(srcLink);
 };
 
+const refreshBalance = (dispatch, net, address) => {
+  dispatch(sendEvent(true, "Refreshing..."));
+  initiateGetBalance(dispatch, net, address).then(response => {
+    dispatch(sendEvent(true, "Received latest blockchain information."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+  });
+};
 
 class TransactionHistory extends Component {
   componentDidMount = () => {

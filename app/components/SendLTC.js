@@ -60,7 +60,7 @@ const getUnspentOutputsForLtc = async (net,address) =>{
 // form validators for input fields
 const validateForm = (dispatch, asset ,net) => {
     // check for valid address
-	if (net == "MainNet") {
+	if (net === "MainNet") {
 		var validMain = WAValidator.validate(sendAddress.value,"litecoin");
 		if(validMain) {
 			 return true;
@@ -88,15 +88,6 @@ const openAndValidate = (dispatch, neo_balance, gas_balance, asset) => {
 		dispatch(togglePane("confirmPane"));
 	}
 };
-
-function sleep(milliseconds) {
-	var start = new Date().getTime();
-	for (var i = 0; i < 1e7; i++) {
-		if ((new Date().getTime()-start) > milliseconds) {
-			break;
-		}
-	}
-}
 
 // perform send transaction
 const sendTransaction = (
@@ -134,12 +125,9 @@ const sendTransaction = (
 		} else {
 				let new_base,send_base;
 				let satoshi_amount = parseInt(send_amount * 100000000);
-
-				console.log("wif ="+wif);
 				var ck = CoinKey.fromWif(wif);
 				var privateKey = ck.privateKey.toString('hex');
-				console.log("hex private key = "+privateKey);
-				var keys  = new bitcoin.ECPair(bigi.fromHex(privateKey),{network:litecoin});
+				var keys  = new bitcoin.ECPair(bigi.fromHex(privateKey));
 				console.log("keys ="+keys);
 				var newtx = {
 					inputs: [{addresses: [selfAddress]}],
@@ -243,7 +231,7 @@ class SendLTC extends Component {
 			wif,
 			address,
 			ltc_address,
-      ltc_wif,
+      		ltc_wif,
 			status,
 			neo,
 			gas,

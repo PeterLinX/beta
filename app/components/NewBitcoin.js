@@ -134,7 +134,7 @@ class NewBitcoin extends Component {
 							<div className="col-xs-3">
 
 							<Link>
-							<div className="btc-button top-20 com-soon" onClick={this.getRandomAddress}><span className="glyphicon glyphicon-bitcoin marg-right-5"/> View</div>
+							<div className="btc-button top-20 com-soon" onClick={this.getRandomAddress}><span className="glyphicon glyphicon-eye-close marg-right-5"/> View</div>
 							</Link>
 
 							</div>
@@ -160,13 +160,21 @@ class NewBitcoin extends Component {
 								this.state.pa !== '' ? (
 									<div className="col-xs-3 top-50">
 							<Link>
-								<div className="btc-button" onClick={()=>this.login(dispatch)} ><span className="glyphicon glyphicon-eye-close marg-right-5"/> Login</div>
+								<div className="btc-button" onClick={()=>this.login(dispatch)} ><span className="glyphicon glyphicon-bitcoin marg-right-5"/> Login</div>
 							</Link>
 							</div>
 						): null
 						}
 
 						<div className="clearboth" />
+
+            <div className="col-xs-12 top-10">
+
+            <Link to="/advancedBitcoin">
+              <div className="btc-button" onClick={()=>this.login(dispatch)} ><span className="glyphicon glyphicon-user marg-right-5"/> Advanced BTC Options</div>
+            </Link>
+
+            </div>
 
 			<div className="clearboth" />
 			</div>

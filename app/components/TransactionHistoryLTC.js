@@ -79,10 +79,8 @@ class TransactionHistoryLTC extends Component {
           </ul>
 
           </AccordionItem>
-            </Accordion>
-
-
-            </div>
+         </Accordion>
+        </div>
         </div>
     </div>
   );

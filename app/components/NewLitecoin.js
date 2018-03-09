@@ -8,7 +8,7 @@ import ReactTooltip from "react-tooltip";
 import { Link } from "react-router";
 import axios from 'axios';
 import { setLtcBalance } from '../modules/wallet'
-
+import { setLtcBlockHeight } from "../modules/metadata";
 import { ltcLogIn, ltcLoginRedirect } from '../modules/account';
 
 var bitcoin = require('bitcoinjs-lib');
@@ -84,8 +84,22 @@ class NewLitecoin extends Component {
             let res = await axios.get(getBalanceLink(this.props.net, pa));
             dispatch(setLtcBalance(parseFloat(res.data.balance) / 100000000));
             // alert("address: " + pa + "\nbalance: " + JSON.stringify(balance.data));
+            let base,ltc_blockheight;
+            if(this.props.net == "MainNet") {
+                base = "http://api.blockcypher.com/v1/ltc/main/addrs/"+pa;
+            }	else {
+                base = "http://api.blockcypher.com/v1/ltc/test3/addrs/"+pa;
+            }
 
+            let response = await axios.get(base);
+            let trans = response.data.txrefs;
+            if (trans !== undefined) {
+                ltc_blockheight =  trans[0].block_height
+            } else {
+                ltc_blockheight = 0;
+            }
 
+            dispatch(setLtcBlockHeight(ltc_blockheight))
             // var client = blocktrail.BlocktrailSDK({apiKey: key, apiSecret: secret, network: "BTC", testnet: this.props.net == "TestNet"});
 
             // client.address(pa, function(err, address) { alert(address.balance); });

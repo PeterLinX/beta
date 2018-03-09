@@ -5,8 +5,10 @@ import { ledgerNanoSCreateSignatureAsync } from "../modules/ledger/ledgerNanoS";
 export const LOGIN = "LOGIN";
 export const BTC_LOGIN = "BTCLOGIN";
 export const LTC_LOGIN = "LTCLOGIN";
+export const ETH_LOGIN = "ETHLOGIN";
 export const BTC_LOGIN_REDIRECT = "BTCLOGIN_REDIRECT";
 export const LTC_LOGIN_REDIRECT = "LTCLOGIN_REDIRECT";
+export const ETH_LOGIN_REDIRECT = "ETHLOGIN_REDIRECT";
 export const LOGOUT = "LOGOUT";
 export const SET_ADDRESS = "SET_ADDRESS";
 export const SET_DECRYPTING = "SET_DECRYPTING";
@@ -204,6 +206,21 @@ export function ltcLoginRedirect(path) {
     }
 }
 
+export function ethLogIn(pa, pk){
+    return {
+        type: ETH_LOGIN,
+        pa: pa,
+        pk: pk
+    }
+}
+
+export function ethLoginRedirect(path) {
+    return {
+        type: ETH_LOGIN_REDIRECT,
+        path: path,
+    }
+}
+
 // Reducer that manages account state (account now = private key)
 export default (
 	state = {
@@ -219,6 +236,10 @@ export default (
         ltcLoggedIn: false,
         ltcPrivKey: null,
         ltcPubAddr: null,
+        ethLoggedIn: false,
+        ethPrivKey: null,
+        ethPubAddr: null,
+
 	},
 	action
 ) => {
@@ -287,6 +308,20 @@ export default (
 		return {
 			...state,
 			ltcLoginRedirect: action.path,
+		}
+
+	case ETH_LOGIN:
+		return {
+			...state,
+			ethLoggedIn: true,
+			ethPrivKey: action.pk,
+			ethPubAddr: action.pa
+		};
+
+	case ETH_LOGIN_REDIRECT:
+		return {
+			...state,
+			ethLoginRedirect: action.path,
 		}
 	default:
 		return state;

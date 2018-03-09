@@ -2,11 +2,13 @@
 export const SET_BALANCE = "SET_BALANCE";
 export const SET_BTC_BALANCE = "SET_BTC_BALANCE";
 export const SET_LTC_BALANCE = "SET_LTC_BALANCE";
+export const SET_ETH_BALANCE = "SET_ETH_BALANCE";
 export const SET_MARKET_PRICE = "SET_MARKET_PRICE";
 export const RESET_PRICE = "RESET_PRICE";
 export const SET_TRANSACTION_HISTORY = "SET_TRANSACTION_HISTORY";
 export const SET_BTC_TRANSACTION_HISTORY = "SET_BTC_TRANSACTION_HISTORY";
 export const SET_LTC_TRANSACTION_HISTORY = "SET_LTC_TRANSACTION_HISTORY";
+export const SET_ETH_TRANSACTION_HISTORY = "SET_ETH_TRANSACTION_HISTORY";
 export const SET_COMBINED_BALANCE = "SET_COMBINED_BALANCE";
 
 // Actions
@@ -23,20 +25,20 @@ export function setBalance(
 	price,
 	combined,
 	gasPrice,
-  marketGASPrice,
+  	marketGASPrice,
 	marketNeoPrice,
-  marketBTCPrice,
+    marketBTCPrice,
 	marketDBCPrice,
-  marketELAPrice,
+    marketELAPrice,
 	marketETHPrice,
 	marketLTCPrice,
 	marketLRCPrice,
-  marketQLCPrice,
-  marketRPXPrice,
-  marketTNCPrice,
-  marketTKYPrice,
+    marketQLCPrice,
+    marketRPXPrice,
+    marketTNCPrice,
+    marketTKYPrice,
 	marketXMRPrice,
-  marketZPTPrice
+    marketZPTPrice
 ) {
 	return {
 		type: SET_BALANCE,
@@ -83,6 +85,13 @@ export function setBtcBalance(balance){
 	};
 }
 
+export function setEthBalance(balance){
+    return {
+        type: SET_ETH_BALANCE,
+        balance: balance
+    };
+}
+
 export function setCombinedBalance(combinedBalance) {
 	return {
 		type: SET_COMBINED_BALANCE,
@@ -110,11 +119,18 @@ export function setBtcTransactionHistory(btc_transactions) {
 	};
 }
 
-export function setLtcTransactionHistory(transactions) {
+export function setLtcTransactionHistory(ltc_transactions) {
 	return {
 		type:SET_LTC_TRANSACTION_HISTORY,
-		transactions
+        ltc_transactions
 	};
+}
+
+export function setEthTransactionHistory(eth_transactions) {
+    return {
+        type:SET_ETH_TRANSACTION_HISTORY,
+        eth_transactions
+    };
 }
 
 export function setTransactionHistory(transactions) {
@@ -139,6 +155,7 @@ export default (
 		transactions: [],
 		btc_transactions: [],
 		ltc_transactions: [],
+		eth_transactions: [],
 		price: "--",
 		combined: "--",
 		gasPrice: "--",
@@ -163,20 +180,20 @@ export default (
 			price: action.price,
 			combined: action.combined,
 			gasPrice: action.gasPrice,
-      marketGASPrice: action.marketGASPrice,
+      		marketGASPrice: action.marketGASPrice,
 			marketNEOPrice: action.marketNEOPrice,
-      marketBTCPrice: action.marketBTCPrice,
-		  marketDBCPrice: action.marketDBCPrice,
-		  marketELAPrice: action.marketELAPrice,
-		  marketETHPrice: action.marketETHPrice,
-		  marketLTCPrice: action.marketLTCPrice,
-		  marketLRCPrice: action.marketLRCPrice,
-		  marketQLCPrice: action.marketQLCPrice,
+      		marketBTCPrice: action.marketBTCPrice,
+		    marketDBCPrice: action.marketDBCPrice,
+		    marketELAPrice: action.marketELAPrice,
+		    marketETHPrice: action.marketETHPrice,
+		    marketLTCPrice: action.marketLTCPrice,
+		    marketLRCPrice: action.marketLRCPrice,
+		    marketQLCPrice: action.marketQLCPrice,
 			marketRPXPrice: action.marketRPXPrice,
-      marketTNCPrice: action.marketTNCPrice,
-      marketTKYPrice: action.marketTKYPrice,
+            marketTNCPrice: action.marketTNCPrice,
+            marketTKYPrice: action.marketTKYPrice,
 			marketXMRPrice: action.marketXMRPrice,
-      marketZPTPrice: action.marketZPTPrice
+            marketZPTPrice: action.marketZPTPrice
 		};
 	case RESET_PRICE:
 		return { ...state, price: "--" };
@@ -199,6 +216,11 @@ export default (
 			...state,
 			btc_transactions: action.btc_transactions
 		};
+	case SET_ETH_TRANSACTION_HISTORY:
+		return {
+			...state,
+			eth_transactions: action.eth_transactions
+		};
 	case SET_BTC_BALANCE:
 		return {
 			...state,
@@ -208,6 +230,11 @@ export default (
 		return {
 			...state,
 			Ltc:action.balance
+		};
+	case SET_ETH_BALANCE:
+		return {
+			...state,
+			Eth:action.balance
 		};
 	default:
 		return state;
