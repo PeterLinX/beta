@@ -1,3 +1,8 @@
+#THIS REPO IS NOW ON MAINNETWORK
+
+Neo, GAS, NEP Tokens, BTC, LTC and ETH wallets are activated. At the moment MUST manually save your LTC and ETH private keys until update is pushed.
+
+
 # Morpheus Wallet
 
 Morpheus is an all-in-one client-side desktop wallet that allows you to send and receive NEO/GAS and other popular cryptocurrencies as well as monitor and manages your portfolio.
