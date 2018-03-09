@@ -22,6 +22,7 @@ import { ASSETS, TOKENS, TOKENS_TEST } from "../../core/constants";
 import { flatMap, keyBy, get, omit, pick } from "lodash";
 import gitsmLogo from "../../img/gitsm.png";
 import twitsmLogo from "../../img/twitsm.png";
+import { shell } from "electron";
 
 // helper to open an external web link
 const openExplorer = srcLink => {

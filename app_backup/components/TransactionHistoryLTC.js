@@ -48,7 +48,7 @@ class TransactionHistoryLTC extends Component {
           <span className="glyphicon glyphicon-list-alt float-left marg-right-10" /> <Accordion>
           <AccordionItem expanded={true} title="Litecoin Transaction History"  ClassName="menu-accord-item">
           <hr className="dash-hr-wide" />
-          <ul id="LTCtransactionList">
+          <ul id="BTCtransactionList">
             {this.props.ltc_transactions.map(t => {
               const formatGas = gas =>
                 Math.floor(parseFloat(gas) * 10000) / 10000;
@@ -79,10 +79,8 @@ class TransactionHistoryLTC extends Component {
           </ul>
 
           </AccordionItem>
-            </Accordion>
-
-
-            </div>
+         </Accordion>
+        </div>
         </div>
     </div>
   );

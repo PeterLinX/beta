@@ -19,7 +19,7 @@ let wif_input, passphrase, passphrase2;
 // TODO: move to neon-js
 // what is the correct length to check for?
 const validatePassphrase = passphrase => {
-  return passphrase.length >= 8;
+  return passphrase.length >= 4;
 };
 
 const generateNewWallet = dispatch => {
@@ -27,7 +27,7 @@ const generateNewWallet = dispatch => {
   const current_wif = wif_input.value;
   if (passphrase.value !== passphrase2.value) {
     dispatch(sendEvent(false, "Passphrases do not match"));
-    setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+    setTimeout(() => dispatch(clearTransactionEvent()), 5000);
     return;
   }
   if (validatePassphrase(current_phrase)) {
@@ -42,12 +42,12 @@ const generateNewWallet = dispatch => {
         })
         .catch(() => {
           dispatch(sendEvent(false, "The private key is not valid"));
-          setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+          setTimeout(() => dispatch(clearTransactionEvent()), 5000);
         });
     }, 500);
   } else {
     dispatch(sendEvent(false, "Please choose a longer password"));
-    setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+    setTimeout(() => dispatch(clearTransactionEvent()), 5000);
     passphrase.value = "";
     passphrase2.value = "";
   }

@@ -61,10 +61,10 @@ class ReceiveEthereum extends Component {
                             <span className="glyphicon glyphicon-refresh font24" />
                         </div>
 
-                        <div className="col-xs-3 center">
-                            <div className="send-panel-price">{numeral(this.props.eth).format("0,0.0000000")} <span className="eth-price"> ETH</span></div>
+              <div className="col-xs-3 center">
+              <div className="send-panel-price">{numeral(this.props.eth/10000000000).format("0,0.00000")} <span className="eth-price"> ETH</span></div>
 
-                            <span className="market-price">{numeral(this.props.eth * this.props.marketETHPrice).format("$0,0.00")} USD</span>
+            <span className="market-price">{numeral((this.props.eth/10000000000) * this.props.marketETHPrice).format("$0,0.00")} USD</span>
                         </div>
 
 

@@ -239,7 +239,9 @@ export default (
         ethLoggedIn: false,
         ethPrivKey: null,
         ethPubAddr: null,
-
+		btcAccountKeys: [],
+		ltcAccountKeys: [],
+		ethAccountKeys: []
 	},
 	action
 ) => {

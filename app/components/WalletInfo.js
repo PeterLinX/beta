@@ -19,7 +19,7 @@ class WalletInfo extends Component {
   }
 
   componentDidMount = () => {
-    initiateGetBalance(this.props.dispatch, this.props.net, this.props.address);
+    initiateGetBalance(this.props.dispatch, this.props.net, this.props.address ,this.props.btc ,this.props.ltc ,this.props.eth);
     QRCode.toCanvas(this.canvas, this.props.address, { version: 5 }, err => {
       if (err) console.log(err);
     });
@@ -43,7 +43,13 @@ const mapStateToProps = state => ({
   gas: state.wallet.Gas,
   address: state.account.address,
   net: state.metadata.network,
-  price: state.wallet.price
+  price: state.wallet.price,
+  btcPubAddr: state.account.btcPubAddr,
+  ltcPubAddr: state.account.ltcPubAddr,
+  ethPubAddr: state.account.ethPubAddr,
+  btc: state.wallet.Btc,
+  ltc: state.wallet.Ltc,
+  eth: state.wallet.Eth
 });
 
 WalletInfo = connect(mapStateToProps)(WalletInfo);

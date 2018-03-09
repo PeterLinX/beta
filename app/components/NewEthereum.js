@@ -134,7 +134,7 @@ class NewEthereum extends Component {
                         <img
                             src={ethLogo}
                             alt=""
-                            width="38"
+                            width="44"
                             className="neo-logo logobounce"
                         />
                         <h2>Create New Ethereum Address</h2>
@@ -152,13 +152,13 @@ class NewEthereum extends Component {
                                 }
                             } />
                         <Link>
-                            <div className="eth-button" onClick={()=>this.login(dispatch)} >Login</div>
+                            <div className="grey-button" onClick={()=>this.login(dispatch)} >Login</div>
                         </Link>
                     </div>
                     <div className="col-xs-12">
                         <h4 className="center">- Or -</h4>
                         <Link>
-                            <div className="eth-button" onClick={this.getRandomAddress}>Generate new Ethereum (ETH) address</div>
+                            <div className="grey-button" onClick={this.getRandomAddress}>Generate new Ethereum (ETH) address</div>
                         </Link>
                     </div>
 

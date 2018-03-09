@@ -211,7 +211,7 @@ class SendETH extends Component {
         let inputEnabled = true;
         let convertFunction = this.handleChangeNeo;
         if (selectedAsset === "Gas") {
-            btnClass = "eth-button";
+            btnClass = "btn-send";
             convertFunction = this.handleChangeNeo;
             formClass = "ledger-address";
             priceUSD = this.state.neo_usd;
@@ -219,7 +219,7 @@ class SendETH extends Component {
         } else if (selectedAsset === "Neo") {
             gasEnabled = true;
             inputEnabled = true;
-            btnClass = "eth-button";
+            btnClass = "btn-send";
             formClass = "ledger-address";
             priceUSD = this.state.gas_usd;
             convertFunction = this.handleChangeGas;
@@ -253,10 +253,10 @@ class SendETH extends Component {
                         </div>
 
                         <div className="col-xs-3 center">
-                            <div className="send-panel-price">{numeral(this.props.eth).format("0,0.0000000")} <span className="eth-price"> ETH</span></div>
+                        <div className="send-panel-price">{numeral(this.props.eth/10000000000).format("0,0.00000")} <span className="eth-price"> ETH</span></div>
 
-                            <span className="market-price">{numeral(this.props.eth * this.props.marketETHPrice).format("$0,0.00")} USD</span>
-                        </div>
+                      <span className="market-price">{numeral((this.props.eth/10000000000) * this.props.marketETHPrice).format("$0,0.00")} USD</span>
+                                  </div>
 
                         <div className="col-xs-12 center">
                             <hr className="dash-hr-wide top-20" />
@@ -343,9 +343,7 @@ class SendETH extends Component {
                             <div className="clearboth"/>
 
                             <div className="col-xs-12 com-soon">
-                                Fees: 0.0001 ETH/KB<br />
                                 Block: {this.props.blockIndex}{" "}
-
                             </div>
                             <div className="col-xs-12 top-20">
                                 <TransactionHistoryETH />

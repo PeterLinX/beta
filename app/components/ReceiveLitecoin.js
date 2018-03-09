@@ -7,7 +7,7 @@ import litecoinLogo from "../img/litecoin.png";
 import ReactTooltip from "react-tooltip";
 import { Link } from "react-router";
 import TransactionHistoryLTC from "./TransactionHistoryLTC";
-import { syncTransactionHistory ,syncLtcTransactionHistory, block_index} from "../components/NetworkSwitch";
+import {  block_index} from "../components/NetworkSwitch";
 import { ltcLoginRedirect } from "../modules/account";
 import { setMarketPrice, resetPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";

@@ -176,7 +176,10 @@ const mapStateToProps = state => ({
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,
   price: state.wallet.price,
-  combined: state.wallet.combined
+  combined: state.wallet.combined,
+  btcPubAddr: state.account.btcPubAddr,
+  ltcPubAddr: state.account.ltcPubAddr,
+  ethPubAddr: state.account.ethPubAddr
 });
 
 Dashboard = connect(mapStateToProps)(Dashboard);

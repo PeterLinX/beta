@@ -109,7 +109,7 @@ class NewLitecoin extends Component {
             let self = this;
             setTimeout(()=>{
                 self.props.history.push(redirectUrl);
-            }, 1000);
+            }, 5000);
         }else{
             alert("Failed to login");
         }
@@ -156,14 +156,15 @@ class NewLitecoin extends Component {
 								<div className="grey-button" onClick={()=>this.login(dispatch)} >Login</div>
 							</Link>
               </div>
+
+
+
 							<div className="col-xs-12 top-20">
 							<h4 className="center">- Or -</h4>
 							<Link>
 							<div className="grey-button" onClick={this.getRandomAddress}>Generate new Litecoin (LTC) address</div>
 							</Link>
 							</div>
-
-
 							{
 								this.state.pk !== '' ? (
 									<div className="col-xs-12">
@@ -174,7 +175,6 @@ class NewLitecoin extends Component {
 									</div>
 								): null
 							}
-
 							{
 								this.state.pa !== '' ? (
 									<div className="col-xs-8">
@@ -184,12 +184,11 @@ class NewLitecoin extends Component {
 									</div>
 								): null
 							}
-
               {
 								this.state.pa !== '' ? (
 									<div className="col-xs-4 top-50">
 									<div className="grey-button">Save (LTC) Address</div>
-                  {/* {this button save address to NEO accoount. So when user login with same NEO account this LTC account will load} */}
+              {/* {this button save address to NEO accoount. So when user login with same NEO account this LTC account will load} */}
 									</div>
 								): null
 							}
@@ -224,6 +223,7 @@ const mapStateToProps = state => ({
     ltcPrivKey: state.account.ltcPrivKey,
     ltcPubAddr: state.account.ltcPubAddr,
     ltcLoginRedirect: state.account.ltcLoginRedirect,
+    ltcAccountKeys: state.account.ltcAccountKeys
 });
 
 NewLitecoin = connect(mapStateToProps)(NewLitecoin);

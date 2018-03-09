@@ -215,11 +215,9 @@ class AssetPortolio extends Component {
 
 							<div className="port-price-col">
 								<span className="market-price">Ethereum {numeral(this.props.marketETHPrice).format("$0,0.00")}</span>
-								<h3>{numeral(
-									Math.floor(this.props.eth * 100000) / 100000
-								).format("0,0.0000")} <span className="eth-price"> ETH</span></h3>
+								<h3>{numeral(this.props.eth/10000000000).format("0,0.000000")}  <span className="eth-price"> ETH</span></h3>
 								<hr className="dash-hr" />
-								<span className="market-price">$0.00 USD</span>
+								<span className="market-price">{numeral((this.props.eth/10000000000) * this.props.marketETHPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
 							</Link>
@@ -326,31 +324,6 @@ class AssetPortolio extends Component {
 							</div>
 						</Link>
 
-
-						<Link to="/tokens">
-							<div className="col-3 ">
-
-							<div className="port-logo-col">
-							<img
-								src={moneroLogo}
-								alt=""
-								width="44"
-								className="port-logos"
-							/>
-							<hr className="dash-hr" />
-							<h3><span className=" glyphicon glyphicon-qrcode marg-right-5"/>   <span className=" glyphicon glyphicon-send "/></h3>
-							</div>
-
-							<div className="port-price-col">
-								<span className="market-price">Monero {numeral(this.props.marketXMRPrice).format("$0,0.00")}</span>
-								<h3>{numeral(
-									Math.floor(this.props.zmr * 100000) / 100000
-								).format("0,0.0000")} <span className="xmr-price"> XMR</span></h3>
-								<hr className="dash-hr" />
-								<span className="market-price">$0.00 USD</span>
-							</div>
-							</div>
-						</Link>
 
 						<Link to="/sendNRVE">
 						<div className="col-3">
@@ -614,6 +587,7 @@ const mapStateToProps = state => ({
 	dbc: state.wallet.Dbc,
 	iam: state.wallet.Iam,
 	ltc: state.wallet.Ltc,
+	eth: state.wallet.Eth,
 	nrve: state.wallet.Nrve,
 	ont: state.wallet.Ont,
 	qlc: state.wallet.Qlc,

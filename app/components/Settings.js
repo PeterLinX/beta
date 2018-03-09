@@ -2,16 +2,15 @@ import React, { Component } from "react";
 import { Link } from "react-router";
 import { connect } from "react-redux";
 import { shell, clipboard } from "electron";
+import Copy from "react-icons/lib/md/content-copy";
+import Delete from "react-icons/lib/md/delete";
 import _ from "lodash";
 import fs from "fs";
 import storage from "electron-json-storage";
-import { setKeys } from "../modules/account";
-
-import Copy from "react-icons/lib/md/content-copy";
-import Delete from "react-icons/lib/md/delete";
-
 import ReactTooltip from "react-tooltip";
+
 import { setBlockExplorer } from "../modules/metadata";
+import { setKeys } from "../modules/account";
 import { NetworkSwitch } from "../components/NetworkSwitch";
 import { syncTransactionHistory } from "../components/NetworkSwitch";
 

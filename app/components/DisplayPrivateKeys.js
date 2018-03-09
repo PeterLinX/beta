@@ -139,9 +139,6 @@ class DisplayPrivateKeys extends Component {
                       <p className="key-label">Your Password:</p>
                       <input
                         type="text"
-                        onClick={() =>
-                          clipboard.writeText(this.props.passphrase)
-                        }
                         className="form-control"
                         contentEditable={false}
                         readOnly={true}
