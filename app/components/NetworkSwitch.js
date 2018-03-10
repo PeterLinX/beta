@@ -568,7 +568,7 @@ const resetBalanceSync = (dispatch, net, address ,btc ,ltc, eth) => {
   }
   intervals.balance = setInterval(() => {
     initiateGetBalance(dispatch, net, address ,btc ,ltc ,eth);
-  }, 30000);
+  }, 50000);
 };
 
 const toggleNet = (dispatch, net, address ,btc ,ltc ,eth) => {

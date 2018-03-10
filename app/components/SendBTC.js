@@ -174,106 +174,70 @@ const sendTransaction = async (
 };
 
 class SendBTC extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			open: true,
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: true,
 			gas: 0,
 			neo: 0,
 			neo_usd: 0,
 			gas_usd: 0,
 			value: 0,
 			inputEnabled: true
-		};
-		this.handleChangeNeo = this.handleChangeNeo.bind(this);
-		this.handleChangeGas = this.handleChangeGas.bind(this);
-		this.handleChangeUSD = this.handleChangeUSD.bind(this);
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleChangeUSD = this.handleChangeUSD.bind(this);
 
-		if(!this.props.btcLoggedIn){
-			this.props.dispatch(btcLoginRedirect("/sendBTC"));
-			this.props.history.push("/newBitcoin");
-		}
-	}
+    if(!this.props.btcLoggedIn){
+      this.props.dispatch(btcLoginRedirect("/sendBTC"));
+      this.props.history.push("/newBitcoin");
+    }
+    }
 
-	async componentDidMount() {
-		let neo = await axios.get(apiURL("NEO"));
-		let gas = await axios.get(apiURL("GAS"));
-		neo = neo.data.USD;
-		gas = gas.data.USD;
-		this.setState({ neo: neo, gas: gas });
-	}
+    async componentDidMount() {
+      let neo = await axios.get(apiURL("NEO"));
+      let gas = await axios.get(apiURL("GAS"));
+      neo = neo.data.USD;
+      gas = gas.data.USD;
+      this.setState({ neo: neo, gas: gas });
+    }
 
-	handleChangeNeo(event) {
-		this.setState({ value: event.target.value }, (sendAmount = value));
-		const value = event.target.value * this.state.neo;
-		this.setState({ neo_usd: value });
-	}
+    handleChange(event) {
+      this.setState({ value: event.target.value }, (sendAmount = value));
+      const value = event.target.value * this.state.neo;
+      this.setState({ fiatVal: value });
+    }
 
-	handleChangeGas(event) {
-		this.setState({ value: event.target.value }, (sendAmount = value));
-		const value = event.target.value * this.state.gas;
-		this.setState({ gas_usd: value });
-	}
+    async handleChangeUSD(event) {
+      this.setState({ fiatVal: event.target.value });
+      let gas = await axios.get(apiURL("GAS"));
+      gas = gas.data.USD;
+      this.setState({ gas: gas });
+      const value = this.state.fiatVal / this.state.gas;
+      this.setState({ value: value }, () => {
+        sendAmount = value;
+      });
+    }
 
-	async handleChangeUSD(event) {
-		this.setState({ gas_usd: event.target.value });
+  render() {
+    const {
+    dispatch,
+		wif,
+		address,
+    btc_address,
+    btc_prvkey,
+		status,
+		neo,
+		gas,
+		net,
+		confirmPane,
+		selectedAsset,
+		btc,
+    btcBlockHeight
+    } = this.props;
 
-		let gas = await axios.get(apiURL("GAS"));
-		gas = gas.data.USD;
-		this.setState({ gas: gas });
-		console.log("done");
-		const value = this.state.gas_usd / this.state.gas;
-		this.setState({ value: value }, (sendAmount = value));
-	}
-
-	render() {
-		const {
-			dispatch,
-			wif,
-			address,
-      		btc_address,
-      		btc_prvkey,
-			status,
-			neo,
-			gas,
-			net,
-			confirmPane,
-			selectedAsset,
-			btc,
-            btcBlockHeight
-		} = this.props;
-		let confirmPaneClosed;
-		let open = true;
-		if (confirmPane) {
-			confirmPaneClosed = "100%";
-			open = true;
-		} else {
-			open = false;
-			confirmPaneClosed = "69%";
-		}
-
-		let btnClass;
-		let formClass;
-		let priceUSD = 0;
-		let gasEnabled = false;
-		let inputEnabled = true;
-		let convertFunction = this.handleChangeNeo;
-		if (selectedAsset === "Gas") {
-			btnClass = "btn-send";
-			convertFunction = this.handleChangeNeo;
-			formClass = "form-send-btc";
-			priceUSD = this.state.neo_usd;
-			inputEnabled = true;
-		} else if (selectedAsset === "Neo") {
-			gasEnabled = true;
-			inputEnabled = true;
-			btnClass = "btn-send";
-			formClass = "form-send-btc";
-			priceUSD = this.state.gas_usd;
-			convertFunction = this.handleChangeGas;
-		}
-		return (
-			<div>
+    return (
+      <div>
 				<div id="send">
 
 					<div className="row dash-panel">
@@ -315,7 +279,7 @@ class SendBTC extends Component {
 						<div className="top-20">
 							<div className="col-xs-9">
 								<input
-									className={formClass}
+									className="form-send-btc"
 									id="center"
 									placeholder="Enter a valid BTC public address here"
 									ref={node => {
@@ -335,30 +299,28 @@ class SendBTC extends Component {
 
 							<div className="col-xs-5  top-20">
 								<input
-									className={formClass}
-									type="number"
-									id="assetAmount"
-									min="0.0001"
-									onChange={convertFunction}
-									value={this.state.value}
-									placeholder="Enter amount to send"
-									ref={node => {
-										sendAmount = node;
-									}}
+								className="form-send-btc"
+								type="number"
+								id="assetAmount"
+								min="0.00001"
+								onChange={this.handleChange}
+								value={this.state.value}
+								placeholder="Enter amount to send"
+								ref={node => {
+									sendAmount = node;
+								}}
 								/>
 								<div className="clearboth"/>
 								<span className="com-soon block top-10">Amount in BTC to send</span>
 							</div>
 							<div className="col-xs-4 top-20">
 								<input
-									className={formClass}
-									id="sendAmount"
-									min="1"
-									onChange={this.handleChangeUSD}
-									onClick={this.handleChangeUSD}
-									disabled={gasEnabled === false ? true : false}
-									placeholder="Amount in US"
-									value={`${priceUSD}`}
+								className="form-send-btc"
+								id="sendAmount"
+                min="0.00001"
+								onChange={this.handleChangeUSD}
+								placeholder="Amount in US"
+								value={`${this.state.fiatVal}`}
 								/>
 								<label className="amount-dollar">$</label>
 								<div className="clearboth"/>

@@ -82,10 +82,8 @@ class LoginNep2 extends Component {
                 </div>
               </div>
 
-              <p className="center top-10 col-xs-10 col-xs-offset-1">
-                Your encrypted private key and password are never shared and are
-                only used to load your balance and transaction history from the
-                blockchain.
+              <p className="center top-10 col-xs-10 col-xs-offset-1 grey-out">
+                Your encrypted private key and password are never shared online and are only used to unlock your address on your computer.
               </p>
             </div>
             {this.props.decrypting === true ? (
@@ -102,7 +100,7 @@ class LoginNep2 extends Component {
                 <div className="icon-border">
                   <div className="neo-icon" />
                 </div>
-                Create a NEO Address
+                <strong>Create a NEO Address</strong>
               </div>
             </Link>
             <Link to="/">
@@ -113,7 +111,7 @@ class LoginNep2 extends Component {
                 Open a Saved Wallet
               </div>
             </Link>
-            <Link to="/LoginPrivateKey">
+            <Link to="/encryptKey">
               <div className="dash-icon-bar">
                 <div className="icon-border">
                   <span className="glyphicon glyphicon-qrcode" />

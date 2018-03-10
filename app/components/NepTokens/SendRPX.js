@@ -345,7 +345,7 @@ class SendRPX extends Component {
               <div className="col-xs-3">
                 <div className="btn-red">
 								<span className="glyphicon glyphicon-qrcode marg-right-5" />
-								RPX</div>
+								Receive</div>
               </div>
 							</Link>
 

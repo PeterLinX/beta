@@ -34,16 +34,16 @@ class Receive extends Component {
 				<Assets />
 				<div className="dash-chart-panel">
 					<div className="">
-						<div className="col-xs-6">
+						<div className="col-xs-9">
 							<img
 								src={neoLogo}
 								alt=""
 								width="38"
 								className="neo-logo logobounce"
 							/>
-							<h2>Receive Neo or Gas</h2>
+							<h2>Receive Neo/Gas and NEP Tokens</h2>
 						</div>
-						<div className="col-xs-3" />
+						
 						<div className="col-xs-3 top-20 center com-soon">
         Block: {this.props.blockHeight}
 						</div>

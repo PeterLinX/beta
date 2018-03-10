@@ -344,7 +344,7 @@ class SendIAM extends Component {
 							<Link to="/receive">
               <div className="col-xs-3">
                 <div className="qlc-button com-soon">
-								<span className="glyphicon glyphicon-qrcode marg-right-5" /> IAM</div>
+								<span className="glyphicon glyphicon-qrcode marg-right-5" /> Receive</div>
               </div>
 							</Link>
 

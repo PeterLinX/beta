@@ -278,7 +278,7 @@ class DisplayPrivateKeys extends Component {
                     }
                     className="login-button"
                   >
-                    <h3>Name Saved Address to Login</h3>
+                  Saved Address & Login
                   </button>
 
                   {this.props.decrypting === true ? (
@@ -321,7 +321,7 @@ class DisplayPrivateKeys extends Component {
             <div className="icon-border">
               <span className="glyphicon glyphicon-qrcode" />
             </div>
-            Login Via Private Key
+            Login Using Private Key
           </div>
         </Link>
 
@@ -333,7 +333,7 @@ class DisplayPrivateKeys extends Component {
             <div className="icon-border">
               <span className="glyphicon glyphicon-lock" />
             </div>
-            Login Via Encrypted Key
+            Login Using Encrypted Key
           </div>
         </Link>
 
@@ -356,7 +356,7 @@ class DisplayPrivateKeys extends Component {
           type="light"
           effect="solid"
         >
-          <span>Save address before loggin in</span>
+          <span>Click "Save" before loggin in</span>
         </ReactTooltip>
 
         <ReactTooltip
@@ -366,7 +366,7 @@ class DisplayPrivateKeys extends Component {
           type="light"
           effect="solid"
         >
-          <span>Pring private data before proceeding</span>
+          <span>Print private data before proceeding</span>
         </ReactTooltip>
 
 

@@ -171,7 +171,7 @@ class NewBitcoin extends Component {
             <div className="col-xs-12 top-10">
 
             <Link to="/advancedBitcoin">
-              <div className="btc-button" onClick={()=>this.login(dispatch)} ><span className="glyphicon glyphicon-user marg-right-5"/> Advanced BTC Options</div>
+              <div className="btc-button"><span className="glyphicon glyphicon-user marg-right-5"/> Advanced BTC Options</div>
             </Link>
 
             </div>

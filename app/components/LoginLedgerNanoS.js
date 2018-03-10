@@ -10,6 +10,7 @@ import numeral from "numeral";
 import ReactTooltip from "react-tooltip";
 import CountUp, { startAnimation } from "react-countup";
 import neoLogo from "../img/neo.png";
+import ledgerLogo from "../images/ledger-logo.png";
 import { doSendAsset, verifyAddress, getTransactionHistory } from "neon-js";
 import Neon, { wallet, api } from "@cityofzion/neon-js";
 import {
@@ -401,16 +402,27 @@ class LoginLedgerNanoS extends Component {
 			    <span>Click to Load Ledger Nano S</span>
 			  </ReactTooltip>
 
+
+
 			  {ledgerAvailable ? (
 			    <div className="row ledger-login-panel fadeInDown">
 
-			      <div className="col-xs-4 center">
-			        <h4
+			      <div className="col-xs-8">
+						<img
+							src={ledgerLogo}
+							alt=""
+							width="44"
+							data-tip
+							data-for="copyTip"
+							className="ledger-logo logobounce"
+							onClick={() => clipboard.writeText(this.state.ledgerAddress)}
+						/>
+			        <h2
 			          data-tip
 			          data-for="copyTip"
 			          className="pointer"
 			          onClick={() => clipboard.writeText(this.state.ledgerAddress)}
-			        >NEO Ledger Address</h4>{" "}
+			        >NEO Ledger Address</h2>{" "}
 			      </div>{" "}
 
 			      <ReactTooltip
@@ -448,6 +460,10 @@ class LoginLedgerNanoS extends Component {
 							value={this.state.ledgerAddress}
 							placeholder={this.state.ledgerAddress}
 						/>
+
+						<h4 className="top-20 center">Withdrawing from Ledger Nano S is currently dissabled.</h4>
+
+						<strong className="top-20 center send-notice">An update will be available soon that will allow withdrawing NEO/GAS and NEP tokens from your Ledger Nano S. We apologise for any inconvenience.</strong>
 			      </div>
 
 			    </div>
@@ -465,6 +481,10 @@ class LoginLedgerNanoS extends Component {
 			  </div>
 
 			  </div>
+
+
+
+
 			</div>
 		);
 	}

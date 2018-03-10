@@ -153,7 +153,7 @@ class LoginLocalStorage extends Component {
 
                 <div className="col-xs-10 col-xs-offset-1 center top-40 grey-out">
                   Please enter your password for your saved address.
-                  You may login with your private key or encrypted key and password created with NEON. Your password is never shared online.
+                  You may login with your private key or encrypted key and password created with other NEO walllets. Your keys or password are never shared online.
                 </div>
               </div>
             </div>
@@ -176,7 +176,7 @@ class LoginLocalStorage extends Component {
               Create a NEO Address
             </div>
           </Link>
-          <Link to="/LoginPrivateKey">
+          <Link to="/encryptKey">
             <div className="dash-icon-bar">
               <div className="icon-border">
                 <span className="glyphicon glyphicon-qrcode" />

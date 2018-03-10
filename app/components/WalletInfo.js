@@ -28,7 +28,18 @@ class WalletInfo extends Component {
   render = () => {
     if (this.props.address != null) {
       return (
-        <div>
+        <div
+        onLoad={() =>
+          refreshBalance(
+            this.props.dispatch,
+            this.props.net,
+            this.props.address,
+            this.props.btc,
+            this.props.ltc,
+            this.props.eth
+          )
+        }
+        >
           <Charts />
         </div>
       );

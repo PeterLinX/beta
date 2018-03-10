@@ -84,7 +84,7 @@ const sendTransaction = (
             return false;
         } else {
             let new_base , send_base;
-            let satoshi_amount = parseInt(send_amount * 100000000);
+            let satoshi_amount = parseInt(send_amount * 1000000000000000000);
             var privateKey = prvKey;
             var keys  = new bitcoin.ECPair(bigi.fromHex(privateKey));
             var newtx = {

@@ -203,19 +203,21 @@ class Ledger extends Component {
   }
 
   async getLedgerBalance(address, net) {
-    const filledBalance = await api.getBalanceFrom(
-      { net: net, address: address },
-      api.neonDB
-    );
-    this.setState({
-      ledgerBalanceNeo: filledBalance.balance.NEO.balance,
-      ledgerBalanceGas: filledBalance.balance.GAS.balance
-    });
+    try {
+      const balance = await api.neonDB.getBalance(net, address);
 
-    this.getPrice(
-      filledBalance.balance.NEO.balance,
-      filledBalance.balance.GAS.balance
-    );
+      this.setState({
+        ledgerBalanceNeo: balance.assets.NEO.balance.c[0],
+        ledgerBalanceGas: balance.assets.GAS.balance.c[0]
+      });
+
+      this.getPrice(
+        balance.assets.NEO.balance.c[0],
+        balance.assets.GAS.balance.c[0]
+      );
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   handleChangeNeo(event) {
@@ -298,7 +300,6 @@ class Ledger extends Component {
     return (
       <div id="send">
         <div id="sendPane">
-
           {ledgerAvailable ? (
             <div className="ledger-nanos animated fadeInUp" />
           ) : (
@@ -307,16 +308,7 @@ class Ledger extends Component {
 
           <div className="row dash-panel fadeInDown">
             <div className="col-xs-4">
-              <img
-                src={ledgerLogo}
-                alt=""
-                width="28"
-                data-tip
-                data-for="copyTip"
-                className="ledger-logo logobounce"
-                onClick={() => clipboard.writeText(this.state.ledgerAddress)}
-              />{" "}
-              <h2>Ledger</h2>
+            <h3>Transfer NEO/GAS to Ledger Nano S</h3>  {" "}
             </div>
             <ReactTooltip
               className="solidTip"
@@ -348,27 +340,27 @@ class Ledger extends Component {
 
             <div className="col-xs-4 center">
               <h4 className="gas-text-ledger top-10 ">
-                {Math.floor(this.state.ledgerBalanceGas * 10000000) / 10000000}{" "}
+                {Math.floor(this.state.ledgerBalanceGas) / 100000000000000}{" "}
                 <span>GAS</span>
               </h4>
               <span className="com-soon top-10">
-                {numeral(this.state.ledgerGASUSD).format("$0,0.00")}{" "}
+                {numeral((this.state.ledgerGASUSD)/ 100000000000000).format("$0,0.00")}{" "}
               </span>
             </div>
             <div className="clearboth" />
             <div className="col-xs-12 center">
               <hr className="dash-hr-wide" />
             </div>
+
             <div className="clearboth" />
-            <div className="row top-20" />
-            <div className="clearboth" />
-            <div className="col-xs-4 top-10">
+            <div className="col-xs-4 top-20">
               <div className="ledgerQRBox center animated fadeInDown">
                 <QRCode size={120} value={this.state.ledgerAddress} />
               </div>
             </div>
 
             <div className="col-xs-8">
+            <h4>Your Ledger Address</h4>
               <input
                 className="ledger-address"
                 id="center"

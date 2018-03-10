@@ -345,7 +345,7 @@ class SendTNC extends Component {
               <div className="col-xs-3">
                 <div className="pink-button com-soon">
 								<span className="glyphicon glyphicon-qrcode marg-right-5" />
-								TNC</div>
+								Receive</div>
               </div>
 							</Link>
 

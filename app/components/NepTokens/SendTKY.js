@@ -345,7 +345,7 @@ class SendTKY extends Component {
               <div className="col-xs-3">
                 <div className="dbc-button com-soon">
 								<span className="glyphicon glyphicon-qrcode marg-right-5" />
-								TKY</div>
+								Receive</div>
               </div>
 							</Link>
 

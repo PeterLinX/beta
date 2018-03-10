@@ -110,12 +110,10 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => {
 							</div>
 							<br />
 
-							<p className="center top-20 col-xs-10 col-xs-offset-1">
-                Your private key is never shared and is only used to load your
-                balance and transaction history from the blockchain. Once
-                entered, you can create an encrypted saved wallet in Morpheus.
-                You may still use your private key with other wallets.
+							<p className="center top-20 col-xs-10 col-xs-offset-1 grey-out">
+                Your private key is never shared online and is only used to unlock your address on your computer. Once you have syccessfully logged in, you can create a encrypted and password protected wallet in Morpheus in the settings panel.
 							</p>
+
 						</div>
 					</div>
 				</div>

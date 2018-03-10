@@ -64,15 +64,15 @@ app.on("ready", () => {
     {
       label: "View",
       submenu: [
-        {
-          role: "reload"
-        },
-        {
-          role: "forcereload"
-        },
-        {
-          role: "toggledevtools"
-        },
+        //{
+          //role: "reload"
+        //},
+        //{
+        //  role: "forcereload"
+        //},
+        //{
+        //  role: "toggledevtools"
+        //},
         {
           type: "separator"
         },

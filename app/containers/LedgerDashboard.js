@@ -1,35 +1,117 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SplitPane from "react-split-pane";
 import { Link } from "react-router";
-import QRCode from "qrcode";
 import axios from "axios";
+import Modal from "react-bootstrap-modal";
+import QRCode from "qrcode.react";
+import { clipboard, shell } from "electron";
+import SplitPane from "react-split-pane";
 import numeral from "numeral";
-import { resetKey } from "../modules/generateWallet";
-import FaArrowUpward from "react-icons/lib/fa/arrow-circle-up";
-import { NetworkSwitch } from "../components/NetworkSwitch";
-import WalletInfo from "../components/WalletInfo";
-import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
-import { sendEvent, clearTransactionEvent } from "../modules/transactions";
-import Logout from "../components/Logout";
-import Send from "../components/Send";
-import { togglePane } from "../modules/dashboard";
-import { version } from "../../package.json";
-import { log } from "../util/Logs";
-import Dashlogo from "../components/Brand/Dashlogo";
 import ReactTooltip from "react-tooltip";
 import CountUp, { startAnimation } from "react-countup";
+import neoLogo from "../img/neo.png";
+import { doSendAsset, verifyAddress, getTransactionHistory } from "neon-js";
+import Neon, { wallet, api } from "@cityofzion/neon-js";
+import {
+	initiateGetBalance,
+	intervals,
+	syncTransactionHistory
+} from "../components/NetworkSwitch";
+import {
+	resetPrice,
+	setMarketPrice,
+	setCombinedBalance
+} from "../modules/wallet";
+import { log } from "../util/Logs";
+import ClaimLedgerGas from "./ClaimLedgerGas.js";
+import Dashlogo from "../components/Brand/Dashlogo";
+import { togglePane } from "../modules/dashboard";
+import {
+	sendEvent,
+	clearTransactionEvent,
+	toggleAsset
+} from "../modules/transactions";
+import commNode from "../modules/ledger/ledger-comm-node";
+
+import WalletInfo from "../components/WalletInfo";
+import Logout from "../components/Logout";
+
+
+
+const BIP44_PATH =
+  "8000002C" + "80000378" + "80000000" + "00000000" + "00000000";
+
+let sendAddress, sendAmount, confirmButton;
+
+const apiURL = val => {
+  return `https://min-api.cryptocompare.com/data/price?fsym=${val}&tsyms=USD`;
+};
+
+// form validators for input fields
+const validateForm = (dispatch, neo_balance, gas_balance, asset) => {
+  // check for valid address
+  try {
+    if (verifyAddress(sendAddress) !== true || sendAddress.charAt(0) !== "A") {
+      dispatch(sendEvent(false, "The address you entered was not valid."));
+      setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+      return false;
+    }
+  } catch (e) {
+    dispatch(sendEvent(false, "The address you entered was not valid."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+    return false;
+  }
+  // check for fractional neo
+  if (
+    asset === "Neo" &&
+    parseFloat(sendAmount.value) !== parseInt(sendAmount.value)
+  ) {
+    dispatch(sendEvent(false, "You cannot send fractional amounts of Neo."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+    return false;
+  } else if (asset === "Neo" && parseInt(sendAmount.value) > neo_balance) {
+    // check for value greater than account balance
+    dispatch(sendEvent(false, "You do not have enough NEO to send."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+    return false;
+  } else if (asset === "Gas" && parseFloat(sendAmount.value) > gas_balance) {
+    dispatch(sendEvent(false, "You do not have enough GAS to send."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+    return false;
+  } else if (parseFloat(sendAmount.value) < 0) {
+    // check for negative asset
+    dispatch(sendEvent(false, "You cannot send negative amounts of an asset."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+    return false;
+  }
+  return true;
+};
+
+// open confirm pane and validate fields
+const openAndValidate = (dispatch, neo_balance, gas_balance, asset) => {
+  if (validateForm(dispatch, neo_balance, gas_balance, asset) === true) {
+    dispatch(togglePane("confirmPane"));
+  }
+};
 
 const resetGeneratedKey = dispatch => {
   dispatch(resetKey());
 };
 
-class Dashboard extends Component {
+const refreshBalance = (dispatch, net, address ) => {
+  dispatch(sendEvent(true, "Refreshing..."));
+  initiateGetBalance(dispatch, net, address).then(response => {
+    dispatch(sendEvent(true, "Received latest blockchain information."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+  });
+};
+
+class LedgerDashboard extends Component {
   constructor(props) {
-    super(props);
-    this.state = {
-      combinedPrice: 0
-    };
+		super(props);
+		this.state = {
+			combinedPrice: 0
+		};
   }
 
   async componentDidMount() {
@@ -42,23 +124,7 @@ class Dashboard extends Component {
       this.props.price
     );
     resetGeneratedKey(this.props.dispatch);
-    await this.getCombinedBalance(this.props.neo, this.props.gas);
   }
-
-  getCombinedBalance = async (neo, gas) => {
-    let neoPrice = await axios.get(
-      "https://api.coinmarketcap.com/v1/ticker/neo/"
-    );
-    let gasPrice = await axios.get(
-      "https://api.coinmarketcap.com/v1/ticker/gas/"
-    );
-    neoPrice = neoPrice.data[0].price_usd;
-    gasPrice = gasPrice.data[0].price_usd;
-
-    let value = neoPrice * neo + gasPrice * gas;
-    let combinedPrice = Math.round(value * 100) / 100;
-    this.setState({ combinedPrice: combinedPrice });
-  };
 
   render = () => {
     let sendPaneClosed;
@@ -87,21 +153,20 @@ class Dashboard extends Component {
         <div id="mainNav" className="main-nav">
           <div className="navbar navbar-inverse">
             <div className="navbar-header">
-              <div
-                className="logoContainer"
-                onCLick={() => {
-                  this.getLedgerAddress();
-                }}
-              >
+            <div
+              className="logoContainer fadeInDown"
+              onClick={() =>
+                refreshBalance(
+                  this.props.dispatch,
+                  this.props.net,
+                  this.props.address,
+                )
+              }
+            >
                 <Dashlogo width={85} />
               </div>
               <div
                 id="balance"
-                onClick={(event) => {
-                  startAnimation(
-                  this.totalCountUp
-                )
-              }}
               >
 
                 <CountUp
@@ -144,11 +209,6 @@ class Dashboard extends Component {
                 </li>
                 <li>
                   <Link to={"/"} activeClassName="active">
-                    <span className="glyphicon glyphicon-question-sign" /> Help
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"/"} activeClassName="active">
                     <span className="glyphicon glyphicon-chevron-left" /> Return
                     to Login
                   </Link>
@@ -176,12 +236,9 @@ const mapStateToProps = state => ({
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,
   price: state.wallet.price,
-  combined: state.wallet.combined,
-  btcPubAddr: state.account.btcPubAddr,
-  ltcPubAddr: state.account.ltcPubAddr,
-  ethPubAddr: state.account.ethPubAddr
+  combined: state.wallet.combined
 });
 
-Dashboard = connect(mapStateToProps)(Dashboard);
+LedgerDashboard = connect(mapStateToProps)(LedgerDashboard);
 
-export default Dashboard;
+export default LedgerDashboard;

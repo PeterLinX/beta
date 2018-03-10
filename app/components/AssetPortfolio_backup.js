@@ -178,6 +178,30 @@ class AssetPortolio extends Component {
 						</div>
 						</div>
 
+						<Link to="/NewEthereum">
+							<div className="col-3 ">
+
+							<div className="port-logo-col">
+							<img
+								src={ethLogo}
+								alt=""
+								width="28"
+								className="port-logos"
+							/>
+							<hr className="dash-hr" />
+							<h3><Link to="/receiveEthereum"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendETH"><span className=" glyphicon glyphicon-send "/></Link></h3>
+							</div>
+
+							<div className="port-price-col">
+								<span className="market-price">Ethereum {numeral(this.props.marketETHPrice).format("$0,0.00")}</span>
+								<h3>{numeral(this.props.eth/10000000000).format("0,0.000000")}  <span className="eth-price"> ETH</span></h3>
+								<hr className="dash-hr" />
+								<span className="market-price">{numeral((this.props.eth/10000000000) * this.props.marketETHPrice).format("$0,0.00")} USD</span>
+							</div>
+							</div>
+							</Link>
+
+
 							<Link to="/send">
 						<div className="col-3">
 						<div className="port-logo-col">
@@ -223,6 +247,31 @@ class AssetPortolio extends Component {
 								).format("0,0")} <span className="neo-price"> RHT</span></h3>
 								<hr className="dash-hr" />
 								<span className="market-price">Priceless</span>
+							</div>
+							</div>
+						</Link>
+
+						<Link to="/NewLitecoin">
+							<div className="col-3">
+
+							<div className="port-logo-col">
+							<img
+								src={ltcLogo}
+								alt=""
+								width="44"
+								className="port-logos"
+							/>
+							<hr className="dash-hr" />
+							<h3><Link to={"/receiveLitecoin"} ><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to={"/sendLTC"} ><span className=" glyphicon glyphicon-send "/></Link></h3>
+							</div>
+
+							<div className="port-price-col">
+								<span className="market-price">Litecoin {numeral(this.props.marketLTCPrice).format("$0,0.00")}</span>
+								<h3>{numeral(
+									Math.floor(this.props.ltc * 100000) / 100000
+								).format("0,0.0000")} <span className="ltc-price"> LTC</span></h3>
+								<hr className="dash-hr" />
+								<span className="market-price">{numeral(this.props.ltc * this.props.marketLTCPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
 						</Link>

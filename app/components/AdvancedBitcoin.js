@@ -18,6 +18,7 @@ import { getWIFFromPrivateKey } from "neon-js";
 import { encrypt_wif, decrypt_wif } from "neon-js";
 import { getAccountsFromWIFKey } from "neon-js";
 import { setBtcBlockHeight } from "../modules/metadata";
+import Modal from "react-modal";
 
 var bitcoin = require('bitcoinjs-lib');
 
@@ -76,7 +77,7 @@ class AdvancedBitcoin extends Component {
 	login = async (dispatch) => {
 		let pk = this.state.pk;
 		if(pk == '') {
-			dispatch(alert("Please input your bitcoin private key"));
+			 dispatch(sendEvent(false,"Please enter a valid bitcoin private key"));
       setTimeout(() => dispatch(clearTransactionEvent()), 2000);
       return false;
 		}

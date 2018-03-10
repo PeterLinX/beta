@@ -27,7 +27,7 @@ const generateNewWallet = dispatch => {
   const current_wif = wif_input.value;
   if (passphrase.value !== passphrase2.value) {
     dispatch(sendEvent(false, "Passphrases do not match"));
-    setTimeout(() => dispatch(clearTransactionEvent()), 5000);
+    setTimeout(() => dispatch(clearTransactionEvent()), 2000);
     return;
   }
   if (validatePassphrase(current_phrase)) {
@@ -42,12 +42,12 @@ const generateNewWallet = dispatch => {
         })
         .catch(() => {
           dispatch(sendEvent(false, "The private key is not valid"));
-          setTimeout(() => dispatch(clearTransactionEvent()), 5000);
+          setTimeout(() => dispatch(clearTransactionEvent()), 2000);
         });
     }, 500);
   } else {
     dispatch(sendEvent(false, "Please choose a longer password"));
-    setTimeout(() => dispatch(clearTransactionEvent()), 5000);
+    setTimeout(() => dispatch(clearTransactionEvent()), 2000);
     passphrase.value = "";
     passphrase2.value = "";
   }
@@ -61,18 +61,15 @@ class CreateWallet extends Component {
           <div className="logo-top">
             <div className="row">
               <div className="center logobounce">
-                <Link to={"/dashboard"}>
                   <Logo width={140} />
-                </Link>
               </div>
-              <br />
               <h1 className="center">Encrypt your private key</h1>
             </div>
             <div className="row">
               <div className="col-xs-10 col-xs-offset-1">
                 <input
                   type="text"
-                  className="form-send-neo"
+                  className="trans-form"
                   ref={node => (passphrase = node)}
                   placeholder="Enter a password here"
                 />
@@ -83,7 +80,7 @@ class CreateWallet extends Component {
               <div className="col-xs-10 col-xs-offset-1">
                 <input
                   type="text"
-                  className="form-send-neo"
+                  className="trans-form"
                   ref={node => (passphrase2 = node)}
                   placeholder="Confirm your password"
                 />
@@ -94,7 +91,7 @@ class CreateWallet extends Component {
               <div className="col-xs-10 col-xs-offset-1">
                 <input
                   type="text"
-                  className="form-send-neo"
+                  className="trans-form"
                   ref={node => (wif_input = node)}
                   placeholder="Please enter a NEO Private Key here"
                 />
@@ -104,7 +101,7 @@ class CreateWallet extends Component {
             <div className="row top-20">
               <div className="col-xs-10 col-xs-offset-1 center">
                 <button
-                  className="btn-send"
+                  className="login-button"
                   onClick={() => generateNewWallet(this.props.dispatch)}
                 >
                   {" "}
@@ -113,7 +110,18 @@ class CreateWallet extends Component {
               </div>
             </div>
           </div>
+
+          <div className="center top-10 col-xs-8 col-xs-offset-2 grey-out">
+            Your private key is never shared online and is only used to unlock your address on your computer.
+          </div>
+
+          <div className="clearboth" />
         </div>
+
+
+
+
+<div className="clearboth" />
       </div>
     );
     return (
@@ -134,6 +142,80 @@ class CreateWallet extends Component {
         ) : (
           <div />
         )}
+
+
+<div className="clearboth" />
+
+<div className="dash-bar top-20">
+  <div className="dash-icon-bar" onClick={() => print()}>
+    <div className="icon-border">
+      <span className="glyphicon glyphicon-print" />
+    </div>
+    Print Wallet Data
+  </div>
+
+  <Link to="/LoginPrivateKey">
+    <div className="dash-icon-bar"
+    data-tip
+    data-for="loginTip"
+    >
+      <div className="icon-border">
+        <span className="glyphicon glyphicon-qrcode" />
+      </div>
+      Login Using Private Key
+    </div>
+  </Link>
+
+  <Link to="/LoginNep2">
+    <div className="dash-icon-bar"
+    data-tip
+    data-for="loginTip"
+    >
+      <div className="icon-border">
+        <span className="glyphicon glyphicon-lock" />
+      </div>
+      Login Using Encrypted Key
+    </div>
+  </Link>
+
+  <Link to="/">
+  <div className="dash-icon-bar"
+  data-tip
+  data-for="loginTip"
+  >
+    <div className="icon-border">
+      <span className="glyphicon glyphicon-user" />
+    </div>
+    Open Saved Wallet
+  </div>
+
+
+  <ReactTooltip
+    className="solidTip"
+    id="loginTip"
+    place="top"
+    type="light"
+    effect="solid"
+  >
+    <span>Save address before loggin in</span>
+  </ReactTooltip>
+
+  <ReactTooltip
+    className="solidTip"
+    id="printTip"
+    place="top"
+    type="light"
+    effect="solid"
+  >
+    <span>Print private data before proceeding</span>
+  </ReactTooltip>
+
+
+  </Link>
+</div>
+
+  			<div className="login-copyright">&copy; Copyright 2018 Morpheus</div>
+
       </div>
     );
   };
