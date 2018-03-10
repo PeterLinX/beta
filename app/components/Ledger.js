@@ -203,19 +203,28 @@ class Ledger extends Component {
   }
 
   async getLedgerBalance(address, net) {
-    const filledBalance = await api.getBalanceFrom(
-      { net: net, address: address },
-      api.neonDB
-    );
-    this.setState({
-      ledgerBalanceNeo: filledBalance.balance.NEO.balance,
-      ledgerBalanceGas: filledBalance.balance.GAS.balance
-    });
+    try {
+      const filledBalance = await api.getBalanceFrom(
+        { net: net, address: address },
+        api.neonDB
+      );
 
-    this.getPrice(
-      filledBalance.balance.NEO.balance,
-      filledBalance.balance.GAS.balance
-    );
+      const balance = await api.neonDB.getBalance(net, address);
+
+      console.log(balance.assets.NEO.balance.c[0]);
+
+      this.setState({
+        ledgerBalanceNeo: balance.assets.NEO.balance.c[0],
+        ledgerBalanceGas: balance.assets.GAS.balance.c[0]
+      });
+
+      this.getPrice(
+        balance.assets.NEO.balance.c[0],
+        balance.assets.GAS.balance.c[0]
+      );
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   handleChangeNeo(event) {
@@ -298,7 +307,6 @@ class Ledger extends Component {
     return (
       <div id="send">
         <div id="sendPane">
-
           {ledgerAvailable ? (
             <div className="ledger-nanos animated fadeInUp" />
           ) : (
