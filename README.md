@@ -1,6 +1,6 @@
 # THIS REPO IS NOW ON MAIN NETWORK
 
-Neo, GAS, NEP Tokens, BTC, LTC and ETH wallets are activated.
+Neo, GAS, NEP Tokens, BTC
 
 # Major Update - Please Read Below
 
