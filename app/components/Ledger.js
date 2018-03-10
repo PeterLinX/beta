@@ -204,14 +204,7 @@ class Ledger extends Component {
 
   async getLedgerBalance(address, net) {
     try {
-      const filledBalance = await api.getBalanceFrom(
-        { net: net, address: address },
-        api.neonDB
-      );
-
       const balance = await api.neonDB.getBalance(net, address);
-
-      console.log(balance.assets.NEO.balance.c[0]);
 
       this.setState({
         ledgerBalanceNeo: balance.assets.NEO.balance.c[0],
