@@ -6,7 +6,7 @@ _____
 
 ## Required Tools and Dependencies
 
-  - Node (This project uses the current LTS node version, which is `v6.11.0`)
+  - Node 
   - Yarn (https://yarnpkg.com/lang/en/docs/install/)
 
 ## Developing and Running
