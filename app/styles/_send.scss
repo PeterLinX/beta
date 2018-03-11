@@ -240,6 +240,19 @@ box-shadow: inset 0px 0px 12px #000000;
   outline: none;
 }
 
+.form-send-thor {
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  min-height: 25px;
+  padding: 8px 25px;
+  font-size: 18px;
+  background-color: rgba(0, 0, 0, 0.62);
+  border: 1px solid #0689de;
+  border-radius: 9px;
+  outline: none;
+}
+
 .form-send-qlc {
   display: inline-block;
   width: 100%;
@@ -248,7 +261,7 @@ box-shadow: inset 0px 0px 12px #000000;
   padding: 8px 25px;
   font-size: 18px;
   background-color: rgba(0, 0, 0, 0.62);
-  border: 1px solid #8233be;
+  border: 1px solid #047ecd;
   border-radius: 9px;
   outline: none;
 }
@@ -1653,6 +1666,10 @@ a:focus, a:hover, a:active {
   color: #777;
 }
 
+.margin-20-left {
+  margin-left: -20px;
+}
+
 
 .airdrop {
   background: url("../img/airdrop.png") no-repeat center;
@@ -1661,4 +1678,9 @@ a:focus, a:hover, a:active {
 right: 35px;
 width: 120px;
 height: 120px;
+}
+
+#publicCanvas, #privateCanvas {
+  width: 140px;
+  height: 140px;
 }

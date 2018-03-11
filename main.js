@@ -70,9 +70,9 @@ app.on("ready", () => {
         //{
         //  role: "forcereload"
         //},
-        //{
-        //  role: "toggledevtools"
-        //},
+        {
+          role: "toggledevtools"
+        },
         {
           type: "separator"
         },

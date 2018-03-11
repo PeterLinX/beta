@@ -6,6 +6,8 @@ export const LOGIN = "LOGIN";
 export const BTC_LOGIN = "BTCLOGIN";
 export const LTC_LOGIN = "LTCLOGIN";
 export const ETH_LOGIN = "ETHLOGIN";
+export const LTC_CREATED = "LTCCREATED";
+export const ETH_CREATED = "ETHCREATED";
 export const BTC_LOGIN_REDIRECT = "BTCLOGIN_REDIRECT";
 export const LTC_LOGIN_REDIRECT = "LTCLOGIN_REDIRECT";
 export const ETH_LOGIN_REDIRECT = "ETHLOGIN_REDIRECT";
@@ -13,6 +15,8 @@ export const LOGOUT = "LOGOUT";
 export const SET_ADDRESS = "SET_ADDRESS";
 export const SET_DECRYPTING = "SET_DECRYPTING";
 export const SET_KEYS = "SET_KEYS";
+export const SET_LTC_KEYS = "SET_LTC_KEYS";
+export const SET_ETH_KEYS = "SET_ETH_KEYS";
 export const FINDING_LEDGER_NOTICE =
   "Looking for USB Devices. Please plugin your device and login.";
 export const BIP44_PATH =
@@ -169,6 +173,20 @@ export function setKeys(keys) {
 	};
 }
 
+export function setLtcKeys(ltckeys) {
+    return {
+        type: SET_LTC_KEYS,
+        ltckeys
+    };
+}
+
+export function setEthKeys(ethkeys) {
+	return {
+        type: SET_ETH_KEYS,
+        ethkeys
+	}
+}
+
 export function setAddress(address) {
 	return {
 		type: SET_ADDRESS,
@@ -221,6 +239,17 @@ export function ethLoginRedirect(path) {
     }
 }
 
+export function ltcCreated() {
+	return {
+		type: LTC_CREATED
+	}
+}
+
+export function ethCreated() {
+    return {
+        type: ETH_CREATED
+    }
+}
 // Reducer that manages account state (account now = private key)
 export default (
 	state = {
@@ -233,9 +262,11 @@ export default (
 		btcLoggedIn: false,
 		btcPrivKey: null,
 		btcPubAddr: null,
+        ltcCreated: false,
         ltcLoggedIn: false,
         ltcPrivKey: null,
         ltcPubAddr: null,
+		ethCreated: false,
         ethLoggedIn: false,
         ethPrivKey: null,
         ethPubAddr: null,
@@ -285,6 +316,16 @@ export default (
 		return { ...state, decrypting: action.state };
 	case SET_KEYS:
 		return { ...state, accountKeys: action.keys };
+	case SET_LTC_KEYS:
+		return {
+			...state,
+			ltcAccountKeys: action.ltckeys
+		};
+	case SET_ETH_KEYS:
+		return {
+			...state,
+			ethAccountKeys: action.ethkeys
+		};
 	case BTC_LOGIN:
 		return {
 			...state,
@@ -324,6 +365,16 @@ export default (
 		return {
 			...state,
 			ethLoginRedirect: action.path,
+		}
+	case LTC_CREATED:
+		return {
+			...state,
+			ltcCreated: true
+		}
+	case ETH_CREATED:
+		return {
+			...state,
+			ethCreated: true
 		}
 	default:
 		return state;

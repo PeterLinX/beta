@@ -178,6 +178,8 @@ class AssetPortolio extends Component {
 						</div>
 						</div>
 
+
+
 							<Link to="/send">
 						<div className="col-3">
 						<div className="port-logo-col">
@@ -223,6 +225,31 @@ class AssetPortolio extends Component {
 								).format("0,0")} <span className="neo-price"> RHT</span></h3>
 								<hr className="dash-hr" />
 								<span className="market-price">Priceless</span>
+							</div>
+							</div>
+						</Link>
+
+						<Link to="/NewLitecoin">
+							<div className="col-3">
+
+							<div className="port-logo-col">
+							<img
+								src={ltcLogo}
+								alt=""
+								width="44"
+								className="port-logos"
+							/>
+							<hr className="dash-hr" />
+							<h3><Link to={"/receiveLitecoin"} ><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to={"/sendLTC"} ><span className=" glyphicon glyphicon-send "/></Link></h3>
+							</div>
+
+							<div className="port-price-col">
+								<span className="market-price">Litecoin {numeral(this.props.marketLTCPrice).format("$0,0.00")}</span>
+								<h3>{numeral(
+									Math.floor(this.props.ltc * 100000) / 100000
+								).format("0,0.0000")} <span className="ltc-price"> LTC</span></h3>
+								<hr className="dash-hr" />
+								<span className="market-price">{numeral(this.props.ltc * this.props.marketLTCPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
 						</Link>
@@ -413,7 +440,7 @@ class AssetPortolio extends Component {
 
 						<div className="port-price-col">
 							<span className="market-price">THOR $0.00</span>
-							<h3>{numeral(this.props.cpx).format("0,0.00000")} <span className="thor-price"> THOR</span></h3>
+							<h3>{numeral(this.props.thor).format("0,0.00000")} <span className="thor-price"> THOR</span></h3>
 							<hr className="dash-hr" />
 							<span className="market-price">$0.00 USD</span>
 						</div>

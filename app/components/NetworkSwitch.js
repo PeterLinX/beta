@@ -34,7 +34,7 @@ import { BLOCK_TOKEN } from "../core/constants";
 import transactions from "../modules/transactions";
 
 let intervals = {};
-let dbcScriptHash, iamScriptHash, nrveScriptHash, ontScriptHash, qlcScriptHash, rhtScriptHash, rpxScriptHash, tkyScriptHash, tncScriptHash, zptScriptHash;
+let dbcScriptHash, iamScriptHash, nrveScriptHash, ontScriptHash, qlcScriptHash, rhtScriptHash, rpxScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, zptScriptHash;
 let netSelect;
 
 // https://bittrex.com/api/v1.1/public/getmarkethistory?market=BTC-NEO
@@ -120,6 +120,16 @@ const getRpxBalance = async (net,address) => {
     return getBalace	(net,address,rpx_token);
 }
 
+const getThorBalance = async (net,address) => {
+    let thor_token;
+    if (net === "MainNet") {
+        thor_token = TOKENS.THOR;
+    } else {
+        thor_token = TOKENS_TEST.THOR;
+    }
+    return getBalace	(net,address,thor_token);
+}
+
 const getTkyBalance = async (net,address) => {
     let tky_token;
     if (net === "MainNet") {
@@ -183,7 +193,7 @@ const getGasPrice = async gasVal => {
 const getMarketPrice = async () => {
   try {
     let marketPrices = await axios.get(
-      "https://min-api.cryptocompare.com/data/pricemulti?fsyms=GAS,NEO,BTC,DBC,ELA,ETH,LTC,LRC,ONT,QLC,RPX,TNC,TKY,XMR,ELA,ZPT&tsyms=USD"
+      "https://min-api.cryptocompare.com/data/pricemulti?fsyms=GAS,NEO,BTC,DBC,ELA,ETH,LTC,LRC,ONT,QLC,RPX,THOR,TNC,TKY,XMR,ELA,ZPT&tsyms=USD"
     );
     console.log("market price="+JSON.stringify(marketPrices));
     return marketPrices;
@@ -465,6 +475,9 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
             let rpxBalance = await getRpxBalance(net,address);
             console.log("rpx balance= " + rpxBalance);
 
+            let thorBalance = await getThorBalance(net,address);
+            console.log("thor balance= " + thorBalance);
+
             let tkyBalance = await getTkyBalance(net,address);
             console.log("tky balance= " + tkyBalance);
 
@@ -484,6 +497,7 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
                 ontBalance,
                 qlcBalance,
                 rpxBalance,
+                thorBalance,
                 tkyBalance,
                 tncBalance,
                 zptBalance,

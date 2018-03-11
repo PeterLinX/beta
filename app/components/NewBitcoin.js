@@ -168,7 +168,7 @@ class NewBitcoin extends Component {
 
 						<div className="clearboth" />
 
-            <div className="col-xs-12 top-10">
+            <div className="col-xs-12 top-30">
 
             <Link to="/advancedBitcoin">
               <div className="btc-button"><span className="glyphicon glyphicon-user marg-right-5"/> Advanced BTC Options</div>
