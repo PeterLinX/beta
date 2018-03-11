@@ -1,6 +1,6 @@
 # THIS REPO IS NOW ON MAIN NETWORK
 
-Neo, GAS, NEP Tokens, BTC
+Neo, GAS, NEP Tokens, BTC, LTC
 
 # Major Update - Please Read Below
 
@@ -21,6 +21,11 @@ This is a major update. Please carefully read the full feature list below before
 * View BTC balance in the portfolio
 * Send and Receive Bitcoin (BTC)
 * View BTC transaction history
+* Create and Save Litecoin (LTC) Address to Morpheus
+* Enter Litecoin (LTC)  private key to load existing funds
+* View Litecoin (LTC)  balance in the portfolio
+* Send and Receive Litecoin (LTC) 
+* View Litecoin (LTC) transaction history
 * View NEO/GAS balance on Ledger Nano S in the dashboard (Withdrawals coming soon)
 * Send NEO/GAS to Ledger Nano S from the dashboard from another NEO address used in Morpheus
 * Login and view NEP5 tokens balances on Ledger Nano S
@@ -36,11 +41,6 @@ An update will be available soon that will allow withdrawing NEO/GAS and NEP tok
 * Loopring NEP5 Airdrop
 * Loopring Exchange Protocol
 * New NEP5 Tokens
-* Create and Save Litecoin (LTC) Address to Morpheus
-* Enter Litecoin (LTC)  private key to load existing funds
-* View Litecoin (LTC)  balance in the portfolio
-* Send and Receive Litecoin (LTC) 
-* View Litecoin (LTC) transaction history
 * Create and Save Ethereum (ETH) Address to Morpheus
 * Enter Ethereum (ETH) private key to load existing funds
 * View Ethereum (ETH) balance in the portfolio
