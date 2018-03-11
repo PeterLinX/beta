@@ -36,6 +36,7 @@ import SendONT from "./components/NepTokens/SendONT";
 import SendRPX from "./components/NepTokens/SendRPX";
 import SendDBC from "./components/NepTokens/SendDBC";
 import SendQLC from "./components/NepTokens/SendQLC";
+import SendTHOR from "./components/NepTokens/SendTHOR";
 import SendHP from "./components/NepTokens/SendHP";
 import SendBTC from "./components/SendBTC";
 import SendLTC from "./components/SendLTC";
@@ -50,6 +51,9 @@ import ReceiveEthereum from "./components/ReceiveEthereum";
 import LedgerDashboard from "./containers/LedgerDashboard";
 import LedgerAssetPortfolio from "./components/LedgerAssetPortfolio";
 import AdvancedBitcoin from "./components/AdvancedBitcoin";
+import AdvancedLitecoin from "./components/AdvancedLitecoin";
+import DisplayPrivateKeysLTC from "./components/DisplayPrivateKeysLTC";
+import DisplayPrivateKeysETH from "./components/DisplayPrivateKeysETH";
 
 export default (
 	<Route path="/" component={App}>
@@ -64,6 +68,7 @@ export default (
 			<Route path="/sendIAM" component={SendIAM} />
 			<Route path="/sendNRVE" component={SendNRVE} />
 			<Route path="/sendONT" component={SendONT} />
+			<Route path="/sendTHOR" component={SendTHOR} />
 			<Route path="/sendZPT" component={SendZPT} />
 			<Route path="/sendHP" component={SendHP} />
 			<Route path="/sendBTC" component={SendBTC} />
@@ -91,6 +96,9 @@ export default (
 			<Route path="/newEthereum" component={NewEthereum}/>
 			<Route path="/receiveEthereum" component={ReceiveEthereum}/>
 			<Route path="/advancedBitcoin" component={AdvancedBitcoin}/>
+			<Route path="/advancedLitecoin" component={AdvancedLitecoin}/>
+			<Route path="/DisplayPrivateKeysLTC/:history/:ltc_address/:ltcPrivKey"  component={DisplayPrivateKeysLTC}/>
+		<Route path="/DisplayPrivateKeysETH/:history/:ltc_address/:ltcPrivKey"  component={DisplayPrivateKeysETH}/>
 		</Route>
 		<Route path="/create" component={CreateWallet} />
 		<Route path="/encryptKey" component={EncryptKey} />

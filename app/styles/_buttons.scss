@@ -536,6 +536,28 @@
   background: #337ab7;
 }
 
+.thor-button {
+  padding: 6px 16px;
+    height: 42px;
+    font-size: 18px;
+    border: thin solid #0a8bde;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 5px;
+    color: #222;
+    margin: 2px 0px;
+    background: #047ecd;
+    text-shadow: none;
+    font-weight: 200;
+    width: 100%;
+}
+
+.thor-button:hover {
+  border: 0px solid #0a8bde;
+  color: #fff;
+  background: #047ecd;
+}
+
 .qlc-button {
   padding: 6px 16px;
       height: 42px;

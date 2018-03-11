@@ -170,7 +170,7 @@ class ReceiveLitecoin extends Component {
 				<div className="clearboth" />
 				<div className="col-xs-12">
 					<p className="send-notice">
-                    Your LTC address can be used to receive Bitcoin ONLY. Sending funds other than Litecoin (LTC) to this address may result in your funds being lost.
+             Sending funds other than Litecoin (LTC) to this address may result in your funds being lost.
 					</p>
 
 				</div>

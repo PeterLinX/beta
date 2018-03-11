@@ -64,12 +64,12 @@ app.on("ready", () => {
     {
       label: "View",
       submenu: [
-        {
-          role: "reload"
-        },
-        {
-          role: "forcereload"
-        },
+        //{
+          //role: "reload"
+        //},
+        //{
+        //  role: "forcereload"
+        //},
         {
           role: "toggledevtools"
         },

@@ -7,9 +7,11 @@ import litecoinLogo from "../img/litecoin.png";
 import ReactTooltip from "react-tooltip";
 import { Link } from "react-router";
 import axios from 'axios';
-import { setLtcBalance } from '../modules/wallet'
+import { setLtcBalance } from '../modules/wallet';
+import storage from "electron-json-storage";
 import { setLtcBlockHeight } from "../modules/metadata";
-import { ltcLogIn, ltcLoginRedirect } from '../modules/account';
+import { ltcLogIn, ltcLoginRedirect,ltcCreated ,setLtcKeys } from '../modules/account';
+import DisplayPrivateKeysLTC from "../components/DisplayPrivateKeysLTC";
 
 var bitcoin = require('bitcoinjs-lib');
 var litecoin = bitcoin.networks.litecoin;
@@ -19,6 +21,7 @@ var litecoin = bitcoin.networks.litecoin;
 var key = "5150cb37187737d3b20b02fe02585e181e79b26b";
 var secret = "20a05d922df92cdca8885287cee30c623146403d";
 
+let wif_input;
 const getBalanceLink = (net, addr) => {
     let url;
 
@@ -35,6 +38,11 @@ const openExplorer = srcLink => {
 };
 
 class NewLitecoin extends Component {
+    componentDidMount = () => {
+        storage.get("ltckeys", (error, data) => {
+            this.props.dispatch(setLtcKeys(data));
+        });
+    }
 
     constructor(props){
         super(props);
@@ -49,7 +57,7 @@ class NewLitecoin extends Component {
 
     }
 
-    getRandomAddress = async ()=>{
+    getRandomAddress = async (dispatch)=>{
         // let opt = this.props.net == "TestNet" ? {network:bitcoin.networks.testnet}:{network: bitcoin.networks.litecoin} ;
         // var keyPair = await bitcoin.ECPair.makeRandom(opt);
         // let pubKey = keyPair.getPublicKeyBuffer();
@@ -66,14 +74,22 @@ class NewLitecoin extends Component {
             pa: pa,
             pk: pk,
         });
+
+        dispatch(ltcCreated());
     };
 
     login = async (dispatch) => {
-        let pk = this.state.pk;
-        if(pk == '') {
-            alert("Please input your litecoin private key");
-            return;
+        let pk;
+        if(wif_input.value === undefined || wif_input.value === '' || wif_input.value === null) {
+            pk = this.state.pk;
+            if(pk == '') {
+                alert("Please input your litecoin private key");
+                return;
+            }
+        } else {
+            pk = wif_input.value;
         }
+
 
         let keyPair = await bitcoin.ECPair.fromWIF(pk, this.props.net == "TestNet" ? {network:bitcoin.networks.testnet}:bitcoin.networks.litecoin);
         let pa = keyPair.getAddress();
@@ -109,7 +125,7 @@ class NewLitecoin extends Component {
             let self = this;
             setTimeout(()=>{
                 self.props.history.push(redirectUrl);
-            }, 5000);
+            }, 3000);
         }else{
             alert("Failed to login");
         }
@@ -136,35 +152,51 @@ class NewLitecoin extends Component {
 								width="44"
 								className="neo-logo logobounce"
 							/>
-							<h2>Create New Litecoin Address</h2>
+							<h2>Load Saved or Create New Litecoin Address</h2>
 							</div>
 							<div className="col-xs-12 center">
 								<hr className="dash-hr-wide" />
 							</div>
 							<div className="col-xs-9">
-							<input
-								className="trans-form"
-								placeholder="Enter a Litecoin (LTC) private key to acces your funds"
-							 	onChange={
-									(val)=>{
-										this.state.pk = val.target.value;
-									}
-								} />
-                </div>
-              <div className="col-xs-3">
+
+              <select
+               name="select-profession"
+               id="select-profession"
+               className=""
+               ref={node => (wif_input = node)}
+              >
+                  <option selected disabled={true}>
+                      Select a saved wallet
+                  </option>
+                  {_.map(this.props.ltcAccountKeys, (value, key) => (
+                      <option key={Math.random()} value={value}>
+                          {key}
+                      </option>
+                  ))}
+              </select>
+
+                            </div>
+                          <div className="col-xs-3">
+                                <Link>
+                                    <div className="btn-send" onClick={()=>this.login(dispatch)} >Login</div>
+                                </Link>
+                          </div>
+
+							<div className="col-xs-9 top-20">
+							<h4 className="center">- Or -</h4>
 							<Link>
-								<div className="grey-button" onClick={()=>this.login(dispatch)} >Login</div>
+							<div className="grey-button" onClick={()=>this.getRandomAddress(dispatch)}>Generate new Litecoin (LTC) address</div>
 							</Link>
+							</div>
+
+              <div className="col-xs-3 top-70">
+              <Link to="/advancedLitecoin">
+              <div className="grey-button com-soon">Advanced</div>
+              </Link>
+
               </div>
 
 
-
-							<div className="col-xs-12 top-20">
-							<h4 className="center">- Or -</h4>
-							<Link>
-							<div className="grey-button" onClick={this.getRandomAddress}>Generate new Litecoin (LTC) address</div>
-							</Link>
-							</div>
 							{
 								this.state.pk !== '' ? (
 									<div className="col-xs-12">
@@ -184,11 +216,12 @@ class NewLitecoin extends Component {
 									</div>
 								): null
 							}
-              {
-								this.state.pa !== '' ? (
+                            {
+								this.props.ltcCreated === true && this.state.pa !=='' ? (
 									<div className="col-xs-4 top-50">
-									<div className="grey-button">Save (LTC) Address</div>
-              {/* {this button save address to NEO accoount. So when user login with same NEO account this LTC account will load} */}
+                                        <Link to={"/DisplayPrivateKeysLTC/"+ this.props.history + "/" + this.state.pa + "/" + this.state.pk} >
+                                            <div className="btn-send">Save LTC Address</div>
+                                        </Link>
 									</div>
 								): null
 							}
@@ -223,7 +256,8 @@ const mapStateToProps = state => ({
     ltcPrivKey: state.account.ltcPrivKey,
     ltcPubAddr: state.account.ltcPubAddr,
     ltcLoginRedirect: state.account.ltcLoginRedirect,
-    ltcAccountKeys: state.account.ltcAccountKeys
+    ltcAccountKeys: state.account.ltcAccountKeys,
+    ltcCreated: state.account.ltcCreated
 });
 
 NewLitecoin = connect(mapStateToProps)(NewLitecoin);

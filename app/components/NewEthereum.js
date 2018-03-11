@@ -13,7 +13,7 @@ import {
     clearTransactionEvent,
     toggleAsset
 } from "../modules/transactions";
-import { ethLogIn, ethLoginRedirect } from '../modules/account';
+import { ethLogIn, ethLoginRedirect,setEthKeys,ethCreated } from '../modules/account';
 import { getWIFFromPrivateKey } from "neon-js";
 import { encrypt_wif, decrypt_wif } from "neon-js";
 import { getAccountsFromWIFKey } from "neon-js";
@@ -24,6 +24,8 @@ var bitcoin = require('bitcoinjs-lib');
 var ethereum = require("ethereumjs-util");
 var key = "c6294d6b9e829b485a6dc5842a44e2de5f8e5c57";
 var secret = "073a794fbd48c76ccdde0f9d8fa12c19de554487";
+
+let priv_input;
 
 const getBalanceLink = (net, address) => {
     let url;
@@ -41,6 +43,11 @@ const openExplorer = srcLink => {
 };
 
 class NewEthereum extends Component {
+    componentDidMount = () => {
+        storage.get("ethkeys", (error, data) => {
+            this.props.dispatch(setEthKeys(data));
+        });
+    }
     constructor(props){
         super(props);
         this.state={
@@ -54,7 +61,7 @@ class NewEthereum extends Component {
 
     }
 
-    getRandomAddress = async ()=>{
+    getRandomAddress = async (dispatch)=>{
         let base,pa,pk;
         if (this.props.net === "MainNet") {
             base = "https://api.blockcypher.com/v1/eth/main/addrs?token=" + BLOCK_TOKEN;
@@ -69,14 +76,21 @@ class NewEthereum extends Component {
             pa: pa,
             pk: pk,
         });
+        dispatch(ethCreated());
     };
 
     login = async (dispatch) => {
-        let pk = this.state.pk;
-        if (pk === '') {
-            alert("Please input your bitcoin private key");
-            return;
+        let pk;
+        if (priv_input.value === undefined || priv_input.value === '' || priv_input.value === null) {
+            pk = this.state.pk;
+            if (pk === '') {
+                alert("Please input your bitcoin private key");
+                return;
+            }
+        } else {
+            pk = priv_input.value;
         }
+
         // from private key get public address
         var privkey = new Buffer(pk, 'hex');
         let pa = ethereum.privateToAddress(privkey).toString('hex');
@@ -155,10 +169,31 @@ class NewEthereum extends Component {
                             <div className="grey-button" onClick={()=>this.login(dispatch)} >Login</div>
                         </Link>
                     </div>
+
+
+                    <div className="col-xs-12">
+                        <select
+                            name="select-profession"
+                            id="select-profession"
+                            className=""
+                            ref={node => (priv_input = node)}
+                        >
+                            <option selected disabled={true}>
+                                Select a saved wallet
+                            </option>
+                            {_.map(this.props.ethAccountKeys, (value, key) => (
+                                <option key={Math.random()} value={value}>
+                                    {key}
+                                </option>
+                            ))}
+
+                        </select>
+                    </div>
+
                     <div className="col-xs-12">
                         <h4 className="center">- Or -</h4>
                         <Link>
-                            <div className="grey-button" onClick={this.getRandomAddress}>Generate new Ethereum (ETH) address</div>
+                            <div className="grey-button" onClick={ ()=>this.getRandomAddress(dispatch)}>Generate new Ethereum (ETH) address</div>
                         </Link>
                     </div>
 
@@ -184,7 +219,15 @@ class NewEthereum extends Component {
                         ): null
                     }
 
-
+                    {
+                        this.props.ethCreated === true && this.state.pa !=='' ? (
+                            <div className="col-xs-4 top-50">
+                                <Link to={"/DisplayPrivateKeysETH/"+ this.props.history + "/" + this.state.pa + "/" + this.state.pk} >
+                                    <div className="grey-button">Save ETH Private Key</div>
+                                </Link>
+                            </div>
+                        ): null
+                    }
 
                     <div className="clearboth" />
 
@@ -215,6 +258,8 @@ const mapStateToProps = state => ({
     ethPrivKey: state.account.ethPrivKey,
     ethPubAddr: state.account.ethPubAddr,
     ethLoginRedirect: state.account.ethLoginRedirect,
+    ethAccountKeys: state.account.ethAccountKeys,
+    ethCreated: state.account.ethCreated
 });
 
 NewEthereum = connect (mapStateToProps)(NewEthereum);
