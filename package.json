@@ -126,7 +126,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "css-loader": "^0.23.1",
     "electron": "1.6.16",
-    "electron-builder": "^20.4.1",
+    "electron-builder": "^19.34.1",
     "electron-installer-dmg": "^0.2.1",
     "electron-packager": "^11.1.0",
     "electron-rebuild": "^1.6.0",
