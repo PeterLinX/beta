@@ -151,7 +151,7 @@ class ReceiveLitecoin extends Component {
                 View On Blockchain
 								</div>
 
-								<div className="dash-icon-bar">
+								<div className="dash-icon-bar not-active">
 									<div className="icon-border">
 										<span className="glyphicon glyphicon-save" />
 									</div>
