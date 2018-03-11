@@ -213,7 +213,7 @@ class DisplayPrivateKeysLTC extends Component {
                                  </div>
 
                                  <div className="col-xs-4 top-30">
-                                      <Link to="/NewLitecoin">
+
                                      <button
                                          data-tip
                                          className="grey-button"
@@ -229,7 +229,7 @@ class DisplayPrivateKeysLTC extends Component {
                                      <span className="glyphicon glyphicon-user marg-right-5" />
                                      Save LTC Address
                                      </button>
-                                     </Link>
+                            
                                  </div>
                              </div>
                          </div>
