@@ -1,6 +1,6 @@
 {
   "name": "Morpheus-Beta",
-  "version": "0.0.5",
+  "version": "0.0.51",
   "main": "./main.js",
   "description": "Wallet for NEO, BTC, LTC and ETH.",
   "author": "Morpheus Software Solutions Limited",
