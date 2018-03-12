@@ -4,7 +4,7 @@ import App from "./components/App";
 import LoginNep2 from "./components/LoginNep2";
 import LoginPrivateKey from "./components/LoginPrivateKey";
 import Settings from "./components/Settings";
-import Changelly from "./components/exchanges/Changelly";
+import Changelly from "./components/Exchanges/Changelly.js";
 import ShapeShift from "./components/exchanges/ShapeShift";
 import SelectExchange from "./components/SelectExchange";
 import ExchangeAddress from "./components/ExchangeAddress";
