@@ -548,6 +548,7 @@ const mapStateToProps = state => ({
 	qlc: state.wallet.Qlc,
 	rht: state.wallet.Rht,
 	rpx: state.wallet.Rpx,
+	thor: state.wallet.Thor,
 	tky: state.wallet.Tky,
 	tnc: state.wallet.Tnc,
 	zpt: state.wallet.Zpt,
