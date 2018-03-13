@@ -164,7 +164,11 @@ class Dashboard extends Component {
                     <span className="glyphicon glyphicon-list-alt" /> Transactions
                   </Link>
                 </li>
-
+                <li>
+                  <Link to={"/tokenSale"} activeClassName="active">
+                    <span className="glyphicon glyphicon-heart" /> Token Sale
+                  </Link>
+                </li>
                 <li>
                   <Link to={"/ledger"} activeClassName="active">
                     <span className="glyphicon glyphicon-th-large" /> Ledger

@@ -9,6 +9,15 @@ import { connect } from "react-redux";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import ethLogo from "../img/eth.png";
 
+const getLink = (net, address) => {
+    let base = "https://etherscan.io/address/";
+    return base + address;
+};
+
+const openExplorer = srcLink => {
+    shell.openExternal(srcLink);
+};
+
 let key_name;
 
 const saveKey = async (dispatch, privKey, history) => {
@@ -232,7 +241,7 @@ class DisplayPrivateKeysETH extends Component {
             </div>
 
             <div className="clearboth" />
-            <div className="dash-bar top-10">
+            <div className="dash-bar-rec top-10">
               <div
                 className="dash-icon-bar"
                 onClick={() => clipboard.writeText(this.props.eth_address)}
@@ -251,18 +260,6 @@ class DisplayPrivateKeysETH extends Component {
                   <span className="glyphicon glyphicon-print" />
                 </div>
               Print Public Address
-              </div>
-
-              <div
-                className="dash-icon-bar"
-                onClick={() =>
-                  openExplorer(getLink(this.props.net, this.props.eth_address))
-                }
-              >
-                <div className="icon-border">
-                  <span className="glyphicon glyphicon-link" />
-                </div>
-              View On Blockchain
               </div>
 
               <Link to="/NewEthereum">

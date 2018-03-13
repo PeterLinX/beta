@@ -54,6 +54,7 @@ import AdvancedBitcoin from "./components/AdvancedBitcoin";
 import AdvancedLitecoin from "./components/AdvancedLitecoin";
 import DisplayPrivateKeysLTC from "./components/DisplayPrivateKeysLTC";
 import DisplayPrivateKeysETH from "./components/DisplayPrivateKeysETH";
+import TokenSale from "./components/TokenSale";
 
 export default (
 	<Route path="/" component={App}>
@@ -99,6 +100,7 @@ export default (
 			<Route path="/advancedLitecoin" component={AdvancedLitecoin}/>
 			<Route path="/DisplayPrivateKeysLTC/:history/:ltc_address/:ltcPrivKey"  component={DisplayPrivateKeysLTC}/>
 		<Route path="/DisplayPrivateKeysETH/:history/:eth_address/:ethPrivKey"  component={DisplayPrivateKeysETH}/>
+		<Route path="/tokenSale" component={TokenSale} />
 		</Route>
 		<Route path="/create" component={CreateWallet} />
 		<Route path="/encryptKey" component={EncryptKey} />

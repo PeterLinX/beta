@@ -9,6 +9,16 @@ import { connect } from "react-redux";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import litecoinLogo from "../img/litecoin.png";
 
+const getLink = (net, address) => {
+	let base;
+	if (net === "MainNet") {
+		base = "https://live.blockcypher.com/ltc/address/";
+	} else {
+		base = "https://live.blockcypher.com/ltc-testnet/address/";
+	}
+	return base + address;
+};
+
 let key_name;
 
 const saveKey = async (dispatch, privKey, history) => {
@@ -238,7 +248,7 @@ class DisplayPrivateKeysLTC extends Component {
              </div>
 
              <div className="clearboth" />
-             <div className="dash-bar top-10">
+             <div className="dash-bar-rec top-10">
                <div
                  className="dash-icon-bar"
                  onClick={() => clipboard.writeText(this.props.ltcPubAddr)}
@@ -257,18 +267,6 @@ class DisplayPrivateKeysLTC extends Component {
                    <span className="glyphicon glyphicon-print" />
                  </div>
                Print Public Address
-               </div>
-
-               <div
-                 className="dash-icon-bar"
-                 onClick={() =>
-                   openExplorer(getLink(this.props.net, this.props.ltcPubAddr))
-                 }
-               >
-                 <div className="icon-border">
-                   <span className="glyphicon glyphicon-link" />
-                 </div>
-               View On Blockchain
                </div>
 
                <Link to="/NewLitecoin">
