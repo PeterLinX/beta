@@ -96,23 +96,23 @@ class ReceiveEthereum extends Component {
                             </div>
                             <div className="col-xs-10 top-10">
                                 <input
-                                    className="ledger-address"
+                                    className="ledger-address font-13"
                                     onClick={() => clipboard.writeText(this.props.ethPubAddr)}
-                                    id="center"
-                                    placeholder={this.props.address}
+                                    placeholder={this.props.ethPubAddr}
                                     value={this.props.ethPubAddr}
                                 />
                             </div>
                             <div className="col-xs-2 top-10">
                                 <Link to={ "/sendETH" }>
                                     <button className="eth-button">
-                                        <span className="glyphicon glyphicon-send"/></button>
+                                        <s
+                                        pan className="glyphicon glyphicon-send"/></button>
                                 </Link>
                             </div>
 
 
                             <div className="clearboth" />
-                            <div className="dash-bar top-30">
+                            <div className="dash-bar">
                                 <div
                                     className="dash-icon-bar"
                                     onClick={() => clipboard.writeText(this.props.ethPubAddr)}

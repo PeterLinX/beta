@@ -371,7 +371,7 @@ ul {
 
 #BTCtransactionList {
   list-style-type: none;
-  height: 120px;
+  height: 100px;
   width: 100%;
   -webkit-padding-start: 0px;
   overflow-y: auto;
@@ -831,7 +831,7 @@ webview {
       font-weight: 200;
       letter-spacing: 0.025em;
       padding: 8px 16px;
-      font-size: 16px;
+      font-size: 14px;
       background-color: rgba(0, 0, 0, 0.62);
       border: 3px solid #252525;
       border-radius: 9px;
@@ -1687,4 +1687,8 @@ height: 120px;
 
 .not-active {
   opacity: 0.2;
+}
+
+.font-13 {
+font-size: 13px;
 }

@@ -179,6 +179,30 @@ class AssetPortolio extends Component {
 						</div>
 
 
+						<Link to="/NewEthereum">
+							<div className="col-3 ">
+
+							<div className="port-logo-col">
+							<img
+								src={ethLogo}
+								alt=""
+								width="28"
+								className="port-logos"
+							/>
+							<hr className="dash-hr" />
+							<h3><Link to="/receiveEthereum"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendETH"><span className=" glyphicon glyphicon-send "/></Link></h3>
+							</div>
+
+							<div className="port-price-col">
+								<span className="market-price">Ethereum {numeral(this.props.marketETHPrice).format("$0,0.00")}</span>
+								<h3>{numeral(this.props.eth/10000000000).format("0,0.000000")}  <span className="eth-price"> ETH</span></h3>
+								<hr className="dash-hr" />
+								<span className="market-price">{numeral((this.props.eth/10000000000) * this.props.marketETHPrice).format("$0,0.00")} USD</span>
+							</div>
+							</div>
+							</Link>
+
+
 
 							<Link to="/send">
 						<div className="col-3">

@@ -98,7 +98,7 @@ export default (
 			<Route path="/advancedBitcoin" component={AdvancedBitcoin}/>
 			<Route path="/advancedLitecoin" component={AdvancedLitecoin}/>
 			<Route path="/DisplayPrivateKeysLTC/:history/:ltc_address/:ltcPrivKey"  component={DisplayPrivateKeysLTC}/>
-		<Route path="/DisplayPrivateKeysETH/:history/:ltc_address/:ltcPrivKey"  component={DisplayPrivateKeysETH}/>
+		<Route path="/DisplayPrivateKeysETH/:history/:eth_address/:ethPrivKey"  component={DisplayPrivateKeysETH}/>
 		</Route>
 		<Route path="/create" component={CreateWallet} />
 		<Route path="/encryptKey" component={EncryptKey} />

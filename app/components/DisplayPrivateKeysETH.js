@@ -7,7 +7,7 @@ import ReactTooltip from "react-tooltip";
 import storage from "electron-json-storage";
 import { connect } from "react-redux";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
-import EthLogo from  "../img/eth.png";
+import ethLogo from "../img/eth.png";
 
 let key_name;
 
@@ -87,13 +87,25 @@ class DisplayPrivateKeysETH extends Component {
     }
 
     render = () => (
-        <div>
-            <div className="displayWalletKeys">
-                <div className="row send-neo-wide">
-                    <div className="row">
+      <div>
+          <div id="send">
+              <div className="dash-panel">
+                  <div className="row">
                         <div className="col-xs-12">
-                            <div className="row top-20">
-                                <div className="col-xs-3">
+                        <img
+                            src={ethLogo}
+                            alt=""
+                            width="28"
+                            className="neo-logo logobounce"
+                        />
+                        <h2>New ETH Address Created</h2>
+                        </div>
+                        <div className="col-xs-12 center">
+          								<hr className="dash-hr-wide" />
+          							</div>
+                        <div className="col-xs-12">
+                            <div className="row">
+                                <div className="col-xs-3 top-10">
                                     <p style={{ textAlign: "center" }}>Public QR Address</p>
 
                                     <canvas
@@ -106,15 +118,12 @@ class DisplayPrivateKeysETH extends Component {
                                     />
                                 </div>
 
-                                <div className="col-xs-6 top-20">
+                                <div className="col-xs-6 top-10">
                                     <div className="ketList">
                                         {}
                                         <div className="keyListItem">
-                                             <span className="wallet-logo">
-                                                 <EthLogo width={"24"} />
-                                             </span>{" "}
-                                            <h3>New ETH Address Created</h3>
-                                            <input
+                                        <p className="key-label">Your Public ETH Address</p>
+                                            <textarea
                                                 type="text"
                                                 onClick={ () => clipboard.writeText(this.props.routeParams.eth_address)}
                                                 className="form-control pubicAddress font-plus"
@@ -129,12 +138,13 @@ class DisplayPrivateKeysETH extends Component {
 
                                         <div className="keyListItem">
                                             <p className="key-label">Your ETH Private Key</p>
-                                            <input
+                                            <textarea
                                                 type="text"
                                                 className="form-control"
                                                 contentEditable={false}
                                                 readOnly={true}
-                                                value={this.props.ethPrivKey}
+                                                value={this.props.routeParams.ethPrivKey}
+                                                placeholder={this.props.routeParams.ethPrivKey}
                                                 data-tip
                                                 data-for="copyPrivateKeyTip"
                                                 onClick={() => clipboard.writeText(this.props.routeParams.ethPrivKey)}
@@ -162,7 +172,7 @@ class DisplayPrivateKeysETH extends Component {
                                     </ReactTooltip>
                                 </div>
 
-                                <div className="col-xs-3">
+                                <div className="col-xs-3 margin-20-left top-10">
                                     <div className="addressBox">
                                         <p style={{ textAlign: "center" }}>Private Key</p>
 
@@ -184,9 +194,9 @@ class DisplayPrivateKeysETH extends Component {
                         </div>
                         <div className="private">
                             <div className="keyList">
-                                <div className="col-xs-8 top-20">
+                                <div className="col-xs-8">
                                     <p className="key-label">
-                                        Please input name to save private key:
+                                        Please name your saved ETH private key:
                                     </p>
                                     <input
                                         type="text"
@@ -197,26 +207,73 @@ class DisplayPrivateKeysETH extends Component {
                                     />
                                 </div>
 
-                                <div className="col-xs-4 top-20">
-                                    <button
-                                        data-tip
-                                        data-for="printTip"
-                                        onClick={ ()=>
-                                            saveKey(
-                                                this.props.dispatch,
-                                                this.props.routeParams.ethPrivKey,
-                                                this.props.routeParams.history
-                                            )
-                                        }
-                                    >
-
-                                    </button>
+                                <div className="col-xs-4 top-30">
+                                <button
+                                    data-tip
+                                    className="grey-button"
+                                    data-for="printTip"
+                                    onClick={ ()=>
+                                        saveKey(
+                                            this.props.dispatch,
+                                            this.props.routeParams.ethPrivKey,
+                                            this.props.routeParams.history
+                                        )
+                                    }
+                                >
+                                <span className="glyphicon glyphicon-user marg-right-5" />
+                                Save ETH Address
+                                </button>
                                 </div>
                             </div>
                         </div>
 
                     </div>
                 </div>
+            </div>
+
+            <div className="clearboth" />
+            <div className="dash-bar top-10">
+              <div
+                className="dash-icon-bar"
+                onClick={() => clipboard.writeText(this.props.eth_address)}
+              >
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-duplicate" />
+                </div>
+              Copy Public Address
+              </div>
+
+              <div
+                className="dash-icon-bar"
+                onClick={() => print()}
+              >
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-print" />
+                </div>
+              Print Public Address
+              </div>
+
+              <div
+                className="dash-icon-bar"
+                onClick={() =>
+                  openExplorer(getLink(this.props.net, this.props.eth_address))
+                }
+              >
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-link" />
+                </div>
+              View On Blockchain
+              </div>
+
+              <Link to="/NewEthereum">
+              <div className="dash-icon-bar">
+                <div className="icon-border">
+                  <span className="glyphicon glyphicon-triangle-left" />
+                </div>
+              Return to Ethereum Login
+              </div>
+              </Link>
+
             </div>
         </div>
     );

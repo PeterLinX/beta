@@ -201,7 +201,7 @@ class DisplayPrivateKeysLTC extends Component {
                              <div className="keyList">
                                  <div className="col-xs-8">
                                      <p className="key-label">
-                                         Please name your private key:
+                                         Please name your saved LTC private key:
                                      </p>
                                      <input
                                      type="text"
@@ -229,7 +229,7 @@ class DisplayPrivateKeysLTC extends Component {
                                      <span className="glyphicon glyphicon-user marg-right-5" />
                                      Save LTC Address
                                      </button>
-                            
+
                                  </div>
                              </div>
                          </div>
