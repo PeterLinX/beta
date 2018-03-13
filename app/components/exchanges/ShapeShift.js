@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import Exchange_Unavailable from "../exchange_components/Exchange_Unavailable";
-import Exchange_OrderForm from "../exchange_components/Exchange_OrderForm";
-import Exchange_OrderLoading from "../exchange_components/Exchange_OrderLoading";
-import Exchange_Deposit from "../exchange_components/Exchange_Deposit";
-import Exchange_Processing from "../exchange_components/Exchange_Processing";
-import Exchange_Complete from "../exchange_components/Exchange_Complete";
+import Exchange_Unavailable from "../Exchange_Components/Exchange_Unavailable";
+import Exchange_OrderForm from "../Exchange_Components/Exchange_OrderForm";
+import Exchange_OrderLoading from "../Exchange_Components/Exchange_OrderLoading";
+import Exchange_Deposit from "../Exchange_Components/Exchange_Deposit";
+import Exchange_Processing from "../Exchange_Components/Exchange_Processing";
+import Exchange_Complete from "../Exchange_Components/Exchange_Complete";
 
 import { sendEvent, clearTransactionEvent } from "../../modules/transactions";
 import { fetchNeoStatus, startShiftOrder, fetchDepositStatus, resetOrderState } from "../../modules/shapeshift";
