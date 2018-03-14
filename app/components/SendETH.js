@@ -28,7 +28,7 @@ var bcypher = require("blockcypher");
 var CoinKey = require('coinkey');
 var ethereum_address = require("ethereum-address");
 
-let sendAddress, sendAmount, confirmButton;
+let sendAddress, sendAmount, confirmButton, inputSendAddress;
 
 const apiURL = val => {
     return "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD";
@@ -41,7 +41,9 @@ const apiURLFor = val => {
 
 // form validators for input fields
 const validateForm = (dispatch) => {
-    if (ethereum_address.isAddress(sendAddress.value)) {
+    sendAddress = inputSendAddress.value.substring(2);
+    console.log("sendAddress = " + sendAddress)
+    if (ethereum_address.isAddress(sendAddress)) {
         console.log('Valid ethereum address.');
         return true;
     }
@@ -63,11 +65,12 @@ const sendTransaction = (
     gas_balance,
     eth_balance
 ) => {
+    sendAddress = inputSendAddress.value.substring(2);
     if (validateForm(dispatch) === true) {
         dispatch(sendEvent(true, "Processing..."));
 
         log(net, "SEND", selfAddress, {
-            to: sendAddress.value,
+            to: sendAddress,
             asset: asset,
             amount: sendAmount.value
         });
@@ -89,7 +92,7 @@ const sendTransaction = (
             var keys  = new bitcoin.ECPair(bigi.fromHex(privateKey));
             var newtx = {
                 inputs: [{addresses: [selfAddress]}],
-                outputs: [{addresses: [sendAddress.value], value: satoshi_amount}]
+                outputs: [{addresses: [sendAddress], value: satoshi_amount}]
             };
 
             if (net === "MainNet") {
@@ -122,7 +125,8 @@ const sendTransaction = (
     }
     // close confirm pane and clear fields
     dispatch(togglePane("confirmPane"));
-    sendAddress.value = "";
+    inputSendAddress.value = "";
+    sendAddress = "";
     sendAmount.value = "";
     confirmButton.blur();
 }
@@ -213,14 +217,14 @@ class SendETH extends Component {
         if (selectedAsset === "Gas") {
             btnClass = "btn-send";
             convertFunction = this.handleChangeNeo;
-            formClass = "ledger-address";
+            formClass = "form-control-exchange";
             priceUSD = this.state.neo_usd;
             inputEnabled = true;
         } else if (selectedAsset === "Neo") {
             gasEnabled = true;
             inputEnabled = true;
             btnClass = "btn-send";
-            formClass = "ledger-address";
+            formClass = "form-control-exchange";
             priceUSD = this.state.gas_usd;
             convertFunction = this.handleChangeGas;
         }
@@ -271,7 +275,7 @@ class SendETH extends Component {
                                     id="center"
                                     placeholder="Enter a valid ETH public address here"
                                     ref={node => {
-                                        sendAddress = node;
+                                        inputSendAddress = node;
                                     }}
                                 />
                             </div>

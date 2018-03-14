@@ -159,6 +159,21 @@
   );
 }
 
+.print-btn-red {
+  padding: 5px 22px;
+  height: 48px;
+  font-size: 18px;
+  border: 1px solid #790200;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  opacity: 0.8;
+  background: rgb(74, 0, 17);
+  width: 100%;
+}
+
 .btn-red {
   padding: 5px 22px;
   height: 41px;

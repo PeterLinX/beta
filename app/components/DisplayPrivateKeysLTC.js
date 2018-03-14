@@ -21,17 +21,21 @@ const getLink = (net, address) => {
 
 let key_name;
 
-const saveKey = async (dispatch, privKey, history) => {
+const saveKey = async (dispatch, privKey, history,selfHistory) => {
     console.log("starting to save LTC private key");
-    await storage.get("ltckeys" , async (error, data) => {
-       data[key_name.value] = privKey;
-       dispatch(sendEvent(true, "Saved LTC private key as " + key_name.value));
-       await storage.set("ltckeys", data, function (error) {
-          if (error) console.log(error);
-       });
-       await setTimeout(() => dispatch(clearTransactionEvent()),3000);
-       setTimeout(() => history.push("/"),3000);
-    });
+    if (key_name === undefined || key_name.value === '') {
+        dispatch(sendEvent(false, "Please input name!"));
+	} else {
+        await storage.get("ltckeys" , async (error, data) => {
+            data[key_name.value] = privKey;
+            dispatch(sendEvent(true, "Saved LTC private key as " + key_name.value));
+            await storage.set("ltckeys", data, function (error) {
+                if (error) console.log(error);
+            });
+            await setTimeout(() => dispatch(clearTransactionEvent()),3000);
+            setTimeout(() => selfHistory.push("/newLitecoin"),3000);
+        });
+	}
 };
 
 const openExplorer = srcLink => {
@@ -113,7 +117,7 @@ class DisplayPrivateKeysLTC extends Component {
                       width="44"
                       className="neo-logo logobounce"
                     />
-                     <h2>New LTC Address Created</h2>
+                     <h2>Save Litecoin Private Key</h2>
                      </div>
                      <div className="col-xs-12 center">
        								<hr className="dash-hr-wide" />
@@ -121,40 +125,32 @@ class DisplayPrivateKeysLTC extends Component {
                          <div className="col-xs-12">
 
                              <div className="row top-10">
-                                 <div className="col-xs-3">
-                                     <p style={{ textAlign: "center" }}>Public QR Address</p>
 
-                                     <canvas
-                                         id="publicCanvas"
-                                         style={{
-                                             border: "10px solid #D3D3D3",
-                                             borderRadius: 30
-                                         }}
-                                         ref={node => (this.publicCanvas = node)}
-                                     />
-                                 </div>
+														 <div className="col-xs-3">
+																 <div className="addressBox">
+																		 <p style={{ textAlign: "center" }}>Private Key</p>
 
-                                 <div className="col-xs-6 top-20">
-                                     <div className="ketList">
+																		 <canvas
+																				 id="privateCanvas"
+																				 height={120}
+																				 width={120}
+																				 style={{
+																						 border: "10px solid #D3D3D3",
+																						 borderRadius: 30,
+																						 height: "120px !important",
+																						 width: "120px !important"
+																				 }}
+																				 ref={node => (this.privateCanvas = node)}
+																		 />
+																 </div>
+														 </div>
+
+
+                                 <div className="col-xs-9 top-20">
                                          {}
-                                         <div className="keyListItem">
-                                              <p className="key-label">Your LTC Public Address</p>
-                                             <input
-                                                 type="text"
-                                                 onClick={ () => clipboard.writeText(this.props.routeParams.ltc_address)}
-                                                 className="form-control pubicAddress"
-                                                 contentEditable={false}
-                                                 readOnly={true}
-                                                 value={this.props.routeParams.ltc_address}
-                                                 placeholder={this.props.routeParams.ltc_address}
-                                                 data-tip
-                                                 data-for="copyPublicAddressTip"
-                                             />
-                                         </div>
-
-                                         <div className="keyListItem">
+                                         <div className="col-xs-12">
                                              <p className="key-label">Your LTC Private Key</p>
-                                             <textarea
+                                             <input
                                                  type="text"
                                                  className="form-control"
                                                  contentEditable={false}
@@ -164,8 +160,35 @@ class DisplayPrivateKeysLTC extends Component {
                                                  data-for="copyPrivateKeyTip"
                                                  onClick={() => clipboard.writeText(this.props.routeParams.ltcPrivKey)}
                                              />
-                                         </div>
-                                     </div>
+                                     			</div>
+
+																		 <div className="col-xs-6">
+		                                     <p className="key-label">
+		                                         Name your LTC private key:
+		                                     </p>
+		                                     <input
+		                                     type="text"
+		                                         className="form-control saveKey font-plus"
+		                                         ref={node => (key_name = node)}
+		                                         placeholder="Name your saved address"
+		                                         data-tip
+		                                     />
+		                                 </div>
+
+																		 <div className="col-xs-6">
+
+		 																<button
+		 															 data-tip
+		 															 data-for="savePrivateKeyTip"
+		 																className="print-btn-red top-30"
+		 																onClick={() => print()}
+		 																>
+		 																<span className="glyphicon glyphicon-print marg-right-5" />
+		 																Print Private Data
+		 																</button>
+
+		 																</div>
+
                                      <ReactTooltip
                                          className="solidTip"
                                          id="copyPublicAddressTip"
@@ -187,99 +210,63 @@ class DisplayPrivateKeysLTC extends Component {
                                      </ReactTooltip>
                                  </div>
 
-                                 <div className="col-xs-3 margin-20-left">
-                                     <div className="addressBox">
-                                         <p style={{ textAlign: "center" }}>Private Key</p>
-
-                                         <canvas
-                                             id="privateCanvas"
-                                             height={120}
-                                             width={120}
-                                             style={{
-                                                 border: "10px solid #D3D3D3",
-                                                 borderRadius: 30,
-                                                 height: "120px !important",
-                                                 width: "120px !important"
-                                             }}
-                                             ref={node => (this.privateCanvas = node)}
-                                         />
-                                     </div>
-                                 </div>
                              </div>
+
+														 <div className="private">
+		                             <div className="keyList">
+		                              <div className="col-xs-8 top-20">
+																		 <p>
+																		 					Your Litecoin privte key gives you full control of your Litecoin address. Morpheus can not assist you recover a lost private key or funds. Back up your private key before proceeding. Click save to access your Litecoin Public Address.
+																		 </p>
+																		 </div>
+
+
+																		 <div className="col-xs-4 top-20">
+
+																				 <button
+																				data-tip
+																				data-for="savePrivateKeyTip"
+																				 className="grey-button"
+																				 onClick={ ()=>
+																								 saveKey(
+																										 this.props.dispatch,
+																										 this.props.routeParams.ltcPrivKey,
+																										 this.props.routeParams.history,
+																									 	 this.props.history
+																								 )
+																						 }
+																				 >
+																				 <span className="glyphicon glyphicon-save marg-right-5" />
+																				 Save and Login
+																				 </button>
+
+																				<ReactTooltip
+																						 className="solidTip"
+																						 id="savePrivateKeyTip"
+																						 place="top"
+																						 type="light"
+																						 effect="solid"
+																				 >
+																						 <span>Print LTC Private Key!</span>
+																				 </ReactTooltip>
+
+
+																		 </div>
+
+
+
+
+		                             </div>
+		                         </div>
+
+
                          </div>
-                         <div className="private">
-                             <div className="keyList">
-                                 <div className="col-xs-8">
-                                     <p className="key-label">
-                                         Please name your saved LTC private key:
-                                     </p>
-                                     <input
-                                     type="text"
-                                         className="form-control saveKey font-plus"
-                                         ref={node => (key_name = node)}
-                                         placeholder="Name your saved address"
-                                         data-tip
-                                     />
-                                 </div>
 
-                                 <div className="col-xs-4 top-30">
-
-                                     <button
-                                         data-tip
-                                         className="grey-button"
-                                         data-for="printTip"
-                                         onClick={ ()=>
-                                             saveKey(
-                                                 this.props.dispatch,
-                                                 this.props.routeParams.ltcPrivKey,
-                                                 this.props.routeParams.history
-                                             )
-                                         }
-                                     >
-                                     <span className="glyphicon glyphicon-user marg-right-5" />
-                                     Save LTC Address
-                                     </button>
-
-                                 </div>
-                             </div>
-                         </div>
                      </div>
                  </div>
              </div>
 
              <div className="clearboth" />
-             <div className="dash-bar-rec top-10">
-               <div
-                 className="dash-icon-bar"
-                 onClick={() => clipboard.writeText(this.props.ltcPubAddr)}
-               >
-                 <div className="icon-border">
-                   <span className="glyphicon glyphicon-duplicate" />
-                 </div>
-               Copy Public Address
-               </div>
-
-               <div
-                 className="dash-icon-bar"
-                 onClick={() => print()}
-               >
-                 <div className="icon-border">
-                   <span className="glyphicon glyphicon-print" />
-                 </div>
-               Print Public Address
-               </div>
-
-               <Link to="/NewLitecoin">
-               <div className="dash-icon-bar">
-                 <div className="icon-border">
-                   <span className="glyphicon glyphicon-triangle-left" />
-                 </div>
-               Return to Litecoin Login
-               </div>
-               </Link>
-
-             </div>
-
          </div>
     );
 }

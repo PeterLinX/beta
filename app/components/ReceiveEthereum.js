@@ -8,10 +8,13 @@ import ReactTooltip from "react-tooltip";
 import { Link } from "react-router";
 import axios from "axios";
 import numeral from "numeral";
+import fs from "fs";
 import TransactionHistoryETH from "./TransactionHistoryETH";
 import { ethLoginRedirect } from "../modules/account";
 import {  syncEthTransactionHistory, block_index} from "../components/NetworkSwitch";
 import { BLOCK_TOKEN } from "../core/constants";
+
+const { dialog } = require("electron").remote;
 
 const getLink = (net, address) => {
     let base = "https://etherscan.io/address/";
@@ -21,6 +24,35 @@ const getLink = (net, address) => {
 const openExplorer = srcLink => {
     shell.openExternal(srcLink);
 };
+
+const saveEthKeyRecovery = ethkeys => {
+    const content = JSON.stringify(ethkeys);
+
+    dialog.showSaveDialog(
+        {
+            filters: [
+                {
+                    name: "JSON",
+                    extensions: ["json"]
+                }
+            ]
+        },
+        fileName => {
+            if (fileName === undefined) {
+                console.log("File failed to save...");
+                return;
+            }
+            // fileName is a string that contains the path and filename created in the save file dialog.
+            fs.writeFile(fileName, content, err => {
+                if (err) {
+                    alert("An error ocurred creating the file " + err.message);
+                }
+                alert("The file has been succesfully saved");
+            });
+        }
+    );
+};
+
 
 class ReceiveEthereum extends Component {
     constructor(props){
@@ -98,8 +130,8 @@ class ReceiveEthereum extends Component {
                                 <input
                                     className="ledger-address font-13"
                                     onClick={() => clipboard.writeText(this.props.ethPubAddr)}
-                                    placeholder={this.props.ethPubAddr}
-                                    value={this.props.ethPubAddr}
+                                    placeholder={'0x' + this.props.ethPubAddr}
+                                    value={'0x' + this.props.ethPubAddr}
                                 />
                             </div>
                             <div className="col-xs-2 top-10">
@@ -145,7 +177,9 @@ class ReceiveEthereum extends Component {
                                     View On Blockchain
                                 </div>
 
-                                <div className="dash-icon-bar">
+                                <div className="dash-icon-bar"
+                                  onClick={() => saveEthKeyRecovery(this.props.wallets)}
+                                >
                                     <div className="icon-border">
                                         <span className="glyphicon glyphicon-save" />
                                     </div>
@@ -192,7 +226,8 @@ const mapStateToProps = state => ({
     ethLoggedIn: state.account.ethLoggedIn,
     ethPrivKey: state.account.ethPrivKey,
     ethPubAddr: state.account.ethPubAddr,
-    ethLoginRedirect: state.account.ethLoginRedirect
+    ethLoginRedirect: state.account.ethLoginRedirect,
+    wallets: state.account.ethAccountKeys
 });
 
 ReceiveEthereum = connect (mapStateToProps) (ReceiveEthereum);

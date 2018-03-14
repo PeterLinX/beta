@@ -6,6 +6,7 @@ import { shell } from "electron";
 import litecoinLogo from "../img/litecoin.png";
 import ReactTooltip from "react-tooltip";
 import { Link } from "react-router";
+import fs from "fs";
 import TransactionHistoryLTC from "./TransactionHistoryLTC";
 import {  block_index} from "../components/NetworkSwitch";
 import { ltcLoginRedirect } from "../modules/account";
@@ -14,6 +15,7 @@ import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import numeral from "numeral";
 
+const { dialog } = require("electron").remote;
 const getLink = (net, address) => {
 	let base;
 	if (net === "MainNet") {
@@ -26,6 +28,42 @@ const getLink = (net, address) => {
 
 const openExplorer = srcLink => {
 	shell.openExternal(srcLink);
+};
+
+const refreshBalance = (dispatch, net, address, ltc_address) => {
+  dispatch(sendEvent(true, "Refreshing the Bitcoin blockchain may take up to 5 minutes or more..."));
+  initiateGetBalance(dispatch, net, address, btc_address, ltc_address).then(response => {
+    dispatch(sendEvent(true, "Received latest blockchain information."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+  });
+};
+
+const saveLtcKeyRecovery = ltckeys => {
+    const content = JSON.stringify(ltckeys);
+
+    dialog.showSaveDialog(
+        {
+            filters: [
+                {
+                    name: "JSON",
+                    extensions: ["json"]
+                }
+            ]
+        },
+        fileName => {
+            if (fileName === undefined) {
+                console.log("File failed to save...");
+                return;
+            }
+            // fileName is a string that contains the path and filename created in the save file dialog.
+            fs.writeFile(fileName, content, err => {
+                if (err) {
+                    alert("An error ocurred creating the file " + err.message);
+                }
+                alert("The file has been succesfully saved");
+            });
+        }
+    );
 };
 
 class ReceiveLitecoin extends Component {
@@ -151,7 +189,8 @@ class ReceiveLitecoin extends Component {
                 View On Blockchain
 								</div>
 
-								<div className="dash-icon-bar not-active">
+								<div className="dash-icon-bar"
+								onClick={() => saveLtcKeyRecovery(this.props.wallets)}>
 									<div className="icon-border">
 										<span className="glyphicon glyphicon-save" />
 									</div>
@@ -192,6 +231,7 @@ const mapStateToProps = state => ({
 	ltcLoggedIn: state.account.ltcLoggedIn,
 	ltcPrivKey: state.account.ltcPrivKey,
 	ltcPubAddr: state.account.ltcPubAddr,
+	wallets: state.account.ltcAccountKeys
 });
 
 ReceiveLitecoin = connect(mapStateToProps)(ReceiveLitecoin);
