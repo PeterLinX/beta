@@ -119,10 +119,10 @@ const participateInSaleEvent = (dispatch, wif, neo, gas, net, address) => {
 		address
 	).then(success => {
 		if (success) {
-			dispatch(sendEvent(true,"ICO purchase successfully!"));
+			dispatch(sendEvent(true,"Congratualtions. Token purchase was successful!"));
 			return true;
 		} else {
-            dispatch(sendEvent(false,"ICO purchase failed."));
+            dispatch(sendEvent(false,"Sorry. Your transaction failed. Please try again shortly."));
             return false;
 		}
 	})
@@ -396,9 +396,6 @@ class TokenSale extends Component {
 								<option value="NEO">
 								NEO
 								</option>
-								<option value="GAS">
-								GAS
-								</option>
 				</select>
 				</div>
 
@@ -428,23 +425,17 @@ class TokenSale extends Component {
 				</div>
 
 				<div className="row">
-				<div className="col-xs-11">
-					<h2 className="center  top-20">User Warning & Disclaimer</h2>
+				<div className="col-xs-12">
+					<h3 className="center  top-30">User Warning & Disclaimer</h3>
 				</div>
 
-				<div className="col-xs-1  top-10 center">
-				<p><span className="glyphicon glyphicon-plus " /></p>
-				</div>
 
-				<div className="row ">
-					<hr className="dash-hr-wide top-10" />
-				</div>
 
         <div className="clearboth" />
 				<div className="col-xs-12">
-					<p>
-          Please ensure you follow the rules of the token sale you are participating in. Sending more than the maximum amount may result in the excess tokens being lost. Do not send tokens to a sale that has ended. Morpheus (SSL) is not liable for the loss of any tokens. Please research every token sale carefully before participating.
-					</p>
+					<h4 className="center">
+          Please follow the rules of the token sale you are participating in. Sending more than the maximum amount may result in the excess tokens being lost. Do not send tokens to a sale that has ended. Morpheus (SSL) is not liable for the loss of any tokens. Please research every token sale carefully before participating.
+					</h4>
 				</div>
 
 				</div>
