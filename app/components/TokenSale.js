@@ -9,6 +9,7 @@ import gdmLogo from "../img/gdm.png";
 import ReactTooltip from "react-tooltip";
 import gitsmLogo from "../img/gitsm.png";
 import twitsmLogo from "../img/twitsm.png";
+import neoLogo from "../img/neo.png";
 import { ASSETS,TOKEN_SCRIPT,TOKEN_SCRIPT_TEST } from "../core/constants";
 import asyncWrap from "../core/asyncHelper";
 import { flatten } from 'lodash'
@@ -354,7 +355,13 @@ class TokenSale extends Component {
 			<div >
 
 			<div className="dash-panel">
-			<h2>Participate in a NEP5 Token Sale</h2>
+      <img
+        src={neoLogo}
+        alt=""
+        width="38"
+        className="neo-logo fadeInDown marg-right-10"
+      />
+      <h2>Participate in a NEP5 Token Sale</h2>
 
 			<div className="row ">
 				<hr className="dash-hr-wide top-20" />
@@ -426,7 +433,7 @@ class TokenSale extends Component {
 
 				<div className="row">
 				<div className="col-xs-12">
-					<h3 className="center  top-30">User Warning & Disclaimer</h3>
+					<h3 className="center red-text top-30">User Warning & Disclaimer</h3>
 				</div>
 
 
@@ -434,7 +441,7 @@ class TokenSale extends Component {
         <div className="clearboth" />
 				<div className="col-xs-12">
 					<h4 className="center">
-          Please follow the rules of the token sale you are participating in. Sending more than the maximum amount may result in the excess tokens being lost. Do not send tokens to a sale that has ended. Morpheus (SSL) is not liable for the loss of any tokens. Please research every token sale carefully before participating.
+          Please follow the rules of the token sale you are participating in. If your NEO address is not pre-qualified for the token sale your funds may be lost. Please follow all KYC and AML rules and local laws for participating in token sales. Morpheus (SSL) is not liable for the loss of any tokens. Sending more than the maximum amount may result in the excess tokens being lost. Do not send tokens to a sale that has ended.  Please research every token sale carefully before participating.
 					</h4>
 				</div>
 

@@ -164,6 +164,7 @@ class AdvancedEthereum extends Component {
                         <input
                             className="trans-form"
                             placeholder="Enter a Ethereum (ETH) private key to acces your funds"
+                            ref={node => (priv_input = node)}
                             onChange={
                                 (val)=>{
                                     this.state.pk = val.target.value;

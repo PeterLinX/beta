@@ -88,12 +88,17 @@ export const TOKENS = {
 };
 
 export const TOKEN_SCRIPT_TEST = [
+	{token: "Concierge (CGE)", hashscript: '34579e4614ac1a7bd295372d3de8621770c76cdc'},
+	{token: "Narrative (NRVE)", hashscript: 'a721d5893480260bd28ca1f395f2c465d0b5b1c2'},
+	{token: "Orbis (ORB)", hashscript: '23501e5fef0f67ec476406c556e91992323a0357'},
   {token: "Thor (THOR)", hashscript: '67a5086bac196b67d5fd20745b0dc9db4d2930ed'},
 ];
 
 export const TOKEN_SCRIPT = [
+	{token: "Concierge (CGE)", hashscript: '34579e4614ac1a7bd295372d3de8621770c76cdc'},
+	{token: "Narrative (NRVE)", hashscript: 'a721d5893480260bd28ca1f395f2c465d0b5b1c2'},
+	{token: "Orbis (ORB)", hashscript: '23501e5fef0f67ec476406c556e91992323a0357'},
   {token: "Thor (THOR)", hashscript: '67a5086bac196b67d5fd20745b0dc9db4d2930ed'},
-
 ];
 
 export  const BLOCK_TOKEN = "9ba58edd979a467a96f361a45b040b75";
