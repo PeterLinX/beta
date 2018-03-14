@@ -87,5 +87,14 @@ export const TOKENS = {
 
 };
 
+export const TOKEN_SCRIPT_TEST = [
+  {token: "Thor (THOR)", hashscript: '67a5086bac196b67d5fd20745b0dc9db4d2930ed'},
+];
+
+export const TOKEN_SCRIPT = [
+  {token: "Thor (THOR)", hashscript: '67a5086bac196b67d5fd20745b0dc9db4d2930ed'},
+
+];
+
 export  const BLOCK_TOKEN = "9ba58edd979a467a96f361a45b040b75";
 export const FINDING_LEDGER_NOTICE = "Looking for USB Devices. Please plugin your device and login.";
