@@ -11,9 +11,9 @@ import TransactionHistoryLTC from "./TransactionHistoryLTC";
 import {  block_index} from "../components/NetworkSwitch";
 import { ltcLoginRedirect } from "../modules/account";
 import { setMarketPrice, resetPrice } from "../modules/wallet";
-import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import numeral from "numeral";
+import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 
 const { dialog } = require("electron").remote;
 const getLink = (net, address) => {
@@ -26,13 +26,20 @@ const getLink = (net, address) => {
 	return base + address;
 };
 
+const refreshBalance = (dispatch, net, address, litecoin_address) => {
+  dispatch(sendEvent(true, "Refreshing the Litecoin blockchain may take up to 5 minutes or more. Click Morpheus logo to cancel."));
+  initiateGetBalance(dispatch, net, address, ltc_address).then(response => {
+    dispatch(sendEvent(true, "Received latest blockchain information."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+  });
+};
+
 const openExplorer = srcLink => {
 	shell.openExternal(srcLink);
 };
 
 const saveLtcKeyRecovery = ltckeys => {
     const content = JSON.stringify(ltckeys);
-
     dialog.showSaveDialog(
         {
             filters: [
@@ -219,6 +226,8 @@ const mapStateToProps = state => ({
 	price: state.wallet.price,
 	gas: state.wallet.Gas,
 	ltc: state.wallet.Ltc,
+	ltc_address: state.account.ltcPubAddr,
+  ltc_wif: state.account.ltcPrivKey,
 	marketLTCPrice: state.wallet.marketLTCPrice,
 	ltcLoggedIn: state.account.ltcLoggedIn,
 	ltcPrivKey: state.account.ltcPrivKey,

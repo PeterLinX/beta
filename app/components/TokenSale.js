@@ -428,7 +428,7 @@ class TokenSale extends Component {
 					this.props.address
 				)}
 				>
-					Confirm
+					<span className="glyphicon glyphicon-send marg-right-5"/> Send Now
 				</button>
 				</div>
 				</div>
@@ -443,7 +443,8 @@ class TokenSale extends Component {
         <div className="clearboth" />
 				<div className="col-xs-12">
 					<h4 className="center">
-          Please follow the rules of the token sale you are participating in. If your NEO address is not pre-qualified for the token sale your funds may be lost. Please follow all local laws as well as KYC and AML rules for participating in a token sale. Morpheus S.S. Ltd is not liable for the loss of any tokens. Sending more than the maximum amount may result in the excess tokens being lost. Do not send tokens to a sale that has ended.  Please research every token sale carefully before participating.
+          Only click send once.<br />
+          Please follow the rules of the token sale you are participating in. If your NEO address is not pre-qualified for the token sale your funds may be lost. Please follow all local laws as well as all KYC and AML requirements when participating in a token sale. Morpheus S.S. Ltd is not liable for the loss of any tokens. Sending more than the maximum amount may result in the excess tokens being lost. Do not send tokens to a sale that has ended.  Please research every token sale carefully before participating.
 					</h4>
 				</div>
 

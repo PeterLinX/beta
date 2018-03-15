@@ -13,6 +13,7 @@ import TransactionHistoryETH from "./TransactionHistoryETH";
 import { ethLoginRedirect } from "../modules/account";
 import {  syncEthTransactionHistory, block_index} from "../components/NetworkSwitch";
 import { BLOCK_TOKEN } from "../core/constants";
+import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 
 const { dialog } = require("electron").remote;
 
@@ -20,6 +21,16 @@ const getLink = (net, address) => {
     let base = "https://etherscan.io/address/";
     return base + address;
 };
+
+
+const refreshBalance = (dispatch, net, address, eth_address) => {
+  dispatch(sendEvent(true, "Refreshing the Litecoin blockchain may take up to 5 minutes or more. Click Morpheus logo to cancel."));
+  initiateGetBalance(dispatch, net, address, eth_address).then(response => {
+    dispatch(sendEvent(true, "Received latest blockchain information."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+  });
+};
+
 
 const openExplorer = srcLink => {
     shell.openExternal(srcLink);
@@ -136,9 +147,8 @@ class ReceiveEthereum extends Component {
                             </div>
                             <div className="col-xs-2 top-10">
                                 <Link to={ "/sendETH" }>
-                                    <button className="eth-button">
-                                        <s
-                                        pan className="glyphicon glyphicon-send"/></button>
+                                <button className="eth-button">
+                                <span className="glyphicon glyphicon-send"/></button>
                                 </Link>
                             </div>
 
@@ -222,6 +232,7 @@ const mapStateToProps = state => ({
     price: state.wallet.price,
     gas: state.wallet.Gas,
     eth: state.wallet.Eth,
+    eth_address:state.account.ethPubAddr,
     marketETHPrice: state.wallet.marketETHPrice,
     ethLoggedIn: state.account.ethLoggedIn,
     ethPrivKey: state.account.ethPrivKey,

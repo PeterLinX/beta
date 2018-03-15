@@ -30,6 +30,16 @@ var ethereum_address = require("ethereum-address");
 
 let sendAddress, sendAmount, confirmButton, inputSendAddress;
 
+
+const refreshBalance = (dispatch, net, eth_address) => {
+  dispatch(sendEvent(true, "Refreshing the Ethereum blockchain may take up to 5 minutes or more. Click Morpheus logo to cancel."));
+  initiateGetBalance(dispatch, net, eth_address).then(response => {
+    dispatch(sendEvent(true, "Received latest blockchain information."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+  });
+};
+
+
 const apiURL = val => {
     return "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD";
 };
@@ -217,14 +227,14 @@ class SendETH extends Component {
         if (selectedAsset === "Gas") {
             btnClass = "btn-send";
             convertFunction = this.handleChangeNeo;
-            formClass = "ledger-address";
+            formClass = "form-control-exchange";
             priceUSD = this.state.neo_usd;
             inputEnabled = true;
         } else if (selectedAsset === "Neo") {
             gasEnabled = true;
             inputEnabled = true;
             btnClass = "btn-send";
-            formClass = "ledger-address";
+            formClass = "form-control-exchange";
             priceUSD = this.state.gas_usd;
             convertFunction = this.handleChangeGas;
         }
