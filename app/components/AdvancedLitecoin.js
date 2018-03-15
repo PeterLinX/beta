@@ -76,8 +76,8 @@ class AdvancedLitecoin extends Component {
     login = async (dispatch) => {
         let pk = this.state.pk;
         if(pk == '') {
-            dispatch(sendEvent(false,"Invalid Litecoin private key. Please input your Litecoin private key."));
-            setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+            dispatch(sendEvent(false,"Invalid Litecoin private key. Please input a valid Litecoin private key."));
+            setTimeout(() => dispatch(clearTransactionEvent()), 3000);
         		return false;
         }
 

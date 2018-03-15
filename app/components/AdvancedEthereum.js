@@ -88,8 +88,8 @@ class AdvancedEthereum extends Component {
         if (priv_input.value === undefined || priv_input.value === '' || priv_input.value === null) {
             pk = this.state.pk;
             if (pk === '') {
-              dispatch(sendEvent(false,"Invalid Ethereum private key. Please input your Ethereum private key."));
-              setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+              dispatch(sendEvent(false,"Invalid Ethereum private key. Please input a valid Ethereum private key."));
+              setTimeout(() => dispatch(clearTransactionEvent()), 3000);
               return false;
             }
         } else {
