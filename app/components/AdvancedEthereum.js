@@ -88,8 +88,9 @@ class AdvancedEthereum extends Component {
         if (priv_input.value === undefined || priv_input.value === '' || priv_input.value === null) {
             pk = this.state.pk;
             if (pk === '') {
-                alert("Please input your bitcoin private key");
-                return;
+              dispatch(sendEvent(false,"Invalid Ethereum private key. Please input your Ethereum private key."));
+              setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+              return false;
             }
         } else {
             pk = priv_input.value;
@@ -145,22 +146,24 @@ class AdvancedEthereum extends Component {
 
         console.log(this.props.net);
         return (
-            <div id="" className="">
+            <div>
                 <div className="dash-panel">
 
                     <div className="col-xs-12">
                         <img
                             src={ethLogo}
                             alt=""
-                            width="44"
+                            width="32"
                             className="neo-logo logobounce"
                         />
                         <h2>Enter an Ethereum Private Key</h2>
                     </div>
+
                     <div className="col-xs-12 center">
-                        <hr className="dash-hr-wide" />
-                    </div>
-                    <div className="col-xs-12">
+      								<hr className="dash-hr-wide" />
+      							</div>
+
+                    <div className="col-xs-9  top-20">
                         <input
                             className="trans-form"
                             placeholder="Enter a Ethereum (ETH) private key to acces your funds"
@@ -170,11 +173,13 @@ class AdvancedEthereum extends Component {
                                     this.state.pk = val.target.value;
                                 }
                             } />
+                    </div>
+
+                    <div className="col-xs-3 top-20">
                             <Link>
                             <div className="grey-button" onClick={()=>this.login(dispatch)} >Login</div>
                             </Link>
                     </div>
-
 
                     {
                         this.state.pa !== '' ? (
@@ -185,10 +190,6 @@ class AdvancedEthereum extends Component {
                             </div>
                         ): null
                     }
-
-                    <div className="clearboth" />
-
-                    <div className="clearboth" />
 
                 </div>
 

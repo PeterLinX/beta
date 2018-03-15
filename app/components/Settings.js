@@ -254,7 +254,7 @@ class Settings extends Component {
                   <div className="icon-border">
                     <span className="glyphicon glyphicon-save" />
                   </div>
-                  Export Encrypted Keys
+                  Export NEO Keys
                 </div>
               </div>
 

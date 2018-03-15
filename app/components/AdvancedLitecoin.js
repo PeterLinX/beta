@@ -10,6 +10,11 @@ import axios from 'axios';
 import { setLtcBalance } from '../modules/wallet'
 import { setLtcBlockHeight } from "../modules/metadata";
 import { ltcLogIn, ltcLoginRedirect } from '../modules/account';
+import {
+    sendEvent,
+    clearTransactionEvent,
+    toggleAsset
+} from "../modules/transactions";
 
 var bitcoin = require('bitcoinjs-lib');
 var litecoin = bitcoin.networks.litecoin;
@@ -71,8 +76,9 @@ class AdvancedLitecoin extends Component {
     login = async (dispatch) => {
         let pk = this.state.pk;
         if(pk == '') {
-            alert("Please input your litecoin private key");
-            return;
+            dispatch(sendEvent(false,"Invalid Litecoin private key. Please input your Litecoin private key."));
+            setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+        		return false;
         }
 
         let keyPair = await bitcoin.ECPair.fromWIF(pk, this.props.net == "TestNet" ? {network:bitcoin.networks.testnet}:bitcoin.networks.litecoin);
