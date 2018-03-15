@@ -187,7 +187,8 @@ class Dashboard extends Component {
               </ul>
             </div>
           </div>
-          <span className="dashnetwork">Network: {this.props.net}</span>
+          <span className="dashnetwork">Neo Block: {this.props.blockHeight}<br/>
+          Network: {this.props.net}</span>
           <div className="copyright">&copy; Copyright 2018 Morpheus</div>
         </div>
         <div className="main-container">
