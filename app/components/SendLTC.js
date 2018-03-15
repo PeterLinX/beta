@@ -418,7 +418,7 @@ class SendLTC extends Component {
                       confirmButton = node;
                     }}
                   >
-                    <span className="glyphicon glyphicon-send marg-right-5" />{" "}
+                    <span className="glyphicon glyphicon-send marg-right-5" />
                     Send
                   </button>
                 </div>
