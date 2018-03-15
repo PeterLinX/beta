@@ -361,8 +361,8 @@ class SendETH extends Component {
                             <p className="center donations"
                                data-tip
                                data-for="donateTip"
-                               onClick={() => clipboard.writeText("LP7vnYjxKQB7dkik38ghMhC724iVJ7Cqir")}
-                            >Morpheus Dev Team: LP7vnYjxKQB7dkik38ghMhC724iVJ7Cqir</p>
+                               onClick={() => clipboard.writeText("0x3276d45fc384e472aa47ee53f8a0a09c22112f5f")}
+                            >Morpheus Dev Team: 0x3276d45fc384e472aa47ee53f8a0a09c22112f5f</p>
                             <ReactTooltip
                                 className="solidTip"
                                 id="donateTip"

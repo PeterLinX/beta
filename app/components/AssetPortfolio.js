@@ -8,7 +8,9 @@ import { setMarketPrice, resetPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 
+
 import acatLogo from "../img/acat.png";
+import cgeLogo from "../img/cge.png";
 import apexLogo from "../img/apex.png";
 import thorLogo from "../img/thor.png";
 import nrveLogo from "../img/nrve.png";
@@ -135,9 +137,33 @@ class AssetPortolio extends Component {
 
 
 
+						<Link to="/sendCGE">
+							<div className="col-3">
+							<div className="port-logo-col">
+							<img
+								src={cgeLogo}
+								alt=""
+								width="36"
+								className="port-logos"
+							/>
+							<hr className="dash-hr" />
+							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendCGE"><span className=" glyphicon glyphicon-send "/></Link></h3>
+							</div>
+							<div className="port-price-col">
+								<span className="market-price">Concierge {numeral(this.props.marketCGEPrice).format("$0,0.00")}</span>
+								<h3>{numeral(
+									Math.floor(this.props.cge * 100000) / 100000
+								).format("0,0.0000")} <span className="dbc-price"> CGE</span></h3>
+								<hr className="dash-hr" />
+								<span className="market-price">{numeral(this.props.cge*this.props.marketCGEPrice).format("$0,0.00")} USD</span>
+							</div>
+							</div>
+						</Link>
+
+
+
 						<Link to="/sendDBC">
 							<div className="col-3">
-
 							<div className="port-logo-col">
 							<img
 								src={deepLogo}
@@ -148,7 +174,6 @@ class AssetPortolio extends Component {
 							<hr className="dash-hr" />
 							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendDBC"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
-
 							<div className="port-price-col">
 								<span className="market-price">Deep Brain {numeral(this.props.marketDBCPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
@@ -159,6 +184,8 @@ class AssetPortolio extends Component {
 							</div>
 							</div>
 						</Link>
+
+
 
 
 						<div className="col-3 ">

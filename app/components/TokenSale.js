@@ -202,11 +202,13 @@ const oldParticipateInSaleEvent = (dispatch, wif, neo, gas, net, address) => {
 		address
 	).then(success => {
 		if (success) {
-            dispatch(sendEvent(true,"Congratulations. ICO tokens purchased successfully!"));
-			return true;
+            dispatch(sendEvent(true,"Congratulations. ICO tokens purchased successfully! Your balance will be updated shortly."));
+            setTimeout(() => dispatch(clearTransactionEvent()), 5000);
+        		return true;
 		} else {
-            dispatch(sendEvent(false,"Sorry, purchase failed. Please try again soon."));
-            return false;
+            dispatch(sendEvent(false,"Sorry, transaction failed. Please try again soon."));
+            setTimeout(() => dispatch(clearTransactionEvent()), 3000);
+        		return false;
 		}
 	})
 
@@ -441,7 +443,7 @@ class TokenSale extends Component {
         <div className="clearboth" />
 				<div className="col-xs-12">
 					<h4 className="center">
-          Please follow the rules of the token sale you are participating in. If your NEO address is not pre-qualified for the token sale your funds may be lost. Please follow all KYC and AML rules and local laws for participating in token sales. Morpheus (SSL) is not liable for the loss of any tokens. Sending more than the maximum amount may result in the excess tokens being lost. Do not send tokens to a sale that has ended.  Please research every token sale carefully before participating.
+          Please follow the rules of the token sale you are participating in. If your NEO address is not pre-qualified for the token sale your funds may be lost. Please follow all local laws as well as KYC and AML rules for participating in a token sale. Morpheus S.S. Ltd is not liable for the loss of any tokens. Sending more than the maximum amount may result in the excess tokens being lost. Do not send tokens to a sale that has ended.  Please research every token sale carefully before participating.
 					</h4>
 				</div>
 
