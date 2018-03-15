@@ -34,7 +34,7 @@ import { BLOCK_TOKEN } from "../core/constants";
 import transactions from "../modules/transactions";
 
 let intervals = {};
-let dbcScriptHash, iamScriptHash, nrveScriptHash, ontScriptHash, qlcScriptHash, rhtScriptHash, rpxScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, zptScriptHash;
+let dbcScriptHash, iamScriptHash, nrveScriptHash, obtScriptHash, ontScriptHash, qlcScriptHash, rhtScriptHash, rpxScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, zptScriptHash;
 let netSelect;
 
 // https://bittrex.com/api/v1.1/public/getmarkethistory?market=BTC-NEO
@@ -77,6 +77,16 @@ const getNrveBalance = async (net,address) => {
         nrve_token = TOKENS_TEST.NRVE;
     }
     return getBalace (net,address,nrve_token);
+}
+
+const getObtBalance = async (net,address) => {
+    let obt_token;
+    if (net === "MainNet") {
+        obt_token = TOKENS.OBT;
+    } else {
+        obt_token = TOKENS_TEST.OBT;
+    }
+    return getBalace (net,address,obt_token);
 }
 
 
@@ -463,6 +473,9 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
             let nrveBalance = await getNrveBalance(net,address);
             console.log("nrve balance= " + nrveBalance);
 
+            let obtBalance = await getObtBalance(net,address);
+            console.log("obt balance= " + obtBalance);
+
             let ontBalance = await getOntBalance(net,address);
             console.log("ont balance= " + ontBalance);
 
@@ -494,6 +507,7 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
                 resultBalance.Neo,
                 resultBalance.Gas,
                 dbcBalance,
+                obtBalance,
                 ontBalance,
                 qlcBalance,
                 rpxBalance,

@@ -450,6 +450,30 @@ class AssetPortolio extends Component {
 						</div>
 						</div>
 
+						<Link to="/sendOBT">
+							<div className="col-3 ">
+
+							<div className="port-logo-col">
+							<img
+								src={orbLogo}
+								alt=""
+								width="48"
+								className="port-logos"
+							/>
+							<hr className="dash-hr" />
+							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendOBT"><span className=" glyphicon glyphicon-send "/></Link></h3>
+							</div>
+
+							<div className="port-price-col">
+								<span className="market-price">Orbis $0.00 USD</span>
+								<h3>{numeral(this.props.obt/10000000000).format("0,0.000000")}  <span className="thor-price"> OBT</span></h3>
+								<hr className="dash-hr" />
+								<span className="market-price">$0.00 USD</span>
+							</div>
+							</div>
+							</Link>
+
+
 
 
 						<Link to="/sendONT">
@@ -478,28 +502,6 @@ class AssetPortolio extends Component {
 						</Link>
 
 
-						<Link to="/sendORB">
-							<div className="col-3 ">
-
-							<div className="port-logo-col">
-							<img
-								src={orbLogo}
-								alt=""
-								width="48"
-								className="port-logos"
-							/>
-							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendORB"><span className=" glyphicon glyphicon-send "/></Link></h3>
-							</div>
-
-							<div className="port-price-col">
-								<span className="market-price">Orbis {numeral(this.props.marketORBPrice).format("$0,0.00")}</span>
-								<h3>{numeral(this.props.orb/10000000000).format("0,0.000000")}  <span className="nex-price"> ORB</span></h3>
-								<hr className="dash-hr" />
-								<span className="market-price">{numeral((this.props.orb/10000000000) * this.props.marketORBPrice).format("$0,0.00")} USD</span>
-							</div>
-							</div>
-							</Link>
 
 
 						<Link to="/sendQLC">
@@ -672,6 +674,7 @@ const mapStateToProps = state => ({
 	ltc: state.wallet.Ltc,
 	eth: state.wallet.Eth,
 	nrve: state.wallet.Nrve,
+	obt: state.wallet.Obt,
 	ont: state.wallet.Ont,
 	qlc: state.wallet.Qlc,
 	rht: state.wallet.Rht,
