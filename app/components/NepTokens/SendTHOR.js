@@ -317,7 +317,7 @@ class SendTHOR extends Component {
                 width="54"
                 className="neo-logo fadeInDown"
               />
-              <h2>Send The Key Tokens</h2>
+              <h2>Send Thor Tokens</h2>
             </div>
 
             <div className="col-xs-3 top-20 center com-soon">

@@ -6,6 +6,7 @@ import { shell } from "electron";
 import ethLogo from "../img/eth.png";
 import ReactTooltip from "react-tooltip";
 import { Link } from "react-router";
+import storage from "electron-json-storage";
 import axios from 'axios';
 import { setEthBalance } from "../modules/wallet";
 import {
@@ -63,20 +64,25 @@ class NewEthereum extends Component {
 
     getRandomAddress = async (dispatch)=>{
         let base,pa,pk;
+        console.log("Starting Ethereum Wallet\n");
         if (this.props.net === "MainNet") {
             base = "https://api.blockcypher.com/v1/eth/main/addrs?token=" + BLOCK_TOKEN;
         } else {
             base = "https://api.blockcypher.com/v1/beth/test/addrs?token=" + BLOCK_TOKEN;
         }
-
+        console.log("base request url = " + base);
         let response = await axios.post(base);
+        console.log(JSON.stringify(response));
         pa = response.data.address;
+        console.log("ethereum address")
         pk = response.data.private;
         this.setState({
             pa: pa,
             pk: pk,
         });
         dispatch(ethCreated());
+
+        this.props.history.push("/DisplayPrivateKeysETH/"+ this.props.history + "/" + this.state.pa + "/" + this.state.pk);
     };
 
     login = async (dispatch) => {
@@ -148,86 +154,56 @@ class NewEthereum extends Component {
                         <img
                             src={ethLogo}
                             alt=""
-                            width="44"
+                            width="32"
                             className="neo-logo logobounce"
                         />
                         <h2>Create New Ethereum Address</h2>
                     </div>
                     <div className="col-xs-12 center">
-                        <hr className="dash-hr-wide" />
-                    </div>
-                    <div className="col-xs-12">
-                        <input
-                            className="trans-form"
-                            placeholder="Enter a Ethereum (ETH) private key to acces your funds"
-                            onChange={
-                                (val)=>{
-                                    this.state.pk = val.target.value;
-                                }
-                            } />
-                        <Link>
-                            <div className="grey-button" onClick={()=>this.login(dispatch)} >Login</div>
-                        </Link>
-                    </div>
+      								<hr className="dash-hr-wide" />
+      							</div>
+                    <div className="col-xs-9">
 
 
-                    <div className="col-xs-12">
-                        <select
-                            name="select-profession"
-                            id="select-profession"
-                            className=""
-                            ref={node => (priv_input = node)}
-                        >
-                            <option selected disabled={true}>
-                                Select a saved wallet
+                    <select
+                        name="select-profession"
+                        id="select-profession"
+                        className=""
+                        ref={node => (priv_input = node)}
+                    >
+                        <option selected disabled={true}>
+                            Select a saved wallet
+                        </option>
+                        {_.map(this.props.ethAccountKeys, (value, key) => (
+                            <option key={Math.random()} value={value}>
+                                {key}
                             </option>
-                            {_.map(this.props.ethAccountKeys, (value, key) => (
-                                <option key={Math.random()} value={value}>
-                                    {key}
-                                </option>
-                            ))}
+                        ))}
 
-                        </select>
+                    </select>
+
+
                     </div>
 
-                    <div className="col-xs-12">
-                        <h4 className="center">- Or -</h4>
+                    <div className="col-xs-3">
+                    <Link>
+                        <div className="grey-button" onClick={()=>this.login(dispatch)} >Login</div>
+                    </Link>
+                    </div>
+
+                    <div className="col-xs-9 top-20">
+      							<h4 className="center">- Or -</h4>
                         <Link>
                             <div className="grey-button" onClick={ ()=>this.getRandomAddress(dispatch)}>Generate new Ethereum (ETH) address</div>
                         </Link>
                     </div>
 
+                    <div className="col-xs-3 top-70">
+                    <Link to="/advancedEthereum">
+                    <div className="grey-button com-soon">Advanced</div>
+                    </Link>
 
-                    {
-                        this.state.pk !== '' ? (
-                            <div className="col-xs-12">
-                                <h4>Private key</h4>
-                                <input  className="form-control-exchange" value={this.state.pk} />
-                                {/* {this.state.pk} */}
-                                <br/>
-                            </div>
-                        ): null
-                    }
-
-                    {
-                        this.state.pa !== '' ? (
-                            <div className="col-xs-12">
-                                <h4>Public address</h4>
-                                <input className="form-control-exchange" value={this.state.pa} />
-                                <br/>
-                            </div>
-                        ): null
-                    }
-
-                    {
-                        this.props.ethCreated === true && this.state.pa !=='' ? (
-                            <div className="col-xs-4 top-50">
-                                <Link to={"/DisplayPrivateKeysETH/"+ this.props.history + "/" + this.state.pa + "/" + this.state.pk} >
-                                    <div className="grey-button">Save ETH Private Key</div>
-                                </Link>
-                            </div>
-                        ): null
-                    }
+                    </div>
 
                     <div className="clearboth" />
 

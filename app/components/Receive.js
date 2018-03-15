@@ -26,6 +26,59 @@ const openExplorer = srcLink => {
 	shell.openExternal(srcLink);
 };
 
+const { dialog } = require("electron").remote;
+const saveKeyRecovery = keys => {
+  const content = JSON.stringify(keys);
+  dialog.showSaveDialog(
+    {
+      filters: [
+        {
+          name: "JSON",
+          extensions: ["json"]
+        }
+      ]
+    },
+    fileName => {
+      if (fileName === undefined) {
+        console.log("File failed to save...");
+        return;
+      }
+      // fileName is a string that contains the path and filename created in the save file dialog.
+      fs.writeFile(fileName, content, err => {
+        if (err) {
+          alert("An error ocurred creating the file " + err.message);
+        }
+        alert("The file has been succesfully saved");
+      });
+    }
+  );
+};
+
+const loadKeyRecovery = dispatch => {
+  dialog.showOpenDialog(fileNames => {
+    // fileNames is an array that contains all the selected
+    if (fileNames === undefined) {
+      console.log("No file selected");
+      return;
+    }
+    const filepath = fileNames[0];
+    fs.readFile(filepath, "utf-8", (err, data) => {
+      if (err) {
+        alert("An error ocurred reading the file :" + err.message);
+        return;
+      }
+      const keys = JSON.parse(data);
+      storage.get("keys", (error, data) => {
+        _.each(keys, (value, key) => {
+          data[key] = value;
+        });
+        dispatch(setKeys(data));
+        storage.set("keys", data);
+      });
+    });
+  });
+};
+
 class Receive extends Component {
 	render() {
 		console.log(this.props.net);
@@ -34,7 +87,7 @@ class Receive extends Component {
 				<Assets />
 				<div className="dash-chart-panel">
 					<div className="">
-						<div className="col-xs-9">
+						<div className="col-xs-10">
 							<img
 								src={neoLogo}
 								alt=""
@@ -43,8 +96,8 @@ class Receive extends Component {
 							/>
 							<h2>Receive Neo/Gas and NEP Tokens</h2>
 						</div>
-						
-						<div className="col-xs-3 top-20 center com-soon">
+
+						<div className="col-xs-2 top-20 center com-soon">
         Block: {this.props.blockHeight}
 						</div>
 						<hr className="dash-hr-wide" />

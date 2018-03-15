@@ -4,7 +4,7 @@ import App from "./components/App";
 import LoginNep2 from "./components/LoginNep2";
 import LoginPrivateKey from "./components/LoginPrivateKey";
 import Settings from "./components/Settings";
-import Changelly from "./components/exchanges/Changelly";
+import Changelly from "./components/Exchanges/Changelly.js";
 import ShapeShift from "./components/exchanges/ShapeShift";
 import SelectExchange from "./components/SelectExchange";
 import ExchangeAddress from "./components/ExchangeAddress";
@@ -52,8 +52,10 @@ import LedgerDashboard from "./containers/LedgerDashboard";
 import LedgerAssetPortfolio from "./components/LedgerAssetPortfolio";
 import AdvancedBitcoin from "./components/AdvancedBitcoin";
 import AdvancedLitecoin from "./components/AdvancedLitecoin";
+import AdvancedEthereum from "./components/AdvancedEthereum";
 import DisplayPrivateKeysLTC from "./components/DisplayPrivateKeysLTC";
 import DisplayPrivateKeysETH from "./components/DisplayPrivateKeysETH";
+import TokenSale from "./components/TokenSale";
 
 export default (
 	<Route path="/" component={App}>
@@ -97,8 +99,10 @@ export default (
 			<Route path="/receiveEthereum" component={ReceiveEthereum}/>
 			<Route path="/advancedBitcoin" component={AdvancedBitcoin}/>
 			<Route path="/advancedLitecoin" component={AdvancedLitecoin}/>
+			<Route path="/advancedEthereum" component={AdvancedEthereum}/>
 			<Route path="/DisplayPrivateKeysLTC/:history/:ltc_address/:ltcPrivKey"  component={DisplayPrivateKeysLTC}/>
-		<Route path="/DisplayPrivateKeysETH/:history/:ltc_address/:ltcPrivKey"  component={DisplayPrivateKeysETH}/>
+		<Route path="/DisplayPrivateKeysETH/:history/:eth_address/:ethPrivKey"  component={DisplayPrivateKeysETH}/>
+		<Route path="/tokenSale" component={TokenSale} />
 		</Route>
 		<Route path="/create" component={CreateWallet} />
 		<Route path="/encryptKey" component={EncryptKey} />

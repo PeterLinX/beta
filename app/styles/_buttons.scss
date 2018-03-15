@@ -50,9 +50,9 @@
   opacity: 0.8;
   background: rgb(143, 196, 0);
   background: linear-gradient(
-    to bottom,
-    rgba(143, 196, 0, 1) 0%,
-    rgb(64, 134, 0) 100%
+                  to bottom,
+                  rgba(143, 196, 0, 1) 0%,
+                  rgb(64, 134, 0) 100%
   );
 }
 
@@ -68,10 +68,10 @@
   margin: 0;
   opacity: 0.8;
   background: linear-gradient(
-    to bottom,
-    rgba(203, 96, 179, 1) 0%,
-    rgba(104, 34, 165, 1) 0%,
-    rgba(104, 3, 120, 1) 99%
+                  to bottom,
+                  rgba(203, 96, 179, 1) 0%,
+                  rgba(104, 34, 165, 1) 0%,
+                  rgba(104, 3, 120, 1) 99%
   );
 }
 
@@ -88,9 +88,9 @@
   opacity: 0.8;
   background: rgb(250, 217, 97);
   background: linear-gradient(
-    to bottom,
-    rgba(250, 217, 97, 1) 0%,
-    rgba(247, 107, 28, 1) 92%
+                  to bottom,
+                  rgba(250, 217, 97, 1) 0%,
+                  rgba(247, 107, 28, 1) 92%
   );
 }
 
@@ -108,21 +108,21 @@
   background: rgb(64, 150, 238);
   /* Old browsers */
   background: -moz-linear-gradient(
-    top,
-    rgba(64, 150, 238, 1) 0%,
-    rgba(0, 118, 237, 1) 100%
+                  top,
+                  rgba(64, 150, 238, 1) 0%,
+                  rgba(0, 118, 237, 1) 100%
   );
   /* FF3.6-15 */
   background: -webkit-linear-gradient(
-    top,
-    rgba(64, 150, 238, 1) 0%,
-    rgba(0, 118, 237, 1) 100%
+                  top,
+                  rgba(64, 150, 238, 1) 0%,
+                  rgba(0, 118, 237, 1) 100%
   );
   /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(
-    to bottom,
-    rgba(64, 150, 238, 1) 0%,
-    rgba(0, 118, 237, 1) 100%
+                  to bottom,
+                  rgba(64, 150, 238, 1) 0%,
+                  rgba(0, 118, 237, 1) 100%
   );
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
@@ -141,22 +141,37 @@
   background: rgb(36, 180, 245);
   /* Old browsers */
   background: -moz-linear-gradient(
-    top,
-    rgba(36, 180, 245, 1) 0%,
-    rgba(0, 32, 228, 1) 92%
+                  top,
+                  rgba(36, 180, 245, 1) 0%,
+                  rgba(0, 32, 228, 1) 92%
   );
   /* FF3.6-15 */
   background: -webkit-linear-gradient(
-    top,
-    rgba(36, 180, 245, 1) 0%,
-    rgba(0, 32, 228, 1) 92%
+                  top,
+                  rgba(36, 180, 245, 1) 0%,
+                  rgba(0, 32, 228, 1) 92%
   );
   /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(
-    to bottom,
-    rgba(36, 180, 245, 1) 0%,
-    rgba(0, 32, 228, 1) 92%
+                  to bottom,
+                  rgba(36, 180, 245, 1) 0%,
+                  rgba(0, 32, 228, 1) 92%
   );
+}
+
+.print-btn-red {
+  padding: 5px 22px;
+  height: 48px;
+  font-size: 18px;
+  border: 1px solid #790200;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  opacity: 0.8;
+  background: rgb(74, 0, 17);
+  width: 100%;
 }
 
 .btn-red {
@@ -188,21 +203,21 @@
   background: rgb(64, 150, 238);
   /* Old browsers */
   background: -moz-linear-gradient(
-    top,
-    rgba(64, 150, 238, 1) 0%,
-    rgba(0, 118, 237, 1) 100%
+                  top,
+                  rgba(64, 150, 238, 1) 0%,
+                  rgba(0, 118, 237, 1) 100%
   );
   /* FF3.6-15 */
   background: -webkit-linear-gradient(
-    top,
-    rgba(64, 150, 238, 1) 0%,
-    rgba(0, 118, 237, 1) 100%
+                  top,
+                  rgba(64, 150, 238, 1) 0%,
+                  rgba(0, 118, 237, 1) 100%
   );
   /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(
-    to bottom,
-    rgba(64, 150, 238, 1) 0%,
-    rgba(0, 118, 237, 1) 100%
+                  to bottom,
+                  rgba(64, 150, 238, 1) 0%,
+                  rgba(0, 118, 237, 1) 100%
   );
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
@@ -283,24 +298,24 @@
   background: rgb(169, 3, 41);
   /* Old browsers */
   background: -moz-linear-gradient(
-    top,
-    rgba(169, 3, 41, 1) 0%,
-    rgba(143, 2, 34, 1) 44%,
-    rgba(94, 0, 14, 1) 100%
+                  top,
+                  rgba(169, 3, 41, 1) 0%,
+                  rgba(143, 2, 34, 1) 44%,
+                  rgba(94, 0, 14, 1) 100%
   );
   /* FF3.6-15 */
   background: -webkit-linear-gradient(
-    top,
-    rgba(169, 3, 41, 1) 0%,
-    rgba(143, 2, 34, 1) 44%,
-    rgba(94, 0, 14, 1) 100%
+                  top,
+                  rgba(169, 3, 41, 1) 0%,
+                  rgba(143, 2, 34, 1) 44%,
+                  rgba(94, 0, 14, 1) 100%
   );
   /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(
-    to bottom,
-    rgba(169, 3, 41, 1) 0%,
-    rgba(143, 2, 34, 1) 44%,
-    rgba(94, 0, 14, 1) 100%
+                  to bottom,
+                  rgba(169, 3, 41, 1) 0%,
+                  rgba(143, 2, 34, 1) 44%,
+                  rgba(94, 0, 14, 1) 100%
   );
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
@@ -311,21 +326,21 @@
   background: rgb(36, 180, 245);
   /* Old browsers */
   background: -moz-linear-gradient(
-    top,
-    rgba(36, 180, 245, 1) 0%,
-    rgba(0, 32, 228, 1) 92%
+                  top,
+                  rgba(36, 180, 245, 1) 0%,
+                  rgba(0, 32, 228, 1) 92%
   );
   /* FF3.6-15 */
   background: -webkit-linear-gradient(
-    top,
-    rgba(36, 180, 245, 1) 0%,
-    rgba(0, 32, 228, 1) 92%
+                  top,
+                  rgba(36, 180, 245, 1) 0%,
+                  rgba(0, 32, 228, 1) 92%
   );
   /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(
-    to bottom,
-    rgba(36, 180, 245, 1) 0%,
-    rgba(0, 32, 228, 1) 92%
+                  to bottom,
+                  rgba(36, 180, 245, 1) 0%,
+                  rgba(0, 32, 228, 1) 92%
   );
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
@@ -368,9 +383,9 @@
   float: right;
   background: rgb(143, 196, 0);
   background: linear-gradient(
-  to bottom,
-    rgba(143, 196, 0, 1) 0%,
-    rgb(64, 134, 0) 100%);
+                  to bottom,
+                  rgba(143, 196, 0, 1) 0%,
+                  rgb(64, 134, 0) 100%);
 }
 
 .modal-confirm:hover {
@@ -423,18 +438,18 @@
 
 .btc-button {
   padding: 6px 10px;
-    height: 42px;
-    font-size: 18px;
-    border: thin solid #ffc000;
-    cursor: pointer;
-    text-align: center;
-    border-radius: 5px;
-    color: #000;
-    margin: 2px 0px;
-    background: #ffaa00;
-    text-shadow: none;
-    font-weight: 200;
-    width: 100%;
+  height: 42px;
+  font-size: 18px;
+  border: thin solid #ffc000;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: #000;
+  margin: 2px 0px;
+  background: #ffaa00;
+  text-shadow: none;
+  font-weight: 200;
+  width: 100%;
 }
 
 .btc-button:hover {
@@ -445,18 +460,18 @@
 
 .eth-button {
   padding: 6px 10px;
-    height: 42px;
-    font-size: 18px;
-    border: thin solid #28343b;
-    cursor: pointer;
-    text-align: center;
-    border-radius: 5px;
-    color: #000;
-    margin: 2px 0px;
-    background: #828c95;
-    text-shadow: none;
-    font-weight: 200;
-    width: 100%;
+  height: 42px;
+  font-size: 18px;
+  border: thin solid #28343b;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: #000;
+  margin: 2px 0px;
+  background: #828c95;
+  text-shadow: none;
+  font-weight: 200;
+  width: 100%;
 }
 
 .eth-button:hover {
@@ -467,67 +482,67 @@
 
 .pink-button {
   padding: 6px 16px;
-    height: 42px;
-    font-size: 18px;
-    border: thin solid rgba(255, 166, 182, 0.6);
-    cursor: pointer;
-    text-align: center;
-    border-radius: 5px;
-    color: #ddd;
-    margin: 2px 0px;
-    background: rgba(255, 166, 182, 0.3);
-    text-shadow: none;
-    font-weight: 200;
-    width: 100%;
+  height: 42px;
+  font-size: 18px;
+  border: thin solid rgba(255, 166, 182, 0.6);
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: #ddd;
+  margin: 2px 0px;
+  background: rgba(255, 166, 182, 0.3);
+  text-shadow: none;
+  font-weight: 200;
+  width: 100%;
 }
 
 .blue-button {
   padding: 6px 16px;
-      height: 42px;
-      font-size: 18px;
-      border: thin solid rgba(90, 193, 212, 0.5);
-      cursor: pointer;
-      text-align: center;
-      border-radius: 5px;
-      color: #ddd;
-      margin: 2px 0px;
-      background: rgba(67, 139, 153, 0.56);
-      text-shadow: none;
-      font-weight: 200;
-      width: 100%;
+  height: 42px;
+  font-size: 18px;
+  border: thin solid rgba(90, 193, 212, 0.5);
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: #ddd;
+  margin: 2px 0px;
+  background: rgba(67, 139, 153, 0.56);
+  text-shadow: none;
+  font-weight: 200;
+  width: 100%;
 }
 
 .purple-button {
   padding: 6px 16px;
-      height: 42px;
-      font-size: 18px;
-      border: thin solid rgb(79, 40, 164);
-      cursor: pointer;
-      text-align: center;
-      border-radius: 5px;
-      color: #ddd;
-      margin: 2px 0px;
-      background: rgba(127, 50, 188, 0.3);
-      text-shadow: none;
-      font-weight: 200;
-      width: 100%;
+  height: 42px;
+  font-size: 18px;
+  border: thin solid rgb(79, 40, 164);
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: #ddd;
+  margin: 2px 0px;
+  background: rgba(127, 50, 188, 0.3);
+  text-shadow: none;
+  font-weight: 200;
+  width: 100%;
 }
 
 
 .dbc-button {
   padding: 6px 16px;
-    height: 42px;
-    font-size: 18px;
-    border: thin solid #337ab7;
-    cursor: pointer;
-    text-align: center;
-    border-radius: 5px;
-    color: #222;
-    margin: 2px 0px;
-    background: #5ac1d4;
-    text-shadow: none;
-    font-weight: 200;
-    width: 100%;
+  height: 42px;
+  font-size: 18px;
+  border: thin solid #337ab7;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: #222;
+  margin: 2px 0px;
+  background: #5ac1d4;
+  text-shadow: none;
+  font-weight: 200;
+  width: 100%;
 }
 
 .dbc-button:hover {
@@ -538,18 +553,18 @@
 
 .thor-button {
   padding: 6px 16px;
-    height: 42px;
-    font-size: 18px;
-    border: thin solid #0a8bde;
-    cursor: pointer;
-    text-align: center;
-    border-radius: 5px;
-    color: #222;
-    margin: 2px 0px;
-    background: #047ecd;
-    text-shadow: none;
-    font-weight: 200;
-    width: 100%;
+  height: 42px;
+  font-size: 18px;
+  border: thin solid #0a8bde;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: #222;
+  margin: 2px 0px;
+  background: #047ecd;
+  text-shadow: none;
+  font-weight: 200;
+  width: 100%;
 }
 
 .thor-button:hover {
@@ -560,18 +575,18 @@
 
 .qlc-button {
   padding: 6px 16px;
-      height: 42px;
-      font-size: 18px;
-      border: thin solid #6c2db1;
-      cursor: pointer;
-      text-align: center;
-      border-radius: 5px;
-      color: #f5f5f5;
-      margin: 2px 0px;
-      background: #7f32bc;
-      text-shadow: none;
-      font-weight: 200;
-      width: 100%;
+  height: 42px;
+  font-size: 18px;
+  border: thin solid #6c2db1;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: #f5f5f5;
+  margin: 2px 0px;
+  background: #7f32bc;
+  text-shadow: none;
+  font-weight: 200;
+  width: 100%;
 }
 
 .qlc-button:hover {
@@ -582,18 +597,18 @@
 
 .hp-button {
   padding: 6px 16px;
-      height: 42px;
-      font-size: 18px;
-      border: thin solid #ffa6b6;
-      cursor: pointer;
-      text-align: center;
-      border-radius: 5px;
-      color: #f5f5f5;
-      margin: 2px 0px;
-      background: rgba(255, 127, 131, 0.87);
-      text-shadow: none;
-      font-weight: 200;
-      width: 100%;
+  height: 42px;
+  font-size: 18px;
+  border: thin solid #ffa6b6;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  color: #f5f5f5;
+  margin: 2px 0px;
+  background: rgba(255, 127, 131, 0.87);
+  text-shadow: none;
+  font-weight: 200;
+  width: 100%;
 }
 
 .hp-button:hover {

@@ -76,6 +76,8 @@ class NewLitecoin extends Component {
         });
 
         dispatch(ltcCreated());
+
+        this.props.history.push("/DisplayPrivateKeysLTC/"+ this.props.history + "/" + this.state.pa + "/" + this.state.pk);
     };
 
     login = async (dispatch) => {
@@ -196,39 +198,7 @@ class NewLitecoin extends Component {
 
               </div>
 
-
-							{
-								this.state.pk !== '' ? (
-									<div className="col-xs-12">
-									<h4>Private key</h4>
-									<input  className="form-control-exchange" value={this.state.pk} />
-									{/* {this.state.pk} */}
-									<br/>
-									</div>
-								): null
-							}
-							{
-								this.state.pa !== '' ? (
-									<div className="col-xs-8">
-									<h4>Public address</h4>
-									<input className="form-control-exchange" value={this.state.pa} />
-									<br/>
-									</div>
-								): null
-							}
-                            {
-								this.props.ltcCreated === true && this.state.pa !=='' ? (
-									<div className="col-xs-4 top-50">
-                                        <Link to={"/DisplayPrivateKeysLTC/"+ this.props.history + "/" + this.state.pa + "/" + this.state.pk} >
-                                            <div className="btn-send">Save LTC Address</div>
-                                        </Link>
-									</div>
-								): null
-							}
-
-
-
-						<div className="clearboth" />
+            <div className="clearboth" />
 
 			<div className="clearboth" />
 

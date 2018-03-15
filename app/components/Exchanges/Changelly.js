@@ -4,7 +4,7 @@ import Claim from "../Claim.js";
 import MdSync from "react-icons/lib/md/sync";
 import QRCode from "qrcode.react";
 import { initiateGetBalance, intervals } from "../NetworkSwitch";
-import Exchange_Unavailable from "../exchange_components/Exchange_Unavailable";
+import Exchange_Unavailable from "../Exchange_Components/Exchange_Unavailable";
 import { resetPrice } from "../../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../../modules/transactions";
 import { clipboard } from "electron";

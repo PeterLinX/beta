@@ -5,8 +5,8 @@ import { shell } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import { clipboard } from "electron";
 import gitHub from "../images/github.png";
-import disCord from "../images/disCord.png";
-import neoNews from "../images/neoNews.png";
+import disCord from "../images/discord.png";
+import neoNews from "../images/neonews.png";
 import gitsmLogo from "../img/gitsm.png";
 import twitsmLogo from "../img/twitsm.png";
 
