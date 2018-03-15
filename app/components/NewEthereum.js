@@ -22,6 +22,7 @@ import { setEthBlockHeight } from "../modules/metadata";
 import { BLOCK_TOKEN } from "../core/constants";
 
 var bitcoin = require('bitcoinjs-lib');
+var buffer = require("buffer");
 var ethereum = require("ethereumjs-util");
 var key = "c6294d6b9e829b485a6dc5842a44e2de5f8e5c57";
 var secret = "073a794fbd48c76ccdde0f9d8fa12c19de554487";
@@ -98,7 +99,7 @@ class NewEthereum extends Component {
         }
 
         // from private key get public address
-        var privkey = new Buffer(pk, 'hex');
+        var privkey = new buffer.Buffer(pk, 'hex');
         let pa = ethereum.privateToAddress(privkey).toString('hex');
         console.log("ethereum public address = " + pa)
         if (pa !== null) {
@@ -213,7 +214,7 @@ class NewEthereum extends Component {
 
                 <div className="col-xs-12">
                     <p className="send-notice">
-                      If you generate a new Ethereum address, you must backup/print the new Ehereum private key. Please backup all private data!
+                        You should store your private key off-line in a safe dry place such as a safety deposit box or fire-proof safe. Saving your private key on your computer or mobile device is not reccomended.
                     </p>
 
                 </div>
