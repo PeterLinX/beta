@@ -14,7 +14,8 @@
     "test": "jest",
     "test-watch": "jest --watch",
     "pack": "build --dir",
-    "dist": "build -mw --ia32",
+    "dist": "build -m",
+    "dist-win": "build -w --ia32",
     "lint-fix": "eslint app/** --fix"
   },
   "keywords": [],
