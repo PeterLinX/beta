@@ -206,7 +206,7 @@ class NewLitecoin extends Component {
 
 				<div className="col-xs-12">
 					<p className="send-notice">
-                    You should store your private key off-line in a safe dry place such as a safety deposit box or fire-proof safe. Saving your private key on your computer or mobile device is not reccomended.
+          If you generate a new Litecoin address, you must backup/print the new Litecoin private key. Please backup all private data!
 					</p>
 
 				</div>

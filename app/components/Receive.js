@@ -1,30 +1,30 @@
 import React, { Component } from "react";
+import { Link } from "react-router";
 import { connect } from "react-redux";
-import QRCode from "qrcode.react";
-import { clipboard } from "electron";
-import { shell } from "electron";
-import neoLogo from "../img/neo.png";
-import copyIcon from "../images/copy-icon.png";
-import printIcon from "../images/print-icon.png";
-import emailIcon from "../images/email-icon.png";
-import linkIcon from "../images/link-icon.png";
-import TopBar from "./TopBar";
-import Assets from "./Assets";
+import { shell, clipboard } from "electron";
+import Copy from "react-icons/lib/md/content-copy";
+import Delete from "react-icons/lib/md/delete";
+import _ from "lodash";
+import fs from "fs";
+import storage from "electron-json-storage";
 import ReactTooltip from "react-tooltip";
+import Assets from "./Assets";
+import neoLogo from "../img/neo.png";
+import QRCode from "qrcode.react";
 
-const getLink = (net, address) => {
-	let base;
-	if (net === "MainNet") {
-		base = "https://neotracker.io/address/";
-	} else {
-		base = "https://testnet.neotracker.io/address/";
-	}
-	return base + address;
-};
+import { setBlockExplorer } from "../modules/metadata";
+import { setKeys } from "../modules/account";
+import { NetworkSwitch } from "../components/NetworkSwitch";
+import { syncTransactionHistory } from "../components/NetworkSwitch";
 
-const openExplorer = srcLink => {
-	shell.openExternal(srcLink);
-};
+import Logo from "./Brand/LogoBlank";
+import NeoLogo from "./Brand/Neo";
+import Claim from "./Claim";
+import TopBar from "./TopBar";
+import gitsmLogo from "../img/gitsm.png";
+import twitsmLogo from "../img/twitsm.png";
+
+let explorer_select;
 
 const { dialog } = require("electron").remote;
 const saveKeyRecovery = keys => {
@@ -79,7 +79,60 @@ const loadKeyRecovery = dispatch => {
   });
 };
 
+const saveSettings = settings => {
+  storage.set("settings", settings);
+};
+
+const loadSettings = dispatch => {
+  storage.get("settings", (error, settings) => {
+    if (
+      settings.blockExplorer !== null &&
+      settings.blockExplorer !== undefined
+    ) {
+      dispatch(setBlockExplorer(settings.blockExplorer));
+    }
+  });
+};
+
+const updateSettings = dispatch => {
+  saveSettings({ blockExplorer: explorer_select.value });
+  dispatch(setBlockExplorer(explorer_select.value));
+};
+
+const deleteWallet = (dispatch, key) => {
+  storage.get("keys", (error, data) => {
+    delete data[key];
+    storage.set("keys", data);
+    dispatch(setKeys(data));
+  });
+};
+
+const getLink = (net, address) => {
+  let base;
+  if (net === "MainNet") {
+    base = "https://neotracker.io/address/";
+  } else {
+    base = "https://testnet.neotracker.io/address/";
+  }
+  return base + address;
+};
+
+const openExplorer = srcLink => {
+  shell.openExternal(srcLink);
+};
+
 class Receive extends Component {
+  componentDidMount = () => {
+    storage.get("keys", (error, data) => {
+      this.props.dispatch(setKeys(data));
+    });
+		syncTransactionHistory(
+      this.props.dispatch,
+      this.props.net,
+      this.props.address
+    );
+    loadSettings(this.props.dispatch);
+  };
 	render() {
 		console.log(this.props.net);
 		return (
@@ -166,13 +219,14 @@ class Receive extends Component {
 								</div>
 
 								<div
-									className="dash-icon-bar"
-								>
-									<div className="icon-border">
-										<span className="glyphicon glyphicon-save" />
-									</div>
-                Download Encrypted Key
-								</div>
+                  className="dash-icon-bar"
+                  onClick={() => saveKeyRecovery(this.props.wallets)}
+                >
+                  <div className="icon-border">
+                    <span className="glyphicon glyphicon-save" />
+                  </div>
+                  Export Encrypted Keys
+                </div>
 
 
 							</div>
@@ -197,12 +251,15 @@ class Receive extends Component {
 }
 
 const mapStateToProps = state => ({
-	blockHeight: state.metadata.blockHeight,
-	net: state.metadata.network,
-	address: state.account.address,
-	neo: state.wallet.Neo,
-	price: state.wallet.price,
-	gas: state.wallet.Gas
+	explorer: state.metadata.blockExplorer,
+  wallets: state.account.accountKeys,
+  blockHeight: state.metadata.blockHeight,
+  address: state.account.address,
+  net: state.metadata.network,
+  neo: state.wallet.Neo,
+  gas: state.wallet.Gas,
+  price: state.wallet.price,
+  transactions: state.wallet.transactions
 });
 
 Receive = connect(mapStateToProps)(Receive);

@@ -26,6 +26,8 @@ class Charts extends Component {
 			dbcData: [],
 			qlcData: [],
 			rpxData: [],
+			tncData: [],
+			zptData: [],
 			open: "--",
 			high: "--",
 			low: "--"
@@ -39,6 +41,8 @@ class Charts extends Component {
 		await this.getDbcData();
 		await this.getQlcData();
 		await this.getRpxData();
+		await this.getTncData();
+		await this.getZptData();
 	}
 
 	async getGasData() {
@@ -102,6 +106,28 @@ class Charts extends Component {
 			console.log(error);
 		}
 	}
+
+	// TNC
+	async getTncData() {
+		try {
+			let req = await axios.get(api("TNC"));
+			let data = req.data.Data;
+			this.setState({ tncData: data });
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	// ZPT
+	async getZptData() {
+		try {
+			let req = await axios.get(api("ZPT"));
+			let data = req.data.Data;
+			this.setState({ zptData: data });
+		} catch (error) {
+			console.log(error);
+		}
+	}
 	// Chart Data
 	render() {
 		const neoPrices = _.map(this.state.neoData, "close");
@@ -113,6 +139,8 @@ class Charts extends Component {
 		const btcPrices = _.map(this.state.btcData, "close");
 		const qlcPrices = _.map(this.state.qlcData, "close");
 		const rpxPrices = _.map(this.state.rpxData, "close");
+		const tncPrices = _.map(this.state.tncData, "close");
+		const zptPrices = _.map(this.state.zptData, "close");
 		const gasPrices = _.map(this.state.gasData, "close");
 		// Chart Styling
 		const data = canvas => {
@@ -165,6 +193,22 @@ class Charts extends Component {
 			let rpxGradientFill = ctx.createLinearGradient(0, 0, 0, 360);
 			rpxGradientFill.addColorStop(0, "rgba(169,3,41, 0.5)");
 			rpxGradientFill.addColorStop(1, "rgba(169,3,41, 0)");
+
+			let tncGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
+			tncGradientStroke.addColorStop(0, "#fd489b");
+			tncGradientStroke.addColorStop(1, "#fd489b");
+
+			let tncGradientFill = ctx.createLinearGradient(0, 0, 0, 360);
+			tncGradientFill.addColorStop(0, "rgba(217,64,134, 0.5)");
+			tncGradientFill.addColorStop(1, "rgba(217,64,134, 0)");
+
+			let zptGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
+			zptGradientStroke.addColorStop(0, "#7bc500");
+			zptGradientStroke.addColorStop(1, "#7bc500");
+
+			let zptGradientFill = ctx.createLinearGradient(0, 0, 0, 360);
+			zptGradientFill.addColorStop(0, "rgba(159,255,0, 0.5)");
+			zptGradientFill.addColorStop(1, "rgba(159,255,0, 0)");
 
 			// Chart Content
 			return {
@@ -299,6 +343,50 @@ class Charts extends Component {
 						pointHitRadius: 3,
 						pointRadius: 0,
 						data: rpxPrices
+					},
+					{
+						label: "TNC",
+						fill: true,
+						hidden: true,
+						lineTension: 0.25,
+						backgroundColor: tncGradientFill,
+						borderColor: tncGradientStroke,
+						borderCapStyle: "butt",
+						borderDash: [],
+						borderDashOffset: 0.0,
+						borderJoinStyle: "miter",
+						pointBorderWidth: 1,
+						pointHoverRadius: 3,
+						pointHoverBorderWidth: 0,
+						pointBorderColor: tncGradientStroke,
+						pointBackgroundColor: tncGradientStroke,
+						pointHoverBackgroundColor: tncGradientStroke,
+						pointHoverBorderColor: tncGradientStroke,
+						pointHitRadius: 3,
+						pointRadius: 0,
+						data: tncPrices
+					},
+					{
+						label: "ZPT",
+						fill: true,
+						hidden: true,
+						lineTension: 0.25,
+						backgroundColor: zptGradientFill,
+						borderColor: zptGradientStroke,
+						borderCapStyle: "butt",
+						borderDash: [],
+						borderDashOffset: 0.0,
+						borderJoinStyle: "miter",
+						pointBorderWidth: 1,
+						pointHoverRadius: 3,
+						pointHoverBorderWidth: 0,
+						pointBorderColor: zptGradientStroke,
+						pointBackgroundColor: zptGradientStroke,
+						pointHoverBackgroundColor: zptGradientStroke,
+						pointHoverBorderColor: zptGradientStroke,
+						pointHitRadius: 3,
+						pointRadius: 0,
+						data: zptPrices
 					}
 				]
 			};
