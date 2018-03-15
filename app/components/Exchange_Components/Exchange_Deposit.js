@@ -26,9 +26,6 @@ export default class Exchange_Deposit extends Component {
 								</div>
 							</div>
 							<div className="col-xs-8">
-								<div className="exch-logos">
-									<img src={"https://shapeshift.io/images/coins/'{inputAsset}'.png"} width={40} />
-								</div>
 								<h4 className="top-20">
 									Deposit {depositAmount} {inputAsset} and receive {withdrawalAmount} {outputAsset}
 								</h4>

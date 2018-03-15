@@ -249,7 +249,7 @@ class AssetPortolio extends Component {
 
 								<div className="port-price-col">
 									<span className="market-price">Galaxy {numeral(this.props.marketGALAPrice).format("$0,0.00")}</span>
-									<h3>{numeral(this.props.gala/10000000000).format("0,0.000000")}  <span className="gas-price"> GALA</span></h3>
+									<h3>{numeral(this.props.gala/10000000000).format("0,0.000000")}  <span className="dbc-price"> GALA</span></h3>
 									<hr className="dash-hr" />
 									<span className="market-price">{numeral((this.props.gala/10000000000) * this.props.marketGALAPrice).format("$0,0.00")} USD</span>
 								</div>
