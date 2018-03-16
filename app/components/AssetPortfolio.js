@@ -564,7 +564,7 @@ class AssetPortolio extends Component {
 							<img
 								src={swhLogo}
 								alt=""
-								width="84"
+								width="44"
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
