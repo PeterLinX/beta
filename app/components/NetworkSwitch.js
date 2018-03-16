@@ -34,7 +34,7 @@ import { BLOCK_TOKEN } from "../core/constants";
 import transactions from "../modules/transactions";
 
 let intervals = {};
-let acatScriptHash, dbcScriptHash, galaScriptHash, iamScriptHash, nrveScriptHash, obtScriptHash, ontScriptHash, qlcScriptHash, rhtScriptHash, rpxScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, zptScriptHash;
+let acatScriptHash, dbcScriptHash, galaScriptHash, iamScriptHash, nrveScriptHash, obtScriptHash, ontScriptHash, qlcScriptHash, rhtScriptHash, rpxScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, swhScriptHash, zptScriptHash;
 let netSelect;
 
 // https://bittrex.com/api/v1.1/public/getmarkethistory?market=BTC-NEO
@@ -192,6 +192,16 @@ const getTncBalance = async (net,address) => {
     return getBalace	(net,address,tnc_token);
 }
 
+const getSwhBalance = async (net,address) => {
+    let swh_token;
+    if (net === "MainNet") {
+        swh_token = TOKENS.SWH;
+    } else {
+        swh_token = TOKENS_TEST.SWH;
+    }
+    return getBalace	(net,address,swh_token);
+}
+
 const getZptBalance = async (net,address) => {
     let zpt_token;
     if (net === "MainNet") {
@@ -235,7 +245,7 @@ const getGasPrice = async gasVal => {
 const getMarketPrice = async () => {
   try {
     let marketPrices = await axios.get(
-      "https://min-api.cryptocompare.com/data/pricemulti?fsyms=GAS,NEO,ACAT,BTC,CGE,DBC,ELA,ETH,GALA,LTC,LRC,OBT,ONT,QLC,RPX,THOR,TNC,TKY,XMR,ELA,ZPT&tsyms=USD"
+      "https://min-api.cryptocompare.com/data/pricemulti?fsyms=GAS,NEO,ACAT,BTC,CGE,DBC,ELA,ETH,GALA,LTC,LRC,OBT,ONT,QLC,RPX,THOR,TNC,TKY,SWH,XMR,ZPT&tsyms=USD"
     );
     console.log("market price="+JSON.stringify(marketPrices));
     return marketPrices;
@@ -538,6 +548,9 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
             let tncBalance = await getTncBalance(net,address);
             console.log("tnc balance= " + tncBalance);
 
+            let swhBalance = await getSwhBalance(net,address);
+            console.log("swh balance= " + tncBalance);
+
             let zptBalance = await getZptBalance(net,address);
             console.log("zpt balance= " + zptBalance);
 
@@ -558,6 +571,7 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
                 thorBalance,
                 tkyBalance,
                 tncBalance,
+                SwhBalance,
                 zptBalance,
                 rhtBalance,
                 nrveBalance,

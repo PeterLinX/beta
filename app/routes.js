@@ -27,6 +27,7 @@ import Ledger from "./components/Ledger";
 import Tokens from "./components/Tokens";
 import Sale from "./components/Sale";
 import Loopring from "./components/NepTokens/Loopring";
+import SendSWH from "./components/NepTokens/SendSWH";
 import SendOBT from "./components/NepTokens/SendOBT";
 import SendCGE from "./components/NepTokens/SendCGE";
 import SendIAM from "./components/NepTokens/SendIAM";
@@ -76,6 +77,7 @@ export default (
 			<Route path="/sendNRVE" component={SendNRVE} />
 			<Route path="/sendONT" component={SendONT} />
 			<Route path="/sendTHOR" component={SendTHOR} />
+			<Route path="/sendSWH" component={SendSWH} />
 			<Route path="/sendZPT" component={SendZPT} />
 			<Route path="/sendHP" component={SendHP} />
 			<Route path="/sendCGE" component={SendCGE} />

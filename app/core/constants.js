@@ -69,6 +69,7 @@ export const TOKENS_TEST = {
 	RHT: '2328008e6f6c7bd157a342e789389eb034d9cbc4',
 	RPX: 'ecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9',
 	QLC: '0d821bd7b6d53f5c2b40e217c6defc8bbe896cf5',
+	SWH: '78e6d16b914fe15bc16150aeb11d0c2a8e532bdd',
 	THOR: '67a5086bac196b67d5fd20745b0dc9db4d2930ed',
 	TKY: '132947096727c84c7f9e076c90f08fec3bc17f18',
 	TNC: '08e8c4400f1af2c20c28e0018f29535eb85d15b6',
@@ -88,6 +89,7 @@ export const TOKENS = {
 	RHT: '2328008e6f6c7bd157a342e789389eb034d9cbc4',
 	RPX: 'ecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9',
 	QLC: '0d821bd7b6d53f5c2b40e217c6defc8bbe896cf5',
+	SWH: '78e6d16b914fe15bc16150aeb11d0c2a8e532bdd',
 	THOR: '67a5086bac196b67d5fd20745b0dc9db4d2930ed',
 	TKY: '132947096727c84c7f9e076c90f08fec3bc17f18',
 	TNC: '08e8c4400f1af2c20c28e0018f29535eb85d15b6',
@@ -97,11 +99,13 @@ export const TOKENS = {
 export const TOKEN_SCRIPT_TEST = [
 	{token: "Orbis (OBT)", hashscript: '0e86a40588f715fcaf7acd1812d50af478e6e917'},
   {token: "Thor (THOR)", hashscript: '67a5086bac196b67d5fd20745b0dc9db4d2930ed'},
+	{token: "Switcheo (SWH)", hashscript: '78e6d16b914fe15bc16150aeb11d0c2a8e532bdd'},
 ];
 
 export const TOKEN_SCRIPT = [
 	{token: "Orbis (OBT)", hashscript: '0e86a40588f715fcaf7acd1812d50af478e6e917'},
   {token: "Thor (THOR)", hashscript: '67a5086bac196b67d5fd20745b0dc9db4d2930ed'},
+	{token: "Switcheo (SWH)", hashscript: '78e6d16b914fe15bc16150aeb11d0c2a8e532bdd'},
 ];
 
 export  const BLOCK_TOKEN = "9ba58edd979a467a96f361a45b040b75";

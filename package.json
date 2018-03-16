@@ -149,7 +149,7 @@
     "html-webpack-plugin": "^2.16.1",
     "jest": "^20.0.4",
     "json-loader": "^0.5.4",
-    "node-sass": "latest",
+    "node-sass": "^4.7.2",
     "postcss-loader": "^0.9.1",
     "prettier": "1.11.1",
     "react-addons-test-utils": "^15.0.2",
