@@ -259,6 +259,7 @@ class SendRPX extends Component {
       neo_usd: "0",
       gas_usd: "0",
       value: "0",
+      rpxPrice: 0,
       inputEnabled: true,
       fiatVal: 0,
       tokenVal: 0
@@ -322,12 +323,13 @@ class SendRPX extends Component {
             </div>
 
             <div className="col-xs-3 center">
-            <span className="market-price"> {numeral(this.props.marketRPXPrice).format("$0,0.00")}</span><br />
             <span className="font-16">{numeral(
               Math.floor(this.props.rpx * 100000) / 100000
-            ).format("0,0.0000")} <span className="rpx-price"> RPX</span></span>
-            </div>
+            ).format("0,0.0000")} <span className="rpx-price"> RPX</span></span><br />
 
+            <span className="market-price">{numeral(this.props.rpx * this.props.marketRPXPrice).format("$0,0.00")} USD</span>
+
+            </div>
             <div className="col-xs-12 center">
               <hr className="dash-hr-wide top-20" />
             </div>
@@ -448,6 +450,7 @@ const mapStateToProps = state => ({
   gas: state.wallet.Gas,
   selectedAsset: state.transactions.selectedAsset,
   confirmPane: state.dashboard.confirmPane,
+  marketRPXPrice: state.wallet.marketRPXPrice,
   rpx: state.wallet.Rpx
 });
 

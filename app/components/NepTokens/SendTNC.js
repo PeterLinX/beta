@@ -259,6 +259,7 @@ class SendTNC extends Component {
       neo_usd: "0",
       gas_usd: "0",
       value: "0",
+      tncPrice: 0,
       inputEnabled: true,
       fiatVal: 0,
       tokenVal: 0
@@ -322,10 +323,11 @@ class SendTNC extends Component {
             </div>
 
             <div className="col-xs-3 center">
-            <span className="market-price"> {numeral(this.props.marketTNCPrice).format("$0,0.00")}</span><br />
+
             <span className="font-16">{numeral(
               Math.floor(this.props.tnc * 100000) / 100000
-            ).format("0,0.0000")} <span className="hp-price"> TNC</span></span>
+            ).format("0,0.0000")} <span className="hp-price"> TNC</span></span><br />
+            <span className="market-price">{numeral(this.props.tnc * this.props.marketTNCPrice).format("$0,0.00")} USD</span>
             </div>
 
             <div className="col-xs-12 center">
@@ -446,6 +448,7 @@ const mapStateToProps = state => ({
   net: state.metadata.network,
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,
+  marketTNCPrice: state.wallet.marketTNCPrice,
   selectedAsset: state.transactions.selectedAsset,
   confirmPane: state.dashboard.confirmPane,
   tnc: state.wallet.Tnc

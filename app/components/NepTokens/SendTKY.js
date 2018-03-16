@@ -259,6 +259,7 @@ class SendTKY extends Component {
       neo_usd: "0",
       gas_usd: "0",
       value: "0",
+      tkyPrice: 0,
       inputEnabled: true,
       fiatVal: 0,
       tokenVal: 0
@@ -322,10 +323,11 @@ class SendTKY extends Component {
             </div>
 
             <div className="col-xs-3 center">
-            <span className="market-price"> {numeral(this.props.marketTKYPrice).format("$0,0.00")}</span><br />
+
             <span className="font-16">{numeral(
               Math.floor(this.props.tky * 100000) / 100000
-            ).format("0,0.0000")} <span className="dbc-price"> TKY</span></span>
+            ).format("0,0.0000")} <span className="dbc-price"> TKY</span></span><br />
+            <span className="market-price">{numeral(this.props.tky * this.props.marketTKYPrice).format("$0,0.00")} USD</span>
             </div>
 
             <div className="col-xs-12 center">
@@ -446,6 +448,7 @@ const mapStateToProps = state => ({
   net: state.metadata.network,
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,
+  marketTKYPrice: state.wallet.marketTKYPrice,
   selectedAsset: state.transactions.selectedAsset,
   confirmPane: state.dashboard.confirmPane,
   tky: state.wallet.Tky

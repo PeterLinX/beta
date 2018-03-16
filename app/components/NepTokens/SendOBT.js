@@ -322,10 +322,11 @@ class SendOBT extends Component {
             </div>
 
             <div className="col-xs-3 center ">
-            <span className="market-price"> {numeral(this.props.marketOBTPrice).format("$0,0.00")}</span><br />
+
             <span className="font-16">{numeral(
               Math.floor(this.props.obt * 100000) / 100000
-            ).format("0,0.0000")} <span className="thor-price"> OBT</span></span>
+            ).format("0,0.0000")} <span className="thor-price"> OBT</span></span><br />
+            <span className="market-price">{numeral(this.props.obt * this.props.marketOBTPrice).format("$0,0.00")} USD</span>
             </div>
 
             <div className="col-xs-12 center">

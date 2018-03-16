@@ -259,6 +259,7 @@ class SendNRVE extends Component {
       neo_usd: "0",
       gas_usd: "0",
       value: "0",
+      nrvePrice: 0,
       inputEnabled: true,
       fiatVal: 0,
       tokenVal: 0
@@ -322,10 +323,11 @@ class SendNRVE extends Component {
             </div>
 
             <div className="col-xs-3 center ">
-            <span className="market-price"> {numeral(this.props.marketNRVEPrice).format("$0,0.00")}</span><br />
+
             <span className="font-16">{numeral(
               Math.floor(this.props.nrve * 100000) / 100000
-            ).format("0,0.0000")} <span className="dbc-price"> NRVE</span></span>
+            ).format("0,0.0000")} <span className="dbc-price"> NRVE</span></span><br />
+            <span className="market-price">{numeral(this.props.nrve * this.props.marketNRVEPrice).format("$0,0.00")} USD</span>
             </div>
 
             <div className="col-xs-12 center">
