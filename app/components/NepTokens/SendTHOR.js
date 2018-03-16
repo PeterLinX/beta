@@ -322,10 +322,11 @@ class SendTHOR extends Component {
             </div>
 
             <div className="col-xs-3 center">
-            <span className="market-price"> {numeral(this.props.marketTHORPrice).format("$0,0.00")}</span><br />
+
             <span className="font-16">{numeral(
               Math.floor(this.props.thor * 100000) / 100000
-            ).format("0,0.0000")} <span className="thor-price"> THOR</span></span>
+            ).format("0,0.0000")} <span className="thor-price"> THOR</span></span><br />
+            <span className="market-price">{numeral(this.props.thor * this.props.marketTHORPrice).format("$0,0.00")} USD</span>
             </div>
 
             <div className="col-xs-12 center">

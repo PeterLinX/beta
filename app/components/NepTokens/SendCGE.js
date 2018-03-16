@@ -322,10 +322,11 @@ class SendCGE extends Component {
             </div>
 
             <div className="col-xs-3 center ">
-            <span className="market-price"> {numeral(this.props.marketCGEPrice).format("$0,0.00")}</span><br />
+
             <span className="font-16">{numeral(
               Math.floor(this.props.cge * 100000) / 100000
-            ).format("0,0.0000")} <span className="thor-price"> CGE</span></span>
+            ).format("0,0.0000")} <span className="thor-price"> CGE</span></span><br />
+            <span className="market-price">{numeral(this.props.cge * this.props.marketCGEPrice).format("$0,0.00")} USD</span>
             </div>
 
             <div className="col-xs-12 center">

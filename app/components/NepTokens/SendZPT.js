@@ -259,6 +259,7 @@ class SendZPT extends Component {
       neo_usd: "0",
       gas_usd: "0",
       value: "0",
+      zptPrice: 0,
       inputEnabled: true,
       fiatVal: 0,
       tokenVal: 0
@@ -322,10 +323,11 @@ class SendZPT extends Component {
             </div>
 
             <div className="col-xs-3 center">
-            <span className="market-price"> {numeral(this.props.marketZPTPrice).format("$0,0.00")}</span><br />
+
             <span className="font-16">{numeral(
               Math.floor(this.props.zpt * 100000) / 100000
-            ).format("0,0.0000")} <span className="neo-price"> ZPT</span></span>
+            ).format("0,0.0000")} <span className="neo-price"> ZPT</span></span><br />
+            <span className="market-price">{numeral(this.props.zpt * this.props.marketZPTPrice).format("$0,0.00")} USD</span>
             </div>
 
             <div className="col-xs-12 center">
@@ -446,6 +448,7 @@ const mapStateToProps = state => ({
   net: state.metadata.network,
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,
+  marketZPTPrice: state.wallet.marketZPTPrice,
   selectedAsset: state.transactions.selectedAsset,
   confirmPane: state.dashboard.confirmPane,
   zpt: state.wallet.Zpt
