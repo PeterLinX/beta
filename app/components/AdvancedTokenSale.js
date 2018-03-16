@@ -184,6 +184,7 @@ const oldParticipateInSaleEvent = (dispatch, wif, neo, gas, net, address) => {
         gasToSend = '0';
     }
 
+    console.log("token_script = "+ token_script)
     if (token_script.value !== undefined || token_script.value !== '') {
         scriptHash = token_script.value;
     } else {
@@ -364,34 +365,22 @@ class TokenSale extends Component {
         width="38"
         className="neo-logo fadeInDown marg-right-10"
       />
-      <h2>Participate in a NEP5 Token Sale</h2>
+      <h2>Advanced NEP5 Token Sale Options</h2>
 
 			<div className="row ">
 				<hr className="dash-hr-wide top-20" />
 			</div>
 
 			<div className="row top-20">
-				<div className="col-xs-3">
-				<p>Select Token</p>
-				<select
-				 name="select-profession"
-				 id="select-profession"
-				 className=""
-				 ref={node => (token_script = node)}
-				>
-						<option selected disabled={true}>
-						Select a hash script
-						</option>
-					{TOKEN_SCRIPT.map((item, key) => (
-						<option key={Math.random()} value={item.hashscript}>
-							{item.token}
-						</option>
-					))}
-
-				</select>
+				<div className="col-xs-12">
+				<p>Enter Tokes Sale Hashscript</p>
+        		<input
+				className="form-control-exchange"
+				ref={node => (token_script = node)}
+			   />
 				</div>
 
-				<div className="col-xs-3">
+				<div className="col-xs-4">
 				<p>Select payment method</p>
 				<select
 				 name="select-profession"
@@ -409,14 +398,14 @@ class TokenSale extends Component {
 				</select>
 				</div>
 
-				<div className="col-xs-3">
+				<div className="col-xs-4">
 				<p>Enter amount to send</p>
 				<input
 				className="form-control-exchange"
 				ref={node => (amount = node)} />
 				</div>
 
-				<div className="col-xs-3">
+				<div className="col-xs-4">
 				<button
 				className="btn-send top-30"
 				onClick={() => oldParticipateInSaleEvent(
@@ -443,17 +432,10 @@ class TokenSale extends Component {
         <div className="clearboth" />
 				<div className="col-xs-12">
 					<h4 className="center">
-          Only click send once.<br />
-          Please follow the rules of the token sale you are participating in. If your NEO address is not pre-qualified for the token sale your funds may be lost. Please follow all local laws as well as all KYC and AML requirements when participating in a token sale. Morpheus S.S. Ltd is not liable for the loss of any tokens. Sending more than the maximum amount may result in the excess tokens being lost. Do not send tokens to a sale that has ended.  Please research every token sale carefully before participating.
+          USE WITH CAUTION. ENTER A VALID HASHSCRIPT. SENDING NEO TO A TOKEN SALE THAT ENDED OR THAT HAS NOT STARTED CAN RESULT IN YOUR NEO BEING LOST.<br />
+          <br />
+          Only click send once. Please follow the rules of the token sale you are participating in. If your NEO address is not pre-qualified for the token sale your funds may be lost. Please follow all local laws as well as all KYC and AML requirements when participating in a token sale. Morpheus S.S. Ltd is not liable for the loss of any tokens. Sending more than the maximum amount may result in the excess tokens being lost. Do not send tokens to a sale that has ended.  Please research every token sale carefully before participating.
 					</h4>
-          <Link to="/advancedTokenSale">
-          <button
-  				className="print-btn-red top-30 center"
-  				>
-  					<span className="glyphicon glyphicon-edit marg-right-10"/> Advanced Token Sale Options
-  				</button>
-          </Link>
-
 				</div>
 
 				</div>

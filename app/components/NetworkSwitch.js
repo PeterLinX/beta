@@ -34,7 +34,7 @@ import { BLOCK_TOKEN } from "../core/constants";
 import transactions from "../modules/transactions";
 
 let intervals = {};
-let dbcScriptHash, iamScriptHash, nrveScriptHash, obtScriptHash, ontScriptHash, qlcScriptHash, rhtScriptHash, rpxScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, zptScriptHash;
+let acatScriptHash, dbcScriptHash, galaScriptHash, iamScriptHash, nrveScriptHash, obtScriptHash, ontScriptHash, qlcScriptHash, rhtScriptHash, rpxScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, zptScriptHash;
 let netSelect;
 
 // https://bittrex.com/api/v1.1/public/getmarkethistory?market=BTC-NEO
@@ -49,6 +49,28 @@ export const getMarketPriceUSD = amount => {
     });
 };
 
+const getAcatBalance = async (net,address) => {
+    let acat_token;
+    if (net === "MainNet") {
+        acat_token = TOKENS.ACAT;
+    } else {
+        acat_token = TOKENS_TEST.ACAT;
+    }
+    return getBalace (net,address,acat_token);
+}
+
+
+
+const getCgeBalance = async (net,address) => {
+    let cge_token;
+    if (net === "MainNet") {
+        cge_token = TOKENS.CGE;
+    } else {
+        cge_token = TOKENS_TEST.CGE;
+    }
+    return getBalace (net,address,cge_token);
+}
+
 const getDbcBalance = async (net,address) => {
     let dbc_token;
     if (net === "MainNet") {
@@ -57,6 +79,16 @@ const getDbcBalance = async (net,address) => {
         dbc_token = TOKENS_TEST.DBC;
     }
     return getBalace (net,address,dbc_token);
+}
+
+const getGalaBalance = async (net,address) => {
+    let gala_token;
+    if (net === "MainNet") {
+        gala_token = TOKENS.GALA;
+    } else {
+        gala_token = TOKENS_TEST.GALA;
+    }
+    return getBalace (net,address,gala_token);
 }
 
 const getIamBalance = async (net,address) => {
@@ -203,7 +235,7 @@ const getGasPrice = async gasVal => {
 const getMarketPrice = async () => {
   try {
     let marketPrices = await axios.get(
-      "https://min-api.cryptocompare.com/data/pricemulti?fsyms=GAS,NEO,BTC,DBC,ELA,ETH,LTC,LRC,ONT,QLC,RPX,THOR,TNC,TKY,XMR,ELA,ZPT&tsyms=USD"
+      "https://min-api.cryptocompare.com/data/pricemulti?fsyms=GAS,NEO,ACAT,BTC,CGE,DBC,ELA,ETH,GALA,LTC,LRC,OBT,ONT,QLC,RPX,THOR,TNC,TKY,XMR,ELA,ZPT&tsyms=USD"
     );
     console.log("market price="+JSON.stringify(marketPrices));
     return marketPrices;
@@ -464,8 +496,17 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
 
             let eth_usd = parseFloat(marketPrices.data.ETH.USD);
 
+            let acatBalance = await getAcatBalance(net,address);
+            console.log("acat balance= " + acatBalance);
+
+            let cgeBalance = await getCgeBalance(net,address);
+            console.log("cge balance= " + cgeBalance);
+
             let dbcBalance = await getDbcBalance(net,address);
             console.log("dbc balance= " + dbcBalance);
+
+            let galaBalance = await getGalaBalance(net,address);
+            console.log("gala balance= " + galaBalance);
 
             let iamBalance = await getIamBalance(net,address);
             console.log("iam balance= " + iamBalance);
@@ -506,7 +547,10 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
               setBalance(
                 resultBalance.Neo,
                 resultBalance.Gas,
+                acatBalance,
+                cgeBalance,
                 dbcBalance,
+                galaBalance,
                 obtBalance,
                 ontBalance,
                 qlcBalance,

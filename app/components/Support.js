@@ -130,21 +130,7 @@ class Support extends Component {
                     <strong>Yes.</strong> You may use the same private key and/or encrypted key and password to login to NEON, O3 and NeoTracker.
                    </div>
                  </AccordionItem>
-
-                 <AccordionItem titleClassName="accord-title" title="How do I exchange Bitcoin for NEO using Changelly in Morpheus?" className="col-xs-12">
-                 <div className="top-20 accord-body">
-                 <ol>
-                 <li>Select "Exchange" from the side menu</li>
-                 <li>Select Changelly</li>
-                 <li>Enter the amount in Bitcoin you would like to exchange for NEO</li>
-                 <li>Confirm the amount of NEO you will receive</li>
-                 <li>Click "Place Order" to generate a unique BTC Segwit deposit address.</li>
-                 <li>Deposit BTC to the unique address created for your trasnaction.</li>
-                 <li>Once you have sent BTC to the unique BTC address created in Morpheus and you have received at least one confirmation, click "Process Order". If you send less that the agreed amount in BTC you will receive an error and a refund in BTC. If you have any issues, please take note of your transaction ID.</li>
-                  <li>Once your BTC deposit has been received, Changelly will send your NEO to your address currently used in Morpheus.</li>
-                 </ol>
-                 </div>
-                 </AccordionItem>
+  
 
                  <AccordionItem titleClassName="accord-title" title="How do I login to my Ledger Nano S?" className="col-xs-12">
                  <div className="top-20 accord-body">

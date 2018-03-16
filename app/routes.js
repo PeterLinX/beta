@@ -27,6 +27,8 @@ import Ledger from "./components/Ledger";
 import Tokens from "./components/Tokens";
 import Sale from "./components/Sale";
 import Loopring from "./components/NepTokens/Loopring";
+import SendOBT from "./components/NepTokens/SendOBT";
+import SendCGE from "./components/NepTokens/SendCGE";
 import SendIAM from "./components/NepTokens/SendIAM";
 import SendNRVE from "./components/NepTokens/SendNRVE";
 import SendZPT from "./components/NepTokens/SendZPT";
@@ -35,6 +37,7 @@ import SendTKY from "./components/NepTokens/SendTKY";
 import SendONT from "./components/NepTokens/SendONT";
 import SendRPX from "./components/NepTokens/SendRPX";
 import SendDBC from "./components/NepTokens/SendDBC";
+import SendGALA from "./components/NepTokens/SendGALA";
 import SendQLC from "./components/NepTokens/SendQLC";
 import SendTHOR from "./components/NepTokens/SendTHOR";
 import SendHP from "./components/NepTokens/SendHP";
@@ -56,6 +59,7 @@ import AdvancedEthereum from "./components/AdvancedEthereum";
 import DisplayPrivateKeysLTC from "./components/DisplayPrivateKeysLTC";
 import DisplayPrivateKeysETH from "./components/DisplayPrivateKeysETH";
 import TokenSale from "./components/TokenSale";
+import AdvancedTokenSale from "./components/AdvancedTokenSale";
 
 export default (
 	<Route path="/" component={App}>
@@ -64,6 +68,7 @@ export default (
 			<Route path="/loopring" component={Loopring} />
 			<Route path="/sendRPX" component={SendRPX} />
 			<Route path="/sendDBC" component={SendDBC} />
+			<Route path="/sendGALA" component={SendGALA} />
 			<Route path="/sendQLC" component={SendQLC} />
 			<Route path="/sendTNC" component={SendTNC} />
 			<Route path="/sendTKY" component={SendTKY} />
@@ -73,6 +78,8 @@ export default (
 			<Route path="/sendTHOR" component={SendTHOR} />
 			<Route path="/sendZPT" component={SendZPT} />
 			<Route path="/sendHP" component={SendHP} />
+			<Route path="/sendCGE" component={SendCGE} />
+			<Route path="/sendOBT" component={SendOBT} />
 			<Route path="/sendBTC" component={SendBTC} />
 			<Route path="/sendLTC" component={SendLTC} />
 			<Route path="/sendETH" component={SendETH} />
@@ -103,6 +110,7 @@ export default (
 			<Route path="/DisplayPrivateKeysLTC/:history/:ltc_address/:ltcPrivKey"  component={DisplayPrivateKeysLTC}/>
 		<Route path="/DisplayPrivateKeysETH/:history/:eth_address/:ethPrivKey"  component={DisplayPrivateKeysETH}/>
 		<Route path="/tokenSale" component={TokenSale} />
+		<Route path="/advancedTokenSale" component={AdvancedTokenSale}/>
 		</Route>
 		<Route path="/create" component={CreateWallet} />
 		<Route path="/encryptKey" component={EncryptKey} />

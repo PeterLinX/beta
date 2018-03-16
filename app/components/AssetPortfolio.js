@@ -153,7 +153,7 @@ class AssetPortolio extends Component {
 								<span className="market-price">Concierge {numeral(this.props.marketCGEPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.cge * 100000) / 100000
-								).format("0,0.0000")} <span className="dbc-price"> CGE</span></h3>
+								).format("0,0.0000")} <span className="thor-price"> CGE</span></h3>
 								<hr className="dash-hr" />
 								<span className="market-price">{numeral(this.props.cge*this.props.marketCGEPrice).format("$0,0.00")} USD</span>
 							</div>
@@ -225,7 +225,7 @@ class AssetPortolio extends Component {
 
 							<div className="port-price-col">
 								<span className="market-price">Ethereum {numeral(this.props.marketETHPrice).format("$0,0.00")}</span>
-								<h3>{numeral(this.props.eth/10000000000).format("0,0.000000")}  <span className="eth-price"> ETH</span></h3>
+								<h3>{numeral(this.props.eth/10000000000).format("0,0.0000")}  <span className="eth-price"> ETH</span></h3>
 								<hr className="dash-hr" />
 								<span className="market-price">{numeral((this.props.eth/10000000000) * this.props.marketETHPrice).format("$0,0.00")} USD</span>
 							</div>
@@ -249,7 +249,7 @@ class AssetPortolio extends Component {
 
 								<div className="port-price-col">
 									<span className="market-price">Galaxy {numeral(this.props.marketGALAPrice).format("$0,0.00")}</span>
-									<h3>{numeral(this.props.gala/10000000000).format("0,0.000000")}  <span className="dbc-price"> GALA</span></h3>
+									<h3>{numeral(this.props.gala/10000000000).format("0,0.0000")}  <span className="dbc-price"> GALA</span></h3>
 									<hr className="dash-hr" />
 									<span className="market-price">{numeral((this.props.gala/10000000000) * this.props.marketGALAPrice).format("$0,0.00")} USD</span>
 								</div>
@@ -301,7 +301,7 @@ class AssetPortolio extends Component {
 
 						<div className="port-price-col">
 							<span className="market-price">Guardium {numeral(this.props.marketGDMPrice).format("$0,0.00")}</span>
-							<h3>{numeral(this.props.gdm/10000000000).format("0,0.000000")}  <span className="ltc-price"> GDM</span></h3>
+							<h3>{numeral(this.props.gdm/10000000000).format("0,0.0000")}  <span className="ltc-price"> GDM</span></h3>
 							<hr className="dash-hr" />
 							<span className="market-price">{numeral((this.props.gdm/10000000000) * this.props.marketGDMPrice).format("$0,0.00")} USD</span>
 						</div>
@@ -466,7 +466,7 @@ class AssetPortolio extends Component {
 
 							<div className="port-price-col">
 								<span className="market-price">Orbis $0.00 USD</span>
-								<h3>{numeral(this.props.obt/10000000000).format("0,0.000000")}  <span className="thor-price"> OBT</span></h3>
+								<h3>{numeral(this.props.obt/10000000000).format("0,0.0000")}  <span className="thor-price"> OBT</span></h3>
 								<hr className="dash-hr" />
 								<span className="market-price">$0.00 USD</span>
 							</div>
@@ -491,12 +491,12 @@ class AssetPortolio extends Component {
 							</div>
 
 							<div className="port-price-col">
-								<span className="market-price">Ontology $0.00</span>
+								<span className="market-price">Ontology {numeral(this.props.marketONTPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.ont * 100000) / 100000
 								).format("0,0.0000")} <span className="dbc-price"> ONT</span></h3>
 								<hr className="dash-hr" />
-								<span className="market-price">$0.00 USD</span>
+								<span className="market-price">{numeral(this.props.ont*this.props.marketONTPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
 						</Link>
@@ -668,6 +668,7 @@ class AssetPortolio extends Component {
 const mapStateToProps = state => ({
 	gas: state.wallet.Gas,
 	neo: state.wallet.Neo,
+	cge: state.wallet.Cge,
 	btc: state.wallet.Btc,
 	dbc: state.wallet.Dbc,
 	iam: state.wallet.Iam,
