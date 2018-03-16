@@ -572,10 +572,10 @@ class AssetPortolio extends Component {
 							</div>
 
 							<div className="port-price-col">
-								<span className="market-price">Red Pulse {numeral(this.props.marketSWHPrice).format("$0,0.00")}</span>
+								<span className="market-price">Switcheo {numeral(this.props.marketSWHPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.swh * 100000) / 100000
-								).format("0,0.0000")} <span className="neo-price"> RPX</span></h3>
+								).format("0,0.0000")} <span className="neo-price"> SWH</span></h3>
 								<hr className="dash-hr" />
 								<span className="market-price">{numeral(this.props.swh * this.props.marketSWHPrice).format("$0,0.00")} USD</span>
 							</div>

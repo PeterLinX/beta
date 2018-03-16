@@ -549,7 +549,7 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
             console.log("tnc balance= " + tncBalance);
 
             let swhBalance = await getSwhBalance(net,address);
-            console.log("swh balance= " + tncBalance);
+            console.log("swh balance= " + swhBalance);
 
             let zptBalance = await getZptBalance(net,address);
             console.log("zpt balance= " + zptBalance);
@@ -568,10 +568,10 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
                 ontBalance,
                 qlcBalance,
                 rpxBalance,
+                swhBalance,
                 thorBalance,
                 tkyBalance,
                 tncBalance,
-                SwhBalance,
                 zptBalance,
                 rhtBalance,
                 nrveBalance,
