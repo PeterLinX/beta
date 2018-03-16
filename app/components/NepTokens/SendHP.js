@@ -20,6 +20,7 @@ import {
 } from "../../modules/transactions";
 import { ASSETS, TOKENS, TOKENS_TEST } from "../../core/constants";
 import { flatMap, keyBy, get, omit, pick } from "lodash";
+import numeral from "numeral";
 
 let sendAddress, sendAmount, confirmButton, scriptHash, rhp_usd, gas_usd;
 

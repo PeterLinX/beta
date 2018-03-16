@@ -20,6 +20,7 @@ import {
 } from "../../modules/transactions";
 import { ASSETS, TOKENS, TOKENS_TEST } from "../../core/constants";
 import { flatMap, keyBy, get, omit, pick } from "lodash";
+import numeral from "numeral";
 
 let sendAddress, sendAmount, confirmButton, scriptHash, qlc_usd, gas_usd;
 
@@ -320,8 +321,11 @@ class SendQLC extends Component {
               <h2>Send QLink Tokens</h2>
             </div>
 
-            <div className="col-xs-3 top-20 center com-soon">
-              Block: {this.props.blockHeight}
+            <div className="col-xs-3 center">
+            <span className="market-price"> {numeral(this.props.marketQLCPrice).format("$0,0.00")}</span><br />
+            <span className="font-16">{numeral(
+              Math.floor(this.props.qlc * 100000) / 100000
+            ).format("0,0.0000")} <span className="qlink-price"> QLC</span></span>
             </div>
 
             <div className="col-xs-12 center">

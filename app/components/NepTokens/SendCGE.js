@@ -321,11 +321,11 @@ class SendCGE extends Component {
               <h2>Send Concierge Tokens</h2>
             </div>
 
-            <div className="col-xs-3 top-20 center com-soon">
-            <span className="market-price">Concierge {numeral(this.props.marketCGEPrice).format("$0,0.00")}</span>
-            <h3>{numeral(
+            <div className="col-xs-3 center ">
+            <span className="market-price"> {numeral(this.props.marketCGEPrice).format("$0,0.00")}</span><br />
+            <span className="font-16">{numeral(
               Math.floor(this.props.cge * 100000) / 100000
-            ).format("0,0.0000")} <span className="thor-price"> CGE</span></h3>
+            ).format("0,0.0000")} <span className="thor-price"> CGE</span></span>
             </div>
 
             <div className="col-xs-12 center">
