@@ -82,7 +82,7 @@ const openAndValidate = (dispatch, neo_balance, gas_balance, asset) => {
 
 
 const refreshBalance = (dispatch, net, address, btc_address) => {
-  dispatch(sendEvent(true, "Refreshing the Bitcoin blockchain may take up to 5 minutes or more..."));
+  dispatch(sendEvent(true, "Refreshing the Bitcoin blockchain may take up to 5 minutes or more. Click Morpheus logo to cancel."));
   initiateGetBalance(dispatch, net, address, btc_address).then(response => {
     dispatch(sendEvent(true, "Received latest blockchain information."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);

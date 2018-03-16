@@ -26,9 +26,9 @@ const getLink = (net, address) => {
 };
 
 const refreshBalance = (dispatch, net, address, btc_address) => {
-  dispatch(sendEvent(true, "Refreshing the Bitcoin blockchain may take up to 5 minutes or more..."));
+  dispatch(sendEvent(true, "Refreshing the Bitcoin blockchain may take up to 5 minutes or more. Click Morpheus logo to cancel."));
   initiateGetBalance(dispatch, net, address, btc_address).then(response => {
-    dispatch(sendEvent(true, "Received latest blockchain information."));
+    dispatch(sendEvent(true, "Received latest blockchain information.  Click Morpheus logo to refresh balances is needed."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
   });
 };

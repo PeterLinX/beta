@@ -233,11 +233,11 @@ const sendGalaTransaction = async (dispatch, net, selfAddress, wif) => {
       });
       console.log("sending gala response=" + response.result);
       if (!response.result) {
-        dispatch(sendEvent(false, "Sorry, your transaction failed. Please try again soon."));
+        dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
 				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
       } else {
         dispatch(sendEvent(false,
-        "Transaction complete! Your balance will automatically update when the blockchain has processed it." ));
+        "Sorry, your transaction failed. Please try again soon." ));
 				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
       }
     } catch (err) {

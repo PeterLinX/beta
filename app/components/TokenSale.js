@@ -121,10 +121,10 @@ const participateInSaleEvent = (dispatch, wif, neo, gas, net, address) => {
 		address
 	).then(success => {
 		if (success) {
-			dispatch(sendEvent(true,"Congratualtions. Token purchase was successful!"));
+			dispatch(sendEvent(true,"Congratualtions. Your token purchase was successful! Your token balance will be updated with the next block. Please check transaction history for confirmation."));
 			return true;
 		} else {
-            dispatch(sendEvent(false,"Sorry. Your transaction failed. Please try again shortly."));
+            dispatch(sendEvent(false,"Sorry. Your transaction failed. Please check address and try again shortly."));
             return false;
 		}
 	})
@@ -413,7 +413,11 @@ class TokenSale extends Component {
 				<p>Enter amount to send</p>
 				<input
 				className="form-control-exchange"
-				ref={node => (amount = node)} />
+				ref={node => (amount = node)}
+        min="1"
+        step="1"
+        pattern="[1-9999]"
+        />
 				</div>
 
 				<div className="col-xs-3">

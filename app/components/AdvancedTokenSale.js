@@ -204,7 +204,7 @@ const oldParticipateInSaleEvent = (dispatch, wif, neo, gas, net, address) => {
 		address
 	).then(success => {
 		if (success) {
-            dispatch(sendEvent(true,"Congratulations. ICO tokens purchased successfully! Your balance will be updated shortly."));
+            dispatch(sendEvent(true,"Congratualtions. Your token purchase was successful! Your token balance will be updated with the next block. Please check transaction history for confirmation."));
             setTimeout(() => dispatch(clearTransactionEvent()), 5000);
         		return true;
 		} else {
