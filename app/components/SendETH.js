@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
 import { doSendAsset, verifyAddress } from "neon-js";
-import Modal from "react-bootstrap-modal";
+//import Modal from "react-bootstrap-modal";
+import Modal from "react-modal";
 import axios from "axios";
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
@@ -19,6 +20,7 @@ import { etcLoginRedirect } from '../modules/account';
 import {BLOCK_TOKEN} from "../core/constants";
 import numeral from "numeral";
 import { block_index} from "../components/NetworkSwitch";
+import { ethLoginRedirect } from "../modules/account";
 
 var bitcoin = require("bitcoinjs-lib");
 var WAValidator = require("wallet-address-validator");
@@ -30,15 +32,30 @@ var ethereum_address = require("ethereum-address");
 
 let sendAddress, sendAmount, confirmButton, inputSendAddress;
 
-
-const refreshBalance = (dispatch, net, eth_address) => {
-  dispatch(sendEvent(true, "Refreshing the Ethereum blockchain may take up to 5 minutes or more. Click Morpheus logo to cancel."));
-  initiateGetBalance(dispatch, net, eth_address).then(response => {
-    dispatch(sendEvent(true, "Received latest blockchain information."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-  });
+const styles = {
+    overlay: {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.75)"
+    },
+    content: {
+        margin: "100px auto 0",
+        padding: "30px 30px 30px 30px",
+        border: "4px solid #222",
+        background: "rgba(12, 12, 14, 1)",
+        borderRadius: "20px",
+        top: "100px",
+        height: 260,
+        width: 600,
+        left: "100px",
+        right: "100px",
+        bottom: "100px",
+        boxShadow: "0px 10px 44px rgba(0, 0, 0, 0.45)"
+    }
 };
-
 
 const apiURL = val => {
     return "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD";
@@ -121,7 +138,7 @@ const sendTransaction = (
                     }
                     sendtx.tosign = tmptx.data.tosign
                     sendtx.signatures = tmptx.data.tosign.map(function(tosign, n) {
-                        return keys.sign(new buffer.Buffer(tosign, "hex")).toDER().toString("hex");
+                       return keys.sign(new buffer.Buffer(tosign, "hex")).toDER().toString("hex");
                     });
 
                     axios.post(send_base,sendtx).then(function (finaltx) {
@@ -141,6 +158,35 @@ const sendTransaction = (
     confirmButton.blur();
 }
 
+const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm }) => {
+    let message = (
+        <Modal
+            isOpen={true}
+            closeTimeoutMS={5}
+            style={styles}
+            contentLabel="Modal"
+            ariaHideApp={false}
+        >
+            <div>
+                <div className="center modal-alert">
+                </div>
+                <div className="center modal-alert top-20">
+                    <strong>Confirm sending {sendAmount} ETH to {sendAddress}</strong>
+                </div>
+                <div className="row top-30">
+                    <div className="col-xs-6">
+                        <button className="cancel-button" onClick={handleCancel}>Cancel</button>
+                    </div>
+                    <div className="col-xs-6">
+                        <button className="btn-send" onClick={handleConfirm}>Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </Modal>
+    );
+    return message;
+};
+
 class SendETH extends Component {
     constructor(props) {
         super(props);
@@ -151,7 +197,8 @@ class SendETH extends Component {
             neo_usd: 0,
             gas_usd: 0,
             value: 0,
-            inputEnabled: true
+            inputEnabled: true,
+            modalStatus: false
         };
         this.handleChangeNeo = this.handleChangeNeo.bind(this);
         this.handleChangeGas = this.handleChangeGas.bind(this);
@@ -227,19 +274,50 @@ class SendETH extends Component {
         if (selectedAsset === "Gas") {
             btnClass = "btn-send";
             convertFunction = this.handleChangeNeo;
-            formClass = "form-control-exchange";
+            formClass = "ledger-address";
             priceUSD = this.state.neo_usd;
             inputEnabled = true;
         } else if (selectedAsset === "Neo") {
             gasEnabled = true;
             inputEnabled = true;
             btnClass = "btn-send";
-            formClass = "form-control-exchange";
+            formClass = "ledger-address";
             priceUSD = this.state.gas_usd;
             convertFunction = this.handleChangeGas;
         }
         return (
             <div>
+                {
+                    this.state.modalStatus?
+                        <StatusMessage
+                            sendAmount={sendAmount.value}
+                            sendAddress={inputSendAddress.value}
+                            handleCancel = {
+                                () => {
+                                    this.setState({
+                                        modalStatus: false
+                                    })
+                                }
+                            }
+                            handleConfirm ={() => {
+                                sendTransaction(
+                                    dispatch,
+                                    net,
+                                    eth_address,
+                                    ethPrivKey,
+                                    selectedAsset,
+                                    neo,
+                                    gas,
+                                    eth
+                                )
+                                this.setState({
+                                    modalStatus: false
+                                })
+                            }}
+                        />
+                        :
+                        null
+                }
                 <div id="send">
 
                     <div className="row dash-panel">
@@ -281,7 +359,7 @@ class SendETH extends Component {
                         <div className="top-20">
                             <div className="col-xs-9">
                                 <input
-                                    className={formClass}
+                                    className="form-control-exchange"
                                     id="center"
                                     placeholder="Enter a valid ETH public address here"
                                     ref={node => {
@@ -301,7 +379,7 @@ class SendETH extends Component {
 
                             <div className="col-xs-5  top-20">
                                 <input
-                                    className={formClass}
+                                    className="form-control-exchange"
                                     type="number"
                                     id="assetAmount"
                                     min="1"
@@ -317,7 +395,7 @@ class SendETH extends Component {
                             </div>
                             <div className="col-xs-4 top-20">
                                 <input
-                                    className={formClass}
+                                    className="form-control-exchange"
                                     id="sendAmount"
                                     onChange={this.handleChangeUSD}
                                     onClick={this.handleChangeUSD}
@@ -333,17 +411,24 @@ class SendETH extends Component {
                                 <div id="sendAddress">
                                     <button
                                         className="grey-button"
-                                        onClick={() =>
-                                            sendTransaction(
-                                                dispatch,
-                                                net,
-                                                eth_address,
-                                                ethPrivKey,
-                                                selectedAsset,
-                                                neo,
-                                                gas,
-                                                this.props.eth
-                                            )
+                                        onClick={() => {
+                                            if (inputSendAddress.value === '') {
+                                                dispatch(sendEvent(false, "You can not send without address."));
+                                                setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                                                return false;
+                                            }
+
+
+                                            if (parseFloat(sendAmount.value) <= 0) {
+                                                dispatch(sendEvent(false, "You cannot send negative amounts of ETH."));
+                                                setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                                                return false;
+                                            }
+
+                                            this.setState({
+                                                modalStatus: true
+                                            })
+                                        }
                                         }
                                         ref={node => {
                                             confirmButton = node;
@@ -405,6 +490,7 @@ const mapStateToProps = state => ({
     ethLoggedIn: state.account.ethLoggedIn,
     ethPrivKey: state.account.ethPrivKey,
     ethPubAddr: state.account.ethPubAddr,
+    ethLoginRedirect: state.account.ethLoginRedirect,
     combined: state.wallet.combined
 });
 

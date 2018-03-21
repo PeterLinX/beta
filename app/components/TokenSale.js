@@ -5,6 +5,7 @@ import { clipboard } from "electron";
 import { shell } from "electron";
 import { api, wallet, sc, rpc, u } from "@cityofzion/neon-js";
 //import {api,wallet} from "neon-js";
+import Modal from "react-modal";
 import gdmLogo from "../img/gdm.png";
 import ReactTooltip from "react-tooltip";
 import gitsmLogo from "../img/gitsm.png";
@@ -22,6 +23,32 @@ import {oldMintTokens} from "../core/oldMintTokens";
 import { Link } from "react-router";
 
 let payment_method, token_script, amount;
+
+const styles = {
+    overlay: {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.75)"
+    },
+    content: {
+        margin: "100px auto 0",
+        padding: "30px 30px 30px 30px",
+        border: "4px solid #222",
+        background: "rgba(12, 12, 14, 1)",
+        borderRadius: "20px",
+        top: "100px",
+        height: 380,
+        width: 600,
+        right: "100px",
+        left: "100px",
+        bottom: "100px",
+        boxShadow: "0px 10px 44px rgba(0, 0, 0, 0.45)"
+    }
+};
+
 
 const getLink = (net, address) => {
 	let base;
@@ -121,10 +148,10 @@ const participateInSaleEvent = (dispatch, wif, neo, gas, net, address) => {
 		address
 	).then(success => {
 		if (success) {
-			dispatch(sendEvent(true,"Congratualtions. Your token purchase was successful! Your token balance will be updated with the next block. Please check transaction history for confirmation."));
+			dispatch(sendEvent(true,"Congratualtions. Token purchase was successful!"));
 			return true;
 		} else {
-            dispatch(sendEvent(false,"Sorry. Your transaction failed. Please check address and try again shortly."));
+            dispatch(sendEvent(false,"Sorry. Your transaction failed. Please try again shortly."));
             return false;
 		}
 	})
@@ -351,12 +378,86 @@ const participateInSale = async(
 	return true;
 }
 
+const StatusMessage = ({ sendAmount, sendToken, handleCancel, handleConfirm }) => {
+    let message = (
+		<Modal
+			isOpen={true}
+			closeTimeoutMS={5}
+			style={styles}
+			contentLabel="Modal"
+			ariaHideApp={false}
+		>
+			<div>
+				<div className="center modal-alert">
+				</div>
+				<div className="center modal-alert top-20">
+        <h2>Confirmation Needed!</h2>
+					<strong>Send {sendAmount} Neo to {sendToken} token sale?</strong>
+          <br /><br />
+          Please confirm the {sendToken} token sale is open before sending funds. Sending funds to a sale that has ended or that has not started may result in your funds being lost.
+				</div>
+				<div className="row top-30">
+					<div className="col-xs-6">
+						<button className="cancel-button" onClick={handleCancel}>Cancel</button>
+					</div>
+					<div className="col-xs-6">
+						<button className="btn-send" onClick={handleConfirm}>Confirm</button>
+					</div>
+				</div>
+			</div>
+		</Modal>
+    );
+    return message;
+};
+
 class TokenSale extends Component {
+	constructor(props){
+        super(props);
+        this.state = {
+            modalStatus: false
+		}
+	}
+
 	render() {
 		console.log(this.props.net);
 		return (
 			<div >
+                {
+                    this.state.modalStatus?
+						<StatusMessage
+							sendAmount={amount.value}
+							sendToken={
+								{
+									"0e86a40588f715fcaf7acd1812d50af478e6e917": "OBT",
+									"78e6d16b914fe15bc16150aeb11d0c2a8e532bdd": "SWH",
+									"67a5086bac196b67d5fd20745b0dc9db4d2930ed": "THOR"
 
+								}[token_script.value]
+							}
+							handleCancel = {
+                                () => {
+                                    this.setState({
+                                        modalStatus: false
+                                    })
+                                }
+                            }
+							handleConfirm ={() => {
+                                oldParticipateInSaleEvent(
+                                    this.props.dispatch,
+                                    this.props.wif,
+                                    this.props.neo,
+                                    this.props.gas,
+                                    this.props.net,
+                                    this.props.address
+                                )
+                                this.setState({
+                                    modalStatus: false
+                                })
+                            }}
+						/>
+                        :
+                        null
+                }
 			<div className="dash-panel">
       <img
         src={neoLogo}
@@ -379,7 +480,7 @@ class TokenSale extends Component {
 				 className=""
 				 ref={node => (token_script = node)}
 				>
-						<option selected disabled={true}>
+						<option selected disabled={true} value={''}>
 						Select a hash script
 						</option>
 					{TOKEN_SCRIPT.map((item, key) => (
@@ -400,7 +501,7 @@ class TokenSale extends Component {
 				 className=""
 				 ref={node => (payment_method = node)}
 				>
-						<option selected disabled={true}>
+						<option selected disabled={true} value={''}>
 
 						</option>
 								<option value="NEO">
@@ -414,23 +515,43 @@ class TokenSale extends Component {
 				<input
 				className="form-control-exchange"
 				ref={node => (amount = node)}
-        min="1"
-        step="1"
-        pattern="[1-9999]"
-        />
+				/>
 				</div>
 
 				<div className="col-xs-3">
 				<button
 				className="btn-send top-30"
-				onClick={() => oldParticipateInSaleEvent(
-					this.props.dispatch,
-					this.props.wif,
-					this.props.neo,
-					this.props.gas,
-					this.props.net,
-					this.props.address
-				)}
+				onClick={() => {
+                    if (token_script.value === '') {
+                        this.props.dispatch(sendEvent(false, "You can not send without address."));
+                        setTimeout(() => this.props.dispatch(clearTransactionEvent()), 1000);
+                        return false;
+                    }
+
+                    if (payment_method.value === '') {
+                        this.props.dispatch(sendEvent(false, "You can not send without payment method."));
+                        setTimeout(() => this.props.dispatch(clearTransactionEvent()), 1000);
+                        return false;
+                    }
+
+
+                    if (parseFloat(amount.value) <= 0) {
+                        this.props.dispatch(sendEvent(false, "You cannot send negative amounts of asset."));
+                        setTimeout(() => this.props.dispatch(clearTransactionEvent()), 1000);
+                        return false;
+                    }
+
+                    if (parseFloat(amount.value) !== parseInt(amount.value)) {
+                        this.props.dispatch(sendEvent(false, "You cannot send portion amounts of asset."));
+                        setTimeout(() => this.props.dispatch(clearTransactionEvent()), 1000);
+                        return false;
+					}
+
+                    this.setState({
+                        modalStatus: true
+                    })
+                }
+                }
 				>
 					<span className="glyphicon glyphicon-send marg-right-5"/> Send Now
 				</button>

@@ -4,7 +4,8 @@ import { Link } from "react-router";
 import Neon from "@cityofzion/neon-js";
 import { doSendAsset, verifyAddress } from "neon-js";
 import { api, wallet, sc, rpc, u } from "@cityofzion/neon-js";
-import Modal from "react-bootstrap-modal";
+//import Modal from "react-bootstrap-modal";
+import Modal from "react-modal";
 import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
@@ -36,8 +37,7 @@ const isToken = symbol => {
   ![ASSETS.NEO, ASSETS.GAS].includes(symbol);
 };
 // form validators for input fields
-const validateForm = (dispatch, neo_balance, gas_balance, asset) => {
-  alert(asset);
+const validateForm = (dispatch, swh_balance) => {
   // check for valid address
   try {
     if (
@@ -55,24 +55,19 @@ const validateForm = (dispatch, neo_balance, gas_balance, asset) => {
   }
   // check for fractional neo
   if (
-    asset === "Neo" &&
     parseFloat(sendAmount.value) !== parseInt(sendAmount.value)
   ) {
-    dispatch(sendEvent(false, "You cannot send fractional amounts of Neo."));
+    dispatch(sendEvent(false, "You cannot send fractional amounts of SWH."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
-  } else if (asset === "Neo" && parseInt(sendAmount.value) > neo_balance) {
+  } else if (parseInt(sendAmount.value) > swh_balance) {
     // check for value greater than account balance
-    dispatch(sendEvent(false, "You do not have enough NEO to send."));
+    dispatch(sendEvent(false, "You do not have enough SWH to send."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
-  } else if (asset === "Gas" && parseFloat(sendAmount.value) > gas_balance) {
-    dispatch(sendEvent(false, "You do not have enough GAS to send."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-    return false;
-  } else if (parseFloat(sendAmount.value) < 0) {
+  } else if (parseFloat(sendAmount.value) <= 0) {
     // check for negative asset
-    dispatch(sendEvent(false, "You cannot send negative amounts of an asset."));
+    dispatch(sendEvent(false, "You cannot send negative amounts of SWH."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   }
@@ -216,37 +211,70 @@ const sendSwhTransaction = async (dispatch, net, selfAddress, wif) => {
   };
   sendEntries.push(sendEntry);
   console.log("sendEntries = " + JSON.stringify(sendEntries));
-  if (swh_balance <= sendAmount.value) {
-    dispatch(sendEvent(false, "You are trying to send more SWH than you have available."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 2000);
-		return true;
-  } else {
-    dispatch(sendEvent(true, "Sending SWH...\n"));
-    try {
-      const { response } = await makeRequest(sendEntries, {
-        net,
-        tokensBalanceMap,
-        address: selfAddress,
-        undefined,
-        privateKey: privateKey,
-        signingFunction: null
-      });
-      console.log("sending swh response=" + response.result);
-      if (!response.result) {
-        dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
-				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+  if (validateForm(dispatch,swh_balance) === true) {
+      if (swh_balance <= sendAmount.value) {
+          dispatch(sendEvent(false, "You are trying to send more SWH than you have available."));
+          setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+          return true;
       } else {
-        dispatch(sendEvent(false,
-        "Sorry, your transaction failed. Please try again soon." ));
-				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+          dispatch(sendEvent(true, "Sending SWH...\n"));
+          try {
+              const { response } = await makeRequest(sendEntries, {
+                  net,
+                  tokensBalanceMap,
+                  address: selfAddress,
+                  undefined,
+                  privateKey: privateKey,
+                  signingFunction: null
+              });
+              console.log("sending swh response=" + response.result);
+              if (!response.result) {
+                  dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
+                  setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+              } else {
+                  dispatch(sendEvent(false,
+                      "Sorry, your transaction failed. Please try again soon." ));
+                  setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+              }
+          } catch (err) {
+              console.log("sending swh =" + err.message);
+              dispatch(sendEvent(false, "There was an error processing your trasnaction. Please check and try again."));
+              setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+              return false;
+          }
       }
-    } catch (err) {
-      console.log("sending swh =" + err.message);
-      dispatch(sendEvent(false, "There was an error processing your trasnaction. Please check and try again."));
-			setTimeout(() => dispatch(clearTransactionEvent()), 2000);
-	    return false;
-    }
   }
+
+};
+
+const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm }) => {
+    let message = null;
+    message = (
+        <Modal
+            isOpen={true}
+            closeTimeoutMS={5}
+            style={styles}
+            contentLabel="Modal"
+            ariaHideApp={false}
+        >
+          <div>
+            <div className="center modal-alert">
+            </div>
+            <div className="center modal-alert top-20">
+              <strong>Confirm sending {sendAmount} SWH to {sendAddress}</strong>
+            </div>
+            <div className="row top-30">
+              <div className="col-xs-6">
+                <button className="cancel-button" onClick={handleCancel}>Cancel</button>
+              </div>
+              <div className="col-xs-6">
+                <button className="btn-send" onClick={handleConfirm}>Confirm</button>
+              </div>
+            </div>
+          </div>
+        </Modal>
+    );
+    return message;
 };
 
 class SendSWH extends Component {
@@ -262,7 +290,8 @@ class SendSWH extends Component {
       swhPrice: 0,
       inputEnabled: true,
       fiatVal: 0,
-      tokenVal: 0
+      tokenVal: 0,
+      modalStatus: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeUSD = this.handleChangeUSD.bind(this);
@@ -309,6 +338,29 @@ class SendSWH extends Component {
 
     return (
       <div>
+          {
+              this.state.modalStatus?
+                  <StatusMessage
+                      sendAmount={sendAmount.value}
+                      sendAddress={sendAddress.value}
+                      handleCancel = {
+                          () => {
+                              this.setState({
+                                  modalStatus: false
+                              })
+                          }
+                      }
+                      handleConfirm ={() => {
+                          sendSwhTransaction(
+                              dispatch, net, address, wif)
+                          this.setState({
+                              modalStatus: false
+                          })
+                      }}
+                  />
+                  :
+                  null
+          }
         <Assets />
         <div id="send">
           <div className="row dash-chart-panel">
@@ -389,9 +441,24 @@ class SendSWH extends Component {
                 <div id="sendAddress">
                   <button
                     className="btn-send"
-                    onClick={() =>
-                      sendSwhTransaction(
-												dispatch, net, address, wif)
+                    onClick={() => {
+                        if (sendAddress.value === '') {
+                            dispatch(sendEvent(false, "You can not send without address."));
+                            setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                            return false;
+                        }
+
+
+                        if (parseFloat(sendAmount.value) <= 0) {
+                            dispatch(sendEvent(false, "You cannot send negative amounts of an SWH."));
+                            setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                            return false;
+                        }
+
+                        this.setState({
+                            modalStatus: true
+                        })
+                    }
                     }
                     ref={node => {
                       confirmButton = node;

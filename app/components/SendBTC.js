@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
 import { doSendAsset, verifyAddress } from "neon-js";
-import Modal from "react-bootstrap-modal";
+//import Modal from "react-bootstrap-modal";
+import Modal from "react-modal";
 import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
@@ -29,6 +30,31 @@ var bcypher = require("blockcypher");
 var CoinKey = require('coinkey')
 
 let sendAddress, sendAmount, confirmButton;
+
+const styles = {
+    overlay: {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.75)"
+    },
+    content: {
+        margin: "100px auto 0",
+        padding: "30px 30px 30px 30px",
+        border: "4px solid #222",
+        background: "rgba(12, 12, 14, 1)",
+        borderRadius: "20px",
+        top: "100px",
+        height: 260,
+        width: 600,
+        left: "100px",
+        right: "100px",
+        bottom: "100px",
+        boxShadow: "0px 10px 44px rgba(0, 0, 0, 0.45)"
+    }
+};
 
 const apiURL = val => {
 	return "https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD";
@@ -80,14 +106,6 @@ const openAndValidate = (dispatch, neo_balance, gas_balance, asset) => {
 	}
 };
 
-
-const refreshBalance = (dispatch, net, address, btc_address) => {
-  dispatch(sendEvent(true, "Refreshing the Bitcoin blockchain may take up to 5 minutes or more. Click Morpheus logo to cancel."));
-  initiateGetBalance(dispatch, net, address, btc_address).then(response => {
-    dispatch(sendEvent(true, "Received latest blockchain information."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-  });
-};
 
 function sleep(milliseconds) {
 	var start = new Date().getTime();
@@ -141,7 +159,7 @@ const sendTransaction = async (
             console.log("keys ="+keys);
 			var newtx = {
                 inputs: [{addresses: [selfAddress]}],
-                outputs: [{addresses: [sendAddress.value], value: satoshi_amount}]
+                outputs: [{addresses: [sendAddress.value],value: satoshi_amount}]
 			};
 
             if(net === "MainNet") {
@@ -181,17 +199,47 @@ const sendTransaction = async (
 	confirmButton.blur();
 };
 
+const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm }) => {
+    let message = (
+		<Modal
+			isOpen={true}
+			closeTimeoutMS={5}
+			style={styles}
+			contentLabel="Modal"
+			ariaHideApp={false}
+		>
+			<div>
+				<div className="center modal-alert">
+				</div>
+				<div className="center modal-alert top-20">
+					<strong>Confirm sending {sendAmount} BTC to {sendAddress}</strong>
+				</div>
+				<div className="row top-30">
+					<div className="col-xs-6">
+						<button className="cancel-button" onClick={handleCancel}>Cancel</button>
+					</div>
+					<div className="col-xs-6">
+						<button className="btn-send" onClick={handleConfirm}>Confirm</button>
+					</div>
+				</div>
+			</div>
+		</Modal>
+    );
+    return message;
+};
+
 class SendBTC extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: true,
-			gas: 0,
-			neo: 0,
-			neo_usd: 0,
-			gas_usd: 0,
-			value: 0,
-			inputEnabled: true
+        open: true,
+		gas: 0,
+		neo: 0,
+		neo_usd: 0,
+		gas_usd: 0,
+		value: 0,
+		inputEnabled: true,
+        modalStatus: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeUSD = this.handleChangeUSD.bind(this);
@@ -246,6 +294,37 @@ class SendBTC extends Component {
 
     return (
       <div>
+          {
+              this.state.modalStatus?
+				  <StatusMessage
+					  sendAmount={sendAmount.value}
+					  sendAddress={sendAddress.value}
+					  handleCancel = {
+                          () => {
+                              this.setState({
+                                  modalStatus: false
+                              })
+                          }
+                      }
+					  handleConfirm ={() => {
+                          sendTransaction(
+                              dispatch,
+                              net,
+                              btc_address,
+                              btc_prvkey,
+                              selectedAsset,
+                              neo,
+                              gas,
+                              btc
+                              )
+                          this.setState({
+                              modalStatus: false
+                          })
+                      }}
+				  />
+                  :
+                  null
+          }
 				<div id="send">
 
 					<div className="row dash-panel">
@@ -338,18 +417,25 @@ class SendBTC extends Component {
 								<div id="sendAddress">
 									<button
 										className="btc-button"
-										onClick={() =>
-											sendTransaction(
-												dispatch,
-												net,
-												btc_address,
-                        						btc_prvkey,
-												selectedAsset,
-												neo,
-												gas,
-												this.props.btc
-											)
-										}
+										onClick={() => {
+                                            if (sendAddress.value === '') {
+                                                dispatch(sendEvent(false, "You can not send without address."));
+                                                setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                                                return false;
+                                            }
+
+
+                                            if (parseFloat(sendAmount.value) <= 0) {
+                                                dispatch(sendEvent(false, "You cannot send negative amounts of BTC."));
+                                                setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                                                return false;
+                                            }
+
+                                            this.setState({
+                                                modalStatus: true
+                                            })
+                                        }
+                                        }
 										ref={node => {
 											confirmButton = node;
 										}}
@@ -363,7 +449,7 @@ class SendBTC extends Component {
 
 							<div className="col-xs-12 com-soon">
 							Fees: 0.0001 BTC/KB<br />
-							Block: {this.props.btcBlockHeight}{" "}
+							Block: {this.state.btcBlockHeight}{" "}
 
 							</div>
 							<div className="col-xs-12 top-30">
@@ -401,7 +487,7 @@ class SendBTC extends Component {
 }
 
 const mapStateToProps = state => ({
-    btcBlockHeight: state.metadata.btcBlockHeight,
+  btcBlockHeight: state.metadata.btcBlockHeight,
 	blockIndex: state.metadata.block_index,
 	wif: state.account.wif,
 	address: state.account.address,

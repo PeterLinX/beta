@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
 import { doSendAsset, verifyAddress } from "neon-js";
-import Modal from "react-bootstrap-modal";
+//import Modal from "react-bootstrap-modal";
+import Modal from "react-modal";
 import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
@@ -37,6 +38,31 @@ var bcypher = require("blockcypher");
 var CoinKey = require("coinkey");
 let sendAddress, sendAmount, confirmButton;
 
+const styles = {
+    overlay: {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.75)"
+    },
+    content: {
+        margin: "100px auto 0",
+        padding: "30px 30px 30px 30px",
+        border: "4px solid #222",
+        background: "rgba(12, 12, 14, 1)",
+        borderRadius: "20px",
+        top: "100px",
+        height: 260,
+        width: 600,
+        left: "100px",
+        right: "100px",
+        bottom: "100px",
+        boxShadow: "0px 10px 44px rgba(0, 0, 0, 0.45)"
+    }
+};
+
 const apiURL = val => {
   return "https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD";
 };
@@ -56,17 +82,6 @@ const getUnspentOutputsForLtc = async (net, address) => {
   console.log(response.data);
   return response.data;
 };
-
-
-const refreshBalance = (dispatch, net, litecoin_address) => {
-  dispatch(sendEvent(true, "Refreshing the Litecoin blockchain may take up to 5 minutes or more. Click Morpheus logo to cancel."));
-  initiateGetBalance(dispatch, net, ltc_address).then(response => {
-    dispatch(sendEvent(true, "Received latest blockchain information."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-  });
-};
-
-
 
 // form validators for input fields
 
@@ -211,6 +226,35 @@ const sendTransaction = (
   confirmButton.blur();
 };
 
+const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm }) => {
+    let message = (
+        <Modal
+            isOpen={true}
+            closeTimeoutMS={5}
+            style={styles}
+            contentLabel="Modal"
+            ariaHideApp={false}
+        >
+          <div>
+            <div className="center modal-alert">
+            </div>
+            <div className="center modal-alert top-20">
+              <strong>Confirm sending {sendAmount} LTC to {sendAddress}</strong>
+            </div>
+            <div className="row top-30">
+              <div className="col-xs-6">
+                <button className="cancel-button" onClick={handleCancel}>Cancel</button>
+              </div>
+              <div className="col-xs-6">
+                <button className="btn-send" onClick={handleConfirm}>Confirm</button>
+              </div>
+            </div>
+          </div>
+        </Modal>
+    );
+    return message;
+};
+
 class SendLTC extends Component {
   constructor(props) {
     super(props);
@@ -221,7 +265,8 @@ class SendLTC extends Component {
       neo_usd: 0,
       gas_usd: 0,
       value: 0,
-      inputEnabled: true
+      inputEnabled: true,
+      modalStatus: false
     };
     this.handleChangeNeo = this.handleChangeNeo.bind(this);
     this.handleChangeGas = this.handleChangeGas.bind(this);
@@ -311,6 +356,37 @@ class SendLTC extends Component {
     }
     return (
       <div>
+          {
+              this.state.modalStatus?
+                  <StatusMessage
+                      sendAmount={sendAmount.value}
+                      sendAddress={sendAddress.value}
+                      handleCancel = {
+                          () => {
+                              this.setState({
+                                  modalStatus: false
+                              })
+                          }
+                      }
+                      handleConfirm ={() => {
+                          sendTransaction(
+                              dispatch,
+                              net,
+                              ltc_address,
+                              ltc_wif,
+                              selectedAsset,
+                              neo,
+                              gas,
+                              ltc
+                          )
+                          this.setState({
+                              modalStatus: false
+                          })
+                      }}
+                  />
+                  :
+                  null
+          }
         <div id="send">
           <div className="row dash-panel">
             <div className="col-xs-8">
@@ -413,17 +489,24 @@ class SendLTC extends Component {
                 <div id="sendAddress">
                   <button
                     className="grey-button"
-                    onClick={() =>
-                      sendTransaction(
-                        dispatch,
-                        net,
-                        ltc_address,
-                        ltc_wif,
-                        selectedAsset,
-                        neo,
-                        gas,
-                        this.props.ltc
-                      )
+                    onClick={() => {
+                        if (sendAddress.value === '') {
+                            dispatch(sendEvent(false, "You can not send without address."));
+                            setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                            return false;
+                        }
+
+
+                        if (parseFloat(sendAmount.value) <= 0) {
+                            dispatch(sendEvent(false, "You cannot send negative amounts of LTC."));
+                            setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                            return false;
+                        }
+
+                        this.setState({
+                            modalStatus: true
+                        })
+                    }
                     }
                     ref={node => {
                       confirmButton = node;

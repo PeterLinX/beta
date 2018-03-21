@@ -586,6 +586,7 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
                 marketPrices.data.ETH.USD,
                 marketPrices.data.LTC.USD,
                 marketPrices.data.LRC.USD,
+                marketPrices.data.ONT.USD,
                 marketPrices.data.QLC.USD,
                 marketPrices.data.RPX.USD,
                 marketPrices.data.TNC.USD,

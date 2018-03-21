@@ -62,12 +62,21 @@ class AssetPortolio extends Component {
 
 			<div>
 
+			<div className="col-xs-11">
+			<h2>Asset Portfolio</h2>
+			</div>
+			<Link to="/assetPortfolioList">
+			<div className="col-xs-1">
+			<h2><span className=" glyphicon glyphicon-th-list"/></h2>
+			</div>
+			</Link>
+
 				<div className="row top-10 dash-portfolio center">
 				<div id="assetList">
 				<div className="clearboth" />
 				<div className="row" />
 
-
+				<Link to="/sendACAT">
 				<div className="col-3 ">
 				<div className="port-logo-col">
 				<img
@@ -82,11 +91,14 @@ class AssetPortolio extends Component {
 
 				<div className="port-price-col">
 					<span className="market-price">Alpha Cat $0.00</span>
-					<h3>{numeral(this.props.acat).format("0,0.00000")} <span className="ltc-price"> ACAT</span></h3>
+					<h3>{numeral(
+						Math.floor(this.props.obt * 100000) / 100000
+					).format("0,0.0000")} <span className="ltc-price"> ACAT</span></h3>
 					<hr className="dash-hr" />
 					<span className="market-price">$0.00 USD</span>
 				</div>
 				</div>
+				</Link>
 
 				<Link to="/NewBitcoin">
 						<div className="col-3">
@@ -202,7 +214,9 @@ class AssetPortolio extends Component {
 
 						<div className="port-price-col">
 							<span className="market-price">Effect.ai $0.00</span>
-							<h3>{numeral(this.props.efx).format("0,0.00000")} <span className="ltc-price"> EFX</span></h3>
+							<h3>{numeral(
+	              Math.floor(this.props.efx * 100000) / 100000
+	            ).format("0,0.0000")} <span className="ltc-price"> EFX</span></h3>
 							<hr className="dash-hr" />
 							<span className="market-price">$0.00 USD</span>
 						</div>
@@ -249,7 +263,9 @@ class AssetPortolio extends Component {
 
 								<div className="port-price-col">
 									<span className="market-price">Galaxy {numeral(this.props.marketGALAPrice).format("$0,0.00")}</span>
-									<h3>{numeral(this.props.gala/10000000000).format("0,0.0000")}  <span className="dbc-price"> GALA</span></h3>
+									<h3>{numeral(
+			              Math.floor(this.props.gala * 100000) / 100000
+			            ).format("0,0.0000")}  <span className="dbc-price"> GALA</span></h3>
 									<hr className="dash-hr" />
 									<span className="market-price">{numeral((this.props.gala/10000000000) * this.props.marketGALAPrice).format("$0,0.00")} USD</span>
 								</div>
@@ -399,7 +415,9 @@ class AssetPortolio extends Component {
 						</div>
 						<div className="port-price-col">
 							<span className="market-price">Narrative $0.00</span>
-							<h3>{numeral(this.props.nrve).format("0,0.0000")} <span className="dbc-price"> NRVE</span></h3>
+							<h3>{numeral(
+	              Math.floor(this.props.nrve * 100000) / 100000
+	            ).format("0,0.0000")}<span className="dbc-price"> NRVE</span></h3>
 							<hr className="dash-hr" />
 							<span className="market-price">$0.00 USD</span>
 						</div>
@@ -444,7 +462,9 @@ class AssetPortolio extends Component {
 
 						<div className="port-price-col">
 							<span className="market-price">Neon Exchange $0.00</span>
-							<h3>{numeral(this.props.cpx).format("0,0.00000")} <span className="nex-price"> NEX</span></h3>
+							<h3>{numeral(
+	              Math.floor(this.props.nex * 100000) / 100000
+	            ).format("0,0.0000")} <span className="nex-price"> NEX</span></h3>
 							<hr className="dash-hr" />
 							<span className="market-price">$0.00 USD</span>
 						</div>
@@ -466,7 +486,9 @@ class AssetPortolio extends Component {
 
 							<div className="port-price-col">
 								<span className="market-price">Orbis $0.00 USD</span>
-								<h3>{numeral(this.props.obt/10000000000).format("0,0.0000")}  <span className="thor-price"> OBT</span></h3>
+								<h3>{numeral(
+		              Math.floor(this.props.obt * 100000) / 100000
+		            ).format("0,0.0000")}  <span className="thor-price"> OBT</span></h3>
 								<hr className="dash-hr" />
 								<span className="market-price">$0.00 USD</span>
 							</div>
@@ -599,7 +621,9 @@ class AssetPortolio extends Component {
 
 						<div className="port-price-col">
 							<span className="market-price">THOR $0.00</span>
-							<h3>{numeral(this.props.thor).format("0,0.00000")} <span className="thor-price"> THOR</span></h3>
+							<h3>{numeral(
+	              Math.floor(this.props.thor * 100000) / 100000
+	            ).format("0,0.0000")} <span className="thor-price"> THOR</span></h3>
 							<hr className="dash-hr" />
 							<span className="market-price">$0.00 USD</span>
 						</div>
@@ -720,11 +744,13 @@ const mapStateToProps = state => ({
 	marketGASPrice: state.wallet.marketGASPrice,
 	marketNEOPrice: state.wallet.marketNEOPrice,
 	marketBTCPrice: state.wallet.marketBTCPrice,
+	marketACATPrice: state.wallet.marketACATPrice,
 	marketDBCPrice: state.wallet.marketDBCPrice,
 	marketELAPrice: state.wallet.marketELAPrice,
 	marketETHPrice: state.wallet.marketETHPrice,
 	marketLTCPrice: state.wallet.marketLTCPrice,
 	marketLRCPrice: state.wallet.marketLRCPrice,
+	marketONTPrice: state.wallet.marketONTPrice,
 	marketQLCPrice: state.wallet.marketQLCPrice,
 	marketRPXPrice: state.wallet.marketRPXPrice,
 	marketTNCPrice: state.wallet.marketTNCPrice,

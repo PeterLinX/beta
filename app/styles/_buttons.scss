@@ -622,3 +622,28 @@
   padding-top: 12px;
   color: #646464;
 }
+
+
+
+
+.cancel-button {
+  padding: 6px 16px;
+      height: 42px;
+      font-size: 18px;
+      border: thin solid #555;
+      cursor: pointer;
+      text-align: center;
+      border-radius: 5px;
+      color: #ddd;
+      margin: 2px 0px;
+      background: #555;
+      text-shadow: none;
+      font-weight: 200;
+      width: 100%;
+      opacity: 0.6;
+}
+
+
+.cancel-button:hover {
+  opacity: 1;
+}

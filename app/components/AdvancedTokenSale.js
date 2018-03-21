@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import QRCode from "qrcode.react";
 import { clipboard } from "electron";
 import { shell } from "electron";
+import Modal from "react-modal";
 import { api, wallet, sc, rpc, u } from "@cityofzion/neon-js";
 //import {api,wallet} from "neon-js";
 import gdmLogo from "../img/gdm.png";
@@ -22,6 +23,32 @@ import {oldMintTokens} from "../core/oldMintTokens";
 import { Link } from "react-router";
 
 let payment_method, token_script, amount;
+
+const styles = {
+    overlay: {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.75)"
+    },
+    content: {
+        margin: "100px auto 0",
+        padding: "30px 30px 30px 30px",
+        border: "4px solid #222",
+        background: "rgba(12, 12, 14, 1)",
+        borderRadius: "20px",
+        top: "100px",
+        height: 380,
+        width: 600,
+        left: "100px",
+        right: "100px",
+        bottom: "100px",
+        boxShadow: "0px 10px 44px rgba(0, 0, 0, 0.45)"
+    }
+};
+
 
 const getLink = (net, address) => {
 	let base;
@@ -204,7 +231,7 @@ const oldParticipateInSaleEvent = (dispatch, wif, neo, gas, net, address) => {
 		address
 	).then(success => {
 		if (success) {
-            dispatch(sendEvent(true,"Congratualtions. Your token purchase was successful! Your token balance will be updated with the next block. Please check transaction history for confirmation."));
+            dispatch(sendEvent(true,"Congratulations. ICO tokens purchased successfully! Your balance will be updated shortly."));
             setTimeout(() => dispatch(clearTransactionEvent()), 5000);
         		return true;
 		} else {
@@ -352,12 +379,79 @@ const participateInSale = async(
 	return true;
 }
 
+const StatusMessage = ({ sendAmount, sendTokenScript, handleCancel, handleConfirm }) => {
+    let message = (
+		<Modal
+			isOpen={true}
+			closeTimeoutMS={5}
+			style={styles}
+			contentLabel="Modal"
+			ariaHideApp={false}
+		>
+			<div>
+				<div className="center modal-alert">
+				</div>
+				<div className="center modal-alert top-20">
+        <h2>Confirmation Needed!</h2>
+          <strong>Send {sendAmount} Neo to {sendToken} token sale?</strong>
+          <br /><br />
+          Please confirm the {sendToken} token sale is open before sending funds. Sending funds to a sale that has ended or that has not started may result in your funds being lost.
+				</div>
+				<div className="row top-30">
+					<div className="col-xs-6">
+						<button className="cancel-button" onClick={handleCancel}>Cancel</button>
+					</div>
+					<div className="col-xs-6">
+						<button className="btn-send" onClick={handleConfirm}>Confirm</button>
+					</div>
+				</div>
+			</div>
+		</Modal>
+    );
+    return message;
+};
+
 class TokenSale extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            modalStatus: false
+        }
+    }
+
 	render() {
 		console.log(this.props.net);
 		return (
 			<div >
-
+                {
+                    this.state.modalStatus?
+						<StatusMessage
+							sendAmount={amount.value}
+							sendTokenScript={token_script.value}
+							handleCancel = {
+                                () => {
+                                    this.setState({
+                                        modalStatus: false
+                                    })
+                                }
+                            }
+							handleConfirm ={() => {
+                                oldParticipateInSaleEvent(
+                                    this.props.dispatch,
+                                    this.props.wif,
+                                    this.props.neo,
+                                    this.props.gas,
+                                    this.props.net,
+                                    this.props.address
+                                )
+                                this.setState({
+                                    modalStatus: false
+                                })
+                            }}
+						/>
+                        :
+                        null
+                }
 			<div className="dash-panel">
       <img
         src={neoLogo}
@@ -402,20 +496,43 @@ class TokenSale extends Component {
 				<p>Enter amount to send</p>
 				<input
 				className="form-control-exchange"
-				ref={node => (amount = node)} />
+				ref={node => (amount = node)}
+				value="1" />
 				</div>
 
 				<div className="col-xs-4">
 				<button
 				className="btn-send top-30"
-				onClick={() => oldParticipateInSaleEvent(
-					this.props.dispatch,
-					this.props.wif,
-					this.props.neo,
-					this.props.gas,
-					this.props.net,
-					this.props.address
-				)}
+				onClick={() => {
+                    if (token_script.value === '') {
+                        this.props.dispatch(sendEvent(false, "You can not send without address."));
+                        setTimeout(() => this.props.dispatch(clearTransactionEvent()), 1000);
+                        return false;
+                    }
+
+                    if (payment_method.value === '') {
+                        this.props.dispatch(sendEvent(false, "You can not send without payment method."));
+                        setTimeout(() => this.props.dispatch(clearTransactionEvent()), 1000);
+                        return false;
+                    }
+
+                    if (parseFloat(amount.value) <= 0) {
+                        this.props.dispatch(sendEvent(false, "You cannot send negative amounts of asset."));
+                        setTimeout(() => this.props.dispatch(clearTransactionEvent()), 1000);
+                        return false;
+                    }
+
+                    if (parseFloat(amount.value) !== parseInt(amount.value)) {
+                        this.props.dispatch(sendEvent(false, "You cannot send portion amounts of asset."));
+                        setTimeout(() => this.props.dispatch(clearTransactionEvent()), 1000);
+                        return false;
+                    }
+
+                    this.setState({
+                        modalStatus: true
+                    })
+                }
+                }
 				>
 					<span className="glyphicon glyphicon-send marg-right-5"/> Send Now
 				</button>
@@ -432,8 +549,7 @@ class TokenSale extends Component {
         <div className="clearboth" />
 				<div className="col-xs-12">
 					<h4 className="center">
-          USE WITH CAUTION. ENTER A VALID HASHSCRIPT. SENDING NEO TO A TOKEN SALE THAT ENDED OR THAT HAS NOT STARTED CAN RESULT IN YOUR NEO BEING LOST.<br />
-          <br />
+          ONlY ENTER A VALID HASHSCRIPT.<br />
           Only click send once. Please follow the rules of the token sale you are participating in. If your NEO address is not pre-qualified for the token sale your funds may be lost. Please follow all local laws as well as all KYC and AML requirements when participating in a token sale. Morpheus S.S. Ltd is not liable for the loss of any tokens. Sending more than the maximum amount may result in the excess tokens being lost. Do not send tokens to a sale that has ended.  Please research every token sale carefully before participating.
 					</h4>
 				</div>

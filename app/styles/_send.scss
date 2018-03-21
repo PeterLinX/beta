@@ -253,6 +253,19 @@ box-shadow: inset 0px 0px 12px #000000;
   outline: none;
 }
 
+.form-send-white {
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  min-height: 25px;
+  padding: 8px 25px;
+  font-size: 18px;
+  background-color: rgba(0, 0, 0, 0.62);
+  border: 1px solid #646464;
+  border-radius: 9px;
+  outline: none;
+}
+
 .form-send-qlc {
   display: inline-block;
   width: 100%;
@@ -860,6 +873,14 @@ webview {
     font-size: 24px;
 }
 
+.font26 {
+  font-size: 26px;
+      padding: 5px;
+      float: left;
+      color: #fff;
+      font-weight: 200;
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -985,16 +1006,12 @@ webview {
   font-size: 16px;
 }
 
-.dash-portfolio {
+.dash-portfolio, .asset-portfolio {
   padding: 0px 7px;
   clear: both;
   display: block;
 }
 
-.asset-portfolio {
-  margin: -10px 0px 0px -15px;
-  position: relative;
-}
 
 .asset-doughnut {
   width: 300px;
@@ -1128,7 +1145,8 @@ webview {
       float: left;
       height: 110px;
       color: #9d9d9d;
-      margin: 1% .5%;
+      margin: 0% .5%;
+      margin-bottom: 2%;
       padding: 15px 2px;
       font-size: 0.8em;
       border: 3px solid #1d1b1d;
@@ -1147,6 +1165,52 @@ webview {
   opacity: 1;
   border: 3px solid #272627;
 }
+
+.col-12 {
+  width: 98.5%;
+  float: left;
+  min-height: 125px;
+  color: #9d9d9d;
+  margin-bottom: 2%;
+  margin-right: 2%;
+  padding: 10px 2px;
+  font-size: 0.8em;
+  border: 3px solid #1d1b1d;
+  background: rgba(12, 12, 14, 0.85);
+  border-radius: 20px;
+  box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
+  -moz-box-shadow: inset 0 0 12px #000000;
+  -webkit-box-shadow: inset 0 0 12px #000000;
+  box-shadow: inset 0px 0px 12px #000000;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+  opacity: 0.85;
+}
+
+.col-12:hover {
+  opacity: 1;
+  border: 3px solid #272627;
+}
+
+.port-logo-col-list {
+  width: 10%;
+  float: left;
+  padding-left: 10px;
+}
+
+.port-content-list {
+  width: 60%;
+  float: left;
+  padding: 0 2%;
+}
+
+.port-price-col-list {
+  width: 25%;
+  float: right;
+  margin-right: 3%;
+  margin-top: 10px;
+}
+
 
 .dotted {
   border-style: dashed;
@@ -1362,8 +1426,8 @@ margin: 0px;
 }
 
 .asset-portfolio h3 {
-  font-size: 14px;
-  margin: 0px;
+  font-size: 21px;
+  margin: 6px 0px;
   font-weight: 200;
   word-wrap: break-word;
   overflow: visible;
@@ -1636,7 +1700,7 @@ a:focus, a:hover, a:active {
 
 #assetList {
   list-style-type: none;
-    height: 600px;
+    height: 550px;
     width: 100%;
     -webkit-padding-start: 0px;
     overflow-y: auto;

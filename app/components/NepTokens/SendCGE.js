@@ -4,7 +4,8 @@ import { Link } from "react-router";
 import Neon from "@cityofzion/neon-js";
 import { doSendAsset, verifyAddress } from "neon-js";
 import { api, wallet, sc, rpc, u } from "@cityofzion/neon-js";
-import Modal from "react-bootstrap-modal";
+//import Modal from "react-bootstrap-modal";
+import Modal from "react-modal";
 import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
@@ -24,6 +25,31 @@ import numeral from "numeral";
 
 let sendAddress, sendAmount, confirmButton, scriptHash, cge_usd, gas_usd;
 
+const styles = {
+    overlay: {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.75)"
+    },
+    content: {
+        margin: "100px auto 0",
+        padding: "30px 30px 30px 30px",
+        border: "4px solid #222",
+        background: "rgba(12, 12, 14, 1)",
+        borderRadius: "20px",
+        top: "100px",
+        height: 260,
+        width: 600,
+        left: "100px",
+        right: "100px",
+        bottom: "100px",
+        boxShadow: "0px 10px 44px rgba(0, 0, 0, 0.45)"
+    }
+};
+
 const apiURL = val => {
   return "https://min-api.cryptocompare.com/data/price?fsym=CGE&tsyms=USD";
 };
@@ -36,8 +62,7 @@ const isToken = symbol => {
   ![ASSETS.NEO, ASSETS.GAS].includes(symbol);
 };
 // form validators for input fields
-const validateForm = (dispatch, neo_balance, gas_balance, asset) => {
-  alert(asset);
+const validateForm = (dispatch, cge_balance) => {
   // check for valid address
   try {
     if (
@@ -55,24 +80,19 @@ const validateForm = (dispatch, neo_balance, gas_balance, asset) => {
   }
   // check for fractional neo
   if (
-    asset === "Neo" &&
     parseFloat(sendAmount.value) !== parseInt(sendAmount.value)
   ) {
-    dispatch(sendEvent(false, "You cannot send fractional amounts of Neo."));
+    dispatch(sendEvent(false, "You cannot send fractional amounts of Cge."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
-  } else if (asset === "Neo" && parseInt(sendAmount.value) > neo_balance) {
+  } else if (parseInt(sendAmount.value) > cge_balance) {
     // check for value greater than account balance
-    dispatch(sendEvent(false, "You do not have enough NEO to send."));
+    dispatch(sendEvent(false, "You do not have enough CGE to send."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
-  } else if (asset === "Gas" && parseFloat(sendAmount.value) > gas_balance) {
-    dispatch(sendEvent(false, "You do not have enough GAS to send."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-    return false;
-  } else if (parseFloat(sendAmount.value) < 0) {
+  }  else if (parseFloat(sendAmount.value) <= 0) {
     // check for negative asset
-    dispatch(sendEvent(false, "You cannot send negative amounts of an asset."));
+    dispatch(sendEvent(false, "You cannot send negative amounts of CGE."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   }
@@ -216,38 +236,70 @@ const sendCgeTransaction = async (dispatch, net, selfAddress, wif) => {
   };
   sendEntries.push(sendEntry);
   console.log("sendEntries = " + JSON.stringify(sendEntries));
-  if (thor_balance <= sendAmount.value) {
-    dispatch(sendEvent(false, "You are trying to send more CGE than you have available."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 2000);
-		return true;
-  } else {
-    dispatch(sendEvent(true, "Sending CGE...\n"));
-    try {
-      const { response } = await makeRequest(sendEntries, {
-        net,
-        tokensBalanceMap,
-        address: selfAddress,
-        undefined,
-        privateKey: privateKey,
-        signingFunction: null
-      });
-      console.log("sending cge response=" + response.result);
-      if (!response.result) {
-        dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
-				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+  if (validateForm(dispatch, cge_balance) === true) {
+      if (cge_balance <= sendAmount.value) {
+          dispatch(sendEvent(false, "You are trying to send more CGE than you have available."));
+          setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+          return true;
       } else {
-        dispatch(sendEvent(false,
-        "Sorry, your transaction failed. Please try again soon." ));
-				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+          dispatch(sendEvent(true, "Sending CGE...\n"));
+          try {
+              const { response } = await makeRequest(sendEntries, {
+                  net,
+                  tokensBalanceMap,
+                  address: selfAddress,
+                  undefined,
+                  privateKey: privateKey,
+                  signingFunction: null
+              });
+              console.log("sending cge response=" + response.result);
+              if (!response.result) {
+                  dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
+                  setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+              } else {
+                  dispatch(sendEvent(false,
+                      "Sorry, your transaction failed. Please try again soon." ));
+                  setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+              }
+          } catch (err) {
+              console.log("sending cge =" + err.message);
+              dispatch(sendEvent(false, "There was an error processing your trasnaction. Please check and try again."));
+              setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+              return false;
+          }
       }
-    } catch (err) {
-      console.log("sending cge =" + err.message);
-      dispatch(sendEvent(false, "There was an error processing your trasnaction. Please check and try again."));
-			setTimeout(() => dispatch(clearTransactionEvent()), 2000);
-	    return false;
-    }
   }
 };
+
+const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm }) => {
+    let message = (
+        <Modal
+            isOpen={true}
+            closeTimeoutMS={5}
+            style={styles}
+            contentLabel="Modal"
+            ariaHideApp={false}
+        >
+          <div>
+            <div className="center modal-alert">
+            </div>
+            <div className="center modal-alert top-20">
+              <strong>Confirm sending {sendAmount} CGE to {sendAddress}</strong>
+            </div>
+            <div className="row top-30">
+              <div className="col-xs-6">
+                <button className="cancel-button" onClick={handleCancel}>Cancel</button>
+              </div>
+              <div className="col-xs-6">
+                <button className="btn-send" onClick={handleConfirm}>Confirm</button>
+              </div>
+            </div>
+          </div>
+        </Modal>
+    );
+    return message;
+};
+
 
 class SendCGE extends Component {
   constructor(props) {
@@ -261,7 +313,8 @@ class SendCGE extends Component {
       value: "0",
       inputEnabled: true,
       fiatVal: 0,
-      tokenVal: 0
+      tokenVal: 0,
+      modalStatus: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeUSD = this.handleChangeUSD.bind(this);
@@ -308,6 +361,29 @@ class SendCGE extends Component {
 
     return (
       <div>
+          {
+              this.state.modalStatus?
+                  <StatusMessage
+                      sendAmount={sendAmount.value}
+                      sendAddress={sendAddress.value}
+                      handleCancel = {
+                          () => {
+                              this.setState({
+                                  modalStatus: false
+                              })
+                          }
+                      }
+                      handleConfirm ={() => {
+                          sendCgeTransaction(
+                              dispatch, net, address, wif)
+                          this.setState({
+                              modalStatus: false
+                          })
+                      }}
+                  />
+                  :
+                  null
+          }
         <Assets />
         <div id="send">
           <div className="row dash-chart-panel">
@@ -388,10 +464,26 @@ class SendCGE extends Component {
                 <div id="sendAddress">
                   <button
                     className="thor-button"
-                    onClick={() =>
-                      sendThorTransaction(
-												dispatch, net, address, wif)
+                    onClick={() => {
+                        if (sendAddress.value === '') {
+                            dispatch(sendEvent(false, "You can not send without address."));
+                            setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                            return false;
+                        }
+
+
+                        if (parseFloat(sendAmount.value) <= 0) {
+                            dispatch(sendEvent(false, "You cannot send negative amounts of an CGE."));
+                            setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                            return false;
+                        }
+
+                        this.setState({
+                            modalStatus: true
+                        })
                     }
+                    }
+
                     ref={node => {
                       confirmButton = node;
                     }}

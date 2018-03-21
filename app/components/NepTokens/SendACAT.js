@@ -10,7 +10,7 @@ import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
 import { log } from "../../util/Logs";
-import orbLogo from "../../img/orb.png";
+import acatLogo from "../../img/acat.png";
 import Assets from "./../Assets";
 import { clipboard } from "electron";
 import { togglePane } from "../../modules/dashboard";
@@ -23,7 +23,7 @@ import { ASSETS, TOKENS, TOKENS_TEST } from "../../core/constants";
 import { flatMap, keyBy, get, omit, pick } from "lodash";
 import numeral from "numeral";
 
-let sendAddress, sendAmount, confirmButton, scriptHash, obt_usd, gas_usd;
+let sendAddress, sendAmount, confirmButton, scriptHash, acat_usd, gas_usd;
 
 const styles = {
     overlay: {
@@ -51,7 +51,7 @@ const styles = {
 };
 
 const apiURL = val => {
-  return "https://min-api.cryptocompare.com/data/price?fsym=OBT&tsyms=USD";
+  return "https://min-api.cryptocompare.com/data/price?fsym=ACAT&tsyms=USD";
 };
 
 const apiURLForGas = val => {
@@ -62,7 +62,7 @@ const isToken = symbol => {
   ![ASSETS.NEO, ASSETS.GAS].includes(symbol);
 };
 // form validators for input fields
-const validateForm = (dispatch, obt_balance) => {
+const validateForm = (dispatch, acat_balance) => {
   // check for valid address
   try {
     if (
@@ -82,17 +82,17 @@ const validateForm = (dispatch, obt_balance) => {
   if (
     parseFloat(sendAmount.value) !== parseInt(sendAmount.value)
   ) {
-    dispatch(sendEvent(false, "You cannot send fractional amounts of Obt."));
+    dispatch(sendEvent(false, "You cannot send fractional amounts of ACAT."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
-  } else if (parseInt(sendAmount.value) > obt_balance) {
+  } else if (parseInt(sendAmount.value) > acat_balance) {
     // check for value greater than account balance
-    dispatch(sendEvent(false, "You do not have enough OBT to send."));
+    dispatch(sendEvent(false, "You do not have enough ACAT to send."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
-  } else if (parseFloat(sendAmount.value) <= 0) {
+  }  else if (parseFloat(sendAmount.value) <= 0) {
     // check for negative asset
-    dispatch(sendEvent(false, "You cannot send negative amounts of OBT."));
+    dispatch(sendEvent(false, "You cannot send negative amounts of ACAT."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   }
@@ -200,17 +200,17 @@ const makeRequest = (sendEntries, config) => {
 };
 
 // perform send transaction for Orbit
-const sendObtTransaction = async (dispatch, net, selfAddress, wif) => {
+const sendAcatTransaction = async (dispatch, net, selfAddress, wif) => {
   const endpoint = await api.neonDB.getRPCEndpoint(net);
   console.log("endpoint = " + endpoint);
   let script;
   if (net == "MainNet") {
-    script = TOKENS.OBT;
+    script = TOKENS.ACAT;
   } else {
-    script = TOKENS_TEST.OBT;
+    script = TOKENS_TEST.ACAT;
   }
   const token_response = await api.nep5.getToken(endpoint, script, selfAddress);
-  const obt_balance = token_response.balance;
+  const acat_balance = token_response.balance;
   console.log("token_response = " + JSON.stringify(token_response));
   const tokenBalances = {
     name: token_response.name,
@@ -221,7 +221,7 @@ const sendObtTransaction = async (dispatch, net, selfAddress, wif) => {
     scriptHash: script
   };
   const tokensBalanceMap = {
-    OBT: tokenBalances
+    acat: tokenBalances
   }; //keyBy(tokenBalances, 'symbol');
   console.log("tokensBalanceMap = " + JSON.stringify(tokensBalanceMap));
   let privateKey = new wallet.Account(wif).privateKey;
@@ -232,18 +232,17 @@ const sendObtTransaction = async (dispatch, net, selfAddress, wif) => {
   var sendEntry = {
     amount: sendAmount.value.toString(),
     address: sendAddress.value.toString(),
-    symbol: "OBT"
+    symbol: "ACAT"
   };
   sendEntries.push(sendEntry);
   console.log("sendEntries = " + JSON.stringify(sendEntries));
-
-  if (validateForm(dispatch,obt_balance) === true) {
-      if (obt_balance <= sendAmount.value) {
-          dispatch(sendEvent(false, "You are trying to send more OBT than you have available."));
+  if (validateForm(dispatch, acat_balance) === true) {
+      if (acat_balance <= sendAmount.value) {
+          dispatch(sendEvent(false, "You are trying to send more ACAT than you have available."));
           setTimeout(() => dispatch(clearTransactionEvent()), 2000);
           return true;
       } else {
-          dispatch(sendEvent(true, "Sending OBT...\n"));
+          dispatch(sendEvent(true, "Sending ACAT...\n"));
           try {
               const { response } = await makeRequest(sendEntries, {
                   net,
@@ -253,7 +252,7 @@ const sendObtTransaction = async (dispatch, net, selfAddress, wif) => {
                   privateKey: privateKey,
                   signingFunction: null
               });
-              console.log("sending obt response=" + response.result);
+              console.log("sending acat response=" + response.result);
               if (!response.result) {
                   dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
                   setTimeout(() => dispatch(clearTransactionEvent()), 2000);
@@ -263,7 +262,7 @@ const sendObtTransaction = async (dispatch, net, selfAddress, wif) => {
                   setTimeout(() => dispatch(clearTransactionEvent()), 2000);
               }
           } catch (err) {
-              console.log("sending obt =" + err.message);
+              console.log("sending acat =" + err.message);
               dispatch(sendEvent(false, "There was an error processing your trasnaction. Please check and try again."));
               setTimeout(() => dispatch(clearTransactionEvent()), 2000);
               return false;
@@ -285,7 +284,7 @@ const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm })
             <div className="center modal-alert">
             </div>
             <div className="center modal-alert top-20">
-              <strong>Confirm sending {sendAmount} OBT to {sendAddress}</strong>
+              <strong>Confirm sending {sendAmount} ACAT to {sendAddress}</strong>
             </div>
             <div className="row top-30">
               <div className="col-xs-6">
@@ -302,7 +301,7 @@ const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm })
 };
 
 
-class SendOBT extends Component {
+class SendACAT extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -357,7 +356,7 @@ class SendOBT extends Component {
       net,
       confirmPane,
       selectedAsset,
-      obt
+      acat
     } = this.props;
 
     return (
@@ -375,7 +374,7 @@ class SendOBT extends Component {
                           }
                       }
                       handleConfirm ={() => {
-                          sendObtTransaction(
+                          sendAcatTransaction(
                               dispatch, net, address, wif)
                           this.setState({
                               modalStatus: false
@@ -390,20 +389,20 @@ class SendOBT extends Component {
           <div className="row dash-chart-panel">
             <div className="col-xs-9">
               <img
-                src={orbLogo}
+                src={acatLogo}
                 alt=""
-                width="54"
+                width="72"
                 className="neo-logo fadeInDown"
               />
-              <h2>Send Orbis Tokens</h2>
+              <h2>Send AlphaCat Tokens</h2>
             </div>
 
             <div className="col-xs-3 center ">
 
             <span className="font-16">{numeral(
-              Math.floor(this.props.obt * 100000) / 100000
-            ).format("0,0.0000")} <span className="thor-price"> OBT</span></span><br />
-            <span className="market-price">{numeral(this.props.obt * this.props.marketOBTPrice).format("$0,0.00")} USD</span>
+              Math.floor(this.props.acat * 100000) / 100000
+            ).format("0,0.0000")} <span className="ltc-price"> ACAT</span></span><br />
+            <span className="market-price">{numeral(this.props.acat * this.props.marketACATPrice).format("$0,0.00")} USD</span>
             </div>
 
             <div className="col-xs-12 center">
@@ -415,9 +414,9 @@ class SendOBT extends Component {
             <div className="top-20">
               <div className="col-xs-9">
                 <input
-                  className="form-send-thor"
+                  className="form-send-white"
                   id="center"
-                  placeholder="Enter a valid Orbis (OBT) public address here"
+                  placeholder="Enter a valid Congierge (ACAT) public address here"
                   ref={node => {
                     sendAddress = node;
                   }}
@@ -425,7 +424,7 @@ class SendOBT extends Component {
               </div>
 							<Link to="/receive">
               <div className="col-xs-3">
-                <div className="thor-button com-soon">
+                <div className="grey-button com-soon">
 								<span className="glyphicon glyphicon-qrcode marg-right-5" />
 								Receive</div>
               </div>
@@ -433,7 +432,7 @@ class SendOBT extends Component {
 
               <div className="col-xs-5 top-20">
                 <input
-                  className="form-send-thor"
+                  className="form-send-white"
                   type="number"
                   id="assetAmount"
                   min="1"
@@ -446,12 +445,12 @@ class SendOBT extends Component {
                 />
                 <div className="clearboth" />
                 <span className="com-soon block top-10">
-                  Amount in OBT to send
+                  Amount in ACAT to send
                 </span>
               </div>
               <div className="col-xs-4 top-20">
                 <input
-                  className="form-send-thor"
+                  className="form-send-white"
                   id="sendAmount"
                   onChange={this.handleChangeUSD}
                   placeholder="Amount in US"
@@ -464,7 +463,7 @@ class SendOBT extends Component {
               <div className="col-xs-3 top-20">
                 <div id="sendAddress">
                   <button
-                    className="thor-button"
+                    className="grey-button"
                     onClick={() => {
                         if (sendAddress.value === '') {
                             dispatch(sendEvent(false, "You can not send without address."));
@@ -474,7 +473,7 @@ class SendOBT extends Component {
 
 
                         if (parseFloat(sendAmount.value) <= 0) {
-                            dispatch(sendEvent(false, "You cannot send negative amounts of an OBT."));
+                            dispatch(sendEvent(false, "You cannot send negative amounts of an ACAT."));
                             setTimeout(() => dispatch(clearTransactionEvent()), 1000);
                             return false;
                         }
@@ -537,11 +536,12 @@ const mapStateToProps = state => ({
   net: state.metadata.network,
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,
+  marketACATPrice: state.wallet.marketACATPrice,
   selectedAsset: state.transactions.selectedAsset,
   confirmPane: state.dashboard.confirmPane,
-  obt: state.wallet.Obt
+  acat: state.wallet.Acat
 });
 
-SendOBT = connect(mapStateToProps)(SendOBT);
+SendACAT = connect(mapStateToProps)(SendACAT);
 
-export default SendOBT;
+export default SendACAT;

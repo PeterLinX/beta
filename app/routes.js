@@ -28,6 +28,7 @@ import Tokens from "./components/Tokens";
 import Sale from "./components/Sale";
 import Loopring from "./components/NepTokens/Loopring";
 import SendSWH from "./components/NepTokens/SendSWH";
+import SendACAT from "./components/NepTokens/SendACAT";
 import SendOBT from "./components/NepTokens/SendOBT";
 import SendCGE from "./components/NepTokens/SendCGE";
 import SendIAM from "./components/NepTokens/SendIAM";
@@ -46,6 +47,7 @@ import SendBTC from "./components/SendBTC";
 import SendLTC from "./components/SendLTC";
 import SendETH from "./components/SendETH";
 import AssetPortfolio from "./components/AssetPortfolio";
+import AssetPortfolioList from "./components/AssetPortfolioList";
 import NewBitcoin from "./components/NewBitcoin";
 import ReceiveBitcoin from "./components/ReceiveBitcoin";
 import NewLitecoin from "./components/NewLitecoin";
@@ -80,6 +82,7 @@ export default (
 			<Route path="/sendSWH" component={SendSWH} />
 			<Route path="/sendZPT" component={SendZPT} />
 			<Route path="/sendHP" component={SendHP} />
+			<Route path="/sendACAT" component={SendACAT} />
 			<Route path="/sendCGE" component={SendCGE} />
 			<Route path="/sendOBT" component={SendOBT} />
 			<Route path="/sendBTC" component={SendBTC} />
@@ -100,6 +103,7 @@ export default (
 			<Route path="/tokens" component={Tokens} />
 			<Route path="/sale" component={Sale} />
 			<Route path="/assetPortfolio" component={AssetPortfolio} />
+			<Route path="/assetPortfolioList" component={AssetPortfolioList} />
 			<Route path="/newBitcoin" component={NewBitcoin} />
 			<Route path="/receiveBitcoin" component={ReceiveBitcoin} />
 			<Route path="/newLitecoin" component={NewLitecoin} />

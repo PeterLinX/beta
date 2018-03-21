@@ -3,17 +3,25 @@ import { connect } from "react-redux";
 import axios from "axios";
 import numeral from "numeral";
 import { Link } from "react-router";
+import { shell, clipboard } from "electron";
+import Copy from "react-icons/lib/md/content-copy";
+import fs from "fs";
 
 import { setMarketPrice, resetPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 
+import swhLogo from "../img/swh.png";
 import acatLogo from "../img/acat.png";
+import cgeLogo from "../img/cge.png";
 import apexLogo from "../img/apex.png";
 import thorLogo from "../img/thor.png";
 import nrveLogo from "../img/nrve.png";
 import effectLogo from "../img/effect.png";
 import neoLogo from "../img/neo.png";
+import galaLogo from "../img/gala.png";
+import gdmLogo from "../img/gdm.png";
+import orbLogo from "../img/orb.png";
 import gasLogo from "../img/gas.png";
 import btcLogo from "../img/btc-logo.png";
 import ltcLogo from "../img/litecoin.png";
@@ -57,14 +65,24 @@ class AssetPortolio extends Component {
 
 			<div>
 
-				<div className="row top-10 dash-portfolio center">
+			<div className="col-xs-11">
+			<h2>Asset Portfolio</h2>
+			</div>
+			<Link to="/assetPortfolio">
+			<div className="col-xs-1">
+			<h2><span className=" glyphicon glyphicon-th"/></h2>
+			</div>
+			</Link>
+
+				<div className="row top-10 asset-portfolio center">
+
 				<div id="assetList">
 				<div className="clearboth" />
 				<div className="row" />
 
 
-				<div className="col-3 ">
-				<div className="port-logo-col">
+				<div className="col-12 ">
+				<div className="port-logo-col-list">
 				<img
 					src={acatLogo}
 					alt="Alpha Cat"
@@ -75,7 +93,18 @@ class AssetPortolio extends Component {
 				<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendACAT"><span className=" glyphicon glyphicon-send "/></Link></h3>
 				</div>
 
-				<div className="port-price-col">
+				<div className="port-content-list">
+				<span className="font26">Alpha Cat</span>
+				<input
+					className="ledger-address"
+					onClick={() => clipboard.writeText(this.props.address)}
+					id="center"
+					placeholder={this.props.address}
+					value={this.props.address}
+				/>
+				</div>
+
+				<div className="port-price-col-list">
 					<span className="market-price">Alpha Cat $0.00</span>
 					<h3>{numeral(this.props.acat).format("0,0.00000")} <span className="ltc-price"> ACAT</span></h3>
 					<hr className="dash-hr" />
@@ -83,9 +112,9 @@ class AssetPortolio extends Component {
 				</div>
 				</div>
 
-				<Link to="/NewBitcoin">
-						<div className="col-3">
-						<div className="port-logo-col">
+
+						<div className="col-12">
+						<div className="port-logo-col-list">
 						<img
 							src={btcLogo}
 							alt=""
@@ -96,30 +125,54 @@ class AssetPortolio extends Component {
 						<h3><Link to="/receiveBitcoin"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendBTC"><span className=" glyphicon glyphicon-send "/></Link></h3>
 						</div>
 
-						<div className="port-price-col">
+						<div className="port-content-list">
+						<span className="font26">Bitcoin (BTC)</span>
+						<input
+							className="ledger-address"
+							onClick={() => clipboard.writeText(this.props.btcPubAddr)}
+							id="center"
+							placeholder="Please login or create new BTC address"
+							value={this.props.btcPubAddr}
+						/>
+						</div>
+
+
+						<div className="port-price-col-list">
 							<span className="market-price">Bitcoin {numeral(this.props.marketBTCPrice).format("$0,0.00")}</span>
 							<h3>{numeral(this.props.btc).format("0,0.00000")} <span className="btc-price"> BTC</span></h3>
 							<hr className="dash-hr" />
 							<span className="market-price">{numeral(this.props.btc * this.props.marketBTCPrice).format("$0,0.00")} USD</span>
 						</div>
 						</div>
-						</Link>
 
-						<Link to="/sendIAM">
-							<div className="col-3">
 
-							<div className="port-logo-col">
+
+							<div className="col-12">
+
+							<div className="port-logo-col-list">
 							<img
 								src={iamLogo}
 								alt=""
-								width="38"
+								width="44"
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
 							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendIAM"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
-							<div className="port-price-col">
+							<div className="port-content-list">
+							<span className="font26">Bridge Protocol</span>
+							<input
+								className="ledger-address"
+								onClick={() => clipboard.writeText(this.props.address)}
+								id="center"
+								placeholder={this.props.address}
+								value={this.props.address}
+							/>
+							</div>
+
+
+							<div className="port-price-col-list">
 								<span className="market-price">Bridge $0.00</span>
 								<h3>{numeral(
 									Math.floor(this.props.iam * 100000) / 100000
@@ -128,14 +181,52 @@ class AssetPortolio extends Component {
 								<span className="market-price">$0.00 USD</span>
 							</div>
 							</div>
-						</Link>
 
 
 
-						<Link to="/sendDBC">
-							<div className="col-3">
 
-							<div className="port-logo-col">
+
+							<div className="col-12">
+							<div className="port-logo-col-list">
+							<img
+								src={cgeLogo}
+								alt=""
+								width="36"
+								className="port-logos"
+							/>
+							<hr className="dash-hr" />
+							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendCGE"><span className=" glyphicon glyphicon-send "/></Link></h3>
+							</div>
+
+							<div className="port-content-list">
+							<span className="font26">Concierge</span>
+							<input
+								className="ledger-address"
+								onClick={() => clipboard.writeText(this.props.address)}
+								id="center"
+								placeholder={this.props.address}
+								value={this.props.address}
+							/>
+							</div>
+
+
+
+							<div className="port-price-col-list">
+								<span className="market-price">Concierge {numeral(this.props.marketCGEPrice).format("$0,0.00")}</span>
+								<h3>{numeral(
+									Math.floor(this.props.cge * 100000) / 100000
+								).format("0,0.0000")} <span className="thor-price"> CGE</span></h3>
+								<hr className="dash-hr" />
+								<span className="market-price">{numeral(this.props.cge*this.props.marketCGEPrice).format("$0,0.00")} USD</span>
+							</div>
+							</div>
+
+
+
+
+
+							<div className="col-12">
+							<div className="port-logo-col-list">
 							<img
 								src={deepLogo}
 								alt=""
@@ -146,7 +237,19 @@ class AssetPortolio extends Component {
 							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendDBC"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
-							<div className="port-price-col">
+							<div className="port-content-list">
+							<span className="font26">Deep Brain Chain</span>
+							<input
+								className="ledger-address"
+								onClick={() => clipboard.writeText(this.props.address)}
+								id="center"
+								placeholder={this.props.address}
+								value={this.props.address}
+							/>
+							</div>
+
+
+							<div className="port-price-col-list">
 								<span className="market-price">Deep Brain {numeral(this.props.marketDBCPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.dbc * 100000) / 100000
@@ -155,22 +258,35 @@ class AssetPortolio extends Component {
 								<span className="market-price">{numeral(this.props.dbc*this.props.marketDBCPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
-						</Link>
 
 
-						<div className="col-3 ">
-						<div className="port-logo-col">
+
+
+
+						<div className="col-12 ">
+						<div className="port-logo-col-list">
 						<img
 							src={effectLogo}
 							alt="Effect.ai"
-							width="44"
+							width="38"
 							className="port-logos"
 						/>
 						<hr className="dash-hr" />
 						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/receive"><span className=" glyphicon glyphicon-send "/></Link></h3>
 						</div>
 
-						<div className="port-price-col">
+						<div className="port-content-list">
+						<span className="font26">Effect.ai</span>
+						<input
+							className="ledger-address"
+							onClick={() => clipboard.writeText(this.props.address)}
+							id="center"
+							placeholder={this.props.address}
+							value={this.props.address}
+						/>
+						</div>
+
+						<div className="port-price-col-list">
 							<span className="market-price">Effect.ai $0.00</span>
 							<h3>{numeral(this.props.efx).format("0,0.00000")} <span className="ltc-price"> EFX</span></h3>
 							<hr className="dash-hr" />
@@ -178,10 +294,11 @@ class AssetPortolio extends Component {
 						</div>
 						</div>
 
-						<Link to="/NewEthereum">
-							<div className="col-3 ">
 
-							<div className="port-logo-col">
+
+							<div className="col-12 ">
+
+							<div className="port-logo-col-list">
 							<img
 								src={ethLogo}
 								alt=""
@@ -192,19 +309,63 @@ class AssetPortolio extends Component {
 							<h3><Link to="/receiveEthereum"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendETH"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
-							<div className="port-price-col">
+							<div className="port-content-list">
+							<span className="font26">Ethereum (ETH)</span>
+							<input
+								className="ledger-address"
+								onClick={() => clipboard.writeText(this.props.ethPubAddr)}
+								id="center"
+								placeholder="Please login or create new ETH address"
+								value={this.props.ethPubAddr}
+							/>
+							</div>
+
+							<div className="port-price-col-list">
 								<span className="market-price">Ethereum {numeral(this.props.marketETHPrice).format("$0,0.00")}</span>
-								<h3>{numeral(this.props.eth/10000000000).format("0,0.000000")}  <span className="eth-price"> ETH</span></h3>
+								<h3>{numeral(this.props.eth/10000000000).format("0,0.0000")}  <span className="eth-price"> ETH</span></h3>
 								<hr className="dash-hr" />
 								<span className="market-price">{numeral((this.props.eth/10000000000) * this.props.marketETHPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
-							</Link>
 
 
-							<Link to="/send">
-						<div className="col-3">
-						<div className="port-logo-col">
+
+								<div className="col-12 ">
+
+								<div className="port-logo-col-list">
+								<img
+									src={galaLogo}
+									alt=""
+									width="42"
+									className="port-logos"
+								/>
+								<hr className="dash-hr" />
+								<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendGALA"><span className=" glyphicon glyphicon-send "/></Link></h3>
+								</div>
+
+								<div className="port-content-list">
+								<span className="font26">Galaxy</span>
+								<input
+									className="ledger-address"
+									onClick={() => clipboard.writeText(this.props.address)}
+									id="center"
+									placeholder={this.props.address}
+									value={this.props.address}
+								/>
+								</div>
+
+								<div className="port-price-col-list">
+									<span className="market-price">Galaxy {numeral(this.props.marketGALAPrice).format("$0,0.00")}</span>
+									<h3>{numeral(this.props.gala/10000000000).format("0,0.0000")}  <span className="dbc-price"> GALA</span></h3>
+									<hr className="dash-hr" />
+									<span className="market-price">{numeral((this.props.gala/10000000000) * this.props.marketGALAPrice).format("$0,0.00")} USD</span>
+								</div>
+								</div>
+
+
+
+						<div className="col-12">
+						<div className="port-logo-col-list">
 						<img
 							src={gasLogo}
 							alt=""
@@ -214,7 +375,20 @@ class AssetPortolio extends Component {
 						<hr className="dash-hr" />
 						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/send"><span className=" glyphicon glyphicon-send "/></Link></h3>
 						</div>
-						<div className="port-price-col">
+
+						<div className="port-content-list">
+						<span className="font26">GAS</span>
+						<input
+							className="ledger-address"
+							onClick={() => clipboard.writeText(this.props.address)}
+							id="center"
+							placeholder={this.props.address}
+							value={this.props.address}
+						/>
+						</div>
+
+
+						<div className="port-price-col-list">
 							<span className="market-price">GAS {numeral(this.props.marketGASPrice).format("$0,0.00")}</span>
 							<h3>{numeral(
 								Math.floor(this.props.gas * 100000) / 100000
@@ -226,11 +400,45 @@ class AssetPortolio extends Component {
 								)}{" "} USD</span>
 						</div>
 					</div>
-					</Link>
 
-						<Link to="/sendHP">
-							<div className="col-3">
-							<div className="port-logo-col">
+
+
+						<div className="col-12 ">
+
+						<div className="port-logo-col-list">
+						<img
+							src={gdmLogo}
+							alt=""
+							width="62"
+							className="port-logos"
+						/>
+						<hr className="dash-hr" />
+						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendGDM"><span className=" glyphicon glyphicon-send "/></Link></h3>
+						</div>
+
+						<div className="port-content-list">
+						<span className="font26">Guardium</span>
+						<input
+							className="ledger-address"
+							onClick={() => clipboard.writeText(this.props.address)}
+							id="center"
+							placeholder={this.props.address}
+							value={this.props.address}
+						/>
+						</div>
+
+						<div className="port-price-col-list">
+							<span className="market-price">Guardium {numeral(this.props.marketGDMPrice).format("$0,0.00")}</span>
+							<h3>{numeral(this.props.gdm/10000000000).format("0,0.0000")}  <span className="ltc-price"> GDM</span></h3>
+							<hr className="dash-hr" />
+							<span className="market-price">{numeral((this.props.gdm/10000000000) * this.props.marketGDMPrice).format("$0,0.00")} USD</span>
+						</div>
+						</div>
+
+
+
+							<div className="col-12">
+							<div className="port-logo-col-list">
 							<img
 								src={hashpuppiesLogo}
 								alt=""
@@ -240,7 +448,20 @@ class AssetPortolio extends Component {
 							<hr className="dash-hr" />
 							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendHP"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
-							<div className="port-price-col">
+
+							<div className="port-content-list">
+							<span className="font26">HashPuppies Token</span>
+							<input
+								className="ledger-address"
+								onClick={() => clipboard.writeText(this.props.address)}
+								id="center"
+								placeholder={this.props.address}
+								value={this.props.address}
+							/>
+							</div>
+
+
+							<div className="port-price-col-list">
 								<span className="market-price">Hash Puppies</span>
 								<h3>{numeral(
 									Math.floor(this.props.rht * 10) / 10
@@ -249,12 +470,13 @@ class AssetPortolio extends Component {
 								<span className="market-price">Priceless</span>
 							</div>
 							</div>
-						</Link>
 
-						<Link to="/NewLitecoin">
-							<div className="col-3">
 
-							<div className="port-logo-col">
+
+
+							<div className="col-12">
+
+							<div className="port-logo-col-list">
 							<img
 								src={ltcLogo}
 								alt=""
@@ -265,7 +487,18 @@ class AssetPortolio extends Component {
 							<h3><Link to={"/receiveLitecoin"} ><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to={"/sendLTC"} ><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
-							<div className="port-price-col">
+							<div className="port-content-list">
+							<span className="font26">Litecoin (LTC)</span>
+							<input
+								className="ledger-address"
+								onClick={() => clipboard.writeText(this.props.ltcPubAddr)}
+								id="center"
+								placeholder="Please login or create new LTC address"
+								value={this.props.ltcPubAddr}
+							/>
+							</div>
+
+							<div className="port-price-col-list">
 								<span className="market-price">Litecoin {numeral(this.props.marketLTCPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.ltc * 100000) / 100000
@@ -274,13 +507,13 @@ class AssetPortolio extends Component {
 								<span className="market-price">{numeral(this.props.ltc * this.props.marketLTCPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
-						</Link>
 
 
-						<Link to="/loopring">
-							<div className="col-3">
 
-							<div className="port-logo-col">
+
+							<div className="col-12">
+
+							<div className="port-logo-col-list">
 							<img
 								src={lrcLogo}
 								alt=""
@@ -291,7 +524,18 @@ class AssetPortolio extends Component {
 							<h3><span className=" glyphicon glyphicon-qrcode marg-right-5"/>   <span className=" glyphicon glyphicon-send "/></h3>
 							</div>
 
-							<div className="port-price-col">
+							<div className="port-content-list">
+							<span className="font26">Loopring (LRC)</span>
+							<input
+								className="ledger-address"
+								onClick={() => clipboard.writeText(this.props.address)}
+								id="center"
+								placeholder={this.props.address}
+								value={this.props.address}
+							/>
+							</div>
+
+							<div className="port-price-col-list">
 								<span className="market-price">Loopring {numeral(this.props.marketLRCPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.lrc * 100000) / 100000
@@ -300,12 +544,12 @@ class AssetPortolio extends Component {
 								<span className="market-price">$0.00 USD</span>
 							</div>
 							</div>
-						</Link>
 
 
-						<Link to="/sendNRVE">
-						<div className="col-3">
-						<div className="port-logo-col">
+
+
+						<div className="col-12">
+						<div className="port-logo-col-list">
 						<img
 							src={nrveLogo}
 							alt=""
@@ -315,20 +559,32 @@ class AssetPortolio extends Component {
 						<hr className="dash-hr" />
 						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendNRVE"><span className=" glyphicon glyphicon-send "/></Link></h3>
 						</div>
-						<div className="port-price-col">
+
+						<div className="port-content-list">
+						<span className="font26">Narrative</span>
+						<input
+							className="ledger-address"
+							onClick={() => clipboard.writeText(this.props.address)}
+							id="center"
+							placeholder={this.props.address}
+							value={this.props.address}
+						/>
+						</div>
+
+
+						<div className="port-price-col-list">
 							<span className="market-price">Narrative $0.00</span>
 							<h3>{numeral(this.props.nrve).format("0,0.0000")} <span className="dbc-price"> NRVE</span></h3>
 							<hr className="dash-hr" />
 							<span className="market-price">$0.00 USD</span>
 						</div>
 						</div>
-						</Link>
 
 
 
-						<Link to="/send">
-						<div className="col-3">
-						<div className="port-logo-col">
+
+						<div className="col-12">
+						<div className="port-logo-col-list">
 						<img
 							src={neoLogo}
 							alt=""
@@ -338,18 +594,31 @@ class AssetPortolio extends Component {
 						<hr className="dash-hr" />
 						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/send"><span className=" glyphicon glyphicon-send "/></Link></h3>
 						</div>
-						<div className="port-price-col">
+
+						<div className="port-content-list">
+						<span className="font26">NEO</span>
+						<input
+							className="ledger-address"
+							onClick={() => clipboard.writeText(this.props.address)}
+							id="center"
+							placeholder={this.props.address}
+							value={this.props.address}
+						/>
+						</div>
+
+						<div className="port-price-col-list">
 							<span className="market-price">NEO {numeral(this.props.marketNEOPrice).format("$0,0.00")}</span>
 							<h3>{numeral(this.props.neo).format("0,0")} <span className="neo-price"> NEO</span></h3>
 							<hr className="dash-hr" />
 							<span className="market-price">{numeral(this.props.price).format("$0,0.00")} USD</span>
 						</div>
 						</div>
-						</Link>
 
 
-						<div className="col-3 ">
-						<div className="port-logo-col">
+
+
+						<div className="col-12 ">
+						<div className="port-logo-col-list">
 						<img
 							src={nexLogo}
 							alt=""
@@ -360,7 +629,18 @@ class AssetPortolio extends Component {
 						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/receive"><span className=" glyphicon glyphicon-send "/></Link></h3>
 						</div>
 
-						<div className="port-price-col">
+						<div className="port-content-list">
+						<span className="font26">Neon Exchange </span>
+						<input
+							className="ledger-address"
+							onClick={() => clipboard.writeText(this.props.address)}
+							id="center"
+							placeholder={this.props.address}
+							value={this.props.address}
+						/>
+						</div>
+
+						<div className="port-price-col-list">
 							<span className="market-price">Neon Exchange $0.00</span>
 							<h3>{numeral(this.props.cpx).format("0,0.00000")} <span className="nex-price"> NEX</span></h3>
 							<hr className="dash-hr" />
@@ -370,10 +650,44 @@ class AssetPortolio extends Component {
 
 
 
-						<Link to="/sendONT">
-							<div className="col-3">
+							<div className="col-12 ">
 
-							<div className="port-logo-col">
+							<div className="port-logo-col-list">
+							<img
+								src={orbLogo}
+								alt=""
+								width="48"
+								className="port-logos"
+							/>
+							<hr className="dash-hr" />
+							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendOBT"><span className=" glyphicon glyphicon-send "/></Link></h3>
+							</div>
+
+							<div className="port-content-list">
+							<span className="font26">Orbis </span>
+							<input
+								className="ledger-address"
+								onClick={() => clipboard.writeText(this.props.address)}
+								id="center"
+								placeholder={this.props.address}
+								value={this.props.address}
+							/>
+							</div>
+
+							<div className="port-price-col-list">
+								<span className="market-price">Orbis $0.00 USD</span>
+								<h3>{numeral(this.props.obt/10000000000).format("0,0.0000")}  <span className="thor-price"> OBT</span></h3>
+								<hr className="dash-hr" />
+								<span className="market-price">$0.00 USD</span>
+							</div>
+							</div>
+
+
+
+
+							<div className="col-12">
+
+							<div className="port-logo-col-list">
 							<img
 								src={ontLogo}
 								alt=""
@@ -384,22 +698,33 @@ class AssetPortolio extends Component {
 							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendONT"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
-							<div className="port-price-col">
-								<span className="market-price">Ontology $0.00</span>
+							<div className="port-content-list">
+							<span className="font26">Ontology </span>
+							<input
+								className="ledger-address"
+								onClick={() => clipboard.writeText(this.props.address)}
+								id="center"
+								placeholder={this.props.address}
+								value={this.props.address}
+							/>
+							</div>
+
+							<div className="port-price-col-list">
+								<span className="market-price">Ontology {numeral(this.props.marketONTPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.ont * 100000) / 100000
 								).format("0,0.0000")} <span className="dbc-price"> ONT</span></h3>
 								<hr className="dash-hr" />
-								<span className="market-price">$0.00 USD</span>
+								<span className="market-price">{numeral(this.props.ont*this.props.marketONTPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
-						</Link>
 
 
-						<Link to="/sendQLC">
-							<div className="col-3">
 
-							<div className="port-logo-col">
+
+							<div className="col-12">
+
+							<div className="port-logo-col-list">
 							<img
 								src={qlcLogo}
 								alt=""
@@ -410,7 +735,18 @@ class AssetPortolio extends Component {
 							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendQLC"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
-							<div className="port-price-col">
+							<div className="port-content-list">
+							<span className="font26">QLink </span>
+							<input
+								className="ledger-address"
+								onClick={() => clipboard.writeText(this.props.address)}
+								id="center"
+								placeholder={this.props.address}
+								value={this.props.address}
+							/>
+							</div>
+
+							<div className="port-price-col-list">
 								<span className="market-price">QLink {numeral(this.props.marketQLCPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.qlc * 100000) / 100000
@@ -419,13 +755,13 @@ class AssetPortolio extends Component {
 								<span className="market-price">{numeral(this.props.qlc*this.props.marketQLCPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
-						</Link>
 
 
-						<Link to="/sendRPX">
-							<div className="col-3">
 
-							<div className="port-logo-col">
+
+							<div className="col-12">
+
+							<div className="port-logo-col-list">
 							<img
 								src={rpxLogo}
 								alt=""
@@ -436,7 +772,18 @@ class AssetPortolio extends Component {
 							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendRPX"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
-							<div className="port-price-col">
+							<div className="port-content-list">
+							<span className="font26">Red Pulse </span>
+							<input
+								className="ledger-address"
+								onClick={() => clipboard.writeText(this.props.address)}
+								id="center"
+								placeholder={this.props.address}
+								value={this.props.address}
+							/>
+							</div>
+
+							<div className="port-price-col-list">
 								<span className="market-price">Red Pulse {numeral(this.props.marketRPXPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.rpx * 100000) / 100000
@@ -445,11 +792,49 @@ class AssetPortolio extends Component {
 								<span className="market-price">{numeral(this.props.rpx * this.props.marketRPXPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
-						</Link>
 
-						<Link to="/sendTHOR">
-						<div className="col-3 ">
-						<div className="port-logo-col">
+
+
+							<div className="col-12">
+
+							<div className="port-logo-col-list">
+							<img
+								src={swhLogo}
+								alt=""
+								width="44"
+								className="port-logos"
+							/>
+							<hr className="dash-hr" />
+							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendSWH"><span className=" glyphicon glyphicon-send "/></Link></h3>
+							</div>
+
+							<div className="port-content-list">
+							<span className="font26">Switcheo.Network </span>
+							<input
+								className="ledger-address"
+								onClick={() => clipboard.writeText(this.props.address)}
+								id="center"
+								placeholder={this.props.address}
+								value={this.props.address}
+							/>
+							</div>
+
+							<div className="port-price-col-list">
+								<span className="market-price">Switcheo {numeral(this.props.marketSWHPrice).format("$0,0.00")}</span>
+								<h3>{numeral(
+									Math.floor(this.props.swh * 100000) / 100000
+								).format("0,0.0000")} <span className="neo-price"> SWH</span></h3>
+								<hr className="dash-hr" />
+								<span className="market-price">{numeral(this.props.swh * this.props.marketSWHPrice).format("$0,0.00")} USD</span>
+							</div>
+							</div>
+
+
+
+
+
+						<div className="col-12 ">
+						<div className="port-logo-col-list">
 						<img
 							src={thorLogo}
 							alt=""
@@ -460,19 +845,32 @@ class AssetPortolio extends Component {
 						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendTHOR"><span className=" glyphicon glyphicon-send "/></Link></h3>
 						</div>
 
-						<div className="port-price-col">
+						<div className="port-content-list">
+						<span className="font26">Thor </span>
+						<input
+							className="ledger-address"
+							onClick={() => clipboard.writeText(this.props.address)}
+							id="center"
+							placeholder={this.props.address}
+							value={this.props.address}
+						/>
+						</div>
+
+						<div className="port-price-col-list">
 							<span className="market-price">THOR $0.00</span>
 							<h3>{numeral(this.props.thor).format("0,0.00000")} <span className="thor-price"> THOR</span></h3>
 							<hr className="dash-hr" />
 							<span className="market-price">$0.00 USD</span>
 						</div>
 						</div>
-						</Link>
 
-						<Link to="/sendTKY">
-							<div className="col-3">
 
-							<div className="port-logo-col">
+
+
+
+							<div className="col-12">
+
+							<div className="port-logo-col-list">
 							<img
 								src={tkyLogo}
 								alt=""
@@ -483,7 +881,18 @@ class AssetPortolio extends Component {
 							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendTKY"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
-							<div className="port-price-col">
+							<div className="port-content-list">
+							<span className="font26">The Key </span>
+							<input
+								className="ledger-address"
+								onClick={() => clipboard.writeText(this.props.address)}
+								id="center"
+								placeholder={this.props.address}
+								value={this.props.address}
+							/>
+							</div>
+
+							<div className="port-price-col-list">
 								<span className="market-price">The Key {numeral(this.props.marketTKYPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.tky * 100000) / 100000
@@ -492,13 +901,12 @@ class AssetPortolio extends Component {
 								<span className="market-price">{numeral(this.props.tky*this.props.marketTKYPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
-						</Link>
 
 
-						<Link to="/SendTNC">
-							<div className="col-3">
 
-							<div className="port-logo-col">
+							<div className="col-12">
+
+							<div className="port-logo-col-list">
 							<img
 								src={tncLogo}
 								alt=""
@@ -509,25 +917,35 @@ class AssetPortolio extends Component {
 							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/SendTNC"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
-							<div className="port-price-col">
+							<div className="port-content-list">
+							<span className="font26">Trinity Network </span>
+							<input
+								className="ledger-address"
+								onClick={() => clipboard.writeText(this.props.address)}
+								id="center"
+								placeholder={this.props.address}
+								value={this.props.address}
+							/>
+							</div>
+
+							<div className="port-price-col-list">
 								<span className="market-price">Trinity {numeral(this.props.marketTNCPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.tnc * 100000) / 100000
-								).format("0,0.0000")} <span className="qlink-price"> TNC</span></h3>
+								).format("0,0.0000")} <span className="hp-price"> TNC</span></h3>
 								<hr className="dash-hr" />
 								<span className="market-price">{numeral(this.props.tnc*this.props.marketTNCPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
-						</Link>
 
 
 
 
 
-						<Link to="/sendZPT">
-							<div className="col-3">
 
-							<div className="port-logo-col">
+							<div className="col-12">
+
+							<div className="port-logo-col-list">
 							<img
 								src={zptLogo}
 								alt=""
@@ -538,7 +956,18 @@ class AssetPortolio extends Component {
 							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendZPT"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 
-							<div className="port-price-col">
+							<div className="port-content-list">
+							<span className="font26">Zeepin </span>
+							<input
+								className="ledger-address"
+								onClick={() => clipboard.writeText(this.props.address)}
+								id="center"
+								placeholder={this.props.address}
+								value={this.props.address}
+							/>
+							</div>
+
+							<div className="port-price-col-list">
 								<span className="market-price">Zeepin {numeral(this.props.marketZPTPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.zpt * 100000) / 100000
@@ -547,7 +976,7 @@ class AssetPortolio extends Component {
 								<span className="market-price">{numeral(this.props.zpt*this.props.marketZPTPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div>
-						</Link>
+
 
 
 				</div>
@@ -560,16 +989,19 @@ class AssetPortolio extends Component {
 const mapStateToProps = state => ({
 	gas: state.wallet.Gas,
 	neo: state.wallet.Neo,
+	cge: state.wallet.Cge,
 	btc: state.wallet.Btc,
 	dbc: state.wallet.Dbc,
 	iam: state.wallet.Iam,
 	ltc: state.wallet.Ltc,
 	eth: state.wallet.Eth,
 	nrve: state.wallet.Nrve,
+	obt: state.wallet.Obt,
 	ont: state.wallet.Ont,
 	qlc: state.wallet.Qlc,
 	rht: state.wallet.Rht,
 	rpx: state.wallet.Rpx,
+	thor: state.wallet.Thor,
 	tky: state.wallet.Tky,
 	tnc: state.wallet.Tnc,
 	zpt: state.wallet.Zpt,
@@ -585,6 +1017,7 @@ const mapStateToProps = state => ({
 	marketETHPrice: state.wallet.marketETHPrice,
 	marketLTCPrice: state.wallet.marketLTCPrice,
 	marketLRCPrice: state.wallet.marketLRCPrice,
+	marketONTPrice: state.wallet.marketONTPrice,
 	marketQLCPrice: state.wallet.marketQLCPrice,
 	marketRPXPrice: state.wallet.marketRPXPrice,
 	marketTNCPrice: state.wallet.marketTNCPrice,
@@ -594,6 +1027,8 @@ const mapStateToProps = state => ({
 	btcLoggedIn: state.account.btcLoggedIn,
 	btcPrivKey: state.account.btcPrivKey,
 	btcPubAddr: state.account.btcPubAddr,
+	ltcPubAddr: state.account.ltcPubAddr,
+	ethPubAddr: state.account.ethPubAddr,
 	btcLoginRedirect: state.account.btcLoginRedirect
 });
 
