@@ -62,16 +62,7 @@ class AssetPortolio extends Component {
 
 			<div>
 
-			<div className="col-xs-11">
-			<h2>Asset Portfolio</h2>
-			</div>
-			<Link to="/assetPortfolioList">
-			<div className="col-xs-1">
-			<h2><span className=" glyphicon glyphicon-th-list"/></h2>
-			</div>
-			</Link>
-
-				<div className="row top-10 dash-portfolio center">
+				<div className="row top-20 dash-portfolio center">
 				<div id="assetList">
 				<div className="clearboth" />
 				<div className="row" />
@@ -92,13 +83,39 @@ class AssetPortolio extends Component {
 				<div className="port-price-col">
 					<span className="market-price">Alpha Cat $0.00</span>
 					<h3>{numeral(
-						Math.floor(this.props.obt * 100000) / 100000
+						Math.floor(this.props.acat * 100000) / 100000
 					).format("0,0.0000")} <span className="ltc-price"> ACAT</span></h3>
 					<hr className="dash-hr" />
 					<span className="market-price">$0.00 USD</span>
 				</div>
 				</div>
 				</Link>
+
+
+				<Link to="/sendAPEX">
+				<div className="col-3 ">
+				<div className="port-logo-col">
+				<img
+					src={apexLogo}
+					alt="Apex"
+					width="48"
+					className="port-logos"
+				/>
+				<hr className="dash-hr" />
+				<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendAPEX"><span className="glyphicon glyphicon-send"/></Link></h3>
+				</div>
+
+				<div className="port-price-col">
+					<span className="market-price">Apex $0.00</span>
+					<h3>{numeral(
+						Math.floor(this.props.cpx * 100000) / 100000
+					).format("0,0.0000")} <span className="ltc-price"> APEX</span></h3>
+					<hr className="dash-hr" />
+					<span className="market-price">$0.00 USD</span>
+				</div>
+				</div>
+				</Link>
+
 
 				<Link to="/NewBitcoin">
 						<div className="col-3">
@@ -723,6 +740,8 @@ const mapStateToProps = state => ({
 	neo: state.wallet.Neo,
 	cge: state.wallet.Cge,
 	btc: state.wallet.Btc,
+	acat: state.wallet.Acat,
+	cge: state.wallet.Cge,
 	dbc: state.wallet.Dbc,
 	iam: state.wallet.Iam,
 	ltc: state.wallet.Ltc,

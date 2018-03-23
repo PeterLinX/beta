@@ -25,6 +25,8 @@ class Assets extends Component {
 		this.state = {
 			gasPrice: 0,
 			dbcPrice: 0,
+			iamPrice: 0,
+			nrvePrice: 0,
 			ontPrice: 0,
 			qlcPrice: 0,
 			rpxPrice: 0,
@@ -41,59 +43,61 @@ class Assets extends Component {
 
 				<div className="row top-10 dash-portfolio center">
 
-
-				<Link to="/sendDBC">
+				<Link to="/sendACAT">
 					<div className="col-5">
-						<span className="market-price">DBC {numeral(this.props.marketDBCPrice).format("$0,0.00")}</span>
+						<span className="market-price">ACAT {numeral(this.props.marketACATPrice).format("$0,0.00")}</span>
 						<h3>{numeral(
-							Math.floor(this.props.dbc * 100000) / 100000
-						).format("0,0.0000")} <span className="dbc-price"> DBC</span></h3>
+							Math.floor(this.props.acat * 100000) / 100000
+						).format("0,0.0000")} <span className="ltc-price"> ACAT</span></h3>
 						<hr className="dash-hr" />
-						<span className="market-price">{numeral(this.props.dbc*this.props.marketDBCPrice).format("$0,0.00")} USD</span>
+						<span className="market-price">{numeral(this.props.acat*this.props.marketACATPrice).format("$0,0.00")} USD</span>
 					</div>
 				</Link>
 
-					<Link to="/sendQLC">
+
+				<Link to="/sendIAM">
+					<div className="col-5">
+						<span className="market-price">IAM {numeral(this.props.marketIAMPrice).format("$0,0.00")}</span>
+						<h3>{numeral(
+							Math.floor(this.props.iam * 100000) / 100000
+						).format("0,0.0000")} <span className="qlink-price"> IAM</span></h3>
+						<hr className="dash-hr" />
+						<span className="market-price">{numeral(this.props.iam*this.props.marketIAMPrice).format("$0,0.00")} USD</span>
+					</div>
+				</Link>
+
+
+
+					<Link to="/sendCGE">
 						<div className="col-5">
-							<span className="market-price">QLC {numeral(this.props.marketQLCPrice).format("$0,0.00")}</span>
+							<span className="market-price">CGE {numeral(this.props.marketRPXPrice).format("$0,0.00")}</span>
 							<h3>{numeral(
-								Math.floor(this.props.qlc * 100000) / 100000
-							).format("0,0.0000")} <span className="qlink-price"> QLC</span></h3>
+								Math.floor(this.props.cge * 100000) / 100000
+							).format("0,0.0000")} <span className="thor-price"> CGE</span></h3>
 							<hr className="dash-hr" />
-							<span className="market-price">{numeral(this.props.qlc*this.props.marketQLCPrice).format("$0,0.00")} USD</span>
+							<span className="market-price">{numeral(this.props.cge*this.props.marketCGEPrice).format("$0,0.00")} USD</span>
 						</div>
 					</Link>
 
-					<Link to="/sendRPX">
+					<Link to="/sendNRVE">
 						<div className="col-5">
-							<span className="market-price">RPX {numeral(this.props.marketRPXPrice).format("$0,0.00")}</span>
+							<span className="market-price">NRVE {numeral(this.props.marketNRVEPrice).format("$0,0.00")}</span>
 							<h3>{numeral(
-								Math.floor(this.props.rpx * 100000) / 100000
-							).format("0,0.0000")} <span className="rpx-price"> RPX</span></h3>
+								Math.floor(this.props.nrve * 100000) / 100000
+							).format("0,0.0000")} <span className="dbc-price"> NRVE</span></h3>
 							<hr className="dash-hr" />
-							<span className="market-price">{numeral(this.props.rpx*this.props.marketRPXPrice).format("$0,0.00")} USD</span>
+							<span className="market-price">{numeral(this.props.nrve*this.props.marketNRVEPrice).format("$0,0.00")} USD</span>
 						</div>
 					</Link>
 
-					<Link to="/sendTNC">
+					<Link to="/sendOBT">
 						<div className="col-5">
-							<span className="market-price">TNC {numeral(this.props.marketTNCPrice).format("$0,0.00")}</span>
+							<span className="market-price">OBT {numeral(this.props.marketOBTPrice).format("$0,0.00")}</span>
 							<h3>{numeral(
-								Math.floor(this.props.tnc * 100000) / 100000
-							).format("0,0.0000")} <span className="hp-price"> TNC</span></h3>
+								Math.floor(this.props.obt * 100000) / 100000
+							).format("0,0.0000")} <span className="thor-price"> OBT</span></h3>
 							<hr className="dash-hr" />
-							<span className="market-price">{numeral(this.props.tnc*this.props.marketTNCPrice).format("$0,0.00")} USD</span>
-						</div>
-					</Link>
-
-					<Link to="/sendZPT">
-						<div className="col-5">
-							<span className="market-price">ZPT {numeral(this.props.marketZPTPrice).format("$0,0.00")}</span>
-							<h3>{numeral(
-								Math.floor(this.props.zpt * 100000) / 100000
-							).format("0,0.0000")} <span className="neo-price"> ZPT</span></h3>
-							<hr className="dash-hr" />
-							<span className="market-price">{numeral(this.props.zpt*this.props.marketZPTPrice).format("$0,0.00")} USD</span>
+							<span className="market-price">{numeral(this.props.obt*this.props.marketOBTPrice).format("$0,0.00")} USD</span>
 						</div>
 					</Link>
 
@@ -110,11 +114,11 @@ const mapStateToProps = state => ({
 	gas: state.wallet.Gas,
 	neo: state.wallet.Neo,
 	btc: state.wallet.Btc,
-	dbc: state.wallet.Dbc,
-	qlc: state.wallet.Qlc,
-	rpx: state.wallet.Rpx,
-	tnc: state.wallet.Tnc,
-	zpt: state.wallet.Zpt,
+	acat: state.wallet.Acat,
+	cge: state.wallet.Cge,
+	iam: state.wallet.Iam,
+	nrve: state.wallet.Nrve,
+	obt: state.wallet.Obt,
 	address: state.account.address,
 	net: state.metadata.network,
 	price: state.wallet.price,
@@ -122,11 +126,11 @@ const mapStateToProps = state => ({
 	marketGASPrice: state.wallet.marketGASPrice,
 	marketNEOPrice: state.wallet.marketNEOPrice,
 	marketBTCPrice: state.wallet.marketBTCPrice,
-	marketDBCPrice: state.wallet.marketDBCPrice,
-	marketQLCPrice: state.wallet.marketQLCPrice,
-	marketRPXPrice: state.wallet.marketRPXPrice,
-	marketTNCPrice: state.wallet.marketTNCPrice,
-	marketZPTPrice: state.wallet.marketZPTPrice,
+	marketACATPrice: state.wallet.marketACATPrice,
+	marketIAMPrice: state.wallet.marketIAMPrice,
+	marketCGEPrice: state.wallet.marketCGEPrice,
+	marketNRVEPrice: state.wallet.marketNRVEPrice,
+	marketOBTPrice: state.wallet.marketOBTPrice,
 	btcLoggedIn: state.account.btcLoggedIn,
 	btcPrivKey: state.account.btcPrivKey,
 	btcPubAddr: state.account.btcPubAddr,

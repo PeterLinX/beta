@@ -391,7 +391,7 @@ class SendCGE extends Component {
               <img
                 src={cgeLogo}
                 alt=""
-                width="54"
+                width="40"
                 className="neo-logo fadeInDown"
               />
               <h2>Send Concierge Tokens</h2>

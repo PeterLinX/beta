@@ -85,7 +85,7 @@ const validateForm = (dispatch, acat_balance) => {
     dispatch(sendEvent(false, "You cannot send fractional amounts of ACAT."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
-  } else if (parseInt(sendAmount.value) > acat_balance) {
+  } else if (asset === "Neo" && parseInt(sendAmount.value) > acat_balance) {
     // check for value greater than account balance
     dispatch(sendEvent(false, "You do not have enough ACAT to send."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
@@ -199,7 +199,7 @@ const makeRequest = (sendEntries, config) => {
   });
 };
 
-// perform send transaction for Orbit
+// perform send transaction for ACAT
 const sendAcatTransaction = async (dispatch, net, selfAddress, wif) => {
   const endpoint = await api.neonDB.getRPCEndpoint(net);
   console.log("endpoint = " + endpoint);
@@ -221,7 +221,7 @@ const sendAcatTransaction = async (dispatch, net, selfAddress, wif) => {
     scriptHash: script
   };
   const tokensBalanceMap = {
-    acat: tokenBalances
+    ACAT: tokenBalances
   }; //keyBy(tokenBalances, 'symbol');
   console.log("tokensBalanceMap = " + JSON.stringify(tokensBalanceMap));
   let privateKey = new wallet.Account(wif).privateKey;
@@ -236,38 +236,36 @@ const sendAcatTransaction = async (dispatch, net, selfAddress, wif) => {
   };
   sendEntries.push(sendEntry);
   console.log("sendEntries = " + JSON.stringify(sendEntries));
-  if (validateForm(dispatch, acat_balance) === true) {
-      if (acat_balance <= sendAmount.value) {
-          dispatch(sendEvent(false, "You are trying to send more ACAT than you have available."));
-          setTimeout(() => dispatch(clearTransactionEvent()), 2000);
-          return true;
+  if (acat_balance <= sendAmount.value) {
+    dispatch(sendEvent(false, "You are trying to send more ACAT than you have available."));
+		setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+		return true;
+  } else {
+    dispatch(sendEvent(true, "Sending ACAT...\n"));
+    try {
+      const { response } = await makeRequest(sendEntries, {
+        net,
+        tokensBalanceMap,
+        address: selfAddress,
+        undefined,
+        privateKey: privateKey,
+        signingFunction: null
+      });
+      console.log("sending acat response=" + response.result);
+      if (!response.result) {
+        dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
+				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
       } else {
-          dispatch(sendEvent(true, "Sending ACAT...\n"));
-          try {
-              const { response } = await makeRequest(sendEntries, {
-                  net,
-                  tokensBalanceMap,
-                  address: selfAddress,
-                  undefined,
-                  privateKey: privateKey,
-                  signingFunction: null
-              });
-              console.log("sending acat response=" + response.result);
-              if (!response.result) {
-                  dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
-                  setTimeout(() => dispatch(clearTransactionEvent()), 2000);
-              } else {
-                  dispatch(sendEvent(false,
-                      "Sorry, your transaction failed. Please try again soon." ));
-                  setTimeout(() => dispatch(clearTransactionEvent()), 2000);
-              }
-          } catch (err) {
-              console.log("sending acat =" + err.message);
-              dispatch(sendEvent(false, "There was an error processing your trasnaction. Please check and try again."));
-              setTimeout(() => dispatch(clearTransactionEvent()), 2000);
-              return false;
-          }
+        dispatch(sendEvent(false,
+        "Sorry, your transaction failed. Please try again soon." ));
+				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
       }
+    } catch (err) {
+      console.log("sending acat =" + err.message);
+      dispatch(sendEvent(false, "There was an error processing your trasnaction. Please check and try again."));
+			setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+	    return false;
+    }
   }
 };
 
@@ -299,7 +297,6 @@ const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm })
     );
     return message;
 };
-
 
 class SendACAT extends Component {
   constructor(props) {
@@ -391,13 +388,13 @@ class SendACAT extends Component {
               <img
                 src={acatLogo}
                 alt=""
-                width="72"
+                width="54"
                 className="neo-logo fadeInDown"
               />
-              <h2>Send AlphaCat Tokens</h2>
+              <h2>Send ACAT Tokens</h2>
             </div>
 
-            <div className="col-xs-3 center ">
+            <div className="col-xs-3 center">
 
             <span className="font-16">{numeral(
               Math.floor(this.props.acat * 100000) / 100000
@@ -414,9 +411,9 @@ class SendACAT extends Component {
             <div className="top-20">
               <div className="col-xs-9">
                 <input
-                  className="form-send-white"
+                  className="form-send-white "
                   id="center"
-                  placeholder="Enter a valid Congierge (ACAT) public address here"
+                  placeholder="Enter a valid ACAT public address here"
                   ref={node => {
                     sendAddress = node;
                   }}
@@ -498,7 +495,7 @@ class SendACAT extends Component {
 
           <div className="send-notice">
             <p>
-              Sending Orbis requires a balance of 1 GAS+. Only send THOR to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending Orbis to an exchange please ensure the address supports Orbis tokens.
+              Sending ACAT requires a balance of 1 GAS+. Only send ACAT to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending ACAT to an exchange please ensure the address supports ACAT tokens.
             </p>
             <div className="col-xs-2 top-20" />
             <div className="col-xs-8 top-20">
@@ -536,7 +533,6 @@ const mapStateToProps = state => ({
   net: state.metadata.network,
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,
-  marketACATPrice: state.wallet.marketACATPrice,
   selectedAsset: state.transactions.selectedAsset,
   confirmPane: state.dashboard.confirmPane,
   acat: state.wallet.Acat

@@ -46,7 +46,8 @@ const doGasClaim = (dispatch, net, wif, selfAddress, ans) => {
           sendEvent(false, "Oops! Transaction failed. Please try again.")
         );
       } else {
-        dispatch(sendEvent(true, "Waiting for the transaction to clear..."));
+        dispatch(sendEvent(true, "Waiting for the transaction to clear. You will be notified when your GAS claim is successful."));
+        setTimeout(() => dispatch(clearTransactionEvent()), 3000);
         dispatch(setClaimRequest(true));
         setTimeout(() => dispatch(disableClaim(true)), 3000);
       }

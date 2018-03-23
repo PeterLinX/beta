@@ -29,8 +29,10 @@ import Sale from "./components/Sale";
 import Loopring from "./components/NepTokens/Loopring";
 import SendSWH from "./components/NepTokens/SendSWH";
 import SendACAT from "./components/NepTokens/SendACAT";
+import SendAPEX from "./components/NepTokens/SendAPEX";
 import SendOBT from "./components/NepTokens/SendOBT";
 import SendCGE from "./components/NepTokens/SendCGE";
+import SendGDM from "./components/NepTokens/SendGDM";
 import SendIAM from "./components/NepTokens/SendIAM";
 import SendNRVE from "./components/NepTokens/SendNRVE";
 import SendZPT from "./components/NepTokens/SendZPT";
@@ -83,7 +85,9 @@ export default (
 			<Route path="/sendZPT" component={SendZPT} />
 			<Route path="/sendHP" component={SendHP} />
 			<Route path="/sendACAT" component={SendACAT} />
+			<Route path="/sendAPEX" component={SendAPEX} />
 			<Route path="/sendCGE" component={SendCGE} />
+			<Route path="/sendGDM" component={SendGDM} />
 			<Route path="/sendOBT" component={SendOBT} />
 			<Route path="/sendBTC" component={SendBTC} />
 			<Route path="/sendLTC" component={SendLTC} />

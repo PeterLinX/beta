@@ -34,7 +34,7 @@ import { BLOCK_TOKEN } from "../core/constants";
 import transactions from "../modules/transactions";
 
 let intervals = {};
-let acatScriptHash, dbcScriptHash, galaScriptHash, iamScriptHash, nrveScriptHash, obtScriptHash, ontScriptHash, qlcScriptHash, rhtScriptHash, rpxScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, swhScriptHash, zptScriptHash;
+let acatScriptHash, dbcScriptHash, galaScriptHash, iamScriptHash, cgeScriptHash, cpxScriptHash, nrveScriptHash, obtScriptHash, ontScriptHash, qlcScriptHash, rhtScriptHash, rpxScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, swhScriptHash, zptScriptHash;
 let netSelect;
 
 // https://bittrex.com/api/v1.1/public/getmarkethistory?market=BTC-NEO
@@ -69,6 +69,17 @@ const getCgeBalance = async (net,address) => {
         cge_token = TOKENS_TEST.CGE;
     }
     return getBalace (net,address,cge_token);
+}
+
+
+const getCpxBalance = async (net,address) => {
+    let cpx_token;
+    if (net === "MainNet") {
+        cpx_token = TOKENS.CPX;
+    } else {
+        cpx_token = TOKENS_TEST.CPX;
+    }
+    return getBalace (net,address,cpx_token);
 }
 
 const getDbcBalance = async (net,address) => {
@@ -245,7 +256,7 @@ const getGasPrice = async gasVal => {
 const getMarketPrice = async () => {
   try {
     let marketPrices = await axios.get(
-      "https://min-api.cryptocompare.com/data/pricemulti?fsyms=GAS,NEO,ACAT,BTC,CGE,DBC,ELA,ETH,GALA,LTC,LRC,OBT,ONT,QLC,RPX,THOR,TNC,TKY,SWH,XMR,ZPT&tsyms=USD"
+      "https://min-api.cryptocompare.com/data/pricemulti?fsyms=GAS,NEO,ACAT,BTC,CGE,CPX,DBC,ELA,ETH,GALA,LTC,LRC,OBT,ONT,QLC,RPX,THOR,TNC,TKY,SWH,XMR,ZPT&tsyms=USD"
     );
     console.log("market price="+JSON.stringify(marketPrices));
     return marketPrices;
@@ -512,6 +523,9 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
             let cgeBalance = await getCgeBalance(net,address);
             console.log("cge balance= " + cgeBalance);
 
+            let cpxBalance = await getCpxBalance(net,address);
+            console.log("cpx balance= " + cpxBalance);
+
             let dbcBalance = await getDbcBalance(net,address);
             console.log("dbc balance= " + dbcBalance);
 
@@ -562,6 +576,7 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
                 resultBalance.Gas,
                 acatBalance,
                 cgeBalance,
+                cpxBalance,
                 dbcBalance,
                 galaBalance,
                 obtBalance,
