@@ -467,7 +467,7 @@ class SendONT extends Component {
                     className="dbc-button"
                     onClick={() => {
                         if (sendAddress.value === '') {
-                            dispatch(sendEvent(false, "You can not send without address."));
+                            dispatch(sendEvent(false, "Please enter a valid address."));
                             setTimeout(() => dispatch(clearTransactionEvent()), 1000);
                             return false;
                         }
@@ -542,6 +542,7 @@ const mapStateToProps = state => ({
   gas: state.wallet.Gas,
   selectedAsset: state.transactions.selectedAsset,
   confirmPane: state.dashboard.confirmPane,
+  marketONTPrice: state.wallet.marketONTPrice,
   ont: state.wallet.Ont
 });
 

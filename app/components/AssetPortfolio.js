@@ -9,6 +9,8 @@ import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 
 import swhLogo from "../img/swh.png";
+import pckLogo from "../img/pck.png";
+import aphLogo from "../img/aph.png";
 import acatLogo from "../img/acat.png";
 import cgeLogo from "../img/cge.png";
 import apexLogo from "../img/apex.png";
@@ -56,6 +58,12 @@ class AssetPortolio extends Component {
 		};
 
 	}
+
+	componentDidMount = () => {
+		initiateGetBalance(this.props.dispatch, this.props.net, this.props.address ,this.props.btc ,this.props.ltc ,this.props.eth);
+		dispatch(sendEvent(true, "Received latest blockchain information."));
+		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+	};
 
 	render() {
 		return (
@@ -110,6 +118,31 @@ class AssetPortolio extends Component {
 					<h3>{numeral(
 						Math.floor(this.props.cpx * 100000) / 100000
 					).format("0,0.0000")} <span className="ltc-price"> APEX</span></h3>
+					<hr className="dash-hr" />
+					<span className="market-price">$0.00 USD</span>
+				</div>
+				</div>
+				</Link>
+
+
+				<Link to="/sendAPH">
+				<div className="col-3 ">
+				<div className="port-logo-col">
+				<img
+					src={aphLogo}
+					alt="Aphelion"
+					width="44"
+					className="port-logos"
+				/>
+				<hr className="dash-hr" />
+				<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendAPH"><span className="glyphicon glyphicon-send"/></Link></h3>
+				</div>
+
+				<div className="port-price-col">
+					<span className="market-price">Aphelion $0.00</span>
+					<h3>{numeral(
+						Math.floor(this.props.aph * 100000) / 100000
+					).format("0,0.0000")} <span className="qlink-price"> APH</span></h3>
 					<hr className="dash-hr" />
 					<span className="market-price">$0.00 USD</span>
 				</div>
@@ -540,7 +573,30 @@ class AssetPortolio extends Component {
 							</div>
 						</Link>
 
+						<Link to="/sendPKC">
+							<div className="col-3">
 
+							<div className="port-logo-col">
+							<img
+								src={pckLogo}
+								alt=""
+								width="54"
+								className="port-logos"
+							/>
+							<hr className="dash-hr" />
+							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendPCK"><span className=" glyphicon glyphicon-send "/></Link></h3>
+							</div>
+
+							<div className="port-price-col">
+								<span className="market-price">Pikcio {numeral(this.props.marketPKCPrice).format("$0,0.00")}</span>
+								<h3>{numeral(
+									Math.floor(this.props.pkc * 100000) / 100000
+								).format("0,0.0000")} <span className="dbc-price"> PCK</span></h3>
+								<hr className="dash-hr" />
+								<span className="market-price">{numeral(this.props.pkc*this.props.marketPKCPrice).format("$0,0.00")} USD</span>
+							</div>
+							</div>
+						</Link>
 
 
 						<Link to="/sendQLC">
@@ -749,6 +805,7 @@ const mapStateToProps = state => ({
 	nrve: state.wallet.Nrve,
 	obt: state.wallet.Obt,
 	ont: state.wallet.Ont,
+	pkc: state.wallet.Pkc,
 	qlc: state.wallet.Qlc,
 	rht: state.wallet.Rht,
 	rpx: state.wallet.Rpx,

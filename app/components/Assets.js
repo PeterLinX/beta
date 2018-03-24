@@ -48,7 +48,7 @@ class Assets extends Component {
 						<span className="market-price">ACAT {numeral(this.props.marketACATPrice).format("$0,0.00")}</span>
 						<h3>{numeral(
 							Math.floor(this.props.acat * 100000) / 100000
-						).format("0,0.0000")} <span className="ltc-price"> ACAT</span></h3>
+						).format("0,0.000")} <span className="ltc-price"> ACAT</span></h3>
 						<hr className="dash-hr" />
 						<span className="market-price">{numeral(this.props.acat*this.props.marketACATPrice).format("$0,0.00")} USD</span>
 					</div>
@@ -60,7 +60,7 @@ class Assets extends Component {
 						<span className="market-price">IAM {numeral(this.props.marketIAMPrice).format("$0,0.00")}</span>
 						<h3>{numeral(
 							Math.floor(this.props.iam * 100000) / 100000
-						).format("0,0.0000")} <span className="qlink-price"> IAM</span></h3>
+						).format("0,0.000")} <span className="qlink-price"> IAM</span></h3>
 						<hr className="dash-hr" />
 						<span className="market-price">{numeral(this.props.iam*this.props.marketIAMPrice).format("$0,0.00")} USD</span>
 					</div>
@@ -73,7 +73,7 @@ class Assets extends Component {
 							<span className="market-price">CGE {numeral(this.props.marketRPXPrice).format("$0,0.00")}</span>
 							<h3>{numeral(
 								Math.floor(this.props.cge * 100000) / 100000
-							).format("0,0.0000")} <span className="thor-price"> CGE</span></h3>
+							).format("0,0.000")} <span className="thor-price"> CGE</span></h3>
 							<hr className="dash-hr" />
 							<span className="market-price">{numeral(this.props.cge*this.props.marketCGEPrice).format("$0,0.00")} USD</span>
 						</div>
@@ -84,7 +84,7 @@ class Assets extends Component {
 							<span className="market-price">NRVE {numeral(this.props.marketNRVEPrice).format("$0,0.00")}</span>
 							<h3>{numeral(
 								Math.floor(this.props.nrve * 100000) / 100000
-							).format("0,0.0000")} <span className="dbc-price"> NRVE</span></h3>
+							).format("0,0.000")} <span className="dbc-price"> NRVE</span></h3>
 							<hr className="dash-hr" />
 							<span className="market-price">{numeral(this.props.nrve*this.props.marketNRVEPrice).format("$0,0.00")} USD</span>
 						</div>
@@ -95,7 +95,7 @@ class Assets extends Component {
 							<span className="market-price">OBT {numeral(this.props.marketOBTPrice).format("$0,0.00")}</span>
 							<h3>{numeral(
 								Math.floor(this.props.obt * 100000) / 100000
-							).format("0,0.0000")} <span className="thor-price"> OBT</span></h3>
+							).format("0,0.000")} <span className="thor-price"> OBT</span></h3>
 							<hr className="dash-hr" />
 							<span className="market-price">{numeral(this.props.obt*this.props.marketOBTPrice).format("$0,0.00")} USD</span>
 						</div>

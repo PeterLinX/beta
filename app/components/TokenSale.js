@@ -428,8 +428,8 @@ class TokenSale extends Component {
 							sendAmount={amount.value}
 							sendToken={
 								{
-									"0e86a40588f715fcaf7acd1812d50af478e6e917": "OBT",
-									"78e6d16b914fe15bc16150aeb11d0c2a8e532bdd": "SWH",
+									"34579e4614ac1a7bd295372d3de8621770c76cdc": "CGE",
+                  "0e86a40588f715fcaf7acd1812d50af478e6e917": "OBT",
 									"67a5086bac196b67d5fd20745b0dc9db4d2930ed": "THOR"
 
 								}[token_script.value]

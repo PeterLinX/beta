@@ -461,7 +461,7 @@ class SendRHP extends Component {
                     className="btn-send"
                     onClick={() => {
                         if (sendAddress.value === '') {
-                            dispatch(sendEvent(false, "You can not send without address."));
+                            dispatch(sendEvent(false, "Please enter a valid address."));
                             setTimeout(() => dispatch(clearTransactionEvent()), 1000);
                             return false;
                         }

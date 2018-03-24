@@ -105,7 +105,7 @@ class Claim extends Component {
             className="solidTip"
             id="claimTip"
             place="bottom"
-            type="light"
+            type="dark"
             effect="solid"
           >
             <span>You can claim GAS once every 5 minutes</span>

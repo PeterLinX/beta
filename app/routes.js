@@ -33,12 +33,14 @@ import SendAPEX from "./components/NepTokens/SendAPEX";
 import SendOBT from "./components/NepTokens/SendOBT";
 import SendCGE from "./components/NepTokens/SendCGE";
 import SendGDM from "./components/NepTokens/SendGDM";
+import SendAPH from "./components/NepTokens/SendAPH";
 import SendIAM from "./components/NepTokens/SendIAM";
 import SendNRVE from "./components/NepTokens/SendNRVE";
 import SendZPT from "./components/NepTokens/SendZPT";
 import SendTNC from "./components/NepTokens/SendTNC";
 import SendTKY from "./components/NepTokens/SendTKY";
 import SendONT from "./components/NepTokens/SendONT";
+import SendPKC from "./components/NepTokens/SendPKC";
 import SendRPX from "./components/NepTokens/SendRPX";
 import SendDBC from "./components/NepTokens/SendDBC";
 import SendGALA from "./components/NepTokens/SendGALA";
@@ -80,6 +82,7 @@ export default (
 			<Route path="/sendIAM" component={SendIAM} />
 			<Route path="/sendNRVE" component={SendNRVE} />
 			<Route path="/sendONT" component={SendONT} />
+			<Route path="/sendPKC" component={SendPKC} />
 			<Route path="/sendTHOR" component={SendTHOR} />
 			<Route path="/sendSWH" component={SendSWH} />
 			<Route path="/sendZPT" component={SendZPT} />
@@ -88,6 +91,7 @@ export default (
 			<Route path="/sendAPEX" component={SendAPEX} />
 			<Route path="/sendCGE" component={SendCGE} />
 			<Route path="/sendGDM" component={SendGDM} />
+			<Route path="/sendAPH" component={SendAPH} />
 			<Route path="/sendOBT" component={SendOBT} />
 			<Route path="/sendBTC" component={SendBTC} />
 			<Route path="/sendLTC" component={SendLTC} />

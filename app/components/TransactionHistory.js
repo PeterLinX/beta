@@ -51,6 +51,12 @@ class TransactionHistory extends Component {
     );
   };
 
+  componentDidMount = () => {
+		initiateGetBalance(this.props.dispatch, this.props.net, this.props.address ,this.props.btc ,this.props.ltc ,this.props.eth);
+		dispatch(sendEvent(true, "Received latest blockchain information."));
+		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+	};
+
   render = () => (
     <div id="send">
       <div className="dash-panel fadeInDown">

@@ -34,7 +34,7 @@ import { BLOCK_TOKEN } from "../core/constants";
 import transactions from "../modules/transactions";
 
 let intervals = {};
-let acatScriptHash, dbcScriptHash, galaScriptHash, iamScriptHash, cgeScriptHash, cpxScriptHash, nrveScriptHash, obtScriptHash, ontScriptHash, qlcScriptHash, rhtScriptHash, rpxScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, swhScriptHash, zptScriptHash;
+let acatScriptHash, aphScriptHash, dbcScriptHash, galaScriptHash, iamScriptHash, cgeScriptHash, cpxScriptHash, nrveScriptHash, obtScriptHash, ontScriptHash, pkcScriptHash,  qlcScriptHash, rhtScriptHash, rpxScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, swhScriptHash, zptScriptHash;
 let netSelect;
 
 // https://bittrex.com/api/v1.1/public/getmarkethistory?market=BTC-NEO
@@ -57,6 +57,16 @@ const getAcatBalance = async (net,address) => {
         acat_token = TOKENS_TEST.ACAT;
     }
     return getBalace (net,address,acat_token);
+}
+
+const getAphBalance = async (net,address) => {
+    let aph_token;
+    if (net === "MainNet") {
+        aph_token = TOKENS.APH;
+    } else {
+        aph_token = TOKENS_TEST.APH;
+    }
+    return getBalace (net,address,aph_token);
 }
 
 
@@ -141,6 +151,16 @@ const getOntBalance = async (net,address) => {
         ont_token = TOKENS_TEST.ONT;
     }
     return getBalace (net,address,ont_token);
+}
+
+const getPkcBalance = async (net,address) => {
+    let pkc_token;
+    if (net === "MainNet") {
+        pkc_token = TOKENS.PKC;
+    } else {
+        pkc_token = TOKENS_TEST.PKC;
+    }
+    return getBalace (net,address,pkc_token);
 }
 
 const getQlcBalance = async (net,address) => {
@@ -501,6 +521,8 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
 
             let dbc_usd = parseFloat(marketPrices.data.DBC.USD);
 
+            let ont_usd = parseFloat(marketPrices.data.ONT.USD);
+
             let qlc_usd = parseFloat(marketPrices.data.QLC.USD);
 
             let rpx_usd = parseFloat(marketPrices.data.RPX.USD);
@@ -519,6 +541,9 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
 
             let acatBalance = await getAcatBalance(net,address);
             console.log("acat balance= " + acatBalance);
+
+            let aphBalance = await getAphBalance(net,address);
+            console.log("aph balance= " + aphBalance);
 
             let cgeBalance = await getCgeBalance(net,address);
             console.log("cge balance= " + cgeBalance);
@@ -543,6 +568,9 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
 
             let ontBalance = await getOntBalance(net,address);
             console.log("ont balance= " + ontBalance);
+
+            let pkcBalance = await getPkcBalance(net,address);
+            console.log("pkc balance= " + pkcBalance);
 
             let qlcBalance = await getQlcBalance(net,address);
             console.log("qlc balance= " + qlcBalance);
@@ -569,18 +597,20 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
             console.log("zpt balance= " + zptBalance);
 
             //combined balance updating
-            let combinedPrice = gasPrice + resultPrice + dbcBalance*dbc_usd + qlcBalance*qlc_usd + rpxBalance*rpx_usd + tkyBalance*tky_usd + tncBalance*tnc_usd + zptBalance*zpt_usd + btc*btc_usd + ltc*ltc_usd + eth*eth_usd/1000000000000000000;
+            let combinedPrice = gasPrice + resultPrice + dbcBalance*dbc_usd + ontBalance*ont_usd + qlcBalance*qlc_usd + rpxBalance*rpx_usd + tkyBalance*tky_usd + tncBalance*tnc_usd + zptBalance*zpt_usd + btc*btc_usd + ltc*ltc_usd + eth*eth_usd/1000000000000000000;
             dispatch(
               setBalance(
                 resultBalance.Neo,
                 resultBalance.Gas,
                 acatBalance,
+                aphBalance,
                 cgeBalance,
                 cpxBalance,
                 dbcBalance,
                 galaBalance,
                 obtBalance,
                 ontBalance,
+                pkcBalance,
                 qlcBalance,
                 rpxBalance,
                 swhBalance,

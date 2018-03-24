@@ -10,7 +10,7 @@ import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
 import { log } from "../../util/Logs";
-import apexLogo from "../../img/apex.png";
+import pckLogo from "../../img/pck.png";
 import Assets from "./../Assets";
 import { clipboard } from "electron";
 import { togglePane } from "../../modules/dashboard";
@@ -23,7 +23,7 @@ import { ASSETS, TOKENS, TOKENS_TEST } from "../../core/constants";
 import { flatMap, keyBy, get, omit, pick } from "lodash";
 import numeral from "numeral";
 
-let sendAddress, sendAmount, confirmButton, scriptHash, cpx_usd, gas_usd;
+let sendAddress, sendAmount, confirmButton, scriptHash, pkc_usd, gas_usd;
 
 const styles = {
     overlay: {
@@ -51,7 +51,7 @@ const styles = {
 };
 
 const apiURL = val => {
-  return "https://min-api.cryptocompare.com/data/price?fsym=CPX&tsyms=USD";
+  return "https://min-api.cryptocompare.com/data/price?fsym=PKC&tsyms=USD";
 };
 
 const apiURLForGas = val => {
@@ -62,7 +62,7 @@ const isToken = symbol => {
   ![ASSETS.NEO, ASSETS.GAS].includes(symbol);
 };
 // form validators for input fields
-const validateForm = (dispatch, cpx_balance) => {
+const validateForm = (dispatch, pkc_balance) => {
   // check for valid address
   try {
     if (
@@ -82,17 +82,17 @@ const validateForm = (dispatch, cpx_balance) => {
   if (
     parseFloat(sendAmount.value) !== parseInt(sendAmount.value)
   ) {
-    dispatch(sendEvent(false, "You cannot send fractional amounts of CPX."));
+    dispatch(sendEvent(false, "You cannot send fractional amounts of PKC."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
-  } else if (asset === "Neo" && parseInt(sendAmount.value) > cpx_balance) {
+  } else if (parseInt(sendAmount.value) > pkc_balance) {
     // check for value greater than account balance
-    dispatch(sendEvent(false, "You do not have enough CPX to send."));
+    dispatch(sendEvent(false, "You do not have enough PKC to send."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
-  }  else if (parseFloat(sendAmount.value) <= 0) {
+  } else if (parseFloat(sendAmount.value) < 0) {
     // check for negative asset
-    dispatch(sendEvent(false, "You cannot send negative amounts of CPX."));
+    dispatch(sendEvent(false, "You cannot send negative amounts of an asset."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   }
@@ -199,18 +199,18 @@ const makeRequest = (sendEntries, config) => {
   });
 };
 
-// perform send transaction for CPX
-const sendCpxTransaction = async (dispatch, net, selfAddress, wif) => {
+// perform send transaction for PKC
+const sendPkcTransaction = async (dispatch, net, selfAddress, wif) => {
   const endpoint = await api.neonDB.getRPCEndpoint(net);
   console.log("endpoint = " + endpoint);
   let script;
   if (net == "MainNet") {
-    script = TOKENS.CPX;
+    script = TOKENS.PKC;
   } else {
-    script = TOKENS_TEST.CPX;
+    script = TOKENS_TEST.PKC;
   }
   const token_response = await api.nep5.getToken(endpoint, script, selfAddress);
-  const cpx_balance = token_response.balance;
+  const pkc_balance = token_response.balance;
   console.log("token_response = " + JSON.stringify(token_response));
   const tokenBalances = {
     name: token_response.name,
@@ -221,7 +221,7 @@ const sendCpxTransaction = async (dispatch, net, selfAddress, wif) => {
     scriptHash: script
   };
   const tokensBalanceMap = {
-    CPX: tokenBalances
+    PKC: tokenBalances
   }; //keyBy(tokenBalances, 'symbol');
   console.log("tokensBalanceMap = " + JSON.stringify(tokensBalanceMap));
   let privateKey = new wallet.Account(wif).privateKey;
@@ -232,45 +232,48 @@ const sendCpxTransaction = async (dispatch, net, selfAddress, wif) => {
   var sendEntry = {
     amount: sendAmount.value.toString(),
     address: sendAddress.value.toString(),
-    symbol: "CPX"
+    symbol: "PKC"
   };
   sendEntries.push(sendEntry);
   console.log("sendEntries = " + JSON.stringify(sendEntries));
-  if (cpx_balance <= sendAmount.value) {
-    dispatch(sendEvent(false, "You are trying to send more APEX than you have available."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 2000);
-		return true;
-  } else {
-    dispatch(sendEvent(true, "Sending APEX...\n"));
-    try {
-      const { response } = await makeRequest(sendEntries, {
-        net,
-        tokensBalanceMap,
-        address: selfAddress,
-        undefined,
-        privateKey: privateKey,
-        signingFunction: null
-      });
-      console.log("sending cpx response=" + response.result);
-      if (!response.result) {
-        dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
-				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+  if (validateForm(dispatch,pkc_balance) === true) {
+      if (pkc_balance <= sendAmount.value) {
+          dispatch(sendEvent(false, "You are trying to send more PKC than you have available."));
+          setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+          return true;
       } else {
-        dispatch(sendEvent(false,
-        "Sorry, your transaction failed. Please try again soon." ));
-				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+          dispatch(sendEvent(true, "Sending PKC...\n"));
+          try {
+              const { response } = await makeRequest(sendEntries, {
+                  net,
+                  tokensBalanceMap,
+                  address: selfAddress,
+                  undefined,
+                  privateKey: privateKey,
+                  signingFunction: null
+              });
+              console.log("sending pkc response=" + response.result);
+              if (!response.result) {
+                  dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
+                  setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+              } else {
+                  dispatch(sendEvent(false,
+                      "Sorry, your transaction failed. Please try again soon." ));
+                  setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+              }
+          } catch (err) {
+              console.log("sending pkc =" + err.message);
+              dispatch(sendEvent(false, "There was an error processing your trasnaction. Please check and try again."));
+              setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+              return false;
+          }
       }
-    } catch (err) {
-      console.log("sending cpx =" + err.message);
-      dispatch(sendEvent(false, "There was an error processing your trasnaction. Please check and try again."));
-			setTimeout(() => dispatch(clearTransactionEvent()), 2000);
-	    return false;
-    }
   }
 };
 
 const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm }) => {
-    let message = (
+    let message = null;
+    message = (
         <Modal
             isOpen={true}
             closeTimeoutMS={5}
@@ -282,7 +285,7 @@ const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm })
             <div className="center modal-alert">
             </div>
             <div className="center modal-alert top-20">
-              <strong>Confirm sending {sendAmount} CPX to {sendAddress}</strong>
+              <strong>Confirm sending {sendAmount} PKC to {sendAddress}</strong>
             </div>
             <div className="row top-30">
               <div className="col-xs-6">
@@ -298,7 +301,7 @@ const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm })
     return message;
 };
 
-class SendAPEX extends Component {
+class SendPKC extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -308,6 +311,7 @@ class SendAPEX extends Component {
       neo_usd: "0",
       gas_usd: "0",
       value: "0",
+      pkcPrice: 0,
       inputEnabled: true,
       fiatVal: 0,
       tokenVal: 0,
@@ -353,7 +357,7 @@ class SendAPEX extends Component {
       net,
       confirmPane,
       selectedAsset,
-      cpx
+      pkc
     } = this.props;
 
     return (
@@ -371,7 +375,7 @@ class SendAPEX extends Component {
                           }
                       }
                       handleConfirm ={() => {
-                          sendCpxTransaction(
+                          sendPkcTransaction(
                               dispatch, net, address, wif)
                           this.setState({
                               modalStatus: false
@@ -386,20 +390,20 @@ class SendAPEX extends Component {
           <div className="row dash-chart-panel">
             <div className="col-xs-9">
               <img
-                src={apexLogo}
+                src={pckLogo}
                 alt=""
-                width="54"
+                width="45"
                 className="neo-logo fadeInDown"
               />
-              <h2>Send APEX Tokens</h2>
+              <h2>Send Pikcio Tokens</h2>
             </div>
 
             <div className="col-xs-3 center">
 
             <span className="font-16">{numeral(
-              Math.floor(this.props.cpx * 100000) / 100000
-            ).format("0,0.0000")} <span className="ltc-price"> APEX</span></span><br />
-            <span className="market-price">{numeral(this.props.cpx * this.props.marketCPXPrice).format("$0,0.00")} USD</span>
+              Math.floor(this.props.pkc * 100000) / 100000
+            ).format("0,0.0000")} <span className="dbc-price"> PKC</span></span><br />
+            <span className="market-price">{numeral(this.props.pkc * this.props.marketPKCPrice).format("$0,0.00")} USD</span>
             </div>
 
             <div className="col-xs-12 center">
@@ -411,9 +415,9 @@ class SendAPEX extends Component {
             <div className="top-20">
               <div className="col-xs-9">
                 <input
-                  className="form-send-white "
+                  className="form-send-dbc"
                   id="center"
-                  placeholder="Enter a valid APEX public address here"
+                  placeholder="Enter a valid PKC public address here"
                   ref={node => {
                     sendAddress = node;
                   }}
@@ -421,7 +425,7 @@ class SendAPEX extends Component {
               </div>
 							<Link to="/receive">
               <div className="col-xs-3">
-                <div className="grey-button com-soon">
+                <div className="dbc-button com-soon">
 								<span className="glyphicon glyphicon-qrcode marg-right-5" />
 								Receive</div>
               </div>
@@ -429,7 +433,7 @@ class SendAPEX extends Component {
 
               <div className="col-xs-5 top-20">
                 <input
-                  className="form-send-white"
+                  className="form-send-dbc"
                   type="number"
                   id="assetAmount"
                   min="1"
@@ -442,12 +446,12 @@ class SendAPEX extends Component {
                 />
                 <div className="clearboth" />
                 <span className="com-soon block top-10">
-                  Amount in APEX to send
+                  Amount in PKC to send
                 </span>
               </div>
               <div className="col-xs-4 top-20">
                 <input
-                  className="form-send-white"
+                  className="form-send-dbc"
                   id="sendAmount"
                   onChange={this.handleChangeUSD}
                   placeholder="Amount in US"
@@ -460,7 +464,7 @@ class SendAPEX extends Component {
               <div className="col-xs-3 top-20">
                 <div id="sendAddress">
                   <button
-                    className="grey-button"
+                    className="dbc-button"
                     onClick={() => {
                         if (sendAddress.value === '') {
                             dispatch(sendEvent(false, "Please enter a valid address."));
@@ -470,7 +474,7 @@ class SendAPEX extends Component {
 
 
                         if (parseFloat(sendAmount.value) <= 0) {
-                            dispatch(sendEvent(false, "You cannot send negative amounts of an APEX."));
+                            dispatch(sendEvent(false, "You cannot send negative amounts of an QNT."));
                             setTimeout(() => dispatch(clearTransactionEvent()), 1000);
                             return false;
                         }
@@ -495,7 +499,10 @@ class SendAPEX extends Component {
 
           <div className="send-notice">
             <p>
-              Sending APEX requires a balance of 1 GAS+. Only send APEX to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending APEX to an exchange please ensure the address supports APEX tokens.
+              Sending PKC requires a balance of 1 GAS+. Only send PKC to a valid
+              address that supports NEP5+ tokens on the NEO blockchain. When
+              sending PKC to an exchange please ensure the address supports PKC
+              tokens.
             </p>
             <div className="col-xs-2 top-20" />
             <div className="col-xs-8 top-20">
@@ -535,9 +542,10 @@ const mapStateToProps = state => ({
   gas: state.wallet.Gas,
   selectedAsset: state.transactions.selectedAsset,
   confirmPane: state.dashboard.confirmPane,
-  cpx: state.wallet.Cpx
+  marketPKCPrice: state.wallet.marketPKCPrice,
+  pkc: state.wallet.Pkc
 });
 
-SendAPEX = connect(mapStateToProps)(SendAPEX);
+SendPKC = connect(mapStateToProps)(SendPKC);
 
-export default SendAPEX;
+export default SendPKC;

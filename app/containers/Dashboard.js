@@ -38,9 +38,10 @@ import NewLitecoin from "../components/NewLitecoin";
 import ReceiveLitecoin from "../components/ReceiveLitecoin";
 
 const refreshBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
-  dispatch(sendEvent(true, "Refreshing..."));
+  dispatch(sendEvent(true, "Refreshing balances and prices. You will be notified once complete."));
+  setTimeout(() => dispatch(clearTransactionEvent()), 2000);
   initiateGetBalance(dispatch, net, address ,btc ,ltc ,eth).then(response => {
-    dispatch(sendEvent(true, "Received latest blockchain information."));
+    dispatch(sendEvent(true, "Prices and balances updated"));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
   });
 };
@@ -182,7 +183,9 @@ class Dashboard extends Component {
               </ul>
             </div>
           </div>
-          <span className="dashnetwork center">Network: {this.props.net}<br />
+          <span className="dashnetwork center">
+          Version: 0.0.54<br />
+          Network: {this.props.net}<br />
           Neo Block: {this.props.blockHeight}
           </span>
           <div className="copyright">&copy; Copyright 2018 Morpheus</div>

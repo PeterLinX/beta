@@ -27,7 +27,8 @@ const getLink = (net, address) => {
 };
 
 const refreshBalance = (dispatch, net, address, litecoin_address) => {
-  dispatch(sendEvent(true, "Refreshing the Litecoin blockchain may take up to 5 minutes or more. Click Morpheus logo to cancel."));
+  dispatch(sendEvent(true, "Refreshing the Litecoin blockchain may take up to 5 minutes or more. You will be notified once complete."));
+	setTimeout(() => dispatch(clearTransactionEvent()), 3000);
   initiateGetBalance(dispatch, net, address, ltc_address).then(response => {
     dispatch(sendEvent(true, "Received latest blockchain information."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);

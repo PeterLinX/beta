@@ -10,7 +10,7 @@ import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
 import { log } from "../../util/Logs";
-import apexLogo from "../../img/apex.png";
+import gdmLogo from "../../img/gdm.png";
 import Assets from "./../Assets";
 import { clipboard } from "electron";
 import { togglePane } from "../../modules/dashboard";
@@ -23,7 +23,7 @@ import { ASSETS, TOKENS, TOKENS_TEST } from "../../core/constants";
 import { flatMap, keyBy, get, omit, pick } from "lodash";
 import numeral from "numeral";
 
-let sendAddress, sendAmount, confirmButton, scriptHash, cpx_usd, gas_usd;
+let sendAddress, sendAmount, confirmButton, scriptHash, gdm_usd, gas_usd;
 
 const styles = {
     overlay: {
@@ -51,7 +51,7 @@ const styles = {
 };
 
 const apiURL = val => {
-  return "https://min-api.cryptocompare.com/data/price?fsym=CPX&tsyms=USD";
+  return "https://min-api.cryptocompare.com/data/price?fsym=GDM&tsyms=USD";
 };
 
 const apiURLForGas = val => {
@@ -62,7 +62,7 @@ const isToken = symbol => {
   ![ASSETS.NEO, ASSETS.GAS].includes(symbol);
 };
 // form validators for input fields
-const validateForm = (dispatch, cpx_balance) => {
+const validateForm = (dispatch, gdm_balance) => {
   // check for valid address
   try {
     if (
@@ -82,17 +82,17 @@ const validateForm = (dispatch, cpx_balance) => {
   if (
     parseFloat(sendAmount.value) !== parseInt(sendAmount.value)
   ) {
-    dispatch(sendEvent(false, "You cannot send fractional amounts of CPX."));
+    dispatch(sendEvent(false, "You cannot send fractional amounts of GDM."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
-  } else if (asset === "Neo" && parseInt(sendAmount.value) > cpx_balance) {
+  } else if (asset === "Neo" && parseInt(sendAmount.value) > gdm_balance) {
     // check for value greater than account balance
-    dispatch(sendEvent(false, "You do not have enough CPX to send."));
+    dispatch(sendEvent(false, "You do not have enough GDM to send."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   }  else if (parseFloat(sendAmount.value) <= 0) {
     // check for negative asset
-    dispatch(sendEvent(false, "You cannot send negative amounts of CPX."));
+    dispatch(sendEvent(false, "You cannot send negative amounts of GDM."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   }
@@ -199,18 +199,18 @@ const makeRequest = (sendEntries, config) => {
   });
 };
 
-// perform send transaction for CPX
-const sendCpxTransaction = async (dispatch, net, selfAddress, wif) => {
+// perform send transaction for GDM
+const sendGdmTransaction = async (dispatch, net, selfAddress, wif) => {
   const endpoint = await api.neonDB.getRPCEndpoint(net);
   console.log("endpoint = " + endpoint);
   let script;
   if (net == "MainNet") {
-    script = TOKENS.CPX;
+    script = TOKENS.GDM;
   } else {
-    script = TOKENS_TEST.CPX;
+    script = TOKENS_TEST.GDM;
   }
   const token_response = await api.nep5.getToken(endpoint, script, selfAddress);
-  const cpx_balance = token_response.balance;
+  const gdm_balance = token_response.balance;
   console.log("token_response = " + JSON.stringify(token_response));
   const tokenBalances = {
     name: token_response.name,
@@ -221,7 +221,7 @@ const sendCpxTransaction = async (dispatch, net, selfAddress, wif) => {
     scriptHash: script
   };
   const tokensBalanceMap = {
-    CPX: tokenBalances
+    GDM: tokenBalances
   }; //keyBy(tokenBalances, 'symbol');
   console.log("tokensBalanceMap = " + JSON.stringify(tokensBalanceMap));
   let privateKey = new wallet.Account(wif).privateKey;
@@ -232,16 +232,16 @@ const sendCpxTransaction = async (dispatch, net, selfAddress, wif) => {
   var sendEntry = {
     amount: sendAmount.value.toString(),
     address: sendAddress.value.toString(),
-    symbol: "CPX"
+    symbol: "GDM"
   };
   sendEntries.push(sendEntry);
   console.log("sendEntries = " + JSON.stringify(sendEntries));
-  if (cpx_balance <= sendAmount.value) {
-    dispatch(sendEvent(false, "You are trying to send more APEX than you have available."));
+  if (gdm_balance <= sendAmount.value) {
+    dispatch(sendEvent(false, "You are trying to send more GDM than you have available."));
 		setTimeout(() => dispatch(clearTransactionEvent()), 2000);
 		return true;
   } else {
-    dispatch(sendEvent(true, "Sending APEX...\n"));
+    dispatch(sendEvent(true, "Sending GDM...\n"));
     try {
       const { response } = await makeRequest(sendEntries, {
         net,
@@ -251,7 +251,7 @@ const sendCpxTransaction = async (dispatch, net, selfAddress, wif) => {
         privateKey: privateKey,
         signingFunction: null
       });
-      console.log("sending cpx response=" + response.result);
+      console.log("sending gdm response=" + response.result);
       if (!response.result) {
         dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
 				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
@@ -261,7 +261,7 @@ const sendCpxTransaction = async (dispatch, net, selfAddress, wif) => {
 				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
       }
     } catch (err) {
-      console.log("sending cpx =" + err.message);
+      console.log("sending gdm =" + err.message);
       dispatch(sendEvent(false, "There was an error processing your trasnaction. Please check and try again."));
 			setTimeout(() => dispatch(clearTransactionEvent()), 2000);
 	    return false;
@@ -282,7 +282,7 @@ const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm })
             <div className="center modal-alert">
             </div>
             <div className="center modal-alert top-20">
-              <strong>Confirm sending {sendAmount} CPX to {sendAddress}</strong>
+              <strong>Confirm sending {sendAmount} GDM to {sendAddress}</strong>
             </div>
             <div className="row top-30">
               <div className="col-xs-6">
@@ -298,7 +298,7 @@ const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm })
     return message;
 };
 
-class SendAPEX extends Component {
+class SendGDM extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -353,7 +353,7 @@ class SendAPEX extends Component {
       net,
       confirmPane,
       selectedAsset,
-      cpx
+      gdm
     } = this.props;
 
     return (
@@ -371,7 +371,7 @@ class SendAPEX extends Component {
                           }
                       }
                       handleConfirm ={() => {
-                          sendCpxTransaction(
+                          sendGdmTransaction(
                               dispatch, net, address, wif)
                           this.setState({
                               modalStatus: false
@@ -386,20 +386,20 @@ class SendAPEX extends Component {
           <div className="row dash-chart-panel">
             <div className="col-xs-9">
               <img
-                src={apexLogo}
+                src={gdmLogo}
                 alt=""
-                width="54"
+                width="72"
                 className="neo-logo fadeInDown"
               />
-              <h2>Send APEX Tokens</h2>
+              <h2>Send Guardium Tokens</h2>
             </div>
 
             <div className="col-xs-3 center">
 
             <span className="font-16">{numeral(
-              Math.floor(this.props.cpx * 100000) / 100000
-            ).format("0,0.0000")} <span className="ltc-price"> APEX</span></span><br />
-            <span className="market-price">{numeral(this.props.cpx * this.props.marketCPXPrice).format("$0,0.00")} USD</span>
+              Math.floor(this.props.gdm * 100000) / 100000
+            ).format("0,0.0000")} <span className="ltc-price"> GDM</span></span><br />
+            <span className="market-price">{numeral(this.props.gdm * this.props.marketGDMPrice).format("$0,0.00")} USD</span>
             </div>
 
             <div className="col-xs-12 center">
@@ -413,7 +413,7 @@ class SendAPEX extends Component {
                 <input
                   className="form-send-white "
                   id="center"
-                  placeholder="Enter a valid APEX public address here"
+                  placeholder="Enter a valid GDM public address here"
                   ref={node => {
                     sendAddress = node;
                   }}
@@ -442,7 +442,7 @@ class SendAPEX extends Component {
                 />
                 <div className="clearboth" />
                 <span className="com-soon block top-10">
-                  Amount in APEX to send
+                  Amount in GDM to send
                 </span>
               </div>
               <div className="col-xs-4 top-20">
@@ -470,7 +470,7 @@ class SendAPEX extends Component {
 
 
                         if (parseFloat(sendAmount.value) <= 0) {
-                            dispatch(sendEvent(false, "You cannot send negative amounts of an APEX."));
+                            dispatch(sendEvent(false, "You cannot send negative amounts of an GDM."));
                             setTimeout(() => dispatch(clearTransactionEvent()), 1000);
                             return false;
                         }
@@ -495,7 +495,7 @@ class SendAPEX extends Component {
 
           <div className="send-notice">
             <p>
-              Sending APEX requires a balance of 1 GAS+. Only send APEX to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending APEX to an exchange please ensure the address supports APEX tokens.
+              Sending GDM requires a balance of 1 GAS+. Only send GDM to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending GDM to an exchange please ensure the address supports GDM tokens.
             </p>
             <div className="col-xs-2 top-20" />
             <div className="col-xs-8 top-20">
@@ -535,9 +535,9 @@ const mapStateToProps = state => ({
   gas: state.wallet.Gas,
   selectedAsset: state.transactions.selectedAsset,
   confirmPane: state.dashboard.confirmPane,
-  cpx: state.wallet.Cpx
+  gdm: state.wallet.Gdm
 });
 
-SendAPEX = connect(mapStateToProps)(SendAPEX);
+SendGDM = connect(mapStateToProps)(SendGDM);
 
-export default SendAPEX;
+export default SendGDM;

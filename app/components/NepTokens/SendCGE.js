@@ -82,7 +82,7 @@ const validateForm = (dispatch, cge_balance) => {
   if (
     parseFloat(sendAmount.value) !== parseInt(sendAmount.value)
   ) {
-    dispatch(sendEvent(false, "You cannot send fractional amounts of Cge."));
+    dispatch(sendEvent(false, "Sorry there was an error. Please try again."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   } else if (parseInt(sendAmount.value) > cge_balance) {
@@ -466,7 +466,7 @@ class SendCGE extends Component {
                     className="thor-button"
                     onClick={() => {
                         if (sendAddress.value === '') {
-                            dispatch(sendEvent(false, "You can not send without address."));
+                            dispatch(sendEvent(false, "Please enter a valid address."));
                             setTimeout(() => dispatch(clearTransactionEvent()), 1000);
                             return false;
                         }

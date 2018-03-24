@@ -388,7 +388,7 @@ class SendACAT extends Component {
               <img
                 src={acatLogo}
                 alt=""
-                width="54"
+                width="72"
                 className="neo-logo fadeInDown"
               />
               <h2>Send ACAT Tokens</h2>
@@ -463,7 +463,7 @@ class SendACAT extends Component {
                     className="grey-button"
                     onClick={() => {
                         if (sendAddress.value === '') {
-                            dispatch(sendEvent(false, "You can not send without address."));
+                            dispatch(sendEvent(false, "Please enter a valid address."));
                             setTimeout(() => dispatch(clearTransactionEvent()), 1000);
                             return false;
                         }
