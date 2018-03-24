@@ -1,52 +1,72 @@
 # THIS REPO IS NOW ON MAIN NETWORK
 
-Neo, GAS, NEP Tokens, BTC, LTC
+Neo, GAS, NEP Tokens, BTC, LTC, ETH
 
 # Major Update - Please Read Below
 
 This is a major update. Please carefully read the full feature list below before downloading Morpheus. Withdrawing funds from your Ledger Nano S is currently disabled. This feature, among many others, will be added in future updates over the next few weeks.
 
-### Morpheus v0.0.5 contains the following features:
+# Morpheus v0.0.53 contains the following NEW features:
+### Please always test new addresses and assets with small amounts.
 
-* Login via encrypted key and password
-* Encrypt a private key with a password and save to Morpheus
-* Create new NEO address and save to Morpheus
-* View NEO/GAS balance
-* Send and receive NEO/GAS
-* View NEP5 token balances
-* Send and receive NEP5 tokens
-* View NEO/GAS/NEP5 transaction history
-* Create and Save Bitcoin (BTC) Address to Morpheus using NEO Encrypted Key and Password
-* Enter Bitcoin (BTC) private key to load existing funds
-* View BTC balance in the portfolio
-* Send and Receive Bitcoin (BTC)
-* View BTC transaction history
-* Create and Save Litecoin (LTC) Address to Morpheus
-* Enter Litecoin (LTC)  private key to load existing funds
-* View Litecoin (LTC)  balance in the portfolio
-* Send and Receive Litecoin (LTC) 
-* View Litecoin (LTC) transaction history
-* View NEO/GAS balance on Ledger Nano S in the dashboard (Withdrawals coming soon)
-* Send NEO/GAS to Ledger Nano S from the dashboard from another NEO address used in Morpheus
-* Login and view NEP5 tokens balances on Ledger Nano S
-* View NEO/GAS/NEP5 transaction history on Ledger Nano S
-* Shapeshift Exchange (BTC,LTC,ETH,XMR to NEO)
-* Changelle Exchange (BTC to NEO)
+- Participate in NEP5 Token Sale — (Using NEO Only for now)
+- Enter hashscript in advanced Token Sale Options
+- Tokens sale hash scripts added Orbis (OBT), Thor (THOR), Switcheo Network (SWH)
+- New NEP5 Tokens added to asset portfolio (Concierge.io (CGE), Galaxy.One (GALA), Guardium (GMD), Orbis OBT), Switcheo Network (SWH)
+- An improved method of creating and saving new LTC and ETH addresses
+- Create and Save Ethereum (ETH) Address to Morpheus
+- Enter Ethereum (ETH) private key to load existing funds
+- View Ethereum (ETH) balance in the portfolio
+- Send and Receive Ethereum (ETH)
+- View Ethereum (ETH) transaction history
+- Ability to download ETH Private Keys
+- Ability to download Neo Encrypted Keys
+- Ability to download LTC Private Keys
+- Fix refresh BTC, LTC and ETH blockchain
+- More stable price/balance feeds
+- Add Trinity (TNC) and Zeepin (ZPT) charts to the dashboard
+- Spelling and grammar fixes
+- Reduced Mac and Windows file size
+- Removed Changelly and Shapeshift Exchange — updating available assets and exchange services
 
-An update will be available soon that will allow withdrawing NEO/GAS and NEP tokens from your Ledger Nano S. We apologise for any inconvenience.
+## We absolutely understand the demand to get the Ledger and other hardware devices fully integrated. So we will be focusing on this feature over the next few days/weeks.
 
-### Features coming soon:
+# Other features included from the previous build:
 
-* Send/Withdraw funds from Ledger Nano S
-* Loopring NEP5 Airdrop
-* Loopring Exchange Protocol
-* New NEP5 Tokens
-* Create and Save Ethereum (ETH) Address to Morpheus
-* Enter Ethereum (ETH) private key to load existing funds
-* View Ethereum (ETH) balance in the portfolio
-* Send and Receive Ethereum (ETH)
-* Send and Receive ERC20 Tokens
-* View Ethereum (ETH) transaction history
+- Login via encrypted key and password
+- Encrypt a private key with a password and save to Morpheus
+- Create new NEO address and save to Morpheus
+- View NEO/GAS balance
+- Send and receive NEO/GAS
+- View NEP5 token balances
+- Send and receive NEP5 tokens
+- View NEO/GAS/NEP5 transaction history
+- Create and Save Bitcoin (BTC) Address to Morpheus using NEO Encrypted Key and Password
+- Enter Bitcoin (BTC) private key to load existing funds
+- View BTC balance in the portfolio
+- Send and Receive Bitcoin (BTC)
+- View BTC transaction history
+- Create and Save Litecoin (LTC) Address to Morpheus
+- Enter Litecoin (LTC) private key to load existing funds
+- View Litecoin (LTC) balance in the portfolio
+- Send and Receive Litecoin (LTC)
+- View Litecoin (LTC) transaction history
+- View NEO/GAS balance on Ledger Nano S in the dashboard (Withdrawals coming soon)
+- Send NEO/GAS to Ledger Nano S from the dashboard from another NEO address used in Morpheus
+- Login and view NEP5 tokens balances on Ledger Nano S
+- View NEO/GAS/NEP5 transaction history on Ledger Nano S
+- Shapeshift Exchange (BTC,LTC,ETH,XMR to NEO)
+- Changelle Exchange (BTC to NEO)
+
+## An update will be available soon that will allow withdrawing NEO/GAS and NEP tokens from your Ledger Nano S. We apologise for any inconvenience.
+
+Features coming soon:
+
+- Send/Withdraw funds from Ledger Nano S
+- Loopring NEP5 Airdrop
+- Loopring Exchange Protocol
+- New NEP5 Tokens
+- Send and Receive ERC20 Tokens
 
 If you encounter any issues, please submit them as [issues on our GitHub](https://github.com/MorpheusWallet/beta/issues) repo or post them in the [Discord support chat](https://discord.gg/aaCEA8V).
 
