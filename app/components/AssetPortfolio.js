@@ -249,7 +249,7 @@ class AssetPortolio extends Component {
 
 
 
-
+						<Link to="/sendEFX">
 						<div className="col-3 ">
 						<div className="port-logo-col">
 						<img
@@ -271,6 +271,7 @@ class AssetPortolio extends Component {
 							<span className="market-price">$0.00 USD</span>
 						</div>
 						</div>
+						</Link>
 
 
 						<Link to="/NewEthereum">

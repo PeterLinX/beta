@@ -497,7 +497,7 @@ class TokenSale extends Component {
 				<input
 				className="form-control-exchange"
 				ref={node => (amount = node)}
-				value="1" />
+				 />
 				</div>
 
 				<div className="col-xs-4">
