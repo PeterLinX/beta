@@ -19,7 +19,7 @@ class WalletInfo extends Component {
   }
 
   componentDidMount = () => {
-    initiateGetBalance(this.props.dispatch, this.props.net, this.props.address ,this.props.btc ,this.props.ltc ,this.props.eth);
+    initiateGetBalance(this.props.dispatch, this.props.net, this.props.address);
     QRCode.toCanvas(this.canvas, this.props.address, { version: 5 }, err => {
       if (err) console.log(err);
     });
@@ -33,10 +33,7 @@ class WalletInfo extends Component {
           refreshBalance(
             this.props.dispatch,
             this.props.net,
-            this.props.address,
-            this.props.btc,
-            this.props.ltc,
-            this.props.eth
+            this.props.address
           )
         }
         >

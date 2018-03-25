@@ -1,5 +1,5 @@
 // @flow
-export const NEON_WALLET_RELEASE_LINK = "https://github.com/MorpheusWallet/Morpheus/releases";
+export const MORPHEUS_BETA_RELEASE_LINK = "https://github.com/MorpheusWallet/beta/releases";
 
 export const NETWORK = {
 	MAIN: "MainNet",

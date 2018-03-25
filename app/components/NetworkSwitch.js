@@ -37,8 +37,6 @@ let intervals = {};
 let acatScriptHash, aphScriptHash, dbcScriptHash, galaScriptHash, iamScriptHash, cgeScriptHash, cpxScriptHash, nrveScriptHash, obtScriptHash, ontScriptHash, pkcScriptHash,  qlcScriptHash, rhtScriptHash, rpxScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, swhScriptHash, zptScriptHash;
 let netSelect;
 
-// https://bittrex.com/api/v1.1/public/getmarkethistory?market=BTC-NEO
-
 // putting this back in wallet, does not belong in neon-js
 export const getMarketPriceUSD = amount => {
   return axios
@@ -69,8 +67,6 @@ const getAphBalance = async (net,address) => {
     return getBalace (net,address,aph_token);
 }
 
-
-
 const getCgeBalance = async (net,address) => {
     let cge_token;
     if (net === "MainNet") {
@@ -80,7 +76,6 @@ const getCgeBalance = async (net,address) => {
     }
     return getBalace (net,address,cge_token);
 }
-
 
 const getCpxBalance = async (net,address) => {
     let cpx_token;

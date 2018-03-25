@@ -58,8 +58,6 @@ class Dashboard extends Component {
     };
   }
 
-
-
   render = () => {
     let sendPaneClosed;
     if (this.props.sendPane == true) {

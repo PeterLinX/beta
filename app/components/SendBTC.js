@@ -289,7 +289,7 @@ class SendBTC extends Component {
 		confirmPane,
 		selectedAsset,
 		btc,
-    btcBlockHeight
+
     } = this.props;
 
     return (
@@ -449,7 +449,7 @@ class SendBTC extends Component {
 
 							<div className="col-xs-12 com-soon">
 							Fees: 0.0001 BTC/KB<br />
-							Block: {this.state.btcBlockHeight}{" "}
+							Block: {this.state.block_index}{" "}
 
 							</div>
 							<div className="col-xs-12 top-30">
