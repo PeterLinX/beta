@@ -392,7 +392,7 @@ class SendPKC extends Component {
               <img
                 src={pckLogo}
                 alt=""
-                width="45"
+                width="55"
                 className="neo-logo fadeInDown"
               />
               <h2>Send Pikcio Tokens</h2>

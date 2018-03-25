@@ -40,7 +40,7 @@ const styles = {
         background: "rgba(12, 12, 14, 1)",
         borderRadius: "20px",
         top: "100px",
-        height: 380,
+        height: 440,
         width: 600,
         left: "100px",
         right: "100px",
@@ -393,9 +393,9 @@ const StatusMessage = ({ sendAmount, sendTokenScript, handleCancel, handleConfir
 				</div>
 				<div className="center modal-alert top-20">
         <h2>Confirmation Needed!</h2>
-          <strong>Send {sendAmount} Neo to {sendToken} token sale?</strong>
+          <strong>Send {sendAmount} Neo to {sendTokenScript}</strong>
           <br /><br />
-          Please confirm the {sendToken} token sale is open before sending funds. Sending funds to a sale that has ended or that has not started may result in your funds being lost.
+          Please confirm the token sale is open before sending funds. Sending funds to a sale that has ended or that has not started may result in your funds being lost.
 				</div>
 				<div className="row top-30">
 					<div className="col-xs-6">
