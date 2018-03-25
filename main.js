@@ -201,7 +201,7 @@ app.on("browser-window-created", function (event, win) {
   ctxMenu.append(new MenuItem({ role: "toggledevtools" }));
   ctxMenu.append(new MenuItem(
     {
-      label: 'Check for Update',
+      label: "Check for Update",
       click() {
         require("electron").shell.openExternal(
           "https://github.com/MorpheusWallet/beta/releases"
