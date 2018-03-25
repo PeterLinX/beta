@@ -189,14 +189,11 @@ app.on("ready", () => {
   });
 });
 
-
 app.on("browser-window-created", function (event, win) {
   const ctxMenu = new Menu();
   ctxMenu.append(new MenuItem({ role: "copy" }));
   ctxMenu.append(new MenuItem({ role: "paste" }));
   ctxMenu.append(new MenuItem({ role: "selectall" }));
-  ctxMenu.append(new MenuItem({ role: "undo" }));
-  ctxMenu.append(new MenuItem({ role: "redo" }));
   ctxMenu.append(new MenuItem({ type: "separator" }));
   ctxMenu.append(new MenuItem({ role: "toggledevtools" }));
   ctxMenu.append(new MenuItem(

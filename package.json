@@ -4,6 +4,7 @@
   "license": "GPL-3.0",
   "main": "./main.js",
   "description": "Wallet for NEO, BTC, LTC and ETH.",
+  "repository": "https://github.com/MorpheusWallet/beta",
   "author": "Morpheus S.S. Ltd",
   "scripts": {
     "postinstall": "cross-env ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true electron-builder install-app-deps",
