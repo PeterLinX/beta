@@ -1,6 +1,7 @@
 const electron = require("electron");
 const { app, Menu, crashReporter, BrowserWindow } = electron;
 const path = require("path");
+const MenuItem = electron.MenuItem;
 
 let mainWindow = null;
 
@@ -187,3 +188,14 @@ app.on("ready", () => {
     mainWindow.show();
   });
 });
+
+
+app.on("browser-window-created", function (event, win) {
+  const ctxMenu = new Menu()
+  ctxMenu.append(new MenuItem({ role: "copy" }))
+  ctxMenu.append(new MenuItem({ role: "paste" }))
+  ctxMenu.append(new MenuItem({ role: "selectall" }))
+  win.webContents.on("context-menu", function (e, params) {
+    ctxMenu.popup(win, params.x, params.y)
+  })
+})

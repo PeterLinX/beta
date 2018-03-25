@@ -33,7 +33,10 @@ class WalletInfo extends Component {
           refreshBalance(
             this.props.dispatch,
             this.props.net,
-            this.props.address
+            this.props.address,
+            this.props.btc,
+            this.props.ltc,
+            this.props.eth
           )
         }
         >
