@@ -16,7 +16,7 @@ const doClaimNotify = (dispatch, net, selfAddress, wif) => {
       dispatch(
         sendEvent(
           true,
-          "Your GAS claim was successful! Your balance will update once the blockchain has processed it."
+          "Your GAS claim was successful! Your GAS balance will be updated once the blockchain has processed it in a couple minutes."
         )
       );
       setTimeout(() => dispatch(disableClaim(false)), 3000);

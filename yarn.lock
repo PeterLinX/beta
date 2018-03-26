@@ -2832,6 +2832,10 @@ electron-download@^4.0.0:
     semver "^5.3.0"
     sumchecker "^2.0.1"
 
+electron-input-menu@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/electron-input-menu/-/electron-input-menu-2.1.0.tgz#ab4914c78f9049752c0b0c80805ad6f823aa4ac2"
+
 electron-installer-dmg@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/electron-installer-dmg/-/electron-installer-dmg-0.2.1.tgz#de835f02009b83f82e408036ac31462c3d6cb249"
