@@ -1,10 +1,13 @@
 {
   "name": "Morpheus-Beta",
-  "version": "0.0.53",
+  "version": "0.0.54",
   "license": "GPL-3.0",
   "main": "./main.js",
   "description": "Wallet for NEO, BTC, LTC and ETH.",
-  "repository": "https://github.com/MorpheusWallet/beta",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MorpheusWallet/beta.git"
+  },
   "author": "Morpheus S.S. Ltd",
   "scripts": {
     "postinstall": "cross-env ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true electron-builder install-app-deps",
@@ -145,6 +148,7 @@
     "enzyme": "^3.1.0",
     "enzyme-to-json": "^3.3.1",
     "eslint": "^2.13.1",
+    "eslint-config-strongloop": "^2.1.0",
     "eslint-loader": "^1.5.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "history": "^4.7.2",
@@ -168,10 +172,6 @@
     "url-loader": "^0.5.7",
     "webpack": "^1.13.0",
     "webpack-dev-server": "^1.14.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/MorpheusWallet/beta.git"
   },
   "jest": {
     "moduleNameMapper": {

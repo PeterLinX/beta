@@ -80,12 +80,7 @@ const validateForm = (dispatch, aph_balance) => {
   }
   // check for fractional neo
   if (
-    parseFloat(sendAmount.value) !== parseInt(sendAmount.value)
-  ) {
-    dispatch(sendEvent(false, "You cannot send fractional amounts of APH."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-    return false;
-  } else if (parseInt(sendAmount.value) > aph_balance) {
+    parseInt(sendAmount.value) > aph_balance) {
     // check for value greater than account balance
     dispatch(sendEvent(false, "You do not have enough APH to send."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);

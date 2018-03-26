@@ -80,12 +80,7 @@ const validateForm = (dispatch, tnc_balance) => {
   }
   // check for fractional neo
   if (
-    parseFloat(sendAmount.value) !== parseInt(sendAmount.value)
-  ) {
-    dispatch(sendEvent(false, "You cannot send fractional amounts of TNC."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-    return false;
-  } else if (parseInt(sendAmount.value) > tnc_balance) {
+    parseInt(sendAmount.value) > tnc_balance) {
     // check for value greater than account balance
     dispatch(sendEvent(false, "You do not have enough TNC to send."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);

@@ -92,12 +92,12 @@ class Assets extends Component {
 
 					<Link to="/sendOBT">
 						<div className="col-5">
-							<span className="market-price">OBT {numeral(this.props.marketOBTPrice).format("$0,0.00")}</span>
+							<span className="market-price">THOR {numeral(this.props.marketTHORPrice).format("$0,0.00")}</span>
 							<h3>{numeral(
-								Math.floor(this.props.obt * 100000) / 100000
-							).format("0,0.000")} <span className="thor-price"> OBT</span></h3>
+								Math.floor(this.props.thor * 100000) / 100000
+							).format("0,0.000")} <span className="thor-price"> THOR</span></h3>
 							<hr className="dash-hr" />
-							<span className="market-price">{numeral(this.props.obt*this.props.marketOBTPrice).format("$0,0.00")} USD</span>
+							<span className="market-price">{numeral(this.props.thor*this.props.marketTHORPrice).format("$0,0.00")} USD</span>
 						</div>
 					</Link>
 

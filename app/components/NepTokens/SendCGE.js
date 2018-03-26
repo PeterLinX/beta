@@ -80,12 +80,7 @@ const validateForm = (dispatch, cge_balance) => {
   }
   // check for fractional neo
   if (
-    parseFloat(sendAmount.value) !== parseInt(sendAmount.value)
-  ) {
-    dispatch(sendEvent(false, "Sorry there was an error. Please try again."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-    return false;
-  } else if (parseInt(sendAmount.value) > cge_balance) {
+    parseInt(sendAmount.value) > cge_balance) {
     // check for value greater than account balance
     dispatch(sendEvent(false, "You do not have enough CGE to send."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);

@@ -297,6 +297,20 @@ class Settings extends Component {
                 </div>
               </div>
 
+              <div className="col-xs-2 center">
+                <div
+                  className="dash-icon-bar"
+                  onClick={() =>
+                          openExplorer("https://github.com/MorpheusWallet/beta/releases")
+                  }
+                >
+                  <div className="icon-border">
+                    <span className="glyphicon glyphicon-bell" />
+                  </div>
+                  Check for Update
+                </div>
+              </div>
+
 
             </div>
           </div>
