@@ -204,7 +204,7 @@ const sendEfxTransaction = async (dispatch, net, selfAddress, wif) => {
   } else {
     script = TOKENS_TEST.EFX;
   }
-  const token_response = await api.nep5.getToken(endpoint, script, selfAddress);
+  const token_response = await api.nep5.getToken("http://seed3.neo.org:10332", script, selfAddress);
   const efx_balance = token_response.balance;
   console.log("token_response = " + JSON.stringify(token_response));
   const tokenBalances = {
