@@ -4,16 +4,16 @@ Neo, GAS, NEP Tokens, BTC, LTC, ETH
 
 # Minor Update - Morpheus v0.0.54 contains the following updates:
 
-Added confirmation windows for sending
-Added confirmation windows for token sale
-Add Concierge token sale
-Right-click copy/paste etc..
-Fix Claim GAS timeout
-NEP5 Tokens Added (APEX, Aphelion, Pikcio, Effect.ai)
-Fix display NEP Balances and Prices (ACAT, Concierge, Orbis, DeepBrain, Ontology)
-Improved balance refresh time
-Display version number in the sidebar
-We absolutely understand the demand to get the Ledger and other hardware devices fully integrated. So we will be focusing on this feature over the next few days.
+- Added confirmation windows for sending
+- Added confirmation windows for token sale
+- Add Concierge token sale
+- Right-click copy/paste etc..
+- Fix Claim GAS timeout
+- NEP5 Tokens Added (APEX, Aphelion, Pikcio, Effect.ai)
+- Fix display NEP Balances and Prices (ACAT, Concierge, Orbis, DeepBrain, Ontology)
+- Improved balance refresh time
+- Display version number in the sidebar
+- We absolutely understand the demand to get the Ledger and other hardware devices fully integrated. So we will be focusing on this feature over the next few days.
 
 
 ### Please Read Below
