@@ -90,7 +90,7 @@ class Assets extends Component {
 						</div>
 					</Link>
 
-					<Link to="/sendOBT">
+					<Link to="/sendTHOR">
 						<div className="col-5">
 							<span className="market-price">THOR {numeral(this.props.marketTHORPrice).format("$0,0.00")}</span>
 							<h3>{numeral(
