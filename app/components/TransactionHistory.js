@@ -118,6 +118,14 @@ class TransactionHistory extends Component {
           </ul>
         </div>
       </div>
+
+      <div className="send-notice center top-20">
+        <p>
+          Your transaction may take 1-2 minutes to be displayed in your transaction history. NEP5 token transfers may take 2-5 minutes. Please check your transaction history to avoid double withdrawals.
+        </p>
+        </div>
+
+
     </div>
   );
 }
