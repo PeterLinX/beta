@@ -475,8 +475,6 @@ const mapStateToProps = state => ({
 	confirmPane: state.dashboard.confirmPane,
 	price: state.wallet.price,
 	gasPrice: state.wallet.gasPrice,
-	marketGASPrice: state.wallet.marketGASPrice,
-	marketNEOPrice: state.wallet.marketNEOPrice,
 	combined: state.wallet.combined,
 	explorer: state.metadata.blockExplorer,
 	blockHeight: state.metadata.blockHeight,

@@ -195,7 +195,6 @@ app.on("browser-window-created", function (event, win) {
   ctxMenu.append(new MenuItem({ role: "paste" }));
   ctxMenu.append(new MenuItem({ role: "selectall" }));
   ctxMenu.append(new MenuItem({ type: "separator" }));
-  ctxMenu.append(new MenuItem({ role: "toggledevtools" }));
   ctxMenu.append(new MenuItem(
     {
       label: "Check for Update",

@@ -8,31 +8,30 @@ import { setMarketPrice, resetPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 
-import acatLogo from "../img/acat.png";
-import apexLogo from "../img/apex.png";
-import thorLogo from "../img/thor.png";
-import nrveLogo from "../img/nrve.png";
-import effectLogo from "../img/effect.png";
-import neoLogo from "../img/neo.png";
-import gasLogo from "../img/gas.png";
-import btcLogo from "../img/btc-logo.png";
-import ltcLogo from "../img/litecoin.png";
-import rpxLogo from "../img/rpx.png";
-import tncLogo from "../img/tnc.png";
-import tkyLogo from "../img/tky.png";
-import zptLogo from "../img/zpt.png";
-import qlcLogo from "../img/qlc.png";
-import thekeyLogo from "../img/thekey.png";
-import ontLogo from "../img/ont.png";
-import iamLogo from "../img/bridge.png";
-import nexLogo from "../img/nex.png";
-import deepLogo from "../img/deep.png";
-import elasLogo from "../img/elastos.png";
-import lrcLogo from "../img/lrc.png";
-import hashpuppiesLogo from "../img/hashpuppies.png";
-import moneroLogo from "../img/monero.png";
-import ethLogo from "../img/eth.png";
-
+import PortACAT from "./LedgerAssets/PortACAT.js";
+import PortApex from "./LedgerAssets/PortApex.js";
+import PortAPH from "./LedgerAssets/PortAPH.js";
+import PortIAM from "./LedgerAssets/PortIAM.js";
+import PortCGE from "./LedgerAssets/PortCGE.js";
+import PortDBC from "./LedgerAssets/PortDBC.js";
+import PortEFX from "./LedgerAssets/PortEFX.js";
+import PortGALA from "./LedgerAssets/PortGALA.js";
+import PortGAS from "./LedgerAssets/PortGAS.js";
+import PortGDM from "./LedgerAssets/PortGDM.js";
+import PortHP from "./LedgerAssets/PortHP.js";
+import PortNRVE from "./LedgerAssets/PortNRVE.js";
+import PortNEO from "./LedgerAssets/PortNEO.js";
+import PortNEX from "./LedgerAssets/PortNEX.js";
+import PortOBT from "./LedgerAssets/PortOBT.js";
+import PortONT from "./LedgerAssets/PortONT.js";
+import PortPKC from "./LedgerAssets/PortPKC.js";
+import PortQLC from "./LedgerAssets/PortQLC.js";
+import PortRPX from "./LedgerAssets/PortRPX.js";
+import PortSWH from "./LedgerAssets/PortSWH.js";
+import PortTHOR from "./LedgerAssets/PortTHOR.js";
+import PortTKY from "./LedgerAssets/PortTKY.js";
+import PortTNC from "./LedgerAssets/PortTNC.js";
+import PortZPT from "./LedgerAssets/PortZPT.js";
 
 import commNode from "../modules/ledger/ledger-comm-node";
 import ClaimLedgerGas from "./ClaimLedgerGas.js";
@@ -629,531 +628,102 @@ class AssetPortolio extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-      gasPrice: 0,
-			dbcPrice: 0,
-			iamPrice: 0,
-			nrvePrice: 0,
-			ontPrice: 0,
-			qlcPrice: 0,
-			rpxPrice: 0,
-			tkyPrice: 0,
-			tncPrice: 0,
-			zptPrice: 0
+      gasPrice: 0
 		};
 
 	}
 
 	render() {
 		return (
+      <div>
 
       <div className="main-container">
-        <div className="">
-          <div className="header">
-            <div className="col-xs-5">
-              <p className="market-price center">
-                NEO {numeral(this.props.marketNEOPrice).format("$0,0.00")}
-              </p>
-              <p className="neo-text">
-                {this.props.neo} <span>NEO</span>
-              </p>
-              <hr className="dash-hr" />
-              <p className="neo-balance">
-                {numeral(this.props.price).format("$0,0.00")} US
-              </p>
-            </div>
+        <div className="header">
+          <div className="col-xs-5">
+            <p className="market-price center">
+              NEO {numeral(this.props.marketNEOPrice).format("$0,0.00")}
+            </p>
+            <p className="neo-text">
+              {this.props.neo} <span>NEO</span>
+            </p>
+            <hr className="dash-hr" />
+            <p className="neo-balance">
+              {numeral(this.props.price).format("$0,0.00")} US
+            </p>
+          </div>
 
-            {/* this.props.dispatch,
-              this.props.net,
-              this.props.address,
-              this.props.publicKey,
-              this.props.neo */}
+          <div className="col-xs-2">{<ClaimLedgerGas />}</div>
 
-            <div className="col-xs-2"
-            onClick={() => {
-              this.getLedgerAddress();
-            }}
-            >{<ClaimLedgerGas {...this.props} />}</div>
-
-            <div className="col-xs-5 top-5">
-              <p className="market-price center">
-                GAS {numeral(this.props.marketGASPrice).format("$0,0.00")}
-              </p>
-              <p className="gas-text">
-                {Math.floor(this.props.gas * 10000000) / 10000000}{" "}
-                <span>GAS</span>
-              </p>
-              <hr className="dash-hr" />
-              <p className="neo-balance">
+          <div className="col-xs-5 top-5">
+            <p className="market-price center">
+              GAS {numeral(this.props.marketGASPrice).format("$0,0.00")}
+            </p>
+            <p className="gas-text">
+              {Math.floor(this.props.gas * 10000000) / 10000000}{" "}
+              <span>GAS</span>
+            </p>
+            <hr className="dash-hr" />
+            <p className="neo-balance">
               {" "}
-                {numeral(Math.round(this.props.gasPrice * 100) / 100).format(
-                  "$0,0.00"
-                )}{" "} USD
-              </p>
-            </div>
+              {numeral(this.props.gasPrice).format("$0,0.00")} USD
+            </p>
           </div>
-
-          <div
-						onClick={() => clipboard.writeText(this.state.ledgerAddress)}
-						data-tip
-						data-for="refreshTip"
-						className="ledger-nanos animated fadeInUp"
-					/>
-
-				<div className="row top-30 dash-portfolio center">
-				<div id="assetList-ledger">
-				<div className="clearboth" />
-				<div className="row" />
-
-
-        <div className="col-3 ">
-        <div className="port-logo-col">
-        <img
-          src={acatLogo}
-          alt="Alpha Cat"
-          width="66"
-          className="port-logos"
-        />
-        <hr className="dash-hr" />
-        <h3><Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-send "/></Link></h3>
         </div>
 
-        <div className="port-price-col">
-          <span className="market-price">Alpha Cat $0.00</span>
-          <h3>{numeral(this.props.acat).format("0,0.00000")} <span className="ltc-price"> ACAT</span></h3>
-          <hr className="dash-hr" />
-          <span className="market-price">$0.00 USD</span>
+        <div className="row top-20 dash-portfolio center">
+        <div id="assetList">
+        <div className="clearboth" />
+        <div className="row" />
+
+        <PortACAT />
+        <PortApex />
+        <PortAPH />
+        <PortIAM />
+        <PortCGE />
+        <PortDBC />
+        <PortEFX />
+        <PortGALA />
+        <PortGAS />
+        <PortGDM />
+        <PortHP />
+        <PortNRVE />
+        <PortNEO />
+        <PortNEX />
+        <PortOBT />
+        <PortONT />
+        <PortPKC />
+        <PortQLC />
+        <PortRPX />
+        <PortSWH />
+        <PortTHOR />
+        <PortTKY />
+        <PortTNC />
+        <PortZPT />
+
         </div>
         </div>
-
-
-
-              <div className="col-3">
-
-              <div className="port-logo-col">
-              <img
-                src={iamLogo}
-                alt=""
-                width="38"
-                className="port-logos"
-              />
-              <hr className="dash-hr" />
-              <h3><Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-send "/></Link></h3>
-              </div>
-
-              <div className="port-price-col">
-                <span className="market-price">Bridge $0.00</span>
-                <h3>{numeral(
-                  Math.floor(this.props.iam * 100000) / 100000
-                ).format("0,0.0000")}<span className="qlink-price"> IAM</span></h3>
-                <hr className="dash-hr" />
-                <span className="market-price">$0.00 USD</span>
-              </div>
-              </div>
-
-
-
-
-
-              <div className="col-3">
-
-              <div className="port-logo-col">
-              <img
-                src={deepLogo}
-                alt=""
-                width="44"
-                className="port-logos"
-              />
-              <hr className="dash-hr" />
-              <h3><Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-send "/></Link></h3>
-              </div>
-
-              <div className="port-price-col">
-                <span className="market-price">Deep Brain {numeral(this.props.marketDBCPrice).format("$0,0.00")}</span>
-                <h3>{numeral(
-                  Math.floor(this.props.dbc * 100000) / 100000
-                ).format("0,0.0000")} <span className="dbc-price"> DBC</span></h3>
-                <hr className="dash-hr" />
-                <span className="market-price">{numeral(this.props.dbc*this.props.marketDBCPrice).format("$0,0.00")} USD</span>
-              </div>
-              </div>
-
-
-
-            <div className="col-3 ">
-            <div className="port-logo-col">
-            <img
-              src={effectLogo}
-              alt="Effect.ai"
-              width="44"
-              className="port-logos"
-            />
-            <hr className="dash-hr" />
-            <h3><Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>  <Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-send "/></Link></h3>
-            </div>
-
-            <div className="port-price-col">
-              <span className="market-price">Effect.ai $0.00</span>
-              <h3>{numeral(this.props.efx).format("0,0.00000")} <span className="ltc-price"> EFX</span></h3>
-              <hr className="dash-hr" />
-              <span className="market-price">$0.00 USD</span>
-            </div>
-            </div>
-
-
-
-            <div className="col-3">
-            <div className="port-logo-col">
-            <img
-              src={gasLogo}
-              alt=""
-              width="36"
-              className="port-logos"
-            />
-            <hr className="dash-hr" />
-            <h3><Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-send "/></Link></h3>
-            </div>
-            <div className="port-price-col">
-              <span className="market-price">GAS {numeral(this.props.marketGASPrice).format("$0,0.00")}</span>
-              <h3>{numeral(
-                Math.floor(this.props.gas * 100000) / 100000
-              ).format("0,0.0000")} <span className="gas-price"> GAS</span></h3>
-              <hr className="dash-hr" />
-              <span className="market-price">{" "}
-                {numeral(Math.round(this.props.gasPrice * 100) / 100).format(
-                  "$0,0.00"
-                )}{" "} USD</span>
-            </div>
-          </div>
-
-
-
-              <div className="col-3">
-              <div className="port-logo-col">
-              <img
-                src={hashpuppiesLogo}
-                alt=""
-                width="44"
-                className="port-logos"
-              />
-              <hr className="dash-hr" />
-              <h3><Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>  <Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-send "/></Link></h3>
-              </div>
-              <div className="port-price-col">
-                <span className="market-price">Hash Puppies</span>
-                <h3>{numeral(
-                  Math.floor(this.props.rht * 10) / 10
-                ).format("0,0")} <span className="neo-price"> RHT</span></h3>
-                <hr className="dash-hr" />
-                <span className="market-price">Priceless</span>
-              </div>
-              </div>
-
-
-
-
-              <div className="col-3">
-
-              <div className="port-logo-col">
-              <img
-                src={lrcLogo}
-                alt=""
-                width="40"
-                className="port-logos"
-              />
-              <hr className="dash-hr" />
-              <h3><span className=" glyphicon glyphicon-qrcode marg-right-5"/>   <span className=" glyphicon glyphicon-send "/></h3>
-              </div>
-
-              <div className="port-price-col">
-                <span className="market-price">Loopring {numeral(this.props.marketLRCPrice).format("$0,0.00")}</span>
-                <h3>{numeral(
-                  Math.floor(this.props.lrc * 100000) / 100000
-                ).format("0,0.0000")} <span className="eth-price"> LRC</span></h3>
-                <hr className="dash-hr" />
-                <span className="market-price">$0.00 USD</span>
-              </div>
-              </div>
-
-            <div className="col-3">
-            <div className="port-logo-col">
-            <img
-              src={nrveLogo}
-              alt=""
-              width="36"
-              className="port-logos"
-            />
-            <hr className="dash-hr" />
-            <h3><Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-send "/></Link></h3>
-            </div>
-            <div className="port-price-col">
-              <span className="market-price">Narrative $0.00</span>
-              <h3>{numeral(this.props.nrve).format("0,0.0000")} <span className="dbc-price"> NRVE</span></h3>
-              <hr className="dash-hr" />
-              <span className="market-price">$0.00 USD</span>
-            </div>
-            </div>
-
-
-
-
-
-            <div className="col-3">
-            <div className="port-logo-col">
-            <img
-              src={neoLogo}
-              alt=""
-              width="36"
-              className="port-logos"
-            />
-            <hr className="dash-hr" />
-            <h3><Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-send "/></Link></h3>
-            </div>
-            <div className="port-price-col">
-              <span className="market-price">NEO {numeral(this.props.marketNEOPrice).format("$0,0.00")}</span>
-              <h3>{numeral(this.props.neo).format("0,0")} <span className="neo-price"> NEO</span></h3>
-              <hr className="dash-hr" />
-              <span className="market-price">{numeral(this.props.price).format("$0,0.00")} USD</span>
-            </div>
-            </div>
-
-
-
-
-            <div className="col-3 ">
-            <div className="port-logo-col">
-            <img
-              src={nexLogo}
-              alt=""
-              width="44"
-              className="port-logos top-10"
-            />
-            <hr className="dash-hr" />
-            <h3><Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-send "/></Link></h3>
-            </div>
-
-            <div className="port-price-col">
-              <span className="market-price">Neon Exchange $0.00</span>
-              <h3>{numeral(this.props.cpx).format("0,0.00000")} <span className="nex-price"> NEX</span></h3>
-              <hr className="dash-hr" />
-              <span className="market-price">$0.00 USD</span>
-            </div>
-            </div>
-
-
-
-
-              <div className="col-3">
-
-              <div className="port-logo-col">
-              <img
-                src={ontLogo}
-                alt=""
-                width="48"
-                className="port-logos"
-              />
-              <hr className="dash-hr" />
-              <h3><Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-send "/></Link></h3>
-              </div>
-
-              <div className="port-price-col">
-                <span className="market-price">Ontology $0.00</span>
-                <h3>{numeral(
-                  Math.floor(this.props.ont * 100000) / 100000
-                ).format("0,0.0000")} <span className="dbc-price"> ONT</span></h3>
-                <hr className="dash-hr" />
-                <span className="market-price">$0.00 USD</span>
-              </div>
-              </div>
-
-
-              <div className="col-3">
-
-              <div className="port-logo-col">
-              <img
-                src={qlcLogo}
-                alt=""
-                width="50"
-                className="port-logos"
-              />
-              <hr className="dash-hr" />
-              <h3><Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-send "/></Link></h3>
-              </div>
-
-              <div className="port-price-col">
-                <span className="market-price">QLink {numeral(this.props.marketQLCPrice).format("$0,0.00")}</span>
-                <h3>{numeral(
-                  Math.floor(this.props.qlc * 100000) / 100000
-                ).format("0,0.0000")} <span className="qlink-price"> QLC</span></h3>
-                <hr className="dash-hr" />
-                <span className="market-price">{numeral(this.props.qlc*this.props.marketQLCPrice).format("$0,0.00")} USD</span>
-              </div>
-              </div>
-
-
-
-              <div className="col-3">
-
-              <div className="port-logo-col">
-              <img
-                src={rpxLogo}
-                alt=""
-                width="84"
-                className="port-logos"
-              />
-              <hr className="dash-hr" />
-              <h3><Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-send "/></Link></h3>
-              </div>
-
-              <div className="port-price-col">
-                <span className="market-price">Red Pulse {numeral(this.props.marketRPXPrice).format("$0,0.00")}</span>
-                <h3>{numeral(
-                  Math.floor(this.props.rpx * 100000) / 100000
-                ).format("0,0.0000")} <span className="rpx-price"> RPX</span></h3>
-                <hr className="dash-hr" />
-                <span className="market-price">{numeral(this.props.rpx * this.props.marketRPXPrice).format("$0,0.00")} USD</span>
-              </div>
-              </div>
-
-
-
-            <div className="col-3 ">
-            <div className="port-logo-col">
-            <img
-              src={thorLogo}
-              alt=""
-              width="44"
-              className="port-logos"
-            />
-            <hr className="dash-hr" />
-            <h3><Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-send "/></Link></h3>
-            </div>
-
-            <div className="port-price-col">
-              <span className="market-price">THOR $0.00</span>
-              <h3>{numeral(this.props.cpx).format("0,0.00000")} <span className="thor-price"> THOR</span></h3>
-              <hr className="dash-hr" />
-              <span className="market-price">$0.00 USD</span>
-            </div>
-            </div>
-
-
-
-
-              <div className="col-3">
-
-              <div className="port-logo-col">
-              <img
-                src={tkyLogo}
-                alt=""
-                width="46"
-                className="port-logos"
-              />
-              <hr className="dash-hr" />
-              <h3><Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-send "/></Link></h3>
-              </div>
-
-              <div className="port-price-col">
-                <span className="market-price">The Key {numeral(this.props.marketTKYPrice).format("$0,0.00")}</span>
-                <h3>{numeral(
-                  Math.floor(this.props.tky * 100000) / 100000
-                ).format("0,0.0000")} <span className="dbc-price"> TKY</span></h3>
-                <hr className="dash-hr" />
-                <span className="market-price">{numeral(this.props.tky*this.props.marketTKYPrice).format("$0,0.00")} USD</span>
-              </div>
-              </div>
-
-
-
-              <div className="col-3">
-
-              <div className="port-logo-col">
-              <img
-                src={tncLogo}
-                alt=""
-                width="50"
-                className="port-logos"
-              />
-              <hr className="dash-hr" />
-              <h3><Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-send "/></Link></h3>
-              </div>
-
-              <div className="port-price-col">
-                <span className="market-price">Trinity {numeral(this.props.marketTNCPrice).format("$0,0.00")}</span>
-                <h3>{numeral(
-                  Math.floor(this.props.tnc * 100000) / 100000
-                ).format("0,0.0000")} <span className="qlink-price"> TNC</span></h3>
-                <hr className="dash-hr" />
-                <span className="market-price">{numeral(this.props.tnc*this.props.marketTNCPrice).format("$0,0.00")} USD</span>
-              </div>
-              </div>
-
-
-
-              <div className="col-3">
-
-              <div className="port-logo-col">
-              <img
-                src={zptLogo}
-                alt=""
-                width="38"
-                className="port-logos"
-              />
-              <hr className="dash-hr" />
-              <h3><Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/LoginLedgerNanoS"><span className=" glyphicon glyphicon-send "/></Link></h3>
-              </div>
-
-              <div className="port-price-col">
-                <span className="market-price">Zeepin {numeral(this.props.marketZPTPrice).format("$0,0.00")}</span>
-                <h3>{numeral(
-                  Math.floor(this.props.zpt * 100000) / 100000
-                ).format("0,0.0000")} <span className="neo-price"> ZPT</span></h3>
-                <hr className="dash-hr" />
-                <span className="market-price">{numeral(this.props.zpt*this.props.marketZPTPrice).format("$0,0.00")} USD</span>
-              </div>
-              </div>
-              </div>
-				</div>
-				</div>
-			</div>
+        </div>
+      </div>
 		);
 	}
 }
 
 const mapStateToProps = state => ({
-  gas: state.wallet.Gas,
+  ledgerNanoSGetInfoAsync: state.account.ledgerNanoSGetInfoAsync,
+	address: state.account.ledgerAddress,
+	net: state.metadata.network,
 	neo: state.wallet.Neo,
-	dbc: state.wallet.Dbc,
-	iam: state.wallet.Iam,
-	nrve: state.wallet.Nrve,
-	ont: state.wallet.Ont,
-	qlc: state.wallet.Qlc,
-	rht: state.wallet.Rht,
-	rpx: state.wallet.Rpx,
-	tky: state.wallet.Tky,
-	tnc: state.wallet.Tnc,
-	zpt: state.wallet.Zpt,
-  address: state.account.ledgerAddress,
-  net: state.metadata.network,
-  price: state.wallet.price,
-  gasPrice: state.wallet.gasPrice,
-  marketGASPrice: state.wallet.marketGASPrice,
-	marketNEOPrice: state.wallet.marketNEOPrice,
-	marketBTCPrice: state.wallet.marketBTCPrice,
-	marketDBCPrice: state.wallet.marketDBCPrice,
-	marketELAPrice: state.wallet.marketELAPrice,
-	marketETHPrice: state.wallet.marketETHPrice,
-	marketLTCPrice: state.wallet.marketLTCPrice,
-	marketLRCPrice: state.wallet.marketLRCPrice,
-	marketQLCPrice: state.wallet.marketQLCPrice,
-	marketRPXPrice: state.wallet.marketRPXPrice,
-	marketTNCPrice: state.wallet.marketTNCPrice,
-	marketTKYPrice: state.wallet.marketTKYPrice,
-	marketXMRPrice: state.wallet.marketXMRPrice,
-	marketZPTPrice: state.wallet.marketZPTPrice,
-  sendPane: state.dashboard.sendPane,
-  confirmPane: state.dashboard.confirmPane,
-  blockHeight: state.metadata.blockHeight,
-  combined: state.wallet.combined
+	gas: state.wallet.Gas,
+	selectedAsset: state.transactions.selectedAsset,
+	confirmPane: state.dashboard.confirmPane,
+	price: state.wallet.price,
+	gasPrice: state.wallet.gasPrice,
+	combined: state.wallet.combined,
+	explorer: state.metadata.blockExplorer,
+	blockHeight: state.metadata.blockHeight,
+	transactions: state.wallet.transactions,
+	marketGASPrice: state.wallet.marketGASPrice,
+	marketNEOPrice: state.wallet.marketNEOPrice
 });
 
 AssetPortolio = connect(mapStateToProps)(AssetPortolio);

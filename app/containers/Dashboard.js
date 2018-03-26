@@ -184,9 +184,11 @@ class Dashboard extends Component {
           <span className="dashnetwork center">
           Version: 0.0.54<br />
           Network: {this.props.net}<br />
-          Neo Block: {this.props.blockHeight}
+          Neo Block: {this.props.blockHeight}<br />
+          <br />
+          Copyright &copy; Morpheus
           </span>
-          <div className="copyright">&copy; Copyright 2018 Morpheus</div>
+
         </div>
         <div className="main-container">
         <TopBar />
