@@ -25,7 +25,7 @@ class PortQLC extends Component {
 			<div>
 
 
-						<Link to="/sendQLC">
+
 							<div className="col-3">
 
 							<div className="port-logo-col">
@@ -38,7 +38,7 @@ class PortQLC extends Component {
 							<hr className="dash-hr" />
 							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendQLC"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
-
+							<Link to="/sendQLC">
 							<div className="port-price-col">
 								<span className="market-price">QLink {numeral(this.props.marketQLCPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
@@ -46,9 +46,9 @@ class PortQLC extends Component {
 								).format("0,0.0000")} <span className="qlink-price"> QLC</span></h3>
 								<hr className="dash-hr" />
 								<span className="market-price">{numeral(this.props.qlc*this.props.marketQLCPrice).format("$0,0.00")} USD</span>
+							</div></Link>
 							</div>
-							</div>
-						</Link>
+
 			</div>
 		);
 	}

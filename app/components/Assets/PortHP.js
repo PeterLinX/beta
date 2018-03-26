@@ -25,7 +25,7 @@ class PortHP extends Component {
 			<div>
 
 
-						<Link to="/sendHP">
+
 							<div className="col-3">
 							<div className="port-logo-col">
 							<img
@@ -36,7 +36,7 @@ class PortHP extends Component {
 							/>
 							<hr className="dash-hr" />
 							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendHP"><span className=" glyphicon glyphicon-send "/></Link></h3>
-							</div>
+							</div><Link to="/sendHP">
 							<div className="port-price-col">
 								<span className="market-price">Hash Puppies</span>
 								<h3>{numeral(
@@ -44,9 +44,9 @@ class PortHP extends Component {
 								).format("0,0")} <span className="neo-price"> RHT</span></h3>
 								<hr className="dash-hr" />
 								<span className="market-price">Priceless</span>
+							</div></Link>
 							</div>
-							</div>
-						</Link>
+
 
 			</div>
 		);

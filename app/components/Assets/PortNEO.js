@@ -23,7 +23,7 @@ class PortNEO extends Component {
 
 			<div>
 
-						<Link to="/send">
+
 						<div className="col-3">
 						<div className="port-logo-col">
 						<img
@@ -34,15 +34,15 @@ class PortNEO extends Component {
 						/>
 						<hr className="dash-hr" />
 						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/send"><span className=" glyphicon glyphicon-send "/></Link></h3>
-						</div>
+						</div><Link to="/send">
 						<div className="port-price-col">
 							<span className="market-price">NEO {numeral(this.props.marketNEOPrice).format("$0,0.00")}</span>
 							<h3>{numeral(this.props.neo).format("0,0")} <span className="neo-price"> NEO</span></h3>
 							<hr className="dash-hr" />
 							<span className="market-price">{numeral(this.props.price).format("$0,0.00")} USD</span>
+						</div></Link>
 						</div>
-						</div>
-						</Link>
+
 
 			</div>
 		);

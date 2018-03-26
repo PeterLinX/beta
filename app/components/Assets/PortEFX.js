@@ -24,7 +24,7 @@ class PortEFX extends Component {
 
 			<div>
 
-						<Link to="/sendEFX">
+
 						<div className="col-3 ">
 						<div className="port-logo-col">
 						<img
@@ -36,7 +36,7 @@ class PortEFX extends Component {
 						<hr className="dash-hr" />
 						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/receive"><span className=" glyphicon glyphicon-send "/></Link></h3>
 						</div>
-
+<Link to="/sendEFX">
 						<div className="port-price-col">
 							<span className="market-price">Effect.ai $0.00</span>
 							<h3>{numeral(
@@ -44,9 +44,9 @@ class PortEFX extends Component {
 	            ).format("0,0.0000")} <span className="ltc-price"> EFX</span></h3>
 							<hr className="dash-hr" />
 							<span className="market-price">$0.00 USD</span>
+						</div></Link>
 						</div>
-						</div>
-						</Link>
+
 
 			</div>
 		);

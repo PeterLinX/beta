@@ -24,7 +24,7 @@ class PortTKY extends Component {
 
 			<div>
 
-						<Link to="/sendTKY">
+
 							<div className="col-3">
 
 							<div className="port-logo-col">
@@ -37,7 +37,7 @@ class PortTKY extends Component {
 							<hr className="dash-hr" />
 							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendTKY"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
-
+							<Link to="/sendTKY">
 							<div className="port-price-col">
 								<span className="market-price">The Key {numeral(this.props.marketTKYPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
@@ -45,9 +45,9 @@ class PortTKY extends Component {
 								).format("0,0.0000")} <span className="dbc-price"> TKY</span></h3>
 								<hr className="dash-hr" />
 								<span className="market-price">{numeral(this.props.tky*this.props.marketTKYPrice).format("$0,0.00")} USD</span>
+							</div></Link>
 							</div>
-							</div>
-						</Link>
+
 
 			</div>
 		);

@@ -24,7 +24,7 @@ class PortLRC extends Component {
 
 			<div>
 
-						<Link to="/loopring">
+
 							<div className="col-3">
 
 							<div className="port-logo-col">
@@ -37,7 +37,7 @@ class PortLRC extends Component {
 							<hr className="dash-hr" />
 							<h3><span className=" glyphicon glyphicon-qrcode marg-right-5"/>   <span className=" glyphicon glyphicon-send "/></h3>
 							</div>
-
+							<Link to="/loopring">
 							<div className="port-price-col">
 								<span className="market-price">Loopring {numeral(this.props.marketLRCPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
@@ -45,9 +45,9 @@ class PortLRC extends Component {
 								).format("0,0.0000")} <span className="eth-price"> LRC</span></h3>
 								<hr className="dash-hr" />
 								<span className="market-price">$0.00 USD</span>
+							</div></Link>
 							</div>
-							</div>
-						</Link>
+
 
 			</div>
 		);

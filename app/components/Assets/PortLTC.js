@@ -24,7 +24,7 @@ class PortLTC extends Component {
 			<div>
 
 
-						<Link to="/NewLitecoin">
+
 							<div className="col-3">
 
 							<div className="port-logo-col">
@@ -37,7 +37,7 @@ class PortLTC extends Component {
 							<hr className="dash-hr" />
 							<h3><Link to={"/receiveLitecoin"} ><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to={"/sendLTC"} ><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
-
+							<Link to="/NewLitecoin">
 							<div className="port-price-col">
 								<span className="market-price">Litecoin {numeral(this.props.marketLTCPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
@@ -45,9 +45,9 @@ class PortLTC extends Component {
 								).format("0,0.0000")} <span className="ltc-price"> LTC</span></h3>
 								<hr className="dash-hr" />
 								<span className="market-price">{numeral(this.props.ltc * this.props.marketLTCPrice).format("$0,0.00")} USD</span>
+							</div></Link>
 							</div>
-							</div>
-						</Link>
+
 
 			</div>
 		);

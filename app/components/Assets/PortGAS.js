@@ -24,7 +24,7 @@ class PortGAS extends Component {
 
 			<div>
 
-							<Link to="/send">
+
 						<div className="col-3">
 						<div className="port-logo-col">
 						<img
@@ -35,7 +35,7 @@ class PortGAS extends Component {
 						/>
 						<hr className="dash-hr" />
 						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/send"><span className=" glyphicon glyphicon-send "/></Link></h3>
-						</div>
+						</div><Link to="/send">
 						<div className="port-price-col">
 							<span className="market-price">GAS {numeral(this.props.marketGASPrice).format("$0,0.00")}</span>
 							<h3>{numeral(
@@ -46,9 +46,9 @@ class PortGAS extends Component {
 								{numeral(Math.round(this.props.gasPrice * 100) / 100).format(
 									"$0,0.00"
 								)}{" "} USD</span>
-						</div>
+						</div></Link>
 					</div>
-					</Link>
+
 			</div>
 		);
 	}

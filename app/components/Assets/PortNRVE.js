@@ -24,7 +24,7 @@ class PortNRVE extends Component {
 
 			<div>
 
-						<Link to="/sendNRVE">
+
 						<div className="col-3">
 						<div className="port-logo-col">
 						<img
@@ -35,7 +35,7 @@ class PortNRVE extends Component {
 						/>
 						<hr className="dash-hr" />
 						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendNRVE"><span className=" glyphicon glyphicon-send "/></Link></h3>
-						</div>
+						</div><Link to="/sendNRVE">
 						<div className="port-price-col">
 							<span className="market-price">Narrative $0.00</span>
 							<h3>{numeral(
@@ -43,9 +43,9 @@ class PortNRVE extends Component {
 	            ).format("0,0.0000")}<span className="dbc-price"> NRVE</span></h3>
 							<hr className="dash-hr" />
 							<span className="market-price">$0.00 USD</span>
+						</div></Link>
 						</div>
-						</div>
-						</Link>
+
 
 
 			</div>

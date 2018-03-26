@@ -24,7 +24,7 @@ class PortGALA extends Component {
 
 			<div>
 
-							<Link to="/sendGALA">
+
 								<div className="col-3 ">
 
 								<div className="port-logo-col">
@@ -37,7 +37,7 @@ class PortGALA extends Component {
 								<hr className="dash-hr" />
 								<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendGALA"><span className=" glyphicon glyphicon-send "/></Link></h3>
 								</div>
-
+								<Link to="/sendGALA">
 								<div className="port-price-col">
 									<span className="market-price">Galaxy {numeral(this.props.marketGALAPrice).format("$0,0.00")}</span>
 									<h3>{numeral(
@@ -45,9 +45,9 @@ class PortGALA extends Component {
 			            ).format("0,0.0000")}  <span className="dbc-price"> GALA</span></h3>
 									<hr className="dash-hr" />
 									<span className="market-price">{numeral((this.props.gala/10000000000) * this.props.marketGALAPrice).format("$0,0.00")} USD</span>
+								</div></Link>
 								</div>
-								</div>
-								</Link>
+
 
 
 			</div>

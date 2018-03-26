@@ -24,7 +24,7 @@ class PortTNC extends Component {
 
 			<div>
 
-						<Link to="/SendTNC">
+
 							<div className="col-3">
 
 							<div className="port-logo-col">
@@ -37,7 +37,7 @@ class PortTNC extends Component {
 							<hr className="dash-hr" />
 							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/SendTNC"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
-
+							<Link to="/SendTNC">
 							<div className="port-price-col">
 								<span className="market-price">Trinity {numeral(this.props.marketTNCPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
@@ -45,9 +45,9 @@ class PortTNC extends Component {
 								).format("0,0.0000")} <span className="hp-price"> TNC</span></h3>
 								<hr className="dash-hr" />
 								<span className="market-price">{numeral(this.props.tnc*this.props.marketTNCPrice).format("$0,0.00")} USD</span>
+							</div></Link>
 							</div>
-							</div>
-						</Link>
+
 
 			</div>
 		);
