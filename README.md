@@ -2,11 +2,24 @@
 
 Neo, GAS, NEP Tokens, BTC, LTC, ETH
 
-# Major Update - Please Read Below
+# Minor Update - Morpheus v0.0.54 contains the following updates:
+
+Added confirmation windows for sending
+Added confirmation windows for token sale
+Add Concierge token sale
+Right-click copy/paste etc..
+Fix Claim GAS timeout
+NEP5 Tokens Added (APEX, Aphelion, Pikcio, Effect.ai)
+Fix display NEP Balances and Prices (ACAT, Concierge, Orbis, DeepBrain, Ontology)
+Improved balance refresh time
+Display version number in the sidebar
+We absolutely understand the demand to get the Ledger and other hardware devices fully integrated. So we will be focusing on this feature over the next few days.
+
+
+### Please Read Below
 
 This is a major update. Please carefully read the full feature list below before downloading Morpheus. Withdrawing funds from your Ledger Nano S is currently disabled. This feature, among many others, will be added in future updates over the next few weeks.
 
-# Morpheus v0.0.53 contains the following NEW features:
 ### Please always test new addresses and assets with small amounts.
 
 - Participate in NEP5 Token Sale — (Using NEO Only for now)
@@ -28,11 +41,6 @@ This is a major update. Please carefully read the full feature list below before
 - Spelling and grammar fixes
 - Reduced Mac and Windows file size
 - Removed Changelly and Shapeshift Exchange — updating available assets and exchange services
-
-## We absolutely understand the demand to get the Ledger and other hardware devices fully integrated. So we will be focusing on this feature over the next few days/weeks.
-
-# Other features included from the previous build:
-
 - Login via encrypted key and password
 - Encrypt a private key with a password and save to Morpheus
 - Create new NEO address and save to Morpheus
