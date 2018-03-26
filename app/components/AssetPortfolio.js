@@ -27,6 +27,14 @@ import PortNEO from "./Assets/PortNEO.js";
 import PortNEX from "./Assets/PortNEX.js";
 import PortOBT from "./Assets/PortOBT.js";
 import PortONT from "./Assets/PortONT.js";
+import PortPKC from "./Assets/PortPKC.js";
+import PortQLC from "./Assets/PortQLC.js";
+import PortRPX from "./Assets/PortRPX.js";
+import PortSWH from "./Assets/PortSWH.js";
+import PortTHOR from "./Assets/PortTHOR.js";
+import PortTKY from "./Assets/PortTKY.js";
+import PortTNC from "./Assets/PortTNC.js";
+import PortZPT from "./Assets/PortZPT.js";
 
 class AssetPortolio extends Component {
 	constructor(props) {
@@ -66,7 +74,14 @@ class AssetPortolio extends Component {
 				<PortNEX />
 				<PortOBT />
 				<PortONT />
-
+				<PortPKC />
+				<PortQLC />
+				<PortRPX />
+				<PortSWH />
+				<PortTHOR />
+				<PortTKY />
+				<PortTNC />
+				<PortZPT />
 
 				</div>
 				</div>
