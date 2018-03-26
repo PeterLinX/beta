@@ -243,7 +243,7 @@ const getBalace = async (net,address,token) => {
     console.log("endpoint = "+endpoint);
     const  scriptHash  = token;
     try {
-        const response = await api.nep5.getToken(endpoint, scriptHash, address);
+        const response = await api.nep5.getToken("http://seed3.neo.org:10332", scriptHash, address);
         console.log("nep5 balance response = "+JSON.stringify(response));
         //const balance = toBigNumber(response.balance || 0).round(response.decimals).toString();
         //console.log("balance success "+balance);

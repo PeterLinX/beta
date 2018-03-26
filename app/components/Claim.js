@@ -6,7 +6,7 @@ import { doClaimAllGas, doSendAsset } from "neon-js";
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
 import { StatusMessage } from "../components/App";
-
+import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 // wrap claiming with notifications
 
 const doClaimNotify = (dispatch, net, selfAddress, wif) => {
@@ -27,6 +27,8 @@ const doClaimNotify = (dispatch, net, selfAddress, wif) => {
   });
 };
 
+
+
 // To initiate claim, first send zero Neo to own address, the set claimRequest state
 // When new claims are available, this will trigger the claim
 const doGasClaim = (dispatch, net, wif, selfAddress, ans) => {
@@ -46,7 +48,8 @@ const doGasClaim = (dispatch, net, wif, selfAddress, ans) => {
           sendEvent(false, "Oops! Transaction failed. Please try again.")
         );
       } else {
-        dispatch(sendEvent(true, "Waiting for the transaction to clear. You will be notified when your GAS claim is successful."));
+        dispatch(sendEvent(true, "Waiting for the transaction to clear. You will be notified when your GAS claim is successful. Click Morpheus logo to refresh balance."));
+        initiateGetBalance(dispatch, net, selfAddress);
         setTimeout(() => dispatch(clearTransactionEvent()), 3000);
         dispatch(setClaimRequest(true));
         setTimeout(() => dispatch(disableClaim(true)), 3000);
@@ -54,6 +57,7 @@ const doGasClaim = (dispatch, net, wif, selfAddress, ans) => {
     });
   }
 };
+
 
 class Claim extends Component {
   componentDidUpdate = () => {
