@@ -243,7 +243,7 @@ const getBalace = async (net,address,token) => {
     console.log("endpoint = "+endpoint);
     const  scriptHash  = token;
     try {
-        const response = await api.nep5.getToken("http://seed3.neo.org:10332", scriptHash, address);
+        const response = await api.nep5.getToken(endpoint, scriptHash, address);
         console.log("nep5 balance response = "+JSON.stringify(response));
         //const balance = toBigNumber(response.balance || 0).round(response.decimals).toString();
         //console.log("balance success "+balance);
@@ -514,6 +514,8 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
             let gasPrice = await getGasPrice(resultBalance.Gas);
             let marketPrices = await getMarketPrice();
 
+            let acat_usd = parseFloat(marketPrices.data.ACAT.USD);
+
             let dbc_usd = parseFloat(marketPrices.data.DBC.USD);
 
             let ont_usd = parseFloat(marketPrices.data.ONT.USD);
@@ -592,7 +594,7 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
             console.log("zpt balance= " + zptBalance);
 
             //combined balance updating
-            let combinedPrice = gasPrice + resultPrice + dbcBalance*dbc_usd + ontBalance*ont_usd + qlcBalance*qlc_usd + rpxBalance*rpx_usd + tkyBalance*tky_usd + tncBalance*tnc_usd + zptBalance*zpt_usd + btc*btc_usd + ltc*ltc_usd + eth*eth_usd/1000000000000000000;
+            let combinedPrice = gasPrice + resultPrice + acatBalance*acat_usd + dbcBalance*dbc_usd + ontBalance*ont_usd + qlcBalance*qlc_usd + rpxBalance*rpx_usd + tkyBalance*tky_usd + tncBalance*tnc_usd + zptBalance*zpt_usd + btc*btc_usd + ltc*ltc_usd + eth*eth_usd/1000000000000000000;
             dispatch(
               setBalance(
                 resultBalance.Neo,
@@ -620,6 +622,7 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
                 gasPrice,
                 marketPrices.data.GAS.USD,
                 marketPrices.data.NEO.USD,
+                marketPrices.data.ACAT.USD,
                 marketPrices.data.BTC.USD,
                 marketPrices.data.DBC.USD,
                 marketPrices.data.ELA.USD,

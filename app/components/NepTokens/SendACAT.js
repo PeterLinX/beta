@@ -394,7 +394,7 @@ class SendACAT extends Component {
             <span className="font-16">{numeral(
               Math.floor(this.props.acat * 100000) / 100000
             ).format("0,0.0000")} <span className="ltc-price"> ACAT</span></span><br />
-            <span className="market-price">{numeral(this.props.acat * this.props.marketACATPrice).format("$0,0.00")} USD</span>
+            <span className="market-price">{numeral(this.props.acat * this.props.marketACATPrice).format("$0,0.000")} USD</span>
             </div>
 
             <div className="col-xs-12 center">
@@ -530,6 +530,7 @@ const mapStateToProps = state => ({
   gas: state.wallet.Gas,
   selectedAsset: state.transactions.selectedAsset,
   confirmPane: state.dashboard.confirmPane,
+  marketACATPrice: state.wallet.marketACATPrice,
   acat: state.wallet.Acat
 });
 

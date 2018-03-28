@@ -24,15 +24,6 @@ class Assets extends Component {
 		super(props);
 		this.state = {
 			gasPrice: 0,
-			dbcPrice: 0,
-			iamPrice: 0,
-			nrvePrice: 0,
-			ontPrice: 0,
-			qlcPrice: 0,
-			rpxPrice: 0,
-			tkyPrice: 0,
-			tncPrice: 0,
-			zptPrice: 0
 		};
 	}
 
@@ -45,7 +36,7 @@ class Assets extends Component {
 
 				<Link to="/sendACAT">
 					<div className="col-5">
-						<span className="market-price">ACAT {numeral(this.props.marketACATPrice).format("$0,0.00")}</span>
+						<span className="market-price">ACAT {numeral(this.props.marketACATPrice).format("$0,0.000")}</span>
 						<h3>{numeral(
 							Math.floor(this.props.acat * 100000) / 100000
 						).format("0,0.000")} <span className="ltc-price"> ACAT</span></h3>

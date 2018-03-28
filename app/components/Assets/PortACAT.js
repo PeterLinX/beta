@@ -37,12 +37,12 @@ class portACAT extends Component {
 				</div>
 				<Link to="/sendACAT">
 				<div className="port-price-col">
-					<span className="market-price">Alpha Cat $0.00</span>
+					<span className="market-price">Alpha Cat {numeral(this.props.marketACATPrice).format("$0,0.000")}</span>
 					<h3>{numeral(
 						Math.floor(this.props.acat * 100000) / 100000
 					).format("0,0.0000")} <span className="ltc-price"> ACAT</span></h3>
 					<hr className="dash-hr" />
-					<span className="market-price">$0.00 USD</span>
+					<span className="market-price">{numeral(this.props.acat * this.props.marketACATPrice).format("$0,0.00")} USD</span>
 				</div>
 				</Link>
 				</div>
