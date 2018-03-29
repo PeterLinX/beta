@@ -159,7 +159,7 @@ class AdvancedLitecoin extends Component {
                 </div>
               <div className="col-xs-3 top-20">
 							<Link>
-								<div className="grey-button" onClick={()=>this.login(dispatch)} >Login</div>
+								<div className="grey-button" onClick={() => this.login(dispatch)} >Login</div>
 							</Link>
               </div>
 

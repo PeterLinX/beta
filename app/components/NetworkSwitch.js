@@ -7,8 +7,7 @@ import {
   getWalletDBHeight,
   getAPIEndpoint
 } from "neon-js";
-import { api,wallet } from '@cityofzion/neon-js'
-import Neon from '@cityofzion/neon-js'
+import Neon, { api,wallet } from "@cityofzion/neon-js";
 import { setClaim } from "../modules/claim";
 import { setBlockHeight, setNetwork } from "../modules/metadata";
 import {
@@ -243,13 +242,11 @@ const getBalace = async (net,address,token) => {
     console.log("endpoint = "+endpoint);
     const  scriptHash  = token;
     try {
-        const response = await api.nep5.getToken(endpoint, scriptHash, address);
+        const response = await api.nep5.getToken("http://seed2.neo.org:10332", scriptHash, address);
         console.log("nep5 balance response = "+JSON.stringify(response));
-        //const balance = toBigNumber(response.balance || 0).round(response.decimals).toString();
-        //console.log("balance success "+balance);
         return response.balance;
-
-    } catch (err) {
+    }
+    catch (err) {
         // invalid scriptHash
         console.log("invalid scriptHash")
         return 0;
@@ -542,6 +539,9 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
             let aphBalance = await getAphBalance(net,address);
             console.log("aph balance= " + aphBalance);
 
+            let iamBalance = await getIamBalance(net,address);
+            console.log("iam balance= " + iamBalance);
+
             let cgeBalance = await getCgeBalance(net,address);
             console.log("cge balance= " + cgeBalance);
 
@@ -553,9 +553,6 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
 
             let galaBalance = await getGalaBalance(net,address);
             console.log("gala balance= " + galaBalance);
-
-            let iamBalance = await getIamBalance(net,address);
-            console.log("iam balance= " + iamBalance);
 
             let nrveBalance = await getNrveBalance(net,address);
             console.log("nrve balance= " + nrveBalance);
@@ -601,6 +598,7 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
                 resultBalance.Gas,
                 acatBalance,
                 aphBalance,
+                iamBalance,
                 cgeBalance,
                 cpxBalance,
                 dbcBalance,
