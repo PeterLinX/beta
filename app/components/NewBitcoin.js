@@ -128,13 +128,13 @@ class NewBitcoin extends Component {
 							</div>
 
 							<div className="col-xs-9">
-							<p className="btc-notice">Click "View" to load your BTC address then click the "Login" button to access your BTC wallet in Morpheus. You can access your Bitcoin address in other wallets using your NEO Private Key.</p>
+							<p className="btc-notice">Click "Unlock" to load your BTC address then click the "Login" button to access your BTC wallet in Morpheus. You can access your Bitcoin address in other wallets using your NEO Private Key.</p>
 							</div>
 
 							<div className="col-xs-3">
 
 							<Link>
-							<div className="btc-button top-20 com-soon" onClick={this.getRandomAddress}><span className="glyphicon glyphicon-eye-close marg-right-5"/> View</div>
+							<div className="btc-button top-20 com-soon" onClick={this.getRandomAddress}><span className="glyphicon glyphicon-eye-close marg-right-5"/> Unlock</div>
 							</Link>
 
 							</div>

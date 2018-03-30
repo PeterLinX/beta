@@ -10,6 +10,7 @@ import FaArrowUpward from "react-icons/lib/fa/arrow-circle-up";
 import { NetworkSwitch } from "../components/NetworkSwitch";
 import WalletInfo from "../components/WalletInfo";
 import TransactionHistory from "../components/TransactionHistory";
+import { resetBalanceSync } from "../components/NetworkSwitch";
 import SelectExchange from "../components/SelectExchange";
 import Support from "../components/Support";
 import Tokens from "../components/Tokens";
@@ -19,29 +20,33 @@ import { togglePane } from "../modules/dashboard";
 import { version } from "../../package.json";
 import { log } from "../util/Logs";
 
+import {
+    setBalance,
+    setMarketPrice,
+    resetPrice,
+    setTransactionHistory,
+    setBtcTransactionHistory,
+    setLtcTransactionHistory,
+    setEthTransactionHistory,
+    setBtcBalance,
+    setLtcBalance,
+    setCombinedBalance,
+    setEthBalance
+} from "../modules/wallet";
+
 import Logout from "../components/Logout";
-import Send from "../components/Send";
-import SendRPX from "../components/NepTokens/SendRPX";
-import SendDBC from "../components/NepTokens/SendDBC";
-import SendQLC from "../components/NepTokens/SendQLC";
-import SendHP from "../components/NepTokens/SendHP";
-import SendBTC from "../components/SendBTC";
-import SendLTC from "../components/SendLTC";
 import AssetPortfolio from "../components/AssetPortfolio";
 import Dashlogo from "../components/Brand/Dashlogo";
 import ReactTooltip from "react-tooltip";
 import CountUp, { startAnimation } from "react-countup";
 import TopBar from "../components/TopBar";
-import NewBitcoin from "../components/NewBitcoin";
-import ReceiveBitcoin from "../components/ReceiveBitcoin";
-import NewLitecoin from "../components/NewLitecoin";
-import ReceiveLitecoin from "../components/ReceiveLitecoin";
+
 
 const refreshBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
   dispatch(sendEvent(true, "Refreshing balances and prices. You will be notified once complete."));
-  setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+  setTimeout(() => dispatch(clearTransactionEvent()), 5000);
   initiateGetBalance(dispatch, net, address ,btc ,ltc ,eth).then(response => {
-    dispatch(sendEvent(true, "Prices and balances updated"));
+    dispatch(sendEvent(true, "Prices and balances updated."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
   });
 };
@@ -57,6 +62,14 @@ class Dashboard extends Component {
       combinedPrice: 0
     };
   }
+
+componentDidMount = () => {
+    resetBalanceSync(
+      this.props.dispatch,
+      this.props.net,
+      this.props.address,
+)};
+
 
   render = () => {
     let sendPaneClosed;
@@ -182,7 +195,7 @@ class Dashboard extends Component {
             </div>
           </div>
           <span className="dashnetwork center">
-          Version: 0.0.54<br />
+          Version: 0.0.55<br />
           Network: {this.props.net}<br />
           Neo Block: {this.props.blockHeight}<br />
           <br />
@@ -217,6 +230,9 @@ const mapStateToProps = state => ({
   ethPubAddr: state.account.ethPubAddr,
   price: state.wallet.price,
   combined: state.wallet.combined,
+  btc: state.account.Btc,
+  ltc: state.account.Ltc,
+  eth: state.account.Eth,
   btc: state.wallet.Btc,
   ltc: state.wallet.Ltc,
   eth: state.wallet.Eth

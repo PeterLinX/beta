@@ -43,6 +43,7 @@ import SendTKY from "./components/NepTokens/SendTKY";
 import SendONT from "./components/NepTokens/SendONT";
 import SendPKC from "./components/NepTokens/SendPKC";
 import SendRPX from "./components/NepTokens/SendRPX";
+import SendWWB from "./components/NepTokens/SendWWB";
 import SendDBC from "./components/NepTokens/SendDBC";
 import SendGALA from "./components/NepTokens/SendGALA";
 import SendQLC from "./components/NepTokens/SendQLC";
@@ -95,6 +96,7 @@ export default (
 			<Route path="/sendGDM" component={SendGDM} />
 			<Route path="/sendAPH" component={SendAPH} />
 			<Route path="/sendOBT" component={SendOBT} />
+			<Route path="/sendWWB" component={SendWWB} />
 			<Route path="/sendBTC" component={SendBTC} />
 			<Route path="/sendLTC" component={SendLTC} />
 			<Route path="/sendETH" component={SendETH} />

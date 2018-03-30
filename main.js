@@ -20,9 +20,9 @@ app.on("ready", () => {
     width: 1080,
     height: 800,
     minHeight: 800,
-    maxHeight: 800,
+    maxHeight: 860,
     minWidth: 1080,
-    maxWidth: 1080,
+    maxWidth: 1280,
     icon: path.join(__dirname, "icons/png/64x64.png"),
     webPreferences: {
       webSecurity: false
@@ -53,21 +53,6 @@ app.on("ready", () => {
         //},
         {
           role: "toggledevtools"
-        },
-        {
-          type: "separator"
-        },
-        {
-          role: "resetzoom"
-        },
-        {
-          role: "zoomin"
-        },
-        {
-          role: "zoomout"
-        },
-        {
-          type: "separator"
         },
         {
           role: "togglefullscreen"

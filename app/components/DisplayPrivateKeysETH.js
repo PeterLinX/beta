@@ -221,7 +221,7 @@ class DisplayPrivateKeysETH extends Component {
                             <div className="col-xs-12">
                             <div className="col-xs-8 top-20">
                                <p>
-                                        Your Ethereum privte key gives you full control of your Ethereum address. Morpheus can not assist you recover a lost private key or funds. Back up your private key before proceeding. Click save to access your Ethereum Public Address.
+                                        Your Ethereum private key gives you full control of your Ethereum address. Morpheus can not assist you recover a lost private key or funds. Back up your private key before proceeding. Click save to access your Ethereum Public Address.
                                </p>
                                </div>
 

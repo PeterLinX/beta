@@ -76,6 +76,7 @@ export const TOKENS_TEST = {
 	THOR: '67a5086bac196b67d5fd20745b0dc9db4d2930ed',
 	TKY: '132947096727c84c7f9e076c90f08fec3bc17f18',
 	TNC: '08e8c4400f1af2c20c28e0018f29535eb85d15b6',
+	WWB: '40bb36a54bf28872b6ffdfa7fbc6480900e58448',
 	ZPT: 'ac116d4b8d4ca55e6b6d4ecce2192039b51cccc5'
 };
 
@@ -99,20 +100,19 @@ export const TOKENS = {
 	THOR: '67a5086bac196b67d5fd20745b0dc9db4d2930ed',
 	TKY: '132947096727c84c7f9e076c90f08fec3bc17f18',
 	TNC: '08e8c4400f1af2c20c28e0018f29535eb85d15b6',
+	WWB: '40bb36a54bf28872b6ffdfa7fbc6480900e58448',
 	ZPT: 'ac116d4b8d4ca55e6b6d4ecce2192039b51cccc5'
 };
 
 export const TOKEN_SCRIPT_TEST = [
-	{token: "Concierge (CGE)", hashscript: '34579e4614ac1a7bd295372d3de8621770c76cdc'},
 	{token: "Orbis (OBT)", hashscript: '0e86a40588f715fcaf7acd1812d50af478e6e917'},
   {token: "Thor (THOR)", hashscript: '67a5086bac196b67d5fd20745b0dc9db4d2930ed'}
 ];
 
 export const TOKEN_SCRIPT = [
-	{token: "Concierge (CGE)", hashscript: '34579e4614ac1a7bd295372d3de8621770c76cdc'},
 	{token: "Orbis (OBT)", hashscript: '0e86a40588f715fcaf7acd1812d50af478e6e917'},
   {token: "Thor (THOR)", hashscript: '67a5086bac196b67d5fd20745b0dc9db4d2930ed'}
 ];
 
-export  const BLOCK_TOKEN = "9ba58edd979a467a96f361a45b040b75";
+export const BLOCK_TOKEN = "9ba58edd979a467a96f361a45b040b75";
 export const FINDING_LEDGER_NOTICE = "Looking for USB Devices. Please plugin your device and login.";

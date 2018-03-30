@@ -216,7 +216,7 @@ class DisplayPrivateKeysLTC extends Component {
 		                             <div className="keyList">
 		                              <div className="col-xs-8 top-20">
 																		 <p>
-																		 					Your Litecoin privte key gives you full control of your Litecoin address. Morpheus can not assist you recover a lost private key or funds. Back up your private key before proceeding. Click save to access your Litecoin Public Address.
+																		 					Your Litecoin privqte key gives you full control of your Litecoin address. Morpheus can not assist you recover a lost private key or funds. Back up your private key before proceeding. Click save to access your Litecoin Public Address.
 																		 </p>
 																		 </div>
 

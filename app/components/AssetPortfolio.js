@@ -34,6 +34,7 @@ import PortSWH from "./Assets/PortSWH.js";
 import PortTHOR from "./Assets/PortTHOR.js";
 import PortTKY from "./Assets/PortTKY.js";
 import PortTNC from "./Assets/PortTNC.js";
+import PortWWB from "./Assets/PortWWB.js";
 import PortZPT from "./Assets/PortZPT.js";
 
 class AssetPortolio extends Component {
@@ -81,6 +82,7 @@ class AssetPortolio extends Component {
 				<PortTHOR />
 				<PortTKY />
 				<PortTNC />
+				<PortWWB />
 				<PortZPT />
 
 				</div>

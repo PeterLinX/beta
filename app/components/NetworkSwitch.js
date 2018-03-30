@@ -27,13 +27,13 @@ import {setBtcBlockHeight,setLtcBlockHeight} from "../modules/metadata";
 import { version } from "../../package.json";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import axios from "axios";
-import {TOKENS_TEST} from "../core/constants";
-import {TOKENS} from "../core/constants";
+import { TOKENS_TEST } from "../core/constants";
+import { TOKENS } from "../core/constants";
 import { BLOCK_TOKEN } from "../core/constants";
 import transactions from "../modules/transactions";
 
 let intervals = {};
-let acatScriptHash, aphScriptHash, dbcScriptHash, galaScriptHash, iamScriptHash, cgeScriptHash, cpxScriptHash, nrveScriptHash, obtScriptHash, ontScriptHash, pkcScriptHash,  qlcScriptHash, rhtScriptHash, rpxScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, swhScriptHash, zptScriptHash;
+let acatScriptHash, aphScriptHash, dbcScriptHash, galaScriptHash, iamScriptHash, cgeScriptHash, cpxScriptHash, nrveScriptHash, obtScriptHash, ontScriptHash, pkcScriptHash,  qlcScriptHash, rhtScriptHash, rpxScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, swhScriptHash, wwbScriptHash, zptScriptHash;
 let netSelect;
 
 // putting this back in wallet, does not belong in neon-js
@@ -53,7 +53,7 @@ const getAcatBalance = async (net,address) => {
     } else {
         acat_token = TOKENS_TEST.ACAT;
     }
-    return getBalace (net,address,acat_token);
+    return getTokenBalance (net,address,acat_token);
 }
 
 const getAphBalance = async (net,address) => {
@@ -63,7 +63,7 @@ const getAphBalance = async (net,address) => {
     } else {
         aph_token = TOKENS_TEST.APH;
     }
-    return getBalace (net,address,aph_token);
+    return getTokenBalance (net,address,aph_token);
 }
 
 const getCgeBalance = async (net,address) => {
@@ -73,7 +73,7 @@ const getCgeBalance = async (net,address) => {
     } else {
         cge_token = TOKENS_TEST.CGE;
     }
-    return getBalace (net,address,cge_token);
+    return getTokenBalance (net,address,cge_token);
 }
 
 const getCpxBalance = async (net,address) => {
@@ -83,7 +83,7 @@ const getCpxBalance = async (net,address) => {
     } else {
         cpx_token = TOKENS_TEST.CPX;
     }
-    return getBalace (net,address,cpx_token);
+    return getTokenBalance (net,address,cpx_token);
 }
 
 const getDbcBalance = async (net,address) => {
@@ -93,7 +93,7 @@ const getDbcBalance = async (net,address) => {
     } else {
         dbc_token = TOKENS_TEST.DBC;
     }
-    return getBalace (net,address,dbc_token);
+    return getTokenBalance (net,address,dbc_token);
 }
 
 const getGalaBalance = async (net,address) => {
@@ -103,7 +103,7 @@ const getGalaBalance = async (net,address) => {
     } else {
         gala_token = TOKENS_TEST.GALA;
     }
-    return getBalace (net,address,gala_token);
+    return getTokenBalance (net,address,gala_token);
 }
 
 const getIamBalance = async (net,address) => {
@@ -113,7 +113,7 @@ const getIamBalance = async (net,address) => {
     } else {
         iam_token = TOKENS_TEST.IAM;
     }
-    return getBalace (net,address,iam_token);
+    return getTokenBalance (net,address,iam_token);
 }
 
 const getNrveBalance = async (net,address) => {
@@ -123,7 +123,7 @@ const getNrveBalance = async (net,address) => {
     } else {
         nrve_token = TOKENS_TEST.NRVE;
     }
-    return getBalace (net,address,nrve_token);
+    return getTokenBalance (net,address,nrve_token);
 }
 
 const getObtBalance = async (net,address) => {
@@ -133,7 +133,7 @@ const getObtBalance = async (net,address) => {
     } else {
         obt_token = TOKENS_TEST.OBT;
     }
-    return getBalace (net,address,obt_token);
+    return getTokenBalance (net,address,obt_token);
 }
 
 
@@ -144,7 +144,7 @@ const getOntBalance = async (net,address) => {
     } else {
         ont_token = TOKENS_TEST.ONT;
     }
-    return getBalace (net,address,ont_token);
+    return getTokenBalance (net,address,ont_token);
 }
 
 const getPkcBalance = async (net,address) => {
@@ -154,7 +154,7 @@ const getPkcBalance = async (net,address) => {
     } else {
         pkc_token = TOKENS_TEST.PKC;
     }
-    return getBalace (net,address,pkc_token);
+    return getTokenBalance (net,address,pkc_token);
 }
 
 const getQlcBalance = async (net,address) => {
@@ -164,7 +164,7 @@ const getQlcBalance = async (net,address) => {
     } else {
         qlc_token = TOKENS_TEST.QLC;
     }
-    return getBalace	(net,address,qlc_token);
+    return getTokenBalance	(net,address,qlc_token);
 }
 
 const getRhtBalance = async (net,address) => {
@@ -174,7 +174,7 @@ const getRhtBalance = async (net,address) => {
     } else {
         rht_token = TOKENS_TEST.RHT;
     }
-    return getBalace	(net,address,rht_token);
+    return getTokenBalance	(net,address,rht_token);
 }
 
 const getRpxBalance = async (net,address) => {
@@ -184,7 +184,7 @@ const getRpxBalance = async (net,address) => {
     } else {
         rpx_token = TOKENS_TEST.RPX;
     }
-    return getBalace	(net,address,rpx_token);
+    return getTokenBalance	(net,address,rpx_token);
 }
 
 const getThorBalance = async (net,address) => {
@@ -194,7 +194,7 @@ const getThorBalance = async (net,address) => {
     } else {
         thor_token = TOKENS_TEST.THOR;
     }
-    return getBalace	(net,address,thor_token);
+    return getTokenBalance	(net,address,thor_token);
 }
 
 const getTkyBalance = async (net,address) => {
@@ -204,7 +204,7 @@ const getTkyBalance = async (net,address) => {
     } else {
         tky_token = TOKENS_TEST.TKY;
     }
-    return getBalace	(net,address,tky_token);
+    return getTokenBalance	(net,address,tky_token);
 }
 
 const getTncBalance = async (net,address) => {
@@ -214,7 +214,7 @@ const getTncBalance = async (net,address) => {
     } else {
         tnc_token = TOKENS_TEST.TNC;
     }
-    return getBalace	(net,address,tnc_token);
+    return getTokenBalance	(net,address,tnc_token);
 }
 
 const getSwhBalance = async (net,address) => {
@@ -224,7 +224,17 @@ const getSwhBalance = async (net,address) => {
     } else {
         swh_token = TOKENS_TEST.SWH;
     }
-    return getBalace	(net,address,swh_token);
+    return getTokenBalance	(net,address,swh_token);
+}
+
+const getWwbBalance = async (net,address) => {
+    let wwb_token;
+    if (net === "MainNet") {
+        wwb_token = TOKENS.WWB;
+    } else {
+        wwb_token = TOKENS_TEST.WWB;
+    }
+    return getTokenBalance	(net,address,wwb_token);
 }
 
 const getZptBalance = async (net,address) => {
@@ -234,17 +244,18 @@ const getZptBalance = async (net,address) => {
     } else {
         zpt_token = TOKENS_TEST.ZPT;
     }
-    return getBalace	(net,address,zpt_token);
+    return getTokenBalance	(net,address,zpt_token);
 }
 
-const getBalace = async (net,address,token) => {
+const getTokenBalance = async (net,address,token) => {
     const endpoint = await api.neonDB.getRPCEndpoint(net);
     console.log("endpoint = "+endpoint);
     const  scriptHash  = token;
     try {
-        const response = await api.nep5.getToken("http://seed2.neo.org:10332", scriptHash, address);
+        const response = await api.nep5.getToken(endpoint, scriptHash, address);
         console.log("nep5 balance response = "+JSON.stringify(response));
         return response.balance;
+
     }
     catch (err) {
         // invalid scriptHash
@@ -471,6 +482,7 @@ const getBtcBalance = async (net , btc_address) => {
         return 0
     }
 }
+
 const initiateEthGetBalance = async (dispatch, net, eth_address) =>{
     syncEthTransactionHistory(dispatch, net, eth_address);
     const eth_balance = getEthBalance(net,eth_address);
@@ -534,61 +546,64 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
             let eth_usd = parseFloat(marketPrices.data.ETH.USD);
 
             let acatBalance = await getAcatBalance(net,address);
-            console.log("acat balance= " + acatBalance);
+            console.log("acat balance = " + acatBalance);
 
             let aphBalance = await getAphBalance(net,address);
-            console.log("aph balance= " + aphBalance);
+            console.log("aph balance = " + aphBalance);
 
             let iamBalance = await getIamBalance(net,address);
-            console.log("iam balance= " + iamBalance);
+            console.log("iam balance = " + iamBalance);
 
             let cgeBalance = await getCgeBalance(net,address);
-            console.log("cge balance= " + cgeBalance);
+            console.log("cge balance = " + cgeBalance);
 
             let cpxBalance = await getCpxBalance(net,address);
-            console.log("cpx balance= " + cpxBalance);
+            console.log("cpx balance = " + cpxBalance);
 
             let dbcBalance = await getDbcBalance(net,address);
-            console.log("dbc balance= " + dbcBalance);
+            console.log("dbc balance = " + dbcBalance);
 
             let galaBalance = await getGalaBalance(net,address);
-            console.log("gala balance= " + galaBalance);
+            console.log("gala balance = " + galaBalance);
 
             let nrveBalance = await getNrveBalance(net,address);
-            console.log("nrve balance= " + nrveBalance);
+            console.log("nrve balance = " + nrveBalance);
 
             let obtBalance = await getObtBalance(net,address);
-            console.log("obt balance= " + obtBalance);
+            console.log("obt balance = " + obtBalance);
 
             let ontBalance = await getOntBalance(net,address);
-            console.log("ont balance= " + ontBalance);
+            console.log("ont balance = " + ontBalance);
 
             let pkcBalance = await getPkcBalance(net,address);
-            console.log("pkc balance= " + pkcBalance);
+            console.log("pkc balance = " + pkcBalance);
 
             let qlcBalance = await getQlcBalance(net,address);
-            console.log("qlc balance= " + qlcBalance);
+            console.log("qlc balance = " + qlcBalance);
 
             let rhtBalance = await getRhtBalance(net,address);
-            console.log("rht balance= " + rhtBalance);
+            console.log("rht balance = " + rhtBalance);
 
             let rpxBalance = await getRpxBalance(net,address);
-            console.log("rpx balance= " + rpxBalance);
-
-            let thorBalance = await getThorBalance(net,address);
-            console.log("thor balance= " + thorBalance);
-
-            let tkyBalance = await getTkyBalance(net,address);
-            console.log("tky balance= " + tkyBalance);
-
-            let tncBalance = await getTncBalance(net,address);
-            console.log("tnc balance= " + tncBalance);
+            console.log("rpx balance = " + rpxBalance);
 
             let swhBalance = await getSwhBalance(net,address);
-            console.log("swh balance= " + swhBalance);
+            console.log("swh balance = " + swhBalance);
+
+            let thorBalance = await getThorBalance(net,address);
+            console.log("thor balance = " + thorBalance);
+
+            let tkyBalance = await getTkyBalance(net,address);
+            console.log("tky balance = " + tkyBalance);
+
+            let tncBalance = await getTncBalance(net,address);
+            console.log("tnc balance = " + tncBalance);
+
+            let wwbBalance = await getWwbBalance(net,address);
+            console.log("wwb balance = " + wwbBalance);
 
             let zptBalance = await getZptBalance(net,address);
-            console.log("zpt balance= " + zptBalance);
+            console.log("zpt balance = " + zptBalance);
 
             //combined balance updating
             let combinedPrice = gasPrice + resultPrice + acatBalance*acat_usd + dbcBalance*dbc_usd + ontBalance*ont_usd + qlcBalance*qlc_usd + rpxBalance*rpx_usd + tkyBalance*tky_usd + tncBalance*tnc_usd + zptBalance*zpt_usd + btc*btc_usd + ltc*ltc_usd + eth*eth_usd/1000000000000000000;
@@ -612,6 +627,7 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
                 thorBalance,
                 tkyBalance,
                 tncBalance,
+                wwbBalance,
                 zptBalance,
                 rhtBalance,
                 nrveBalance,
@@ -696,7 +712,7 @@ const resetBalanceSync = (dispatch, net, address ,btc ,ltc, eth) => {
   }
   intervals.balance = setInterval(() => {
     initiateGetBalance(dispatch, net, address ,btc ,ltc ,eth);
-  }, 50000);
+  }, 15000);
 };
 
 const toggleNet = (dispatch, net, address ,btc ,ltc ,eth) => {
