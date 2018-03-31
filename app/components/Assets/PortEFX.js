@@ -8,7 +8,7 @@ import { setMarketPrice, resetPrice } from "../../modules/wallet";
 import { initiateGetBalance, intervals } from "../../components/NetworkSwitch";
 
 import effectLogo from "../../img/effect.png";
-
+import NEPQRModal from "./NEPQRModal.js";
 class PortEFX extends Component {
 	constructor(props) {
 		super(props);
@@ -34,7 +34,7 @@ class PortEFX extends Component {
 							className="port-logos"
 						/>
 						<hr className="dash-hr" />
-						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/receive"><span className=" glyphicon glyphicon-send "/></Link></h3>
+						<h3><NEPQRModal />   <Link to="/receive"><span className=" glyphicon glyphicon-send "/></Link></h3>
 						</div>
 <Link to="/sendEFX">
 						<div className="port-price-col">

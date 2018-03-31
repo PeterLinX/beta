@@ -6,7 +6,7 @@ import { Link } from "react-router";
 
 import { setMarketPrice, resetPrice } from "../../modules/wallet";
 import { initiateGetBalance, intervals } from "../../components/NetworkSwitch";
-
+import NEPQRModal from "./NEPQRModal.js";
 import qlcLogo from "../../img/qlc.png";
 
 class PortQLC extends Component {
@@ -36,7 +36,7 @@ class PortQLC extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendQLC"><span className=" glyphicon glyphicon-send "/></Link></h3>
+							<h3><NEPQRModal />   <Link to="/sendQLC"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 							<Link to="/sendQLC">
 							<div className="port-price-col">

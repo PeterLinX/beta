@@ -6,7 +6,7 @@ import { Link } from "react-router";
 
 import { setMarketPrice, resetPrice } from "../../modules/wallet";
 import { initiateGetBalance, intervals } from "../../components/NetworkSwitch";
-
+import NEPQRModal from "./NEPQRModal.js";
 import zptLogo from "../../img/zpt.png";
 
 class PortZPT extends Component {
@@ -35,7 +35,7 @@ class PortZPT extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendZPT"><span className=" glyphicon glyphicon-send "/></Link></h3>
+							<h3><NEPQRModal />   <Link to="/sendZPT"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 							<Link to="/sendZPT">
 							<div className="port-price-col">

@@ -8,20 +8,20 @@ import _ from "lodash";
 import fs from "fs";
 import storage from "electron-json-storage";
 import ReactTooltip from "react-tooltip";
-import Assets from "./Assets";
-import neoLogo from "../img/neo.png";
+import Assets from "./../Assets";
+import neoLogo from "../../img/neo.png";
 import QRCode from "qrcode.react";
 import axios from "axios";
 
-import { setBlockExplorer } from "../modules/metadata";
-import { setKeys } from "../modules/account";
-import { NetworkSwitch } from "../components/NetworkSwitch";
-import { syncTransactionHistory } from "../components/NetworkSwitch";
+import { setBlockExplorer } from "../../modules/metadata";
+import { setKeys } from "../../modules/account";
+import { NetworkSwitch } from "../../components/NetworkSwitch";
+import { syncTransactionHistory } from "../../components/NetworkSwitch";
 
-import Logo from "./Brand/LogoBlank";
-import NeoLogo from "./Brand/Neo";
-import gitsmLogo from "../img/gitsm.png";
-import twitsmLogo from "../img/twitsm.png";
+import Logo from "./../Brand/LogoBlank";
+import NeoLogo from "./../Brand/Neo";
+import gitsmLogo from "../../img/gitsm.png";
+import twitsmLogo from "../../img/twitsm.png";
 
 let explorer_select;
 
@@ -135,26 +135,8 @@ class Receive extends Component {
 	render() {
 		console.log(this.props.net);
 		return (
-			<div id="" className="">
-				<Assets />
-				<div className="dash-chart-panel">
-					<div className="">
-						<div className="col-xs-10">
-							<img
-								src={neoLogo}
-								alt=""
-								width="38"
-								className="neo-logo logobounce"
-							/>
-							<h2>Receive Neo/Gas and NEP Tokens</h2>
-						</div>
-
-						<div className="col-xs-2 top-20 center com-soon">
-        Block: {this.props.blockHeight}
-						</div>
-						<hr className="dash-hr-wide" />
-						<div className="clearboth" />
-						<div className="col-xs-4 top-20">
+			<div>
+						<div className="col-xs-8 col-xs-offset-2">
 							<div
 								className="addressBox-send center animated fadeInDown pointer"
 								data-tip
@@ -166,89 +148,62 @@ class Receive extends Component {
 									className="solidTip"
 									id="qraddTip"
 									place="top"
-									type="light"
+									type="dark"
 									effect="solid"
 								>
-
-                <input
-        					className="ledger-address"
-        					onClick={() => clipboard.writeText(this.props.address)}
-        					id="center"
-        					placeholder={this.props.address}
-        					value={this.props.address}
-        				/>
-									<span>Click to copy your NEO Address</span>
+									<span>Click to copy your NEP5 Address <br />
+                  {this.props.address}
+                  </span>
 								</ReactTooltip>
 							</div>
 						</div>
-
-						<div className="col-xs-8">
-							<h5>Your Public Address</h5>
-							<input
-								className="ledger-address top-10"
-								onClick={() => clipboard.writeText(this.props.address)}
-								id="center"
-								placeholder={this.props.address}
-								value={this.props.address}
-							/>
-							<div className="clearboth" />
-							<div className="dash-bar top-30">
-								<div
-									className="dash-icon-bar"
-									onClick={() => clipboard.writeText(this.props.address)}
-								>
-									<div className="icon-border">
-										<span className="glyphicon glyphicon-duplicate" />
-									</div>
-                Copy Public Address
-								</div>
-
-								<div
-									className="dash-icon-bar"
-									onClick={() => print()}
-								>
-									<div className="icon-border">
-										<span className="glyphicon glyphicon-print" />
-									</div>
-                Print Public Address
-								</div>
-
-								<div
-									className="dash-icon-bar"
-									onClick={() =>
-										openExplorer(getLink(this.props.net, this.props.address))
-									}
-								>
-									<div className="icon-border">
-										<span className="glyphicon glyphicon-link" />
-									</div>
-                View On Blockchain
-								</div>
-
-								<div
-                  className="dash-icon-bar"
-                  onClick={() => saveKeyRecovery(this.props.wallets)}
-                >
-                  <div className="icon-border">
-                    <span className="glyphicon glyphicon-save" />
-                  </div>
-                  Export Encrypted Keys
-                </div>
-
-
-							</div>
-
-
-
-						</div>
-					</div>
+						<div className="col-xs-12">
+            <input
+              className="font-12 ledger-address top-20"
+              onClick={() => clipboard.writeText(this.props.address)}
+              id="center"
+              placeholder={this.props.address}
+              value={this.props.address}
+            />
 					<div className="clearboth" />
-				</div>
-				<div className="clearboth" />
-				<div className="col-xs-12">
-					<p className="send-notice">
-          Your NEO address above can be used to receive all NEP5 tokens. All NEO and GAS transactions are FREE. Only send NEO, GAS or NEP tokens to a NEO address. Sending funds other than NEO, GAS or NEP tokens to the address above may result in those funds being lost.
-					</p>
+
+          <div className="dash-bar top-10">
+            <div
+              className="dash-icon-bar"
+              onClick={() => clipboard.writeText(this.props.address)}
+            >
+              <div className="icon-border">
+                <span className="glyphicon glyphicon-duplicate" />
+              </div>
+            Copy Public Address
+            </div>
+
+            <div
+              className="dash-icon-bar"
+              onClick={() =>
+                openExplorer(getLink(this.props.net, this.props.address))
+              }
+            >
+              <div className="icon-border">
+                <span className="glyphicon glyphicon-link" />
+              </div>
+            View On Blockchain
+            </div>
+
+            <div
+              className="dash-icon-bar"
+              onClick={() => saveKeyRecovery(this.props.wallets)}
+            >
+              <div className="icon-border">
+                <span className="glyphicon glyphicon-save" />
+              </div>
+              Export Encrypted Keys
+            </div>
+
+
+          </div>
+
+
 
 				</div>
 

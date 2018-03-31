@@ -6,7 +6,7 @@ import { Link } from "react-router";
 
 import { setMarketPrice, resetPrice } from "../../modules/wallet";
 import { initiateGetBalance, intervals } from "../../components/NetworkSwitch";
-
+import NEPQRModal from "./NEPQRModal.js";
 import nrveLogo from "../../img/nrve.png";
 
 class PortNRVE extends Component {
@@ -34,7 +34,7 @@ class PortNRVE extends Component {
 							className="port-logos"
 						/>
 						<hr className="dash-hr" />
-						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendNRVE"><span className=" glyphicon glyphicon-send "/></Link></h3>
+						<h3><NEPQRModal />   <Link to="/sendNRVE"><span className=" glyphicon glyphicon-send "/></Link></h3>
 						</div><Link to="/sendNRVE">
 						<div className="port-price-col">
 							<span className="market-price">Narrative $0.00</span>

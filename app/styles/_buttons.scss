@@ -644,6 +644,27 @@
 }
 
 
-.cancel-button:hover {
+.cancel-button:hover, .close-button:hover {
   opacity: 1;
+}
+
+.close-button {
+  padding: 4px 12px;
+    height: auto;
+    font-size: 18px;
+    border: thick solid #828282;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 99px;
+    color: #ddd;
+    margin: 2px 0px;
+    background: #3a3a3a;
+    text-shadow: none;
+    font-weight: 900;
+    width: auto;
+    opacity: .8;
+    position: fixed;
+    z-index: 999;
+    top: 165px;
+    right: 237px;
 }

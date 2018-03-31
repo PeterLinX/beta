@@ -6,7 +6,7 @@ import { Link } from "react-router";
 
 import { setMarketPrice, resetPrice } from "../../modules/wallet";
 import { initiateGetBalance, intervals } from "../../components/NetworkSwitch";
-
+import NEPQRModal from "./NEPQRModal.js";
 import nexLogo from "../../img/nex.png";
 
 class PortNEX extends Component {
@@ -33,7 +33,7 @@ class PortNEX extends Component {
 							className="port-logos top-10"
 						/>
 						<hr className="dash-hr" />
-						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/receive"><span className=" glyphicon glyphicon-send "/></Link></h3>
+						<h3><NEPQRModal />   <Link to="/receive"><span className=" glyphicon glyphicon-send "/></Link></h3>
 						</div>
 
 						<div className="port-price-col">

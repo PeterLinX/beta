@@ -8,7 +8,7 @@ import { setMarketPrice, resetPrice } from "../../modules/wallet";
 import { initiateGetBalance, intervals } from "../../components/NetworkSwitch";
 
 import deepLogo from "../../img/deep.png";
-
+import NEPQRModal from "./NEPQRModal.js";
 
 class PortDBC extends Component {
 	constructor(props) {
@@ -35,7 +35,7 @@ class PortDBC extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendDBC"><span className=" glyphicon glyphicon-send "/></Link></h3>
+							<h3><NEPQRModal />   <Link to="/sendDBC"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div><Link to="/sendDBC">
 							<div className="port-price-col">
 								<span className="market-price">Deep Brain {numeral(this.props.marketDBCPrice).format("$0,0.00")}</span>

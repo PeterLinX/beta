@@ -6,7 +6,7 @@ import { Link } from "react-router";
 
 import { setMarketPrice, resetPrice } from "../../modules/wallet";
 import { initiateGetBalance, intervals } from "../../components/NetworkSwitch";
-
+import NEPQRModal from "./NEPQRModal.js";
 import rpxLogo from "../../img/rpx.png";
 
 class PortRPX extends Component {
@@ -33,7 +33,7 @@ class PortRPX extends Component {
 								className="port-logos"
 							/>
 							<hr className="dash-hr" />
-							<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendRPX"><span className=" glyphicon glyphicon-send "/></Link></h3>
+							<h3><NEPQRModal />   <Link to="/sendRPX"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 							<Link to="/sendRPX">
 							<div className="port-price-col">
