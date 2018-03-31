@@ -198,4 +198,3 @@ export default (
 // 	"transaction": "81d85afaac59d41135fbbae3306818e79d8801029786f0d60f9c850523e30bca",
 // 	"transactionURL": "https://blockchain.info/tx/81d85afaac59d41135fbbae3306818e79d8801029786f0d60f9c850523e30bca"
 // }
-

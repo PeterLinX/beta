@@ -170,7 +170,6 @@ componentDidMount = () => {
                     <span className="glyphicon glyphicon-qrcode" /> Receive
                   </Link>
                 </li>
-
                 <li>
                   <Link to={"/transactionHistory"} activeClassName="active">
                     <span className="glyphicon glyphicon-list-alt" /> Transactions

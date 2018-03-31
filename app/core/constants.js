@@ -105,11 +105,13 @@ export const TOKENS = {
 };
 
 export const TOKEN_SCRIPT_TEST = [
+	{token: "Concierge (CGE)", hashscript: '34579e4614ac1a7bd295372d3de8621770c76cdc'},
 	{token: "Orbis (OBT)", hashscript: '0e86a40588f715fcaf7acd1812d50af478e6e917'},
   {token: "Thor (THOR)", hashscript: '67a5086bac196b67d5fd20745b0dc9db4d2930ed'}
 ];
 
 export const TOKEN_SCRIPT = [
+	{token: "Concierge (CGE)", hashscript: '34579e4614ac1a7bd295372d3de8621770c76cdc'},
 	{token: "Orbis (OBT)", hashscript: '0e86a40588f715fcaf7acd1812d50af478e6e917'},
   {token: "Thor (THOR)", hashscript: '67a5086bac196b67d5fd20745b0dc9db4d2930ed'}
 ];
