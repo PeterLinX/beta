@@ -204,7 +204,7 @@ const sendZptTransaction = async (dispatch, net, selfAddress, wif) => {
   } else {
     script = TOKENS_TEST.ZPT;
   }
-  const token_response = await api.nep5.getToken("http://seed3.neo.org:10332", script, selfAddress);
+  const token_response = await api.nep5.getToken(endpoint, script, selfAddress);
   const zpt_balance = token_response.balance;
   console.log("token_response = " + JSON.stringify(token_response));
   const tokenBalances = {
@@ -494,7 +494,7 @@ class SendZPT extends Component {
 
           <div className="send-notice">
             <p>
-              Sending ZPT requires a balance of 1 GAS+. Only send ZPT to a valid
+              Sending ZPT requires a balance of 0.00000001 GAS+. Only send ZPT to a valid
               address that supports NEP5+ tokens on the NEO blockchain. When
               sending ZPT to an exchange please ensure the address supports ZPT
               tokens.

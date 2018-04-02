@@ -338,20 +338,7 @@ class SendBTC extends Component {
 							<h2>Send Bitcoin (BTC)</h2>
 						</div>
 
-						<div
-            className="col-xs-1 center top-10 send-info"
-            onClick={() =>
-              refreshBalance(
-                this.props.dispatch,
-                this.props.net,
-                this.props.btc_address
-              )
-            }
-          >
-            <span className="glyphicon glyphicon-refresh font24" />
-          </div>
-
-						<div className="col-xs-3 center">
+						<div className="col-xs-4 center">
 						<div className="send-panel-price">{numeral(this.props.btc).format("0,0.0000000")} <span className="btc-price"> BTC</span></div>
 
 						<span className="market-price">{numeral(this.props.btc * this.props.marketBTCPrice).format("$0,0.00")} USD</span>
@@ -449,7 +436,7 @@ class SendBTC extends Component {
 
 							<div className="col-xs-12 com-soon">
 							Fees: 0.0001 BTC/KB<br />
-							Block: {this.state.block_index}{" "}
+							Block: {" "}{this.state.block_index}
 
 							</div>
 							<div className="col-xs-12 top-30">

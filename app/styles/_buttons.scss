@@ -644,15 +644,17 @@
 }
 
 
-.cancel-button:hover, .close-button:hover {
+.cancel-button:hover {
   opacity: 1;
 }
+
+
 
 .close-button {
   padding: 4px 12px;
     height: auto;
     font-size: 18px;
-    border: thick solid #828282;
+    border: 2px solid #080808;
     cursor: pointer;
     text-align: center;
     border-radius: 99px;
@@ -663,6 +665,27 @@
     font-weight: 900;
     width: auto;
     opacity: .8;
+    position: fixed;
+    z-index: 999;
+    top: 165px;
+    right: 237px;
+}
+
+.close-button:hover {
+  opacity: 1;
+  padding: 4px 12px;
+    height: auto;
+    font-size: 18px;
+    border: 2px solid #080808;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 99px;
+    color: #ddd;
+    margin: 2px 0px;
+    background: #770000;
+    text-shadow: none;
+    font-weight: 900;
+    width: auto;
     position: fixed;
     z-index: 999;
     top: 165px;

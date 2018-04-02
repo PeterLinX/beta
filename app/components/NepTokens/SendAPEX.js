@@ -490,7 +490,7 @@ class SendAPEX extends Component {
 
           <div className="send-notice">
             <p>
-              Sending APEX requires a balance of 1 GAS+. Only send APEX to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending APEX to an exchange please ensure the address supports APEX tokens.
+              Sending APEX requires a balance of 0.00000001 GAS+. Only send APEX to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending APEX to an exchange please ensure the address supports APEX tokens.
             </p>
             <div className="col-xs-2 top-20" />
             <div className="col-xs-8 top-20">

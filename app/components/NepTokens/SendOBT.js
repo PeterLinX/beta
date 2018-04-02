@@ -494,7 +494,7 @@ class SendOBT extends Component {
 
           <div className="send-notice">
             <p>
-              Sending Orbis requires a balance of 1 GAS+. Only send Orbis to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending Orbis to an exchange please ensure the address supports Orbis tokens.
+              Sending Orbis requires a balance of 0.00000001 GAS+. Only send Orbis to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending Orbis to an exchange please ensure the address supports Orbis tokens.
             </p>
             <div className="col-xs-2 top-20" />
             <div className="col-xs-8 top-20">

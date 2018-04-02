@@ -494,7 +494,7 @@ class SendTNC extends Component {
 
           <div className="send-notice">
             <p>
-              Sending TNC requires a balance of 1 GAS+. Only send TNC to a valid
+              Sending TNC requires a balance of 0.00000001 GAS+. Only send TNC to a valid
               address that supports NEP5+ tokens on the NEO blockchain. When
               sending TNC to an exchange please ensure the address supports TNC
               tokens.

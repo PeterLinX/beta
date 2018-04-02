@@ -491,7 +491,7 @@ class SendIAM extends Component {
 
           <div className="send-notice">
             <p>
-              Sending IAM requires a balance of 1 GAS+. Only send IAM to a valid
+              Sending IAM requires a balance of 0.00000001 GAS+. Only send IAM to a valid
               address that supports NEP5+ tokens on the NEO blockchain. When
               sending IAM to an exchange please ensure the address supports IAM
               tokens.

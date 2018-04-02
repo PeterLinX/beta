@@ -9,27 +9,17 @@ import Exchange_Processing from "../Exchange_Components/Exchange_Processing";
 import Exchange_Complete from "../Exchange_Components/Exchange_Complete";
 
 import { sendEvent, clearTransactionEvent } from "../../modules/transactions";
-import { fetchNeoStatus, startShiftOrder, fetchDepositStatus, resetOrderState } from "../../modules/shapeshift";
+import { startShiftOrder, fetchDepositStatus, resetOrderState } from "../../modules/shapeshift";
 
 class ShapeShift extends Component {
 	constructor(props) {
 		super(props);
-		this.pollForNeoConditonallyEvery = this.pollForNeoConditonallyEvery.bind(this);
 		this.pollForDepositStatusConditionallyEvery = this.pollForDepositStatusConditionallyEvery.bind(this);
 	}
 	componentDidMount() {
-		this.pollForNeoConditonallyEvery(15000);
 		this.pollForDepositStatusConditionallyEvery(5000);
 	}
-	pollForNeoConditonallyEvery(ms) {
-		let { available, stage, fetchNeoStatus, address } = this.props;
-		if (!available && !stage) fetchNeoStatus(address);
-		setInterval(() => {
-			// Get the latest stage. If in the middle of the stage, it should not poll for NEO availability
-			let { stage, fetchNeoStatus, address } = this.props;
-			!stage && fetchNeoStatus(address);
-		}, ms);
-	}
+
 	pollForDepositStatusConditionallyEvery(ms) {
 		const { fetchDepositStatus, stage, txData } = this.props;
 		if (stage === "depositing" || stage === "processing") fetchDepositStatus(txData.deposit);
@@ -41,8 +31,7 @@ class ShapeShift extends Component {
 
 	render() {
 		const { available, stage, txData, completeData, resetOrderState } = this.props;
-		if (!available && !stage) return <Exchange_Unavailable exchangeName={"ShapeShift"}/>;
-		else if (!stage) return <Exchange_OrderForm {...this.props} />;
+		if (!stage) return <Exchange_OrderForm {...this.props} />;
 		else if (stage === "ordering") return <Exchange_OrderLoading stage={stage} exchangeName={"ShapeShift"}/>;
 		else if (stage === "depositing") return <Exchange_Deposit stage={stage} txData={txData} exchangeName={"shapeshift"}/>;
 		else if (stage === "processing") return <Exchange_Processing stage={stage} txData={txData}/>;
@@ -75,7 +64,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = ({
-	fetchNeoStatus,
 	startShiftOrder,
 	fetchDepositStatus,
 	resetOrderState,

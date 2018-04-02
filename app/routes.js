@@ -68,6 +68,7 @@ import AdvancedEthereum from "./components/AdvancedEthereum";
 import DisplayPrivateKeysLTC from "./components/DisplayPrivateKeysLTC";
 import DisplayPrivateKeysETH from "./components/DisplayPrivateKeysETH";
 import TokenSale from "./components/TokenSale";
+import RemoveAddress from "./components/RemoveAddress";
 import AdvancedTokenSale from "./components/AdvancedTokenSale";
 
 export default (
@@ -102,6 +103,7 @@ export default (
 			<Route path="/sendETH" component={SendETH} />
 			<Route path="/receive" component={Receive} />
 			<Route path="/settings" component={Settings} />
+			<Route path="/removeAddress" component={RemoveAddress} />
 			<Route path="/selectExchange" component={SelectExchange} />
 			<Route path="/changelly" component={Changelly} />
 			<Route path="/shapeshift" component={ShapeShift} />

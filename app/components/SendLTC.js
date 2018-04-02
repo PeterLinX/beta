@@ -399,20 +399,7 @@ class SendLTC extends Component {
               <h2>Send Litecoin (LTC)</h2>
             </div>
 
-            <div
-              className="col-xs-1 center top-10 send-info"
-              onClick={() =>
-                refreshBalance(
-                  this.props.dispatch,
-                  this.props.net,
-                  this.props.ltc_address
-                )
-              }
-            >
-              <span className="glyphicon glyphicon-refresh font24" />
-            </div>
-
-            <div className="col-xs-3 center">
+            <div className="col-xs-4 center">
               <div className="send-panel-price">
                 {numeral(this.props.ltc).format("0,0.0000000")}{" "}
                 <span className="ltc-price"> LTC</span>
@@ -522,7 +509,7 @@ class SendLTC extends Component {
 
               <div className="col-xs-12 com-soon">
                 Fees: 0.0001 LTC/KB<br />
-                Block: {this.props.blockIndex}{" "}
+                Block: {" "}{this.props.blockIndex}
               </div>
               <div className="col-xs-12 top-20">
                 <TransactionHistoryLTC />
@@ -562,6 +549,7 @@ class SendLTC extends Component {
 
 const mapStateToProps = state => ({
   blockHeight: state.metadata.blockHeight,
+  blockIndex: state.metadata.block_index,
   wif: state.account.wif,
   address: state.account.address,
   ltc_address: state.account.ltcPubAddr,

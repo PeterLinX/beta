@@ -492,7 +492,7 @@ class SendGALA extends Component {
 
           <div className="send-notice">
             <p>
-              Sending Galaxy (GALA) requires a balance of 1 GAS+. Only send GALA to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending GALA to an exchange please ensure the address supports GALA tokens.
+              Sending Galaxy (GALA) requires a balance of 0.00000001 GAS+. Only send GALA to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending GALA to an exchange please ensure the address supports GALA tokens.
             </p>
             <div className="col-xs-2 top-20" />
             <div className="col-xs-8 top-20">

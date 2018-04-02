@@ -25,6 +25,31 @@ import numeral from "numeral";
 
 let sendAddress, sendAmount, confirmButton, scriptHash, swh_usd, gas_usd;
 
+const styles = {
+    overlay: {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.75)"
+    },
+    content: {
+        margin: "100px auto 0",
+        padding: "30px 30px 30px 30px",
+        border: "4px solid #222",
+        background: "rgba(12, 12, 14, 1)",
+        borderRadius: "20px",
+        top: "100px",
+        height: 260,
+        width: 600,
+        left: "100px",
+        right: "100px",
+        bottom: "100px",
+        boxShadow: "0px 10px 44px rgba(0, 0, 0, 0.45)"
+    }
+};
+
 const apiURL = val => {
   return "https://min-api.cryptocompare.com/data/price?fsym=SWH&tsyms=USD";
 };
@@ -179,7 +204,7 @@ const sendSwhTransaction = async (dispatch, net, selfAddress, wif) => {
   } else {
     script = TOKENS_TEST.SWH;
   }
-  const token_response = await api.nep5.getToken("http://seed3.neo.org:10332", script, selfAddress);
+  const token_response = await api.nep5.getToken(endpoint, script, selfAddress);
   const swh_balance = token_response.balance;
   console.log("token_response = " + JSON.stringify(token_response));
   const tokenBalances = {
@@ -206,7 +231,7 @@ const sendSwhTransaction = async (dispatch, net, selfAddress, wif) => {
   };
   sendEntries.push(sendEntry);
   console.log("sendEntries = " + JSON.stringify(sendEntries));
-  if (validateForm(dispatch,swh_balance) === true) {
+  if (validateForm(dispatch, swh_balance) === true) {
       if (swh_balance <= sendAmount.value) {
           dispatch(sendEvent(false, "You are trying to send more SWH than you have available."));
           setTimeout(() => dispatch(clearTransactionEvent()), 2000);
@@ -366,7 +391,7 @@ class SendSWH extends Component {
                 width="45"
                 className="neo-logo fadeInDown"
               />
-              <h2>Send Switcheo Network Tokens</h2>
+              <h2>Send Zeepin Tokens</h2>
             </div>
 
             <div className="col-xs-3 center">
@@ -388,7 +413,7 @@ class SendSWH extends Component {
                 <input
                   className="form-send-neo"
                   id="center"
-                  placeholder="Enter a valid SWH public address here"
+                  placeholder="Enter a valid swh public address here"
                   ref={node => {
                     sendAddress = node;
                   }}
@@ -469,7 +494,7 @@ class SendSWH extends Component {
 
           <div className="send-notice">
             <p>
-              Sending SWH requires a balance of 1 GAS+. Only send SWH to a valid
+              Sending SWH requires a balance of 0.00000001 GAS+. Only send SWH to a valid
               address that supports NEP5+ tokens on the NEO blockchain. When
               sending SWH to an exchange please ensure the address supports SWH
               tokens.

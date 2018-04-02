@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Claim from "../Claim.js";
 import MdSync from "react-icons/lib/md/sync";
 import QRCode from "qrcode.react";
 import { initiateGetBalance, intervals } from "../NetworkSwitch";
@@ -10,9 +9,15 @@ import { sendEvent, clearTransactionEvent } from "../../modules/transactions";
 import { clipboard } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import ReactTooltip from "react-tooltip";
-import neoLogo from "../../img/neo.png";
-import NeoLogo from "../Brand/Neo";
+import LtcLogo from "../Brand/Litecoin";
 import BtcLogo from "../Brand/Bitcoin";
+import TransactionHistoryLTC from "./../TransactionHistoryLTC";
+import {
+  syncTransactionHistory,
+  syncLtcTransactionHistory,
+  block_index
+} from "../../components/NetworkSwitch";
+import { ltcLoginRedirect } from "../../modules/account";
 
 import { Link } from "react-router";
 import crypto from "crypto";
@@ -20,14 +25,6 @@ import axios from "axios";
 import Changelly from "../../modules/changelly";
 import { error } from "util";
 
-// force sync with balance data
-const refreshBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
-  dispatch(sendEvent(true, "Refreshing..."));
-  initiateGetBalance(dispatch, net, address, btc ,ltc, eth).then(response => {
-    dispatch(sendEvent(true, "Received latest blockchain information."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-  });
-};
 
 const apiUrl = "https://api.changelly.com";
 const apiKey = "1befd82a2ef24c359c3106f96b5217c0";
@@ -42,7 +39,7 @@ class Exchange extends Component {
     this.state = {
       address: "",
       from: "btc",
-      to: "neo",
+      to: "ltc",
       fromValue: 0,
       toValue: 0,
       minAmount: 0,
@@ -58,13 +55,13 @@ class Exchange extends Component {
   }
 
   componentDidMount() {
-    initiateGetBalance(this.props.dispatch, this.props.net, this.props.address);
+    initiateGetBalance(this.props.dispatch, this.props.net, this.props.ltcPubAddr);
 
     changelly.getMinAmount(this.state.from, this.state.to, (err, data) => {
       if (err) {
         console.log("Error!", err);
       } else {
-        if (data.error.message === "invalid 'to' currency: 'neo'") {
+        if (data.error.message === "invalid 'to' currency: 'ltc'") {
           this.setState({ error: true });
         }
         this.setState({ minAmount: data.result });
@@ -98,8 +95,8 @@ class Exchange extends Component {
             });
           } else if (data.result === "sending") {
             this.setState({
-              message: "NEO is being sent to your address in Morpheus.",
-              statusMessage: "Success. Sending NEO"
+              message: "LTC is being sent to your address in Morpheus.",
+              statusMessage: "Success. Sending LTC"
             });
           } else if (data.result === "exchanging") {
             this.setState({
@@ -118,7 +115,7 @@ class Exchange extends Component {
     await changelly.createTransaction(
       this.state.from,
       this.state.to,
-      this.props.address,
+      this.props.ltcPubAddr,
       this.state.fromValue,
       undefined,
       (err, data) => {
@@ -244,7 +241,7 @@ class Exchange extends Component {
                   </div>
                   <h4 className="top-20">
                     Deposit {this.state.fromValue} BTC and receive{" "}
-                    {Math.floor(this.state.toValue)} NEO
+                    {Math.floor(this.state.toValue)} LTC
                   </h4>
                   <input
                     className="form-control-exchange center top-10"
@@ -256,7 +253,7 @@ class Exchange extends Component {
                   />
                   <p className="sm-text">
                     Only deposit Bitcoin (BTC) to the address above to receive
-                    NEO.
+                    LTC.
                   </p>
                   <div className="row top-10">
                     <div className="col-xs-8 center">
@@ -334,9 +331,9 @@ class Exchange extends Component {
                   <div className="col-xs-2" />
                   <div className="col-xs-4">
                     <div className="exch-logos">
-                      <NeoLogo width={32} />
+                      <LtcLogo width={40} />
                     </div>
-                    <h4 className="top-20">Receive NEO</h4>
+                    <h4 className="top-20">Receive LTC</h4>
                   </div>
                   <div className="col-xs-1" />
                   <div className="clearboth" />
@@ -360,7 +357,8 @@ class Exchange extends Component {
                       className="form-control-exchange center"
                       value={Math.floor(this.state.toValue)}
                       placeholder="0"
-                      disabled
+                      type="number"
+                      enabled
                     />
                   </div>
                 </div>
@@ -370,10 +368,10 @@ class Exchange extends Component {
                     <input
                       className="form-control-exchange center"
                       disabled
-                      placeholder={this.props.address}
+                      placeholder={this.props.ltcPubAddr}
                     />
                     <p className="sm-text">
-                      Once complete, NEO will be deposited to the address above
+                      Once complete, LTC will be deposited to the address above
                     </p>
                   </div>
                 </div>
@@ -391,7 +389,7 @@ class Exchange extends Component {
                       onClick={() => {
                         this.handleSubmit(
                           this.props.dispatch,
-                          this.props.address
+                          this.props.ltcPubAddr
                         );
                       }}
                       className="btn-send"
@@ -424,6 +422,14 @@ class Exchange extends Component {
 const mapStateToProps = state => ({
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,
+  ltc: state.wallet.Ltc,
+	ltc_address: state.account.ltcPubAddr,
+  ltc_wif: state.account.ltcPrivKey,
+	marketLTCPrice: state.wallet.marketLTCPrice,
+	ltcLoggedIn: state.account.ltcLoggedIn,
+	ltcPrivKey: state.account.ltcPrivKey,
+	ltcPubAddr: state.account.ltcPubAddr,
+	wallets: state.account.ltcAccountKeys,
   address: state.account.address,
   net: state.metadata.network,
   price: state.wallet.price

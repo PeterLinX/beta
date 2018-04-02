@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { shell, clipboard } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import Delete from "react-icons/lib/md/delete";
+
 import _ from "lodash";
 import fs from "fs";
 import storage from "electron-json-storage";
@@ -229,18 +230,26 @@ class Settings extends Component {
                 </Link>
               </div>
 
+
               <div className="col-xs-2 center">
-                <Link to="/encryptKey">
-                  <div className="dash-icon-bar">
-                    <div className="icon-border">
-                      <span className="glyphicon glyphicon-qrcode" />
-                    </div>
-                    Encrypt a Private Key
+                <div
+                  className="dash-icon-bar"
+                  onClick={() =>
+                          openExplorer("https://github.com/MorpheusWallet/beta/releases")
+                  }
+                >
+                  <div className="icon-border">
+                    <span className="glyphicon glyphicon-bell" />
                   </div>
-                </Link>
+                  Check for Update
+                </div>
               </div>
 
-            </div>
+
+              </div>
+
+
+
 
             <div className="row top-20 settings-padding fadeInDown">
 
@@ -257,6 +266,33 @@ class Settings extends Component {
                   Export NEO Keys
                 </div>
               </div>
+
+              <div className="col-xs-2 center">
+                <div
+                  className="dash-icon-bar"
+                  onClick={() => loadKeyRecovery(this.props.dispatch)}
+                >
+                  <div className="icon-border">
+                    <span className="glyphicon glyphicon-open" />
+                  </div>
+                  Upload Wallet Backup
+                </div>
+              </div>
+
+
+
+              <div className="col-xs-2 center">
+                <Link to="/encryptKey">
+                  <div className="dash-icon-bar">
+                    <div className="icon-border">
+                      <span className="glyphicon glyphicon-qrcode" />
+                    </div>
+                    Encrypt a Private Key
+                  </div>
+                </Link>
+              </div>
+
+
 
               <div className="col-xs-2 center">
                 <div
@@ -285,30 +321,18 @@ class Settings extends Component {
                 </Link>
               </div>
 
+
               <div className="col-xs-2 center">
+              <Link to="removeAddress">
                 <div
                   className="warning dash-icon-bar"
-                  onClick={() => deleteWallet(this.props.dispatch, key)}
                 >
                   <div className="warning icon-border">
                     <span className="warning glyphicon glyphicon-trash" />
                   </div>
-                  Remove Address
+                  Remove Saved Addresses
                 </div>
-              </div>
-
-              <div className="col-xs-2 center">
-                <div
-                  className="dash-icon-bar"
-                  onClick={() =>
-                          openExplorer("https://github.com/MorpheusWallet/beta/releases")
-                  }
-                >
-                  <div className="icon-border">
-                    <span className="glyphicon glyphicon-bell" />
-                  </div>
-                  Check for Update
-                </div>
+                </Link>
               </div>
 
 

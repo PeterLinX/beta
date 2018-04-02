@@ -1,0 +1,12 @@
+{
+  "win32-x64-prod": {
+    "update": "https://github.com/MorpheusWallet/beta/tree/build/dist/win32-x64-prod-v0.0.2",
+    "install": "https://github.com/MorpheusWallet/beta/releases/download/0.0.55/Morpheus-Beta.Setup.0.0.55.exe",
+    "version": "0.0.55"
+  },
+  "darwin-x64-prod": {
+    "update": "https://github.com/MorpheusWallet/beta/tree/build/dist/release.json",
+    "install": "https://github.com/MorpheusWallet/beta/releases/download/0.0.55/Morpheus-Beta-0.0.55.dmg",
+    "version": "0.0.55"
+  }
+}

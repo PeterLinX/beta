@@ -17,7 +17,7 @@
 .header {
   background-color: rgba(12, 12, 14, 0.85);
       border: 1px solid #272727;
-      border-radius: 20px;
+      border-radius: 9px;
       height: 120px;
       margin-top: 2%;
       padding: 10px;
@@ -30,7 +30,7 @@
 .ledger-header {
   background-color: rgba(12, 12, 14, 0.85);
       border: 1px solid #272727;
-      border-radius: 20px;
+      border-radius: 9px;
       height: 112px;
       margin: 30px auto 0px;
       padding: 10px;
@@ -111,7 +111,7 @@
   padding: 30px 30px 30px 30px;
   border: thick solid #222;
   background: rgba(12, 12, 14, 0.85);
-  border-radius: 20px;
+  border-radius: 9px;
   box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
 }
 
@@ -121,7 +121,7 @@
   padding: 30px 30px 30px 30px;
   border: thick solid #222;
   background: rgba(12, 12, 14, 0.85);
-  border-radius: 20px;
+  border-radius: 9px;
   box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
 }
 
@@ -132,7 +132,7 @@
   padding: 30px 30px 30px 30px;
   border: 3px solid #1d1b1d;
   background: rgba(12, 12, 14, 0.85);
-  border-radius: 20px;
+  border-radius: 9px;
   box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
   -moz-box-shadow: inset 0 0 12px #000000;
   -webkit-box-shadow: inset 0 0 12px #000000;
@@ -145,7 +145,7 @@
   padding: 30px 30px 30px 30px;
   border: 3px solid #1d1b1d;
   background: rgba(12, 12, 14, 0.85);
-  border-radius: 20px;
+  border-radius: 9px;
   box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
   -moz-box-shadow: inset 0 0 12px #000000;
   -webkit-box-shadow: inset 0 0 12px #000000;
@@ -158,7 +158,7 @@ width: auto;
 padding: 30px 30px 30px 30px;
 border: 3px solid #1d1b1d;
 background: rgba(12, 12, 14, 0.85);
-border-radius: 20px;
+border-radius: 9px;
 box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
 -moz-box-shadow: inset 0 0 12px #000000;
 -webkit-box-shadow: inset 0 0 12px #000000;
@@ -171,7 +171,7 @@ box-shadow: inset 0px 0px 12px #000000;
   padding: 0px 30px 30px 30px;
   border: thick solid #222;
   background: rgba(12, 12, 14, 0.85);
-  border-radius: 20px;
+  border-radius: 9px;
   box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
 }
 
@@ -357,7 +357,7 @@ h2 {
   color: #646464;
 }
 
-#transactionList {
+#transactionList, .walletList {
   list-style-type: none;
   height: 360px;
   width: 100%;
@@ -830,7 +830,7 @@ webview {
 .ledgerQRBox {
   border: 10px solid #d3d3d3;
   background-color: white;
-  border-radius: 20px;
+  border-radius: 9px;
   padding: 15px;
   width: 95%;
   margin: 0px auto;
@@ -1075,7 +1075,7 @@ webview {
   font-size: 0.8em;
   border: 3px solid #1d1b1d;
   background: rgba(12, 12, 14, 0.85);
-  border-radius: 20px;
+  border-radius: 9px;
   box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
   -moz-box-shadow: inset 0 0 12px #000000;
   -webkit-box-shadow: inset 0 0 12px #000000;
@@ -1109,7 +1109,7 @@ webview {
   font-size: 0.8em;
   border: 3px solid #1d1b1d;
   background: rgba(12, 12, 14, 0.85);
-  border-radius: 20px;
+  border-radius: 9px;
   box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
   -moz-box-shadow: inset 0 0 12px #000000;
   -webkit-box-shadow: inset 0 0 12px #000000;
@@ -1132,7 +1132,7 @@ webview {
   font-size: 0.8em;
   border: 3px solid #1d1b1d;
   background: rgba(12, 12, 14, 0.85);
-  border-radius: 20px;
+  border-radius: 9px;
   box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
   -moz-box-shadow: inset 0 0 12px #000000;
   -webkit-box-shadow: inset 0 0 12px #000000;
@@ -1155,7 +1155,7 @@ webview {
       font-size: 0.8em;
       border: 3px solid #1d1b1d;
       background: rgba(12, 12, 14, 0.85);
-      border-radius: 20px;
+      border-radius: 9px;
       box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
       -moz-box-shadow: inset 0 0 12px #000000;
       -webkit-box-shadow: inset 0 0 12px #000000;
@@ -1181,7 +1181,7 @@ webview {
   font-size: 0.8em;
   border: 3px solid #1d1b1d;
   background: rgba(12, 12, 14, 0.85);
-  border-radius: 20px;
+  border-radius: 9px;
   box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
   -moz-box-shadow: inset 0 0 12px #000000;
   -webkit-box-shadow: inset 0 0 12px #000000;
@@ -1236,7 +1236,7 @@ webview {
   font-size: 1.1em;
   border: 3px solid #1d1b1d;
   background: rgba(12, 12, 14, 0.85);
-  border-radius: 20px;
+  border-radius: 9px;
   box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
   -moz-box-shadow: inset 0 0 12px #000000;
   -webkit-box-shadow: inset 0 0 12px #000000;
@@ -1772,7 +1772,7 @@ font-size: 13px;
     font-size: 14px;
     border: 3px solid #1d1b1d;
     background: rgba(12, 12, 14, 0.85);
-    border-radius: 20px;
+    border-radius: 9px;
     box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.45);
     -moz-box-shadow: inset 0 0 12px #000000;
     -webkit-box-shadow: inset 0 0 12px #000000;
@@ -1799,4 +1799,30 @@ font-size: 13px;
 .left10 {
   float: left;
   margin-left: 10px;
+}
+
+
+.walletItem {
+  display: table;
+width: 100%;
+margin: 0px;
+padding: 10px;
+border-bottom: 1px solid #2b2b2b;
+}
+
+.walletName {
+  float: left;
+    margin-right: 20px;
+    font-size: 16px;
+    width: 15%;
+}
+
+.walletKey {
+  font-size: 15px;
+    float: left;
+}
+
+.deleteWallet {
+  float: right;
+font-size: 18px;
 }

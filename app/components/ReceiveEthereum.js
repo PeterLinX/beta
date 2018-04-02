@@ -140,7 +140,6 @@ class ReceiveEthereum extends Component {
                             <div className="col-xs-10 top-10">
                                 <input
                                     className="ledger-address font-13"
-                                    onClick={() => clipboard.writeText(this.props.ethPubAddr)}
                                     placeholder={'0x' + this.props.ethPubAddr}
                                     value={'0x' + this.props.ethPubAddr}
                                 />
@@ -157,7 +156,7 @@ class ReceiveEthereum extends Component {
                             <div className="dash-bar">
                                 <div
                                     className="dash-icon-bar"
-                                    onClick={() => clipboard.writeText(this.props.ethPubAddr)}
+                                    onClick={() => clipboard.writeText('0x' + this.props.ethPubAddr)}
                                 >
                                     <div className="icon-border">
                                         <span className="glyphicon glyphicon-duplicate" />

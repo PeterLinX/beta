@@ -493,7 +493,7 @@ class SendAPH extends Component {
 
           <div className="send-notice">
             <p>
-              Sending APH requires a balance of 1 GAS+. Only send APH to a valid
+              Sending APH requires a balance of 0.00000001 GAS+. Only send APH to a valid
               address that supports NEP5+ tokens on the NEO blockchain. When
               sending APH to an exchange please ensure the address supports APH
               tokens.

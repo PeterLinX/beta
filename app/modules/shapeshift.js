@@ -8,9 +8,6 @@ const shapeshiftPk = "5aad9888213a9635ecda3ed8bb2dc45c0a8d95dc36da7533c78f3eba8f
 
 
 // Constants
-export const NEO_STATUS_REQUEST = "NEO_STATUS_REQUEST";
-export const NEO_STATUS_AVAILABLE = "NEO_STATUS_AVAILABLE";
-export const NEO_STATUS_UNAVAILABLE = "NEO_STATUS_UNAVAILABLE";
 
 export const POST_ORDER = "POST_ORDER";
 export const ORDER_SUCCESS = "ORDER_SUCCESS";
@@ -24,9 +21,6 @@ export const PROCESS_SUCCESS = "PROCESS_SUCCESS";
 export const RESET_ORDER = "RESET_ORDER";
 
 // Actions
-export const requestNeoStatus = () => ({ type: NEO_STATUS_REQUEST });
-export const setNeoAvailable = () => ({ type: NEO_STATUS_AVAILABLE });
-export const setNeoUnavailable = (error = null) => ({ type: NEO_STATUS_UNAVAILABLE, error });
 
 export const startOrder = () => ({ type: POST_ORDER });
 export const setOrderSuccess = (txData) => ({ type: ORDER_SUCCESS, txData });
@@ -42,20 +36,6 @@ export const setProcessingSuccess = (completeData) => ({ type: PROCESS_SUCCESS, 
 export const resetOrderState = () => ({ type: RESET_ORDER });
 
 
-// Thunks
-export function fetchNeoStatus() {
-	return async function(dispatch) {
-		dispatch(requestNeoStatus());
-		const url = `${baseUrl}/getcoins`;
-		try {
-			const response = await axios.get(url);
-			const NEO = await response.data.NEO;
-			NEO.status === "available" ? dispatch(setNeoAvailable()) : dispatch(setNeoUnavailable());
-		} catch(e) {
-			dispatch(setNeoUnavailable(e));
-		}
-	};
-}
 
 export function startShiftOrder(shiftConfig) {
 	return async function(dispatch) {
@@ -109,8 +89,6 @@ export function fetchDepositStatus(depositAddress) {
 
 // Reducer
 const initialState = {
-	fetching: false, // true when fetching NEO status or deposit status at address
-	available: false,
 	stage: null, // possible states - null, ordering, depositing, processing, complete
 	txData: {},
 	completeData: {},
@@ -122,12 +100,6 @@ export default (
 	action
 ) => {
 	switch (action.type) {
-	case NEO_STATUS_REQUEST:
-		return { ...state, fetching: true, error: null };
-	case NEO_STATUS_AVAILABLE:
-		return { ...state, fetching: false, available: true, error: null };
-	case NEO_STATUS_UNAVAILABLE:
-		return { ...state, fetching: false, available: false, error: action.error };
 	case POST_ORDER:
 		return { ...state, stage: "ordering" };
 	case ORDER_SUCCESS:

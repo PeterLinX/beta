@@ -494,7 +494,7 @@ class SendWWB extends Component {
 
           <div className="send-notice">
             <p>
-              Sending WWB requires a balance of 1 GAS+. Only send WWB to a valid
+              Sending WWB requires a balance of 0.00000001 GAS+. Only send WWB to a valid
               address that supports NEP5+ tokens on the NEO blockchain. When
               sending WWB to an exchange please ensure the address supports WWB
               tokens.

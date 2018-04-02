@@ -490,7 +490,7 @@ class SendEFX extends Component {
 
           <div className="send-notice">
             <p>
-              Sending EFX requires a balance of 1 GAS+. Only send EFX to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending EFX to an exchange please ensure the address supports EFX tokens.
+              Sending EFX requires a balance of 0.00000001 GAS+. Only send EFX to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending EFX to an exchange please ensure the address supports EFX tokens.
             </p>
             <div className="col-xs-2 top-20" />
             <div className="col-xs-8 top-20">
