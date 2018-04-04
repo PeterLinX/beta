@@ -395,7 +395,7 @@ const StatusMessage = ({ sendAmount, sendTokenScript, handleCancel, handleConfir
         <h2>Confirmation Needed!</h2>
           <strong>Send {sendAmount} Neo to {sendTokenScript}</strong>
           <br /><br />
-          Please confirm the token sale is open before sending funds. Sending funds to a sale that has ended or that has not started may result in your funds being lost.
+          Please double check the hashscript and confirm the token sale is open before sending funds. Sending funds to a sale that has ended or that has not started may result in your funds being lost. This action is irreversible.
 				</div>
 				<div className="row top-30">
 					<div className="col-xs-6">
@@ -549,7 +549,7 @@ class TokenSale extends Component {
         <div className="clearboth" />
 				<div className="col-xs-12">
 					<h4 className="center">
-          ONlY ENTER A VALID HASHSCRIPT.<br />
+          ENTER A VALID HASHSCRIPT ONLY.<br />
           Only click send once. Please follow the rules of the token sale you are participating in. If your NEO address is not pre-qualified for the token sale your funds may be lost. Please follow all local laws as well as all KYC and AML requirements when participating in a token sale. Morpheus S.S. Ltd is not liable for the loss of any tokens. Sending more than the maximum amount may result in the excess tokens being lost. Do not send tokens to a sale that has ended.  Please research every token sale carefully before participating.
 					</h4>
 				</div>

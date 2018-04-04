@@ -63,6 +63,8 @@ import ReceiveEthereum from "./components/ReceiveEthereum";
 import LedgerDashboard from "./containers/LedgerDashboard";
 import LedgerAssetPortfolio from "./components/LedgerAssetPortfolio";
 import AdvancedBitcoin from "./components/AdvancedBitcoin";
+import LoadSegwitBitcoin from "./components/LoadSegwitBitcoin";
+import LoadClassicBitcoin from "./components/LoadClassicBitcoin";
 import AdvancedLitecoin from "./components/AdvancedLitecoin";
 import AdvancedEthereum from "./components/AdvancedEthereum";
 import DisplayPrivateKeysLTC from "./components/DisplayPrivateKeysLTC";
@@ -70,6 +72,8 @@ import DisplayPrivateKeysETH from "./components/DisplayPrivateKeysETH";
 import TokenSale from "./components/TokenSale";
 import RemoveAddress from "./components/RemoveAddress";
 import AdvancedTokenSale from "./components/AdvancedTokenSale";
+import LoadOldBitcoin from "./components/LoadOldBitcoin";
+
 
 export default (
 	<Route path="/" component={App}>
@@ -119,12 +123,15 @@ export default (
 			<Route path="/assetPortfolio" component={AssetPortfolio} />
 			<Route path="/assetPortfolioList" component={AssetPortfolioList} />
 			<Route path="/newBitcoin" component={NewBitcoin} />
+			<Route path="/loadOldBitcoin" component={LoadOldBitcoin} />
 			<Route path="/receiveBitcoin" component={ReceiveBitcoin} />
 			<Route path="/newLitecoin" component={NewLitecoin} />
 			<Route path="/receiveLitecoin" component={ReceiveLitecoin} />
 			<Route path="/newEthereum" component={NewEthereum}/>
 			<Route path="/receiveEthereum" component={ReceiveEthereum}/>
 			<Route path="/advancedBitcoin" component={AdvancedBitcoin}/>
+			<Route path="/loadClassicBitcoin" component={LoadClassicBitcoin}/>
+			<Route path="/loadSegwitBitcoin" component={LoadSegwitBitcoin}/>
 			<Route path="/advancedLitecoin" component={AdvancedLitecoin}/>
 			<Route path="/advancedEthereum" component={AdvancedEthereum}/>
 			<Route path="/DisplayPrivateKeysLTC/:history/:ltc_address/:ltcPrivKey"  component={DisplayPrivateKeysLTC}/>

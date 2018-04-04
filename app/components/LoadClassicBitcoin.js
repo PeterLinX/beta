@@ -6,7 +6,7 @@ import { shell } from "electron";
 import bitcoinLogo from "../img/btc-logo.png";
 import ReactTooltip from "react-tooltip";
 import { Link } from "react-router";
-import axios from 'axios';
+import axios from "axios";
 import { setBtcBalance } from "../modules/wallet";
 import {
     sendEvent,
@@ -17,9 +17,8 @@ import { btcLogIn, btcLoginRedirect } from "../modules/account";
 import { getWIFFromPrivateKey } from "neon-js";
 import { encrypt_wif, decrypt_wif } from "neon-js";
 import { getAccountsFromWIFKey } from "neon-js";
-import { bip39, HDNode, Transaction } from "bitcoinjs-lib";
-
-let wif;
+import { setBtcBlockHeight } from "../modules/metadata";
+import Modal from "react-modal";
 
 var bitcoin = require("bitcoinjs-lib");
 
@@ -28,13 +27,13 @@ var bitcoin = require("bitcoinjs-lib");
 var key = "c6294d6b9e829b485a6dc5842a44e2de5f8e5c57";
 var secret = "073a794fbd48c76ccdde0f9d8fa12c19de554487";
 
-const getBalanceLink = (net, addr) => {
+const getBalanceLink = (net, address) => {
 	let url;
 
 	if (net === "MainNet") {
-		url = "https://blockexplorer.com/api/addr/" + addr + "/balance";
+		url = 'https://blockexplorer.com/api/addr/' + address + '/balance';
 	} else {
-		url = "https://testnet.blockexplorer.com/api/addr/" + addr + "/balance";
+		url = 'https://testnet.blockexplorer.com/api/addr/' + address + '/balance';
 	}
 	return url;
 };
@@ -43,7 +42,8 @@ const openExplorer = srcLink => {
 	shell.openExternal(srcLink);
 };
 
-class NewBitcoin extends Component {
+
+class LoadClassicBitcoin extends Component {
 
 	constructor(props){
 		super(props);
@@ -58,12 +58,12 @@ class NewBitcoin extends Component {
 
 	}
 
-	getSegwitAddress = async () => {
+	getRandomAddress = async ()=>{
 		let opt = this.props.net == "TestNet" ? {network: bitcoin.networks.testnet} : null;
-		var keyPair = bitcoin.ECPair.fromWIF(this.props.wif);
+		//var keyPair = bitcoin.ECPair.fromWIF(this.props.wif);
+    var keyPair = bitcoin.ECPair.fromWIF(this.props.wif);
 		let pubKey = keyPair.getPublicKeyBuffer();
-    var redeemScript = bitcoin.script.witnessPubKeyHash.output.encode(bitcoin.crypto.hash160(pubKey));
-		var scriptPubKey = bitcoin.script.scriptHash.output.encode(bitcoin.crypto.hash160(redeemScript));
+		var scriptPubKey = bitcoin.script.scriptHash.output.encode(bitcoin.crypto.hash160(pubKey));
 		let pa = bitcoin.address.fromOutputScript(scriptPubKey);
 		console.log("btc public address");
 		console.log(pa);
@@ -74,31 +74,41 @@ class NewBitcoin extends Component {
 		});
 	};
 
-  getMnemonicPhrase = async () => {
-    var mnemonic = bip39.entropyToMnemonic("this.props.wif")
-    console.log("btc mnemonic phrase");
-		console.log(mnemonic);
-		this.setState({
-			mnemonic: mnemonic
-		});
-  };
-
 	login = async (dispatch) => {
-		let pk = this.props.wif;
+		let pk = this.state.pk;
 		if(pk == '') {
-			alert("Please input your bitcoin private key");
-			return;
+			 dispatch(sendEvent(false,"Please enter a valid bitcoin private key"));
+      setTimeout(() => dispatch(clearTransactionEvent()), 100);
+      return false;
 		}
 
-		let keyPair = await bitcoin.ECPair.fromWIF(this.props.wif);
-    let pubKey = keyPair.getPublicKeyBuffer();
-    var redeemScript = bitcoin.script.witnessPubKeyHash.output.encode(bitcoin.crypto.hash160(pubKey));
-		var scriptPubKey = bitcoin.script.scriptHash.output.encode(bitcoin.crypto.hash160(redeemScript));
-		let pa = bitcoin.address.fromOutputScript(scriptPubKey);
+		let keyPair = await bitcoin.ECPair.fromWIF(pk, this.props.net == "TestNet" ? bitcoin.networks.testnet : null);
+		let pa = keyPair.getAddress();
 		if(pa != null){
 			dispatch(btcLogIn(pa, pk));
+
 			let balance = await axios.get(getBalanceLink(this.props.net, pa));
+			// alert("address: " + pa + "\nbalance: " + JSON.stringify(balance.data));
 			dispatch(setBtcBalance(parseFloat(balance.data) / 100000000));
+
+            let base,btc_blockheight;
+            if(this.props.net == "MainNet") {
+                base = "http://api.blockcypher.com/v1/btc/main/addrs/"+pa;
+            }	else {
+                base = "http://api.blockcypher.com/v1/btc/test3/addrs/"+pa;
+            }
+
+            let response = await axios.get(base);
+            let trans = response.data.txrefs;
+            if (trans !== undefined) {
+                btc_blockheight =  trans[0].block_height
+            } else {
+                btc_blockheight = 0;
+            }
+
+			dispatch(setBtcBlockHeight(btc_blockheight));
+			// var client = blocktrail.BlocktrailSDK({apiKey: key, apiSecret: secret, network: "BTC", testnet: this.props.net == "TestNet"});
+			// client.address(pa, function(err, address) { alert(address.balance); });
 
 			let redirectUrl = this.props.btcLoginRedirect || "/receiveBitcoin";
 			let self = this;
@@ -131,23 +141,33 @@ class NewBitcoin extends Component {
 								width="38"
 								className="neo-logo logobounce"
 							/>
-							<h2>Your Bitcoin (BTC) Address</h2>
+							<h2>Enter your Bitcoin (BTC) WIF/Private Key</h2>
 							</div>
 
-							<div className="col-xs-9">
-							<p className="btc-notice">Click "Unlock" to view your Bitcoin segwit address then click the "Login" to continue. If you would like to laod funds from another Bitcoin address, please click "Advanced BTC Options".</p>
-							</div>
-
-							<div className="col-xs-3">
-
-							<Link>
-							<div className="btc-button top-20 com-soon" onClick={this.getSegwitAddress}><span className="glyphicon glyphicon-eye-close marg-right-5"/> Unlock</div>
-							</Link>
-
-							</div>
 
 							<div className="col-xs-12 center top-10">
 								<hr className="dash-hr-wide" />
+							</div>
+
+							<div className="col-xs-9">
+
+								<input
+									className="form-control-exchange"
+									placeholder="Enter a Bitcoin private key to load funds"
+									type="password"
+									onChange={
+										(val)=>{
+											this.state.pk = val.target.value;
+										}
+									} />
+
+                  <p className="btc-notice" top-30>Please ensure that your Bitcoin private key is backed up. Entering your BTC private key here will allow you access to your funds. Your private key or BTC address will not be saved.</p>
+							</div>
+
+							<div className="col-xs-3">
+								<Link>
+									<div className="btc-button" onClick={()=>this.login(dispatch)} ><span className="glyphicon glyphicon-eye-close marg-right-5"/> Login</div>
+								</Link>
 							</div>
 
 
@@ -156,6 +176,7 @@ class NewBitcoin extends Component {
 									<div className="col-xs-9">
 									<h4>Bitcoin (BTC) Public Address</h4>
 									<input className="form-control-exchange" value={this.state.pa} />
+									<br/>
 									</div>
 								): null
 							}
@@ -166,21 +187,13 @@ class NewBitcoin extends Component {
 								this.state.pa !== '' ? (
 									<div className="col-xs-3 top-50">
 							<Link>
-								<div className="btc-button" onClick={()=>this.login(dispatch)} ><span className="glyphicon glyphicon-bitcoin marg-right-5"/> Login</div>
+								<div className="btc-button" onClick={()=>this.login(dispatch)} ><span className="glyphicon glyphicon-eye-close marg-right-5"/> Login</div>
 							</Link>
 							</div>
 						): null
 						}
 
 						<div className="clearboth" />
-
-            <div className="col-xs-9 top-30">
-
-            <Link to="/advancedBitcoin">
-              <div className="btc-button"><span className="glyphicon glyphicon-user marg-right-5"/> Advanced BTC Options</div>
-            </Link>
-
-            </div>
 
 			<div className="clearboth" />
 			</div>
@@ -203,5 +216,5 @@ const mapStateToProps = state => ({
 	btcLoginRedirect: state.account.btcLoginRedirect,
 });
 
-NewBitcoin = connect(mapStateToProps)(NewBitcoin);
-export default NewBitcoin;
+LoadClassicBitcoin = connect(mapStateToProps)(LoadClassicBitcoin);
+export default LoadClassicBitcoin;

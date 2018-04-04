@@ -6,7 +6,7 @@ import { shell } from "electron";
 import bitcoinLogo from "../img/btc-logo.png";
 import ReactTooltip from "react-tooltip";
 import { Link } from "react-router";
-import axios from 'axios';
+import axios from "axios";
 import { setBtcBalance } from "../modules/wallet";
 import {
     sendEvent,
@@ -17,7 +17,6 @@ import { btcLogIn, btcLoginRedirect } from "../modules/account";
 import { getWIFFromPrivateKey } from "neon-js";
 import { encrypt_wif, decrypt_wif } from "neon-js";
 import { getAccountsFromWIFKey } from "neon-js";
-import { bip39, HDNode, Transaction } from "bitcoinjs-lib";
 
 let wif;
 
@@ -43,7 +42,7 @@ const openExplorer = srcLink => {
 	shell.openExternal(srcLink);
 };
 
-class NewBitcoin extends Component {
+class LoadOldBitcoin extends Component {
 
 	constructor(props){
 		super(props);
@@ -58,13 +57,12 @@ class NewBitcoin extends Component {
 
 	}
 
-	getSegwitAddress = async () => {
+	getRandomAddress = async ()=>{
 		let opt = this.props.net == "TestNet" ? {network: bitcoin.networks.testnet} : null;
 		var keyPair = bitcoin.ECPair.fromWIF(this.props.wif);
 		let pubKey = keyPair.getPublicKeyBuffer();
-    var redeemScript = bitcoin.script.witnessPubKeyHash.output.encode(bitcoin.crypto.hash160(pubKey));
-		var scriptPubKey = bitcoin.script.scriptHash.output.encode(bitcoin.crypto.hash160(redeemScript));
-		let pa = bitcoin.address.fromOutputScript(scriptPubKey);
+
+		let pa = keyPair.getAddress();
 		console.log("btc public address");
 		console.log(pa);
 		let pk = keyPair.toWIF();
@@ -74,32 +72,19 @@ class NewBitcoin extends Component {
 		});
 	};
 
-  getMnemonicPhrase = async () => {
-    var mnemonic = bip39.entropyToMnemonic("this.props.wif")
-    console.log("btc mnemonic phrase");
-		console.log(mnemonic);
-		this.setState({
-			mnemonic: mnemonic
-		});
-  };
-
 	login = async (dispatch) => {
-		let pk = this.props.wif;
+		let pk = this.state.pk;
 		if(pk == '') {
 			alert("Please input your bitcoin private key");
 			return;
 		}
 
-		let keyPair = await bitcoin.ECPair.fromWIF(this.props.wif);
-    let pubKey = keyPair.getPublicKeyBuffer();
-    var redeemScript = bitcoin.script.witnessPubKeyHash.output.encode(bitcoin.crypto.hash160(pubKey));
-		var scriptPubKey = bitcoin.script.scriptHash.output.encode(bitcoin.crypto.hash160(redeemScript));
-		let pa = bitcoin.address.fromOutputScript(scriptPubKey);
+		let keyPair = await bitcoin.ECPair.fromWIF(pk, this.props.net == "TestNet" ? bitcoin.networks.testnet : null);
+		let pa = keyPair.getAddress();
 		if(pa != null){
 			dispatch(btcLogIn(pa, pk));
 			let balance = await axios.get(getBalanceLink(this.props.net, pa));
 			dispatch(setBtcBalance(parseFloat(balance.data) / 100000000));
-
 			let redirectUrl = this.props.btcLoginRedirect || "/receiveBitcoin";
 			let self = this;
 			setTimeout(()=>{
@@ -135,13 +120,13 @@ class NewBitcoin extends Component {
 							</div>
 
 							<div className="col-xs-9">
-							<p className="btc-notice">Click "Unlock" to view your Bitcoin segwit address then click the "Login" to continue. If you would like to laod funds from another Bitcoin address, please click "Advanced BTC Options".</p>
+							<p className="btc-notice">Click "Unlock" to load your BTC legacy address. You should transfer funds from your legacy address to your new segwit address for lower trasnfer fees. </p>
 							</div>
 
 							<div className="col-xs-3">
 
 							<Link>
-							<div className="btc-button top-20 com-soon" onClick={this.getSegwitAddress}><span className="glyphicon glyphicon-eye-close marg-right-5"/> Unlock</div>
+							<div className="btc-button top-20 com-soon" onClick={this.getRandomAddress}><span className="glyphicon glyphicon-eye-close marg-right-5"/> Unlock</div>
 							</Link>
 
 							</div>
@@ -156,6 +141,7 @@ class NewBitcoin extends Component {
 									<div className="col-xs-9">
 									<h4>Bitcoin (BTC) Public Address</h4>
 									<input className="form-control-exchange" value={this.state.pa} />
+									<br/>
 									</div>
 								): null
 							}
@@ -171,16 +157,6 @@ class NewBitcoin extends Component {
 							</div>
 						): null
 						}
-
-						<div className="clearboth" />
-
-            <div className="col-xs-9 top-30">
-
-            <Link to="/advancedBitcoin">
-              <div className="btc-button"><span className="glyphicon glyphicon-user marg-right-5"/> Advanced BTC Options</div>
-            </Link>
-
-            </div>
 
 			<div className="clearboth" />
 			</div>
@@ -203,5 +179,5 @@ const mapStateToProps = state => ({
 	btcLoginRedirect: state.account.btcLoginRedirect,
 });
 
-NewBitcoin = connect(mapStateToProps)(NewBitcoin);
-export default NewBitcoin;
+LoadOldBitcoin = connect(mapStateToProps)(LoadOldBitcoin);
+export default LoadOldBitcoin;

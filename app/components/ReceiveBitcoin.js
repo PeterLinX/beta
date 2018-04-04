@@ -70,7 +70,7 @@ class ReceiveBitcoin extends Component {
               refreshBalance(
                 this.props.dispatch,
                 this.props.net,
-                this.props.btc_address
+                this.props.btcPubAddr
               )
             }
           >
@@ -161,12 +161,12 @@ class ReceiveBitcoin extends Component {
                 View On Blockchain
 								</div>
 
-								<Link to="/advancedBitcoin">
-								<div className="dash-icon-bar not-active">
+								<Link to="/sendBTC">
+								<div className="dash-icon-bar">
 									<div className="icon-border">
-										<span className="glyphicon glyphicon-user" />
+										<span className="glyphicon glyphicon-send" />
 									</div>
-                Advanced BTC Options
+                Send Bitcoin (BTC)
 								</div>
 								</Link>
 

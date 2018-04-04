@@ -209,7 +209,7 @@ const sendRhpTransaction = async (dispatch, net, selfAddress, wif) => {
   } else {
     script = TOKENS_TEST.RHP;
   }
-  const token_response = await api.nep5.getToken("http://seed3.neo.org:10332", script, selfAddress);
+  const token_response = await api.nep5.getToken(endpoint, script, selfAddress);
   const rhp_balance = token_response.balance;
   console.log("token_response = " + JSON.stringify(token_response));
   const tokenBalances = {

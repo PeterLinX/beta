@@ -44,7 +44,7 @@ class PortLRC extends Component {
 									Math.floor(this.props.lrc * 100000) / 100000
 								).format("0,0.0000")} <span className="eth-price"> LRC</span></h3>
 								<hr className="dash-hr" />
-								<span className="market-price">$0.00 USD</span>
+								<span className="market-price">Coming Soon!</span>
 							</div></Link>
 							</div>
 
@@ -55,7 +55,8 @@ class PortLRC extends Component {
 }
 
 const mapStateToProps = state => ({
-	lrc: state.wallet.Lrc
+	lrc: state.wallet.Lrc,
+	marketLRCPrice: state.wallet.marketLRCPrice
 });
 
 PortLRC = connect(mapStateToProps)(PortLRC);

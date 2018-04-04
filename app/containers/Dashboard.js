@@ -164,7 +164,6 @@ componentDidMount = () => {
                     <span className="glyphicon glyphicon-send" /> Send
                   </Link>
                 </li>
-
                 <li>
                   <Link to={"/receive"} activeClassName="active">
                     <span className="glyphicon glyphicon-qrcode" /> Receive
@@ -176,7 +175,7 @@ componentDidMount = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/tokenSale"} activeClassName="active">
+                  <Link to={"/advancedTokenSale"} activeClassName="active">
                     <span className="glyphicon glyphicon-heart" /> Token Sale
                   </Link>
                 </li>
@@ -194,7 +193,7 @@ componentDidMount = () => {
             </div>
           </div>
           <span className="dashnetwork center">
-          Version: 0.0.55<br />
+          Version: 0.0.56<br />
           Network: {this.props.net}<br />
           Neo Block: {this.props.blockHeight}<br />
           <br />
