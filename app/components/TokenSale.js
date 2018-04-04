@@ -21,8 +21,6 @@ import {
 } from "../modules/transactions";
 import {oldMintTokens} from "../core/oldMintTokens";
 import { Link } from "react-router";
-import Select from "react-select";
-import "react-select/dist/react-select.css";
 
 let payment_method, token_script, amount;
 
@@ -479,12 +477,6 @@ class TokenSale extends Component {
 				<select
 				 name="select-profession"
 				 id="select-profession"
-         onBlurResetsInput={false}
-         onSelectResetsInput={false}
-         escapeClearsValue={false}
-         onCloseResetsInput={false}
-         onBlurResetsInput={false}
-         onSelectResetsInput={false}
          multi={false}
          searchable={true}
          clearable={false}
