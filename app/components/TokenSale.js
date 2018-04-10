@@ -477,11 +477,6 @@ class TokenSale extends Component {
 				<select
 				 name="select-profession"
 				 id="select-profession"
-         multi={false}
-         searchable={true}
-         clearable={false}
-         autofocus={false}
-         openAfterFocus={false}
 				 className=""
 				 ref={node => (token_script = node)}
 				>

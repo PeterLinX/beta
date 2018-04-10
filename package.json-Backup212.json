@@ -1,0 +1,201 @@
+{
+  "name": "Morpheus-Beta",
+  "version": "0.0.56",
+  "license": "GPL-3.0",
+  "main": "./main.js",
+  "description": "Wallet for NEO, BTC, LTC and ETH.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MorpheusWallet/beta.git"
+  },
+  "author": "Morpheus S.S. Ltd",
+  "scripts": {
+    "postinstall": "cross-env ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true electron-builder install-app-deps",
+    "start": "electron --enable-logging .",
+    "start-mock": "SHAPESHIFT_API=mock electron .",
+    "assets": "webpack",
+    "assets-watch": "webpack --watch",
+    "test": "jest",
+    "test-watch": "jest --watch",
+    "pack": "build --dir",
+    "dist": "build -m",
+    "dist-win": "build -w --ia32",
+    "lint-fix": "eslint app/** --fix"
+  },
+  "keywords": [],
+  "build": {
+    "appId": "com.electron.morpheus",
+    "files": [
+      "./main.js",
+      "dist/index.html",
+      "dist/bundle.js",
+      "dist/"
+    ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "icon": "build/icon.png",
+      "target": [
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    }
+  },
+  "dependencies": {
+    "@cityofzion/neon-js": "^3.4.0",
+    "@types/bitcoinjs-lib": "^3.3.3",
+    "acorn": "^5.5.3",
+    "axios": "^0.17.0",
+    "base-x": "^3.0.2",
+    "bigi": "^1.4.2",
+    "bindings": "^1.3.0",
+    "bip39": "^2.5.0",
+    "bitcoinjs-lib": "^3.3.2",
+    "bitcore-mnemonic": "^1.5.0",
+    "bitgo": "^4.23.0",
+    "blockcypher": "^0.2.0",
+    "bootstrap": "^3.3.7",
+    "bs58check": "^2.0.2",
+    "buffer": "^5.1.0",
+    "chart.js": "^2.7.2",
+    "coinkey": "^2.0.0",
+    "colors": "^1.2.0",
+    "cross-env": "^5.1.4",
+    "crypto-js": "^3.1.9-1",
+    "ecurve": "^1.0.5",
+    "electron-context-menu": "^0.9.1",
+    "electron-input-menu": "^2.1.0",
+    "electron-json-storage": "^4.0.2",
+    "electron-save-file": "^1.0.2",
+    "elliptic": "^6.4.0",
+    "enzyme-adapter-react-15": "^1.0.1",
+    "eslint-plugin-react": "^7.7.0",
+    "ethereum-address": "0.0.4",
+    "ethereumjs-util": "^5.1.5",
+    "file-loader": "^0.9.0",
+    "fs": "0.0.1-security",
+    "isomorphic-fetch": "^2.2.1",
+    "jayson": "^2.0.1",
+    "js-scrypt": "^0.2.0",
+    "ledger-node-js-api": "0.0.0",
+    "ledgerco": "^1.1.3",
+    "lodash": "^4.17.4",
+    "moment": "^2.19.1",
+    "neon-js": "git+https://github.com/CityOfZion/neon-js.git#e1cc32b710cd71e0cf12b3172a0bade3af813c1b",
+    "node-hid": "0.7.2",
+    "node-loader": "^0.6.0",
+    "numeral": "^2.0.6",
+    "pngjs": "^3.3.2",
+    "prop-types": "^15.6.0",
+    "qrcode": "^0.8.2",
+    "qrcode.react": "^0.7.2",
+    "react": "^15.6.2",
+    "react-ace": "^5.0.1",
+    "react-bootstrap-modal": "^4.0.0",
+    "react-chartjs-2": "^2.6.4",
+    "react-collapsible": "^2.0.4",
+    "react-countup": "^3.0.3",
+    "react-cursor-zoom": "^1.2.2",
+    "react-data-grid": "^2.0.33",
+    "react-dom": "^15.0.2",
+    "react-grid-layout": "^0.16.6",
+    "react-hot-loader": "^3.0.0-beta.2",
+    "react-icons": "^2.2.5",
+    "react-modal": "^3.3.1",
+    "react-redux": "^4.4.5",
+    "react-responsive-accordion": "^1.0.0",
+    "react-router": "^2.4.0",
+    "react-router-redux": "^4.0.4",
+    "react-sanfona": "^1.1.0",
+    "react-spinkit": "^3.0.0",
+    "react-split-pane": "^0.1.77",
+    "react-syntax-highlighter": "^5.1.3",
+    "react-tooltip": "^3.3.0",
+    "redux": "^3.5.2",
+    "redux-thunk": "^2.2.0",
+    "rss-to-json": "^1.0.4",
+    "secure-random": "^1.1.1",
+    "shebang-loader": "^0.0.1",
+    "socket.io-client": "^1.4.6",
+    "validator": "^9.4.1",
+    "wallet-address-validator": "^0.1.3",
+    "wif": "^2.0.6"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.3.6",
+    "axios-mock-adapter": "^1.14.1",
+    "babel-core": "^6.8.0",
+    "babel-eslint": "^6.0.4",
+    "babel-loader": "^6.2.4",
+    "babel-polyfill": "^6.8.0",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "css-loader": "^0.23.1",
+    "electron": "^1.8.4",
+    "electron-builder": "^20.4.1",
+    "electron-installer-dmg": "^0.2.1",
+    "electron-packager": "^11.1.0",
+    "enzyme": "^3.1.0",
+    "enzyme-to-json": "^3.3.1",
+    "eslint": "^2.13.1",
+    "eslint-config-strongloop": "^2.1.0",
+    "eslint-loader": "^1.5.0",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "history": "^4.7.2",
+    "html-webpack-plugin": "^2.16.1",
+    "jest": "^20.0.4",
+    "json-loader": "^0.5.4",
+    "node-sass": "^4.7.2",
+    "postcss-loader": "^0.9.1",
+    "prettier": "1.11.1",
+    "react-addons-test-utils": "^15.0.2",
+    "react-test-renderer": "^15.6.1",
+    "redux-devtools": "^3.2.0",
+    "redux-devtools-dock-monitor": "^1.1.1",
+    "redux-devtools-log-monitor": "^1.0.11",
+    "redux-logger": "^3.0.6",
+    "redux-mock-store": "^1.5.1",
+    "rimraf": "^2.5.2",
+    "sass-loader": "^3.2.0",
+    "stats-webpack-plugin": "^0.3.1",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.0",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js"
+    },
+    "testPathIgnorePatterns": [
+      "__tests__/setupTests.js"
+    ],
+    "unmockedModulePathPatterns": [
+      "node_modules/react/",
+      "node_modules/enzyme/"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/__tests__/setupTests.js"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^3.0.3"
+  }
+}

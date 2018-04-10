@@ -20,9 +20,9 @@ app.on("ready", () => {
     width: 1080,
     height: 800,
     minHeight: 800,
-    maxHeight: 860,
+    maxHeight: 900,
     minWidth: 1080,
-    maxWidth: 1280,
+    maxWidth: 1440,
     icon: path.join(__dirname, "icons/png/64x64.png"),
     webPreferences: {
       webSecurity: false

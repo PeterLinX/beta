@@ -16,6 +16,8 @@ import TransactionHistory from "./components/TransactionHistory";
 import TransactionHistoryBTC from "./components/TransactionHistoryBTC";
 import TransactionHistoryLTC from "./components/TransactionHistoryLTC";
 import TransactionHistoryETH  from "./components/TransactionHistoryETH";
+import TransactionHistoryLRC from "./components/TransactionHistoryLRC";
+import TransactionHistoryEOS from "./components/TransactionHistoryEOS";
 import DisplayWalletKeys from "./components/DisplayWalletKeys";
 import CreateWallet from "./components/CreateWallet";
 import EncryptKey from "./components/EncryptKey";
@@ -52,6 +54,7 @@ import SendHP from "./components/NepTokens/SendHP";
 import SendBTC from "./components/SendBTC";
 import SendLTC from "./components/SendLTC";
 import SendETH from "./components/SendETH";
+import SendEOS from "./components/SendEOS";
 import AssetPortfolio from "./components/AssetPortfolio";
 import AssetPortfolioList from "./components/AssetPortfolioList";
 import NewBitcoin from "./components/NewBitcoin";
@@ -63,8 +66,6 @@ import ReceiveEthereum from "./components/ReceiveEthereum";
 import LedgerDashboard from "./containers/LedgerDashboard";
 import LedgerAssetPortfolio from "./components/LedgerAssetPortfolio";
 import AdvancedBitcoin from "./components/AdvancedBitcoin";
-import LoadSegwitBitcoin from "./components/LoadSegwitBitcoin";
-import LoadClassicBitcoin from "./components/LoadClassicBitcoin";
 import AdvancedLitecoin from "./components/AdvancedLitecoin";
 import AdvancedEthereum from "./components/AdvancedEthereum";
 import DisplayPrivateKeysLTC from "./components/DisplayPrivateKeysLTC";
@@ -72,8 +73,7 @@ import DisplayPrivateKeysETH from "./components/DisplayPrivateKeysETH";
 import TokenSale from "./components/TokenSale";
 import RemoveAddress from "./components/RemoveAddress";
 import AdvancedTokenSale from "./components/AdvancedTokenSale";
-import LoadOldBitcoin from "./components/LoadOldBitcoin";
-
+import CryptoCity from "./components/CryptoCity";
 
 export default (
 	<Route path="/" component={App}>
@@ -105,6 +105,7 @@ export default (
 			<Route path="/sendBTC" component={SendBTC} />
 			<Route path="/sendLTC" component={SendLTC} />
 			<Route path="/sendETH" component={SendETH} />
+			<Route path="/sendEOS" component={SendEOS}/>
 			<Route path="/receive" component={Receive} />
 			<Route path="/settings" component={Settings} />
 			<Route path="/removeAddress" component={RemoveAddress} />
@@ -117,21 +118,21 @@ export default (
 			<Route path="/transactionHistoryBTC" component={TransactionHistoryBTC} />
 			<Route path="/transactionHistoryLTC" component={TransactionHistoryLTC} />
 			<Route path="/transactionHistoryETH" component={TransactionHistoryETH}/>
+			<Route path="/transactionHistoryLRC" component={TransactionHistoryLRC}/>
+			<Route path="/transactionHistoryEOS" component={TransactionHistoryEOS}/>
 			<Route path="/support" component={Support} />
 			<Route path="/tokens" component={Tokens} />
 			<Route path="/sale" component={Sale} />
 			<Route path="/assetPortfolio" component={AssetPortfolio} />
 			<Route path="/assetPortfolioList" component={AssetPortfolioList} />
 			<Route path="/newBitcoin" component={NewBitcoin} />
-			<Route path="/loadOldBitcoin" component={LoadOldBitcoin} />
 			<Route path="/receiveBitcoin" component={ReceiveBitcoin} />
 			<Route path="/newLitecoin" component={NewLitecoin} />
 			<Route path="/receiveLitecoin" component={ReceiveLitecoin} />
 			<Route path="/newEthereum" component={NewEthereum}/>
 			<Route path="/receiveEthereum" component={ReceiveEthereum}/>
 			<Route path="/advancedBitcoin" component={AdvancedBitcoin}/>
-			<Route path="/loadClassicBitcoin" component={LoadClassicBitcoin}/>
-			<Route path="/loadSegwitBitcoin" component={LoadSegwitBitcoin}/>
+			<Route path="/cryptoCity" component={CryptoCity}/>
 			<Route path="/advancedLitecoin" component={AdvancedLitecoin}/>
 			<Route path="/advancedEthereum" component={AdvancedEthereum}/>
 			<Route path="/DisplayPrivateKeysLTC/:history/:ltc_address/:ltcPrivKey"  component={DisplayPrivateKeysLTC}/>

@@ -17,11 +17,13 @@ import { btcLogIn, btcLoginRedirect } from "../modules/account";
 import { getWIFFromPrivateKey } from "neon-js";
 import { encrypt_wif, decrypt_wif } from "neon-js";
 import { getAccountsFromWIFKey } from "neon-js";
-import { bip39, HDNode, Transaction } from "bitcoinjs-lib";
+import { HDNode, Transaction } from "bitcoinjs-lib";
 
 let wif;
 
 var bitcoin = require("bitcoinjs-lib");
+var bip39 = require("bip39");
+var wif_s = require("wif");
 
 // var blocktrail = require('blocktrail-sdk');
 
@@ -49,7 +51,8 @@ class NewBitcoin extends Component {
 		super(props);
 		this.state={
 			pa: '',
-			pk: ''
+			pk: '',
+            mnemonic: ''
 		}
 
 		if(this.props.btcLoggedIn){
@@ -62,26 +65,44 @@ class NewBitcoin extends Component {
 		let opt = this.props.net == "TestNet" ? {network: bitcoin.networks.testnet} : null;
 		var keyPair = bitcoin.ECPair.fromWIF(this.props.wif);
 		let pubKey = keyPair.getPublicKeyBuffer();
-    var redeemScript = bitcoin.script.witnessPubKeyHash.output.encode(bitcoin.crypto.hash160(pubKey));
+    	var redeemScript = bitcoin.script.witnessPubKeyHash.output.encode(bitcoin.crypto.hash160(pubKey));
 		var scriptPubKey = bitcoin.script.scriptHash.output.encode(bitcoin.crypto.hash160(redeemScript));
 		let pa = bitcoin.address.fromOutputScript(scriptPubKey);
 		console.log("btc public address");
 		console.log(pa);
 		let pk = keyPair.toWIF();
+        console.log("btc mnemonic phrase");
+        var obj = wif_s.decode(pk);
+        let str = '';
+        let str_data = obj.privateKey;
+        for (let i = 0; i < str_data.length; i++) {
+            //let op = str_data[i] % 16
+        	let s = str_data[i].toString(16);
+        	str = str + s;
+		}
+        var mnemonic = bip39.entropyToMnemonic(str);
+        var seed = bip39.mnemonicToSeed(mnemonic);
+        var root = bitcoin.HDNode.fromSeedBuffer(seed);
 		this.setState({
 			pa: pa,
 			pk: pk,
+            mnemonic: mnemonic
 		});
+
 	};
 
   getMnemonicPhrase = async () => {
-    var mnemonic = bip39.entropyToMnemonic("this.props.wif")
+    var mnemonic = bip39.entropyToMnemonic(this.state.pk);
+    var seed = bip39.mnemonicToSeed(mnemonic);
+    var root = bitcoin.HDNode.fromSeedBuffer(seed);
     console.log("btc mnemonic phrase");
 		console.log(mnemonic);
 		this.setState({
 			mnemonic: mnemonic
 		});
   };
+
+
 
 	login = async (dispatch) => {
 		let pk = this.props.wif;
@@ -156,6 +177,8 @@ class NewBitcoin extends Component {
 									<div className="col-xs-9">
 									<h4>Bitcoin (BTC) Public Address</h4>
 									<input className="form-control-exchange" value={this.state.pa} />
+                  <br />
+                  <textarea className="form-control-exchange" value={this.state.mnemonic} />
 									</div>
 								): null
 							}

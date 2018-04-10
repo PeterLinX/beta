@@ -979,6 +979,42 @@ class AssetPortolio extends Component {
 
 
 
+						<div className="col-12">
+
+							<div className="port-logo-col-list">
+								<img
+									src={zptLogo}
+									alt=""
+									width="38"
+									className="port-logos"
+								/>
+								<hr className="dash-hr" />
+								<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendEOS"><span className=" glyphicon glyphicon-send "/></Link></h3>
+							</div>
+
+							<div className="port-content-list">
+								<span className="font26">Eos </span>
+								<input
+									className="ledger-address"
+									onClick={() => clipboard.writeText(this.props.ethPubAddr)}
+									id="center"
+									placeholder={this.props.ethPubAddr}
+									value={this.props.ethPubAddr}
+								/>
+							</div>
+
+							<div className="port-price-col-list">
+								<span className="market-price">Eos {numeral(this.props.marketEOSPrice).format("$0,0.00")}</span>
+								<h3>{numeral(
+									Math.floor(this.props.eos * 100000) / 100000
+								).format("0,0.0000")} <span className="neo-price"> EOS</span></h3>
+								<hr className="dash-hr" />
+								<span className="market-price">{numeral(this.props.eos*this.props.marketEOSPrice).format("$0,0.00")} USD</span>
+							</div>
+						</div>
+
+
+
 				</div>
 				</div>
 			</div>
@@ -1005,6 +1041,7 @@ const mapStateToProps = state => ({
 	tky: state.wallet.Tky,
 	tnc: state.wallet.Tnc,
 	zpt: state.wallet.Zpt,
+	eos: state.wallet.Eos,
 	address: state.account.address,
 	net: state.metadata.network,
 	price: state.wallet.price,
@@ -1024,6 +1061,7 @@ const mapStateToProps = state => ({
 	marketTKYPrice: state.wallet.marketTKYPrice,
 	marketXMRPrice: state.wallet.marketXMRPrice,
 	marketZPTPrice: state.wallet.marketZPTPrice,
+    marketEOSPrice: state.wallet.marketEOSPrice,
 	btcLoggedIn: state.account.btcLoggedIn,
 	btcPrivKey: state.account.btcPrivKey,
 	btcPubAddr: state.account.btcPubAddr,

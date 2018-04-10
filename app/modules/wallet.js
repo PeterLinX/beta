@@ -3,12 +3,16 @@ export const SET_BALANCE = "SET_BALANCE";
 export const SET_BTC_BALANCE = "SET_BTC_BALANCE";
 export const SET_LTC_BALANCE = "SET_LTC_BALANCE";
 export const SET_ETH_BALANCE = "SET_ETH_BALANCE";
+export const SET_LRC_BALANCE = "SET_LRC_BALANCE";
+export const SET_EOS_BALANCE = "SET_EOS_BALANCE";
 export const SET_MARKET_PRICE = "SET_MARKET_PRICE";
 export const RESET_PRICE = "RESET_PRICE";
 export const SET_TRANSACTION_HISTORY = "SET_TRANSACTION_HISTORY";
 export const SET_BTC_TRANSACTION_HISTORY = "SET_BTC_TRANSACTION_HISTORY";
 export const SET_LTC_TRANSACTION_HISTORY = "SET_LTC_TRANSACTION_HISTORY";
 export const SET_ETH_TRANSACTION_HISTORY = "SET_ETH_TRANSACTION_HISTORY";
+export const SET_LRC_TRANSACTION_HISTORY = "SET_LRC_TRANSACTION_HISTORY";
+export const SET_EOS_TRANSACTION_HISTORY = "SET_EOS_TRANSACTION_HISTORY";
 export const SET_COMBINED_BALANCE = "SET_COMBINED_BALANCE";
 
 // Actions
@@ -22,6 +26,7 @@ export function setBalance(
 	cpx,
 	dbc,
 	gala,
+	lrn,
 	obt,
 	ont,
 	pkc,
@@ -44,17 +49,16 @@ export function setBalance(
   marketBTCPrice,
 	marketDBCPrice,
   marketELAPrice,
+	marketEOSPrice,
 	marketETHPrice,
 	marketLTCPrice,
-	marketLRCPrice,
 	marketONTPrice,
   marketQLCPrice,
   marketRPXPrice,
   marketTNCPrice,
   marketTKYPrice,
 	marketXMRPrice,
-  marketZPTPrice,
-
+  marketZPTPrice
 ) {
 	return {
 		type: SET_BALANCE,
@@ -67,6 +71,7 @@ export function setBalance(
 		Cpx: cpx,
 		Dbc: dbc,
 		Gala: gala,
+		Lrn: lrn,
 		Obt: obt,
 		Ont: ont,
 		Pkc: pkc,
@@ -88,18 +93,33 @@ export function setBalance(
 		marketACATPrice: marketACATPrice,
 		marketBTCPrice: marketBTCPrice,
 		marketDBCPrice: marketDBCPrice,
-    marketELAPrice: marketELAPrice,
+  	marketELAPrice: marketELAPrice,
+		marketEOSPrice: marketEOSPrice,
 		marketETHPrice: marketETHPrice,
 		marketLTCPrice: marketLTCPrice,
-		marketLRCPrice: marketLRCPrice,
 		marketONTPrice: marketONTPrice,
 		marketQLCPrice: marketQLCPrice,
 		marketRPXPrice: marketRPXPrice,
 		marketTNCPrice: marketTNCPrice,
 		marketTKYPrice: marketTKYPrice,
 		marketXMRPrice: marketXMRPrice,
-    marketZPTPrice: marketZPTPrice,
+    marketZPTPrice: marketZPTPrice
+
 	};
+}
+
+export function setEosBalance(balance) {
+    return {
+        type: SET_EOS_BALANCE,
+        balance: balance
+    };
+}
+
+export function setLrcBalance(balance) {
+    return {
+        type: SET_LRC_BALANCE,
+        balance: balance
+    };
 }
 
 export function setLtcBalance(balance) {
@@ -143,6 +163,20 @@ export function resetPrice() {
 	};
 }
 
+export function setEosTransactionHistory(eos_transactions) {
+    return {
+        type: SET_EOS_TRANSACTION_HISTORY,
+        eos_transactions
+    };
+}
+
+export function setLrcTransactionHistory(lrc_transactions) {
+    return {
+        type: SET_LRC_TRANSACTION_HISTORY,
+        lrc_transactions
+    };
+}
+
 export function setBtcTransactionHistory(btc_transactions) {
 	return {
 		type: SET_BTC_TRANSACTION_HISTORY,
@@ -183,6 +217,7 @@ export default (
 		Cpx: 0,
 		Dbc: 0,
 		Gala: 0,
+		Lrn: 0,
 		Obt: 0,
 		Ont: 0,
 		Pkc: 0,
@@ -196,6 +231,8 @@ export default (
 		Qlc: 0,
 		Btc: 0,
 		Ltc: 0,
+		Lrc: 0,
+		Eos: 0,
 		Eth: 0,
 		Rht: 0,
 		Nrve: 0,
@@ -203,6 +240,8 @@ export default (
 		btc_transactions: [],
 		ltc_transactions: [],
 		eth_transactions: [],
+    eos_transactions: [],
+		lrc_transactions: [],
 		price: "--",
 		combined: "--",
 		gasPrice: "--",
@@ -224,6 +263,7 @@ export default (
 			Cpx: action.Cpx,
 			Dbc: action.Dbc,
 			Gala: action.Gala,
+			Lrn: action.Lrn,
 			Obt: action.Obt,
 			Ont: action.Ont,
 			Pkc: action.Pkc,
@@ -246,10 +286,10 @@ export default (
 			marketACATPrice: action.marketACATPrice,
 		  marketDBCPrice: action.marketDBCPrice,
 		  marketELAPrice: action.marketELAPrice,
+			marketEOSPrice: action.marketEOSPrice,
 		  marketETHPrice: action.marketETHPrice,
 			marketGALAPrice: action.marketGALAPrice,
 		  marketLTCPrice: action.marketLTCPrice,
-		  marketLRCPrice: action.marketLRCPrice,
 			marketONTPrice: action.marketONTPrice,
 		  marketQLCPrice: action.marketQLCPrice,
 			marketRPXPrice: action.marketRPXPrice,
@@ -284,6 +324,16 @@ export default (
 			...state,
 			eth_transactions: action.eth_transactions
 		};
+	case SET_LRC_TRANSACTION_HISTORY:
+		return {
+			...state,
+			lrc_transactions: action.lrc_transactions
+		}
+	case SET_EOS_TRANSACTION_HISTORY:
+		return {
+			...state,
+			eos_transactions: action.eos_transactions
+		}
 	case SET_BTC_BALANCE:
 		return {
 			...state,
@@ -299,6 +349,16 @@ export default (
 			...state,
 			Eth:action.balance
 		};
+	case SET_LRC_BALANCE:
+		return {
+			...state,
+			Lrc: action.balance
+		}
+	case SET_EOS_BALANCE:
+		return {
+			...state,
+			Eos: action.balance
+		}
 	default:
 		return state;
 	}

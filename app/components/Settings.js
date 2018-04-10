@@ -203,11 +203,10 @@ class Settings extends Component {
                 </Link>
               </div>
 
-
-              <div className="col-xs-2 center com-soon"
-              data-tip
-              data-for="comSoon"
+              <Link to="/LoginLedgerNanoS"
+              onClick={() => dispatch(logout())}
               >
+              <div className="col-xs-2 center">
                 <div className="dash-icon-bar">
                   <div className="icon-border">
                     <div className="ledger-sm" />
@@ -215,17 +214,7 @@ class Settings extends Component {
                   Login with Ledger
                 </div>
               </div>
-
-              <ReactTooltip
-                className="solidTip"
-                id="comSoon"
-                place="top"
-                type="light"
-                effect="solid"
-              >
-                <span>Coming Soon!</span>
-              </ReactTooltip>
-
+              </Link>
 
               <div
                 className="col-xs-2 center"

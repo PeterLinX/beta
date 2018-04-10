@@ -1826,3 +1826,19 @@ border-bottom: 1px solid #2b2b2b;
   float: right;
 font-size: 18px;
 }
+
+.cryptoCity {
+  width: 100%;
+    position: fixed;
+    z-index: -1;
+    right: 0px;
+    bottom: 0px;
+    padding: 0px;
+    max-height: 800px;
+    min-height: 900px;
+    background: url("../img/crypto-city-big.jpg") no-repeat left;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}

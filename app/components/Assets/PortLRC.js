@@ -39,12 +39,12 @@ class PortLRC extends Component {
 							</div>
 							<Link to="/loopring">
 							<div className="port-price-col">
-								<span className="market-price">Loopring {numeral(this.props.marketLRCPrice).format("$0,0.00")}</span>
+								<span className="market-price">Loopring (NEP) {numeral(this.props.marketLRNPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
-									Math.floor(this.props.lrc * 100000) / 100000
-								).format("0,0.0000")} <span className="eth-price"> LRC</span></h3>
+									Math.floor(this.props.lrn * 100000) / 100000
+								).format("0,0.0000")} <span className="eth-price"> LRN</span></h3>
 								<hr className="dash-hr" />
-								<span className="market-price">Coming Soon!</span>
+								<span className="market-price">$0.00 USD</span>
 							</div></Link>
 							</div>
 
@@ -55,8 +55,8 @@ class PortLRC extends Component {
 }
 
 const mapStateToProps = state => ({
-	lrc: state.wallet.Lrc,
-	marketLRCPrice: state.wallet.marketLRCPrice
+	lrc: state.wallet.Lrn,
+	marketLRNPrice: state.wallet.marketLRNPrice
 });
 
 PortLRC = connect(mapStateToProps)(PortLRC);
