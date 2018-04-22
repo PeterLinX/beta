@@ -126,7 +126,7 @@
 }
 
 .dash-panel {
-  margin: 20px 0 0 0;
+  margin: 30px 0 0 0;
   width: auto;
   min-height: 360px;
   padding: 30px 30px 30px 30px;
@@ -384,7 +384,7 @@ ul {
 
 #BTCtransactionList {
   list-style-type: none;
-  height: 100px;
+  height: 80px;
   width: 100%;
   -webkit-padding-start: 0px;
   overflow-y: auto;
@@ -1229,7 +1229,7 @@ webview {
 .col-2 {
   width: 46%;
   float: left;
-  height: 260px;
+  height: 250px;
   color: #9d9d9d;
   margin: 10px 2%;
   padding: 20px 30px;
@@ -1708,6 +1708,7 @@ a:focus, a:hover, a:active {
     width: 100%;
     -webkit-padding-start: 0px;
     overflow-y: auto;
+    overflow-x: hidden;
     -webkit-app-region: no-drag;
 }
 
@@ -1827,18 +1828,118 @@ border-bottom: 1px solid #2b2b2b;
 font-size: 18px;
 }
 
-.cryptoCity {
-  width: 100%;
-    position: fixed;
-    z-index: -1;
-    right: 0px;
-    bottom: 0px;
-    padding: 0px;
-    max-height: 800px;
-    min-height: 900px;
-    background: url("../img/crypto-city-big.jpg") no-repeat left;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+
+
+
+
+
+.actions {
+  margin: 5px;
 }
+.grid {
+  position: relative;
+}
+.item {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  line-height: 200px;
+  margin: 5px;
+  z-index: 1;
+}
+.item.muuri-item-hidden {
+  z-index: 0;
+}
+.item.muuri-item-releasing {
+  z-index: 2;
+}
+.item.muuri-item-dragging {
+  z-index: 3;
+}
+.item-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background: red;
+  font-size: 50px;
+  color: white;
+  cursor: pointer;
+}
+.item.muuri-item-dragging .item-content {
+  background: blue;
+}
+.item.muuri-item-releasing .item-content {
+  background: blueViolet;
+}
+
+
+
+
+
+.flipInY {
+  -webkit-backface-visibility: visible !important;
+  backface-visibility: visible !important;
+  -webkit-animation-name: flipInY;
+  animation-name: flipInY;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  }
+  @-webkit-keyframes flipInY {
+  0% {
+  -webkit-transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
+  transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
+  -webkit-transition-timing-function: ease-in;
+  transition-timing-function: ease-in;
+  opacity: 0;
+  }
+  40% {
+  -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
+  transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
+  -webkit-transition-timing-function: ease-in;
+  transition-timing-function: ease-in;
+  }
+  60% {
+  -webkit-transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
+  transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
+  opacity: 1;
+  }
+  80% {
+  -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+  transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+  }
+  100% {
+  -webkit-transform: perspective(400px);
+  transform: perspective(400px);
+  }
+  }
+  @keyframes flipInY {
+  0% {
+  -webkit-transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
+  transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
+  -webkit-transition-timing-function: ease-in;
+  transition-timing-function: ease-in;
+  opacity: 0;
+  }
+  40% {
+  -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
+  transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
+  -webkit-transition-timing-function: ease-in;
+  transition-timing-function: ease-in;
+  }
+  60% {
+  -webkit-transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
+  transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
+  opacity: 1;
+  }
+  80% {
+  -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+  transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+  }
+  100% {
+  -webkit-transform: perspective(400px);
+  transform: perspective(400px);
+  }
+  }

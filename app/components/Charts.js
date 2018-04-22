@@ -21,6 +21,7 @@ class Charts extends Component {
 		this.state = {
 			neoData: [],
 			gasData: [],
+			ontData: [],
 			btcData: [],
 			dbcData: [],
 			qlcData: [],
@@ -36,6 +37,7 @@ class Charts extends Component {
 	async componentDidMount() {
 		await this.getGasData();
 		await this.getNeoData();
+		await this.getOntData();
 		await this.getBtcData();
 		await this.getDbcData();
 		await this.getQlcData();
@@ -60,6 +62,16 @@ class Charts extends Component {
 			let data = req.data.Data;
 			this.setState({ neoData: data });
 			this.setState({ ...data[95] });
+		} catch (error) {
+			console.log(error);
+		}
+	}
+	// ONT
+	async getOntData() {
+		try {
+			let req = await axios.get(api("ONT"));
+			let data = req.data.Data;
+			this.setState({ ontData: data });
 		} catch (error) {
 			console.log(error);
 		}
@@ -136,6 +148,7 @@ class Charts extends Component {
 
 		const dbcPrices = _.map(this.state.dbcData, "close");
 		const btcPrices = _.map(this.state.btcData, "close");
+		const ontPrices = _.map(this.state.ontData, "close");
 		const qlcPrices = _.map(this.state.qlcData, "close");
 		const rpxPrices = _.map(this.state.rpxData, "close");
 		const tncPrices = _.map(this.state.tncData, "close");
@@ -168,6 +181,14 @@ class Charts extends Component {
 			let dbcGradientFill = ctx.createLinearGradient(0, 0, 0, 360);
 			dbcGradientFill.addColorStop(0, "rgba(90,193,212, 0.5)");
 			dbcGradientFill.addColorStop(1, "rgba(90,193,212, 0)");
+
+			let ontGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
+			ontGradientStroke.addColorStop(0, "#5ac1d4");
+			ontGradientStroke.addColorStop(1, "#5ac1d4");
+
+			let ontGradientFill = ctx.createLinearGradient(0, 0, 0, 360);
+			ontGradientFill.addColorStop(0, "rgba(90,193,212, 0.5)");
+			ontGradientFill.addColorStop(1, "rgba(90,193,212, 0)");
 
 			let btcGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
 			btcGradientStroke.addColorStop(0, "#ffc000");
@@ -254,6 +275,28 @@ class Charts extends Component {
 						pointHitRadius: 3,
 						pointRadius: 0,
 						data: neoPrices
+					},
+					{
+						label: "ONT",
+						fill: true,
+						hidden: true,
+						lineTension: 0.25,
+						backgroundColor: ontGradientFill,
+						borderColor: ontGradientStroke,
+						borderCapStyle: "butt",
+						borderDash: [],
+						borderDashOffset: 0.0,
+						borderJoinStyle: "miter",
+						pointBorderWidth: 1,
+						pointHoverRadius: 3,
+						pointHoverBorderWidth: 0,
+						pointBorderColor: ontGradientStroke,
+						pointBackgroundColor: ontGradientStroke,
+						pointHoverBackgroundColor: ontGradientStroke,
+						pointHoverBorderColor: ontGradientStroke,
+						pointHitRadius: 3,
+						pointRadius: 0,
+						data: ontPrices
 					},
 					{
 						label: "BTC",

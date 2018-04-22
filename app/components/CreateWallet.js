@@ -177,14 +177,27 @@ class CreateWallet extends Component {
               </div>
             </Link>
 
-            <Link to="/LoginLedgerNanoS">
-              <div className="dash-icon-bar">
+            <Link>
+              <div className="dash-icon-bar"
+              data-tip
+              data-for="soonTip"
+              >
                 <div className="icon-border">
                   <div className="ledger-sm" />
                 </div>
                 Login to Ledger Nano S
               </div>
             </Link>
+
+            <ReactTooltip
+              className="solidTip"
+              id="soonTip"
+              place="top"
+              type="light"
+              effect="solid"
+            >
+              <span>Coming Soon</span>
+            </ReactTooltip>
 
           </div>
         </div>

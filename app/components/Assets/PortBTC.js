@@ -25,19 +25,18 @@ class PortBTC extends Component {
 
 
 
-						<div className="col-3">
+						<div className="col-3 flipInX">
 						<div className="port-logo-col">
-						<img
+						<Link to="/sendBTC"><img
 							src={btcLogo}
 							alt=""
 							width="44"
-							className="port-logos"
-						/>
+							className="port-logo"
+						/></Link>
 						<hr className="dash-hr" />
-						<h3><Link to="/receiveBitcoin"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendBTC"><span className=" glyphicon glyphicon-send "/></Link></h3>
+						<h3><Link to="/sendBTC"><span className="glyphicon glyphicon-qrcode "/>  <span className="glyphicon glyphicon-send "/></Link></h3>
 						</div>
-						<Link to="/NewBitcoin">
-						<div className="port-price-col">
+						<Link to="/sendBTC"><div className="port-price-col">
 							<span className="market-price">Bitcoin {numeral(this.props.marketBTCPrice).format("$0,0.00")}</span>
 							<h3>{numeral(this.props.btc).format("0,0.00000")} <span className="btc-price"> BTC</span></h3>
 							<hr className="dash-hr" />

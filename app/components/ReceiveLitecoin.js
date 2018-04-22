@@ -26,14 +26,6 @@ const getLink = (net, address) => {
 	return base + address;
 };
 
-const refreshBalance = (dispatch, net, address, litecoin_address) => {
-  dispatch(sendEvent(true, "Refreshing the Litecoin blockchain may take up to 5 minutes or more. You will be notified once complete."));
-	setTimeout(() => dispatch(clearTransactionEvent()), 3000);
-  initiateGetBalance(dispatch, net, address, ltc_address).then(response => {
-    dispatch(sendEvent(true, "Received latest blockchain information."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-  });
-};
 
 const openExplorer = srcLink => {
 	shell.openExternal(srcLink);
@@ -72,7 +64,7 @@ class ReceiveLitecoin extends Component {
 		super(props);
 
 		if(!this.props.ltcLoggedIn){
-			this.props.dispatch(ltcLoginRedirect("/ReceiveLitecoin"));
+			this.props.dispatch(ltcLoginRedirect("/sendLTC"));
 			this.props.history.push("/newLitecoin");
 		}
 	}
@@ -80,41 +72,11 @@ class ReceiveLitecoin extends Component {
 	render() {
 		console.log(this.props.net);
 		return (
-			<div id="" className="">
-				<div className="dash-panel">
-					<div className="">
-						<div className="col-xs-8">
-							<img
-								src={litecoinLogo}
-								alt=""
-								width="44"
-								className="neo-logo logobounce"
-							/>
-							<h2>Receive Litecoin (LTC)</h2>
-						</div>
+			<div>
 
-						<div
-            className="col-xs-1 center top-10 send-info"
-            onClick={() =>
-              refreshBalance(
-                this.props.dispatch,
-                this.props.net,
-                this.props.ltc_address
-              )
-            }
-          >
-            <span className="glyphicon glyphicon-refresh font24" />
-          </div>
+						<div className="col-xs-8 col-xs-offset-2">
 
-						<div className="col-xs-3 center">
-						<div className="send-panel-price">{numeral(this.props.ltc).format("0,0.0000000")} <span className="ltc-price"> LTC</span></div>
 
-						<span className="market-price">{numeral(this.props.ltc * this.props.marketLTCPrice).format("$0,0.00")} USD</span>
-						</div>
-
-						<hr className="dash-hr-wide" />
-						<div className="clearboth" />
-						<div className="col-xs-4 top-20">
 							<div
 								className="addressBox-send center animated fadeInDown pointer"
 								data-tip
@@ -122,23 +84,24 @@ class ReceiveLitecoin extends Component {
 								onClick={() => clipboard.writeText(this.props.ltcPubAddr)}
 							>
 								<QRCode size={150} className="neo-qr" value={this.props.ltcPubAddr} />
-								<ReactTooltip
-									className="solidTip"
-									id="qraddTip"
-									place="top"
-									type="light"
-									effect="solid"
-								>
-									<span>Click to copy your LTC Address</span>
-								</ReactTooltip>
-							</div>
+								</div>
+
 						</div>
 
-						<div className="col-xs-8">
-							<div className="col-xs-12">
-							<h5>Your Litecoin (LTC) Public Address</h5>
-							</div>
-							<div className="col-xs-10">
+
+						<ReactTooltip
+							className="solidTip"
+							id="qraddTip"
+							place="top"
+							type="light"
+							effect="solid"
+						>
+							<span>Click to copy your LTC Address</span>
+						</ReactTooltip>
+
+
+						<div className="col-xs-12">
+
 							<input
 								className="ledger-address top-10"
 								onClick={() => clipboard.writeText(this.props.ltcPubAddr)}
@@ -146,17 +109,9 @@ class ReceiveLitecoin extends Component {
 								placeholder={this.props.address}
 								value={this.props.ltcPubAddr}
 							/>
-							</div>
-							<div className="col-xs-2 top-10">
-							<Link to={ "/sendLTC" }>
-							<button className="grey-button">
-								<span className="glyphicon glyphicon-send"/></button>
-							</Link>
-							</div>
-
 
 							<div className="clearboth" />
-							<div className="dash-bar top-30">
+							<div className="dash-bar-rec top-10">
 								<div
 									className="dash-icon-bar"
 									onClick={() => clipboard.writeText(this.props.ltcPubAddr)}
@@ -165,16 +120,6 @@ class ReceiveLitecoin extends Component {
 										<span className="glyphicon glyphicon-duplicate" />
 									</div>
                 Copy Public Address
-								</div>
-
-								<div
-									className="dash-icon-bar"
-									onClick={() => print()}
-								>
-									<div className="icon-border">
-										<span className="glyphicon glyphicon-print" />
-									</div>
-                Print Public Address
 								</div>
 
 								<div
@@ -199,20 +144,7 @@ class ReceiveLitecoin extends Component {
 
 							</div>
 						</div>
-
-						<div className="col-xs-12 top-20">
-						<TransactionHistoryLTC />
-						</div>
-					</div>
-					<div className="clearboth" />
-				</div>
-				<div className="clearboth" />
-				<div className="col-xs-12">
-					<p className="send-notice">
-             Sending funds other than Litecoin (LTC) to this address may result in your funds being lost.
-					</p>
-
-				</div>
+<div className="clearboth" />
 
 			</div>
 		);

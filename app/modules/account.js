@@ -6,17 +6,21 @@ export const LOGIN = "LOGIN";
 export const BTC_LOGIN = "BTCLOGIN";
 export const LTC_LOGIN = "LTCLOGIN";
 export const ETH_LOGIN = "ETHLOGIN";
+export const ELA_LOGIN = "ELA_LOGIN";
 export const LTC_CREATED = "LTCCREATED";
 export const ETH_CREATED = "ETHCREATED";
+export const ELA_CREATED = "ELACREATED";
 export const BTC_LOGIN_REDIRECT = "BTCLOGIN_REDIRECT";
 export const LTC_LOGIN_REDIRECT = "LTCLOGIN_REDIRECT";
 export const ETH_LOGIN_REDIRECT = "ETHLOGIN_REDIRECT";
+export const ELA_LOGIN_REDIRECT = "ELALOGIN_REDIRECT";
 export const LOGOUT = "LOGOUT";
 export const SET_ADDRESS = "SET_ADDRESS";
 export const SET_DECRYPTING = "SET_DECRYPTING";
 export const SET_KEYS = "SET_KEYS";
 export const SET_LTC_KEYS = "SET_LTC_KEYS";
 export const SET_ETH_KEYS = "SET_ETH_KEYS";
+export const SET_ELA_KEYS = "SET_ELA_KEYS";
 export const FINDING_LEDGER_NOTICE =
   "Looking for USB Devices. Please plugin your device and login.";
 export const BIP44_PATH =
@@ -180,6 +184,13 @@ export function setLtcKeys(ltckeys) {
     };
 }
 
+export function setElaKeys(elakeys) {
+    return {
+        type: SET_ELA_KEYS,
+        elakeys
+    };
+}
+
 export function setEthKeys(ethkeys) {
 	return {
         type: SET_ETH_KEYS,
@@ -207,6 +218,22 @@ export function btcLoginRedirect(path) {
 		type: BTC_LOGIN_REDIRECT,
 		path: path,
 	}
+}
+
+
+export function elaLogIn(pa, pk){
+    return {
+        type: ELA_LOGIN,
+        pa: pa,
+        pk: pk
+    }
+}
+
+export function elaLoginRedirect(path) {
+    return {
+        type: ELA_LOGIN_REDIRECT,
+        path: path,
+    }
 }
 
 export function ltcLogIn(pa, pk){
@@ -239,6 +266,12 @@ export function ethLoginRedirect(path) {
     }
 }
 
+export function elaCreated() {
+    return {
+        type: ELA_CREATED
+    }
+}
+
 export function ltcCreated() {
 	return {
 		type: LTC_CREATED
@@ -266,13 +299,18 @@ export default (
         ltcLoggedIn: false,
         ltcPrivKey: null,
         ltcPubAddr: null,
+        elaCreated: false,
+        elaLoggedIn: false,
+        elaPrivKey: null,
+        elaPubAddr: null,
 		ethCreated: false,
         ethLoggedIn: false,
         ethPrivKey: null,
         ethPubAddr: null,
 		btcAccountKeys: [],
 		ltcAccountKeys: [],
-		ethAccountKeys: []
+		ethAccountKeys: [],
+        elaAccountKeys: []
 	},
 	action
 ) => {
@@ -321,6 +359,11 @@ export default (
 			...state,
 			ltcAccountKeys: action.ltckeys
 		};
+	case SET_ELA_KEYS:
+		return {
+			...state,
+			elaAccountKeys: action.elakeys
+		};
 	case SET_ETH_KEYS:
 		return {
 			...state,
@@ -351,6 +394,19 @@ export default (
 		return {
 			...state,
 			ltcLoginRedirect: action.path,
+		}
+	case ELA_LOGIN:
+		return {
+			...state,
+			elaLoggedIn: true,
+			elaPrivKey: action.pk,
+			elaPubAddr: action.pa
+		};
+
+	case ELA_LOGIN_REDIRECT:
+		return {
+			...state,
+			elaLoginRedirect: action.path,
 		}
 
 	case ETH_LOGIN:

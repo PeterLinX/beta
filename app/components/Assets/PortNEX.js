@@ -24,7 +24,7 @@ class PortNEX extends Component {
 
 			<div>
 
-						<div className="col-3 ">
+						<div className="col-3 flipInX">
 						<div className="port-logo-col">
 						<img
 							src={nexLogo}

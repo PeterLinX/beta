@@ -14,13 +14,22 @@ import { clipboard } from "electron";
 import { togglePane } from "../modules/dashboard";
 import {
 	sendEvent,
-	clearTransactionEvent,
-	toggleAsset
+	clearTransactionEvent
 } from "../modules/transactions";
 import { btcLoginRedirect } from '../modules/account';
 import {BLOCK_TOKEN} from "../core/constants";
 import numeral from "numeral";
 import { block_index} from "../components/NetworkSwitch";
+import BTCChart from "./NepCharts/BTCChart";
+import BTCQRModalButton from "./BTCQRModalButton.js";
+import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
+
+const refreshBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
+  initiateGetBalance(dispatch, net, address ,btc ,ltc ,eth).then(response => {
+    dispatch(sendEvent(true, "Prices and balances updated."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+  });
+};
 
 var bitcoin = require("bitcoinjs-lib");
 var WAValidator = require("wallet-address-validator");
@@ -325,27 +334,38 @@ class SendBTC extends Component {
                   :
                   null
           }
-				<div id="send">
+				<div id="send"
+				onLoad={() =>
+					refreshBalance(
+						this.props.dispatch,
+						this.props.net,
+						this.props.address,
+						this.props.btc,
+						this.props.ltc,
+						this.props.eth
+					)
+				}
+				>
 
 					<div className="row dash-panel">
-						<div className="col-xs-8">
+						<div className="col-xs-5">
 							<img
 								src={btcLogo}
 								alt=""
 								width="45"
-								className="neo-logo fadeInDown"
+								className="neo-logo flipInY"
 							/>
-							<h2>Send Bitcoin (BTC)</h2>
+							<h2>Bitcoin (BTC)</h2>
+							<hr className="dash-hr-wide" />
+							<span className="market-price"> {numeral(this.props.marketBTCPrice).format("$0,0.00")} each</span><br />
+							<span className="font24">{numeral(
+								Math.floor(this.props.btc * 100000) / 100000
+							).format("0,0.00000000")} <span className="btc-price"> BTC</span></span><br />
+							<span className="market-price">{numeral(this.props.btc * this.props.marketBTCPrice).format("$0,0.00")} USD</span>
 						</div>
 
-						<div className="col-xs-4 center">
-						<div className="send-panel-price">{numeral(this.props.btc).format("0,0.0000000")} <span className="btc-price"> BTC</span></div>
-
-						<span className="market-price">{numeral(this.props.btc * this.props.marketBTCPrice).format("$0,0.00")} USD</span>
-						</div>
-
-						<div className="col-xs-12 center">
-							<hr className="dash-hr-wide top-20" />
+						<div className="col-xs-7 center">
+						<BTCChart />
 						</div>
 
 						<div className="clearboth" />
@@ -364,11 +384,7 @@ class SendBTC extends Component {
 
 							<div className="col-xs-3">
 
-							<Link to={ "/receiveBitcoin" }>
-								<button className="btc-button com-soon" >
-									<span className="glyphicon glyphicon-qrcode marg-right-5"/>  Receive
-								</button></Link>
-
+							<BTCQRModalButton />
 							</div>
 
 							<div className="col-xs-5  top-20">
@@ -436,34 +452,11 @@ class SendBTC extends Component {
 
 							<div className="col-xs-12 com-soon">
 							Fees: 0.0001 BTC/KB<br />
-							Block: {" "}{this.state.block_index}
-
 							</div>
-							<div className="col-xs-12 top-30">
+							<div className="col-xs-12 top-10">
 							<TransactionHistoryBTC />
 							</div>
 						</div>
-					</div>
-
-					<div className="send-notice">
-						<div className="col-xs-2"/>
-						<div className="col-xs-8 center">
-							<p className="center donations"
-								data-tip
-								data-for="donateTip"
-								onClick={() => clipboard.writeText("17mE9Y7ERqpn6oUn5TEteNrnEmmXUsQw76")}
-							>Morpheus Dev Team: 17mE9Y7ERqpn6oUn5TEteNrnEmmXUsQw76</p>
-							<ReactTooltip
-								className="solidTip"
-								id="donateTip"
-								place="top"
-								type="light"
-								effect="solid"
-							>
-								<span>Copy address to send donation</span>
-							</ReactTooltip>
-						</div>
-
 					</div>
 
 				</div>
@@ -484,6 +477,9 @@ const mapStateToProps = state => ({
 	neo: state.wallet.Neo,
 	gas: state.wallet.Gas,
 	btc: state.wallet.Btc,
+	ltc: state.wallet.Ltc,
+	eth: state.wallet.Eth,
+	price: state.wallet.price,
 	marketBTCPrice: state.wallet.marketBTCPrice,
 	selectedAsset: state.transactions.selectedAsset,
 	confirmPane: state.dashboard.confirmPane,

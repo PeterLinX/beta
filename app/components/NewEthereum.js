@@ -58,7 +58,7 @@ class NewEthereum extends Component {
         }
 
         if(this.props.ethLoggedIn){
-            this.props.history.push("/receiveEthereum");
+            this.props.history.push("/sendETH");
         }
 
     }
@@ -126,11 +126,11 @@ class NewEthereum extends Component {
 
             dispatch(setEthBlockHeight(eth_blockheight));
 
-            let redirectUrl = this.props.ethLoginRedirect || "/receiveEthereum";
+            let redirectUrl = this.props.ethLoginRedirect || "/sendETH";
             let self = this;
             setTimeout(()=>{
                 self.props.history.push(redirectUrl);
-            }, 1000);
+            }, 100);
         } else {
             alert("Failed to login");
         }
@@ -156,9 +156,9 @@ class NewEthereum extends Component {
                             src={ethLogo}
                             alt=""
                             width="32"
-                            className="neo-logo logobounce"
+                            className="neo-logo flipInY"
                         />
-                        <h2>Create New Ethereum Address</h2>
+                        <h2>Login or Create New Ethereum Address</h2>
                     </div>
                     <div className="col-xs-12 center">
       								<hr className="dash-hr-wide" />

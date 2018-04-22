@@ -43,13 +43,14 @@ import TopBar from "../components/TopBar";
 
 
 const refreshBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
-  dispatch(sendEvent(true, "Refreshing balances and prices. You will be notified once complete."));
-  setTimeout(() => dispatch(clearTransactionEvent()), 5000);
+  dispatch(sendEvent(true, "Refreshing balances and prices..."));
+  setTimeout(() => dispatch(clearTransactionEvent()), 3000);
   initiateGetBalance(dispatch, net, address ,btc ,ltc ,eth).then(response => {
-    dispatch(sendEvent(true, "Prices and balances updated."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+  dispatch(sendEvent(true, "Prices and balances updated."));
+  setTimeout(() => dispatch(clearTransactionEvent()), 1000);
   });
 };
+
 
 const resetGeneratedKey = dispatch => {
   dispatch(resetKey());
@@ -170,29 +171,20 @@ componentDidMount = () => {
                     <span className="glyphicon glyphicon-qrcode" /> Receive
                   </Link>
                 </li>
+
                 <li>
                   <Link to={"/transactionHistory"} activeClassName="active">
                     <span className="glyphicon glyphicon-list-alt" /> Transactions
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/tokenSale"} activeClassName="active">
+                  <Link to={"/advancedTokenSale"} activeClassName="active">
                     <span className="glyphicon glyphicon-heart" /> Token Sale
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"/ledger"} activeClassName="active">
-                    <span className="glyphicon glyphicon-th-large" /> Ledger
                   </Link>
                 </li>
                 <li>
                   <Link to={"/settings"} activeClassName="active">
                     <span className="glyphicon glyphicon-lock" /> Settings
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"/cryptoCity"} activeClassName="active">
-                    <span className="glyphicon glyphicon-equalizer" /> Crypto City
                   </Link>
                 </li>
               </ul>
@@ -225,7 +217,6 @@ const mapStateToProps = state => ({
   address: state.account.address,
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,
-  btc: state.wallet.Btc,
   btcLoggedIn: state.account.btcLoggedIn,
   btcPrivKey: state.account.btcPrivKey,
   btcPubAddr: state.account.btcPubAddr,

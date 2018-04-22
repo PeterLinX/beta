@@ -25,14 +25,14 @@ class PropAPH extends Component {
 			<div>
 
 
-				<div className="col-3 ">
+				<div className="col-3 flipInX">
 				<div className="port-logo-col">
-				<img
+				<Link to="/sendAPH"><img
 					src={aphLogo}
 					alt="Aphelion"
 					width="44"
 					className="port-logos"
-				/>
+				/></Link>
 				<hr className="dash-hr" />
 				<h3><NEPQRModal />   <Link to="/sendAPH"><span className="glyphicon glyphicon-send"/></Link></h3>
 				</div>

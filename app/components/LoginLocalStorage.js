@@ -9,6 +9,20 @@ import _ from "lodash";
 // TODO: these event messages should be refactored from transactions
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import Logo from "./Brand/LogoBlank";
+import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
+import {
+    setMarketPrice
+} from "../modules/wallet";
+import ReactTooltip from "react-tooltip";
+
+const refreshBalance = (dispatch, net ) => {
+  dispatch(sendEvent(true, "Refreshing balances and prices..."));
+  setTimeout(() => dispatch(clearTransactionEvent()), 3000);
+  initiateGetBalance(dispatch, net ).then(response => {
+  dispatch(sendEvent(true, "Prices and balances updated."));
+  setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+  });
+};
 
 const logo = require("../images/neon-logo2.png");
 
@@ -193,18 +207,27 @@ class LoginLocalStorage extends Component {
             </div>
           </Link>
 
-          <Link to="/LoginLedgerNanoS"
-          onClick={() => {
-    				this.getLedgerAddress();
-    			}}
-          >
-            <div className="dash-icon-bar">
+          <Link>
+            <div className="dash-icon-bar"
+            data-tip
+            data-for="soonTip"
+            >
               <div className="icon-border">
                 <div className="ledger-sm" />
               </div>
               Login to Ledger Nano S
             </div>
           </Link>
+
+          <ReactTooltip
+            className="solidTip"
+            id="soonTip"
+            place="top"
+            type="light"
+            effect="solid"
+          >
+            <span>Coming Soon</span>
+          </ReactTooltip>
 
         </div>
         <div className="login-copyright">&copy; Copyright 2018 Morpheus</div>

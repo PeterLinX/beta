@@ -9,9 +9,6 @@ import { Link } from "react-router";
 import axios from "axios";
 import numeral from "numeral";
 import fs from "fs";
-import TransactionHistoryETH from "./TransactionHistoryETH";
-import { ethLoginRedirect } from "../modules/account";
-import {  syncEthTransactionHistory, block_index} from "../components/NetworkSwitch";
 import { BLOCK_TOKEN } from "../core/constants";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 
@@ -70,7 +67,7 @@ class ReceiveEthereum extends Component {
         super(props);
 
         if(!this.props.ethLoggedIn){
-            this.props.dispatch(ethLoginRedirect("/receiveEthereum"));
+            this.props.dispatch(ethLoginRedirect("/sendETH"));
             this.props.history.push("/newEthereum");
         }
     }
@@ -78,49 +75,15 @@ class ReceiveEthereum extends Component {
     render() {
         console.log(this.props.net);
         return (
-            <div id="" className="">
-                <div className="dash-panel">
-                    <div className="">
-                        <div className="col-xs-8">
-                            <img
-                                src={ethLogo}
-                                alt=""
-                                width="32"
-                                className="neo-logo logobounce"
-                            />
-                            <h2>Receive Ethereum (ETH)</h2>
-                        </div>
-
-                        <div
-                            className="col-xs-1 center top-10 send-info"
-                            onClick={() =>
-                                refreshBalance(
-                                    this.props.dispatch,
-                                    this.props.net,
-                                    this.props.address
-                                )
-                            }
-                        >
-                            <span className="glyphicon glyphicon-refresh font24" />
-                        </div>
-
-              <div className="col-xs-3 center">
-              <div className="send-panel-price">{numeral(this.props.eth/10000000000).format("0,0.00000")} <span className="eth-price"> ETH</span></div>
-
-            <span className="market-price">{numeral((this.props.eth/10000000000) * this.props.marketETHPrice).format("$0,0.00")} USD</span>
-                        </div>
-
-
-                        <hr className="dash-hr-wide" />
-                        <div className="clearboth" />
-                        <div className="col-xs-4 top-20">
+            <div>
+                        <div className="col-xs-8 col-xs-offset-2">
                             <div
                                 className="addressBox-send center animated fadeInDown pointer"
                                 data-tip
                                 data-for="qraddTip"
-                                onClick={() => clipboard.writeText(this.props.ethPubAddr)}
+                                onClick={() => clipboard.writeText('0x' + this.props.ethPubAddr)}
                             >
-                                <QRCode size={130} className="neo-qr" value={this.props.ethPubAddr} />
+                                <QRCode size={130} className="neo-qr" value={'0x' + this.props.ethPubAddr} />
                                 <ReactTooltip
                                     className="solidTip"
                                     id="qraddTip"
@@ -128,32 +91,24 @@ class ReceiveEthereum extends Component {
                                     type="light"
                                     effect="solid"
                                 >
-                                    <span>Click to copy your ETH Address</span>
+                                    <span>Click to copy your Ethereum Address</span>
                                 </ReactTooltip>
                             </div>
                         </div>
-
-                        <div className="col-xs-8">
-                            <div className="col-xs-12">
-                                <h5>Your Ethereum (ETH) Public Address</h5>
-                            </div>
-                            <div className="col-xs-10 top-10">
-                                <input
+                        <div className="clearboth" />
+                        <div className="col-xs-10 col-xs-offset-1  top-10">
+                                <textarea
                                     className="ledger-address font-13"
                                     placeholder={'0x' + this.props.ethPubAddr}
                                     value={'0x' + this.props.ethPubAddr}
                                 />
-                            </div>
-                            <div className="col-xs-2 top-10">
-                                <Link to={ "/sendETH" }>
-                                <button className="eth-button">
-                                <span className="glyphicon glyphicon-send"/></button>
-                                </Link>
-                            </div>
+                        </div>
+
+                        <div className="clearboth" />
 
 
-                            <div className="clearboth" />
-                            <div className="dash-bar">
+                        <div className="dash-bar-rec">
+
                                 <div
                                     className="dash-icon-bar"
                                     onClick={() => clipboard.writeText('0x' + this.props.ethPubAddr)}
@@ -162,16 +117,6 @@ class ReceiveEthereum extends Component {
                                         <span className="glyphicon glyphicon-duplicate" />
                                     </div>
                                     Copy Public Address
-                                </div>
-
-                                <div
-                                    className="dash-icon-bar"
-                                    onClick={() => print()}
-                                >
-                                    <div className="icon-border">
-                                        <span className="glyphicon glyphicon-print" />
-                                    </div>
-                                    Print Public Address
                                 </div>
 
                                 <div
@@ -195,29 +140,7 @@ class ReceiveEthereum extends Component {
                                     Download Encrypted Key
                                 </div>
 
-
-                            </div>
-
-
-
-                        </div>
                     </div>
-
-                    <div className="col-xs-12 top-10">
-                        <TransactionHistoryETH />
-                    </div>
-
-
-                    <div className="clearboth" />
-                </div>
-                <div className="clearboth" />
-                <div className="col-xs-12">
-                    <p className="send-notice">
-                        Sending funds other than Ethereum (ETH) to this address may result in your funds being lost.
-                    </p>
-
-                </div>
-
             </div>
         );
     }

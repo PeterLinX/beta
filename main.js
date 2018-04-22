@@ -33,24 +33,18 @@ app.on("ready", () => {
     {
       label: "Edit",
       submenu: [
-            { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
-            { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
-            { type: "separator" },
-            { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
-            { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
-            { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
-            { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+        { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+        { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+        { type: "separator" },
+        { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+        { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+        { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+        { type: "separator" },
       ]
     },
     {
       label: "View",
       submenu: [
-        //{
-          //role: "reload"
-        //},
-        //{
-        //  role: "forcereload"
-        //},
         {
           role: "toggledevtools"
         },
@@ -120,23 +114,7 @@ app.on("ready", () => {
       ]
     });
 
-    // Edit menu
-    template[1].submenu.push(
-      {
-        type: "separator"
-      },
-      {
-        label: "Speech",
-        submenu: [
-          {
-            role: "startspeaking"
-          },
-          {
-            role: "stopspeaking"
-          }
-        ]
-      }
-    );
+
     // Window menu
     template[3].submenu = [
       {
@@ -180,6 +158,7 @@ app.on("browser-window-created", function (event, win) {
   ctxMenu.append(new MenuItem({ role: "paste" }));
   ctxMenu.append(new MenuItem({ role: "selectall" }));
   ctxMenu.append(new MenuItem({ type: "separator" }));
+  ctxMenu.append(new MenuItem({ role: "toggledevtools" }));
   ctxMenu.append(new MenuItem(
     {
       label: "Check for Update",

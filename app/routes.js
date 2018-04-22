@@ -32,10 +32,13 @@ import Loopring from "./components/NepTokens/Loopring";
 import SendSWH from "./components/NepTokens/SendSWH";
 import SendACAT from "./components/NepTokens/SendACAT";
 import SendAPEX from "./components/NepTokens/SendAPEX";
+import SendEDS from "./components/NepTokens/SendEDS";
 import SendEFX from "./components/NepTokens/SendEFX";
 import SendOBT from "./components/NepTokens/SendOBT";
 import SendCGE from "./components/NepTokens/SendCGE";
 import SendGDM from "./components/NepTokens/SendGDM";
+import SendGAGA from "./components/NepTokens/SendGAGA";
+import SendLRN from "./components/NepTokens/SendLRN";
 import SendAPH from "./components/NepTokens/SendAPH";
 import SendIAM from "./components/NepTokens/SendIAM";
 import SendNRVE from "./components/NepTokens/SendNRVE";
@@ -46,6 +49,7 @@ import SendONT from "./components/NepTokens/SendONT";
 import SendPKC from "./components/NepTokens/SendPKC";
 import SendRPX from "./components/NepTokens/SendRPX";
 import SendWWB from "./components/NepTokens/SendWWB";
+import SendXQT from "./components/NepTokens/SendXQT";
 import SendDBC from "./components/NepTokens/SendDBC";
 import SendGALA from "./components/NepTokens/SendGALA";
 import SendQLC from "./components/NepTokens/SendQLC";
@@ -54,25 +58,35 @@ import SendHP from "./components/NepTokens/SendHP";
 import SendBTC from "./components/SendBTC";
 import SendLTC from "./components/SendLTC";
 import SendETH from "./components/SendETH";
-import SendEOS from "./components/SendEOS";
+import SendELA from "./components/SendELA";
+import SendGAS from "./components/SendGAS";
 import AssetPortfolio from "./components/AssetPortfolio";
-import AssetPortfolioList from "./components/AssetPortfolioList";
 import NewBitcoin from "./components/NewBitcoin";
 import ReceiveBitcoin from "./components/ReceiveBitcoin";
 import NewLitecoin from "./components/NewLitecoin";
 import ReceiveLitecoin from "./components/ReceiveLitecoin";
 import NewEthereum from "./components/NewEthereum";
+import NewElastos from "./components/NewElastos";
+import ReceiveElastos from "./components/ReceiveElastos";
 import ReceiveEthereum from "./components/ReceiveEthereum";
 import LedgerDashboard from "./containers/LedgerDashboard";
 import LedgerAssetPortfolio from "./components/LedgerAssetPortfolio";
 import AdvancedBitcoin from "./components/AdvancedBitcoin";
+import SweepBitcoinOther from "./components/SweepBitcoinOther";
+import SweepBitcoin from "./components/SweepBitcoin";
+import SweepInfo from "./components/SweepInfo";
 import AdvancedLitecoin from "./components/AdvancedLitecoin";
 import AdvancedEthereum from "./components/AdvancedEthereum";
+import AdvancedElastos from "./components/AdvancedElastos";
 import DisplayPrivateKeysLTC from "./components/DisplayPrivateKeysLTC";
 import DisplayPrivateKeysETH from "./components/DisplayPrivateKeysETH";
+import DisplayPrivateKeysELA from "./components/DisplayPrivateKeysELA";
 import TokenSale from "./components/TokenSale";
 import RemoveAddress from "./components/RemoveAddress";
 import AdvancedTokenSale from "./components/AdvancedTokenSale";
+import LoadClassicBitcoin from "./components/LoadClassicBitcoin";
+import LoadSegwitBitcoin from "./components/LoadSegwitBitcoin";
+import LoadOldBitcoin from "./components/LoadOldBitcoin";
 import CryptoCity from "./components/CryptoCity";
 
 export default (
@@ -82,6 +96,7 @@ export default (
 			<Route path="/loopring" component={Loopring} />
 			<Route path="/sendRPX" component={SendRPX} />
 			<Route path="/sendDBC" component={SendDBC} />
+			<Route path="/sendEDS" component={SendEDS} />
 			<Route path="/sendGALA" component={SendGALA} />
 			<Route path="/sendQLC" component={SendQLC} />
 			<Route path="/sendTNC" component={SendTNC} />
@@ -92,6 +107,7 @@ export default (
 			<Route path="/sendPKC" component={SendPKC} />
 			<Route path="/sendTHOR" component={SendTHOR} />
 			<Route path="/sendSWH" component={SendSWH} />
+			<Route path="/SendXQT" component={SendXQT} />
 			<Route path="/sendZPT" component={SendZPT} />
 			<Route path="/sendEFX" component={SendEFX} />
 			<Route path="/sendHP" component={SendHP} />
@@ -99,13 +115,16 @@ export default (
 			<Route path="/sendAPEX" component={SendAPEX} />
 			<Route path="/sendCGE" component={SendCGE} />
 			<Route path="/sendGDM" component={SendGDM} />
+			<Route path="/sendGAGA" component={SendGAGA} />
+			<Route path="/sendLRN" component={SendLRN} />
 			<Route path="/sendAPH" component={SendAPH} />
 			<Route path="/sendOBT" component={SendOBT} />
 			<Route path="/sendWWB" component={SendWWB} />
 			<Route path="/sendBTC" component={SendBTC} />
 			<Route path="/sendLTC" component={SendLTC} />
 			<Route path="/sendETH" component={SendETH} />
-			<Route path="/sendEOS" component={SendEOS}/>
+			<Route path="/sendELA" component={SendELA}/>
+			<Route path="/sendGAS" component={SendGAS}/>
 			<Route path="/receive" component={Receive} />
 			<Route path="/settings" component={Settings} />
 			<Route path="/removeAddress" component={RemoveAddress} />
@@ -124,19 +143,28 @@ export default (
 			<Route path="/tokens" component={Tokens} />
 			<Route path="/sale" component={Sale} />
 			<Route path="/assetPortfolio" component={AssetPortfolio} />
-			<Route path="/assetPortfolioList" component={AssetPortfolioList} />
 			<Route path="/newBitcoin" component={NewBitcoin} />
 			<Route path="/receiveBitcoin" component={ReceiveBitcoin} />
 			<Route path="/newLitecoin" component={NewLitecoin} />
 			<Route path="/receiveLitecoin" component={ReceiveLitecoin} />
 			<Route path="/newEthereum" component={NewEthereum}/>
+			<Route path="/newElastos" component={NewElastos}/>
+			<Route path="/receiveElastos" component={ReceiveElastos}/>
 			<Route path="/receiveEthereum" component={ReceiveEthereum}/>
 			<Route path="/advancedBitcoin" component={AdvancedBitcoin}/>
 			<Route path="/cryptoCity" component={CryptoCity}/>
 			<Route path="/advancedLitecoin" component={AdvancedLitecoin}/>
 			<Route path="/advancedEthereum" component={AdvancedEthereum}/>
+			<Route path="/advancedElastos" component={AdvancedElastos}/>
+			<Route path="/loadOldBitcoin" component={LoadOldBitcoin}/>
+			<Route path="/sweepBitcoin" component={SweepBitcoin}/>
+			<Route path="/sweepBitcoinOther" component={SweepBitcoinOther}/>
+			<Route path="/sweepInfo/:txid" component={SweepInfo}/>
+			<Route path="/loadSegwitBitcoin" component={LoadSegwitBitcoin}/>
+			<Route path="/loadClassicBitcoin" component={LoadClassicBitcoin}/>
 			<Route path="/DisplayPrivateKeysLTC/:history/:ltc_address/:ltcPrivKey"  component={DisplayPrivateKeysLTC}/>
 		<Route path="/DisplayPrivateKeysETH/:history/:eth_address/:ethPrivKey"  component={DisplayPrivateKeysETH}/>
+		<Route path="/DisplayPrivateKeysELA/:history/:ela_address/:elaPrivKey" component={DisplayPrivateKeysELA}/>
 		<Route path="/tokenSale" component={TokenSale} />
 		<Route path="/advancedTokenSale" component={AdvancedTokenSale}/>
 		</Route>
@@ -152,7 +180,6 @@ export default (
 			<Route path="/LedgerNanoSend" component={LedgerNanoSend} />
 			<Route path="/LedgerAssetPortfolio" component={LedgerAssetPortfolio} />
     </Route>
-
 		<Route path="/LoginPrivateKey" component={LoginPrivateKey} />
 		<Route path="/LoginEncrypted" component={LoginNep2} />
 	</Route>

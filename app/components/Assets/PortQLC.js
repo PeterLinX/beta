@@ -26,15 +26,15 @@ class PortQLC extends Component {
 
 
 
-							<div className="col-3">
+							<div className="col-3 flipInX">
 
 							<div className="port-logo-col">
-							<img
+							<Link to="/sendQLC"><img
 								src={qlcLogo}
 								alt=""
 								width="50"
 								className="port-logos"
-							/>
+							/></Link>
 							<hr className="dash-hr" />
 							<h3><NEPQRModal />   <Link to="/sendQLC"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>

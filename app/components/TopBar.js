@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import numeral from "numeral";
+import { Link } from "react-router";
 import Claim from "./Claim.js";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import { resetPrice } from "../modules/wallet";
@@ -28,7 +29,8 @@ class TopBar extends Component {
 		return (
 			<div id="send">
 				<div className="header">
-					<div className="col-xs-4">
+				<Link to="/send">
+					<div className="col-xs-4 pointer">
 						<p className="market-price center">
                 NEO {numeral(this.props.marketNEOPrice).format("$0,0.00")}
 						</p>
@@ -40,8 +42,10 @@ class TopBar extends Component {
 							{numeral(this.props.price).format("$0,0.00")} USD
 						</p>
 					</div>
+					</Link>
 					<div className="col-xs-4">{<Claim />}</div>
-					<div className="col-xs-4 top-5">
+					<Link to="/send">
+					<div className="col-xs-4 top-5 pointer">
 						<p className="market-price center">
                 GAS {numeral(this.props.marketGASPrice).format("$0,0.00")}
 						</p>
@@ -60,6 +64,7 @@ class TopBar extends Component {
                 USD
 						</p>
 					</div>
+					</Link>
 				</div>
 			</div>
 		);

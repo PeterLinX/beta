@@ -154,7 +154,7 @@ class Settings extends Component {
             ><span className="glyphicon glyphicon-globe"/> Website</li>
             <li
             onClick={() =>
-                    openExplorer("https://github.com/morpheuswallet")
+                    openExplorer("https://github.com/MorpheusWallet/beta/releases")
             }
             ><img src={gitsmLogo} alt="" width="16" className="" /> Github</li>
             <li
@@ -168,7 +168,7 @@ class Settings extends Component {
 
 
 
-            <div className="col-xs-12 center fadeInDown">
+            <div className="col-xs-12 center">
             <hr className="dash-hr-wide" />
             </div>
 
@@ -321,6 +321,20 @@ class Settings extends Component {
                 </Link>
               </div>
 
+              <div className="col-xs-2 center">
+                <Link to="/advancedBitcoin" >
+                  <div className="dash-icon-bar">
+                    <div className="icon-border">
+                      <span className="glyphicon glyphicon-bitcoin" />
+                    </div>
+                    Bitcoin Options
+                  </div>
+                </Link>
+              </div>
+
+              </div>
+
+            <div className="row top-20 settings-padding fadeInDown">
 
               <div className="col-xs-2 center">
               <Link to="removeAddress">
@@ -334,7 +348,6 @@ class Settings extends Component {
                 </div>
                 </Link>
               </div>
-
 
             </div>
           </div>

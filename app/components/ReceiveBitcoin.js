@@ -1,11 +1,14 @@
 import React, { Component } from "react";
+import { Link } from "react-router";
 import { connect } from "react-redux";
 import QRCode from "qrcode.react";
 import { clipboard } from "electron";
 import { shell } from "electron";
+import _ from "lodash";
+import fs from "fs";
+import storage from "electron-json-storage";
 import bitcoinLogo from "../img/btc-logo.png";
 import ReactTooltip from "react-tooltip";
-import { Link } from "react-router";
 import axios from "axios";
 import numeral from "numeral";
 import TransactionHistoryBTC from "./TransactionHistoryBTC";
@@ -25,17 +28,39 @@ const getLink = (net, address) => {
 	return base + address;
 };
 
-const refreshBalance = (dispatch, net, address, btc_address) => {
-  dispatch(sendEvent(true, "Refreshing the Bitcoin blockchain may take up to 5 minutes or more. Click Morpheus logo to cancel."));
-  initiateGetBalance(dispatch, net, address, btc_address).then(response => {
-    dispatch(sendEvent(true, "Received latest blockchain information.  Click Morpheus logo to refresh balances is needed."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-  });
-};
-
 const openExplorer = srcLink => {
 	shell.openExternal(srcLink);
 };
+
+
+const { dialog } = require("electron").remote;
+const saveKeyRecovery = keys => {
+  const content = JSON.stringify(keys);
+  dialog.showSaveDialog(
+    {
+      filters: [
+        {
+          name: "JSON",
+          extensions: ["json"]
+        }
+      ]
+    },
+    fileName => {
+      if (fileName === undefined) {
+        console.log("File failed to save...");
+        return;
+      }
+      // fileName is a string that contains the path and filename created in the save file dialog.
+      fs.writeFile(fileName, content, err => {
+        if (err) {
+          alert("An error ocurred creating the file " + err.message);
+        }
+        alert("The file has been succesfully saved");
+      });
+    }
+  );
+};
+
 
 class ReceiveBitcoin extends Component {
 
@@ -43,7 +68,7 @@ class ReceiveBitcoin extends Component {
 		super(props);
 
 		if(!this.props.btcLoggedIn){
-			this.props.dispatch(btcLoginRedirect("/receiveBitcoin"));
+			this.props.dispatch(btcLoginRedirect("/sendBTC"));
 			this.props.history.push("/newBitcoin");
 		}
 	}
@@ -51,49 +76,15 @@ class ReceiveBitcoin extends Component {
 	render() {
 		console.log(this.props.net);
 		return (
-			<div id="" className="">
-				<div className="dash-panel">
-					<div className="">
-						<div className="col-xs-8">
-							<img
-								src={bitcoinLogo}
-								alt=""
-								width="45"
-								className="neo-logo logobounce"
-							/>
-							<h2>Receive Bitcoin (BTC)</h2>
-						</div>
-
-						<div
-            className="col-xs-1 center top-10 send-info"
-            onClick={() =>
-              refreshBalance(
-                this.props.dispatch,
-                this.props.net,
-                this.props.btcPubAddr
-              )
-            }
-          >
-            <span className="glyphicon glyphicon-refresh font24" />
-          </div>
-
-						<div className="col-xs-3 center">
-						<div className="send-panel-price">{numeral(this.props.btc).format("0,0.0000000")} <span className="btc-price"> BTC</span></div>
-
-						<span className="market-price">{numeral(this.props.btc * this.props.marketBTCPrice).format("$0,0.00")} USD</span>
-						</div>
-
-
-						<hr className="dash-hr-wide" />
-						<div className="clearboth" />
-						<div className="col-xs-4 top-20">
+			<div>
+						<div className="col-xs-8 col-xs-offset-2">
 							<div
 								className="addressBox-send center animated fadeInDown pointer"
 								data-tip
 								data-for="qraddTip"
 								onClick={() => clipboard.writeText(this.props.btcPubAddr)}
 							>
-								<QRCode size={130} className="neo-qr" value={this.props.btcPubAddr} />
+								<QRCode size={150} className="neo-qr pointer" value={this.props.btcPubAddr} />
 								<ReactTooltip
 									className="solidTip"
 									id="qraddTip"
@@ -101,34 +92,22 @@ class ReceiveBitcoin extends Component {
 									type="light"
 									effect="solid"
 								>
-									<span>Click to copy your BTC Address</span>
+									<span>Click to copy your Bitcoin (BTC) Address</span>
 								</ReactTooltip>
 							</div>
 						</div>
 
-						<div className="col-xs-8">
 						<div className="col-xs-12">
-						<h5>Your Bitcoin (BTC) Public Address</h5>
-						</div>
-						<div className="col-xs-10 top-10">
 							<input
-								className="ledger-address"
+								className="ledger-address top-20"
 								onClick={() => clipboard.writeText(this.props.btcPubAddr)}
 								id="center"
-								placeholder={this.props.address}
+								placeholder={this.props.btcPubAddr}
 								value={this.props.btcPubAddr}
 							/>
-							</div>
-							<div className="col-xs-2 top-10">
-							<Link to={ "/sendBTC" }>
-							<button className="btc-button">
-								<span className="glyphicon glyphicon-send"/></button>
-							</Link>
-							</div>
-
-
-							<div className="clearboth" />
-							<div className="dash-bar top-30">
+						</div>
+						<div className="clearboth" />
+						<div className="dash-bar-rec top-10">
 								<div
 									className="dash-icon-bar"
 									onClick={() => clipboard.writeText(this.props.btcPubAddr)}
@@ -137,16 +116,6 @@ class ReceiveBitcoin extends Component {
 										<span className="glyphicon glyphicon-duplicate" />
 									</div>
                 Copy Public Address
-								</div>
-
-								<div
-									className="dash-icon-bar"
-									onClick={() => print()}
-								>
-									<div className="icon-border">
-										<span className="glyphicon glyphicon-print" />
-									</div>
-                Print Public Address
 								</div>
 
 								<div
@@ -161,38 +130,16 @@ class ReceiveBitcoin extends Component {
                 View On Blockchain
 								</div>
 
-								<Link to="/sendBTC">
+							<Link to="/advancedBitcoin">
 								<div className="dash-icon-bar">
 									<div className="icon-border">
-										<span className="glyphicon glyphicon-send" />
+										<span className="glyphicon glyphicon-bitcoin" />
 									</div>
-                Send Bitcoin (BTC)
+                Advanced Bitcoin
 								</div>
-								</Link>
-
+							</Link>
 
 							</div>
-
-
-
-						</div>
-					</div>
-
-					<div className="col-xs-12 top-10">
-					<TransactionHistoryBTC />
-					</div>
-
-
-					<div className="clearboth" />
-				</div>
-				<div className="clearboth" />
-				<div className="col-xs-12">
-					<p className="send-notice">
-           Sending funds other than Bitcoin (BTC) to this address may result in your funds being lost.
-					</p>
-
-				</div>
-
 			</div>
 		);
 	}

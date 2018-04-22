@@ -25,15 +25,15 @@ class PortGALA extends Component {
 			<div>
 
 
-								<div className="col-3 ">
+								<div className="col-3 flipInX">
 
 								<div className="port-logo-col">
-								<img
+								<Link to="/sendGALA"><img
 									src={galaLogo}
 									alt=""
 									width="42"
 									className="port-logos"
-								/>
+								/></Link>
 								<hr className="dash-hr" />
 								<h3><NEPQRModal />   <Link to="/sendGALA"><span className=" glyphicon glyphicon-send "/></Link></h3>
 								</div>

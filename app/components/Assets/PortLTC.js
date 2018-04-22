@@ -25,17 +25,17 @@ class PortLTC extends Component {
 
 
 
-							<div className="col-3">
+							<div className="col-3 flipInX">
 
 							<div className="port-logo-col">
-							<img
+							<Link to={"/sendLTC"} ><img
 								src={ltcLogo}
 								alt=""
 								width="44"
 								className="port-logos"
-							/>
+							/></Link>
 							<hr className="dash-hr" />
-							<h3><Link to={"/receiveLitecoin"} ><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to={"/sendLTC"} ><span className=" glyphicon glyphicon-send "/></Link></h3>
+							<h3><Link to={"/sendLTC"} ><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to={"/sendLTC"} ><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 							<Link to="/NewLitecoin">
 							<div className="port-price-col">

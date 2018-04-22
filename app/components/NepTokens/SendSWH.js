@@ -22,6 +22,7 @@ import {
 import { ASSETS, TOKENS, TOKENS_TEST } from "../../core/constants";
 import { flatMap, keyBy, get, omit, pick } from "lodash";
 import numeral from "numeral";
+import NEPQRModalButton from "./../Assets/NEPQRModalButton.js";
 
 let sendAddress, sendAmount, confirmButton, scriptHash, swh_usd, gas_usd;
 
@@ -391,7 +392,7 @@ class SendSWH extends Component {
                 width="45"
                 className="neo-logo fadeInDown"
               />
-              <h2>Send Zeepin Tokens</h2>
+              <h2>Switcheo.Network Tokens</h2>
             </div>
 
             <div className="col-xs-3 center">
@@ -413,17 +414,15 @@ class SendSWH extends Component {
                 <input
                   className="form-send-neo"
                   id="center"
-                  placeholder="Enter a valid swh public address here"
+                  placeholder="Enter a valid SWH public address here"
                   ref={node => {
                     sendAddress = node;
                   }}
                 />
               </div>
-							<Link to="/receive">
+              <Link>
               <div className="col-xs-3">
-                <div className="btn-send com-soon">
-								<span className="glyphicon glyphicon-qrcode marg-right-5" />
-								Receive</div>
+              <NEPQRModalButton />
               </div>
 							</Link>
 
@@ -494,33 +493,9 @@ class SendSWH extends Component {
 
           <div className="send-notice">
             <p>
-              Sending SWH requires a balance of 0.00000001 GAS+. Only send SWH to a valid
-              address that supports NEP5+ tokens on the NEO blockchain. When
-              sending SWH to an exchange please ensure the address supports SWH
-              tokens.
+              Sending Switcheo.Network (SWH) NEP5 tokens require a balance of 0.00000001 GAS+. Only send SWH to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending SWH to an exchange please ensure the address supports SWH tokens.
             </p>
-            <div className="col-xs-2 top-20" />
-            <div className="col-xs-8 top-20">
-              <p
-                className="center donations"
-                data-tip
-                data-for="donateTip"
-                onClick={() =>
-                  clipboard.writeText("AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b")
-                }
-              >
-                Morpheus Dev Team: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b
-              </p>
-              <ReactTooltip
-                className="solidTip"
-                id="donateTip"
-                place="top"
-                type="light"
-                effect="solid"
-              >
-                <span>Copy address to send donation</span>
-              </ReactTooltip>
-            </div>
+
           </div>
         </div>
       </div>

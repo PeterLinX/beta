@@ -25,14 +25,14 @@ class PortNRVE extends Component {
 			<div>
 
 
-						<div className="col-3">
+						<div className="col-3 flipInX">
 						<div className="port-logo-col">
-						<img
+						<Link to="/sendNRVE"><img
 							src={nrveLogo}
 							alt=""
 							width="36"
 							className="port-logos"
-						/>
+						/></Link>
 						<hr className="dash-hr" />
 						<h3><NEPQRModal />   <Link to="/sendNRVE"><span className=" glyphicon glyphicon-send "/></Link></h3>
 						</div><Link to="/sendNRVE">

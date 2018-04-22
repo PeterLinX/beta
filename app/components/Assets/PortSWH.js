@@ -25,15 +25,15 @@ class PortSWH extends Component {
 			<div>
 
 
-							<div className="col-3">
+							<div className="col-3 flipInX">
 
 							<div className="port-logo-col">
-							<img
+							<Link to="/sendSWH"><img
 								src={swhLogo}
 								alt=""
 								width="44"
 								className="port-logos"
-							/>
+							/></Link>
 							<hr className="dash-hr" />
 							<h3><NEPQRModal />   <Link to="/sendSWH"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>

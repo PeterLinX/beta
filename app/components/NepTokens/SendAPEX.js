@@ -22,6 +22,7 @@ import {
 import { ASSETS, TOKENS, TOKENS_TEST } from "../../core/constants";
 import { flatMap, keyBy, get, omit, pick } from "lodash";
 import numeral from "numeral";
+import NEPQRModalButton from "./../Assets/NEPQRModalButton.js";
 
 let sendAddress, sendAmount, confirmButton, scriptHash, cpx_usd, gas_usd;
 
@@ -386,14 +387,14 @@ class SendAPEX extends Component {
                 width="54"
                 className="neo-logo fadeInDown"
               />
-              <h2>Send APEX Tokens</h2>
+              <h2>APEX Tokens</h2>
             </div>
 
             <div className="col-xs-3 center">
 
             <span className="font-16">{numeral(
               Math.floor(this.props.cpx * 100000) / 100000
-            ).format("0,0.0000")} <span className="ltc-price"> APEX</span></span><br />
+            ).format("0,0.0000")} <span className="ltc-price"> CPX</span></span><br />
             <span className="market-price">{numeral(this.props.cpx * this.props.marketCPXPrice).format("$0,0.00")} USD</span>
             </div>
 
@@ -406,7 +407,7 @@ class SendAPEX extends Component {
             <div className="top-20">
               <div className="col-xs-9">
                 <input
-                  className="form-send-white "
+                  className="form-send-white"
                   id="center"
                   placeholder="Enter a valid APEX public address here"
                   ref={node => {
@@ -414,11 +415,9 @@ class SendAPEX extends Component {
                   }}
                 />
               </div>
-							<Link to="/receive">
+							<Link>
               <div className="col-xs-3">
-                <div className="grey-button com-soon">
-								<span className="glyphicon glyphicon-qrcode marg-right-5" />
-								Receive</div>
+                <NEPQRModalButton />
               </div>
 							</Link>
 
@@ -490,32 +489,10 @@ class SendAPEX extends Component {
 
           <div className="send-notice">
             <p>
-              Sending APEX requires a balance of 0.00000001 GAS+. Only send APEX to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending APEX to an exchange please ensure the address supports APEX tokens.
+              Sending APEX (CPX) NEP5 tokens require a balance of 0.00000001 GAS+. Only send CPX to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending CPX to an exchange please ensure the address supports CPX tokens.
             </p>
-            <div className="col-xs-2 top-20" />
-            <div className="col-xs-8 top-20">
-              <p
-                className="center donations"
-                data-tip
-                data-for="donateTip"
-                onClick={() =>
-                  clipboard.writeText("AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b")
-                }
-              >
-                Morpheus Dev Team: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b
-              </p>
-              <ReactTooltip
-                className="solidTip"
-                id="donateTip"
-                place="top"
-                type="light"
-                effect="solid"
-              >
-                <span>Copy address to send donation</span>
-              </ReactTooltip>
-            </div>
-          </div>
         </div>
+      </div>
       </div>
     );
   }

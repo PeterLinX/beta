@@ -53,7 +53,7 @@ class LoadClassicBitcoin extends Component {
 		}
 
 		if(this.props.btcLoggedIn){
-			this.props.history.push("/receiveBitcoin");
+			this.props.history.push("/sendBTC");
 		}
 
 	}
@@ -110,7 +110,7 @@ class LoadClassicBitcoin extends Component {
 			// var client = blocktrail.BlocktrailSDK({apiKey: key, apiSecret: secret, network: "BTC", testnet: this.props.net == "TestNet"});
 			// client.address(pa, function(err, address) { alert(address.balance); });
 
-			let redirectUrl = this.props.btcLoginRedirect || "/receiveBitcoin";
+			let redirectUrl = this.props.btcLoginRedirect || "/sendBTC";
 			let self = this;
 			setTimeout(()=>{
 				self.props.history.push(redirectUrl);
@@ -145,11 +145,11 @@ class LoadClassicBitcoin extends Component {
 							</div>
 
 
-							<div className="col-xs-12 center top-10">
+							<div className="col-xs-12 center">
 								<hr className="dash-hr-wide" />
 							</div>
 
-							<div className="col-xs-9">
+							<div className="col-xs-9 top-10">
 
 								<input
 									className="form-control-exchange"
@@ -161,10 +161,10 @@ class LoadClassicBitcoin extends Component {
 										}
 									} />
 
-                  <p className="btc-notice" top-30>Please ensure that your Bitcoin private key is backed up. Entering your BTC private key here will allow you access to your funds. Your private key or BTC address will not be saved.</p>
+                  <p className="btc-notice" top-30>Please ensure that your Bitcoin private key is backed up. Entering your BTC private key here will allow you access to your Bitcoin. Your BTC private key and public address will not be saved in Morpheus.</p>
 							</div>
 
-							<div className="col-xs-3">
+							<div className="col-xs-3 top-10">
 								<Link>
 									<div className="btc-button" onClick={()=>this.login(dispatch)} ><span className="glyphicon glyphicon-eye-close marg-right-5"/> Login</div>
 								</Link>
@@ -194,6 +194,17 @@ class LoadClassicBitcoin extends Component {
 						}
 
 						<div className="clearboth" />
+
+            <div className="col-xs-12 center top-30">
+              <hr className="dash-hr-wide" />
+            </div>
+
+            <div className="col-xs-2">
+            <Link to="/advancedBitcoin">
+            <div className="grey-button">Back</div>
+            </Link>
+            </div>
+
 
 			<div className="clearboth" />
 			</div>

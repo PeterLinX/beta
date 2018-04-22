@@ -24,14 +24,14 @@ class PortNEO extends Component {
 			<div>
 
 
-						<div className="col-3">
+						<div className="col-3 flipInX">
 						<div className="port-logo-col">
-						<img
+						<Link to="/send"><img
 							src={neoLogo}
 							alt=""
 							width="36"
 							className="port-logos"
-						/>
+						/></Link>
 						<hr className="dash-hr" />
 						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/send"><span className=" glyphicon glyphicon-send "/></Link></h3>
 						</div><Link to="/send">

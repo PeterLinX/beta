@@ -8,17 +8,6 @@ import { setMarketPrice, resetPrice } from "../modules/wallet";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 
-
-// force sync with balance data
-const refreshBalance = async (dispatch, net, address) => {
-	dispatch(sendEvent(true, "Refreshing..."));
-	initiateGetBalance(dispatch, net, address).then(response => {
-		dispatch(sendEvent(true, "Received latest blockchain information."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-	});
-};
-
-
 class Assets extends Component {
 	constructor(props) {
 		super(props);
@@ -34,66 +23,63 @@ class Assets extends Component {
 
 				<div className="row top-10 dash-portfolio center">
 
-				<Link to="/sendACAT">
+
+				<Link to="/sendLRN">
 					<div className="col-5">
-						<span className="market-price">ACAT {numeral(this.props.marketACATPrice).format("$0,0.000")}</span>
+						<span className="market-price">Loopring {numeral(this.props.marketLRNPrice).format("$0,0.000")}</span>
 						<h3>{numeral(
-							Math.floor(this.props.acat * 100000) / 100000
-						).format("0,0.000")} <span className="ltc-price"> ACAT</span></h3>
+							Math.floor(this.props.lrn * 100000) / 100000
+						).format("0,0.000")} <span className="ltc-price"> LRN</span></h3>
 						<hr className="dash-hr" />
-						<span className="market-price">{numeral(this.props.acat*this.props.marketACATPrice).format("$0,0.00")} USD</span>
+						<span className="market-price">{numeral(this.props.lrn*this.props.marketLRNPrice).format("$0,0.00")} USD</span>
 					</div>
 				</Link>
 
 
-				<Link to="/sendIAM">
-					<div className="col-5">
-						<span className="market-price">IAM {numeral(this.props.marketIAMPrice).format("$0,0.00")}</span>
-						<h3>{numeral(
-							Math.floor(this.props.iam * 100000) / 100000
-						).format("0,0.000")} <span className="qlink-price"> IAM</span></h3>
-						<hr className="dash-hr" />
-						<span className="market-price">{numeral(this.props.iam*this.props.marketIAMPrice).format("$0,0.00")} USD</span>
-					</div>
-				</Link>
-
-
-
-					<Link to="/sendCGE">
+					<Link to="/sendBTC">
 						<div className="col-5">
-							<span className="market-price">CGE {numeral(this.props.marketRPXPrice).format("$0,0.00")}</span>
+							<span className="market-price">Bitcoin {numeral(this.props.marketBTCPrice).format("$0,0.00")}</span>
 							<h3>{numeral(
-								Math.floor(this.props.cge * 100000) / 100000
-							).format("0,0.000")} <span className="thor-price"> CGE</span></h3>
+								Math.floor(this.props.btc * 100000) / 100000
+							).format("0,0.000")} <span className="btc-price"> BTC</span></h3>
 							<hr className="dash-hr" />
-							<span className="market-price">{numeral(this.props.cge*this.props.marketCGEPrice).format("$0,0.00")} USD</span>
-						</div>
-					</Link>
-
-					<Link to="/sendNRVE">
-						<div className="col-5">
-							<span className="market-price">NRVE {numeral(this.props.marketNRVEPrice).format("$0,0.00")}</span>
-							<h3>{numeral(
-								Math.floor(this.props.nrve * 100000) / 100000
-							).format("0,0.000")} <span className="dbc-price"> NRVE</span></h3>
-							<hr className="dash-hr" />
-							<span className="market-price">{numeral(this.props.nrve*this.props.marketNRVEPrice).format("$0,0.00")} USD</span>
-						</div>
-					</Link>
-
-					<Link to="/sendTHOR">
-						<div className="col-5">
-							<span className="market-price">THOR {numeral(this.props.marketTHORPrice).format("$0,0.00")}</span>
-							<h3>{numeral(
-								Math.floor(this.props.thor * 100000) / 100000
-							).format("0,0.000")} <span className="thor-price"> THOR</span></h3>
-							<hr className="dash-hr" />
-							<span className="market-price">{numeral(this.props.thor*this.props.marketTHORPrice).format("$0,0.00")} USD</span>
+							<span className="market-price">{numeral(this.props.btc*this.props.marketBTCPrice).format("$0,0.00")} USD</span>
 						</div>
 					</Link>
 
 
+					<Link to="/sendETH">
+						<div className="col-5">
+							<span className="market-price">Ethereum {numeral(this.props.marketETHPrice).format("$0,0.00")}</span>
+							<h3>{numeral(this.props.eth/10000000000).format("0,0.0000")} <span className="eth-price"> ETH</span></h3>
+							<hr className="dash-hr" />
+							<span className="market-price">{numeral((this.props.eth/10000000000) * this.props.marketETHPrice).format("$0,0.00")} USD</span>
+						</div>
+					</Link>
 
+
+					<Link to="/sendLTC">
+						<div className="col-5">
+							<span className="market-price">Litecoin {numeral(this.props.marketLTCPrice).format("$0,0.00")}</span>
+							<h3>{numeral(
+								Math.floor(this.props.ltc * 100000) / 100000
+							).format("0,0.000")} <span className="eth-price"> LTC</span></h3>
+							<hr className="dash-hr" />
+							<span className="market-price">{numeral(this.props.ltc*this.props.marketLTCPrice).format("$0,0.00")} USD</span>
+						</div>
+					</Link>
+
+
+					<Link to="/sendONT">
+						<div className="col-5">
+							<span className="market-price">Ontology {numeral(this.props.marketONTPrice).format("$0,0.00")}</span>
+							<h3>{numeral(
+								Math.floor(this.props.ont * 100000) / 100000
+							).format("0,0.000")} <span className="dbc-price"> ONT</span></h3>
+							<hr className="dash-hr" />
+							<span className="market-price">{numeral(this.props.ont*this.props.marketONTPrice).format("$0,0.00")} USD</span>
+						</div>
+					</Link>
 
 				</div>
 			</div>
@@ -105,11 +91,10 @@ const mapStateToProps = state => ({
 	gas: state.wallet.Gas,
 	neo: state.wallet.Neo,
 	btc: state.wallet.Btc,
-	acat: state.wallet.Acat,
-	cge: state.wallet.Cge,
-	iam: state.wallet.Iam,
-	nrve: state.wallet.Nrve,
-	thor: state.wallet.Thor,
+	lrn: state.wallet.Lrn,
+	ltc: state.wallet.Ltc,
+	eth: state.wallet.Eth,
+	ont: state.wallet.Ont,
 	address: state.account.address,
 	net: state.metadata.network,
 	price: state.wallet.price,
@@ -117,14 +102,15 @@ const mapStateToProps = state => ({
 	marketGASPrice: state.wallet.marketGASPrice,
 	marketNEOPrice: state.wallet.marketNEOPrice,
 	marketBTCPrice: state.wallet.marketBTCPrice,
-	marketACATPrice: state.wallet.marketACATPrice,
-	marketIAMPrice: state.wallet.marketIAMPrice,
-	marketCGEPrice: state.wallet.marketCGEPrice,
-	marketNRVEPrice: state.wallet.marketNRVEPrice,
-	marketTHORPrice: state.wallet.marketTHORPrice,
+	marketLRNPrice: state.wallet.marketLRNPrice,
+	marketONTPrice: state.wallet.marketONTPrice,
+	marketETHPrice: state.wallet.marketETHPrice,
+	marketLTCPrice: state.wallet.marketLTCPrice,
 	btcLoggedIn: state.account.btcLoggedIn,
 	btcPrivKey: state.account.btcPrivKey,
 	btcPubAddr: state.account.btcPubAddr,
+	btc: state.wallet.Btc,
+	marketBTCPrice: state.wallet.marketBTCPrice
 });
 
 Assets = connect(mapStateToProps)(Assets);

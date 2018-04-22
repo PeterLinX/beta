@@ -32,7 +32,7 @@ class Support extends Component {
         <div className="row">
           <div className="col-xs-4 center send-info"
           onClick={() =>
-                  openExplorer("https://github.com/MorpheusWallet")
+                  openExplorer("https://github.com/MorpheusWallet/beta/releases")
           }
           >
           <img
@@ -130,7 +130,7 @@ class Support extends Component {
                     <strong>Yes.</strong> You may use the same private key and/or encrypted key and password to login to NEON, O3 and NeoTracker.
                    </div>
                  </AccordionItem>
-  
+
 
                  <AccordionItem titleClassName="accord-title" title="How do I login to my Ledger Nano S?" className="col-xs-12">
                  <div className="top-20 accord-body">

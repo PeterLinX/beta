@@ -22,6 +22,8 @@ import {
 import { ASSETS, TOKENS, TOKENS_TEST } from "../../core/constants";
 import { flatMap, keyBy, get, omit, pick } from "lodash";
 import numeral from "numeral";
+import ACATChart from "./../NepCharts/ACATChart";
+import NEPQRModalButton from "./../Assets/NEPQRModalButton.js";
 
 let sendAddress, sendAmount, confirmButton, scriptHash, acat_usd, gas_usd;
 
@@ -376,25 +378,26 @@ class SendACAT extends Component {
                   :
                   null
           }
-        <Assets />
         <div id="send">
-          <div className="row dash-chart-panel">
-            <div className="col-xs-9">
+          <div className="row dash-panel">
+            <div className="col-xs-5">
               <img
                 src={acatLogo}
                 alt=""
                 width="72"
                 className="neo-logo fadeInDown"
               />
-              <h2>Send ACAT Tokens</h2>
+              <h2>AlphaCat</h2>
+              <hr className="dash-hr-wide" />
+              <span className="market-price"> {numeral(this.props.marketACATPrice).format("$0,0.000")} each</span><br />
+              <span className="font24">{numeral(
+                Math.floor(this.props.acat * 100000) / 100000
+              ).format("0,0.0000")} <span className="eth-price"> ACAT</span></span><br />
+              <span className="market-price">{numeral(this.props.acat * this.props.marketACATPrice).format("$0,0.00")} USD</span>
             </div>
 
-            <div className="col-xs-3 center">
-
-            <span className="font-16">{numeral(
-              Math.floor(this.props.acat * 100000) / 100000
-            ).format("0,0.0000")} <span className="ltc-price"> ACAT</span></span><br />
-            <span className="market-price">{numeral(this.props.acat * this.props.marketACATPrice).format("$0,0.000")} USD</span>
+            <div className="col-xs-7 center">
+            <ACATChart />
             </div>
 
             <div className="col-xs-12 center">
@@ -414,11 +417,9 @@ class SendACAT extends Component {
                   }}
                 />
               </div>
-							<Link to="/receive">
+							<Link>
               <div className="col-xs-3">
-                <div className="grey-button com-soon">
-								<span className="glyphicon glyphicon-qrcode marg-right-5" />
-								Receive</div>
+                <NEPQRModalButton />
               </div>
 							</Link>
 
@@ -490,30 +491,9 @@ class SendACAT extends Component {
 
           <div className="send-notice">
             <p>
-              Sending ACAT requires a balance of 0.00000001 GAS+. Only send ACAT to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending ACAT to an exchange please ensure the address supports ACAT tokens.
+              Sending AlphaCat (ACAT) NEP5 tokens require a balance of 0.00000001 GAS+. Only send ACAT to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending ACAT to an exchange please ensure the address supports ACAT tokens.
             </p>
-            <div className="col-xs-2 top-20" />
-            <div className="col-xs-8 top-20">
-              <p
-                className="center donations"
-                data-tip
-                data-for="donateTip"
-                onClick={() =>
-                  clipboard.writeText("AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b")
-                }
-              >
-                Morpheus Dev Team: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b
-              </p>
-              <ReactTooltip
-                className="solidTip"
-                id="donateTip"
-                place="top"
-                type="light"
-                effect="solid"
-              >
-                <span>Copy address to send donation</span>
-              </ReactTooltip>
-            </div>
+            
           </div>
         </div>
       </div>

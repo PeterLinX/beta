@@ -336,34 +336,9 @@ class Send extends Component {
 						<p>
               All NEO and GAS transactions are FREE. Only send NEO or GAS to a valid NEO address. Sending NEO/GAS to an address other than a valid NEO address can result in your NEO/GAS being lost. You cannot send a fraction of a NEO. Please double check address and amount before sending.
 						</p>
-						<div className="col-xs-2 top-20"/>
-						<div className="col-xs-8 top-20">
-							<p className="center donations"
-								data-tip
-								data-for="donateTip"
-								onClick={() => clipboard.writeText("AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b")}
-							>Morpheus Dev Team: AG3p13w3b1PT7UZtsYBoQrt6yjjNhPNK8b</p>
-							<ReactTooltip
-								className="solidTip"
-								id="donateTip"
-								place="top"
-								type="light"
-								effect="solid"
-							>
-								<span>Copy address to send a tip to the developers</span>
-							</ReactTooltip>
-						</div>
+
 					</div>
-
-
 				</div>
-
-
-
-
-
-
-
 			</div>
 		);
 	}
@@ -381,5 +356,4 @@ const mapStateToProps = state => ({
 });
 
 Send = connect(mapStateToProps)(Send);
-
 export default Send;

@@ -25,15 +25,15 @@ class PortTNC extends Component {
 			<div>
 
 
-							<div className="col-3">
+							<div className="col-3 flipInX">
 
 							<div className="port-logo-col">
-							<img
+							<Link to="/SendTNC"><img
 								src={tncLogo}
 								alt=""
 								width="50"
 								className="port-logos"
-							/>
+							/></Link>
 							<hr className="dash-hr" />
 							<h3><NEPQRModal />   <Link to="/SendTNC"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>

@@ -9,6 +9,7 @@ import { getAccountsFromWIFKey } from "neon-js";
 import Logo from "./Brand/LogoBlank";
 import neoIcon from "../img/neo-icon.png";
 import goIcon from "../img/go-icon.png";
+import ReactTooltip from "react-tooltip";
 
 let wif;
 
@@ -147,14 +148,27 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => {
 					</div>
 				</Link>
 
-				<Link to="/LoginLedgerNanoS">
+				<Link
+				data-tip
+				data-for="soonTip"
+				>
 					<div className="dash-icon-bar">
 						<div className="icon-border">
 							<div className="ledger-sm" />
 						</div>
-            Login to Ledger Nano S
+						Login to Ledger Nano S
 					</div>
 				</Link>
+
+				<ReactTooltip
+					className="solidTip"
+					id="soonTip"
+					place="top"
+					type="light"
+					effect="solid"
+				>
+					<span>Coming Soon</span>
+				</ReactTooltip>
 
 			</div>
 			<div className="login-copyright">&copy; Copyright 2018 Morpheus</div>

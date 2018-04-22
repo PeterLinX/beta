@@ -52,7 +52,7 @@ class NewLitecoin extends Component {
         }
 
         if(this.props.ltcLoggedIn){
-            this.props.history.push("/receiveLitecoin");
+            this.props.history.push("/sendLTC");
         }
 
     }
@@ -123,11 +123,11 @@ class NewLitecoin extends Component {
             // client.address(pa, function(err, address) { alert(address.balance); });
 
 
-            let redirectUrl = this.props.ltcLoginRedirect || "/receiveLitecoin";
+            let redirectUrl = this.props.ltcLoginRedirect || "/sendLTC";
             let self = this;
             setTimeout(()=>{
                 self.props.history.push(redirectUrl);
-            }, 3000);
+            }, 100);
         }else{
             alert("Failed to login");
         }
@@ -152,7 +152,7 @@ class NewLitecoin extends Component {
 								src={litecoinLogo}
 								alt=""
 								width="44"
-								className="neo-logo logobounce"
+								className="neo-logo flipInY"
 							/>
 							<h2>Load Saved or Create New Litecoin Address</h2>
 							</div>

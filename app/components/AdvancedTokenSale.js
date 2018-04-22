@@ -505,25 +505,25 @@ class TokenSale extends Component {
 				className="btn-send top-30"
 				onClick={() => {
                     if (token_script.value === '') {
-                        this.props.dispatch(sendEvent(false, "You can not send without address."));
+                        this.props.dispatch(sendEvent(false, "You can not send NEO to a token sale without a valid hashscript address."));
                         setTimeout(() => this.props.dispatch(clearTransactionEvent()), 1000);
                         return false;
                     }
 
                     if (payment_method.value === '') {
-                        this.props.dispatch(sendEvent(false, "You can not send without payment method."));
+                        this.props.dispatch(sendEvent(false, "Please select a payment method."));
                         setTimeout(() => this.props.dispatch(clearTransactionEvent()), 1000);
                         return false;
                     }
 
                     if (parseFloat(amount.value) <= 0) {
-                        this.props.dispatch(sendEvent(false, "You cannot send negative amounts of asset."));
+                        this.props.dispatch(sendEvent(false, "You cannot send negative amounts of NEO."));
                         setTimeout(() => this.props.dispatch(clearTransactionEvent()), 1000);
                         return false;
                     }
 
                     if (parseFloat(amount.value) !== parseInt(amount.value)) {
-                        this.props.dispatch(sendEvent(false, "You cannot send portion amounts of asset."));
+                        this.props.dispatch(sendEvent(false, "You cannot send a fraction of a NEO."));
                         setTimeout(() => this.props.dispatch(clearTransactionEvent()), 1000);
                         return false;
                     }

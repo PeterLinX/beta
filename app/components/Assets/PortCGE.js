@@ -25,14 +25,14 @@ class PortCGE extends Component {
 			<div>
 
 
-							<div className="col-3">
+							<div className="col-3 flipInX">
 							<div className="port-logo-col">
-							<img
+							<Link to="/sendCGE"><img
 								src={cgeLogo}
 								alt=""
 								width="36"
 								className="port-logos"
-							/>
+							/></Link>
 							<hr className="dash-hr" />
 							<h3><NEPQRModal />   <Link to="/sendCGE"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div><Link to="/sendCGE">

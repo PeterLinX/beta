@@ -25,15 +25,15 @@ class PortGDM extends Component {
 
 
 
-						<div className="col-3 ">
+						<div className="col-3 flipInX">
 
 						<div className="port-logo-col">
-						<img
+						<Link to="/sendGDM"><img
 							src={gdmLogo}
 							alt=""
 							width="62"
 							className="port-logos"
-						/>
+						/></Link>
 						<hr className="dash-hr" />
 						<h3><NEPQRModal />   <Link to="/sendGDM"><span className=" glyphicon glyphicon-send "/></Link></h3>
 						</div>

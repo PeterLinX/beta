@@ -66,6 +66,7 @@ export const TOKENS_TEST = {
 	CGE: '34579e4614ac1a7bd295372d3de8621770c76cdc',
 	CPX: '45d493a6f73fa5f404244a5fb8472fc014ca5885',
 	DBC: 'b951ecbbc5fe37a9c280a76cb0ce0014827294cf',
+	EFX: 'acbc532904b6b51b5ea6d19b803d78af70e7e6f9',
 	GALA: '9577c3f972d769220d69d1c4ddbd617c44d067aa',
 	IAM: '891daf0e1750a1031ebe23030828ad7781d874d6',
 	LRN: '06fa8be9b6609d963e8fc63977b9f8dc5f10895f',
@@ -81,6 +82,7 @@ export const TOKENS_TEST = {
 	TKY: '132947096727c84c7f9e076c90f08fec3bc17f18',
 	TNC: '08e8c4400f1af2c20c28e0018f29535eb85d15b6',
 	WWB: '40bb36a54bf28872b6ffdfa7fbc6480900e58448',
+	XQT: '7ac4a2bb052a047506f2f2d3d1528b89cc38e8d4',
 	ZPT: 'ac116d4b8d4ca55e6b6d4ecce2192039b51cccc5'
 };
 
@@ -91,6 +93,7 @@ export const TOKENS = {
 	CGE: '34579e4614ac1a7bd295372d3de8621770c76cdc',
 	CPX: '45d493a6f73fa5f404244a5fb8472fc014ca5885',
 	DBC: 'b951ecbbc5fe37a9c280a76cb0ce0014827294cf',
+	EFX: 'acbc532904b6b51b5ea6d19b803d78af70e7e6f9',
 	GALA: '9577c3f972d769220d69d1c4ddbd617c44d067aa',
 	IAM: '891daf0e1750a1031ebe23030828ad7781d874d6',
 	LRN: '06fa8be9b6609d963e8fc63977b9f8dc5f10895f',
@@ -106,19 +109,16 @@ export const TOKENS = {
 	TKY: '132947096727c84c7f9e076c90f08fec3bc17f18',
 	TNC: '08e8c4400f1af2c20c28e0018f29535eb85d15b6',
 	WWB: '40bb36a54bf28872b6ffdfa7fbc6480900e58448',
+	XQT: '7ac4a2bb052a047506f2f2d3d1528b89cc38e8d4',
 	ZPT: 'ac116d4b8d4ca55e6b6d4ecce2192039b51cccc5'
 };
 
 export const TOKEN_SCRIPT_TEST = [
-	{token: "Concierge (CGE)", hashscript: '34579e4614ac1a7bd295372d3de8621770c76cdc'},
-	{token: "Orbis (OBT)", hashscript: '0e86a40588f715fcaf7acd1812d50af478e6e917'},
-  {token: "Thor (THOR)", hashscript: '67a5086bac196b67d5fd20745b0dc9db4d2930ed'}
+	{token: "Concierge (CGE)", hashscript: '34579e4614ac1a7bd295372d3de8621770c76cdc'}
 ];
 
 export const TOKEN_SCRIPT = [
-	{token: "Concierge (CGE)", hashscript: '34579e4614ac1a7bd295372d3de8621770c76cdc'},
-	{token: "Orbis (OBT)", hashscript: '0e86a40588f715fcaf7acd1812d50af478e6e917'},
-  {token: "Thor (THOR)", hashscript: '67a5086bac196b67d5fd20745b0dc9db4d2930ed'}
+	{token: "Concierge (CGE)", hashscript: '34579e4614ac1a7bd295372d3de8621770c76cdc'}
 ];
 
 export const BLOCK_TOKEN = "9ba58edd979a467a96f361a45b040b75";

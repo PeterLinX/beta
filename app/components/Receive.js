@@ -157,28 +157,9 @@ class Receive extends Component {
 						<div className="col-xs-4 top-20">
 							<div
 								className="addressBox-send center animated fadeInDown pointer"
-								data-tip
-								data-for="qraddTip"
 								onClick={() => clipboard.writeText(this.props.address)}
 							>
 								<QRCode size={150} className="neo-qr" value={this.props.address} />
-								<ReactTooltip
-									className="solidTip"
-									id="qraddTip"
-									place="top"
-									type="light"
-									effect="solid"
-								>
-
-                <input
-        					className="ledger-address"
-        					onClick={() => clipboard.writeText(this.props.address)}
-        					id="center"
-        					placeholder={this.props.address}
-        					value={this.props.address}
-        				/>
-									<span>Click to copy your NEO Address</span>
-								</ReactTooltip>
 							</div>
 						</div>
 

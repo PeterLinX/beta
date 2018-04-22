@@ -23,15 +23,15 @@ class PortRPX extends Component {
 
 			<div>
 
-							<div className="col-3">
+							<div className="col-3 flipInX">
 
 							<div className="port-logo-col">
-							<img
+							<Link to="/sendRPX"><img
 								src={rpxLogo}
 								alt=""
 								width="84"
 								className="port-logos"
-							/>
+							/></Link>
 							<hr className="dash-hr" />
 							<h3><NEPQRModal />   <Link to="/sendRPX"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>

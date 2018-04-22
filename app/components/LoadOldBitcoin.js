@@ -52,7 +52,7 @@ class LoadOldBitcoin extends Component {
 		}
 
 		if(this.props.btcLoggedIn){
-			this.props.history.push("/receiveBitcoin");
+			this.props.history.push("/sendBTC");
 		}
 
 	}
@@ -85,7 +85,7 @@ class LoadOldBitcoin extends Component {
 			dispatch(btcLogIn(pa, pk));
 			let balance = await axios.get(getBalanceLink(this.props.net, pa));
 			dispatch(setBtcBalance(parseFloat(balance.data) / 100000000));
-			let redirectUrl = this.props.btcLoginRedirect || "/receiveBitcoin";
+			let redirectUrl = this.props.btcLoginRedirect || "/sendBTC";
 			let self = this;
 			setTimeout(()=>{
 				self.props.history.push(redirectUrl);

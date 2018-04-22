@@ -151,7 +151,7 @@ class Receive extends Component {
 									type="dark"
 									effect="solid"
 								>
-									<span>Click to copy your NEP5 Address <br />
+									<span>Click to copy your NEO/NEP5 Address <br />
                   {this.props.address}
                   </span>
 								</ReactTooltip>

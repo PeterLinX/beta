@@ -25,17 +25,17 @@ class PortETH extends Component {
 			<div>
 
 
-							<div className="col-3 ">
+							<div className="col-3 flipInX">
 
 							<div className="port-logo-col">
-							<img
+							<Link to="/sendETH"><img
 								src={ethLogo}
 								alt=""
 								width="28"
 								className="port-logos"
-							/>
+							/></Link>
 							<hr className="dash-hr" />
-							<h3><Link to="/receiveEthereum"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendETH"><span className=" glyphicon glyphicon-send "/></Link></h3>
+							<h3><Link to="/sendETH"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendETH"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 							<Link to="/NewEthereum">
 							<div className="port-price-col">

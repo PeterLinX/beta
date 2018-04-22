@@ -28,6 +28,8 @@ import { setMarketPrice, resetPrice } from "../modules/wallet";
 import { setCombinedBalance } from "../modules/wallet";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import numeral from "numeral";
+import LTCChart from "./NepCharts/LTCChart";
+import LTCQRModalButton from "./LTCQRModalButton.js";
 
 var bitcoin = require("bitcoinjs-lib");
 var WAValidator = require("wallet-address-validator");
@@ -37,6 +39,13 @@ var buffer = require("buffer");
 var bcypher = require("blockcypher");
 var CoinKey = require("coinkey");
 let sendAddress, sendAmount, confirmButton;
+
+const refreshBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
+  initiateGetBalance(dispatch, net, address ,btc ,ltc ,eth).then(response => {
+    dispatch(sendEvent(true, "Prices and balances updated."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+  });
+};
 
 const styles = {
     overlay: {
@@ -387,34 +396,38 @@ class SendLTC extends Component {
                   :
                   null
           }
-        <div id="send">
+        <div id="send"
+        onLoad={() =>
+					refreshBalance(
+						this.props.dispatch,
+						this.props.net,
+						this.props.address,
+						this.props.btc,
+						this.props.ltc,
+						this.props.eth
+					)
+				}
+        >
           <div className="row dash-panel">
-            <div className="col-xs-8">
+            <div className="col-xs-5">
               <img
                 src={litecoinLogo}
                 alt=""
                 width="44"
-                className="neo-logo fadeInDown"
+                className="neo-logo flipInY"
               />
-              <h2>Send Litecoin (LTC)</h2>
+              <h2>Litecoin</h2>
+              <hr className="dash-hr-wide" />
+							<span className="market-price"> {numeral(this.props.marketLTCPrice).format("$0,0.00")} each</span><br />
+							<span className="font24">{numeral(
+								Math.floor(this.props.ltc * 100000) / 100000
+							).format("0,0.00000000")} <span className="eth-price"> LTC</span></span><br />
+							<span className="market-price">{numeral(this.props.ltc * this.props.marketLTCPrice).format("$0,0.00")} USD</span>
+
             </div>
 
-            <div className="col-xs-4 center">
-              <div className="send-panel-price">
-                {numeral(this.props.ltc).format("0,0.0000000")}{" "}
-                <span className="ltc-price"> LTC</span>
-              </div>
-
-              <span className="market-price">
-                {numeral(this.props.ltc * this.props.marketLTCPrice).format(
-                  "$0,0.00"
-                )}{" "}
-                USD
-              </span>
-            </div>
-
-            <div className="col-xs-12 center">
-              <hr className="dash-hr-wide top-20" />
+            <div className="col-xs-7 center">
+            <LTCChart />
             </div>
 
             <div className="clearboth" />
@@ -422,7 +435,7 @@ class SendLTC extends Component {
             <div className="top-20">
               <div className="col-xs-9">
                 <input
-                  className={formClass}
+                  className="form-send-white "
                   id="center"
                   placeholder="Enter a valid LTC public address here"
                   ref={node => {
@@ -432,17 +445,12 @@ class SendLTC extends Component {
               </div>
 
               <div className="col-xs-3">
-                <Link to={"/receiveLitecoin"}>
-                  <button className="grey-button com-soon">
-                    <span className="glyphicon glyphicon-qrcode marg-right-5" />{" "}
-                    Receive
-                  </button>
-                </Link>
+                <LTCQRModalButton />
               </div>
 
               <div className="col-xs-5  top-20">
                 <input
-                  className={formClass}
+                  className="form-send-white "
                   type="number"
                   id="assetAmount"
                   min="1"
@@ -460,7 +468,7 @@ class SendLTC extends Component {
               </div>
               <div className="col-xs-4 top-20">
                 <input
-                  className={formClass}
+                  className="form-send-white "
                   id="sendAmount"
                   onChange={this.handleChangeUSD}
                   onClick={this.handleChangeUSD}
@@ -509,36 +517,10 @@ class SendLTC extends Component {
 
               <div className="col-xs-12 com-soon">
                 Fees: 0.0001 LTC/KB<br />
-                Block: {" "}{this.props.blockIndex}
               </div>
-              <div className="col-xs-12 top-20">
+              <div className="col-xs-12 top-10">
                 <TransactionHistoryLTC />
               </div>
-            </div>
-          </div>
-
-          <div className="send-notice">
-            <div className="col-xs-2" />
-            <div className="col-xs-8">
-              <p
-                className="center donations"
-                data-tip
-                data-for="donateTip"
-                onClick={() =>
-                  clipboard.writeText("LP7vnYjxKQB7dkik38ghMhC724iVJ7Cqir")
-                }
-              >
-                Morpheus Dev Team: LP7vnYjxKQB7dkik38ghMhC724iVJ7Cqir
-              </p>
-              <ReactTooltip
-                className="solidTip"
-                id="donateTip"
-                place="top"
-                type="light"
-                effect="solid"
-              >
-                <span>Copy address to send donation</span>
-              </ReactTooltip>
             </div>
           </div>
         </div>
@@ -555,16 +537,24 @@ const mapStateToProps = state => ({
   ltc_address: state.account.ltcPubAddr,
   ltc_wif: state.account.ltcPrivKey,
   net: state.metadata.network,
-  neo: state.wallet.Neo,
   marketLTCPrice: state.wallet.marketLTCPrice,
   selectedAsset: state.transactions.selectedAsset,
   confirmPane: state.dashboard.confirmPane,
-  ltc: state.wallet.Ltc,
   marketLTCPrice: state.wallet.marketLTCPrice,
   ltcLoggedIn: state.account.ltcLoggedIn,
   ltcPrivKey: state.account.ltcPrivKey,
   ltcPubAddr: state.account.ltcPubAddr,
-  combined: state.wallet.combined
+  combined: state.wallet.combined,
+  price: state.wallet.price,
+  btc: state.account.Btc,
+  ltc: state.account.Ltc,
+  eth: state.account.Eth,
+  wif: state.account.wif,
+  neo: state.wallet.Neo,
+  gas: state.wallet.Gas,
+  btc: state.wallet.Btc,
+  ltc: state.wallet.Ltc,
+  eth: state.wallet.Eth
 });
 
 SendLTC = connect(mapStateToProps)(SendLTC);

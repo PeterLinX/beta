@@ -7,7 +7,7 @@ import {
   getWalletDBHeight,
   getAPIEndpoint
 } from "neon-js";
-import Neon, { api,wallet } from "@cityofzion/neon-js";
+import Neon, { api, wallet } from "@cityofzion/neon-js";
 import { setClaim } from "../modules/claim";
 import { setBlockHeight, setNetwork } from "../modules/metadata";
 import {
@@ -20,11 +20,13 @@ import {
     setEthTransactionHistory,
     setLrcTransactionHistory,
     setEosTransactionHistory,
+    setElaTransactionHistory,
     setBtcBalance,
     setLtcBalance,
     setCombinedBalance,
     setEosBalance,
     setEthBalance,
+    setElaBalance,
     setLrcBalance
 } from "../modules/wallet";
 import {setBtcBlockHeight,setLtcBlockHeight} from "../modules/metadata";
@@ -33,17 +35,15 @@ import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import axios from "axios";
 import { TOKENS_TEST } from "../core/constants";
 import { ETHERIO_TOKEN } from "../core/constants";
-import { BITGO_TOKEN } from "../core/constants";
 import { TOKENS } from "../core/constants";
 import { BLOCK_TOKEN } from "../core/constants";
 import transactions from "../modules/transactions";
 
 let intervals = {};
-let acatScriptHash, aphScriptHash, dbcScriptHash, galaScriptHash, iamScriptHash, cgeScriptHash, cpxScriptHash, lrnScriptHash, nrveScriptHash, obtScriptHash, ontScriptHash, pkcScriptHash,  qlcScriptHash, rhtScriptHash, rpxScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, swhScriptHash, wwbScriptHash, zptScriptHash;
+let acatScriptHash, aphScriptHash, dbcScriptHash, efxScriptHash, galaScriptHash, iamScriptHash, cgeScriptHash, cpxScriptHash, lrnScriptHash, nrveScriptHash, obtScriptHash, ontScriptHash, pkcScriptHash,  qlcScriptHash, rhtScriptHash, rpxScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, swhScriptHash, wwbScriptHash,  xqtScriptHash, zptScriptHash;
 let netSelect;
 
 
-// putting this back in wallet, does not belong in neon-js
 export const getMarketPriceUSD = amount => {
   return axios
     .get("https://bittrex.com/api/v1.1/public/getticker?market=USDT-NEO")
@@ -101,6 +101,16 @@ const getDbcBalance = async (net,address) => {
         dbc_token = TOKENS_TEST.DBC;
     }
     return getTokenBalance (net,address,dbc_token);
+}
+
+const getEfxBalance = async (net,address) => {
+    let efx_token;
+    if (net === "MainNet") {
+        efx_token = TOKENS.EFX;
+    } else {
+        efx_token = TOKENS_TEST.EFX;
+    }
+    return getTokenBalance (net,address,efx_token);
 }
 
 const getGalaBalance = async (net,address) => {
@@ -254,6 +264,16 @@ const getWwbBalance = async (net,address) => {
     return getTokenBalance	(net,address,wwb_token);
 }
 
+const getXqtBalance = async (net,address) => {
+    let xqt_token;
+    if (net === "MainNet") {
+        xqt_token = TOKENS.XQT;
+    } else {
+        xqt_token = TOKENS_TEST.XQT;
+    }
+    return getTokenBalance	(net,address,xqt_token);
+}
+
 const getZptBalance = async (net,address) => {
     let zpt_token;
     if (net === "MainNet") {
@@ -269,7 +289,7 @@ const getTokenBalance = async (net,address,token) => {
     console.log("endpoint = "+endpoint);
     const  scriptHash  = token;
     try {
-        const response = await api.nep5.getToken(endpoint, scriptHash, address);
+        const response = await api.nep5.getToken("http://seed1.bridgeprotocol.io:10332", scriptHash, address);
         console.log("nep5 balance response = "+JSON.stringify(response));
         return response.balance;
 
@@ -296,7 +316,7 @@ const getGasPrice = async gasVal => {
 const getMarketPrice = async () => {
   try {
     let marketPrices = await axios.get(
-      "https://min-api.cryptocompare.com/data/pricemulti?fsyms=GAS,NEO,ACAT,BTC,CGE,CPX,DBC,ELA,EOS,ETH,GALA,LTC,LRN,OBT,ONT,QLC,RPX,THOR,TNC,TKY,SWH,XMR,ZPT&tsyms=USD"
+      "https://min-api.cryptocompare.com/data/pricemulti?fsyms=GAS,NEO,ACAT,BTC,CGE,CPX,DBC,ELA,EOS,ETH,EFX,GALA,LTC,LRN,OBT,ONT,QLC,RPX,SWH,THOR,TNC,TKY,QTUM,XMR,XQT,ZPT&tsyms=USD"
     );
     console.log("market price="+JSON.stringify(marketPrices));
     return marketPrices;
@@ -315,6 +335,31 @@ const getUnspentAmount = (transactions,tx_hash) => {
         }
     }
     return 0;
+}
+
+const syncElaTransactionHistory = async (dispatch, net, ela_address) => {
+    console.log("start ela transaction history");
+    let txs = [];
+    let amount,txid;
+    let base = "https://blockchain.elastos.org/api/v1/txs/?address=" + ela_address + "&pageNum=0";
+    let response = await axios.get(base);
+    let transactions = response.data.txs;
+    if(transactions !== undefined) {
+        for (let i = 0; i < transactions.length; i++) {
+            let txInfo = transactions[i];
+            amount = parseFloat(txInfo.valueOut);
+            txid = txInfo.txid
+            txs = txs.concat([
+                {
+                    type: "ELA",
+                    amount: amount,
+                    txid: txid,
+                    block_index: txInfo.blockheight
+                }
+            ]);
+        }
+    }
+    dispatch(setElaTransactionHistory(txs))
 }
 
 const syncEosTransactionHistory = async (dispatch, net, address) => {
@@ -419,7 +464,7 @@ const syncEthTransactionHistory = async (dispatch,net,address) => {
                     {
                         type: "ETH",
                         amount: amount,
-                        txid: transactions[i].tx_hash,
+                        txid: '0x' + transactions[i].tx_hash,
                         block_index: transactions[i].block_height
                     }
                 ]);
@@ -555,27 +600,7 @@ const getLtcBalance = async (net , ltc_address) => {
     }
 }
 
-const getEosBalance = async (net, eth_address) => {
-    let base , hex_base;
-    if (eth_address.value.chatAt(0) == '0' && eth_address.value.chatAt(1)) {
-        hex_address = eth_address;
-    } else {
-        hex_address = '0x' + eth_address;
-    }
-    var BitGoJS = require("bitgo");
-    console.log("BitGoJS is created.")
-    var bitgo = BitGoJS.BitGo({env: 'main', accessToken: BITGO_TOKEN });
-    console.log("bitgo is created.")
-    bitgo.coin("eth").wallets().getWalletByAddress({address: eth_address})
-        .then(
-            function (wallet) {
-                console.log("wallet is got " + wallet);
-                console.log("eos balance = "+wallet.balanceString());
-                return parseInt(wallet.balanceString());
-            }
-        );
-    return 0;
-}
+
 
 const getLrcBalance = async (net, eth_address) => {
     let base, hex_address;
@@ -623,6 +648,20 @@ const getBtcBalance = async (net , btc_address) => {
     }
 }
 
+const getElaBalance = async (net, ela_address) => {
+    let base = "https://blockchain.elastos.org/api/v1/addr/";
+    let res = await axios.get(base+ela_address);
+    let balance = parseFloat(res.data.balance);
+    console.log("ELAbalance = " + balance);
+    return balance;
+}
+
+const initiateElaGetBalance = async (dispatch, net, ela_address) => {
+    syncElaTransactionHistory(dispatch, net, ela_address);
+    const ela_balance = getElaBalance(net,ela_address);
+    setElaBalance(ela_balance);
+}
+
 const initiateEosGetBalance = async (dispatch, net, eth_address) => {
     syncEosTransactionHistory(dispatch, net, eth_address);
     const eos_balance = getEosBalance(net,eth_address);
@@ -654,7 +693,7 @@ const initiateBtcGetBalance = async (dispatch, net, btc_address) => {
 
 // TODO: this is being imported by Balance.js, maybe refactor to helper file/
 
-const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
+const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth, ela) => {
   syncTransactionHistory(dispatch, net, address);
   syncAvailableClaim(dispatch, net, address);
   syncBlockHeight(dispatch, net);
@@ -717,6 +756,9 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
             let dbcBalance = await getDbcBalance(net,address);
             console.log("dbc balance = " + dbcBalance);
 
+            let efxBalance = await getEfxBalance(net,address);
+            console.log("efx balance = " + efxBalance);
+
             let galaBalance = await getGalaBalance(net,address);
             console.log("gala balance = " + galaBalance);
 
@@ -759,12 +801,15 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
             let wwbBalance = await getWwbBalance(net,address);
             console.log("wwb balance = " + wwbBalance);
 
+            let xqtBalance = await getXqtBalance(net,address);
+            console.log("xqt balance = " + xqtBalance);
+
             let zptBalance = await getZptBalance(net,address);
             console.log("zpt balance = " + zptBalance);
 
 
             //combined balance updating
-            let combinedPrice = gasPrice + resultPrice + acatBalance*acat_usd + dbcBalance*dbc_usd + ontBalance*ont_usd + qlcBalance*qlc_usd + rpxBalance*rpx_usd + tkyBalance*tky_usd + tncBalance*tnc_usd + zptBalance*zpt_usd + btc*btc_usd + ltc*ltc_usd + eth*eth_usd/1000000000000000000;
+            let combinedPrice = eth*eth_usd/10000000000 + gasPrice + resultPrice + acatBalance*acat_usd + dbcBalance*dbc_usd + ontBalance*ont_usd + qlcBalance*qlc_usd + rpxBalance*rpx_usd + tkyBalance*tky_usd + tncBalance*tnc_usd + zptBalance*zpt_usd + btc*btc_usd + ltc*ltc_usd;
             dispatch(
               setBalance(
                 resultBalance.Neo,
@@ -775,6 +820,7 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
                 cgeBalance,
                 cpxBalance,
                 dbcBalance,
+                efxBalance,
                 galaBalance,
                 lrnBalance,
                 obtBalance,
@@ -787,6 +833,7 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
                 tkyBalance,
                 tncBalance,
                 wwbBalance,
+                xqtBalance,
                 zptBalance,
                 rhtBalance,
                 nrveBalance,
@@ -804,6 +851,7 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
                 marketPrices.data.LTC.USD,
                 marketPrices.data.ONT.USD,
                 marketPrices.data.QLC.USD,
+                marketPrices.data.QTUM.USD,
                 marketPrices.data.RPX.USD,
                 marketPrices.data.TNC.USD,
                 marketPrices.data.TKY.USD,
@@ -865,16 +913,16 @@ const syncTransactionHistory = (dispatch, net, address) => {
   });
 };
 
-const resetBalanceSync = (dispatch, net, address ,btc ,ltc, eth) => {
+const resetBalanceSync = (dispatch, net, address ,btc ,ltc, eth, ela) => {
   if (intervals.balance !== undefined) {
     clearInterval(intervals.balance);
   }
   intervals.balance = setInterval(() => {
-    initiateGetBalance(dispatch, net, address ,btc ,ltc ,eth);
-  }, 15000);
+    initiateGetBalance(dispatch, net, address ,btc ,ltc ,eth, ela);
+  }, 20000);
 };
 
-const toggleNet = (dispatch, net, address ,btc ,ltc ,eth) => {
+const toggleNet = (dispatch, net, address ,btc ,ltc ,eth, ela) => {
   let newNet;
   if (net === "MainNet") {
     newNet = "TestNet";
@@ -882,9 +930,9 @@ const toggleNet = (dispatch, net, address ,btc ,ltc ,eth) => {
     newNet = "MainNet";
   }
   dispatch(setNetwork(newNet));
-  resetBalanceSync(dispatch, newNet, address ,btc ,ltc ,eth);
+  resetBalanceSync(dispatch, newNet, address ,btc ,ltc ,eth, ela);
   if (address !== null) {
-    initiateGetBalance(dispatch, newNet, address ,btc ,ltc ,eth);
+    initiateGetBalance(dispatch, newNet, address ,btc ,ltc ,eth, ela);
   }
 };
 
@@ -916,7 +964,8 @@ const mapStateToProps = state => ({
   btc: state.account.Btc,
   ltc: state.account.Ltc,
   eth: state.account.Eth,
-  eos: state.account.Eos
+  eos: state.account.Eos,
+  ela: state.account.Ela
 });
 
 NetworkSwitch = connect(mapStateToProps)(NetworkSwitch);
@@ -929,9 +978,11 @@ export {
   syncEthTransactionHistory,
   syncEosTransactionHistory,
   syncLtcTransactionHistory,
+  syncElaTransactionHistory,
   initiateBtcGetBalance,
   initiateLtcGetBalance,
+  initiateElaGetBalance,
+  initiateEthGetBalance,
   intervals,
   resetBalanceSync,
-  initiateEthGetBalance,
 };

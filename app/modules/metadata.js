@@ -3,6 +3,7 @@ export const SET_HEIGHT = "SET_HEIGHT";
 export const SET_BTC_HEIGHT = "SET_BTC_HEIGHT";
 export const SET_LTC_HEIGHT = "SET_LTC_HEIGHT";
 export const SET_ETH_HEIGHT = "SET_ETH_HEIGHT";
+export const SET_ELA_HEIGHT = "SET_ELA_HEIGHT";
 export const SET_NETWORK = "SET_NETWORK";
 export const SET_EXPLORER = "SET_EXPLORER";
 
@@ -34,6 +35,13 @@ export function setBtcBlockHeight(btcBlockHeight) {
 	};
 }
 
+export function setElaBlockHeight(elaBlockHeight) {
+    return {
+        type: SET_ELA_HEIGHT,
+        elaBlockHeight
+    };
+}
+
 export function setLtcBlockHeight(ltcBlockHeight) {
     return {
         type: SET_LTC_HEIGHT,
@@ -57,7 +65,7 @@ export function setBlockExplorer(blockExplorer) {
 
 // reducer for metadata associated with Neon
 export default (
-	state = { blockHeight: 0, network: "MainNet", blockExplorer: "Neotracker" ,btcBlockHeight: 0, ltcBlockHeight: 0, ethBlockHeight: 0},
+	state = { blockHeight: 0, network: "MainNet", blockExplorer: "Neotracker" ,btcBlockHeight: 0, ltcBlockHeight: 0, ethBlockHeight: 0, elaBlockHeight: 0},
 	action
 ) => {
 	switch (action.type) {
@@ -72,6 +80,8 @@ export default (
 		return {...state, btcBlockHeight: action.btcBlockHeight };
 	case SET_LTC_HEIGHT:
 		return {...state, ltcBlockHeight: action.ltcBlockHeight };
+	case SET_ELA_HEIGHT:
+		return {...state, elaBlockHeight: action.elaBlockHeight };
 	case SET_ETH_HEIGHT:
         return {...state, ethBlockHeight: action.ethBlockHeight };
 	default:

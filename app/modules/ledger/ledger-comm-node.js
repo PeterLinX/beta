@@ -1,4 +1,4 @@
-/***************************************************************************************************************************************************************
+/** *************************************************************************************************************************************************************
  * Ledger Node JS API (c) 2016-2017 Ledger
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the
@@ -10,11 +10,11 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  **************************************************************************************************************************************************************/
 
-var HID = require("node-hid");
-var Q = require("q");
+var HID = require('node-hid');
+var Q = require('q');
 
 var LedgerNode = function(device, ledgerTransport, timeout, debug) {
-  if (typeof timeout === "undefined") {
+  if (typeof timeout === 'undefined') {
     timeout = 0;
   }
   this.device = device;
@@ -82,23 +82,23 @@ LedgerNode.prototype.exchange = function(apduHex, statusList) {
     var responseLength;
     var sequenceIdx = 0;
     var response;
-    if (typeof data === "undefined" || data.length < 7 + 5) {
+    if (typeof data === 'undefined' || data.length < 7 + 5) {
       return;
     }
     if (data[offset++] !== channel >> 8) {
-      throw new Error("Invalid channel;");
+      throw new Error('Invalid channel;');
     }
     if (data[offset++] !== (channel & 0xff)) {
-      throw new Error("Invalid channel");
+      throw new Error('Invalid channel');
     }
     if (data[offset++] !== 0x05) {
-      throw new Error("Invalid tag");
+      throw new Error('Invalid tag');
     }
     if (data[offset++] !== 0x00) {
-      throw new Error("Invalid sequence");
+      throw new Error('Invalid sequence');
     }
     if (data[offset++] !== 0x00) {
-      throw new Error("Invalid sequence");
+      throw new Error('Invalid sequence');
     }
     responseLength = (data[offset++] & 0xff) << 8;
     responseLength |= data[offset++] & 0xff;
@@ -115,19 +115,19 @@ LedgerNode.prototype.exchange = function(apduHex, statusList) {
         return;
       }
       if (data[offset++] !== channel >> 8) {
-        throw new Error("Invalid channel;");
+        throw new Error('Invalid channel;');
       }
       if (data[offset++] !== (channel & 0xff)) {
-        throw new Error("Invalid channel");
+        throw new Error('Invalid channel');
       }
       if (data[offset++] !== 0x05) {
-        throw new Error("Invalid tag");
+        throw new Error('Invalid tag');
       }
       if (data[offset++] !== sequenceIdx >> 8) {
-        throw new Error("Invalid sequence");
+        throw new Error('Invalid sequence');
       }
       if (data[offset++] !== (sequenceIdx & 0xff)) {
-        throw new Error("Invalid sequence");
+        throw new Error('Invalid sequence');
       }
       blockSize =
         responseLength - response.length > packetSize - 5
@@ -146,7 +146,7 @@ LedgerNode.prototype.exchange = function(apduHex, statusList) {
   };
 
   var currentObject = this;
-  var apdu = Buffer.from(apduHex, "hex");
+  var apdu = Buffer.from(apduHex, 'hex');
 
   var deferred = Q.defer();
   var exchangeTimeout;
@@ -160,7 +160,7 @@ LedgerNode.prototype.exchange = function(apduHex, statusList) {
   if (this.timeout !== 0) {
     exchangeTimeout = setTimeout(function() {
       // Node.js supports timeouts
-      deferred.reject("timeout");
+      deferred.reject('timeout');
     }, this.timeout);
   }
 
@@ -174,7 +174,7 @@ LedgerNode.prototype.exchange = function(apduHex, statusList) {
 
       var sendAsync = function(cardObject, content) {
         if (cardObject.debug) {
-          console.log("=>" + content.toString("hex"));
+          console.log('=>' + content.toString('hex'));
         }
         var data = [0x00];
         for (var i = 0; i < content.length; i++) {
@@ -187,10 +187,10 @@ LedgerNode.prototype.exchange = function(apduHex, statusList) {
       };
 
       var recvAsync = function(cardObject, size) {
-        return Q.ninvoke(cardObject.device, "read").then(function(res) {
+        return Q.ninvoke(cardObject.device, 'read').then(function(res) {
           var buffer = Buffer.from(res);
           if (cardObject.debug) {
-            console.log("<=" + buffer.toString("hex"));
+            console.log('<=' + buffer.toString('hex'));
           }
           return buffer;
         });
@@ -267,7 +267,7 @@ LedgerNode.prototype.exchange = function(apduHex, statusList) {
                   received.length + result.length
                 );
                 var response = ledgerUnwrap(0x0101, received, 64);
-                if (typeof response !== "undefined") {
+                if (typeof response !== 'undefined') {
                   deferredHidSend.resolve(response);
                 } else {
                   return receivePart();
@@ -288,7 +288,7 @@ LedgerNode.prototype.exchange = function(apduHex, statusList) {
           if (!currentObject.ledgerTransport) {
             if (resultBin.length === 2 || resultBin[0] !== 0x61) {
               status = (resultBin[0] << 8) | resultBin[1];
-              deferred.promise.response = resultBin.toString("hex");
+              deferred.promise.response = resultBin.toString('hex');
             } else {
               var size = resultBin.byteAt(1);
               // fake T0
@@ -296,11 +296,11 @@ LedgerNode.prototype.exchange = function(apduHex, statusList) {
                 size = 256;
               }
 
-              deferred.promise.response = resultBin.toString("hex", 2);
+              deferred.promise.response = resultBin.toString('hex', 2);
               status = (resultBin[2 + size] << 8) | resultBin[2 + size + 1];
             }
           } else {
-            deferred.promise.response = resultBin.toString("hex");
+            deferred.promise.response = resultBin.toString('hex');
             status =
               (resultBin[resultBin.length - 2] << 8) |
               resultBin[resultBin.length - 1];
@@ -314,7 +314,7 @@ LedgerNode.prototype.exchange = function(apduHex, statusList) {
             }
           }
           if (!statusFound) {
-            deferred.reject("Invalid status " + status.toString(16));
+            deferred.reject('Invalid status ' + status.toString(16));
           }
           // build the response
           if (currentObject.timeout !== 0) {
@@ -357,7 +357,7 @@ LedgerNode.prototype.close_async = function() {
 LedgerNode.create_async = function(timeout, debug) {
   return LedgerNode.list_async().then(function(result) {
     if (result.length === 0) {
-      throw new Error("No device found");
+      throw new Error('No device found');
     }
     return new LedgerNode(new HID.HID(result[0]), true, timeout, debug);
   });

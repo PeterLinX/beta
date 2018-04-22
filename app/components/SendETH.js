@@ -21,6 +21,10 @@ import {BLOCK_TOKEN} from "../core/constants";
 import numeral from "numeral";
 import { block_index} from "../components/NetworkSwitch";
 import { ethLoginRedirect } from "../modules/account";
+import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
+import ETHChart from "./NepCharts/ETHChart";
+import ETHQRModalButton from "./ETHQRModalButton.js";
+
 
 var bitcoin = require("bitcoinjs-lib");
 var WAValidator = require("wallet-address-validator");
@@ -31,6 +35,13 @@ var CoinKey = require('coinkey');
 var ethereum_address = require("ethereum-address");
 
 let sendAddress, sendAmount, confirmButton, inputSendAddress;
+
+const refreshBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
+  initiateGetBalance(dispatch, net, address ,btc ,ltc ,eth).then(response => {
+    dispatch(sendEvent(true, "Prices and balances updated."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+  });
+};
 
 const styles = {
     overlay: {
@@ -318,40 +329,37 @@ class SendETH extends Component {
                         :
                         null
                 }
-                <div id="send">
+                <div id="send"
+                onLoad={() =>
+        					refreshBalance(
+        						this.props.dispatch,
+        						this.props.net,
+        						this.props.address,
+        						this.props.btc,
+        						this.props.ltc,
+        						this.props.eth
+        					)
+        				}
+                >
 
                     <div className="row dash-panel">
-                        <div className="col-xs-8">
+                        <div className="col-xs-5">
                             <img
                                 src={ethLogo}
                                 alt=""
                                 width="32"
-                                className="neo-logo fadeInDown"
+                                className="neo-logo flipInY"
                             />
-                            <h2>Send Ethereum (ETH)</h2>
+                            <h2> Ethereum</h2>
+                            <hr className="dash-hr-wide" />
+              							<span className="market-price"> {numeral(this.props.marketETHPrice).format("$0,0.00")} each</span><br />
+              							<span className="font24">{numeral(this.props.eth/10000000000).format("0,0.00000000")} <span className="eth-price"> ETH</span></span><br />
+              							<span className="market-price">{numeral((this.props.eth/10000000000) * this.props.marketETHPrice).format("$0,0.00")} USD</span>
                         </div>
 
-                        <div
-                            className="col-xs-1 center top-10 send-info"
-                            onClick={() =>
-                                refreshBalance(
-                                    this.props.dispatch,
-                                    this.props.net,
-                                    this.props.eth_address
-                                )
-                            }
-                        >
-                            <span className="glyphicon glyphicon-refresh font24" />
-                        </div>
 
-                        <div className="col-xs-3 center">
-                        <div className="send-panel-price">{numeral(this.props.eth/10000000000).format("0,0.00000")} <span className="eth-price"> ETH</span></div>
-
-                      <span className="market-price">{numeral((this.props.eth/10000000000) * this.props.marketETHPrice).format("$0,0.00")} USD</span>
-                                  </div>
-
-                        <div className="col-xs-12 center">
-                            <hr className="dash-hr-wide top-20" />
+                        <div className="col-xs-7 center">
+                        <ETHChart />
                         </div>
 
                         <div className="clearboth" />
@@ -359,7 +367,7 @@ class SendETH extends Component {
                         <div className="top-20">
                             <div className="col-xs-9">
                                 <input
-                                    className="form-control-exchange"
+                                    className="form-send-white"
                                     id="center"
                                     placeholder="Enter a valid ETH public address here"
                                     ref={node => {
@@ -370,16 +378,13 @@ class SendETH extends Component {
 
                             <div className="col-xs-3">
 
-                                <Link to={ "/receiveEthereum" }>
-                                    <button className="grey-button com-soon" >
-                                        <span className="glyphicon glyphicon-qrcode marg-right-5"/>  Receive
-                                    </button></Link>
+                                <ETHQRModalButton />
 
                             </div>
 
                             <div className="col-xs-5  top-20">
                                 <input
-                                    className="form-control-exchange"
+                                    className="form-send-white"
                                     type="number"
                                     id="assetAmount"
                                     min="1"
@@ -395,7 +400,7 @@ class SendETH extends Component {
                             </div>
                             <div className="col-xs-4 top-20">
                                 <input
-                                    className="form-control-exchange"
+                                    className="form-send-white"
                                     id="sendAmount"
                                     onChange={this.handleChangeUSD}
                                     onClick={this.handleChangeUSD}
@@ -441,32 +446,9 @@ class SendETH extends Component {
 
                             <div className="clearboth"/>
 
-                            <div className="col-xs-12 com-soon">
-                                Block: {this.props.blockIndex}{" "}
-                            </div>
-                            <div className="col-xs-12 top-20">
+                            <div className="col-xs-12 top-10">
                                 <TransactionHistoryETH />
                             </div>
-                        </div>
-                    </div>
-
-                    <div className="send-notice">
-                        <div className="col-xs-2"/>
-                        <div className="col-xs-8">
-                            <p className="center donations"
-                               data-tip
-                               data-for="donateTip"
-                               onClick={() => clipboard.writeText("0x3276d45fc384e472aa47ee53f8a0a09c22112f5f")}
-                            >Morpheus Dev Team: 0x3276d45fc384e472aa47ee53f8a0a09c22112f5f</p>
-                            <ReactTooltip
-                                className="solidTip"
-                                id="donateTip"
-                                place="top"
-                                type="light"
-                                effect="solid"
-                            >
-                                <span>Copy address to send donation</span>
-                            </ReactTooltip>
                         </div>
                     </div>
                 </div>
@@ -486,6 +468,15 @@ const mapStateToProps = state => ({
     marketETHPrice: state.wallet.marketETHPrice,
     selectedAsset: state.transactions.selectedAsset,
     confirmPane: state.dashboard.confirmPane,
+    price: state.wallet.price,
+    btc: state.account.Btc,
+    ltc: state.account.Ltc,
+    eth: state.account.Eth,
+    wif: state.account.wif,
+    neo: state.wallet.Neo,
+    gas: state.wallet.Gas,
+    btc: state.wallet.Btc,
+    ltc: state.wallet.Ltc,
     eth: state.wallet.Eth,
     ethLoggedIn: state.account.ethLoggedIn,
     ethPrivKey: state.account.ethPrivKey,
