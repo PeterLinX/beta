@@ -8,3 +8,4 @@ release-builds/
 
 package-lock.json
 *.sketch
+package.json
