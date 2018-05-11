@@ -411,7 +411,7 @@ class SendRHT extends Component {
                 width="45"
                 className="neo-logo fadeInDown"
               />
-              <h2>Hash Puppies Tokens</h2>
+              <h2>Redeemable HashPuppy Tokens</h2>
             </div>
 
             <div className="col-xs-3 top-20 center com-soon">
