@@ -24,7 +24,8 @@ import { flatMap, keyBy, get, omit, pick } from "lodash";
 import numeral from "numeral";
 import ACATChart from "./../NepCharts/ACATChart";
 import NEPQRModalButton from "./../Assets/NEPQRModalButton.js";
-
+import TopBar from "./../TopBar";
+import Search from "./../Search";
 let sendAddress, sendAmount, confirmButton, scriptHash, acat_usd, gas_usd;
 
 const styles = {
@@ -378,21 +379,39 @@ class SendACAT extends Component {
                   :
                   null
           }
+
+          <div className="breadBar">
+          <div className="col-flat-10">
+          <ol id="no-inverse" className="breadcrumb">
+
+          <li><Link to="/assetPortfolio">Portfolio</Link></li>
+          <li className="active">AlphaCat</li>
+          </ol>
+          </div>
+
+          <div className="col-flat-2">
+          <Search />
+          </div>
+          </div>
+
+        <TopBar />
+
         <div id="send">
           <div className="row dash-panel">
             <div className="col-xs-5">
+            <div id="no-inverse">
               <img
                 src={acatLogo}
                 alt=""
                 width="72"
                 className="neo-logo fadeInDown"
-              />
+              /></div>
               <h2>AlphaCat</h2>
               <hr className="dash-hr-wide" />
               <span className="market-price"> {numeral(this.props.marketACATPrice).format("$0,0.000")} each</span><br />
               <span className="font24">{numeral(
                 Math.floor(this.props.acat * 100000) / 100000
-              ).format("0,0.0000")} <span className="eth-price"> ACAT</span></span><br />
+              ).format("0,0[.][0000]")} <span className="eth-price"> ACAT</span></span><br />
               <span className="market-price">{numeral(this.props.acat * this.props.marketACATPrice).format("$0,0.00")} USD</span>
             </div>
 
@@ -487,14 +506,15 @@ class SendACAT extends Component {
                 </div>
               </div>
             </div>
+            <div className="clearboth" />
+            <div className="send-notice">
+              <p>
+                Sending AlphaCat (ACAT) NEP5 tokens require a balance of 0.00000001 GAS+. Only send ACAT to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending ACAT to an exchange please ensure the address supports ACAT tokens.
+              </p>
+
+            </div>
           </div>
 
-          <div className="send-notice">
-            <p>
-              Sending AlphaCat (ACAT) NEP5 tokens require a balance of 0.00000001 GAS+. Only send ACAT to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending ACAT to an exchange please ensure the address supports ACAT tokens.
-            </p>
-            
-          </div>
         </div>
       </div>
     );

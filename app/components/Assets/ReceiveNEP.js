@@ -135,7 +135,7 @@ class Receive extends Component {
 	render() {
 		console.log(this.props.net);
 		return (
-			<div>
+			<div id="no-inverse">
 						<div className="col-xs-8 col-xs-offset-2">
 							<div
 								className="addressBox-send center animated fadeInDown pointer"
@@ -157,7 +157,7 @@ class Receive extends Component {
 								</ReactTooltip>
 							</div>
 						</div>
-						<div className="col-xs-12">
+						<div className="col-xs-12" id="no-inverse">
             <input
               className="font-12 ledger-address top-20"
               onClick={() => clipboard.writeText(this.props.address)}
@@ -167,7 +167,7 @@ class Receive extends Component {
             />
 					<div className="clearboth" />
 
-          <div className="dash-bar top-10">
+          <div className="dash-bar-rec top-10">
             <div
               className="dash-icon-bar"
               onClick={() => clipboard.writeText(this.props.address)}

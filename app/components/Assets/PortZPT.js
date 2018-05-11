@@ -34,7 +34,7 @@ class PortZPT extends Component {
 								width="38"
 								className="port-logos"
 							/></Link>
-							<hr className="dash-hr" />
+
 							<h3><NEPQRModal />   <Link to="/sendZPT"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 							<Link to="/sendZPT">
@@ -42,8 +42,8 @@ class PortZPT extends Component {
 								<span className="market-price">Zeepin {numeral(this.props.marketZPTPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.zpt * 100000) / 100000
-								).format("0,0.0000")} <span className="neo-price"> ZPT</span></h3>
-								<hr className="dash-hr" />
+								).format("0,0[.][0000]")} <span id="no-inverse" className="neo-price"> ZPT</span></h3>
+
 								<span className="market-price">{numeral(this.props.zpt*this.props.marketZPTPrice).format("$0,0.00")} USD</span>
 							</div></Link>
 							</div>

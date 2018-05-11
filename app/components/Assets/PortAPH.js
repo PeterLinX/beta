@@ -33,7 +33,7 @@ class PropAPH extends Component {
 					width="44"
 					className="port-logos"
 				/></Link>
-				<hr className="dash-hr" />
+
 				<h3><NEPQRModal />   <Link to="/sendAPH"><span className="glyphicon glyphicon-send"/></Link></h3>
 				</div>
 				<Link to="/sendAPH">
@@ -41,8 +41,8 @@ class PropAPH extends Component {
 					<span className="market-price">Aphelion $0.00</span>
 					<h3>{numeral(
 						Math.floor(this.props.aph * 100000) / 100000
-					).format("0,0.0000")} <span className="qlink-price"> APH</span></h3>
-					<hr className="dash-hr" />
+					).format("0,0[.][0000]")} <span id="no-inverse" className="qlink-price"> APH</span></h3>
+
 					<span className="market-price">$0.00 USD</span>
 				</div></Link>
 				</div>

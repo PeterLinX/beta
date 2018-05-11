@@ -18,6 +18,8 @@ import { getWIFFromPrivateKey } from "neon-js";
 import { encrypt_wif, decrypt_wif } from "neon-js";
 import { getAccountsFromWIFKey } from "neon-js";
 import { resetBalanceSync, initiateGetBalance, intervals } from "../components/NetworkSwitch";
+import TopBar from "./TopBar";
+import Search from "./Search";
 
 let wif;
 
@@ -108,6 +110,19 @@ class LoadOldBitcoin extends Component {
 		console.log(this.props.net);
 		return (
 			<div>
+      <div className="breadBar">
+      <div className="col-flat-10">
+      <ol id="no-inverse" className="breadcrumb">
+
+      <li className="active">Bitcoin Login</li>
+      </ol>
+      </div>
+
+      <div className="col-flat-2">
+      <Search />
+      </div>
+      </div>
+      <TopBar />
 				<div className="dash-panel"
         onLoad={() =>
           refreshBalance(

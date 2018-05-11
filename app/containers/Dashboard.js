@@ -11,9 +11,6 @@ import { NetworkSwitch } from "../components/NetworkSwitch";
 import WalletInfo from "../components/WalletInfo";
 import TransactionHistory from "../components/TransactionHistory";
 import { resetBalanceSync } from "../components/NetworkSwitch";
-import SelectExchange from "../components/SelectExchange";
-import Support from "../components/Support";
-import Tokens from "../components/Tokens";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { togglePane } from "../modules/dashboard";
@@ -39,8 +36,7 @@ import AssetPortfolio from "../components/AssetPortfolio";
 import Dashlogo from "../components/Brand/Dashlogo";
 import ReactTooltip from "react-tooltip";
 import CountUp, { startAnimation } from "react-countup";
-import TopBar from "../components/TopBar";
-
+import ThemeSwitch from "../components/ThemeSwitch";
 
 const refreshBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
   dispatch(sendEvent(true, "Refreshing balances and prices..."));
@@ -126,6 +122,7 @@ componentDidMount = () => {
 
                 <CountUp
                   className="account-balance"
+                  start={0}
                   end={this.props.combined}
                   duration={2}
                   useEasing={true}
@@ -149,58 +146,62 @@ componentDidMount = () => {
             <div className="navbar-collapse collapse">
               <ul className="nav navbar-nav">
                 <li>
-                  <Link to={"/dashboard"} activeClassName="active">
+                  <Link to={"/dashboard"} >
                     <div className="glyphicon glyphicon-stats" /> Dashboard
                   </Link>
                 </li>
 
                 <li>
-                  <Link to={"/assetPortfolio"} activeClassName="active">
+                  <Link to={"/assetPortfolio"} >
                     <div className="glyphicon glyphicon-dashboard" /> Portfolio
                   </Link>
                 </li>
 
                 <li>
-                  <Link to={"/send"} activeClassName="active">
+                  <Link to={"/send"} >
                     <span className="glyphicon glyphicon-send" /> Send
                   </Link>
                 </li>
 
                 <li>
-                  <Link to={"/receive"} activeClassName="active">
+                  <Link to={"/receive"} >
                     <span className="glyphicon glyphicon-qrcode" /> Receive
                   </Link>
                 </li>
 
                 <li>
-                  <Link to={"/transactionHistory"} activeClassName="active">
+                  <Link to={"/transactionHistory"} >
                     <span className="glyphicon glyphicon-list-alt" /> Transactions
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/advancedTokenSale"} activeClassName="active">
-                    <span className="glyphicon glyphicon-heart" /> Token Sale
+                  <Link to={"/dappBrowser"} >
+                    <span className="glyphicon glyphicon-heart" /> dApp Browser
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/settings"} activeClassName="active">
+                  <Link to={"/settings"} >
                     <span className="glyphicon glyphicon-lock" /> Settings
                   </Link>
                 </li>
+                <li>
+                  <Link>
+                    <ThemeSwitch/>
+                  </Link>
+                </li>
+
+
               </ul>
             </div>
           </div>
           <span className="dashnetwork center">
-          Version: 0.0.57<br />
-          Network: {this.props.net}<br />
-          Neo Block: {this.props.blockHeight}<br />
-          <br />
+          Version: 0.0.58<br />
+          {this.props.net} Block: {this.props.blockHeight}<br />
           Copyright &copy; Morpheus
           </span>
 
         </div>
         <div className="main-container">
-        <TopBar />
           {this.props.children}
           {dash}
         </div>

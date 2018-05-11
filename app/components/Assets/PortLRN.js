@@ -28,13 +28,17 @@ class PortLRN extends Component {
 							<div className="col-3 flipInX">
 
 							<div className="port-logo-col">
-							<Link to="/sendLRN"><img
+							<Link to="/sendLRN">
+							<div id="no-inverse">
+							<img
 								src={lrnLogo}
 								alt=""
 								width="40"
 								className="port-logos"
-							/></Link>
-							<hr className="dash-hr" />
+							/>
+							</div>
+							</Link>
+
 							<h3><NEPQRModal /> <Link to="/sendLRN"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 							<Link to="/sendLRN">
@@ -42,8 +46,8 @@ class PortLRN extends Component {
 								<span className="market-price">Loopring (NEP) {numeral(this.props.marketLRNPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.lrn * 100000) / 100000
-								).format("0,0.0000")} <span className="eth-price"> LRN</span></h3>
-								<hr className="dash-hr" />
+								).format("0,0[.][0000]")} <span className="eth-price"> LRN</span></h3>
+
 								<span className="market-price">{numeral(this.props.lrn*this.props.marketLRNPrice).format("$0,0.00")} USD</span>
 							</div></Link>
 							</div>

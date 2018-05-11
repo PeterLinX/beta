@@ -104,9 +104,9 @@ class Charts extends Component {
 							<Line
 								data={data}
 								width={300}
-								height={110}
+								height={150}
 								options={{
-									maintainAspectRatio: true,
+									maintainAspectRatio: false,
 									layout: { padding: { left: 0, right: 0, top: 0, bottom: 0 } },
 									scales: {
 										xAxes: [

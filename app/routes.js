@@ -8,10 +8,8 @@ import Changelly from "./components/Exchanges/Changelly.js";
 import ShapeShift from "./components/exchanges/ShapeShift";
 import SelectExchange from "./components/SelectExchange";
 import ExchangeAddress from "./components/ExchangeAddress";
+import ExchangeAsset from "./components/ExchangeAsset";
 import LoginLocalStorage from "./components/LoginLocalStorage";
-import LoginLedgerNanoS from "./components/LoginLedgerNanoS";
-import TransactionLedger from "./components/TransactionLedger";
-import LedgerNanoSend from "./components/LedgerNanoSend";
 import TransactionHistory from "./components/TransactionHistory";
 import TransactionHistoryBTC from "./components/TransactionHistoryBTC";
 import TransactionHistoryLTC from "./components/TransactionHistoryLTC";
@@ -24,8 +22,6 @@ import EncryptKey from "./components/EncryptKey";
 import Send from "./components/Send";
 import Dashboard from "./containers/Dashboard";
 import Receive from "./components/Receive";
-import Support from "./components/Support";
-import Ledger from "./components/Ledger";
 import Tokens from "./components/Tokens";
 import Sale from "./components/Sale";
 import Loopring from "./components/NepTokens/Loopring";
@@ -60,6 +56,10 @@ import SendLTC from "./components/SendLTC";
 import SendETH from "./components/SendETH";
 import SendELA from "./components/SendELA";
 import SendGAS from "./components/SendGAS";
+import SendMCT from "./components/NepTokens/SendMCT";
+import GDMSale from "./components/GDMSale";
+import MorphSale from "./components/MorphSale";
+import DappBrowser from "./components/DappBrowser";
 import AssetPortfolio from "./components/AssetPortfolio";
 import NewBitcoin from "./components/NewBitcoin";
 import ReceiveBitcoin from "./components/ReceiveBitcoin";
@@ -69,8 +69,6 @@ import NewEthereum from "./components/NewEthereum";
 import NewElastos from "./components/NewElastos";
 import ReceiveElastos from "./components/ReceiveElastos";
 import ReceiveEthereum from "./components/ReceiveEthereum";
-import LedgerDashboard from "./containers/LedgerDashboard";
-import LedgerAssetPortfolio from "./components/LedgerAssetPortfolio";
 import AdvancedBitcoin from "./components/AdvancedBitcoin";
 import SweepBitcoinOther from "./components/SweepBitcoinOther";
 import SweepBitcoin from "./components/SweepBitcoin";
@@ -87,7 +85,11 @@ import AdvancedTokenSale from "./components/AdvancedTokenSale";
 import LoadClassicBitcoin from "./components/LoadClassicBitcoin";
 import LoadSegwitBitcoin from "./components/LoadSegwitBitcoin";
 import LoadOldBitcoin from "./components/LoadOldBitcoin";
-import CryptoCity from "./components/CryptoCity";
+import Switcheo from "./components/Switcheo";
+import LRNAirDrop from "./components/LRNAirDrop";
+import ViewAddress from "./components/ViewAddress";
+import LedgerLogin from "./components/LedgerLogin";
+import AddressBook from "./components/AddressBook";
 
 export default (
 	<Route path="/" component={App}>
@@ -125,6 +127,7 @@ export default (
 			<Route path="/sendETH" component={SendETH} />
 			<Route path="/sendELA" component={SendELA}/>
 			<Route path="/sendGAS" component={SendGAS}/>
+			<Route path="/sendMCT" component={SendMCT}/>
 			<Route path="/receive" component={Receive} />
 			<Route path="/settings" component={Settings} />
 			<Route path="/removeAddress" component={RemoveAddress} />
@@ -132,16 +135,16 @@ export default (
 			<Route path="/changelly" component={Changelly} />
 			<Route path="/shapeshift" component={ShapeShift} />
 			<Route path="/exchangeAddress" component={ExchangeAddress} />
-			<Route path="/ledger" component={Ledger} />
+			<Route path="/exchangeAsset" component={ExchangeAsset} />
 			<Route path="/transactionHistory" component={TransactionHistory} />
 			<Route path="/transactionHistoryBTC" component={TransactionHistoryBTC} />
 			<Route path="/transactionHistoryLTC" component={TransactionHistoryLTC} />
 			<Route path="/transactionHistoryETH" component={TransactionHistoryETH}/>
 			<Route path="/transactionHistoryLRC" component={TransactionHistoryLRC}/>
 			<Route path="/transactionHistoryEOS" component={TransactionHistoryEOS}/>
-			<Route path="/support" component={Support} />
 			<Route path="/tokens" component={Tokens} />
 			<Route path="/sale" component={Sale} />
+			<Route path="/viewAddress" component={ViewAddress} />
 			<Route path="/assetPortfolio" component={AssetPortfolio} />
 			<Route path="/newBitcoin" component={NewBitcoin} />
 			<Route path="/receiveBitcoin" component={ReceiveBitcoin} />
@@ -152,7 +155,7 @@ export default (
 			<Route path="/receiveElastos" component={ReceiveElastos}/>
 			<Route path="/receiveEthereum" component={ReceiveEthereum}/>
 			<Route path="/advancedBitcoin" component={AdvancedBitcoin}/>
-			<Route path="/cryptoCity" component={CryptoCity}/>
+			<Route path="/switcheo" component={Switcheo}/>
 			<Route path="/advancedLitecoin" component={AdvancedLitecoin}/>
 			<Route path="/advancedEthereum" component={AdvancedEthereum}/>
 			<Route path="/advancedElastos" component={AdvancedElastos}/>
@@ -167,20 +170,19 @@ export default (
 		<Route path="/DisplayPrivateKeysELA/:history/:ela_address/:elaPrivKey" component={DisplayPrivateKeysELA}/>
 		<Route path="/tokenSale" component={TokenSale} />
 		<Route path="/advancedTokenSale" component={AdvancedTokenSale}/>
+		<Route path="/gdmSale" component={GDMSale}/>
+		<Route path="/morphSale" component={MorphSale}/>
+		<Route path="/lrnAirDrop" component={LRNAirDrop}/>
+		<Route path="/dappBrowser" component={DappBrowser}/>
+		<Route path="/addressBook" component={AddressBook}/>
 		</Route>
 		<Route path="/create" component={CreateWallet} />
 		<Route path="/encryptKey" component={EncryptKey} />
 		<Route path="/DisplayWalletKeys" component={DisplayWalletKeys} />
 		<Route path="/LoginNep2" component={LoginNep2} />
-		<IndexRoute component={LoginLocalStorage} />
-
-		<Route path="/ledgerDashboard" component={LedgerDashboard}>
-      <Route path="/LoginLedgerNanoS" component={LoginLedgerNanoS} />
-      <Route path="/TransactionLedger" component={TransactionLedger} />
-			<Route path="/LedgerNanoSend" component={LedgerNanoSend} />
-			<Route path="/LedgerAssetPortfolio" component={LedgerAssetPortfolio} />
-    </Route>
+		<Route path="/ledgerLogin" component={LedgerLogin} />
 		<Route path="/LoginPrivateKey" component={LoginPrivateKey} />
 		<Route path="/LoginEncrypted" component={LoginNep2} />
+		<IndexRoute component={LoginLocalStorage} />
 	</Route>
 );

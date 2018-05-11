@@ -23,7 +23,8 @@ import { ASSETS, TOKENS, TOKENS_TEST } from "../../core/constants";
 import { flatMap, keyBy, get, omit, pick } from "lodash";
 import numeral from "numeral";
 import NEPQRModalButton from "./../Assets/NEPQRModalButton.js";
-
+import TopBar from "./../TopBar";
+import Search from "./../Search";
 let sendAddress, sendAmount, confirmButton, scriptHash, cpx_usd, gas_usd;
 
 const styles = {
@@ -377,16 +378,34 @@ class SendAPEX extends Component {
                   :
                   null
           }
+
+          <div className="breadBar">
+          <div className="col-flat-10">
+          <ol id="no-inverse" className="breadcrumb">
+
+          <li><Link to="/assetPortfolio">Portfolio</Link></li>
+          <li className="active">Apex</li>
+          </ol>
+          </div>
+
+          <div className="col-flat-2">
+          <Search />
+          </div>
+          </div>
+
+        <TopBar />
+
         <Assets />
         <div id="send">
           <div className="row dash-chart-panel">
             <div className="col-xs-9">
+            <div id="no-inverse">
               <img
                 src={apexLogo}
                 alt=""
                 width="54"
                 className="neo-logo fadeInDown"
-              />
+              /></div>
               <h2>APEX Tokens</h2>
             </div>
 
@@ -394,7 +413,7 @@ class SendAPEX extends Component {
 
             <span className="font-16">{numeral(
               Math.floor(this.props.cpx * 100000) / 100000
-            ).format("0,0.0000")} <span className="ltc-price"> CPX</span></span><br />
+            ).format("0,0[.][0000]")} <span id="no-inverse" className="ltc-price"> CPX</span></span><br />
             <span className="market-price">{numeral(this.props.cpx * this.props.marketCPXPrice).format("$0,0.00")} USD</span>
             </div>
 
@@ -485,12 +504,13 @@ class SendAPEX extends Component {
                 </div>
               </div>
             </div>
-          </div>
 
+            <div className="clearboth" />
           <div className="send-notice">
             <p>
               Sending APEX (CPX) NEP5 tokens require a balance of 0.00000001 GAS+. Only send CPX to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending CPX to an exchange please ensure the address supports CPX tokens.
             </p>
+        </div>
         </div>
       </div>
       </div>

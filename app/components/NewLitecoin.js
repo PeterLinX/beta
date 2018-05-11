@@ -13,6 +13,9 @@ import { setLtcBlockHeight } from "../modules/metadata";
 import { ltcLogIn, ltcLoginRedirect,ltcCreated ,setLtcKeys } from '../modules/account';
 import DisplayPrivateKeysLTC from "../components/DisplayPrivateKeysLTC";
 
+import Search from "./Search";
+import TopBar from "./TopBar";
+
 var bitcoin = require('bitcoinjs-lib');
 var litecoin = bitcoin.networks.litecoin;
 
@@ -145,6 +148,22 @@ class NewLitecoin extends Component {
 		console.log(this.props.net);
 		return (
 			<div id="" className="">
+
+      <div className="breadBar">
+      <div className="col-flat-10">
+      <ol id="no-inverse" className="breadcrumb">
+
+      <li className="active">Litecoin Login</li>
+      </ol>
+      </div>
+
+      <div className="col-flat-2">
+      <Search />
+      </div>
+      </div>
+
+      <TopBar />
+
 				<div className="dash-panel">
 
 						<div className="col-xs-12">

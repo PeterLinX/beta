@@ -6,7 +6,6 @@ import Copy from "react-icons/lib/md/content-copy";
 import { clipboard } from "electron";
 import { initiateEthGetBalance, intervals } from "../components/NetworkSwitch";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
-import { Accordion, AccordionItem } from "react-sanfona";
 
 const getEthExplorerLink = (txid) => {
     let base = "https://etherscan.io/tx/" + txid;
@@ -38,9 +37,9 @@ class TransactionHistoryETH extends Component {
     render = () => (
         <div id="send">
             <div className="row">
-                <div className="col-xs-12 top-20">
-                    <span className="glyphicon glyphicon-list-alt float-left marg-right-10" /> <Accordion>
-                    <AccordionItem expanded={true} title="Ethereum Transaction History"  ClassName="menu-accord-item">
+                <div className="col-xs-12">
+                    <span className="glyphicon glyphicon-list-alt float-left marg-right-10 top-20" />
+                    <h3>Ethereum Transaction History</h3>
                         <hr className="dash-hr-wide" />
                         <ul id="BTCtransactionList">
                             {this.props.eth_transactions.map(t => {
@@ -70,11 +69,6 @@ class TransactionHistoryETH extends Component {
                                 );
                             })}
                         </ul>
-
-                    </AccordionItem>
-                </Accordion>
-
-
                 </div>
             </div>
         </div>

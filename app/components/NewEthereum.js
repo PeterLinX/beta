@@ -21,6 +21,9 @@ import { getAccountsFromWIFKey } from "neon-js";
 import { setEthBlockHeight } from "../modules/metadata";
 import { BLOCK_TOKEN } from "../core/constants";
 
+import Search from "./Search";
+import TopBar from "./TopBar";
+
 var bitcoin = require('bitcoinjs-lib');
 var buffer = require("buffer");
 var ethereum = require("ethereumjs-util");
@@ -149,6 +152,22 @@ class NewEthereum extends Component {
         console.log(this.props.net);
         return (
             <div id="" className="">
+
+            <div className="breadBar">
+            <div className="col-flat-10">
+            <ol id="no-inverse" className="breadcrumb">
+
+            <li className="active">Ethereum Login</li>
+            </ol>
+            </div>
+
+            <div className="col-flat-2">
+            <Search />
+            </div>
+            </div>
+
+            <TopBar />
+
                 <div className="dash-panel">
 
                     <div className="col-xs-12">

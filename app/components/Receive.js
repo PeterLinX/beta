@@ -20,8 +20,11 @@ import { syncTransactionHistory } from "../components/NetworkSwitch";
 
 import Logo from "./Brand/LogoBlank";
 import NeoLogo from "./Brand/Neo";
+import TopBar from "./TopBar";
 import gitsmLogo from "../img/gitsm.png";
 import twitsmLogo from "../img/twitsm.png";
+
+import Search from "./Search";
 
 let explorer_select;
 
@@ -136,6 +139,19 @@ class Receive extends Component {
 		console.log(this.props.net);
 		return (
 			<div id="" className="">
+
+      <div className="breadBar">
+      <div className="col-flat-10">
+      <ol id="no-inverse" className="breadcrumb">
+      </ol>
+      </div>
+
+      <div className="col-flat-2">
+      <Search />
+      </div>
+      </div>
+
+      <TopBar />
 				<Assets />
 				<div className="dash-chart-panel">
 					<div className="">
@@ -146,7 +162,7 @@ class Receive extends Component {
 								width="38"
 								className="neo-logo logobounce"
 							/>
-							<h2>Receive Neo/Gas and NEP Tokens</h2>
+							<h2>Receive Neo/Gas</h2>
 						</div>
 
 						<div className="col-xs-2 top-20 center com-soon">
@@ -155,7 +171,7 @@ class Receive extends Component {
 						<hr className="dash-hr-wide" />
 						<div className="clearboth" />
 						<div className="col-xs-4 top-20">
-							<div
+							<div id="no-inverse"
 								className="addressBox-send center animated fadeInDown pointer"
 								onClick={() => clipboard.writeText(this.props.address)}
 							>
@@ -164,7 +180,7 @@ class Receive extends Component {
 						</div>
 
 						<div className="col-xs-8">
-							<h5>Your Public Address</h5>
+							<h5>Your NEO, GAS and NEP5 Public Address</h5>
 							<input
 								className="ledger-address top-10"
 								onClick={() => clipboard.writeText(this.props.address)}
@@ -228,7 +244,7 @@ class Receive extends Component {
 				<div className="clearboth" />
 				<div className="col-xs-12">
 					<p className="send-notice">
-          Your NEO address above can be used to receive all NEP5 tokens. All NEO and GAS transactions are FREE. Only send NEO, GAS or NEP tokens to a NEO address. Sending funds other than NEO, GAS or NEP tokens to the address above may result in those funds being lost.
+          Your NEO address above can be used to receive all NEP5 tokens. All NEO and GAS transactions are FREE. Sending funds other than NEO, GAS or NEP tokens to the address above may result in those funds being lost.
 					</p>
 
 				</div>

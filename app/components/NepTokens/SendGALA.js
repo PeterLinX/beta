@@ -23,7 +23,8 @@ import { ASSETS, TOKENS, TOKENS_TEST } from "../../core/constants";
 import { flatMap, keyBy, get, omit, pick } from "lodash";
 import numeral from "numeral";
 import NEPQRModalButton from "./../Assets/NEPQRModalButton.js";
-
+import TopBar from "./../TopBar";
+import Search from "./../Search";
 let sendAddress, sendAmount, confirmButton, scriptHash, gala_usd, gas_usd;
 
 const styles = {
@@ -379,6 +380,21 @@ class SendGALA extends Component {
                   :
                   null
           }
+          <div className="breadBar">
+          <div className="col-flat-10">
+          <ol id="no-inverse" className="breadcrumb">
+
+          <li><Link to="/assetPortfolio">Portfolio</Link></li>
+          <li className="active">Galaxy</li>
+          </ol>
+          </div>
+
+          <div className="col-flat-2">
+          <Search />
+          </div>
+          </div>
+
+        <TopBar />
         <Assets />
         <div id="send">
           <div className="row dash-chart-panel">
@@ -396,7 +412,7 @@ class SendGALA extends Component {
 
             <span className="font-16">{numeral(
               Math.floor(this.props.gala * 100000) / 100000
-            ).format("0,0.0000")} <span className="dbc-price"> GALA</span></span><br />
+            ).format("0,0[.][0000]")} <span id="no-inverse" className="dbc-price"> GALA</span></span><br />
               <span className="market-price">{numeral(this.props.gala * this.props.marketGALAPrice).format("$0,0.00")} USD</span>
             </div>
 
@@ -487,13 +503,13 @@ class SendGALA extends Component {
                 </div>
               </div>
             </div>
-          </div>
 
+          <div className="clearboth" />
           <div className="send-notice">
             <p>
               Sending Galaxy (GALA) requires a balance of 0.00000001 GAS+. Only send GALA to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending GALA to an exchange please ensure the address supports GALA tokens.
             </p>
-
+            </div>
           </div>
         </div>
       </div>

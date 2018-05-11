@@ -1,8 +1,9 @@
 // backgrounds and buttons
 @import url("../../node_modules/bootstrap/dist/css/bootstrap.min.css");
 @import "./_morpheus.scss";
+@import url("https://fonts.googleapis.com/css?family=Roboto+Condensed");
+@import url("https://fonts.googleapis.com/css?family=Roboto");
 
-// @import url("https://fonts.googleapis.com/css?family=Lato");
 
 $main-background: #fff;
 $default-button: #4d933b;
@@ -41,7 +42,7 @@ body {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  font-family: "Lato", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
   background-color: #000;
   color: #ffffff;
@@ -572,7 +573,7 @@ $box-margin: 10px;
   background-color: white;
   border-radius: 30px;
   padding: 10%;
-  width: 100%;
+  max-width: 230px;
   margin: 0px auto;
 }
 

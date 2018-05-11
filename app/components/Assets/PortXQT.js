@@ -33,7 +33,7 @@ class PortXQT extends Component {
 							width="44"
 							className="port-logos"
 						/></Link>
-						<hr className="dash-hr" />
+
 						<h3><NEPQRModal />   <Link to="/sendXQT"><span className=" glyphicon glyphicon-send "/></Link></h3>
 						</div>
 <Link to="/sendXQT">
@@ -41,8 +41,8 @@ class PortXQT extends Component {
 							<span className="market-price"> Quarteria {numeral(this.props.marketXQTPrice).format("$0,0.00")}</span>
 							<h3>{numeral(
 								Math.floor(this.props.xqt * 100000) / 100000
-							).format("0,0.0000")} <span className="ltc-price"> XQT</span></h3>
-							<hr className="dash-hr" />
+							).format("0,0[.][0000]")} <span className="ltc-price"> XQT</span></h3>
+
 							<span className="market-price">{numeral(this.props.xqt*this.props.marketXQTPrice).format("$0,0.00")} USD</span>
 						</div></Link>
 						</div>

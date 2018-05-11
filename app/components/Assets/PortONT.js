@@ -34,7 +34,7 @@ class PortONT extends Component {
 								width="48"
 								className="port-logos"
 							/></Link>
-							<hr className="dash-hr" />
+
 							<h3><NEPQRModal />   <Link to="/sendONT"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 							<Link to="/sendONT">
@@ -42,8 +42,8 @@ class PortONT extends Component {
 								<span className="market-price">Ontology {numeral(this.props.marketONTPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.ont * 100000) / 100000
-								).format("0,0.0000")} <span className="dbc-price"> ONT</span></h3>
-								<hr className="dash-hr" />
+								).format("0,0[.][0000]")} <span id="no-inverse" className="dbc-price"> ONT</span></h3>
+
 								<span className="market-price">{numeral(this.props.ont*this.props.marketONTPrice).format("$0,0.00")} USD</span>
 							</div></Link>
 							</div>

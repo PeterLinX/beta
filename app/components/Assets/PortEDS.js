@@ -28,13 +28,17 @@ class PortEDS extends Component {
 
 						<div className="col-3 flipInX">
 						<div className="port-logo-col">
-						<Link to="/sendEDS"><img
+						<Link to="/sendEDS">
+						<div id="no-inverse">
+						<img
 							src={edsLogo}
 							alt="Endorsit Shares"
 							width="36"
 							className="port-logos"
-						/></Link>
-						<hr className="dash-hr" />
+						/>
+						</div>
+						</Link>
+
 						<h3><NEPQRModal />   <Link to="/sendEDS"><span className=" glyphicon glyphicon-send "/></Link></h3>
 						</div>
 <Link to="/sendEDS">
@@ -42,8 +46,8 @@ class PortEDS extends Component {
 							<span className="market-price">Endorsit Shares {numeral(this.props.marketEDSPrice).format("$0,0.00")}</span>
 							<h3>{numeral(
 								Math.floor(this.props.eds * 100000) / 100000
-							).format("0,0.0000")} <span className="ltc-price"> EDS</span></h3>
-							<hr className="dash-hr" />
+							).format("0,0[.][0000]")} <span className="ltc-price"> EDS</span></h3>
+
 							<span className="market-price">{numeral(this.props.eds*this.props.marketEDSPrice).format("$0,0.00")} USD</span>
 						</div></Link>
 						</div>

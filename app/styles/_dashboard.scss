@@ -11,7 +11,6 @@
 }
 
 #gas-gauge {
-  background: url("../img/gas-bar.png") no-repeat center;
   width: 200px;
   height: 100px;
   top: -30px;
@@ -80,11 +79,12 @@
 #gas-button:focus {
   background: url("../img/gas-button@2x.png") no-repeat center;
   width: 120px;
-  height: 130px;
-  margin: -8px auto 0px;
-  position: relative;
-  top: 0;
-  text-align: center;
+height: 130px;
+margin: -19px auto 0px;
+position: relative;
+top: 0;
+text-align: center;
+color: white;
 }
 
 #gas-button:hover, #ledger-gas-button:hover {
@@ -99,7 +99,7 @@
 }
 
 #gas-button.disabled, #ledger-gas-button.disabled {
-  background: url("../img/gas-button-dis@2x.png") no-repeat center;
+  background: url("../img/gas-button@2x.png") no-repeat center;
   font-size: 15px;
   text-align: center;
 }

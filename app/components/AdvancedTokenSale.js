@@ -21,6 +21,10 @@ import {
 } from "../modules/transactions";
 import {oldMintTokens} from "../core/oldMintTokens";
 import { Link } from "react-router";
+import numeral from "numeral";
+import TopBar from "./TopBar";
+
+import Search from "./Search";
 
 let payment_method, token_script, amount;
 
@@ -452,6 +456,24 @@ class TokenSale extends Component {
                         :
                         null
                 }
+
+
+
+                <div className="breadBar">
+                <div className="col-flat-10">
+                <ol id="no-inverse" className="breadcrumb">
+                </ol>
+                </div>
+
+                <div className="col-flat-2">
+                <Search />
+                </div>
+                </div>
+
+
+
+        <TopBar />
+
 			<div className="dash-panel">
       <img
         src={neoLogo}
@@ -500,9 +522,9 @@ class TokenSale extends Component {
 				 />
 				</div>
 
-				<div className="col-xs-4">
+				<div className="col-xs-4 top-30">
 				<button
-				className="btn-send top-30"
+				className="btn-send"
 				onClick={() => {
                     if (token_script.value === '') {
                         this.props.dispatch(sendEvent(false, "You can not send NEO to a token sale without a valid hashscript address."));
@@ -548,10 +570,10 @@ class TokenSale extends Component {
 
         <div className="clearboth" />
 				<div className="col-xs-12">
-					<h4 className="center">
-          ENTER A VALID HASHSCRIPT ONLY.<br />
+					<h5 className="">
+          ENTER A VALID HASHSCRIPT ONLY.
           Only click send once. Please follow the rules of the token sale you are participating in. If your NEO address is not pre-qualified for the token sale your funds may be lost. Please follow all local laws as well as all KYC and AML requirements when participating in a token sale. Morpheus S.S. Ltd is not liable for the loss of any tokens. Sending more than the maximum amount may result in the excess tokens being lost. Do not send tokens to a sale that has ended.  Please research every token sale carefully before participating.
-					</h4>
+					</h5>
 				</div>
 
 				</div>

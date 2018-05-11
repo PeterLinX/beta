@@ -35,7 +35,7 @@ class PortQLC extends Component {
 								width="50"
 								className="port-logos"
 							/></Link>
-							<hr className="dash-hr" />
+
 							<h3><NEPQRModal />   <Link to="/sendQLC"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 							<Link to="/sendQLC">
@@ -43,8 +43,8 @@ class PortQLC extends Component {
 								<span className="market-price">QLink {numeral(this.props.marketQLCPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.qlc * 100000) / 100000
-								).format("0,0.0000")} <span className="qlink-price"> QLC</span></h3>
-								<hr className="dash-hr" />
+								).format("0,0[.][0000]")} <span id="no-inverse" className="qlink-price"> QLC</span></h3>
+
 								<span className="market-price">{numeral(this.props.qlc*this.props.marketQLCPrice).format("$0,0.00")} USD</span>
 							</div></Link>
 							</div>

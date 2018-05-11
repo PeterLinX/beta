@@ -24,7 +24,8 @@ import { flatMap, keyBy, get, omit, pick } from "lodash";
 import numeral from "numeral";
 import TNCChart from "./../NepCharts/TNCChart";
 import NEPQRModalButton from "./../Assets/NEPQRModalButton.js";
-
+import TopBar from "./../TopBar";
+import Search from "./../Search";
 let sendAddress, sendAmount, confirmButton, scriptHash, tnc_usd, gas_usd;
 
 const styles = {
@@ -383,7 +384,21 @@ class SendTNC extends Component {
                   :
                   null
           }
+          <div className="breadBar">
+          <div className="col-flat-10">
+          <ol id="no-inverse" className="breadcrumb">
 
+          <li><Link to="/assetPortfolio">Portfolio</Link></li>
+          <li className="active">Trinity</li>
+          </ol>
+          </div>
+
+          <div className="col-flat-2">
+          <Search />
+          </div>
+          </div>
+
+        <TopBar />
         <div id="send">
           <div className="row dash-panel">
             <div className="col-xs-5">
@@ -398,7 +413,7 @@ class SendTNC extends Component {
               <span className="market-price"> {numeral(this.props.marketTNCPrice).format("$0,0.00")} each</span><br />
               <span className="font24">{numeral(
                 Math.floor(this.props.tnc * 100000) / 100000
-              ).format("0,0.0000")} <span className="hp-price"> TNC</span></span><br />
+              ).format("0,0[.][0000]")} <span id="no-inverse" className="hp-price"> TNC</span></span><br />
               <span className="market-price">{numeral(this.props.tnc * this.props.marketTNCPrice).format("$0,0.00")} USD</span>
             </div>
 
@@ -492,13 +507,13 @@ class SendTNC extends Component {
                 </div>
               </div>
             </div>
-          </div>
 
+          <div className="clearboth" />
           <div className="send-notice">
             <p>
               Sending Trinity Network (TNC) NEP5 tokens require a balance of 0.00000001 GAS+. Only send TNC to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending TNC to an exchange please ensure the address supports TNC tokens.
             </p>
-
+            </div>
           </div>
         </div>
       </div>

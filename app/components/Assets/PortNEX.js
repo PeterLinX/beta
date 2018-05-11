@@ -32,7 +32,7 @@ class PortNEX extends Component {
 							width="44"
 							className="port-logos top-10"
 						/>
-						<hr className="dash-hr" />
+
 						<h3><NEPQRModal />   <Link to="/receive"><span className=" glyphicon glyphicon-send "/></Link></h3>
 						</div>
 
@@ -40,8 +40,8 @@ class PortNEX extends Component {
 							<span className="market-price">Neon Exchange $0.00</span>
 							<h3>{numeral(
 	              Math.floor(this.props.nex * 100000) / 100000
-	            ).format("0,0.0000")} <span className="nex-price"> NEX</span></h3>
-							<hr className="dash-hr" />
+	            ).format("0,0[.][0000]")} <span id="no-inverse" className="nex-price"> NEX</span></h3>
+
 							<span className="market-price">$0.00 USD</span>
 						</div>
 						</div>

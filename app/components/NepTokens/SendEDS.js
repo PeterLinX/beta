@@ -23,7 +23,8 @@ import { ASSETS, TOKENS, TOKENS_TEST } from "../../core/constants";
 import { flatMap, keyBy, get, omit, pick } from "lodash";
 import numeral from "numeral";
 import NEPQRModalButton from "./../Assets/NEPQRModalButton.js";
-
+import TopBar from "./../TopBar";
+import Search from "./../Search";
 let sendAddress, sendAmount, confirmButton, scriptHash, eds_usd, gas_usd;
 
 const styles = {
@@ -377,23 +378,40 @@ class SendEDS extends Component {
                   :
                   null
           }
+
+          <div className="breadBar">
+          <div className="col-flat-10">
+          <ol id="no-inverse" className="breadcrumb">
+
+          <li><Link to="/assetPortfolio">Portfolio</Link></li>
+          <li className="active">Endorsit</li>
+          </ol>
+          </div>
+
+          <div className="col-flat-2">
+          <Search />
+          </div>
+          </div>
+
+        <TopBar />
         <Assets />
         <div id="send">
           <div className="row dash-chart-panel">
             <div className="col-xs-9">
+            <div id="no-inverse">
               <img
                 src={edsLogo}
                 alt=""
                 width="48"
                 className="neo-logo fadeInDown"
-              />
+              /></div>
               <h2>Endorsit Shares</h2>
             </div>
 
             <div className="col-xs-3 center">
             <span className="font-16">{numeral(
               Math.floor(this.props.eds * 100000) / 100000
-            ).format("0,0.0000")} <span className="ltc-price"> EDS</span></span><br />
+            ).format("0,0[.][0000]")} <span className="ltc-price"> EDS</span></span><br />
             <span className="market-price">{numeral(this.props.eds * this.props.marketEDSPrice).format("$0,0.00")} USD</span>
             </div>
 
@@ -484,13 +502,13 @@ class SendEDS extends Component {
                 </div>
               </div>
             </div>
-          </div>
 
+          <div className="clearboth" />
           <div className="send-notice">
             <p>
               Sending Endorsit Shares (EDS) NEP5 tokens require a balance of 0.00000001 GAS+. Only send EDS to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending EDS to an exchange please ensure the address supports EDS tokens.
             </p>
-
+            </div>
           </div>
         </div>
       </div>

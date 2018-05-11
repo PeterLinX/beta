@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import SplitPane from "react-split-pane";
 import Modal from "react-modal";
-import spinner from "../img/spinner.png";
 
 // Modal Windows
 const styles = {
 	overlay: {
 		position: "fixed",
+		zindex: 999999999999999,
 		top: 0,
 		left: 0,
 		right: 0,
@@ -45,7 +45,9 @@ const StatusMessage = ({ status, statusMessage }) => {
 				<div>
 					<div className="center modal-alert">
 						<div id="preloader">
+						<div id="no-inverse">
 							<div id="loader"></div>
+						</div>
 						</div>
 					</div>
 					<div className="center modal-alert">
@@ -66,7 +68,9 @@ const StatusMessage = ({ status, statusMessage }) => {
 				<div>
 					<div className="center modal-alert">
 						<div id="preloader">
+						<div id="no-inverse">
 							<div id="loader"></div>
+						</div>
 						</div>
 					</div>
 					<div className="center modal-alert">

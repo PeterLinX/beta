@@ -35,16 +35,16 @@ class PortOBT extends Component {
 								width="48"
 								className="port-logos"
 							/></Link>
-							<hr className="dash-hr" />
+
 							<h3><NEPQRModal />   <Link to="/sendOBT"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 							<Link to="/sendOBT">
 							<div className="port-price-col">
-								<span className="market-price">Orbis $0.00 USD</span>
+								<span className="market-price">Orbis $0.00</span>
 								<h3>{numeral(
 		              Math.floor(this.props.obt * 100000) / 100000
-		            ).format("0,0.0000")}  <span className="thor-price"> OBT</span></h3>
-								<hr className="dash-hr" />
+		            ).format("0,0[.][0000]")}  <span id="no-inverse" className="thor-price"> OBT</span></h3>
+
 								<span className="market-price">$0.00 USD</span>
 							</div></Link>
 							</div>

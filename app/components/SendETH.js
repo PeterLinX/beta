@@ -24,6 +24,7 @@ import { ethLoginRedirect } from "../modules/account";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import ETHChart from "./NepCharts/ETHChart";
 import ETHQRModalButton from "./ETHQRModalButton.js";
+import Search from "./Search";
 
 
 var bitcoin = require("bitcoinjs-lib");
@@ -129,36 +130,36 @@ const sendTransaction = (
             var privateKey = prvKey;
             var keys  = new bitcoin.ECPair(bigi.fromHex(privateKey));
             var newtx = {
-                inputs: [{addresses: [selfAddress]}],
-                outputs: [{addresses: [sendAddress], value: satoshi_amount}]
+          inputs: [{addresses: [selfAddress]}],
+          outputs: [{addresses: [sendAddress], value: satoshi_amount}]
             };
 
             if (net === "MainNet") {
-                new_base = "https://api.blockcypher.com/v1/eth/main/txs/new?token=" + BLOCK_TOKEN;
-                send_base = "https://api.blockcypher.com/v1/eth/main/txs/send?token=" + BLOCK_TOKEN;
+          new_base = "https://api.blockcypher.com/v1/eth/main/txs/new?token=" + BLOCK_TOKEN;
+          send_base = "https://api.blockcypher.com/v1/eth/main/txs/send?token=" + BLOCK_TOKEN;
             } else {
-                new_base = "https://api.blockcypher.com/v1/beth/test/txs/new?token=" + BLOCK_TOKEN;
-                send_base = "https://api.blockcypher.com/v1/beth/test/txs/send?token=" + BLOCK_TOKEN;
+          new_base = "https://api.blockcypher.com/v1/beth/test/txs/new?token=" + BLOCK_TOKEN;
+          send_base = "https://api.blockcypher.com/v1/beth/test/txs/send?token=" + BLOCK_TOKEN;
             }
 
             axios.post(new_base, newtx)
-                .then(function (tmptx) {
-                    console.log("create new transaction= "+JSON.stringify(tmptx));
-                    var sendtx = {
-                        tx: tmptx.data.tx
-                    }
-                    sendtx.tosign = tmptx.data.tosign
-                    sendtx.signatures = tmptx.data.tosign.map(function(tosign, n) {
-                       return keys.sign(new buffer.Buffer(tosign, "hex")).toDER().toString("hex");
-                    });
+          .then(function (tmptx) {
+      console.log("create new transaction= "+JSON.stringify(tmptx));
+      var sendtx = {
+          tx: tmptx.data.tx
+      }
+      sendtx.tosign = tmptx.data.tosign
+      sendtx.signatures = tmptx.data.tosign.map(function(tosign, n) {
+         return keys.sign(new buffer.Buffer(tosign, "hex")).toDER().toString("hex");
+      });
 
-                    axios.post(send_base,sendtx).then(function (finaltx) {
-                        console.log("finaltx= "+ finaltx);
-                        dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
-                        setTimeout(() => dispatch(clearTransactionEvent()), 2000);
-                        return true;
-                    })
-                })
+      axios.post(send_base,sendtx).then(function (finaltx) {
+          console.log("finaltx= "+ finaltx);
+          dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
+          setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+          return true;
+      })
+          })
         }
     }
     // close confirm pane and clear fields
@@ -179,19 +180,19 @@ const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm })
             ariaHideApp={false}
         >
             <div>
-                <div className="center modal-alert">
-                </div>
-                <div className="center modal-alert top-20">
-                    <strong>Confirm sending {sendAmount} ETH to {sendAddress}</strong>
-                </div>
-                <div className="row top-30">
-                    <div className="col-xs-6">
-                        <button className="cancel-button" onClick={handleCancel}>Cancel</button>
-                    </div>
-                    <div className="col-xs-6">
-                        <button className="btn-send" onClick={handleConfirm}>Confirm</button>
-                    </div>
-                </div>
+          <div className="center modal-alert">
+          </div>
+          <div className="center modal-alert top-20">
+      <strong>Confirm sending {sendAmount} ETH to {sendAddress}</strong>
+          </div>
+          <div className="row top-30">
+      <div className="col-xs-6">
+          <button className="cancel-button" onClick={handleCancel}>Cancel</button>
+      </div>
+      <div className="col-xs-6">
+          <button className="btn-send" onClick={handleConfirm}>Confirm</button>
+      </div>
+          </div>
             </div>
         </Modal>
     );
@@ -298,39 +299,39 @@ class SendETH extends Component {
         }
         return (
             <div>
-                {
-                    this.state.modalStatus?
-                        <StatusMessage
-                            sendAmount={sendAmount.value}
-                            sendAddress={inputSendAddress.value}
-                            handleCancel = {
-                                () => {
-                                    this.setState({
-                                        modalStatus: false
-                                    })
-                                }
-                            }
-                            handleConfirm ={() => {
-                                sendTransaction(
-                                    dispatch,
-                                    net,
-                                    eth_address,
-                                    ethPrivKey,
-                                    selectedAsset,
-                                    neo,
-                                    gas,
-                                    eth
-                                )
-                                this.setState({
-                                    modalStatus: false
-                                })
-                            }}
-                        />
-                        :
-                        null
-                }
-                <div id="send"
-                onLoad={() =>
+          {
+      this.state.modalStatus?
+          <StatusMessage
+              sendAmount={sendAmount.value}
+              sendAddress={inputSendAddress.value}
+              handleCancel = {
+            () => {
+        this.setState({
+            modalStatus: false
+        })
+            }
+              }
+              handleConfirm ={() => {
+            sendTransaction(
+        dispatch,
+        net,
+        eth_address,
+        ethPrivKey,
+        selectedAsset,
+        neo,
+        gas,
+        eth
+            )
+            this.setState({
+        modalStatus: false
+            })
+              }}
+          />
+          :
+          null
+          }
+          <div id="send"
+          onLoad={() =>
         					refreshBalance(
         						this.props.dispatch,
         						this.props.net,
@@ -340,118 +341,132 @@ class SendETH extends Component {
         						this.props.eth
         					)
         				}
-                >
+          >
 
-                    <div className="row dash-panel">
-                        <div className="col-xs-5">
-                            <img
-                                src={ethLogo}
-                                alt=""
-                                width="32"
-                                className="neo-logo flipInY"
-                            />
-                            <h2> Ethereum</h2>
-                            <hr className="dash-hr-wide" />
-              							<span className="market-price"> {numeral(this.props.marketETHPrice).format("$0,0.00")} each</span><br />
-              							<span className="font24">{numeral(this.props.eth/10000000000).format("0,0.00000000")} <span className="eth-price"> ETH</span></span><br />
-              							<span className="market-price">{numeral((this.props.eth/10000000000) * this.props.marketETHPrice).format("$0,0.00")} USD</span>
-                        </div>
+          <div className="breadBar">
+          <div className="col-flat-10">
+          <ol id="no-inverse" className="breadcrumb">
+          <li><Link to="/assetPortfolio">Portfolio</Link></li>
+          <li className="active">Ethereum</li>
+          </ol>
+          </div>
+
+          <div className="col-flat-2">
+          <Search />
+          </div>
+          </div>
 
 
-                        <div className="col-xs-7 center">
-                        <ETHChart />
-                        </div>
-
-                        <div className="clearboth" />
-
-                        <div className="top-20">
-                            <div className="col-xs-9">
-                                <input
-                                    className="form-send-white"
-                                    id="center"
-                                    placeholder="Enter a valid ETH public address here"
-                                    ref={node => {
-                                        inputSendAddress = node;
-                                    }}
-                                />
-                            </div>
-
-                            <div className="col-xs-3">
-
-                                <ETHQRModalButton />
-
-                            </div>
-
-                            <div className="col-xs-5  top-20">
-                                <input
-                                    className="form-send-white"
-                                    type="number"
-                                    id="assetAmount"
-                                    min="1"
-                                    onChange={convertFunction}
-                                    value={this.state.value}
-                                    placeholder="Enter amount to send"
-                                    ref={node => {
-                                        sendAmount = node;
-                                    }}
-                                />
-                                <div className="clearboth"/>
-                                <span className="com-soon block top-10">Amount in ETH to send</span>
-                            </div>
-                            <div className="col-xs-4 top-20">
-                                <input
-                                    className="form-send-white"
-                                    id="sendAmount"
-                                    onChange={this.handleChangeUSD}
-                                    onClick={this.handleChangeUSD}
-                                    disabled={gasEnabled === false ? true : false}
-                                    placeholder="Amount in US"
-                                    value={`${priceUSD}`}
-                                />
-                                <label className="amount-dollar">$</label>
-                                <div className="clearboth"/>
-                                <span className="com-soon block top-10">Calculated in USD</span>
-                            </div>
-                            <div className="col-xs-3 top-20">
-                                <div id="sendAddress">
-                                    <button
-                                        className="grey-button"
-                                        onClick={() => {
-                                            if (inputSendAddress.value === '') {
-                                                dispatch(sendEvent(false, "You can not send without address."));
-                                                setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-                                                return false;
-                                            }
+      <div className="row dash-panel-full">
+          <div className="col-xs-5">
+              <img
+            src={ethLogo}
+            alt=""
+            width="32"
+            className="neo-logo flipInY"
+              />
+              <h2> Ethereum</h2>
+              <hr className="dash-hr-wide" />
+              <span className="market-price"> {numeral(this.props.marketETHPrice).format("$0,0.00")} each</span><br />
+              <span className="font24">{numeral(this.props.eth/10000000000).format("0,0[.][000000]")} <span className="eth-price"> ETH</span></span><br />
+              <span className="market-price">{numeral((this.props.eth/10000000000) * this.props.marketETHPrice).format("$0,0.00")} USD</span>
+          </div>
 
 
-                                            if (parseFloat(sendAmount.value) <= 0) {
-                                                dispatch(sendEvent(false, "You cannot send negative amounts of ETH."));
-                                                setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-                                                return false;
-                                            }
+          <div className="col-xs-7 center">
+          <ETHChart />
+          </div>
 
-                                            this.setState({
-                                                modalStatus: true
-                                            })
-                                        }
-                                        }
-                                        ref={node => {
-                                            confirmButton = node;
-                                        }}
-                                    >
-                                        <span className="glyphicon glyphicon-send marg-right-5"/>  Send
-                                    </button>
-                                </div>
-                            </div>
+          <div className="clearboth" />
 
-                            <div className="clearboth"/>
+          <div className="top-20">
+              <div className="col-xs-9">
+            <input
+        className="form-send-white"
+        id="center"
+        placeholder="Enter a valid ETH public address here"
+        ref={node => {
+            inputSendAddress = node;
+        }}
+            />
+              </div>
 
-                            <div className="col-xs-12 top-10">
-                                <TransactionHistoryETH />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              <div className="col-xs-3">
+
+            <ETHQRModalButton />
+
+              </div>
+
+              <div className="col-xs-5  top-20">
+            <input
+        className="form-send-white"
+        type="number"
+        id="assetAmount"
+        min="1"
+        onChange={convertFunction}
+        value={this.state.value}
+        placeholder="Enter amount to send"
+        ref={node => {
+            sendAmount = node;
+        }}
+            />
+            <div className="clearboth"/>
+            <span className="com-soon block top-10">Amount in ETH to send</span>
+              </div>
+              <div className="col-xs-4 top-20">
+            <input
+        className="form-send-white"
+        id="sendAmount"
+        onChange={this.handleChangeUSD}
+        onClick={this.handleChangeUSD}
+        disabled={gasEnabled === false ? true : false}
+        placeholder="Amount in US"
+        value={`${priceUSD}`}
+            />
+            <label className="amount-dollar">$</label>
+            <div className="clearboth"/>
+            <span className="com-soon block top-10">Calculated in USD</span>
+              </div>
+              <div className="col-xs-3 top-20">
+            <div id="sendAddress">
+        <button
+            className="grey-button"
+            onClick={() => {
+          if (inputSendAddress.value === '') {
+      dispatch(sendEvent(false, "You can not send without address."));
+      setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+      return false;
+          }
+
+
+          if (parseFloat(sendAmount.value) <= 0) {
+      dispatch(sendEvent(false, "You cannot send negative amounts of ETH."));
+      setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+      return false;
+          }
+
+          this.setState({
+      modalStatus: true
+          })
+            }
+            }
+            ref={node => {
+          confirmButton = node;
+            }}
+        >
+            <span className="glyphicon glyphicon-send marg-right-5"/>  Send
+        </button>
+            </div>
+              </div>
+
+              <div className="clearboth"/>
+
+              <div className="col-xs-12 top-10">
+            <TransactionHistoryETH />
+              </div>
+          </div>
+      </div>
+          </div>
             </div>
         );
     }

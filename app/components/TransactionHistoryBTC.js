@@ -6,7 +6,6 @@ import Copy from "react-icons/lib/md/content-copy";
 import { clipboard } from "electron";
 import { initiateBtcGetBalance, intervals } from "../components/NetworkSwitch";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
-import { Accordion, AccordionItem } from "react-sanfona";
 
 // TODO: make this a user setting
 const getBtcExplorerLink = (net, txid) => {
@@ -44,9 +43,8 @@ class TransactionHistoryBTC extends Component {
   render = () => (
     <div id="send">
         <div className="row">
-        <div className="col-xs-12 top-20">
-          <span className="glyphicon glyphicon-list-alt float-left marg-right-10" /> <Accordion>
-          <AccordionItem expanded={true} title="Bitcoin Transaction History"  ClassName="menu-accord-item">
+        <div className="col-xs-12 top-10">
+          <span className="glyphicon glyphicon-list-alt float-left marg-right-10 top-20" /> <h3>Bitcoin Transaction History</h3>
           <hr className="dash-hr-wide" />
           <ul id="BTCtransactionList">
             {this.props.btc_transactions.map(t => {
@@ -77,10 +75,6 @@ class TransactionHistoryBTC extends Component {
               );
             })}
           </ul>
-
-          </AccordionItem>
-            </Accordion>
-
 
             </div>
         </div>

@@ -133,7 +133,7 @@ class Settings extends Component {
 
   render = () => (
     <div id="send">
-      <div className="dash-panel ">
+      <div className="dash-panel-history">
         <div className="description">
 
           <div className="row">

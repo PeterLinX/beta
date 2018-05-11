@@ -26,12 +26,23 @@ class Assets extends Component {
 
 				<Link to="/sendLRN">
 					<div className="col-5">
-						<span className="market-price">Loopring {numeral(this.props.marketLRNPrice).format("$0,0.000")}</span>
+						<span className="market-price">Loopring {numeral(this.props.marketLRNPrice).format("$0,0.00")}</span>
 						<h3>{numeral(
 							Math.floor(this.props.lrn * 100000) / 100000
-						).format("0,0.000")} <span className="ltc-price"> LRN</span></h3>
+						).format("0,0[.][0000]")} <span className="ltc-price"> LRN</span></h3>
 						<hr className="dash-hr" />
 						<span className="market-price">{numeral(this.props.lrn*this.props.marketLRNPrice).format("$0,0.00")} USD</span>
+					</div>
+				</Link>
+
+				<Link to="/sendGDM">
+					<div className="col-5">
+						<span className="market-price">Guardium {numeral(this.props.marketGDMPrice).format("$0,0.00")}</span>
+						<h3>{numeral(
+							Math.floor(this.props.gdm * 100000) / 100000
+						).format("0,0[.][0000]")} <span className="eth-price"> GDM</span></h3>
+						<hr className="dash-hr" />
+						<span className="market-price">{numeral(this.props.gdm * this.props.marketGDMPrice).format("$0,0.00")}  USD</span>
 					</div>
 				</Link>
 
@@ -41,19 +52,9 @@ class Assets extends Component {
 							<span className="market-price">Bitcoin {numeral(this.props.marketBTCPrice).format("$0,0.00")}</span>
 							<h3>{numeral(
 								Math.floor(this.props.btc * 100000) / 100000
-							).format("0,0.000")} <span className="btc-price"> BTC</span></h3>
+							).format("0,0[.][0000]")} <span id="no-inverse" className="btc-price"> BTC</span></h3>
 							<hr className="dash-hr" />
 							<span className="market-price">{numeral(this.props.btc*this.props.marketBTCPrice).format("$0,0.00")} USD</span>
-						</div>
-					</Link>
-
-
-					<Link to="/sendETH">
-						<div className="col-5">
-							<span className="market-price">Ethereum {numeral(this.props.marketETHPrice).format("$0,0.00")}</span>
-							<h3>{numeral(this.props.eth/10000000000).format("0,0.0000")} <span className="eth-price"> ETH</span></h3>
-							<hr className="dash-hr" />
-							<span className="market-price">{numeral((this.props.eth/10000000000) * this.props.marketETHPrice).format("$0,0.00")} USD</span>
 						</div>
 					</Link>
 
@@ -63,7 +64,7 @@ class Assets extends Component {
 							<span className="market-price">Litecoin {numeral(this.props.marketLTCPrice).format("$0,0.00")}</span>
 							<h3>{numeral(
 								Math.floor(this.props.ltc * 100000) / 100000
-							).format("0,0.000")} <span className="eth-price"> LTC</span></h3>
+							).format("0,0[.][0000]")} <span className="eth-price"> LTC</span></h3>
 							<hr className="dash-hr" />
 							<span className="market-price">{numeral(this.props.ltc*this.props.marketLTCPrice).format("$0,0.00")} USD</span>
 						</div>
@@ -75,7 +76,7 @@ class Assets extends Component {
 							<span className="market-price">Ontology {numeral(this.props.marketONTPrice).format("$0,0.00")}</span>
 							<h3>{numeral(
 								Math.floor(this.props.ont * 100000) / 100000
-							).format("0,0.000")} <span className="dbc-price"> ONT</span></h3>
+							).format("0,0[.][0000]")} <span id="no-inverse" className="dbc-price"> ONT</span></h3>
 							<hr className="dash-hr" />
 							<span className="market-price">{numeral(this.props.ont*this.props.marketONTPrice).format("$0,0.00")} USD</span>
 						</div>
@@ -93,7 +94,7 @@ const mapStateToProps = state => ({
 	btc: state.wallet.Btc,
 	lrn: state.wallet.Lrn,
 	ltc: state.wallet.Ltc,
-	eth: state.wallet.Eth,
+	gdm: state.wallet.Gdm,
 	ont: state.wallet.Ont,
 	address: state.account.address,
 	net: state.metadata.network,
@@ -104,7 +105,7 @@ const mapStateToProps = state => ({
 	marketBTCPrice: state.wallet.marketBTCPrice,
 	marketLRNPrice: state.wallet.marketLRNPrice,
 	marketONTPrice: state.wallet.marketONTPrice,
-	marketETHPrice: state.wallet.marketETHPrice,
+	marketGDMPrice: state.wallet.marketGDMPrice,
 	marketLTCPrice: state.wallet.marketLTCPrice,
 	btcLoggedIn: state.account.btcLoggedIn,
 	btcPrivKey: state.account.btcPrivKey,

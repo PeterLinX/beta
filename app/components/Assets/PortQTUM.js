@@ -32,15 +32,15 @@ class PortQTUM extends Component {
 								width="44"
 								className="port-logos"
 							/>
-							<hr className="dash-hr" />
+
 							<h3><NEPQRModal />   <Link to="/sendQTUM"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div><Link to="/sendQTUM">
 							<div className="port-price-col">
 								<span className="market-price">QTUM {numeral(this.props.marketQTUMPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.qtum * 100000) / 100000
-								).format("0,0.0000")} <span className="dbc-price"> QTUM</span></h3>
-								<hr className="dash-hr" />
+								).format("0,0[.][0000]")} <span className="dbc-price"> QTUM</span></h3>
+
 								<span className="market-price">{numeral(this.props.qtum*this.props.marketQTUMPrice).format("$0,0.00")} USD</span>
 							</div></Link>
 							</div>

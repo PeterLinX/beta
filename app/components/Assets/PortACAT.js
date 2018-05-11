@@ -28,14 +28,15 @@ class portACAT extends Component {
 
 				<div className="port-logo-col">
 				<Link to="/sendACAT">
+				<div id="no-inverse">
 				<img
 					src={acatLogo}
 					alt="Alpha Cat"
 					width="66"
 					className="port-logos"
-				/>
+				/></div>
 				</Link>
-				<hr className="dash-hr" />
+
 				<h3><NEPQRModal />   <Link to="/sendACAT"><span className="glyphicon glyphicon-send "/></Link></h3>
 				</div>
 				<Link to="/sendACAT">
@@ -43,8 +44,8 @@ class portACAT extends Component {
 					<span className="market-price">Alpha Cat {numeral(this.props.marketACATPrice).format("$0,0.000")}</span>
 					<h3>{numeral(
 						Math.floor(this.props.acat * 100000) / 100000
-					).format("0,0.0000")} <span className="ltc-price"> ACAT</span></h3>
-					<hr className="dash-hr" />
+					).format("0,0[.][0000]")} <span id="no-inverse" className="ltc-price"> ACAT</span></h3>
+
 					<span className="market-price">{numeral(this.props.acat * this.props.marketACATPrice).format("$0,0.00")} USD</span>
 				</div>
 				</Link>

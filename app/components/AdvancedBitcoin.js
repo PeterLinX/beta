@@ -22,6 +22,8 @@ import { encrypt_wif, decrypt_wif } from "neon-js";
 import { getAccountsFromWIFKey } from "neon-js";
 import { setBtcBlockHeight } from "../modules/metadata";
 import Modal from "react-modal";
+import TopBar from "./TopBar.js";
+import Search from "./Search";
 
 var bitcoin = require("bitcoinjs-lib");
 
@@ -85,6 +87,21 @@ class AdvancedBitcoin extends Component {
 		console.log(this.props.net);
 		return (
 			<div>
+
+      <div className="breadBar">
+			<div className="col-flat-10">
+			<ol className="breadcrumb">
+
+			<li><Link to="/assetPortfolio">Portfolio</Link></li>
+      <li><Link to="/sendBTC">Bitcoin</Link></li>
+			<li className="active">Advanced Options</li>
+			</ol>
+			</div>
+
+			<div className="col-flat-2">
+			<Search />
+			</div>
+			</div>
 
 				<div className="top-20">
               <Link to="/SweepBitcoin">

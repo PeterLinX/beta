@@ -31,37 +31,36 @@ class TopBar extends Component {
 				<div className="header">
 				<Link to="/send">
 					<div className="col-xs-4 pointer">
-						<p className="market-price center">
-                NEO {numeral(this.props.marketNEOPrice).format("$0,0.00")}
-						</p>
+
 						<p className="neo-text">
-							{numeral(this.props.neo).format("0,0")} <span>NEO</span>
+							{numeral(this.props.neo).format("0,0")} <span id="no-inverse">NEO</span>
 						</p>
-						<hr className="dash-hr" />
 						<p className="neo-balance">
 							{numeral(this.props.price).format("$0,0.00")} USD
 						</p>
+						<hr className="dash-hr" />
+						<p className="market-price center">
+                {numeral(this.props.marketNEOPrice).format("$0,0.00")} each
+						</p>
 					</div>
 					</Link>
-					<div className="col-xs-4">{<Claim />}</div>
+					<div id="no-inverse" className="col-xs-4">{<Claim />}</div>
 					<Link to="/send">
 					<div className="col-xs-4 top-5 pointer">
-						<p className="market-price center">
-                GAS {numeral(this.props.marketGASPrice).format("$0,0.00")}
-						</p>
+
 						<p className="gas-text">
 							{numeral(
 								Math.floor(this.props.gas * 10000000) / 10000000
-							).format("0,0.000000")}{" "}
-							<span>GAS</span>
+							).format("0,0[.][000000]")}{" "}
+							<span id="no-inverse">GAS</span>
 						</p>
-						<hr className="dash-hr" />
 						<p className="neo-balance">
 							{" "}
-							{numeral(Math.round(this.props.gasPrice * 100) / 100).format(
-								"$0,0.00"
-							)}{" "}
-                USD
+							{numeral(Math.round(this.props.gasPrice * 100) / 100).format("$0,0.00")}{" "} USD
+						</p>
+						<hr className="dash-hr" />
+						<p className="market-price center">
+            {numeral(this.props.marketGASPrice).format("$0,0.00")} each
 						</p>
 					</div>
 					</Link>

@@ -23,11 +23,10 @@ import { block_index} from "../components/NetworkSwitch";
 import BTCChart from "./NepCharts/BTCChart";
 import BTCQRModalButton from "./BTCQRModalButton.js";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
+import Search from "./Search";
 
 const refreshBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
   initiateGetBalance(dispatch, net, address ,btc ,ltc ,eth).then(response => {
-    dispatch(sendEvent(true, "Prices and balances updated."));
-    setTimeout(() => dispatch(clearTransactionEvent()), 1000);
   });
 };
 
@@ -42,26 +41,26 @@ let sendAddress, sendAmount, confirmButton;
 
 const styles = {
     overlay: {
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: "rgba(0, 0, 0, 0.75)"
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.75)"
     },
     content: {
-        margin: "100px auto 0",
-        padding: "30px 30px 30px 30px",
-        border: "4px solid #222",
-        background: "rgba(12, 12, 14, 1)",
-        borderRadius: "20px",
-        top: "100px",
-        height: 260,
-        width: 600,
-        left: "100px",
-        right: "100px",
-        bottom: "100px",
-        boxShadow: "0px 10px 44px rgba(0, 0, 0, 0.45)"
+    margin: "100px auto 0",
+    padding: "30px 30px 30px 30px",
+    border: "4px solid #222",
+    background: "rgba(12, 12, 14, 1)",
+    borderRadius: "20px",
+    top: "100px",
+    height: 260,
+    width: 600,
+    left: "100px",
+    right: "100px",
+    bottom: "100px",
+    boxShadow: "0px 10px 44px rgba(0, 0, 0, 0.45)"
     }
 };
 
@@ -72,9 +71,9 @@ const apiURL = val => {
 const getUnspentOutputsForBtc = async (net,address) =>{
     let base;
     if(net === "MainNet") {
-        base = "https://blockexplorer.com/api/addr/"+address+"/utxo";
+    base = "https://blockexplorer.com/api/addr/"+address+"/utxo";
     }	else {
-        base = "https://testnet.blockexplorer.com/api/addr/"+address+"/utxo";
+    base = "https://testnet.blockexplorer.com/api/addr/"+address+"/utxo";
     }
 
     var response = await axios.get(base);
@@ -92,19 +91,19 @@ const validateForm = (dispatch, asset ,net) => {
 		if(validMain) {
 			 return true;
 		} else {
-            dispatch(sendEvent(false, "The address you entered was not valid."));
-            setTimeout(() => dispatch(clearTransactionEvent()), 2000);
-            return false;
+    dispatch(sendEvent(false, "The address you entered was not valid."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+    return false;
 		}
 	} else {
-        var validTest = WAValidator.validate(sendAddress.value,"bitcoin","testnet");
-        if (validTest) {
-        	return true;
+    var validTest = WAValidator.validate(sendAddress.value,"bitcoin","testnet");
+    if (validTest) {
+    	return true;
 		} else {
-            dispatch(sendEvent(false, "The address you entered was not valid."));
-            setTimeout(() => dispatch(clearTransactionEvent()), 2000);
-            return false;
-        }
+    dispatch(sendEvent(false, "The address you entered was not valid."));
+    setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+    return false;
+    }
 	}
 };
 
@@ -139,44 +138,46 @@ const sendTransaction = async (
 ) => {
 	// validate fields again for good measure (might have changed?)
 	if (validateForm(dispatch, asset ,net) === true) {
-        //dispatch(sendEvent(true, "Processing..."));
+    //dispatch(sendEvent(true, "Processing..."));
 
-        log(net, "SEND", selfAddress, {
-            to: sendAddress.value,
-            asset: asset,
-            amount: sendAmount.value
-        });
-        console.log("Display btc balance\n");
-        console.log(btc_balance);
-        //Send bitcoin
-        let send_amount = parseFloat(sendAmount.value);
+    log(net, "SEND", selfAddress, {
+    to: sendAddress.value,
+    asset: asset,
+    amount: sendAmount.value
+    });
+    console.log("Display btc balance\n");
+    console.log(btc_balance);
+    //Send bitcoin
+    let send_amount = parseFloat(sendAmount.value);
 
-        if (btc_balance <= 0) {
-            dispatch(sendEvent(false, "Sorry, transaction failed. Please try again in a few minutes."));
+    if (btc_balance <= 0) {
+    dispatch(sendEvent(false, "Sorry, transaction failed. Please try again in a few minutes."));
 						setTimeout(() => dispatch(clearTransactionEvent()), 2000);
 						return false;
-        } else if (btc_balance < sendAmount.value) {
-            dispatch(sendEvent(false, "Your BTC balance is less than the amount your are sending."));
+    } else if (btc_balance < sendAmount.value) {
+    dispatch(sendEvent(false, "Your BTC balance is less than the amount your are sending."));
 						setTimeout(() => dispatch(clearTransactionEvent()), 2000);
 						return false;
-        } else {
-            let new_base,send_base;
-            let satoshi_amount = parseInt(send_amount * 100000000);
-            var ck = CoinKey.fromWif(wif);
-            var privateKey = ck.privateKey.toString('hex');
-            var keys = new bitcoin.ECPair(bigi.fromHex(privateKey));
-            console.log("keys ="+keys);
+    } else {
+    let new_base,send_base;
+    let satoshi_amount = parseInt(send_amount * 100000000);
+    var ck = CoinKey.fromWif(wif);
+    var privateKey = ck.privateKey.toString('hex');
+    var keys = new bitcoin.ECPair(bigi.fromHex(privateKey));
+    console.log("keys ="+keys);
 			var newtx = {
-                inputs: [{addresses: [selfAddress]}],
-                outputs: [{addresses: [sendAddress.value],value: satoshi_amount}]
+    inputs: [{addresses: [selfAddress]}],
+    outputs: [
+					{addresses: [sendAddress.value],value: satoshi_amount}
+				]
 			};
 
-            if(net === "MainNet") {
-            	new_base = "https://api.blockcypher.com/v1/btc/main/txs/new?token=" + BLOCK_TOKEN;
-                send_base = "https://api.blockcypher.com/v1/btc/main/txs/send?token=" + BLOCK_TOKEN;
+    if(net === "MainNet") {
+    	new_base = "https://api.blockcypher.com/v1/btc/main/txs/new?token=" + BLOCK_TOKEN;
+        send_base = "https://api.blockcypher.com/v1/btc/main/txs/send?token=" + BLOCK_TOKEN;
 			} else {
-                new_base = "https://api.blockcypher.com/v1/btc/test3/txs/new?token="+BLOCK_TOKEN;
-                send_base = "https://api.blockcypher.com/v1/btc/test3/txs/send?token="+BLOCK_TOKEN;
+        new_base = "https://api.blockcypher.com/v1/btc/test3/txs/new?token="+BLOCK_TOKEN;
+        send_base = "https://api.blockcypher.com/v1/btc/test3/txs/send?token="+BLOCK_TOKEN;
 			}
 
 			 axios.post(new_base,newtx)
@@ -185,21 +186,21 @@ const sendTransaction = async (
 					var sendtx = {
 						tx: tmptx.data.tx
 					}
-                    sendtx.pubkeys = [];
-                    sendtx.signatures = tmptx.data.tosign.map(function(tosign, n) {
-                        sendtx.pubkeys.push(keys.getPublicKeyBuffer().toString("hex"));
-                        return keys.sign(new buffer.Buffer(tosign, "hex")).toDER().toString("hex");
+        sendtx.pubkeys = [];
+        sendtx.signatures = tmptx.data.tosign.map(function(tosign, n) {
+        sendtx.pubkeys.push(keys.getPublicKeyBuffer().toString("hex"));
+        return keys.sign(new buffer.Buffer(tosign, "hex")).toDER().toString("hex");
 
-                	});
+        	});
 
-                     axios.post(send_base, sendtx).then(function(finaltx) {
-                        console.log("finaltx= "+ finaltx);
-                         dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
-                         setTimeout(() => dispatch(clearTransactionEvent()), 2000);
-                         return true;
-                    })
-                });
-        }
+         axios.post(send_base, sendtx).then(function(finaltx) {
+        console.log("finaltx= "+ finaltx);
+         dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
+         setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+         return true;
+        })
+        });
+    }
     }
 
 	dispatch(togglePane("confirmPane"));
@@ -241,47 +242,47 @@ class SendBTC extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        open: true,
+    open: true,
 		gas: 0,
 		neo: 0,
 		neo_usd: 0,
 		gas_usd: 0,
 		value: 0,
 		inputEnabled: true,
-        modalStatus: false
+    modalStatus: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeUSD = this.handleChangeUSD.bind(this);
 
     if(!this.props.btcLoggedIn){
-      this.props.dispatch(btcLoginRedirect("/sendBTC"));
-      this.props.history.push("/newBitcoin");
+  this.props.dispatch(btcLoginRedirect("/sendBTC"));
+  this.props.history.push("/newBitcoin");
     }
     }
 
     async componentDidMount() {
-      let neo = await axios.get(apiURL("NEO"));
-      let gas = await axios.get(apiURL("GAS"));
-      neo = neo.data.USD;
-      gas = gas.data.USD;
-      this.setState({ neo: neo, gas: gas });
+  let neo = await axios.get(apiURL("NEO"));
+  let gas = await axios.get(apiURL("GAS"));
+  neo = neo.data.USD;
+  gas = gas.data.USD;
+  this.setState({ neo: neo, gas: gas });
     }
 
     handleChange(event) {
-      this.setState({ value: event.target.value }, (sendAmount = value));
-      const value = event.target.value * this.state.neo;
-      this.setState({ fiatVal: value });
+  this.setState({ value: event.target.value }, (sendAmount = value));
+  const value = event.target.value * this.state.neo;
+  this.setState({ fiatVal: value });
     }
 
     async handleChangeUSD(event) {
-      this.setState({ fiatVal: event.target.value });
-      let gas = await axios.get(apiURL("GAS"));
-      gas = gas.data.USD;
-      this.setState({ gas: gas });
-      const value = this.state.fiatVal / this.state.gas;
-      this.setState({ value: value }, () => {
-        sendAmount = value;
-      });
+  this.setState({ fiatVal: event.target.value });
+  let gas = await axios.get(apiURL("GAS"));
+  gas = gas.data.USD;
+  this.setState({ gas: gas });
+  const value = this.state.fiatVal / this.state.gas;
+  this.setState({ value: value }, () => {
+    sendAmount = value;
+  });
     }
 
   render() {
@@ -302,38 +303,38 @@ class SendBTC extends Component {
     } = this.props;
 
     return (
-      <div>
-          {
-              this.state.modalStatus?
+  <div>
+      {
+      this.state.modalStatus?
 				  <StatusMessage
 					  sendAmount={sendAmount.value}
 					  sendAddress={sendAddress.value}
 					  handleCancel = {
-                          () => {
-                              this.setState({
-                                  modalStatus: false
-                              })
-                          }
-                      }
-					  handleConfirm ={() => {
-                          sendTransaction(
-                              dispatch,
-                              net,
-                              btc_address,
-                              btc_prvkey,
-                              selectedAsset,
-                              neo,
-                              gas,
-                              btc
-                              )
-                          this.setState({
-                              modalStatus: false
-                          })
-                      }}
-				  />
-                  :
-                  null
+          () => {
+          this.setState({
+              modalStatus: false
+          })
           }
+          }
+					  handleConfirm ={() => {
+          sendTransaction(
+          dispatch,
+          net,
+          btc_address,
+          btc_prvkey,
+          selectedAsset,
+          neo,
+          gas,
+          btc
+          )
+          this.setState({
+          modalStatus: false
+          })
+          }}
+				  />
+      :
+      null
+      }
 				<div id="send"
 				onLoad={() =>
 					refreshBalance(
@@ -347,7 +348,20 @@ class SendBTC extends Component {
 				}
 				>
 
-					<div className="row dash-panel">
+				<div className="breadBar">
+				<div className="col-flat-10">
+				<ol className="breadcrumb">
+				<li><Link to="/assetPortfolio">Portfolio</Link></li>
+				<li className="active">Bitcoin</li>
+				</ol>
+				</div>
+
+				<div className="col-flat-2">
+				<Search />
+				</div>
+				</div>
+
+					<div className="row dash-panel-full">
 						<div className="col-xs-5">
 							<img
 								src={btcLogo}
@@ -360,11 +374,11 @@ class SendBTC extends Component {
 							<span className="market-price"> {numeral(this.props.marketBTCPrice).format("$0,0.00")} each</span><br />
 							<span className="font24">{numeral(
 								Math.floor(this.props.btc * 100000) / 100000
-							).format("0,0.00000000")} <span className="btc-price"> BTC</span></span><br />
+							).format("0,0[.][000000]")} <span id="no-inverse" className="btc-price"> BTC</span></span><br />
 							<span className="market-price">{numeral(this.props.btc * this.props.marketBTCPrice).format("$0,0.00")} USD</span>
 						</div>
 
-						<div className="col-xs-7 center">
+						<div className="col-xs-7 center" id="no-inverse">
 						<BTCChart />
 						</div>
 
@@ -382,8 +396,7 @@ class SendBTC extends Component {
 								/>
 							</div>
 
-							<div className="col-xs-3">
-
+							<div className="col-xs-3" id="no-inverse">
 							<BTCQRModalButton />
 							</div>
 
@@ -407,7 +420,7 @@ class SendBTC extends Component {
 								<input
 								className="form-send-btc"
 								id="sendAmount"
-                min="0.00001"
+        min="0.00001"
 								onChange={this.handleChangeUSD}
 								placeholder="Amount in US"
 								value={`${this.state.fiatVal}`}
@@ -421,24 +434,24 @@ class SendBTC extends Component {
 									<button
 										className="btc-button"
 										onClick={() => {
-                                            if (sendAddress.value === '') {
-                                                dispatch(sendEvent(false, "You can not send without address."));
-                                                setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-                                                return false;
-                                            }
+                if (sendAddress.value === '') {
+                dispatch(sendEvent(false, "You can not send without address."));
+                setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                return false;
+                }
 
 
-                                            if (parseFloat(sendAmount.value) <= 0) {
-                                                dispatch(sendEvent(false, "You cannot send negative amounts of BTC."));
-                                                setTimeout(() => dispatch(clearTransactionEvent()), 1000);
-                                                return false;
-                                            }
+                if (parseFloat(sendAmount.value) <= 0) {
+                dispatch(sendEvent(false, "You cannot send negative amounts of BTC."));
+                setTimeout(() => dispatch(clearTransactionEvent()), 1000);
+                return false;
+                }
 
-                                            this.setState({
-                                                modalStatus: true
-                                            })
-                                        }
-                                        }
+                this.setState({
+                modalStatus: true
+                })
+                }
+                }
 										ref={node => {
 											confirmButton = node;
 										}}
@@ -448,14 +461,16 @@ class SendBTC extends Component {
 								</div>
 							</div>
 
-              <div className="clearboth"/>
+      <div className="clearboth"/>
 
 							<div className="col-xs-12 com-soon">
 							Fees: 0.0001 BTC/KB<br />
 							</div>
-							<div className="col-xs-12 top-10">
+							<div className="col-xs-12">
 							<TransactionHistoryBTC />
+							<div className="clearboth"/>
 							</div>
+							<div className="clearboth"/>
 						</div>
 					</div>
 

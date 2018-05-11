@@ -33,13 +33,13 @@ class PortBTC extends Component {
 							width="44"
 							className="port-logo"
 						/></Link>
-						<hr className="dash-hr" />
+
 						<h3><Link to="/sendBTC"><span className="glyphicon glyphicon-qrcode "/>  <span className="glyphicon glyphicon-send "/></Link></h3>
 						</div>
 						<Link to="/sendBTC"><div className="port-price-col">
 							<span className="market-price">Bitcoin {numeral(this.props.marketBTCPrice).format("$0,0.00")}</span>
-							<h3>{numeral(this.props.btc).format("0,0.00000")} <span className="btc-price"> BTC</span></h3>
-							<hr className="dash-hr" />
+							<h3>{numeral(this.props.btc).format("0,0[.][0000]0")} <span id="no-inverse" className="btc-price"> BTC</span></h3>
+
 							<span className="market-price">{numeral(this.props.btc * this.props.marketBTCPrice).format("$0,0.00")} USD</span>
 						</div></Link>
 						</div>

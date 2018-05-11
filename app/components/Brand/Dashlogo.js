@@ -6,7 +6,9 @@ class Dashlogo extends Component {
 	render() {
 		return (
 			<div>
+			<div id="no-inverse">
 				<img src={img} alt="logo" width={this.props.width} />
+			</div>
 			</div>
 		);
 	}

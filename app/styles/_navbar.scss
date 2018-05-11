@@ -1,10 +1,4 @@
-.sk-asset.sk-portIcon {
-  width: 20px;
-  height: 20px;
-  left: 0px;
-  top: 0px;
-  background-image: url("../img/portIcon.png");
-}
+
 
 .sk-asset.sk-postfolioButton {
   width: 124px;
@@ -18,14 +12,6 @@
   height: 18px;
   left: 47px;
   top: 0px;
-}
-
-.sk-asset.sk-dashIcon {
-  width: 23px;
-  height: 16px;
-  left: 0px;
-  top: 3px;
-  background-image: url("../img/dashIcon.png");
 }
 
 .sk-asset.sk-dashButton {
@@ -83,8 +69,15 @@
 .main-container {
   margin-left: 235px;
   width: auto;
-  margin-top: 35px;
+  margin-top: 55px;
   margin-right: 55px;
+}
+
+.main-container-dapp {
+  margin-left: 185px;
+  width: auto;
+  margin-top: 0;
+  margin-right: 0;
 }
 
 .logoContainer img {
@@ -101,14 +94,6 @@
   .glyphicon {
     padding-right: 10px;
     padding-left: 20px;
-  }
-
-  .sk-dashIcon {
-    width: 23px;
-    height: 16px;
-    display: inline;
-    background-size: cover;
-    background-image: url("../img/dashIcon@3x.png");
   }
 }
 

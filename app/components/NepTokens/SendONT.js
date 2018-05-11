@@ -24,6 +24,8 @@ import { flatMap, keyBy, get, omit, pick } from "lodash";
 import numeral from "numeral";
 import ONTChart from "./../NepCharts/ONTChart";
 import NEPQRModalButton from "./../Assets/NEPQRModalButton.js";
+import Search from "./../Search";
+import TopBar from "./../TopBar";
 
 let sendAddress, sendAmount, confirmButton, scriptHash, ont_usd, gas_usd;
 
@@ -382,8 +384,21 @@ class SendONT extends Component {
                   :
                   null
           }
+          <div className="breadBar">
+  				<div className="col-flat-10">
+  				<ol className="breadcrumb">
 
+  				<li><Link to="/assetPortfolio">Portfolio</Link></li>
+  				<li className="active">Ontology</li>
+  				</ol>
+  				</div>
 
+  				<div className="col-flat-2">
+  				<Search />
+  				</div>
+  				</div>
+
+        <TopBar />
         <div id="send">
           <div className="row dash-panel">
             <div className="col-xs-5">
@@ -398,13 +413,13 @@ class SendONT extends Component {
               <span className="market-price"> {numeral(this.props.marketONTPrice).format("$0,0.00")} each</span><br />
               <span className="font24">{numeral(
                 Math.floor(this.props.ont * 100000) / 100000
-              ).format("0,0.00000000")} <span className="dbc-price"> ONT</span></span><br />
+              ).format("0,0[.][0000]0000")} <span id="no-inverse" className="dbc-price"> ONT</span></span><br />
               <span className="market-price">{numeral(this.props.ont * this.props.marketONTPrice).format("$0,0.00")} USD</span>
 
 
             </div>
 
-            <div className="col-xs-7 center">
+            <div className="col-xs-7 center" id="no-inverse">
             <ONTChart />
             </div>
 
@@ -494,14 +509,19 @@ class SendONT extends Component {
                 </div>
               </div>
             </div>
+
+            <div className="clearboth" />
+            <div className="send-notice top-20">
+              <p>
+                Sending Ontology (ONT) NEP5 tokens require a balance of 0.00000001 GAS+. Only send ONT to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending ONT to an exchange please ensure the address supports ONT tokens.
+              </p>
+
+            </div>
+
+
           </div>
 
-          <div className="send-notice">
-            <p>
-              Sending Ontology (ONT) NEP5 tokens require a balance of 0.00000001 GAS+. Only send ONT to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending ONT to an exchange please ensure the address supports ONT tokens.
-            </p>
-            
-          </div>
+
         </div>
       </div>
     );

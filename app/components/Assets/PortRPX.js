@@ -29,10 +29,10 @@ class PortRPX extends Component {
 							<Link to="/sendRPX"><img
 								src={rpxLogo}
 								alt=""
-								width="84"
-								className="port-logos"
+								width="64"
+								className="top-10 port-logos"
 							/></Link>
-							<hr className="dash-hr" />
+
 							<h3><NEPQRModal />   <Link to="/sendRPX"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 							<Link to="/sendRPX">
@@ -40,8 +40,8 @@ class PortRPX extends Component {
 								<span className="market-price">Red Pulse {numeral(this.props.marketRPXPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.rpx * 100000) / 100000
-								).format("0,0.0000")} <span className="rpx-price"> RPX</span></h3>
-								<hr className="dash-hr" />
+								).format("0,0[.][0000]")} <span id="no-inverse" className="rpx-price"> RPX</span></h3>
+
 								<span className="market-price">{numeral(this.props.rpx * this.props.marketRPXPrice).format("$0,0.00")} USD</span>
 							</div></Link>
 							</div>

@@ -9,6 +9,9 @@ import TopBar from "./TopBar";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import neoLogo from "../img/neo.png";
+import numeral from "numeral";
+import { Link } from "react-router";
+import Search from "./Search";
 
 // TODO: make this a user setting
 const getExplorerLink = (net, explorer, txid) => {
@@ -58,8 +61,25 @@ class TransactionHistory extends Component {
 	};
 
   render = () => (
+    <div>
+
+
+    <div className="breadBar">
+    <div className="col-flat-10">
+    <ol id="no-inverse" className="breadcrumb">
+    </ol>
+    </div>
+
+    <div className="col-flat-2">
+    <Search />
+    </div>
+    </div>
+
+
+    <TopBar />
     <div id="send">
-      <div className="dash-panel fadeInDown">
+
+      <div className="dash-panel-history">
         <div className="row">
           <div className="col-xs-9">
           <img
@@ -68,7 +88,7 @@ class TransactionHistory extends Component {
             width="45"
             className="neo-logo fadeInDown"
           />
-            <h2>NEO/GAS/NEP Transaction History</h2>
+            <h2>Transaction History</h2>
           </div>
           <div
             className="col-xs-3 center top-10 send-info"
@@ -117,15 +137,14 @@ class TransactionHistory extends Component {
             })}
           </ul>
         </div>
-      </div>
-
-      <div className="send-notice center top-20">
-        <p>
-          Your transaction may take 1-2 minutes to be displayed in your transaction history. NEP5 token transfers may take 2-5 minutes. Please check your transaction history to avoid double withdrawals.
-        </p>
+        <div className="clearboth" />
+        <div className="send-notice center top-20">
+          <p>
+            Your transaction may take 1-2 minutes to be displayed in your transaction history. NEP5 token transfers may take 2-5 minutes. Please check your transaction history to avoid double withdrawals.
+          </p>
+          </div>
+          </div>
         </div>
-
-
     </div>
   );
 }

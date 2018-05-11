@@ -23,8 +23,9 @@ import { ASSETS, TOKENS, TOKENS_TEST } from "../../core/constants";
 import { flatMap, keyBy, get, omit, pick } from "lodash";
 import numeral from "numeral";
 import NEPQRModalButton from "./../Assets/NEPQRModalButton.js";
-
-let sendAddress, sendAmount, confirmButton, scriptHash, rhp_usd, gas_usd;
+import TopBar from "./../TopBar";
+import Search from "./../Search";
+let sendAddress, sendAmount, confirmButton, scriptHash, rht_usd, gas_usd;
 
 const styles = {
     overlay: {
@@ -52,7 +53,7 @@ const styles = {
 };
 
 const apiURL = val => {
-  return "https://min-api.cryptocompare.com/data/price?fsym=RHP&tsyms=USD";
+  return "https://min-api.cryptocompare.com/data/price?fsym=RHT&tsyms=USD";
 };
 
 const apiURLForGas = val => {
@@ -63,7 +64,7 @@ const isToken = symbol => {
   ![ASSETS.NEO, ASSETS.GAS].includes(symbol);
 };
 // form validators for input fields
-const validateForm = (dispatch, rhp_balance) => {
+const validateForm = (dispatch, rht_balance) => {
   // check for valid address
   try {
     if (
@@ -83,17 +84,17 @@ const validateForm = (dispatch, rhp_balance) => {
   if (
     parseFloat(sendAmount.value) !== parseInt(sendAmount.value)
   ) {
-    dispatch(sendEvent(false, "You cannot send fractional amounts of Rhp."));
+    dispatch(sendEvent(false, "You cannot send fractional amounts of RHT."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
-  } else if (parseInt(sendAmount.value) > rhp_balance) {
+  } else if (parseInt(sendAmount.value) > rht_balance) {
     // check for value greater than account balance
-    dispatch(sendEvent(false, "You do not have enough RHP to send."));
+    dispatch(sendEvent(false, "You do not have enough RHT to send."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   } else if (parseFloat(sendAmount.value) <= 0) {
     // check for negative asset
-    dispatch(sendEvent(false, "You cannot send negative amounts of RHP."));
+    dispatch(sendEvent(false, "You cannot send negative amounts of RHT."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   }
@@ -200,18 +201,18 @@ const makeRequest = (sendEntries, config) => {
   });
 };
 
-// perform send transaction for RHP
-const sendRhpTransaction = async (dispatch, net, selfAddress, wif) => {
+// perform send transaction for RHT
+const sendRhtTransaction = async (dispatch, net, selfAddress, wif) => {
   const endpoint = await api.neonDB.getRPCEndpoint(net);
   console.log("endpoint = " + endpoint);
   let script;
   if (net == "MainNet") {
-    script = TOKENS.RHP;
+    script = TOKENS.RHT;
   } else {
-    script = TOKENS_TEST.RHP;
+    script = TOKENS_TEST.RHT;
   }
   const token_response = await api.nep5.getToken(endpoint, script, selfAddress);
-  const rhp_balance = token_response.balance;
+  const rht_balance = token_response.balance;
   console.log("token_response = " + JSON.stringify(token_response));
   const tokenBalances = {
     name: token_response.name,
@@ -222,7 +223,7 @@ const sendRhpTransaction = async (dispatch, net, selfAddress, wif) => {
     scriptHash: script
   };
   const tokensBalanceMap = {
-    RHP: tokenBalances
+    RHT: tokenBalances
   }; //keyBy(tokenBalances, 'symbol');
   console.log("tokensBalanceMap = " + JSON.stringify(tokensBalanceMap));
   let privateKey = new wallet.Account(wif).privateKey;
@@ -233,17 +234,17 @@ const sendRhpTransaction = async (dispatch, net, selfAddress, wif) => {
   var sendEntry = {
     amount: sendAmount.value.toString(),
     address: sendAddress.value.toString(),
-    symbol: "RHP"
+    symbol: "RHT"
   };
   sendEntries.push(sendEntry);
   console.log("sendEntries = " + JSON.stringify(sendEntries));
-  if (validateForm(dispatch, rhp_balance) === true) {
-      if (rhp_balance <= sendAmount.value) {
-          dispatch(sendEvent(false, "You are trying to send more RHP than you have available."));
+  if (validateForm(dispatch, rht_balance) === true) {
+      if (rht_balance <= sendAmount.value) {
+          dispatch(sendEvent(false, "You are trying to send more RHT than you have available."));
           setTimeout(() => dispatch(clearTransactionEvent()), 2000);
           return true;
       } else {
-          dispatch(sendEvent(true, "Sending RHP...\n"));
+          dispatch(sendEvent(true, "Sending RHT...\n"));
           try {
               const { response } = await makeRequest(sendEntries, {
                   net,
@@ -253,7 +254,7 @@ const sendRhpTransaction = async (dispatch, net, selfAddress, wif) => {
                   privateKey: privateKey,
                   signingFunction: null
               });
-              console.log("sending rhp response=" + response.result);
+              console.log("sending rht response=" + response.result);
               if (!response.result) {
                   dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
                   setTimeout(() => dispatch(clearTransactionEvent()), 2000);
@@ -263,7 +264,7 @@ const sendRhpTransaction = async (dispatch, net, selfAddress, wif) => {
                   setTimeout(() => dispatch(clearTransactionEvent()), 2000);
               }
           } catch (err) {
-              console.log("sending rhp =" + err.message);
+              console.log("sending rht =" + err.message);
               dispatch(sendEvent(false, "There was an error processing your trasnaction. Please check and try again."));
               setTimeout(() => dispatch(clearTransactionEvent()), 2000);
               return false;
@@ -285,7 +286,7 @@ const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm })
             <div className="center modal-alert">
             </div>
             <div className="center modal-alert top-20">
-              <strong>Confirm sending {sendAmount} RHP to {sendAddress}</strong>
+              <strong>Confirm sending {sendAmount} RHT to {sendAddress}</strong>
             </div>
             <div className="row top-30">
               <div className="col-xs-6">
@@ -301,7 +302,7 @@ const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm })
     return message;
 };
 
-class SendRHP extends Component {
+class SendRHT extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -356,7 +357,7 @@ class SendRHP extends Component {
       net,
       confirmPane,
       selectedAsset,
-      rhp
+      rht
     } = this.props;
 
     return (
@@ -374,7 +375,7 @@ class SendRHP extends Component {
                           }
                       }
                       handleConfirm ={() => {
-                          sendRhpTransaction(
+                          sendRhtTransaction(
                               dispatch, net, address, wif)
                           this.setState({
                               modalStatus: false
@@ -384,6 +385,22 @@ class SendRHP extends Component {
                   :
                   null
           }
+
+          <div className="breadBar">
+          <div className="col-flat-10">
+          <ol id="no-inverse" className="breadcrumb">
+
+          <li><Link to="/assetPortfolio">Portfolio</Link></li>
+          <li className="active">HashPuppies</li>
+          </ol>
+          </div>
+
+          <div className="col-flat-2">
+          <Search />
+          </div>
+          </div>
+
+        <TopBar />
         <Assets />
         <div id="send">
           <div className="row dash-chart-panel">
@@ -412,7 +429,7 @@ class SendRHP extends Component {
                 <input
                   className="form-send-neo"
                   id="center"
-                  placeholder="Enter a valid RHP public address here"
+                  placeholder="Enter a valid RHT public address here"
                   ref={node => {
                     sendAddress = node;
                   }}
@@ -439,7 +456,7 @@ class SendRHP extends Component {
                 />
                 <div className="clearboth" />
                 <span className="com-soon block top-10">
-                  Amount in RHP to send
+                  Amount in RHT to send
                 </span>
               </div>
               <div className="col-xs-4 top-20">
@@ -467,7 +484,7 @@ class SendRHP extends Component {
 
 
                         if (parseFloat(sendAmount.value) <= 0) {
-                            dispatch(sendEvent(false, "You cannot send negative amounts of an RHP."));
+                            dispatch(sendEvent(false, "You cannot send negative amounts of an RHT."));
                             setTimeout(() => dispatch(clearTransactionEvent()), 1000);
                             return false;
                         }
@@ -487,13 +504,13 @@ class SendRHP extends Component {
                 </div>
               </div>
             </div>
-          </div>
 
+          <div className="clearboth" />
           <div className="send-notice">
             <p>
-              Sending HashPuppy (RHP) NEP5 tokens require a balance of 0.00000001 GAS+. Only send RHP to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending RHP to an exchange please ensure the address supports RHP tokens.
+              Sending HashPuppies (RHT) NEP5 tokens require a balance of 0.00000001 GAS+. Only send RHT to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending RHT to an exchange please ensure the address supports RHT tokens.
             </p>
-
+            </div>
           </div>
         </div>
       </div>
@@ -510,9 +527,9 @@ const mapStateToProps = state => ({
   gas: state.wallet.Gas,
   selectedAsset: state.transactions.selectedAsset,
   confirmPane: state.dashboard.confirmPane,
-  rhp: state.wallet.Rhp
+  rht: state.wallet.Rht
 });
 
-SendRHP = connect(mapStateToProps)(SendRHP);
+SendRHT = connect(mapStateToProps)(SendRHT);
 
-export default SendRHP;
+export default SendRHT;

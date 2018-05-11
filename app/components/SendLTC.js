@@ -31,6 +31,8 @@ import numeral from "numeral";
 import LTCChart from "./NepCharts/LTCChart";
 import LTCQRModalButton from "./LTCQRModalButton.js";
 
+import Search from "./Search";
+
 var bitcoin = require("bitcoinjs-lib");
 var WAValidator = require("wallet-address-validator");
 var litecoin = bitcoin.networks.litecoin;
@@ -408,7 +410,21 @@ class SendLTC extends Component {
 					)
 				}
         >
-          <div className="row dash-panel">
+
+        <div className="breadBar">
+        <div className="col-flat-10">
+        <ol id="no-inverse" className="breadcrumb">
+        <li><Link to="/assetPortfolio">Portfolio</Link></li>
+        <li className="active">Litecoin</li>
+        </ol>
+        </div>
+
+        <div className="col-flat-2">
+        <Search />
+        </div>
+        </div>
+
+          <div className="row dash-panel-full">
             <div className="col-xs-5">
               <img
                 src={litecoinLogo}
@@ -421,7 +437,7 @@ class SendLTC extends Component {
 							<span className="market-price"> {numeral(this.props.marketLTCPrice).format("$0,0.00")} each</span><br />
 							<span className="font24">{numeral(
 								Math.floor(this.props.ltc * 100000) / 100000
-							).format("0,0.00000000")} <span className="eth-price"> LTC</span></span><br />
+							).format("0,0[.][000000]")} <span className="eth-price"> LTC</span></span><br />
 							<span className="market-price">{numeral(this.props.ltc * this.props.marketLTCPrice).format("$0,0.00")} USD</span>
 
             </div>

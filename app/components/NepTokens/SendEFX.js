@@ -23,7 +23,8 @@ import { ASSETS, TOKENS, TOKENS_TEST } from "../../core/constants";
 import { flatMap, keyBy, get, omit, pick } from "lodash";
 import numeral from "numeral";
 import NEPQRModalButton from "./../Assets/NEPQRModalButton.js";
-
+import TopBar from "./../TopBar";
+import Search from "./../Search";
 let sendAddress, sendAmount, confirmButton, scriptHash, efx_usd, gas_usd;
 
 const styles = {
@@ -377,6 +378,21 @@ class SendEFX extends Component {
                   :
                   null
           }
+          <div className="breadBar">
+          <div className="col-flat-10">
+          <ol id="no-inverse" className="breadcrumb">
+
+          <li><Link to="/assetPortfolio">Portfolio</Link></li>
+          <li className="active">Affect.ai</li>
+          </ol>
+          </div>
+
+          <div className="col-flat-2">
+          <Search />
+          </div>
+          </div>
+
+        <TopBar />
         <Assets />
         <div id="send">
           <div className="row dash-chart-panel">
@@ -394,7 +410,7 @@ class SendEFX extends Component {
 
             <span className="font-16">{numeral(
               Math.floor(this.props.efx * 100000) / 100000
-            ).format("0,0.0000")} <span className="ltc-price"> EFX</span></span><br />
+            ).format("0,0[.][0000]")} <span className="ltc-price"> EFX</span></span><br />
             <span className="market-price">{numeral(this.props.efx * this.props.marketEFXPrice).format("$0,0.00")} USD</span>
             </div>
 
@@ -485,13 +501,13 @@ class SendEFX extends Component {
                 </div>
               </div>
             </div>
-          </div>
 
+            <div className="clearboth" />
           <div className="send-notice">
             <p>
               Sending Effect.ai (EFX) NEP5 tokens require a balance of 0.00000001 GAS+. Only send EFX to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending EFX to an exchange please ensure the address supports EFX tokens.
             </p>
-
+            </div>
           </div>
         </div>
       </div>

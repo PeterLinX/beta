@@ -24,8 +24,16 @@ import { flatMap, keyBy, get, omit, pick } from "lodash";
 import numeral from "numeral";
 import RPXChart from "./../NepCharts/RPXChart";
 import NEPQRModalButton from "./../Assets/NEPQRModalButton.js";
-
+import TopBar from "./../TopBar";
+import Search from "./../Search";
 let sendAddress, sendAmount, confirmButton, scriptHash, rpx_usd, gas_usd;
+
+const PREFIX = 'spunky';
+export const AUTH_ID = 'AUTH'
+
+const getSigningFunction = (state) => {
+    return get(state, `${PREFIX}.${AUTH_ID}.data.address`)
+}
 
 const styles = {
     overlay: {
@@ -197,7 +205,7 @@ const makeRequest = (sendEntries, config) => {
 };
 
 // perform send transaction for RPX
-const sendRpxTransaction = async (dispatch, net, selfAddress, wif) => {
+const sendRpxTransaction = async (dispatch, net, selfAddress, wif,isHardwareLogin) => {
   const endpoint = await api.neonDB.getRPCEndpoint(net);
   console.log("endpoint = " + endpoint);
   let script;
@@ -217,6 +225,12 @@ const sendRpxTransaction = async (dispatch, net, selfAddress, wif) => {
     balance: token_response.balance,
     scriptHash: script
   };
+  const isHardwareSend = isHardwareLogin;
+  let state = {
+      address: selfAddress,
+      wif: wif
+  }
+  const signingFunction = getSigningFunction(state);
   const tokensBalanceMap = {
     RPX: tokenBalances
   }; //keyBy(tokenBalances, 'symbol');
@@ -233,6 +247,12 @@ const sendRpxTransaction = async (dispatch, net, selfAddress, wif) => {
   };
   sendEntries.push(sendEntry);
   console.log("sendEntries = " + JSON.stringify(sendEntries));
+
+  if (isHardwareSend) {
+      dispatch(sendEvent(false, "Please sign the transaction on your hardware device."));
+      setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+  }
+
   if (validateForm(dispatch,rpx_balance) === true) {
       if (rpx_balance <= sendAmount.value) {
           dispatch(sendEvent(false, "You are trying to send more RPX than you have available."));
@@ -247,7 +267,7 @@ const sendRpxTransaction = async (dispatch, net, selfAddress, wif) => {
                   address: selfAddress,
                   undefined,
                   privateKey: privateKey,
-                  signingFunction: null
+                  signingFunction: isHardwareSend ? signingFunction : null
               });
               console.log("sending rpx response=" + response.result);
               if (!response.result) {
@@ -355,7 +375,8 @@ class SendRPX extends Component {
       net,
       confirmPane,
       selectedAsset,
-      rpx
+      rpx,
+      isHardwareLogin
     } = this.props;
     return (
       <div>
@@ -373,7 +394,7 @@ class SendRPX extends Component {
                       }
                       handleConfirm ={() => {
                           sendRpxTransaction(
-                              dispatch, net, address, wif)
+                              dispatch, net, address, wif, isHardwareLogin)
                           this.setState({
                               modalStatus: false
                           })
@@ -382,7 +403,21 @@ class SendRPX extends Component {
                   :
                   null
           }
+          <div className="breadBar">
+          <div className="col-flat-10">
+          <ol id="no-inverse" className="breadcrumb">
+          <li><Link to="/">Logout</Link></li>
+          <li><Link to="/assetPortfolio">Portfolio</Link></li>
+          <li className="active">Red Pulse</li>
+          </ol>
+          </div>
 
+          <div className="col-flat-2">
+          <Search />
+          </div>
+          </div>
+
+        <TopBar />
         <div id="send">
           <div className="row dash-panel">
             <div className="col-xs-5">
@@ -397,7 +432,7 @@ class SendRPX extends Component {
               <span className="market-price"> {numeral(this.props.marketRPXPrice).format("$0,0.00")} each</span><br />
               <span className="font24">{numeral(
                 Math.floor(this.props.rpx * 100000) / 100000
-              ).format("0,0.0000")} <span className="rpx-price"> RPX</span></span><br />
+              ).format("0,0.0000")} <span id="no-inverse" className="rpx-price"> RPX</span></span><br />
               <span className="market-price"> {numeral(this.props.rpx * this.props.marketRPXPrice).format("$0,0.00")} </span>
             </div>
 
@@ -493,13 +528,13 @@ class SendRPX extends Component {
                 </div>
               </div>
             </div>
-          </div>
 
+          <div className="clearboth" />
           <div className="send-notice">
             <p>
               Sending RedPulse (RPX) NEP5 tokens require a balance of 0.00000001 GAS+. Only send RPX to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending RPX to an exchange please ensure the address supports RPX tokens.
             </p>
-            
+            </div>
           </div>
         </div>
       </div>
@@ -510,6 +545,7 @@ class SendRPX extends Component {
 const mapStateToProps = state => ({
   blockHeight: state.metadata.blockHeight,
   wif: state.account.wif,
+  isHardwareLogin: state.account.isHardwareLogin,
   address: state.account.address,
   net: state.metadata.network,
   neo: state.wallet.Neo,

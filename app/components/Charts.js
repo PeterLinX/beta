@@ -437,14 +437,13 @@ class Charts extends Component {
 			<div>
 				<div className="dash-chart-panel">
 					<div className="row">
-						<div className="col-xs-12 top-10">
+						<div className="col-xs-12 top-10" id="no-inverse">
 							<Line
 								data={data}
 								width={600}
-								height={300}
+								height={250}
 								options={{
-									maintainAspectRatio: true,
-									layout: { padding: { left: 0, right: 0, top: 0, bottom: 0 } },
+									responsive: true,
 									scales: {
 										xAxes: [
 											{
@@ -453,7 +452,8 @@ class Charts extends Component {
 												id: "x-axis-0",
 												categoryPercentage: 1,
 												barPercentage: 1,
-												gridLines: { color: "rgba(255, 255, 255, 0.04)" }
+												gridLines: { color: "rgba(255, 255, 255, 0.04)" },
+												display: true
 											}
 										],
 										yAxes: [

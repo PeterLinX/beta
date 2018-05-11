@@ -14,6 +14,7 @@ import {
     setBalance,
     setMarketPrice,
     resetPrice,
+    setCombinedBalance,
     setTransactionHistory,
     setBtcTransactionHistory,
     setLtcTransactionHistory,
@@ -23,7 +24,6 @@ import {
     setElaTransactionHistory,
     setBtcBalance,
     setLtcBalance,
-    setCombinedBalance,
     setEosBalance,
     setEthBalance,
     setElaBalance,
@@ -40,7 +40,7 @@ import { BLOCK_TOKEN } from "../core/constants";
 import transactions from "../modules/transactions";
 
 let intervals = {};
-let acatScriptHash, aphScriptHash, dbcScriptHash, efxScriptHash, galaScriptHash, iamScriptHash, cgeScriptHash, cpxScriptHash, lrnScriptHash, nrveScriptHash, obtScriptHash, ontScriptHash, pkcScriptHash,  qlcScriptHash, rhtScriptHash, rpxScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, swhScriptHash, wwbScriptHash,  xqtScriptHash, zptScriptHash;
+let acatScriptHash, aphScriptHash, dbcScriptHash, efxScriptHash, galaScriptHash, gdmScriptHash, iamScriptHash, cgeScriptHash, cpxScriptHash, lrnScriptHash, mctScriptHash, nrveScriptHash, obtScriptHash, ontScriptHash, pkcScriptHash,  qlcScriptHash, rhtScriptHash, rpxScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, swhScriptHash, wwbScriptHash,  xqtScriptHash, zptScriptHash;
 let netSelect;
 
 
@@ -113,6 +113,16 @@ const getEfxBalance = async (net,address) => {
     return getTokenBalance (net,address,efx_token);
 }
 
+const getGdmBalance = async (net,address) => {
+    let gdm_token;
+    if (net === "MainNet") {
+        gdm_token = TOKENS.GDM;
+    } else {
+        gdm_token = TOKENS_TEST.GDM;
+    }
+    return getTokenBalance (net,address,gdm_token);
+}
+
 const getGalaBalance = async (net,address) => {
     let gala_token;
     if (net === "MainNet") {
@@ -141,6 +151,16 @@ const getLrnBalance = async (net,address) => {
         lrn_token = TOKENS_TEST.LRN;
     }
     return getTokenBalance (net,address,lrn_token);
+}
+
+const getMctBalance = async (net,address) => {
+    let mct_token;
+    if (net === "MainNet") {
+        mct_token = TOKENS.MCT;
+    } else {
+        mct_token = TOKENS_TEST.MCT;
+    }
+    return getTokenBalance (net,address,mct_token);
 }
 
 const getNrveBalance = async (net,address) => {
@@ -316,7 +336,7 @@ const getGasPrice = async gasVal => {
 const getMarketPrice = async () => {
   try {
     let marketPrices = await axios.get(
-      "https://min-api.cryptocompare.com/data/pricemulti?fsyms=GAS,NEO,ACAT,BTC,CGE,CPX,DBC,ELA,EOS,ETH,EFX,GALA,LTC,LRN,OBT,ONT,QLC,RPX,SWH,THOR,TNC,TKY,QTUM,XMR,XQT,ZPT&tsyms=USD"
+      "https://min-api.cryptocompare.com/data/pricemulti?fsyms=GAS,NEO,ACAT,BTC,CGE,CPX,DBC,ELA,EOS,ETH,EFX,GALA,GDM,LTC,LRN,MCT,OBT,ONT,QLC,RPX,SWH,THOR,TNC,TKY,QTUM,XMR,XQT,ZPT&tsyms=USD"
     );
     console.log("market price="+JSON.stringify(marketPrices));
     return marketPrices;
@@ -724,6 +744,8 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth, ela) => {
 
             let rpx_usd = parseFloat(marketPrices.data.RPX.USD);
 
+            let swh_usd = parseFloat(marketPrices.data.SWH.USD);
+
             let tky_usd = parseFloat(marketPrices.data.TKY.USD);
 
             let tnc_usd = parseFloat(marketPrices.data.TNC.USD);
@@ -762,8 +784,14 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth, ela) => {
             let galaBalance = await getGalaBalance(net,address);
             console.log("gala balance = " + galaBalance);
 
+            let gdmBalance = await getGdmBalance(net,address);
+            console.log("gdm balance = " + gdmBalance);
+
             let lrnBalance = await getLrnBalance(net,address);
             console.log("lrn balance = " + lrnBalance);
+
+            let mctBalance = await getMctBalance(net,address);
+            console.log("mct balance = " + mctBalance);
 
             let nrveBalance = await getNrveBalance(net,address);
             console.log("nrve balance = " + nrveBalance);
@@ -809,7 +837,7 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth, ela) => {
 
 
             //combined balance updating
-            let combinedPrice = eth*eth_usd/10000000000 + gasPrice + resultPrice + acatBalance*acat_usd + dbcBalance*dbc_usd + ontBalance*ont_usd + qlcBalance*qlc_usd + rpxBalance*rpx_usd + tkyBalance*tky_usd + tncBalance*tnc_usd + zptBalance*zpt_usd + btc*btc_usd + ltc*ltc_usd;
+            let combinedPrice = eth*eth_usd/10000000000 + gasPrice + resultPrice + acatBalance*acat_usd + dbcBalance*dbc_usd + ontBalance*ont_usd + qlcBalance*qlc_usd + rpxBalance*rpx_usd + swhBalance*swh_usd + tkyBalance*tky_usd + tncBalance*tnc_usd + zptBalance*zpt_usd + btc*btc_usd + ltc*ltc_usd;
             dispatch(
               setBalance(
                 resultBalance.Neo,
@@ -822,7 +850,9 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth, ela) => {
                 dbcBalance,
                 efxBalance,
                 galaBalance,
+                gdmBalance,
                 lrnBalance,
+                mctBalance,
                 obtBalance,
                 ontBalance,
                 pkcBalance,
@@ -853,6 +883,7 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth, ela) => {
                 marketPrices.data.QLC.USD,
                 marketPrices.data.QTUM.USD,
                 marketPrices.data.RPX.USD,
+                marketPrices.data.SWH.USD,
                 marketPrices.data.TNC.USD,
                 marketPrices.data.TKY.USD,
                 marketPrices.data.XMR.USD,
@@ -919,7 +950,7 @@ const resetBalanceSync = (dispatch, net, address ,btc ,ltc, eth, ela) => {
   }
   intervals.balance = setInterval(() => {
     initiateGetBalance(dispatch, net, address ,btc ,ltc ,eth, ela);
-  }, 20000);
+  }, 60000);
 };
 
 const toggleNet = (dispatch, net, address ,btc ,ltc ,eth, ela) => {

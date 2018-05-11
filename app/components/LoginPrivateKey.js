@@ -8,7 +8,6 @@ import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { getAccountsFromWIFKey } from "neon-js";
 import Logo from "./Brand/LogoBlank";
 import neoIcon from "../img/neo-icon.png";
-import goIcon from "../img/go-icon.png";
 import ReactTooltip from "react-tooltip";
 
 let wif;
@@ -38,6 +37,8 @@ const onWifChange = (dispatch, history, wif) => {
 		setTimeout(() => dispatch(clearTransactionEvent()), 1000);
 	}
 };
+
+
 
 const { dialog } = require("electron").remote;
 const loadKeyRecovery = dispatch => {
@@ -148,10 +149,7 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => {
 					</div>
 				</Link>
 
-				<Link
-				data-tip
-				data-for="soonTip"
-				>
+				<Link>
 					<div className="dash-icon-bar">
 						<div className="icon-border">
 							<div className="ledger-sm" />
@@ -159,16 +157,6 @@ let LoginPrivateKey = ({ dispatch, loggedIn, wif, history }) => {
 						Login to Ledger Nano S
 					</div>
 				</Link>
-
-				<ReactTooltip
-					className="solidTip"
-					id="soonTip"
-					place="top"
-					type="light"
-					effect="solid"
-				>
-					<span>Coming Soon</span>
-				</ReactTooltip>
 
 			</div>
 			<div className="login-copyright">&copy; Copyright 2018 Morpheus</div>

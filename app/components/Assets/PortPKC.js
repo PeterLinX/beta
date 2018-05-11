@@ -34,7 +34,7 @@ class PortPKC extends Component {
 								width="54"
 								className="port-logos"
 							/></Link>
-							<hr className="dash-hr" />
+
 							<h3><NEPQRModal />   <Link to="/sendPCK"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 							<Link to="/sendPKC">
@@ -42,8 +42,8 @@ class PortPKC extends Component {
 								<span className="market-price">Pikcio {numeral(this.props.marketPKCPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.pkc * 100000) / 100000
-								).format("0,0.0000")} <span className="dbc-price"> PKC</span></h3>
-								<hr className="dash-hr" />
+								).format("0,0[.][0000]")} <span id="no-inverse" className="dbc-price"> PKC</span></h3>
+
 								<span className="market-price">{numeral(this.props.pkc*this.props.marketPKCPrice).format("$0,0.00")} USD</span>
 							</div></Link>
 							</div>

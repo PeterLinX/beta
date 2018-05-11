@@ -33,15 +33,15 @@ class PortCGE extends Component {
 								width="36"
 								className="port-logos"
 							/></Link>
-							<hr className="dash-hr" />
+
 							<h3><NEPQRModal />   <Link to="/sendCGE"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div><Link to="/sendCGE">
 							<div className="port-price-col">
 								<span className="market-price">Concierge {numeral(this.props.marketCGEPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.cge * 100000) / 100000
-								).format("0,0.0000")} <span className="thor-price"> CGE</span></h3>
-								<hr className="dash-hr" />
+								).format("0,0[.][0000]")} <span id="no-inverse" className="thor-price"> CGE</span></h3>
+
 								<span className="market-price">{numeral(this.props.cge*this.props.marketCGEPrice).format("$0,0.00")} USD</span>
 							</div></Link>
 							</div>

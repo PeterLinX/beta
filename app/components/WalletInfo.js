@@ -11,6 +11,11 @@ import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { clipboard } from "electron";
 import Copy from "react-icons/lib/md/content-copy";
 import ReactTooltip from "react-tooltip";
+import TopBar from "./TopBar.js";
+import Search from "./Search";
+import axios from "axios";
+import numeral from "numeral";
+import { Link } from "react-router";
 
 class WalletInfo extends Component {
   constructor(props) {
@@ -29,8 +34,22 @@ class WalletInfo extends Component {
     if (this.props.address != null) {
       return (
         <div>
-          <Assets />
-          <Charts />
+
+        <TopBar />
+        <div className="clearboth" />
+        <div className="breadBar">
+          <div className="col-flat-10">
+              <ol className="breadcrumb">
+              </ol>
+            </div>
+              <div className="col-flat-2">
+            <Search />
+          </div>
+        </div>
+        <div className="clearboth" />
+        <Assets />
+        <Charts />
+
         </div>
       );
     } else {

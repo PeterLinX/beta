@@ -23,7 +23,8 @@ import { ASSETS, TOKENS, TOKENS_TEST } from "../../core/constants";
 import { flatMap, keyBy, get, omit, pick } from "lodash";
 import numeral from "numeral";
 import NEPQRModalButton from "./../Assets/NEPQRModalButton.js";
-
+import TopBar from "./../TopBar";
+import Search from "./../Search";
 let sendAddress, sendAmount, confirmButton, scriptHash, gaga_usd, gas_usd;
 
 const styles = {
@@ -380,22 +381,39 @@ class SendGAGA extends Component {
                   :
                   null
           }
+          <div className="breadBar">
+          <div className="col-flat-10">
+          <ol id="no-inverse" className="breadcrumb">
+
+          <li><Link to="/assetPortfolio">Portfolio</Link></li>
+          <li className="active">GagaPay</li>
+          </ol>
+          </div>
+
+          <div className="col-flat-2">
+          <Search />
+          </div>
+          </div>
+
+        <TopBar />
+        <Assets />
         <div id="send">
           <div className="row dash-panel">
             <div className="col-xs-8">
+            <div id="no-inverse">
               <img
                 src={gagaLogo}
                 alt=""
                 width="45"
                 className="neo-logo fadeInDown"
-              />
+              /></div>
               <h2>Gagapay Network</h2>
             </div>
 
             <div className="col-xs-4 center">
             <span className="font24">{numeral(
               Math.floor(this.props.gaga * 100000) / 100000
-            ).format("0,0.0000")} <span className="qlink-price"> GAGA</span></span><br />
+            ).format("0,0[.][0000]")} <span id="no-inverse" className="qlink-price"> GAGA</span></span><br />
             <span className="market-price">{numeral(this.props.gaga * this.props.marketGAGAPrice).format("$0,0.00")} USD</span>
             </div>
 
@@ -486,13 +504,13 @@ class SendGAGA extends Component {
                 </div>
               </div>
             </div>
-          </div>
 
+            <div className="clearboth" />
           <div className="send-notice">
             <p>
               Sending Gagapay Netowrk (GAGA) NEP5 tokens require a balance of 0.00000001 GAS+. Only send GAGA to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending GAGA to an exchange please ensure the address supports GAGA tokens.
             </p>
-
+            </div>
           </div>
         </div>
       </div>

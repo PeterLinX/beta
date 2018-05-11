@@ -34,7 +34,7 @@ class PortGALA extends Component {
 									width="42"
 									className="port-logos"
 								/></Link>
-								<hr className="dash-hr" />
+
 								<h3><NEPQRModal />   <Link to="/sendGALA"><span className=" glyphicon glyphicon-send "/></Link></h3>
 								</div>
 								<Link to="/sendGALA">
@@ -42,8 +42,8 @@ class PortGALA extends Component {
 									<span className="market-price">Galaxy {numeral(this.props.marketGALAPrice).format("$0,0.00")}</span>
 									<h3>{numeral(
 			              Math.floor(this.props.gala * 100000) / 100000
-			            ).format("0,0.0000")}  <span className="dbc-price"> GALA</span></h3>
-									<hr className="dash-hr" />
+			            ).format("0,0[.][0000]")}  <span id="no-inverse" className="dbc-price"> GALA</span></h3>
+
 									<span className="market-price">{numeral((this.props.gala/10000000000) * this.props.marketGALAPrice).format("$0,0.00")} USD</span>
 								</div></Link>
 								</div>

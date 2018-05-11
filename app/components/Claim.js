@@ -1,30 +1,70 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { setClaimRequest, disableClaim } from "../modules/claim";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
-import { doClaimAllGas, doSendAsset } from "neon-js";
+
 import ReactTooltip from "react-tooltip";
 import { log } from "../util/Logs";
 import { StatusMessage } from "../components/App";
-import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
-// wrap claiming with notifications
 
-const doClaimNotify = (dispatch, net, selfAddress, wif) => {
-  log(net, "CLAIM", selfAddress, { info: "claim all gas" });
-  doClaimAllGas(net, wif).then(response => {
-    if (response.result === true) {
-      dispatch(
-        sendEvent(
-          true,
-          "Your GAS claim was successful! Your GAS balance will be updated once the blockchain has processed it in a couple minutes."
-        )
-      );
-      setTimeout(() => dispatch(disableClaim(false)), 3000);
-    } else {
-      dispatch(sendEvent(false, "Sorry. Claim failed. Please try again."));
+import {api,wallet} from "@cityofzion/neon-js"
+
+import { doClaimAllGas, doSendAsset } from "neon-js";
+import { setClaimRequest, disableClaim } from "../modules/claim";
+import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
+
+import GasClaimChart from "./GasClaimChart";
+
+
+// wrap claiming with notifications
+//
+// const doClaimNotify = (dispatch, net, selfAddress, wif) => {
+//   log(net, "CLAIM", selfAddress, { info: "claim all gas" });
+//   doClaimAllGas(net, wif).then(response => {
+//     if (response.result === true) {
+//       dispatch(
+//         sendEvent(
+//           true,
+//           "Your GAS claim was successful! Your GAS balance will be updated once the blockchain has processed it in a couple minutes."
+//         )
+//       );
+//       setTimeout(() => dispatch(disableClaim(false)), 3000);
+//     } else {
+//       dispatch(sendEvent(false, "Sorry. Claim failed. Please try again."));
+//     }
+//     setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+//   });
+// };
+
+
+const doClaimNotify = async (dispatch, net, selfAddress, wif) => {
+    log(net, "CLAIM", selfAddress, { info: "claim all gas" });
+    console.log("GAS claiming starting.....")
+    const c = new wallet.Account(wif);
+
+    const config = {
+        net: net,  // The network to perform the action, MainNet or TestNet.
+        address: selfAddress,
+        privateKey: c.privateKey
     }
-    setTimeout(() => dispatch(clearTransactionEvent()), 2000);
-  });
+    console.log("config -------> " + JSON.stringify(config));
+    await api.claimGas(config).then(response => {
+        console.log("claim GAS----->" + JSON.stringify(response));
+        if (response.response.result === true) {
+            dispatch(
+                sendEvent(
+                    true,
+                    "Your GAS claim was successful! Your GAS balance will be updated once the blockchain has processed it in a couple minutes."
+                )
+            );
+            setTimeout(() => dispatch(disableClaim(false)), 3000);
+        } else {
+            dispatch(sendEvent(false, "Sorry. Claim failed. Please try again."));
+        }
+        setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+    }).catch(error=>{
+        dispatch(sendEvent(false, "Sorry. Claim failed. Please try again."));
+        setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+    });
 };
 
 
@@ -47,6 +87,7 @@ const doGasClaim = (dispatch, net, wif, selfAddress, ans) => {
         dispatch(
           sendEvent(false, "Oops! Transaction failed. Please try again.")
         );
+        setTimeout(() => dispatch(clearTransactionEvent()), 2000);
       } else {
         dispatch(sendEvent(true, "Waiting for the transaction to clear. You will be notified when your GAS claim is successful."));
         setTimeout(() => dispatch(clearTransactionEvent()), 3000);
@@ -118,6 +159,7 @@ class Claim extends Component {
       );
     }
     return <div id="claim">{renderButton}
+    <GasClaimChart />
     </div>;
   };
 }

@@ -7,61 +7,67 @@ import { Link } from "react-router";
 import { setMarketPrice, resetPrice } from "../modules/wallet";
 import { initiateGetBalance, intervals } from "../components/NetworkSwitch";
 
-import PortACAT from "./Assets/PortACAT.js";
-import PortApex from "./Assets/PortApex.js";
-import PortAPH from "./Assets/PortAPH.js";
-import PortBTC from "./Assets/PortBTC.js";
-import PortIAM from "./Assets/PortIAM.js";
-import PortCGE from "./Assets/PortCGE.js";
-import PortDBC from "./Assets/PortDBC.js";
-import PortEDS from "./Assets/PortEDS.js";
-import PortEFX from "./Assets/PortEFX.js";
-import PortELA from "./Assets/PortELA.js";
-import PortEOS from "./Assets/PortEOS.js";
-import PortETH from "./Assets/PortETH.js";
-import PortGALA from "./Assets/PortGALA.js";
-import PortGAGA from "./Assets/PortGAGA.js";
-import PortGAS from "./Assets/PortGAS.js";
-import PortGDM from "./Assets/PortGDM.js";
-import PortHP from "./Assets/PortHP.js";
-import PortLTC from "./Assets/PortLTC.js";
-import PortLRN from "./Assets/PortLRN.js";
-import PortNRVE from "./Assets/PortNRVE.js";
-import PortNEO from "./Assets/PortNEO.js";
-import PortNEX from "./Assets/PortNEX.js";
-import PortOBT from "./Assets/PortOBT.js";
-import PortONT from "./Assets/PortONT.js";
-import PortPKC from "./Assets/PortPKC.js";
-import PortQLC from "./Assets/PortQLC.js";
-import PortRPX from "./Assets/PortRPX.js";
-import PortQTUM from "./Assets/PortQTUM.js";
-import PortSWH from "./Assets/PortSWH.js";
-import PortTHOR from "./Assets/PortTHOR.js";
-import PortTKY from "./Assets/PortTKY.js";
-import PortTNC from "./Assets/PortTNC.js";
-import PortWWB from "./Assets/PortWWB.js";
-import PortXQT from "./Assets/PortXQT.js";
-import PortZPT from "./Assets/PortZPT.js";
+import PortACAT from "./Assets/PortACAT";
+import PortApex from "./Assets/PortApex";
+import PortAPH from "./Assets/PortAPH";
+import PortBTC from "./Assets/PortBTC";
+import PortIAM from "./Assets/PortIAM";
+import PortCGE from "./Assets/PortCGE";
+import PortDBC from "./Assets/PortDBC";
+import PortEDS from "./Assets/PortEDS";
+import PortEFX from "./Assets/PortEFX";
+import PortELA from "./Assets/PortELA";
+import PortEOS from "./Assets/PortEOS";
+import PortETH from "./Assets/PortETH";
+import PortGALA from "./Assets/PortGALA";
+import PortGAGA from "./Assets/PortGAGA";
+import PortGAS from "./Assets/PortGAS";
+import PortGDM from "./Assets/PortGDM";
+import PortHP from "./Assets/PortHP";
+import PortLTC from "./Assets/PortLTC";
+import PortLRN from "./Assets/PortLRN";
+import PortMCT from "./Assets/PortMCT";
+import PortNRVE from "./Assets/PortNRVE";
+import PortNEO from "./Assets/PortNEO";
+import PortNEX from "./Assets/PortNEX";
+import PortOBT from "./Assets/PortOBT";
+import PortONT from "./Assets/PortONT";
+import PortPKC from "./Assets/PortPKC";
+import PortQLC from "./Assets/PortQLC";
+import PortRPX from "./Assets/PortRPX";
+import PortQTUM from "./Assets/PortQTUM";
+import PortSWH from "./Assets/PortSWH";
+import PortTHOR from "./Assets/PortTHOR";
+import PortTKY from "./Assets/PortTKY";
+import PortTNC from "./Assets/PortTNC";
+import PortWWB from "./Assets/PortWWB";
+import PortXQT from "./Assets/PortXQT";
+import PortZPT from "./Assets/PortZPT";
 
+import Search from "./Search";
+import TopBar from "./TopBar";
 
 class AssetPortolio extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			gasPrice: 0,
-		};
-
-	}
-
 	render() {
 		return (
 
 			<div>
-				<div className="row top-20 dash-portfolio center">
-				<div id="assetList">
-				<div className="clearboth" />
-				<div className="row" />
 
+			<div className="breadBar">
+			<div className="col-flat-10">
+			<ol className="breadcrumb">
+			</ol>
+			</div>
+			<div className="col-flat-2">
+			<Search />
+			</div>
+			</div>
+
+			<TopBar />
+
+				<div className="row top-20 dash-portfolio center">
+
+				<div id="postfolioList">
 				<PortACAT />
 				<PortApex />
 				<PortAPH />
@@ -79,6 +85,7 @@ class AssetPortolio extends Component {
 				<PortHP />
 				<PortLTC />
 				<PortLRN />
+				<PortMCT />
 				<PortNRVE />
 				<PortNEO />
 				<PortNEX />
@@ -94,6 +101,7 @@ class AssetPortolio extends Component {
 				<PortTNC />
 				<PortWWB />
 				<PortZPT />
+
 
 				</div>
 				</div>

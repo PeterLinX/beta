@@ -34,15 +34,15 @@ class PortHP extends Component {
 								width="44"
 								className="port-logos"
 							/></Link>
-							<hr className="dash-hr" />
+
 							<h3><NEPQRModal />   <Link to="/sendHP"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div><Link to="/sendHP">
 							<div className="port-price-col">
 								<span className="market-price">Hash Puppies</span>
 								<h3>{numeral(
 									Math.floor(this.props.rht * 10) / 10
-								).format("0,0")} <span className="neo-price"> RHT</span></h3>
-								<hr className="dash-hr" />
+								).format("0,0")} <span id="no-inverse" className="neo-price"> RHT</span></h3>
+
 								<span className="market-price">Priceless</span>
 							</div></Link>
 							</div>

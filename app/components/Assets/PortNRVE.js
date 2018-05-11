@@ -33,15 +33,15 @@ class PortNRVE extends Component {
 							width="36"
 							className="port-logos"
 						/></Link>
-						<hr className="dash-hr" />
+
 						<h3><NEPQRModal />   <Link to="/sendNRVE"><span className=" glyphicon glyphicon-send "/></Link></h3>
 						</div><Link to="/sendNRVE">
 						<div className="port-price-col">
 							<span className="market-price">Narrative $0.00</span>
 							<h3>{numeral(
 	              Math.floor(this.props.nrve * 100000) / 100000
-	            ).format("0,0.0000")}<span className="dbc-price"> NRVE</span></h3>
-							<hr className="dash-hr" />
+	            ).format("0,0[.][0000]")}<span id="no-inverse" className="dbc-price"> NRVE</span></h3>
+
 							<span className="market-price">$0.00 USD</span>
 						</div></Link>
 						</div>

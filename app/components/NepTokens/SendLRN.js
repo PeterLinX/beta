@@ -23,7 +23,8 @@ import { ASSETS, TOKENS, TOKENS_TEST } from "../../core/constants";
 import { flatMap, keyBy, get, omit, pick } from "lodash";
 import numeral from "numeral";
 import NEPQRModalButton from "./../Assets/NEPQRModalButton.js";
-
+import TopBar from "./../TopBar";
+import Search from "./../Search";
 let sendAddress, sendAmount, confirmButton, scriptHash, lrn_usd, gas_usd;
 
 const styles = {
@@ -377,16 +378,32 @@ class SendLRN extends Component {
                   :
                   null
           }
+          <div className="breadBar">
+          <div className="col-flat-10">
+          <ol id="no-inverse" className="breadcrumb">
+
+          <li><Link to="/assetPortfolio">Portfolio</Link></li>
+          <li className="active">Loopring NEP5</li>
+          </ol>
+          </div>
+
+          <div className="col-flat-2">
+          <Search />
+          </div>
+          </div>
+
+        <TopBar />
         <Assets />
         <div id="send">
           <div className="row dash-chart-panel">
             <div className="col-xs-9">
+            <div id="no-inverse">
               <img
                 src={lrnLogo}
                 alt=""
                 width="48"
                 className="neo-logo fadeInDown"
-              />
+              /></div>
               <h2>Loopring NEP5 Tokens</h2>
             </div>
 
@@ -394,7 +411,7 @@ class SendLRN extends Component {
 
             <span className="font-16">{numeral(
               Math.floor(this.props.lrn * 100000) / 100000
-            ).format("0,0.0000")} <span className="ltc-price"> LRN</span></span><br />
+            ).format("0,0[.][0000]")} <span className="ltc-price"> LRN</span></span><br />
             <span className="market-price">{numeral(this.props.lrn * this.props.marketONTPrice).format("$0,0.00")} USD</span>
             </div>
 
@@ -485,13 +502,13 @@ class SendLRN extends Component {
                 </div>
               </div>
             </div>
-          </div>
 
+          <div className="clearboth" />
           <div className="send-notice">
             <p>
               <strong>Notice:</strong> Only send LRN to a valid address that supports NEP5 tokens. Sending Loopring (LRN) requires a balance of 0.00000001 GAS+.  When sending LRN to an exchange please ensure the address supports LRN tokens.
             </p>
-
+            </div>
           </div>
         </div>
       </div>

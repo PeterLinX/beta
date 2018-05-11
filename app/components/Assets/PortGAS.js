@@ -33,15 +33,15 @@ class PortGAS extends Component {
 							width="36"
 							className="port-logos"
 						/></Link>
-						<hr className="dash-hr" />
+
 						<h3><Link to="/receive"><span className=" glyphicon glyphicon-qrcode marg-right-5"/></Link>   <Link to="/sendGAS"><span className=" glyphicon glyphicon-send "/></Link></h3>
 						</div><Link to="/sendGAS">
 						<div className="port-price-col">
 							<span className="market-price">GAS {numeral(this.props.marketGASPrice).format("$0,0.00")}</span>
 							<h3>{numeral(
 								Math.floor(this.props.gas * 100000) / 100000
-							).format("0,0.0000")} <span className="gas-price"> GAS</span></h3>
-							<hr className="dash-hr" />
+							).format("0,0[.][0000]")} <span id="no-inverse" className="gas-price"> GAS</span></h3>
+
 							<span className="market-price">{" "}
 								{numeral(Math.round(this.props.gasPrice * 100) / 100).format(
 									"$0,0.00"

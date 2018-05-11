@@ -5,7 +5,12 @@ const MenuItem = electron.MenuItem;
 
 let mainWindow = null;
 
-// TODO: Gracefully request permission to send crash report after a crash.
+
+//Auto Update App in background
+require('update-electron-app')({
+  repo: 'MorpheusWallet/beta',
+  updateInterval: '10 minutes'
+});
 
 app.on("window-all-closed", () => {
   app.quit();
@@ -19,7 +24,7 @@ app.on("ready", () => {
     backgroundColor: "#000",
     width: 1080,
     height: 800,
-    minHeight: 800,
+    minHeight: 730,
     maxHeight: 900,
     minWidth: 1080,
     maxWidth: 1440,

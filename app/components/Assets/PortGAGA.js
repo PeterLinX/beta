@@ -28,13 +28,18 @@ class PortGAGA extends Component {
 								<div className="col-3 flipInX">
 
 								<div className="port-logo-col">
-								<Link><img
+								<Link>
+								<div id="no-inverse">
+								<img
 									src={gagaLogo}
+									id="no-inverse"
 									alt=""
 									width="40"
 									className="port-logos"
-								/></Link>
-								<hr className="dash-hr" />
+								/>
+								</div>
+								</Link>
+
 								<h3><NEPQRModal />   <Link><span className=" glyphicon glyphicon-send "/></Link></h3>
 								</div>
 								<Link>
@@ -42,8 +47,8 @@ class PortGAGA extends Component {
 									<span className="market-price">Gagapay Network {numeral(this.props.marketGAGAPrice).format("$0,0.00")}</span>
 									<h3>{numeral(
 			              Math.floor(this.props.gaga * 100000) / 100000
-			            ).format("0,0.0000")}  <span className="gas-price"> GAGA</span></h3>
-									<hr className="dash-hr" />
+			            ).format("0,0[.][0000]")}  <span className="gas-price"> GAGA</span></h3>
+
 									<span className="market-price">{numeral((this.props.gaga/10000000000) * this.props.marketGAGAPrice).format("$0,0.00")} USD</span>
 								</div></Link>
 								</div>

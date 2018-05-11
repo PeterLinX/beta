@@ -22,6 +22,8 @@ import {
 import {oldMintTokens} from "../core/oldMintTokens";
 import { Link } from "react-router";
 
+import Search from "./Search";
+
 let payment_method, token_script, amount;
 
 const styles = {
@@ -567,10 +569,9 @@ class TokenSale extends Component {
 
         <div className="clearboth" />
 				<div className="col-xs-12">
-					<h4 className="center">
-          Only click send once.<br />
+					<h5>
           Please follow the rules of the token sale you are participating in. If your NEO address is not pre-qualified for the token sale your funds may be lost. Please follow all local laws as well as all KYC and AML requirements when participating in a token sale. Morpheus S.S. Ltd is not liable for the loss of any tokens. Sending more than the maximum amount may result in the excess tokens being lost. Do not send tokens to a sale that has ended.  Please research every token sale carefully before participating.
-					</h4>
+					</h5>
           <Link to="/advancedTokenSale">
           <button
   				className="print-btn-red top-30 center"

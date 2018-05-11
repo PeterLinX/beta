@@ -385,7 +385,7 @@ class SendELA extends Component {
                         null
                 }
                 <div id="send">
-                    <div className="row dash-panel">
+                    <div className="row dash-panel-full">
                         <div className="col-xs-8">
                             <img
                                 src={elastosLogo}

@@ -79,6 +79,7 @@ class ReceiveBitcoin extends Component {
 			<div>
 						<div className="col-xs-8 col-xs-offset-2">
 							<div
+							id="no-inverse"
 								className="addressBox-send center animated fadeInDown pointer"
 								data-tip
 								data-for="qraddTip"

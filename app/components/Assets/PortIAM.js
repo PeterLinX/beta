@@ -34,7 +34,7 @@ class PortIAM extends Component {
 								width="44"
 								className="port-logos"
 							/></Link>
-							<hr className="dash-hr" />
+
 							<h3><NEPQRModal />   <Link to="/sendIAM"><span className=" glyphicon glyphicon-send "/></Link></h3>
 							</div>
 							<Link to="/sendIAM">
@@ -42,8 +42,8 @@ class PortIAM extends Component {
 								<span className="market-price">Bridge $0.00</span>
 								<h3>{numeral(
 									Math.floor(this.props.iam * 100000) / 100000
-								).format("0,0.0000")}<span className="qlink-price"> IAM</span></h3>
-								<hr className="dash-hr" />
+								).format("0,0[.][0000]")}<span id="no-inverse" className="qlink-price"> IAM</span></h3>
+
 								<span className="market-price">$0.00 USD</span>
 							</div></Link>
 							</div>

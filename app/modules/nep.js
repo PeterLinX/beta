@@ -18,15 +18,15 @@ let initialNep5Symbols = {}
 // Actions
 export function setNep5(nep5){
     return {
-        type: SET_NEP5,
-        nep5: nep5
+		type: SET_NEP5,
+		nep5: nep5
     }
 }
 
 export function addNep5(hashToAdd){
     return {
-        type: ADD_NEP5,
-        hash: hashToAdd
+		type: ADD_NEP5,
+		hash: hashToAdd
     }
 }
 
@@ -40,10 +40,10 @@ export function removeNep5(hashToRemove, hashIndex){
 
 export function addHashBalance(hashscript, balance){
     return {
-        type: ADD_HASH_BALANCE,
-        payload: {
-            [hashscript]: balance
-        }
+		type: ADD_HASH_BALANCE,
+		payload: {
+		    [hashscript]: balance
+		}
     }
 }
 
@@ -107,21 +107,21 @@ export const getNep5 = (state) => state.nep.nep5
 // reducer for nep5 hash contracts. The initial state will include the hash script for Aphelion
 export default (state = { nep5: initialNep5ReducerState , balances: {}, tokens: initialNep5Symbols }, action) => {
     switch (action.type) {
-        case SET_NEP5:
-            return {...state, nep5: action.nep5 };
-        case ADD_NEP5:
-            let newState = Object.assign({}, state, { nep5: [ ...state.nep5, action.hash ] });
-            return newState;
-        case REMOVE_NEP5:
-            let removeState = Object.assign({}, state, { nep5: [...state.nep5.slice(0,action.index), ...state.nep5.slice(action.index+1)] });
-            return removeState;
-        case ADD_HASH_BALANCE:
-            let balanceState = Object.assign({}, state, { balances: { ...state.balances, ...action.payload }});
-            return balanceState;
-        case ADD_HASH_DATA:
-            let dataState = Object.assign({}, state, { tokens: { ...state.tokens, ...action.payload }});
-            return dataState;
-        default:
-            return state;
+		case SET_NEP5:
+		    return {...state, nep5: action.nep5 };
+		case ADD_NEP5:
+		    let newState = Object.assign({}, state, { nep5: [ ...state.nep5, action.hash ] });
+		    return newState;
+		case REMOVE_NEP5:
+		    let removeState = Object.assign({}, state, { nep5: [...state.nep5.slice(0,action.index), ...state.nep5.slice(action.index+1)] });
+		    return removeState;
+		case ADD_HASH_BALANCE:
+		    let balanceState = Object.assign({}, state, { balances: { ...state.balances, ...action.payload }});
+		    return balanceState;
+		case ADD_HASH_DATA:
+		    let dataState = Object.assign({}, state, { tokens: { ...state.tokens, ...action.payload }});
+		    return dataState;
+		default:
+		    return state;
     }
 };

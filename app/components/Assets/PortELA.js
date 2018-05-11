@@ -34,7 +34,7 @@ class PortELA extends Component {
                             width="42"
                             className="port-logos"
                         />
-                        <hr className="dash-hr" />
+
                         <h3><span className=" glyphicon glyphicon-qrcode marg-right-5"/><span className=" glyphicon glyphicon-send "/></h3>
                     </div>
                     </Link>
@@ -43,8 +43,8 @@ class PortELA extends Component {
                         <span className="market-price">Elastos {numeral(this.props.marketELAPrice).format("$0,0.00")}</span>
                         <h3>{numeral(
                           Math.floor(this.props.ela * 100000) / 100000
-                        ).format("0,0.000000")}<span className="eth-price"> ELA</span></h3>
-                        <hr className="dash-hr" />
+                        ).format("0,0[.][0000]00")}<span className="eth-price"> ELA</span></h3>
+
                         <span className="market-price">{numeral(this.props.ela * this.props.marketELAPrice).format("$0,0.00")} USD</span>
                     </div></Link>
                 </div>
