@@ -10,7 +10,7 @@ import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
 import { log } from "../../util/Logs";
-import cgeLogo from "../../img/cge.png";
+import avaLogo from "../../img/ava.png";
 import Assets from "./../Assets";
 import { clipboard } from "electron";
 import { togglePane } from "../../modules/dashboard";
@@ -25,7 +25,7 @@ import numeral from "numeral";
 import NEPQRModalButton from "./../Assets/NEPQRModalButton.js";
 import TopBar from "./../TopBar";
 import Search from "./../Search";
-let sendAddress, sendAmount, confirmButton, scriptHash, cge_usd, gas_usd;
+let sendAddress, sendAmount, confirmButton, scriptHash, ava_usd, gas_usd;
 
 const styles = {
     overlay: {
@@ -53,7 +53,7 @@ const styles = {
 };
 
 const apiURL = val => {
-  return "https://min-api.cryptocompare.com/data/price?fsym=CGE&tsyms=USD";
+  return "https://min-api.cryptocompare.com/data/price?fsym=AVA&tsyms=USD";
 };
 
 const apiURLForGas = val => {
@@ -64,7 +64,7 @@ const isToken = symbol => {
   ![ASSETS.NEO, ASSETS.GAS].includes(symbol);
 };
 // form validators for input fields
-const validateForm = (dispatch, cge_balance) => {
+const validateForm = (dispatch, ava_balance) => {
   // check for valid address
   try {
     if (
@@ -82,14 +82,14 @@ const validateForm = (dispatch, cge_balance) => {
   }
   // check for fractional neo
   if (
-    parseInt(sendAmount.value) > cge_balance) {
+    parseInt(sendAmount.value) > ava_balance) {
     // check for value greater than account balance
-    dispatch(sendEvent(false, "You do not have enough CGE to send."));
+    dispatch(sendEvent(false, "You do not have enough AVA to send."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   }  else if (parseFloat(sendAmount.value) <= 0) {
     // check for negative asset
-    dispatch(sendEvent(false, "You cannot send negative amounts of CGE."));
+    dispatch(sendEvent(false, "You cannot send negative amounts of AVA."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   }
@@ -197,17 +197,17 @@ const makeRequest = (sendEntries, config) => {
 };
 
 // perform send transaction for Orbit
-const sendCgeTransaction = async (dispatch, net, selfAddress, wif) => {
+const sendAvaTransaction = async (dispatch, net, selfAddress, wif) => {
   const endpoint = await api.neonDB.getRPCEndpoint(net);
   console.log("endpoint = " + endpoint);
   let script;
   if (net == "MainNet") {
-    script = TOKENS.CGE;
+    script = TOKENS.AVA;
   } else {
-    script = TOKENS_TEST.CGE;
+    script = TOKENS_TEST.AVA;
   }
   const token_response = await api.nep5.getToken(endpoint, script, selfAddress);
-  const cge_balance = token_response.balance;
+  const ava_balance = token_response.balance;
   console.log("token_response = " + JSON.stringify(token_response));
   const tokenBalances = {
     name: token_response.name,
@@ -218,7 +218,7 @@ const sendCgeTransaction = async (dispatch, net, selfAddress, wif) => {
     scriptHash: script
   };
   const tokensBalanceMap = {
-    CGE: tokenBalances
+    AVA: tokenBalances
   }; //keyBy(tokenBalances, 'symbol');
   console.log("tokensBalanceMap = " + JSON.stringify(tokensBalanceMap));
   let privateKey = new wallet.Account(wif).privateKey;
@@ -229,17 +229,17 @@ const sendCgeTransaction = async (dispatch, net, selfAddress, wif) => {
   var sendEntry = {
     amount: sendAmount.value.toString(),
     address: sendAddress.value.toString(),
-    symbol: "CGE"
+    symbol: "AVA"
   };
   sendEntries.push(sendEntry);
   console.log("sendEntries = " + JSON.stringify(sendEntries));
-  if (validateForm(dispatch, cge_balance) === true) {
-      if (cge_balance <= sendAmount.value) {
-          dispatch(sendEvent(false, "You are trying to send more CGE than you have available."));
+  if (validateForm(dispatch, ava_balance) === true) {
+      if (ava_balance <= sendAmount.value) {
+          dispatch(sendEvent(false, "You are trying to send more AVA than you have available."));
           setTimeout(() => dispatch(clearTransactionEvent()), 2000);
           return true;
       } else {
-          dispatch(sendEvent(true, "Sending CGE...\n"));
+          dispatch(sendEvent(true, "Sending AVA...\n"));
           try {
               const { response } = await makeRequest(sendEntries, {
                   net,
@@ -249,7 +249,7 @@ const sendCgeTransaction = async (dispatch, net, selfAddress, wif) => {
                   privateKey: privateKey,
                   signingFunction: null
               });
-              console.log("sending cge response=" + response.result);
+              console.log("sending ava response=" + response.result);
               if (!response.result) {
                   dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
                   setTimeout(() => dispatch(clearTransactionEvent()), 2000);
@@ -259,7 +259,7 @@ const sendCgeTransaction = async (dispatch, net, selfAddress, wif) => {
                   setTimeout(() => dispatch(clearTransactionEvent()), 2000);
               }
           } catch (err) {
-              console.log("sending cge =" + err.message);
+              console.log("sending ava =" + err.message);
               dispatch(sendEvent(false, "There was an error processing your trasnaction. Please check and try again."));
               setTimeout(() => dispatch(clearTransactionEvent()), 2000);
               return false;
@@ -281,7 +281,7 @@ const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm })
             <div className="center modal-alert">
             </div>
             <div className="center modal-alert top-20">
-              <strong>Confirm sending {sendAmount} CGE to {sendAddress}</strong>
+              <strong>Confirm sending {sendAmount} AVA to {sendAddress}</strong>
             </div>
             <div className="row top-30">
               <div className="col-xs-6">
@@ -353,7 +353,7 @@ class SendCGE extends Component {
       net,
       confirmPane,
       selectedAsset,
-      cge
+      ava
     } = this.props;
 
     return (
@@ -371,7 +371,7 @@ class SendCGE extends Component {
                           }
                       }
                       handleConfirm ={() => {
-                          sendCgeTransaction(
+                          sendAvaTransaction(
                               dispatch, net, address, wif)
                           this.setState({
                               modalStatus: false
@@ -402,20 +402,20 @@ class SendCGE extends Component {
           <div className="row dash-chart-panel">
             <div className="col-xs-9">
               <img
-                src={cgeLogo}
+                src={avaLogo}
                 alt=""
                 width="40"
                 className="neo-logo fadeInDown"
               />
-              <h2>Concierge Tokens</h2>
+              <h2>Travala Tokens</h2>
             </div>
 
             <div className="col-xs-3 center ">
 
             <span className="font-16">{numeral(
-              Math.floor(this.props.cge * 100000) / 100000
-            ).format("0,0[.][0000]")} <span id="no-inverse" className="thor-price"> CGE</span></span><br />
-            <span className="market-price">{numeral(this.props.cge * this.props.marketCGEPrice).format("$0,0.00")} USD</span>
+              Math.floor(this.props.ava * 100000) / 100000
+            ).format("0,0[.][0000]")} <span id="no-inverse" className="thor-price"> AVA</span></span><br />
+            <span className="market-price">{numeral(this.props.ava * this.props.marketAVAPrice).format("$0,0.00")} USD</span>
             </div>
 
             <div className="col-xs-12 center">
@@ -429,7 +429,7 @@ class SendCGE extends Component {
                 <input
                   className="form-send-thor"
                   id="center"
-                  placeholder="Enter a valid Congierge (CGE) public address here"
+                  placeholder="Enter a valid Congierge (AVA) public address here"
                   ref={node => {
                     sendAddress = node;
                   }}
@@ -456,7 +456,7 @@ class SendCGE extends Component {
                 />
                 <div className="clearboth" />
                 <span className="com-soon block top-10">
-                  Amount in CGE to send
+                  Amount in AVA to send
                 </span>
               </div>
               <div className="col-xs-4 top-20">
@@ -484,7 +484,7 @@ class SendCGE extends Component {
 
 
                         if (parseFloat(sendAmount.value) <= 0) {
-                            dispatch(sendEvent(false, "You cannot send negative amounts of an CGE."));
+                            dispatch(sendEvent(false, "You cannot send negative amounts of an AVA."));
                             setTimeout(() => dispatch(clearTransactionEvent()), 1000);
                             return false;
                         }
@@ -509,7 +509,7 @@ class SendCGE extends Component {
           <div className="clearboth" />
           <div className="send-notice">
             <p>
-              Sending Concierge (CGE) NEP5 tokens require a balance of 0.00000001 GAS+. Only send CGE to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending CGE to an exchange please ensure the address supports CGE tokens.
+              Sending Travala (AVA) NEP5 tokens require a balance of 0.00000001 GAS+. Only send AVA to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending AVA to an exchange please ensure the address supports AVA tokens.
             </p>
             </div>
           </div>
@@ -528,7 +528,7 @@ const mapStateToProps = state => ({
   gas: state.wallet.Gas,
   selectedAsset: state.transactions.selectedAsset,
   confirmPane: state.dashboard.confirmPane,
-  cge: state.wallet.Cge
+  ava: state.wallet.Ava
 });
 
 SendCGE = connect(mapStateToProps)(SendCGE);

@@ -13,6 +13,7 @@ import PortAPH from "./Assets/PortAPH";
 import PortBTC from "./Assets/PortBTC";
 import PortIAM from "./Assets/PortIAM";
 import PortCGE from "./Assets/PortCGE";
+import PortAVA from "./Assets/PortAVA";
 import PortDBC from "./Assets/PortDBC";
 import PortEDS from "./Assets/PortEDS";
 import PortEFX from "./Assets/PortEFX";
@@ -99,6 +100,7 @@ class AssetPortolio extends Component {
 				<PortTHOR />
 				<PortTKY />
 				<PortTNC />
+				<PortAVA />
 				<PortWWB />
 				<PortZPT />
 

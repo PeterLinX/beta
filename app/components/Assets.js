@@ -47,26 +47,26 @@ class Assets extends Component {
 				</Link>
 
 
-					<Link to="/sendBTC">
+					<Link to="/sendCGE">
 						<div className="col-5">
-							<span className="market-price">Bitcoin {numeral(this.props.marketBTCPrice).format("$0,0.00")}</span>
+							<span className="market-price">Travala {numeral(this.props.marketAVAPrice).format("$0,0.00")}</span>
 							<h3>{numeral(
-								Math.floor(this.props.btc * 100000) / 100000
-							).format("0,0[.][0000]")} <span id="no-inverse" className="btc-price"> BTC</span></h3>
+								Math.floor(this.props.ava * 100000) / 100000
+							).format("0,0[.][0000]")} <span id="no-inverse" className="thor-price"> AVA</span></h3>
 							<hr className="dash-hr" />
-							<span className="market-price">{numeral(this.props.btc*this.props.marketBTCPrice).format("$0,0.00")} USD</span>
+							<span className="market-price">{numeral(this.props.ava*this.props.marketAVAPrice).format("$0,0.00")} USD</span>
 						</div>
 					</Link>
 
 
-					<Link to="/sendLTC">
+					<Link to="/sendSWH">
 						<div className="col-5">
-							<span className="market-price">Litecoin {numeral(this.props.marketLTCPrice).format("$0,0.00")}</span>
+							<span className="market-price">Switcheo {numeral(this.props.marketSWHTPrice).format("$0,0.00")}</span>
 							<h3>{numeral(
-								Math.floor(this.props.ltc * 100000) / 100000
-							).format("0,0[.][0000]")} <span className="eth-price"> LTC</span></h3>
+								Math.floor(this.props.swht * 100000) / 100000
+							).format("0,0[.][0000]")} <span id="no-inverse" className="neo-price"> SWHT</span></h3>
 							<hr className="dash-hr" />
-							<span className="market-price">{numeral(this.props.ltc*this.props.marketLTCPrice).format("$0,0.00")} USD</span>
+							<span className="market-price">{numeral(this.props.swht*this.props.marketSWHTPrice).format("$0,0.00")} USD</span>
 						</div>
 					</Link>
 
@@ -91,9 +91,9 @@ class Assets extends Component {
 const mapStateToProps = state => ({
 	gas: state.wallet.Gas,
 	neo: state.wallet.Neo,
-	btc: state.wallet.Btc,
+	ava: state.wallet.Ava,
 	lrn: state.wallet.Lrn,
-	ltc: state.wallet.Ltc,
+	swht: state.wallet.Swht,
 	gdm: state.wallet.Gdm,
 	ont: state.wallet.Ont,
 	address: state.account.address,
@@ -102,16 +102,11 @@ const mapStateToProps = state => ({
 	gasPrice: state.wallet.gasPrice,
 	marketGASPrice: state.wallet.marketGASPrice,
 	marketNEOPrice: state.wallet.marketNEOPrice,
-	marketBTCPrice: state.wallet.marketBTCPrice,
+	marketAVAPrice: state.wallet.marketAVAPrice,
 	marketLRNPrice: state.wallet.marketLRNPrice,
 	marketONTPrice: state.wallet.marketONTPrice,
 	marketGDMPrice: state.wallet.marketGDMPrice,
-	marketLTCPrice: state.wallet.marketLTCPrice,
-	btcLoggedIn: state.account.btcLoggedIn,
-	btcPrivKey: state.account.btcPrivKey,
-	btcPubAddr: state.account.btcPubAddr,
-	btc: state.wallet.Btc,
-	marketBTCPrice: state.wallet.marketBTCPrice
+	marketSWHTPrice: state.wallet.marketSWHTPrice
 });
 
 Assets = connect(mapStateToProps)(Assets);

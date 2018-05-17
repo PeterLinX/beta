@@ -3,13 +3,17 @@ import { connect } from "react-redux";
 import axios from "axios";
 import numeral from "numeral";
 import { Link } from "react-router";
+import { shell, clipboard } from "electron";
 
-import imuLogo from "../../img/imu.png";
+import swhLogo from "../../img/swh.png";
 import { setMarketPrice, resetPrice } from "../../modules/wallet";
 import { initiateGetBalance, intervals } from "../../components/NetworkSwitch";
 
+const openExplorer = srcLink => {
+  shell.openExternal(srcLink);
+};
 
-class IMUListing extends Component {
+class SWHTListing extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -21,11 +25,15 @@ class IMUListing extends Component {
 	render() {
 		return (
 
-			<div>
+			<div
+			onClick={() =>
+			openExplorer("https://switcheo.exchange/tokenswap")
+			}
+			>
 				<div className="col-3 center">
-				<div id="no-inverse">
+				<div>
 				<img
-					src={imuLogo}
+					src={swhLogo}
 					alt=""
 					height="72"
 					className="port-logos pointer flipInY"
@@ -33,8 +41,8 @@ class IMUListing extends Component {
 				</div>
 				<div className="clearboth" />
 				<div className="row top-20" />
-				<h3>Coming Soon</h3>
-				Start Date: July 1st, 2018<br />
+				<h3>Switcheo Token Swap</h3>
+				Swap your SWH for SWHT Tokens<br />
 				<div className="clearboth" />
 				</div>
 			</div>
@@ -45,5 +53,5 @@ class IMUListing extends Component {
 const mapStateToProps = state => ({
 });
 
-IMUListing = connect(mapStateToProps)(IMUListing);
-export default IMUListing;
+SWHTListing = connect(mapStateToProps)(SWHTListing);
+export default SWHTListing;

@@ -208,7 +208,7 @@ class LoginLocalStorage extends Component {
           </Link>
 
           <Link>
-            <div className="dash-icon-bar">
+            <div className="dash-icon-bar com-soon">
               <div className="icon-border">
                 <div className="ledger-sm" />
               </div>

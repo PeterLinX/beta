@@ -16,6 +16,7 @@ import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import { togglePane } from "../modules/dashboard";
 import { version } from "../../package.json";
 import { log } from "../util/Logs";
+import { shell, clipboard } from "electron";
 
 import {
     setBalance,
@@ -37,6 +38,10 @@ import Dashlogo from "../components/Brand/Dashlogo";
 import ReactTooltip from "react-tooltip";
 import CountUp, { startAnimation } from "react-countup";
 import ThemeSwitch from "../components/ThemeSwitch";
+
+const openExplorer = srcLink => {
+  shell.openExternal(srcLink);
+};
 
 const refreshBalance = (dispatch, net, address ,btc ,ltc ,eth) => {
   dispatch(sendEvent(true, "Refreshing balances and prices..."));
@@ -195,8 +200,12 @@ componentDidMount = () => {
             </div>
           </div>
           <span className="dashnetwork center">
-          Version: 0.0.58<br />
-          {this.props.net} Block: {this.props.blockHeight}<br />
+          Version: 0.0.58-2<br />
+          <div
+          onClick={() =>
+    			openExplorer("http://monitor.cityofzion.io")
+    			}
+          >{this.props.net} Block: {this.props.blockHeight}</div>
           Copyright &copy; Morpheus
           </span>
 

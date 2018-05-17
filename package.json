@@ -1,6 +1,6 @@
 {
   "name": "Morpheus-Beta",
-  "version": "0.0.581",
+  "version": "0.0.582",
   "license": "GPL-3.0",
   "main": "./main.js",
   "description": "Universal Wallet for NEO, BTC, LTC and ETH",
@@ -144,8 +144,8 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "css-loader": "^0.23.1",
-    "electron": "^1.6.16",
-    "electron-builder": "^20.13.2",
+    "electron": "^1.8.4",
+    "electron-builder": "^19.31.1",
     "electron-packager": "^8.6.0",
     "electron-rebuild": "^1.6.0",
     "enzyme": "^3.1.0",

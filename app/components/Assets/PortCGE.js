@@ -3,11 +3,17 @@ import { connect } from "react-redux";
 import axios from "axios";
 import numeral from "numeral";
 import { Link } from "react-router";
+import { shell, clipboard } from "electron";
 
 import { setMarketPrice, resetPrice } from "../../modules/wallet";
 import { initiateGetBalance, intervals } from "../../components/NetworkSwitch";
 import NEPQRModal from "./NEPQRModal.js";
 import cgeLogo from "../../img/cge.png";
+
+
+const openExplorer = srcLink => {
+  shell.openExternal(srcLink);
+};
 
 class PortCGE extends Component {
 	constructor(props) {
@@ -25,17 +31,21 @@ class PortCGE extends Component {
 			<div>
 
 
-							<div className="col-3 flipInX">
+						<Link
+						onClick={() =>
+				    openExplorer("https://www.travala.com")
+				    }
+						><div className="col-3 flipInX">
 							<div className="port-logo-col">
-							<Link to="/sendCGE"><img
+							<img
 								src={cgeLogo}
 								alt=""
 								width="36"
 								className="port-logos"
-							/></Link>
+							/>
 
-							<h3><NEPQRModal />   <Link to="/sendCGE"><span className=" glyphicon glyphicon-send "/></Link></h3>
-							</div><Link to="/sendCGE">
+							<h3><NEPQRModal /><span className=" glyphicon glyphicon-send "/></h3>
+							</div>
 							<div className="port-price-col">
 								<span className="market-price">Concierge {numeral(this.props.marketCGEPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
@@ -43,8 +53,8 @@ class PortCGE extends Component {
 								).format("0,0[.][0000]")} <span id="no-inverse" className="thor-price"> CGE</span></h3>
 
 								<span className="market-price">{numeral(this.props.cge*this.props.marketCGEPrice).format("$0,0.00")} USD</span>
-							</div></Link>
 							</div>
+							</div></Link>
 
 
 			</div>

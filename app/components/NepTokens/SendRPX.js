@@ -406,7 +406,6 @@ class SendRPX extends Component {
           <div className="breadBar">
           <div className="col-flat-10">
           <ol id="no-inverse" className="breadcrumb">
-          <li><Link to="/">Logout</Link></li>
           <li><Link to="/assetPortfolio">Portfolio</Link></li>
           <li className="active">Red Pulse</li>
           </ol>

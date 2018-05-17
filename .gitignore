@@ -8,4 +8,4 @@ release-builds/
 
 package-lock.json
 *.sketch
-package.json
+yarn-error.log

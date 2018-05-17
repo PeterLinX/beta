@@ -40,9 +40,7 @@ import { BLOCK_TOKEN } from "../core/constants";
 import transactions from "../modules/transactions";
 
 let intervals = {};
-
 let acatScriptHash, aphScriptHash, dbcScriptHash, efxScriptHash, galaScriptHash, gdmScriptHash, iamScriptHash, avaScriptHash, cpxScriptHash, lrnScriptHash, mctScriptHash, nrveScriptHash, obtScriptHash, ontScriptHash, pkcScriptHash,  qlcScriptHash, rhtScriptHash, rpxScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, swhtScriptHash, wwbScriptHash,  xqtScriptHash, zptScriptHash;
-
 let netSelect;
 
 
@@ -321,7 +319,7 @@ const getTokenBalance = async (net,address,token) => {
     console.log("endpoint = "+endpoint);
     const  scriptHash  = token;
     try {
-        const response = await api.nep5.getToken(endpoint, scriptHash, address);
+        const response = await api.nep5.getToken("http://seed1.bridgeprotocol.io:10332", scriptHash, address);
         console.log("nep5 balance response = "+JSON.stringify(response));
         return response.balance;
 
@@ -725,197 +723,6 @@ const initiateBtcGetBalance = async (dispatch, net, btc_address) => {
 
 // TODO: this is being imported by Balance.js, maybe refactor to helper file/
 
-const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth, ela) => {
-  syncTransactionHistory(dispatch, net, address);
-  syncAvailableClaim(dispatch, net, address);
-  syncBlockHeight(dispatch, net);
-
-  if (net == "MainNet") {
-      rpxScriptHash = Neon.CONST.CONTRACTS.RPX;
-  } else {
-      rpxScriptHash = Neon.CONST.CONTRACTS.TEST_RPX;
-  }
-
-  return getBalance(net, address)
-    .then(resultBalance => {
-      return getMarketPriceUSD(resultBalance.Neo)
-        .then(async resultPrice => {
-          if (resultPrice === undefined || resultPrice === null) {
-            dispatch(setBalance(resultBalance.Neo, resultBalance.Gas, "--"));
-          } else {
-            let gasPrice = await getGasPrice(resultBalance.Gas);
-            let marketPrices = await getMarketPrice();
-
-            let acat_usd = parseFloat(marketPrices.data.ACAT.USD);
-
-            let dbc_usd = parseFloat(marketPrices.data.DBC.USD);
-
-            let ont_usd = parseFloat(marketPrices.data.ONT.USD);
-
-            let qlc_usd = parseFloat(marketPrices.data.QLC.USD);
-
-            let rpx_usd = parseFloat(marketPrices.data.RPX.USD);
-
-            //let swht_usd = parseFloat(marketPrices.data.SWHT.USD);
-
-            let tky_usd = parseFloat(marketPrices.data.TKY.USD);
-
-            let tnc_usd = parseFloat(marketPrices.data.TNC.USD);
-
-            let zpt_usd = parseFloat(marketPrices.data.ZPT.USD);
-
-            let btc_usd = parseFloat(marketPrices.data.BTC.USD);
-
-            let ltc_usd = parseFloat(marketPrices.data.LTC.USD);
-
-            let eth_usd = parseFloat(marketPrices.data.ETH.USD);
-
-            let eos_usd = parseFloat(marketPrices.data.EOS.USD);
-
-            let acatBalance = await getAcatBalance(net,address);
-            console.log("acat balance = " + acatBalance);
-
-            let aphBalance = await getAphBalance(net,address);
-            console.log("aph balance = " + aphBalance);
-
-            let iamBalance = await getIamBalance(net,address);
-            console.log("iam balance = " + iamBalance);
-
-            let avaBalance = await getAvaBalance(net,address);
-            console.log("ava balance = " + avaBalance);
-
-            let cgeBalance = await getCgeBalance(net,address);
-            console.log("cge balance = " + cgeBalance);
-
-            let cpxBalance = await getCpxBalance(net,address);
-            console.log("cpx balance = " + cpxBalance);
-
-            let dbcBalance = await getDbcBalance(net,address);
-            console.log("dbc balance = " + dbcBalance);
-
-            let efxBalance = await getEfxBalance(net,address);
-            console.log("efx balance = " + efxBalance);
-
-            let galaBalance = await getGalaBalance(net,address);
-            console.log("gala balance = " + galaBalance);
-
-            let gdmBalance = await getGdmBalance(net,address);
-            console.log("gdm balance = " + gdmBalance);
-
-            let lrnBalance = await getLrnBalance(net,address);
-            console.log("lrn balance = " + lrnBalance);
-
-            let mctBalance = await getMctBalance(net,address);
-            console.log("mct balance = " + mctBalance);
-
-            let nrveBalance = await getNrveBalance(net,address);
-            console.log("nrve balance = " + nrveBalance);
-
-            let obtBalance = await getObtBalance(net,address);
-            console.log("obt balance = " + obtBalance);
-
-            let ontBalance = await getOntBalance(net,address);
-            console.log("ont balance = " + ontBalance);
-
-            let pkcBalance = await getPkcBalance(net,address);
-            console.log("pkc balance = " + pkcBalance);
-
-            let qlcBalance = await getQlcBalance(net,address);
-            console.log("qlc balance = " + qlcBalance);
-
-            let rhtBalance = await getRhtBalance(net,address);
-            console.log("rht balance = " + rhtBalance);
-
-            let rpxBalance = await getRpxBalance(net,address);
-            console.log("rpx balance = " + rpxBalance);
-
-            let swhtBalance = await getSwhtBalance(net,address);
-            console.log("swht balance = " + swhtBalance);
-
-            let thorBalance = await getThorBalance(net,address);
-            console.log("thor balance = " + thorBalance);
-
-            let tkyBalance = await getTkyBalance(net,address);
-            console.log("tky balance = " + tkyBalance);
-
-            let tncBalance = await getTncBalance(net,address);
-            console.log("tnc balance = " + tncBalance);
-
-            let wwbBalance = await getWwbBalance(net,address);
-            console.log("wwb balance = " + wwbBalance);
-
-            let xqtBalance = await getXqtBalance(net,address);
-            console.log("xqt balance = " + xqtBalance);
-
-            let zptBalance = await getZptBalance(net,address);
-            console.log("zpt balance = " + zptBalance);
-
-
-            //combined balance updating
-            let combinedPrice = eth*eth_usd/10000000000 + gasPrice + resultPrice + acatBalance*acat_usd + dbcBalance*dbc_usd + ontBalance*ont_usd + qlcBalance*qlc_usd + rpxBalance*rpx_usd + tkyBalance*tky_usd + tncBalance*tnc_usd + zptBalance*zpt_usd + btc*btc_usd + ltc*ltc_usd;
-            dispatch(
-              setBalance(
-                resultBalance.Neo,
-                resultBalance.Gas,
-                acatBalance,
-                aphBalance,
-                iamBalance,
-                avaBalance,
-                cgeBalance,
-                cpxBalance,
-                dbcBalance,
-                efxBalance,
-                galaBalance,
-                gdmBalance,
-                lrnBalance,
-                mctBalance,
-                obtBalance,
-                ontBalance,
-                pkcBalance,
-                qlcBalance,
-                rpxBalance,
-                swhtBalance,
-                thorBalance,
-                tkyBalance,
-                tncBalance,
-                wwbBalance,
-                xqtBalance,
-                zptBalance,
-                rhtBalance,
-                nrveBalance,
-                resultPrice,
-                combinedPrice,
-                gasPrice,
-                marketPrices.data.GAS.USD,
-                marketPrices.data.NEO.USD,
-                marketPrices.data.ACAT.USD,
-                marketPrices.data.BTC.USD,
-                marketPrices.data.DBC.USD,
-                marketPrices.data.ELA.USD,
-                marketPrices.data.EOS.USD,
-                marketPrices.data.ETH.USD,
-                marketPrices.data.LTC.USD,
-                marketPrices.data.ONT.USD,
-                marketPrices.data.QLC.USD,
-                marketPrices.data.QTUM.USD,
-                marketPrices.data.RPX.USD,
-                marketPrices.data.TNC.USD,
-                marketPrices.data.TKY.USD,
-                marketPrices.data.XMR.USD,
-                marketPrices.data.ZPT.USD
-              )
-            );
-          }
-          return true;
-        })
-        .catch(e => {
-          dispatch(setBalance(resultBalance.Neo, resultBalance.Gas, "--"));
-        });
-    })
-    .catch(result => {
-      // If API dies, still display balance
-    });
-};
 
 const syncAvailableClaim = (dispatch, net, address) => {
   getClaimAmounts(net, address).then(result => {

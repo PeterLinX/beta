@@ -12,6 +12,8 @@ import LRNListing from "./Dapps/LRNListing";
 import IMUListing from "./Dapps/IMUListing";
 import NNSListing from "./Dapps/NNSListing";
 import GDMListing from "./Dapps/GDMListing";
+import AVAListing from "./Dapps/AVAListing";
+import SWHTListing from "./Dapps/SWHTListing";
 
 import Search from "./Search";
 
@@ -70,12 +72,19 @@ class DappBrowser extends Component {
 			<div className="row top-20 dash-portfolio center">
 			<div id="assetList">
 
+
+			<AVAListing />
+      <Link to="gdmSale"><GDMListing /></Link>
+      <SWHTListing />
       <Link to="advancedTokenSale"><AdvListing /></Link>
-			<Link to="gdmSale"><GDMListing /></Link>
       <Link onClick={() =>
 		  openExplorer("https://goo.gl/forms/3r4vfKSmHtf3JJX82")
 		  }><AddListing /></Link>
-			<div className="com-soon"><IMUListing /></div>
+			<div
+      onClick={() =>
+     openExplorer("https://imusify.com")
+     }
+      className="com-soon"><IMUListing /></div>
 			<div className="com-soon"><LRNListing /></div>
 			<div className="com-soon"><NNSListing /></div>
 

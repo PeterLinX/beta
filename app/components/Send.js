@@ -371,7 +371,7 @@ const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm, a
 				<div className="center modal-alert">
 				</div>
 				<div className="center modal-alert top-20">
-					<strong>Confirm sending {sendAmount} {asset} to {sendAddress}</strong>
+					<strong>Confirm sending {sendAmount} {asset} to {sendAddress} by selecting Sign Tx on your Ledger Nano S.</strong>
 				</div>
 				<div className="row top-30">
 					<div className="col-xs-6">
@@ -448,7 +448,7 @@ class Send extends Component {
 			net,
 			confirmPane,
 			selectedAsset,
-            isHardwareLogin,
+      isHardwareLogin,
 			account
 		} = this.props;
 		let confirmPaneClosed;
@@ -486,8 +486,6 @@ class Send extends Component {
 			<div className="breadBar">
 			<div className="col-flat-10">
 			<ol id="no-inverse" className="breadcrumb">
-			<li><Link to="/">Logout</Link></li>
-			<li className="active">Send</li>
 			</ol>
 			</div>
 			<div className="col-flat-2">

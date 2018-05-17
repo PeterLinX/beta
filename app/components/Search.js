@@ -60,7 +60,6 @@ class Search extends Component {
        <Link to="/sendAPH"><li>Aphelion</li></Link>
        <Link to="/SendBTC"><li>Bitcoin</li></Link>
        <Link to="/sendIAM"><li>Bridge</li></Link>
-       <Link to="/sendCGE"><li>Concierge</li></Link>
        <Link to="/sendDBC"><li>DeepBrain</li></Link>
        <Link to="/sendEFX"><li>Effect</li></Link>
        <Link to="/sendEDS"><li>Endorsit</li></Link>
@@ -85,6 +84,7 @@ class Search extends Component {
        <Link to="/sendTHOR"><li>Thor</li></Link>
        <Link to="/sendTKY"><li>TheKey</li></Link>
        <Link to="/sendTNC"><li>Trinity</li></Link>
+			 <Link to="/sendCGE"><li>Travala</li></Link>
        <Link to="/sendWWB"><li>WoWoo</li></Link>
        <Link to="/sendZPT"><li>Zeepin</li></Link>
        </ul>
