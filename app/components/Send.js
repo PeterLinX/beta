@@ -121,13 +121,14 @@ const encodeTransactionAndcreateSignature = async(net,selfAddress,account,asset)
     } else {
         assetId = neonJsApi.gasId;
     }
-
+		console.log( "assetId " + assetId + "\n" );
     const coinsData = {
         "assetid": assetId,
         "list": balance.unspent[asset],
         "balance": balance[asset],
         "name": asset
     };
+		console.log(coinsData);
     let fromAccount = account;
     console.log("fromAccount = "+JSON.stringify(fromAccount))
 	encodeTransactionResponse = neonJsApi.transferTransaction( coinsData, fromAccount._publicKey, sendAddress.value, sendAmount.value );

@@ -321,7 +321,7 @@ const getTokenBalance = async (net,address,token) => {
     console.log("endpoint = "+endpoint);
     const  scriptHash  = token;
     try {
-        const response = await api.nep5.getToken(endpoint, scriptHash, address);
+        const response = await api.nep5.getToken("http://seed2.cityofzion.io:8080", scriptHash, address);
         console.log("nep5 balance response = "+JSON.stringify(response));
         return response.balance;
 
@@ -965,7 +965,7 @@ const resetBalanceSync = (dispatch, net, address ,btc ,ltc, eth, ela) => {
   }
   intervals.balance = setInterval(() => {
     initiateGetBalance(dispatch, net, address ,btc ,ltc ,eth, ela);
-  }, 60000);
+  }, 20000);
 };
 
 const toggleNet = (dispatch, net, address ,btc ,ltc ,eth, ela) => {
