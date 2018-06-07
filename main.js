@@ -24,7 +24,7 @@ app.on("ready", () => {
     backgroundColor: "#000",
     width: 1080,
     height: 800,
-    minHeight: 730,
+    minHeight: 720,
     maxHeight: 900,
     minWidth: 1080,
     maxWidth: 1440,

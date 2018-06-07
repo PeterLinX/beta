@@ -8,14 +8,14 @@ import { shell, clipboard } from "electron";
 import { setMarketPrice, resetPrice } from "../../modules/wallet";
 import { initiateGetBalance, intervals } from "../../components/NetworkSwitch";
 import NEPQRModal from "./NEPQRModal.js";
-import cgeLogo from "../../img/cge.png";
+import asaLogo from "../../img/asa.png";
 
 
 const openExplorer = srcLink => {
   shell.openExternal(srcLink);
 };
 
-class PortCGE extends Component {
+class PortASA extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -31,28 +31,25 @@ class PortCGE extends Component {
 			<div>
 
 
-						<Link
-						onClick={() =>
-				    openExplorer("https://www.travala.com")
-				    }
-						><div className="col-3 flipInX">
+						<Link to="/sendASA">
+            <div className="col-3 flipInX">
 							<div className="port-logo-col">
 							<img
-								src={cgeLogo}
+								src={asaLogo}
 								alt=""
-								width="36"
-								className="port-logos"
+								width="32"
+								className="port-logos top-10"
 							/>
 
 							<h3><NEPQRModal /><span className=" glyphicon glyphicon-send "/></h3>
 							</div>
 							<div className="port-price-col">
-								<span className="market-price">Concierge {numeral(this.props.marketCGEPrice).format("$0,0.00")}</span>
+								<span className="market-price">Asura World {numeral(this.props.marketASAPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
-									Math.floor(this.props.cge * 100000) / 100000
-								).format("0,0[.][0000]")} <span id="no-inverse" className="thor-price"> CGE</span></h3>
+									Math.floor(this.props.asa * 100000) / 100000
+								).format("0,0[.][0000]")} <span id="no-inverse" className="rpx-price"> ASA</span></h3>
 
-								<span className="market-price">{numeral(this.props.cge*this.props.marketCGEPrice).format("$0,0.00")} USD</span>
+								<span className="market-price">{numeral(this.props.asa*this.props.marketASAPrice).format("$0,0.00")} USD</span>
 							</div>
 							</div></Link>
 
@@ -63,9 +60,9 @@ class PortCGE extends Component {
 }
 
 const mapStateToProps = state => ({
-	cge: state.wallet.Cge,
-	marketCGEPrice: state.wallet.marketCGEPrice
+	asa: state.wallet.Asa,
+	marketASAPrice: state.wallet.marketASAPrice
 });
 
-PortCGE = connect(mapStateToProps)(PortCGE);
-export default PortCGE;
+PortASA = connect(mapStateToProps)(PortASA);
+export default PortASA;

@@ -25,7 +25,7 @@ import numeral from "numeral";
 import NEPQRModalButton from "./../Assets/NEPQRModalButton.js";
 import TopBar from "./../TopBar";
 import Search from "./../Search";
-let sendAddress, sendAmount, confirmButton, scriptHash, swht_usd, gas_usd;
+let sendAddress, sendAmount, confirmButton, scriptHash, swth_usd, gas_usd;
 
 const styles = {
     overlay: {
@@ -53,7 +53,7 @@ const styles = {
 };
 
 const apiURL = val => {
-  return "https://min-api.cryptocompare.com/data/price?fsym=SWHT&tsyms=USD";
+  return "https://min-api.cryptocompare.com/data/price?fsym=SWTH&tsyms=USD";
 };
 
 const apiURLForGas = val => {
@@ -64,7 +64,7 @@ const isToken = symbol => {
   ![ASSETS.NEO, ASSETS.GAS].includes(symbol);
 };
 // form validators for input fields
-const validateForm = (dispatch, swht_balance) => {
+const validateForm = (dispatch, swth_balance) => {
   // check for valid address
   try {
     if (
@@ -82,14 +82,14 @@ const validateForm = (dispatch, swht_balance) => {
   }
   // check for fractional neo
   if (
-    parseInt(sendAmount.value) > swht_balance) {
+    parseInt(sendAmount.value) > swth_balance) {
     // check for value greater than account balance
-    dispatch(sendEvent(false, "You do not have enough SWHT to send."));
+    dispatch(sendEvent(false, "You do not have enough SWTH to send."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   } else if (parseFloat(sendAmount.value) <= 0) {
     // check for negative asset
-    dispatch(sendEvent(false, "You cannot send negative amounts of SWHT."));
+    dispatch(sendEvent(false, "You cannot send negative amounts of SWTH."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   }
@@ -196,18 +196,18 @@ const makeRequest = (sendEntries, config) => {
   });
 };
 
-// perform send transaction for SWHT
-const sendSwhtTransaction = async (dispatch, net, selfAddress, wif) => {
-  const endpoint = await api.neonDB.getRPCEndpoint(net);
+// perform send transaction for SWTH
+const sendSwthTransaction = async (dispatch, net, selfAddress, wif) => {
+  const endpoint = await api.neoscan.getRPCEndpoint(net);
   console.log("endpoint = " + endpoint);
   let script;
   if (net == "MainNet") {
-    script = TOKENS.SWHT;
+    script = TOKENS.SWTH;
   } else {
-    script = TOKENS_TEST.SWHT;
+    script = TOKENS_TEST.SWTH;
   }
   const token_response = await api.nep5.getToken(endpoint, script, selfAddress);
-  const swht_balance = token_response.balance;
+  const swth_balance = token_response.balance;
   console.log("token_response = " + JSON.stringify(token_response));
   const tokenBalances = {
     name: token_response.name,
@@ -218,7 +218,7 @@ const sendSwhtTransaction = async (dispatch, net, selfAddress, wif) => {
     scriptHash: script
   };
   const tokensBalanceMap = {
-    SWHT: tokenBalances
+    SWTH: tokenBalances
   }; //keyBy(tokenBalances, 'symbol');
   console.log("tokensBalanceMap = " + JSON.stringify(tokensBalanceMap));
   let privateKey = new wallet.Account(wif).privateKey;
@@ -229,17 +229,17 @@ const sendSwhtTransaction = async (dispatch, net, selfAddress, wif) => {
   var sendEntry = {
     amount: sendAmount.value.toString(),
     address: sendAddress.value.toString(),
-    symbol: "SWHT"
+    symbol: "SWTH"
   };
   sendEntries.push(sendEntry);
   console.log("sendEntries = " + JSON.stringify(sendEntries));
-  if (validateForm(dispatch, swht_balance) === true) {
-      if (swht_balance <= sendAmount.value) {
-          dispatch(sendEvent(false, "You are trying to send more SWHT than you have available."));
+  if (validateForm(dispatch, swth_balance) === true) {
+      if (swth_balance <= sendAmount.value) {
+          dispatch(sendEvent(false, "You are trying to send more SWTH than you have available."));
           setTimeout(() => dispatch(clearTransactionEvent()), 2000);
           return true;
       } else {
-          dispatch(sendEvent(true, "Sending SWHT...\n"));
+          dispatch(sendEvent(true, "Sending SWTH...\n"));
           try {
               const { response } = await makeRequest(sendEntries, {
                   net,
@@ -249,17 +249,17 @@ const sendSwhtTransaction = async (dispatch, net, selfAddress, wif) => {
                   privateKey: privateKey,
                   signingFunction: null
               });
-              console.log("sending swht response=" + response.result);
+              console.log("sending swth response=" + response.result);
               if (!response.result) {
-                  dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
+                  dispatch(sendEvent(false, "Sorry, your transaction failed. Please try again soon."));
                   setTimeout(() => dispatch(clearTransactionEvent()), 2000);
               } else {
-                  dispatch(sendEvent(false,
-                      "Sorry, your transaction failed. Please try again soon." ));
+                  dispatch(sendEvent(true,
+                      "Transaction complete! Your balance will automatically update when the blockchain has processed it." ));
                   setTimeout(() => dispatch(clearTransactionEvent()), 2000);
               }
           } catch (err) {
-              console.log("sending swht =" + err.message);
+              console.log("sending swth =" + err.message);
               dispatch(sendEvent(false, "There was an error processing your trasnaction. Please check and try again."));
               setTimeout(() => dispatch(clearTransactionEvent()), 2000);
               return false;
@@ -283,7 +283,7 @@ const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm })
             <div className="center modal-alert">
             </div>
             <div className="center modal-alert top-20">
-              <strong>Confirm sending {sendAmount} SWHT to {sendAddress}</strong>
+              <strong>Confirm sending {sendAmount} SWTH to {sendAddress}</strong>
             </div>
             <div className="row top-30">
               <div className="col-xs-6">
@@ -309,7 +309,7 @@ class SendSWH extends Component {
       neo_usd: "0",
       gas_usd: "0",
       value: "0",
-      swhtPrice: 0,
+      swthPrice: 0,
       inputEnabled: true,
       fiatVal: 0,
       tokenVal: 0,
@@ -355,7 +355,7 @@ class SendSWH extends Component {
       net,
       confirmPane,
       selectedAsset,
-      swht
+      swth
     } = this.props;
 
     return (
@@ -373,7 +373,7 @@ class SendSWH extends Component {
                           }
                       }
                       handleConfirm ={() => {
-                          sendSwhtTransaction(
+                          sendSwthTransaction(
                               dispatch, net, address, wif)
                           this.setState({
                               modalStatus: false
@@ -414,9 +414,9 @@ class SendSWH extends Component {
             <div className="col-xs-3 center">
 
             <span className="font-16">{numeral(
-              Math.floor(this.props.swht * 100000) / 100000
-            ).format("0,0[.][0000]")} <span id="no-inverse" className="neo-price"> SWHT</span></span><br />
-            <span className="market-price">{numeral(this.props.swht * this.props.marketSWHTPrice).format("$0,0.00")} USD</span>
+              Math.floor(this.props.swth * 100000) / 100000
+            ).format("0,0[.][0000]")} <span id="no-inverse" className="neo-price"> SWTH</span></span><br />
+            <span className="market-price">{numeral(this.props.swth * this.props.marketSWTHPrice).format("$0,0.00")} USD</span>
             </div>
 
             <div className="col-xs-12 center">
@@ -430,7 +430,7 @@ class SendSWH extends Component {
                 <input
                   className="form-send-neo"
                   id="center"
-                  placeholder="Enter a valid SWHT public address here"
+                  placeholder="Enter a valid SWTH public address here"
                   ref={node => {
                     sendAddress = node;
                   }}
@@ -457,7 +457,7 @@ class SendSWH extends Component {
                 />
                 <div className="clearboth" />
                 <span className="com-soon block top-10">
-                  Amount in SWHT to send
+                  Amount in SWTH to send
                 </span>
               </div>
               <div className="col-xs-4 top-20">
@@ -485,7 +485,7 @@ class SendSWH extends Component {
 
 
                         if (parseFloat(sendAmount.value) <= 0) {
-                            dispatch(sendEvent(false, "You cannot send negative amounts of an SWHT."));
+                            dispatch(sendEvent(false, "You cannot send negative amounts of an SWTH."));
                             setTimeout(() => dispatch(clearTransactionEvent()), 1000);
                             return false;
                         }
@@ -509,7 +509,7 @@ class SendSWH extends Component {
             <div className="clearboth" />
           <div className="send-notice">
             <p>
-              Sending Switcheo.Network (SWHT) NEP5 tokens require a balance of 0.00000001 GAS+. Only send SWHT to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending SWHT to an exchange please ensure the address supports SWHT tokens.
+              Sending Switcheo.Network (SWTH) NEP5 tokens is FREE. Only send SWTH to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending SWTH to an exchange please ensure the address supports SWTH tokens.
             </p>
             </div>
           </div>
@@ -526,10 +526,10 @@ const mapStateToProps = state => ({
   net: state.metadata.network,
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,
-  marketSWHTPrice: state.wallet.marketSWHTPrice,
+  marketSWTHPrice: state.wallet.marketSWTHPrice,
   selectedAsset: state.transactions.selectedAsset,
   confirmPane: state.dashboard.confirmPane,
-  swht: state.wallet.Swht
+  swth: state.wallet.Swth
 });
 
 SendSWH = connect(mapStateToProps)(SendSWH);

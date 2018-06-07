@@ -198,7 +198,7 @@ const makeRequest = (sendEntries, config) => {
 
 // perform send transaction for CPX
 const sendCpxTransaction = async (dispatch, net, selfAddress, wif) => {
-  const endpoint = await api.neonDB.getRPCEndpoint(net);
+  const endpoint = await api.neoscan.getRPCEndpoint(net);
   console.log("endpoint = " + endpoint);
   let script;
   if (net == "MainNet") {
@@ -250,12 +250,12 @@ const sendCpxTransaction = async (dispatch, net, selfAddress, wif) => {
       });
       console.log("sending cpx response=" + response.result);
       if (!response.result) {
-        dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
-				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+          dispatch(sendEvent(false, "Sorry, your transaction failed. Please try again soon."));
+          setTimeout(() => dispatch(clearTransactionEvent()), 2000);
       } else {
-        dispatch(sendEvent(false,
-        "Sorry, your transaction failed. Please try again soon." ));
-				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+          dispatch(sendEvent(true,
+              "Transaction complete! Your balance will automatically update when the blockchain has processed it." ));
+          setTimeout(() => dispatch(clearTransactionEvent()), 2000);
       }
     } catch (err) {
       console.log("sending cpx =" + err.message);
@@ -527,6 +527,7 @@ const mapStateToProps = state => ({
   gas: state.wallet.Gas,
   selectedAsset: state.transactions.selectedAsset,
   confirmPane: state.dashboard.confirmPane,
+  marketCPXPrice: state.wallet.marketCPXPrice,
   cpx: state.wallet.Cpx
 });
 

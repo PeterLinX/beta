@@ -489,7 +489,7 @@ class TokenSale extends Component {
 
 			<div className="row top-20">
 				<div className="col-xs-12">
-				<p>Enter Tokes Sale Hashscript</p>
+				<p>Enter Tokes Sale Hashscript - You must be whitelisted to participate in a token sale.</p>
         		<input
 				className="form-control-exchange"
 				ref={node => (token_script = node)}

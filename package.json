@@ -1,6 +1,6 @@
 {
   "name": "Morpheus-Beta",
-  "version": "0.0.582",
+  "version": "0.0.583",
   "license": "GPL-3.0",
   "main": "./main.js",
   "description": "Universal Wallet for NEO, BTC, LTC and ETH",

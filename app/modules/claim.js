@@ -58,7 +58,7 @@ export const doGasClaim = () => async (dispatch, getState) => {
 				})
 			);
 			sendAssetFn = () =>
-				api.neonDB.doSendAsset(
+				api.neoscan.doSendAsset(
 					net,
 					address,
 					publicKey,
@@ -67,7 +67,7 @@ export const doGasClaim = () => async (dispatch, getState) => {
 				);
 		} else {
 			sendAssetFn = () =>
-				api.neonDB.doSendAsset(net, address, wif, { [ASSETS.NEO]: NEO }, null);
+				api.neoscan.doSendAsset(net, address, wif, { [ASSETS.NEO]: NEO }, null);
 		}
 
 		const [err, response] = await asyncWrap(sendAssetFn());

@@ -198,7 +198,7 @@ const makeRequest = (sendEntries, config) => {
 
 // perform send transaction for WOWOO
 const sendWwbTransaction = async (dispatch, net, selfAddress, wif) => {
-  const endpoint = await api.neonDB.getRPCEndpoint(net);
+  const endpoint = await api.neoscan.getRPCEndpoint(net);
   console.log("endpoint = " + endpoint);
   let script;
   if (net == "MainNet") {
@@ -254,7 +254,7 @@ const sendWwbTransaction = async (dispatch, net, selfAddress, wif) => {
                   dispatch(sendEvent(false, "Sorry, your transaction failed. Please try again soon."));
                   setTimeout(() => dispatch(clearTransactionEvent()), 2000);
               } else {
-                  dispatch(sendEvent(false,
+                  dispatch(sendEvent(true,
                       "Transaction complete! Your balance will automatically update when the blockchain has processed it." ));
                   setTimeout(() => dispatch(clearTransactionEvent()), 2000);
               }

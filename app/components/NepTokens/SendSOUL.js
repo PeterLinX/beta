@@ -10,7 +10,7 @@ import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
 import { log } from "../../util/Logs";
-import qlcLogo from "../../img/qlc.png";
+import soulLogo from "../../img/sumo.png";
 import Assets from "./../Assets";
 import { clipboard } from "electron";
 import { togglePane } from "../../modules/dashboard";
@@ -22,11 +22,10 @@ import {
 import { ASSETS, TOKENS, TOKENS_TEST } from "../../core/constants";
 import { flatMap, keyBy, get, omit, pick } from "lodash";
 import numeral from "numeral";
-import QLCChart from "./../NepCharts/QLCChart";
 import NEPQRModalButton from "./../Assets/NEPQRModalButton.js";
 import TopBar from "./../TopBar";
 import Search from "./../Search";
-let sendAddress, sendAmount, confirmButton, scriptHash, qlc_usd, gas_usd;
+let sendAddress, sendAmount, confirmButton, scriptHash, soul_usd, gas_usd;
 
 const styles = {
     overlay: {
@@ -54,7 +53,7 @@ const styles = {
 };
 
 const apiURL = val => {
-  return "https://min-api.cryptocompare.com/data/price?fsym=QLC&tsyms=USD";
+  return "https://min-api.cryptocompare.com/data/price?fsym=SOUL1&tsyms=USD";
 };
 
 const apiURLForGas = val => {
@@ -65,7 +64,7 @@ const isToken = symbol => {
   ![ASSETS.NEO, ASSETS.GAS].includes(symbol);
 };
 // form validators for input fields
-const validateForm = (dispatch, qlc_balance) => {
+const validateForm = (dispatch, soul_balance) => {
   // check for valid address
   try {
     if (
@@ -83,14 +82,14 @@ const validateForm = (dispatch, qlc_balance) => {
   }
   // check for fractional neo
   if (
-    parseInt(sendAmount.value) > qlc_balance) {
+    parseInt(sendAmount.value) > soul_balance) {
     // check for value greater than account balance
-    dispatch(sendEvent(false, "You do not have enough QLC to send."));
+    dispatch(sendEvent(false, "You do not have enough SOUL to send."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   } else if (parseFloat(sendAmount.value) <= 0) {
     // check for negative asset
-    dispatch(sendEvent(false, "You cannot send negative amounts of QLC."));
+    dispatch(sendEvent(false, "You cannot send negative amounts of an asset."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   }
@@ -197,18 +196,18 @@ const makeRequest = (sendEntries, config) => {
   });
 };
 
-// perform send transaction for QLC
-const sendQlcTransaction = async (dispatch, net, selfAddress, wif) => {
+// perform send transaction for Phantasma
+const sendSoulTransaction = async (dispatch, net, selfAddress, wif) => {
   const endpoint = await api.neoscan.getRPCEndpoint(net);
   console.log("endpoint = " + endpoint);
   let script;
   if (net == "MainNet") {
-    script = TOKENS.QLC;
+    script = TOKENS.SOUL;
   } else {
-    script = TOKENS_TEST.QLC;
+    script = TOKENS_TEST.SOUL;
   }
   const token_response = await api.nep5.getToken(endpoint, script, selfAddress);
-  const qlc_balance = token_response.balance;
+  const soul_balance = token_response.balance;
   console.log("token_response = " + JSON.stringify(token_response));
   const tokenBalances = {
     name: token_response.name,
@@ -219,7 +218,7 @@ const sendQlcTransaction = async (dispatch, net, selfAddress, wif) => {
     scriptHash: script
   };
   const tokensBalanceMap = {
-    QLC: tokenBalances
+    SOUL: tokenBalances
   }; //keyBy(tokenBalances, 'symbol');
   console.log("tokensBalanceMap = " + JSON.stringify(tokensBalanceMap));
   let privateKey = new wallet.Account(wif).privateKey;
@@ -230,17 +229,17 @@ const sendQlcTransaction = async (dispatch, net, selfAddress, wif) => {
   var sendEntry = {
     amount: sendAmount.value.toString(),
     address: sendAddress.value.toString(),
-    symbol: "QLC"
+    symbol: "SOUL"
   };
   sendEntries.push(sendEntry);
   console.log("sendEntries = " + JSON.stringify(sendEntries));
-  if (validateForm(dispatch, qlc_balance) === true) {
-      if (qlc_balance <= sendAmount.value) {
-          dispatch(sendEvent(false, "You are trying to send more QLC than you have available."));
+  if (validateForm(dispatch, soul_balance) === true) {
+      if (soul_balance <= sendAmount.value) {
+          dispatch(sendEvent(false, "You are trying to send more SOUL than you have available."));
           setTimeout(() => dispatch(clearTransactionEvent()), 2000);
           return true;
       } else {
-          dispatch(sendEvent(true, "Sending QLC...\n"));
+          dispatch(sendEvent(true, "Sending Phantasma...\n"));
           try {
               const { response } = await makeRequest(sendEntries, {
                   net,
@@ -250,7 +249,7 @@ const sendQlcTransaction = async (dispatch, net, selfAddress, wif) => {
                   privateKey: privateKey,
                   signingFunction: null
               });
-              console.log("sending qlc response=" + response.result);
+              console.log("sending soul response=" + response.result);
               if (!response.result) {
                   dispatch(sendEvent(false, "Sorry, your transaction failed. Please try again soon."));
                   setTimeout(() => dispatch(clearTransactionEvent()), 2000);
@@ -260,7 +259,7 @@ const sendQlcTransaction = async (dispatch, net, selfAddress, wif) => {
                   setTimeout(() => dispatch(clearTransactionEvent()), 2000);
               }
           } catch (err) {
-              console.log("sending qlc =" + err.message);
+              console.log("sending soul =" + err.message);
               dispatch(sendEvent(false, "There was an error processing your trasnaction. Please check and try again."));
               setTimeout(() => dispatch(clearTransactionEvent()), 2000);
               return false;
@@ -282,7 +281,7 @@ const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm })
             <div className="center modal-alert">
             </div>
             <div className="center modal-alert top-20">
-              <strong>Confirm sending {sendAmount} QLC to {sendAddress}</strong>
+              <strong>Confirm sending {sendAmount} SOUL to {sendAddress}</strong>
             </div>
             <div className="row top-30">
               <div className="col-xs-6">
@@ -298,7 +297,7 @@ const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm })
     return message;
 };
 
-class SendQLC extends Component {
+class SendSOUL extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -308,7 +307,6 @@ class SendQLC extends Component {
       neo_usd: "0",
       gas_usd: "0",
       value: "0",
-      qlcPrice: 0,
       inputEnabled: true,
       fiatVal: 0,
       tokenVal: 0,
@@ -354,7 +352,7 @@ class SendQLC extends Component {
       net,
       confirmPane,
       selectedAsset,
-      qlc
+      soul
     } = this.props;
 
     return (
@@ -372,7 +370,7 @@ class SendQLC extends Component {
                           }
                       }
                       handleConfirm ={() => {
-                          sendQlcTransaction(
+                          sendSoulTransaction(
                               dispatch, net, address, wif)
                           this.setState({
                               modalStatus: false
@@ -387,7 +385,7 @@ class SendQLC extends Component {
           <ol id="no-inverse" className="breadcrumb">
 
           <li><Link to="/assetPortfolio">Portfolio</Link></li>
-          <li className="active">QLink</li>
+          <li className="active">Phantasma</li>
           </ol>
           </div>
 
@@ -397,26 +395,25 @@ class SendQLC extends Component {
           </div>
 
         <TopBar />
+        <Assets />
         <div id="send">
-          <div className="row dash-panel">
-            <div className="col-xs-6">
+          <div className="row dash-chart-panel">
+            <div className="col-xs-9">
               <img
-                src={qlcLogo}
+                src={soulLogo}
                 alt=""
                 width="45"
                 className="neo-logo fadeInDown"
               />
-              <h2>QLink Mobile</h2>
-              <hr className="dash-hr-wide" />
-              <span className="market-price"> {numeral(this.props.marketQLCPrice).format("$0,0.00")} each</span><br />
-              <span className="font24">{numeral(
-                Math.floor(this.props.qlc * 100000) / 100000
-              ).format("0,0[.][0000]")} <span id="no-inverse" className="qlink-price"> QLC</span></span><br />
-              <span className="market-price">{numeral(this.props.qlc * this.props.marketQLCPrice).format("$0,0.00")} USD</span>
+              <h2>Phantasma (SOUL) Tokens</h2>
             </div>
 
-            <div className="col-xs-6 center">
-            <QLCChart />
+            <div className="col-xs-3 center ">
+
+            <span className="font-16">{numeral(
+              Math.floor(this.props.soul * 100000) / 100000
+            ).format("0,0[.][0000]")} <span id="no-inverse" className="dbc-price"> SOUL</span></span><br />
+              <span className="market-price">{numeral(this.props.soul * this.props.marketSOULPrice).format("$0,0.00")} USD</span>
             </div>
 
             <div className="col-xs-12 center">
@@ -428,23 +425,23 @@ class SendQLC extends Component {
             <div className="top-20">
               <div className="col-xs-9">
                 <input
-                  className="form-send-qlc"
+                  className="form-send-dbc"
                   id="center"
-                  placeholder="Enter a valid QLC public address here"
+                  placeholder="Enter a valid SOUL public address here"
                   ref={node => {
                     sendAddress = node;
                   }}
                 />
               </div>
-							<Link>
+              <Link>
               <div className="col-xs-3">
-                <NEPQRModalButton />
+              <NEPQRModalButton />
               </div>
 							</Link>
 
               <div className="col-xs-5 top-20">
                 <input
-                  className="form-send-qlc"
+                  className="form-send-dbc"
                   type="number"
                   id="assetAmount"
                   min="1"
@@ -457,12 +454,12 @@ class SendQLC extends Component {
                 />
                 <div className="clearboth" />
                 <span className="com-soon block top-10">
-                  Amount in QLC to send
+                  Amount in SOUL to send
                 </span>
               </div>
               <div className="col-xs-4 top-20">
                 <input
-                  className="form-send-qlc"
+                  className="form-send-dbc"
                   id="sendAmount"
                   onChange={this.handleChangeUSD}
                   placeholder="Amount in US"
@@ -475,7 +472,7 @@ class SendQLC extends Component {
               <div className="col-xs-3 top-20">
                 <div id="sendAddress">
                   <button
-                    className="qlc-button"
+                    className="dbc-button"
                     onClick={() => {
                         if (sendAddress.value === '') {
                             dispatch(sendEvent(false, "Please enter a valid address."));
@@ -485,7 +482,7 @@ class SendQLC extends Component {
 
 
                         if (parseFloat(sendAmount.value) <= 0) {
-                            dispatch(sendEvent(false, "You cannot send negative amounts of an QLC."));
+                            dispatch(sendEvent(false, "You cannot send negative amounts of an SOUL."));
                             setTimeout(() => dispatch(clearTransactionEvent()), 1000);
                             return false;
                         }
@@ -507,10 +504,10 @@ class SendQLC extends Component {
               </div>
             </div>
 
-            <div className="clearboth" />
+          <div className="clearboth" />
           <div className="send-notice">
             <p>
-              Sending Qlink Mobile (QLC) NEP5 tokens require a balance of 0.00000001 GAS+. Only send QLC to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending QLC to an exchange please ensure the address supports QLC tokens.
+              Sending Phantasma (SOUL) requires a balance of 0.00000001 GAS+. Only send SOUL to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending SOUL to an exchange please ensure the address supports SOUL tokens.
             </p>
             </div>
           </div>
@@ -527,12 +524,10 @@ const mapStateToProps = state => ({
   net: state.metadata.network,
   neo: state.wallet.Neo,
   gas: state.wallet.Gas,
-  marketQLCPrice: state.wallet.marketQLCPrice,
   selectedAsset: state.transactions.selectedAsset,
   confirmPane: state.dashboard.confirmPane,
-  qlc: state.wallet.Qlc
+  soul: state.wallet.Soul
 });
 
-SendQLC = connect(mapStateToProps)(SendQLC);
-
-export default SendQLC;
+SendSOUL = connect(mapStateToProps)(SendSOUL);
+export default SendSOUL;

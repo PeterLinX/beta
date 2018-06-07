@@ -12,7 +12,7 @@ import PortApex from "./Assets/PortApex";
 import PortAPH from "./Assets/PortAPH";
 import PortBTC from "./Assets/PortBTC";
 import PortIAM from "./Assets/PortIAM";
-import PortCGE from "./Assets/PortCGE";
+import PortASA from "./Assets/PortASA";
 import PortAVA from "./Assets/PortAVA";
 import PortDBC from "./Assets/PortDBC";
 import PortEDS from "./Assets/PortEDS";
@@ -29,6 +29,7 @@ import PortLTC from "./Assets/PortLTC";
 import PortLRN from "./Assets/PortLRN";
 import PortMCT from "./Assets/PortMCT";
 import PortNRVE from "./Assets/PortNRVE";
+import PortNKN from "./Assets/PortNKN";
 import PortNEO from "./Assets/PortNEO";
 import PortNEX from "./Assets/PortNEX";
 import PortOBT from "./Assets/PortOBT";
@@ -37,6 +38,7 @@ import PortPKC from "./Assets/PortPKC";
 import PortQLC from "./Assets/PortQLC";
 import PortRPX from "./Assets/PortRPX";
 import PortQTUM from "./Assets/PortQTUM";
+import PortSOUL from "./Assets/PortSOUL";
 import PortSWH from "./Assets/PortSWH";
 import PortTHOR from "./Assets/PortTHOR";
 import PortTKY from "./Assets/PortTKY";
@@ -72,9 +74,9 @@ class AssetPortolio extends Component {
 				<PortACAT />
 				<PortApex />
 				<PortAPH />
+				<PortASA />
 				<PortBTC />
 				<PortIAM />
-				<PortCGE />
 				<PortDBC />
 				<PortEFX />
 				<PortEDS />
@@ -88,6 +90,7 @@ class AssetPortolio extends Component {
 				<PortLRN />
 				<PortMCT />
 				<PortNRVE />
+				<PortNKN />
 				<PortNEO />
 				<PortNEX />
 				<PortOBT />
@@ -96,6 +99,7 @@ class AssetPortolio extends Component {
 				<PortQLC />
 				<PortXQT />
 				<PortRPX />
+				<PortSOUL />
 				<PortSWH />
 				<PortTHOR />
 				<PortTKY />

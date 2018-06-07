@@ -39,12 +39,12 @@ class PortSWH extends Component {
 							</div>
 							<Link to="/sendSWH">
 							<div className="port-price-col">
-								<span className="market-price">Switcheo {numeral(this.props.marketSWHTPrice).format("$0,0.00")}</span>
+								<span className="market-price">Switcheo {numeral(this.props.marketSWTHPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
-									Math.floor(this.props.swht * 100000) / 100000
-								).format("0,0[.][0000]")} <span id="no-inverse" className="neo-price"> SWHT</span></h3>
+									Math.floor(this.props.swth * 100000) / 100000
+								).format("0,0[.][0000]")} <span id="no-inverse" className="neo-price"> SWTH</span></h3>
 
-								<span className="market-price">{numeral(this.props.swht * this.props.marketSWHTPrice).format("$0,0.00")} USD</span>
+								<span className="market-price">{numeral(this.props.swth * this.props.marketSWTHPrice).format("$0,0.00")} USD</span>
 							</div></Link>
 							</div>
 
@@ -55,8 +55,8 @@ class PortSWH extends Component {
 }
 
 const mapStateToProps = state => ({
-	swht: state.wallet.Swht,
-	marketSWHPrice: state.wallet.marketSWHTPrice
+	swth: state.wallet.Swth,
+	marketSWTHPrice: state.wallet.marketSWTHPrice
 });
 
 PortSWH = connect(mapStateToProps)(PortSWH);

@@ -57,9 +57,6 @@ class DappBrowser extends Component {
 			<div id="no-inverse" className="pointer">
 			<Slider {...settings}>
 			<div>
-				<Link to="gdmSale"><div className="guardiumSale" /></Link>
-			</div>
-			<div>
 			<div
 			onClick={() =>
 		  openExplorer("https://goo.gl/forms/3r4vfKSmHtf3JJX82")
@@ -71,10 +68,6 @@ class DappBrowser extends Component {
 
 			<div className="row top-20 dash-portfolio center">
 			<div id="assetList">
-
-
-			<AVAListing />
-      <Link to="gdmSale"><GDMListing /></Link>
       <SWHTListing />
       <Link to="advancedTokenSale"><AdvListing /></Link>
       <Link onClick={() =>

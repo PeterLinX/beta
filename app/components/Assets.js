@@ -61,12 +61,12 @@ class Assets extends Component {
 
 					<Link to="/sendSWH">
 						<div className="col-5">
-							<span className="market-price">Switcheo {numeral(this.props.marketSWHTPrice).format("$0,0.00")}</span>
+							<span className="market-price">Switcheo {numeral(this.props.marketSWTHPrice).format("$0,0.00")}</span>
 							<h3>{numeral(
-								Math.floor(this.props.swht * 100000) / 100000
-							).format("0,0[.][0000]")} <span id="no-inverse" className="neo-price"> SWHT</span></h3>
+								Math.floor(this.props.swth * 100000) / 100000
+							).format("0,0[.][0000]")} <span id="no-inverse" className="neo-price"> SWTH</span></h3>
 							<hr className="dash-hr" />
-							<span className="market-price">{numeral(this.props.swht*this.props.marketSWHTPrice).format("$0,0.00")} USD</span>
+							<span className="market-price">{numeral(this.props.swth*this.props.marketSWTHPrice).format("$0,0.00")} USD</span>
 						</div>
 					</Link>
 
@@ -93,7 +93,7 @@ const mapStateToProps = state => ({
 	neo: state.wallet.Neo,
 	ava: state.wallet.Ava,
 	lrn: state.wallet.Lrn,
-	swht: state.wallet.Swht,
+	swth: state.wallet.Swth,
 	gdm: state.wallet.Gdm,
 	ont: state.wallet.Ont,
 	address: state.account.address,
@@ -106,7 +106,7 @@ const mapStateToProps = state => ({
 	marketLRNPrice: state.wallet.marketLRNPrice,
 	marketONTPrice: state.wallet.marketONTPrice,
 	marketGDMPrice: state.wallet.marketGDMPrice,
-	marketSWHTPrice: state.wallet.marketSWHTPrice
+	marketSWTHPrice: state.wallet.marketSWTHPrice
 });
 
 Assets = connect(mapStateToProps)(Assets);

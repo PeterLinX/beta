@@ -24,12 +24,8 @@ class SWHTListing extends Component {
 
 	render() {
 		return (
-
-			<div
-			onClick={() =>
-			openExplorer("https://switcheo.exchange/tokenswap")
-			}
-			>
+      <div>
+			<Link to="/switcheo">
 				<div className="col-3 center">
 				<div>
 				<img
@@ -41,11 +37,12 @@ class SWHTListing extends Component {
 				</div>
 				<div className="clearboth" />
 				<div className="row top-20" />
-				<h3>Switcheo Token Swap</h3>
-				Swap your SWH for SWHT Tokens<br />
+				<h3>Switcheo Exchange</h3>
+				Swap NEO/GAS for NEP5 Tokens<br />
 				<div className="clearboth" />
 				</div>
-			</div>
+			</Link>
+      </div>
 		);
 	}
 }

@@ -29,7 +29,7 @@ class PortMCT extends Component {
 
 						<div className="port-logo-col">
 						<Link to="/sendMCT">
-						<div id="no-inverse">
+						<div>
 						<img
 							src={mctLogo}
 							alt=""

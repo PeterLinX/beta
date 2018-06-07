@@ -273,7 +273,7 @@ const signAndsendTransaction = async (dispatch , net, account) => {
 
     // Send Transaction
     console.log( "sendrawtransaction " + signedTransaction + "\n" );
-    const endpoint = await api.neonDB.getRPCEndpoint(net);
+    const endpoint = await api.neoscan.getRPCEndpoint(net);
     //let sentTransaction = await rpc.queryRPC( endpoint, "sendRawTransaction", [signedTransaction], 4 );
 		dispatch(
         sendEvent(
@@ -727,7 +727,7 @@ class Send extends Component {
 									className="solidTip"
 									id="assetTip"
 									place="top"
-									type="light"
+									type="dark"
 									effect="solid"
 								>
 									<span>Click to switch between NEO and GAS</span>

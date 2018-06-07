@@ -33,15 +33,12 @@ import {setBtcBlockHeight,setLtcBlockHeight} from "../modules/metadata";
 import { version } from "../../package.json";
 import { sendEvent, clearTransactionEvent } from "../modules/transactions";
 import axios from "axios";
-import { TOKENS_TEST } from "../core/constants";
-import { ETHERIO_TOKEN } from "../core/constants";
-import { TOKENS } from "../core/constants";
-import { BLOCK_TOKEN } from "../core/constants";
+import { TOKENS, TOKENS_TEST, ETHERIO_TOKEN, BLOCK_TOKEN } from "../core/constants";
 import transactions from "../modules/transactions";
 
 let intervals = {};
 
-let acatScriptHash, aphScriptHash, dbcScriptHash, efxScriptHash, galaScriptHash, gdmScriptHash, iamScriptHash, avaScriptHash, cpxScriptHash, lrnScriptHash, mctScriptHash, nrveScriptHash, obtScriptHash, ontScriptHash, pkcScriptHash,  qlcScriptHash, rhtScriptHash, rpxScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, swhtScriptHash, wwbScriptHash,  xqtScriptHash, zptScriptHash;
+let acatScriptHash, aphScriptHash, dbcScriptHash, efxScriptHash, galaScriptHash, gdmScriptHash, iamScriptHash, asaScriptHash, avaScriptHash, cpxScriptHash, lrnScriptHash, mctScriptHash, nknScriptHash, nrveScriptHash, obtScriptHash, ontScriptHash, pkcScriptHash,  qlcScriptHash, rhtScriptHash, rpxScriptHash, soulScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, swthScriptHash, wwbScriptHash,  xqtScriptHash, zptScriptHash;
 
 let netSelect;
 
@@ -56,275 +53,152 @@ export const getMarketPriceUSD = amount => {
 };
 
 const getAcatBalance = async (net,address) => {
-    let acat_token;
-    if (net === "MainNet") {
-        acat_token = TOKENS.ACAT;
-    } else {
-        acat_token = TOKENS_TEST.ACAT;
-    }
+    let acat_token = TOKENS.ACAT;
     return getTokenBalance (net,address,acat_token);
 }
 
 const getAphBalance = async (net,address) => {
-    let aph_token;
-    if (net === "MainNet") {
-        aph_token = TOKENS.APH;
-    } else {
-        aph_token = TOKENS_TEST.APH;
-    }
+    let aph_token = TOKENS.APH;
     return getTokenBalance (net,address,aph_token);
 }
 
+const getAsaBalance = async (net,address) => {
+    let asa_token = TOKENS.ASA;
+    return getTokenBalance (net,address,asa_token);
+}
+
 const getAvaBalance = async (net,address) => {
-    let ava_token;
-    if (net === "MainNet") {
-        ava_token = TOKENS.AVA;
-    } else {
-        ava_token = TOKENS_TEST.AVA;
-    }
+    let ava_token = TOKENS.AVA;
     return getTokenBalance (net,address,ava_token);
 }
 
-const getCgeBalance = async (net,address) => {
-    let cge_token;
-    if (net === "MainNet") {
-        cge_token = TOKENS.CGE;
-    } else {
-        cge_token = TOKENS_TEST.CGE;
-    }
-    return getTokenBalance (net,address,cge_token);
-}
-
 const getCpxBalance = async (net,address) => {
-    let cpx_token;
-    if (net === "MainNet") {
-        cpx_token = TOKENS.CPX;
-    } else {
-        cpx_token = TOKENS_TEST.CPX;
-    }
+    let cpx_token = TOKENS.CPX;
     return getTokenBalance (net,address,cpx_token);
 }
 
 const getDbcBalance = async (net,address) => {
-    let dbc_token;
-    if (net === "MainNet") {
-        dbc_token = TOKENS.DBC;
-    } else {
-        dbc_token = TOKENS_TEST.DBC;
-    }
+    let dbc_token = TOKENS.DBC;
     return getTokenBalance (net,address,dbc_token);
 }
 
 const getEfxBalance = async (net,address) => {
-    let efx_token;
-    if (net === "MainNet") {
-        efx_token = TOKENS.EFX;
-    } else {
-        efx_token = TOKENS_TEST.EFX;
-    }
+    let efx_token = TOKENS.EFX;
     return getTokenBalance (net,address,efx_token);
 }
 
 const getGdmBalance = async (net,address) => {
-    let gdm_token;
-    if (net === "MainNet") {
-        gdm_token = TOKENS.GDM;
-    } else {
-        gdm_token = TOKENS_TEST.GDM;
-    }
+    let gdm_token = TOKENS.GDM;
     return getTokenBalance (net,address,gdm_token);
 }
 
 const getGalaBalance = async (net,address) => {
-    let gala_token;
-    if (net === "MainNet") {
-        gala_token = TOKENS.GALA;
-    } else {
-        gala_token = TOKENS_TEST.GALA;
-    }
+    let gala_token = TOKENS.GALA;
     return getTokenBalance (net,address,gala_token);
 }
 
 const getIamBalance = async (net,address) => {
-    let iam_token;
-    if (net === "MainNet") {
-        iam_token = TOKENS.IAM;
-    } else {
-        iam_token = TOKENS_TEST.IAM;
-    }
+    let iam_token = TOKENS.IAM;
     return getTokenBalance (net,address,iam_token);
 }
 
 const getLrnBalance = async (net,address) => {
-    let lrn_token;
-    if (net === "MainNet") {
-        lrn_token = TOKENS.LRN;
-    } else {
-        lrn_token = TOKENS_TEST.LRN;
-    }
+    let lrn_token = TOKENS.LRN;
     return getTokenBalance (net,address,lrn_token);
 }
 
 const getMctBalance = async (net,address) => {
-    let mct_token;
-    if (net === "MainNet") {
-        mct_token = TOKENS.MCT;
-    } else {
-        mct_token = TOKENS_TEST.MCT;
-    }
+    let mct_token = TOKENS.MCT;
     return getTokenBalance (net,address,mct_token);
 }
 
+const getNknBalance = async (net,address) => {
+    let nkn_token = TOKENS.NKN;
+    return getTokenBalance (net,address,nkn_token);
+}
+
 const getNrveBalance = async (net,address) => {
-    let nrve_token;
-    if (net === "MainNet") {
-        nrve_token = TOKENS.NRVE;
-    } else {
-        nrve_token = TOKENS_TEST.NRVE;
-    }
+    let nrve_token = TOKENS.NRVE;
     return getTokenBalance (net,address,nrve_token);
 }
 
 const getObtBalance = async (net,address) => {
-    let obt_token;
-    if (net === "MainNet") {
-        obt_token = TOKENS.OBT;
-    } else {
-        obt_token = TOKENS_TEST.OBT;
-    }
+    let obt_token = TOKENS.OBT;
     return getTokenBalance (net,address,obt_token);
 }
 
-
 const getOntBalance = async (net,address) => {
-    let ont_token;
-    if (net === "MainNet") {
-        ont_token = TOKENS.ONT;
-    } else {
-        ont_token = TOKENS_TEST.ONT;
-    }
+    let ont_token = TOKENS.ONT;
     return getTokenBalance (net,address,ont_token);
 }
 
 const getPkcBalance = async (net,address) => {
-    let pkc_token;
-    if (net === "MainNet") {
-        pkc_token = TOKENS.PKC;
-    } else {
-        pkc_token = TOKENS_TEST.PKC;
-    }
+    let pkc_token = TOKENS.PKC;
     return getTokenBalance (net,address,pkc_token);
 }
 
 const getQlcBalance = async (net,address) => {
-    let qlc_token;
-    if (net === "MainNet") {
-        qlc_token = TOKENS.QLC;
-    } else {
-        qlc_token = TOKENS_TEST.QLC;
-    }
+    let qlc_token = TOKENS.QLC;
     return getTokenBalance	(net,address,qlc_token);
 }
 
 const getRhtBalance = async (net,address) => {
-    let rht_token;
-    if (net === "MainNet") {
-        rht_token = TOKENS.RHT;
-    } else {
-        rht_token = TOKENS_TEST.RHT;
-    }
+    let rht_token = TOKENS.RHT;
     return getTokenBalance	(net,address,rht_token);
 }
 
 const getRpxBalance = async (net,address) => {
-    let rpx_token;
-    if (net === "MainNet") {
-        rpx_token = TOKENS.RPX;
-    } else {
-        rpx_token = TOKENS_TEST.RPX;
-    }
+    let rpx_token = TOKENS.RPX;
     return getTokenBalance	(net,address,rpx_token);
 }
 
 const getThorBalance = async (net,address) => {
-    let thor_token;
-    if (net === "MainNet") {
-        thor_token = TOKENS.THOR;
-    } else {
-        thor_token = TOKENS_TEST.THOR;
-    }
+    let thor_token = TOKENS.THOR;
     return getTokenBalance	(net,address,thor_token);
 }
 
 const getTkyBalance = async (net,address) => {
-    let tky_token;
-    if (net === "MainNet") {
-        tky_token = TOKENS.TKY;
-    } else {
-        tky_token = TOKENS_TEST.TKY;
-    }
+    let tky_token = TOKENS.TKY;
     return getTokenBalance	(net,address,tky_token);
 }
 
 const getTncBalance = async (net,address) => {
-    let tnc_token;
-    if (net === "MainNet") {
-        tnc_token = TOKENS.TNC;
-    } else {
-        tnc_token = TOKENS_TEST.TNC;
-    }
+    let tnc_token = TOKENS.TNC;
     return getTokenBalance	(net,address,tnc_token);
 }
 
-const getSwhtBalance = async (net,address) => {
-    let swht_token;
-    if (net === "MainNet") {
-        swht_token = TOKENS.SWHT;
-    } else {
-        swht_token = TOKENS_TEST.SWHT;
-    }
-    return getTokenBalance	(net,address,swht_token);
+const getSoulBalance = async (net,address) => {
+    let soul_token = TOKENS.SOUL;
+    return getTokenBalance	(net,address,soul_token);
+}
+
+const getSwthBalance = async (net,address) => {
+    let swth_token = TOKENS.SWTH;
+    return getTokenBalance	(net,address,swth_token);
 }
 
 const getWwbBalance = async (net,address) => {
-    let wwb_token;
-    if (net === "MainNet") {
-        wwb_token = TOKENS.WWB;
-    } else {
-        wwb_token = TOKENS_TEST.WWB;
-    }
+    let wwb_token = TOKENS.WWB;
     return getTokenBalance	(net,address,wwb_token);
 }
 
 const getXqtBalance = async (net,address) => {
-    let xqt_token;
-    if (net === "MainNet") {
-        xqt_token = TOKENS.XQT;
-    } else {
-        xqt_token = TOKENS_TEST.XQT;
-    }
+    let xqt_token = TOKENS.XQT;
     return getTokenBalance	(net,address,xqt_token);
 }
 
 const getZptBalance = async (net,address) => {
-    let zpt_token;
-    if (net === "MainNet") {
-        zpt_token = TOKENS.ZPT;
-    } else {
-        zpt_token = TOKENS_TEST.ZPT;
-    }
-    return getTokenBalance	(net,address,zpt_token);
+    let zpt_token = TOKENS.ZPT;
+    return getTokenBalance (net,address,zpt_token);
 }
 
 const getTokenBalance = async (net,address,token) => {
-    const endpoint = await api.neonDB.getRPCEndpoint(net);
-    console.log("endpoint = "+endpoint);
-    const  scriptHash  = token;
+    const endpoint = await api.neoscan.getRPCEndpoint(net);
+    const scriptHash = token;
     try {
-        const response = await api.nep5.getToken("http://seed2.cityofzion.io:8080", scriptHash, address);
+        const response = await api.nep5.getToken(endpoint, scriptHash, address);
         console.log("nep5 balance response = "+JSON.stringify(response));
         return response.balance;
-
     }
     catch (err) {
         // invalid scriptHash
@@ -332,7 +206,6 @@ const getTokenBalance = async (net,address,token) => {
         return 0;
     }
 }
-
 
 const getGasPrice = async gasVal => {
   try {
@@ -348,7 +221,7 @@ const getGasPrice = async gasVal => {
 const getMarketPrice = async () => {
   try {
     let marketPrices = await axios.get(
-      "https://min-api.cryptocompare.com/data/pricemulti?fsyms=GAS,NEO,ACAT,BTC,AVA,CPX,DBC,ELA,EOS,ETH,EFX,GALA,GDM,LTC,LRN,MCT,OBT,ONT,QLC,RPX,SWHT,THOR,TNC,TKY,QTUM,XMR,XQT,ZPT&tsyms=USD"
+    "https://min-api.cryptocompare.com/data/pricemulti?fsyms=GAS,NEO,ACAT,BTC,ASA,AVA,CPX,DBC,ELA,EOS,ETH,EFX,GALA,GDM,LTC,LRN,MCT,NKN,OBT,ONT,QLC,RPX,SOUL,SWTH,THOR,TNC,TKY,QTUM,XMR,XQT,ZPT&tsyms=USD"
     );
     console.log("market price="+JSON.stringify(marketPrices));
     return marketPrices;
@@ -748,6 +621,8 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth, ela) => {
 
             let acat_usd = parseFloat(marketPrices.data.ACAT.USD);
 
+            let cpx_usd = parseFloat(marketPrices.data.CPX.USD);
+
             let dbc_usd = parseFloat(marketPrices.data.DBC.USD);
 
             let ont_usd = parseFloat(marketPrices.data.ONT.USD);
@@ -756,7 +631,7 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth, ela) => {
 
             let rpx_usd = parseFloat(marketPrices.data.RPX.USD);
 
-            //let swht_usd = parseFloat(marketPrices.data.SWHT.USD);
+            let swth_usd = parseFloat(marketPrices.data.SWTH.USD);
 
             let tky_usd = parseFloat(marketPrices.data.TKY.USD);
 
@@ -773,95 +648,45 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth, ela) => {
             let eos_usd = parseFloat(marketPrices.data.EOS.USD);
 
             let acatBalance = await getAcatBalance(net,address);
-            console.log("acat balance = " + acatBalance);
-
             let aphBalance = await getAphBalance(net,address);
-            console.log("aph balance = " + aphBalance);
-
+            let asaBalance = await getAsaBalance(net,address);
             let iamBalance = await getIamBalance(net,address);
-            console.log("iam balance = " + iamBalance);
-
             let avaBalance = await getAvaBalance(net,address);
-            console.log("ava balance = " + avaBalance);
-
-            let cgeBalance = await getCgeBalance(net,address);
-            console.log("cge balance = " + cgeBalance);
-
             let cpxBalance = await getCpxBalance(net,address);
-            console.log("cpx balance = " + cpxBalance);
-
             let dbcBalance = await getDbcBalance(net,address);
-            console.log("dbc balance = " + dbcBalance);
-
             let efxBalance = await getEfxBalance(net,address);
-            console.log("efx balance = " + efxBalance);
-
             let galaBalance = await getGalaBalance(net,address);
-            console.log("gala balance = " + galaBalance);
-
             let gdmBalance = await getGdmBalance(net,address);
-            console.log("gdm balance = " + gdmBalance);
-
             let lrnBalance = await getLrnBalance(net,address);
-            console.log("lrn balance = " + lrnBalance);
-
             let mctBalance = await getMctBalance(net,address);
-            console.log("mct balance = " + mctBalance);
-
+            let nknBalance = await getNknBalance(net,address);
             let nrveBalance = await getNrveBalance(net,address);
-            console.log("nrve balance = " + nrveBalance);
-
             let obtBalance = await getObtBalance(net,address);
-            console.log("obt balance = " + obtBalance);
-
             let ontBalance = await getOntBalance(net,address);
-            console.log("ont balance = " + ontBalance);
-
             let pkcBalance = await getPkcBalance(net,address);
-            console.log("pkc balance = " + pkcBalance);
-
             let qlcBalance = await getQlcBalance(net,address);
-            console.log("qlc balance = " + qlcBalance);
-
             let rhtBalance = await getRhtBalance(net,address);
-            console.log("rht balance = " + rhtBalance);
-
             let rpxBalance = await getRpxBalance(net,address);
-            console.log("rpx balance = " + rpxBalance);
-
-            let swhtBalance = await getSwhtBalance(net,address);
-            console.log("swht balance = " + swhtBalance);
-
+            let soulBalance = await getSoulBalance(net,address);
+            let swthBalance = await getSwthBalance(net,address);
             let thorBalance = await getThorBalance(net,address);
-            console.log("thor balance = " + thorBalance);
-
             let tkyBalance = await getTkyBalance(net,address);
-            console.log("tky balance = " + tkyBalance);
-
             let tncBalance = await getTncBalance(net,address);
-            console.log("tnc balance = " + tncBalance);
-
             let wwbBalance = await getWwbBalance(net,address);
-            console.log("wwb balance = " + wwbBalance);
-
             let xqtBalance = await getXqtBalance(net,address);
-            console.log("xqt balance = " + xqtBalance);
-
             let zptBalance = await getZptBalance(net,address);
-            console.log("zpt balance = " + zptBalance);
-
 
             //combined balance updating
-            let combinedPrice = eth*eth_usd/10000000000 + gasPrice + resultPrice + acatBalance*acat_usd + dbcBalance*dbc_usd + ontBalance*ont_usd + qlcBalance*qlc_usd + rpxBalance*rpx_usd + tkyBalance*tky_usd + tncBalance*tnc_usd + zptBalance*zpt_usd + btc*btc_usd + ltc*ltc_usd;
+            let combinedPrice = eth*eth_usd/10000000000 + gasPrice + resultPrice + acatBalance*acat_usd + cpxBalance*cpx_usd + dbcBalance*dbc_usd + ontBalance*ont_usd + qlcBalance*qlc_usd + rpxBalance*rpx_usd + swthBalance*swth_usd + tkyBalance*tky_usd + tncBalance*tnc_usd + zptBalance*zpt_usd + btc*btc_usd + ltc*ltc_usd;
             dispatch(
               setBalance(
                 resultBalance.Neo,
                 resultBalance.Gas,
                 acatBalance,
                 aphBalance,
+                asaBalance,
                 iamBalance,
                 avaBalance,
-                cgeBalance,
                 cpxBalance,
                 dbcBalance,
                 efxBalance,
@@ -869,12 +694,14 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth, ela) => {
                 gdmBalance,
                 lrnBalance,
                 mctBalance,
+                nknBalance,
                 obtBalance,
                 ontBalance,
                 pkcBalance,
                 qlcBalance,
                 rpxBalance,
-                swhtBalance,
+                soulBalance,
+                swthBalance,
                 thorBalance,
                 tkyBalance,
                 tncBalance,
@@ -890,6 +717,7 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth, ela) => {
                 marketPrices.data.NEO.USD,
                 marketPrices.data.ACAT.USD,
                 marketPrices.data.BTC.USD,
+                marketPrices.data.CPX.USD,
                 marketPrices.data.DBC.USD,
                 marketPrices.data.ELA.USD,
                 marketPrices.data.EOS.USD,
@@ -919,7 +747,6 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth, ela) => {
 
 const syncAvailableClaim = (dispatch, net, address) => {
   getClaimAmounts(net, address).then(result => {
-    //claimAmount / 100000000
     dispatch(setClaim(result.available, result.unavailable));
   });
 };
@@ -965,7 +792,7 @@ const resetBalanceSync = (dispatch, net, address ,btc ,ltc, eth, ela) => {
   }
   intervals.balance = setInterval(() => {
     initiateGetBalance(dispatch, net, address ,btc ,ltc ,eth, ela);
-  }, 20000);
+  }, 30000);
 };
 
 const toggleNet = (dispatch, net, address ,btc ,ltc ,eth, ela) => {

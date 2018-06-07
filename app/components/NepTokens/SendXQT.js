@@ -198,7 +198,7 @@ const makeRequest = (sendEntries, config) => {
 
 // perform send transaction for XQT
 const sendXqtTransaction = async (dispatch, net, selfAddress, wif) => {
-  const endpoint = await api.neonDB.getRPCEndpoint(net);
+  const endpoint = await api.neoscan.getRPCEndpoint(net);
   console.log("endpoint = " + endpoint);
   let script;
   if (net == "MainNet") {
@@ -250,12 +250,12 @@ const sendXqtTransaction = async (dispatch, net, selfAddress, wif) => {
       });
       console.log("sending xqt response=" + response.result);
       if (!response.result) {
-        dispatch(sendEvent(true, "Transaction complete! Your balance will automatically update when the blockchain has processed it."));
-				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+          dispatch(sendEvent(false, "Sorry, your transaction failed. Please try again soon."));
+          setTimeout(() => dispatch(clearTransactionEvent()), 2000);
       } else {
-        dispatch(sendEvent(false,
-        "Sorry, your transaction failed. Please try again soon." ));
-				setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+          dispatch(sendEvent(true,
+              "Transaction complete! Your balance will automatically update when the blockchain has processed it." ));
+          setTimeout(() => dispatch(clearTransactionEvent()), 2000);
       }
     } catch (err) {
       console.log("sending xqt =" + err.message);

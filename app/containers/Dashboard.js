@@ -199,8 +199,8 @@ componentDidMount = () => {
               </ul>
             </div>
           </div>
-          <span className="dashnetwork center">
-          Version: 0.0.58-2<br />
+          <span className="dashnetwork center pointer">
+          Version: 0.0.583<br />
           <div
           onClick={() =>
     			openExplorer("http://monitor.cityofzion.io")

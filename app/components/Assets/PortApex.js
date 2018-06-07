@@ -59,7 +59,7 @@ class PropApex extends Component {
 const mapStateToProps = state => ({
 	cpx: state.wallet.Cpx,
 	net: state.metadata.network,
-	marketCPXPrice: state.wallet.marketCPXPrice
+	marketCPXPrice: state.wallet.marketCPXPrice,
 });
 
 PropApex = connect(mapStateToProps)(PropApex);

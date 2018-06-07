@@ -29,10 +29,10 @@ import Search from "./../Search";
 let sendAddress, sendAmount, confirmButton, scriptHash, rpx_usd, gas_usd;
 
 const PREFIX = 'spunky';
-export const AUTH_ID = 'AUTH';
+export const AUTH_ID = 'AUTH'
 
 const getSigningFunction = (state) => {
-    return get(state,`${PREFIX}.${AUTH_ID}.data.address`)
+    return get(state, `${PREFIX}.${AUTH_ID}.data.address`)
 }
 
 const styles = {
@@ -185,7 +185,7 @@ const buildTransferScript = (
   return scriptBuilder.str;
 };
 
-const makeRequest = (sendEntries, config, isHardwareSend) => {
+const makeRequest = (sendEntries, config) => {
   //: Array<SendEntryType> ,: Object
   console.log("config = " + JSON.stringify(config));
   const script = buildTransferScript(
@@ -196,13 +196,6 @@ const makeRequest = (sendEntries, config, isHardwareSend) => {
   );
 
   console.log("buildTransferScript = " + script);
-
-
-    if (isHardwareSend) {
-        dispatch(sendEvent(false, "Please sign the transaction on your hardware device."));
-        setTimeout(() => dispatch(clearTransactionEvent()), 5000);
-    }
-
   return api.doInvoke({
     ...config,
     intents: buildIntentsForInvocation(sendEntries, config.address),
@@ -213,7 +206,7 @@ const makeRequest = (sendEntries, config, isHardwareSend) => {
 
 // perform send transaction for RPX
 const sendRpxTransaction = async (dispatch, net, selfAddress, wif,isHardwareLogin) => {
-  const endpoint = await api.neonDB.getRPCEndpoint(net);
+  const endpoint = await api.neoscan.getRPCEndpoint(net);
   console.log("endpoint = " + endpoint);
   let script;
   if (net == "MainNet") {
@@ -233,7 +226,11 @@ const sendRpxTransaction = async (dispatch, net, selfAddress, wif,isHardwareLogi
     scriptHash: script
   };
   const isHardwareSend = isHardwareLogin;
-  const signingFunction = getSigningFunction;
+  let state = {
+      address: selfAddress,
+      wif: wif
+  }
+  const signingFunction = getSigningFunction(state);
   const tokensBalanceMap = {
     RPX: tokenBalances
   }; //keyBy(tokenBalances, 'symbol');
@@ -271,13 +268,13 @@ const sendRpxTransaction = async (dispatch, net, selfAddress, wif,isHardwareLogi
                   undefined,
                   privateKey: privateKey,
                   signingFunction: isHardwareSend ? signingFunction : null
-              },isHardwareSend);
+              });
               console.log("sending rpx response=" + response.result);
               if (!response.result) {
                   dispatch(sendEvent(false, "Sorry, your transaction failed. Please try again soon."));
                   setTimeout(() => dispatch(clearTransactionEvent()), 2000);
               } else {
-                  dispatch(sendEvent(false,
+                  dispatch(sendEvent(true,
                       "Transaction complete! Your balance will automatically update when the blockchain has processed it." ));
                   setTimeout(() => dispatch(clearTransactionEvent()), 2000);
               }
@@ -409,7 +406,6 @@ class SendRPX extends Component {
           <div className="breadBar">
           <div className="col-flat-10">
           <ol id="no-inverse" className="breadcrumb">
-          <li><Link to="/">Logout</Link></li>
           <li><Link to="/assetPortfolio">Portfolio</Link></li>
           <li className="active">Red Pulse</li>
           </ol>
@@ -560,4 +556,5 @@ const mapStateToProps = state => ({
 });
 
 SendRPX = connect(mapStateToProps)(SendRPX);
+
 export default SendRPX;
