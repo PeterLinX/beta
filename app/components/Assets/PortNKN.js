@@ -41,7 +41,7 @@ class PortNKN extends Component {
 								<span className="market-price">New Kind Network {numeral(this.props.marketNKNPrice).format("$0,0.00")}</span>
 								<h3>{numeral(
 									Math.floor(this.props.nkn * 100000) / 100000
-								).format("0,0[.][0000]")} <span id="no-inverse" className="nex-price"> NKN</span></h3>
+								).format("0,0[.][0000]")} <span id="no-inverse" className="thor-price"> NKN</span></h3>
 
 								<span className="market-price">{numeral(this.props.nkn*this.props.marketNKNPrice).format("$0,0.00")} USD</span>
 							</div></Link>

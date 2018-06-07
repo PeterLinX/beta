@@ -18,6 +18,7 @@ import {
 	clearTransactionEvent,
 	toggleAsset
 } from "../modules/transactions";
+import NEOChart from "./NepCharts/NEOChart";
 
 import Search from "./Search";
 import TopBar from "./TopBar";
@@ -493,9 +494,7 @@ class Send extends Component {
 			<Search />
 			</div>
 			</div>
-
 			<TopBar />
-			<Assets />
                 {
                     this.state.modalStatus?
 						<StatusMessage
@@ -521,10 +520,10 @@ class Send extends Component {
                 }
 
 		<div id="send">
-					<div className="row dash-chart-panel">
+					<div className="row dash-panel">
 
 
-					<div className="col-xs-6">
+					<div className="col-xs-5">
 						<img
 							src={neoLogo}
 							alt=""
@@ -532,14 +531,11 @@ class Send extends Component {
 							className="neo-logo fadeInDown"
 						/>
 						<h2>Send {selectedAsset}</h2>
-					</div>
-					<div className="col-xs-3" />
-					<div className="col-xs-3 top-20 center com-soon">
-					Block: {this.props.blockHeight}
+						<p className="com-soon">NEO has two native tokens, NEO and GAS. NEO, with a total of 100 million tokens, represents the right to manage the network. You cannot send a fraction of a NEO. The minimum unit of GAS is 0.00000001.</p>
 					</div>
 
-					<div className="col-xs-12 center">
-						<hr className="dash-hr-wide" />
+					<div className="col-xs-7 center">
+					<NEOChart />
 					</div>
 
 					<div className="clearboth" />
@@ -658,8 +654,6 @@ class Send extends Component {
 			<div className="breadBar">
 			<div className="col-flat-10">
 			<ol id="no-inverse" className="breadcrumb">
-			<li><Link to="/">Logout</Link></li>
-			<li className="active">Send</li>
 			</ol>
 			</div>
 
@@ -669,12 +663,10 @@ class Send extends Component {
 			</div>
 
 		<TopBar />
-
-				<Assets />
 				<div id="send">
 
-					<div className="row dash-chart-panel">
-						<div className="col-xs-6">
+					<div className="row dash-panel">
+						<div className="col-xs-5">
 							<img
 								src={neoLogo}
 								alt=""
@@ -682,14 +674,11 @@ class Send extends Component {
 								className="neo-logo fadeInDown"
 							/>
 							<h2>Send {selectedAsset}</h2>
-						</div>
-						<div className="col-xs-3" />
-						<div className="col-xs-3 top-20 center com-soon">
-            Block: {this.props.blockHeight}
+							<p className="com-soon">NEO has two native tokens, NEO and GAS. NEO, with a total of 100 million tokens, represents the right to manage the network. You cannot send a fraction of a NEO. The minimum unit of GAS is 0.00000001.</p>
 						</div>
 
-						<div className="col-xs-12 center">
-							<hr className="dash-hr-wide" />
+						<div className="col-xs-7 center">
+						<NEOChart />
 						</div>
 
 						<div className="clearboth" />
@@ -795,7 +784,7 @@ class Send extends Component {
 
 					<div className="send-notice">
 						<p>
-              All NEO and GAS transactions are FREE. Only send NEO or GAS to a valid NEO address. Sending NEO/GAS to an address other than a valid NEO address can result in your NEO/GAS being lost. You cannot send a fraction of a NEO. Please double check address and amount before sending.
+              All NEO and GAS transactions are FREE. Only send NEO or GAS to a valid NEO address. Sending NEO/GAS to an address other than a valid NEO address can result in your NEO/GAS being lost.  Please double check address and amount before sending.
 						</p>
 
 					</div>

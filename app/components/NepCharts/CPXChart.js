@@ -9,9 +9,7 @@ import { Link } from "react-router";
 
 // CryptoCompare API for ChartJS
 const api = val => {
-	return `https://min-api.cryptocompare.com/data/histohour?fsym=${
-		val
-	}&tsym=USD&limit=24&aggregate=3&e=CCCAGG`;
+	return `https://min-api.cryptocompare.com/data/histohour?fsym=CPX&tsym=USD&limit=72&aggregate=3&e=CCCAGG`;
 };
 
 class Charts extends Component {
@@ -19,7 +17,7 @@ class Charts extends Component {
 		super(props);
 		this.state = {
 			neoData: [],
-			gasData: [],
+			ontData: [],
 			open: "--",
 			high: "--",
 			low: "--"
@@ -27,82 +25,58 @@ class Charts extends Component {
 	}
 
 	async componentDidMount() {
-		await this.getGasData();
 		await this.getNeoData();
+		await this.getOntData();
 	}
 
-	async getGasData() {
-		try {
-			let req = await axios.get(api("GAS"));
-			let data = req.data.Data;
-			this.setState({ gasData: data });
-		} catch (error) {
-			console.log(error);
-		}
-	}
 	// NEO
 	async getNeoData() {
 		try {
 			let req = await axios.get(api("NEO"));
 			let data = req.data.Data;
 			this.setState({ neoData: data });
+			this.setState({ ...data[95] });
 		} catch (error) {
 			console.log(error);
 		}
 	}
+	// ONT
+	async getOntData() {
+		try {
+			let req = await axios.get(api("ONT"));
+			let data = req.data.Data;
+			this.setState({ ontData: data });
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
 	// Chart Data
 	render() {
 		const neoPrices = _.map(this.state.neoData, "close");
 		const neoHours = _.map(this.state.neoData, "time");
+
 		const convertedTime = neoHours.map(val => moment.unix(val).format("LLL"));
-		const gasPrices = _.map(this.state.gasData, "close");
+		const ontPrices = _.map(this.state.ontData, "close");
 		// Chart Styling
 		const data = canvas => {
 			let ctx = canvas.getContext("2d");
 			let gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
-			gradientStroke.addColorStop(0, "#7ED321");
-			gradientStroke.addColorStop(1, "#7ED321");
+			gradientStroke.addColorStop(0, "#ececec");
+			gradientStroke.addColorStop(1, "#ececec");
 
 			let gradientFill = ctx.createLinearGradient(0, 0, 0, 360);
-			gradientFill.addColorStop(0, "rgba(68,147,33,0.8)");
-			gradientFill.addColorStop(1, "rgba(68,147,33,0)");
+			gradientFill.addColorStop(0, "rgba(200,200,200, 0.5)");
+			gradientFill.addColorStop(1, "rgba(150,150,150, 0)");
 			const gradient = ctx.createLinearGradient(0, 0, 100, 0);
 
-			let gasGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
-			gasGradientStroke.addColorStop(0, "#9013FE");
-			gasGradientStroke.addColorStop(1, "#9013FE");
-
-			let gasGradientFill = ctx.createLinearGradient(0, 0, 0, 360);
-			gasGradientFill.addColorStop(0, "rgba(144,147,254, 1)");
-			gasGradientFill.addColorStop(1, "rgba(144,147,254, 0)");
 
 			// Chart Content
 			return {
 				labels: convertedTime,
 				datasets: [
 					{
-						label: "GAS",
-						fill: true,
-						lineTension: 0.25,
-						backgroundColor: gasGradientFill,
-						borderColor: gasGradientStroke,
-						borderCapStyle: "butt",
-						borderDash: [],
-						borderDashOffset: 0.0,
-						borderJoinStyle: "miter",
-						pointBorderWidth: 1,
-						pointHoverRadius: 3,
-						pointHoverBorderWidth: 0,
-						pointBorderColor: gasGradientStroke,
-						pointBackgroundColor: gasGradientStroke,
-						pointHoverBackgroundColor: gasGradientStroke,
-						pointHoverBorderColor: gasGradientStroke,
-						pointHitRadius: 3,
-						pointRadius: 0,
-						data: gasPrices
-					},
-					{
-						label: "NEO",
+						label: "CPX",
 						fill: true,
 						lineTension: 0.25,
 						backgroundColor: gradientFill,
@@ -130,9 +104,10 @@ class Charts extends Component {
 							<Line
 								data={data}
 								width={300}
-								height={130}
+								height={150}
 								options={{
-									responsive: true,
+									maintainAspectRatio: false,
+									layout: { padding: { left: 0, right: 0, top: 0, bottom: 0 } },
 									scales: {
 										xAxes: [
 											{
@@ -147,16 +122,12 @@ class Charts extends Component {
 										],
 										yAxes: [
 											{
-												gridLines: { color: "rgba(255, 255, 255, 0.04)" }
+												gridLines: { color: "rgba(255, 255, 255, 0.04)" },
 											}
 										]
 									},
 									legend: {
-										position: "top",
-										labels: {
-											boxWidth: 15,
-											padding: 20
-										}
+										display: false
 									}
 								}}
 							/>

@@ -10,7 +10,7 @@ import axios from "axios";
 import SplitPane from "react-split-pane";
 import ReactTooltip from "react-tooltip";
 import { log } from "../../util/Logs";
-import apexLogo from "../../img/apex.png";
+import asaLogo from "../../img/asa.png";
 import Assets from "./../Assets";
 import { clipboard } from "electron";
 import { togglePane } from "../../modules/dashboard";
@@ -25,9 +25,7 @@ import numeral from "numeral";
 import NEPQRModalButton from "./../Assets/NEPQRModalButton.js";
 import TopBar from "./../TopBar";
 import Search from "./../Search";
-import CPXChart from "./../NepCharts/CPXChart";
-
-let sendAddress, sendAmount, confirmButton, scriptHash, cpx_usd, gas_usd;
+let sendAddress, sendAmount, confirmButton, scriptHash, asa_usd, gas_usd;
 
 const styles = {
     overlay: {
@@ -55,7 +53,7 @@ const styles = {
 };
 
 const apiURL = val => {
-  return "https://min-api.cryptocompare.com/data/price?fsym=CPX&tsyms=USD";
+  return "https://min-api.cryptocompare.com/data/price?fsym=ASA&tsyms=USD";
 };
 
 const apiURLForGas = val => {
@@ -66,7 +64,7 @@ const isToken = symbol => {
   ![ASSETS.NEO, ASSETS.GAS].includes(symbol);
 };
 // form validators for input fields
-const validateForm = (dispatch, cpx_balance) => {
+const validateForm = (dispatch, asa_balance) => {
   // check for valid address
   try {
     if (
@@ -84,14 +82,14 @@ const validateForm = (dispatch, cpx_balance) => {
   }
   // check for fractional neo
   if (
-    parseInt(sendAmount.value) > cpx_balance) {
+      parseInt(sendAmount.value) > asa_balance) {
     // check for value greater than account balance
-    dispatch(sendEvent(false, "You do not have enough CPX to send."));
+    dispatch(sendEvent(false, "You do not have enough ASA to send."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   }  else if (parseFloat(sendAmount.value) <= 0) {
     // check for negative asset
-    dispatch(sendEvent(false, "You cannot send negative amounts of CPX."));
+    dispatch(sendEvent(false, "You cannot send negative amounts of an asset."));
     setTimeout(() => dispatch(clearTransactionEvent()), 1000);
     return false;
   }
@@ -198,18 +196,18 @@ const makeRequest = (sendEntries, config) => {
   });
 };
 
-// perform send transaction for CPX
-const sendCpxTransaction = async (dispatch, net, selfAddress, wif) => {
+// perform send transaction for ASA
+const sendAsaTransaction = async (dispatch, net, selfAddress, wif) => {
   const endpoint = await api.neoscan.getRPCEndpoint(net);
   console.log("endpoint = " + endpoint);
   let script;
   if (net == "MainNet") {
-    script = TOKENS.CPX;
+    script = TOKENS.ASA;
   } else {
-    script = TOKENS_TEST.CPX;
+    script = TOKENS_TEST.ASA;
   }
   const token_response = await api.nep5.getToken(endpoint, script, selfAddress);
-  const cpx_balance = token_response.balance;
+  const asa_balance = token_response.balance;
   console.log("token_response = " + JSON.stringify(token_response));
   const tokenBalances = {
     name: token_response.name,
@@ -220,7 +218,7 @@ const sendCpxTransaction = async (dispatch, net, selfAddress, wif) => {
     scriptHash: script
   };
   const tokensBalanceMap = {
-    CPX: tokenBalances
+    ASA: tokenBalances
   }; //keyBy(tokenBalances, 'symbol');
   console.log("tokensBalanceMap = " + JSON.stringify(tokensBalanceMap));
   let privateKey = new wallet.Account(wif).privateKey;
@@ -231,45 +229,50 @@ const sendCpxTransaction = async (dispatch, net, selfAddress, wif) => {
   var sendEntry = {
     amount: sendAmount.value.toString(),
     address: sendAddress.value.toString(),
-    symbol: "CPX"
+    symbol: "ASA"
   };
   sendEntries.push(sendEntry);
   console.log("sendEntries = " + JSON.stringify(sendEntries));
-  if (cpx_balance <= sendAmount.value) {
-    dispatch(sendEvent(false, "You are trying to send more APEX than you have available."));
-		setTimeout(() => dispatch(clearTransactionEvent()), 2000);
-		return true;
-  } else {
-    dispatch(sendEvent(true, "Sending APEX...\n"));
-    try {
-      const { response } = await makeRequest(sendEntries, {
-        net,
-        tokensBalanceMap,
-        address: selfAddress,
-        undefined,
-        privateKey: privateKey,
-        signingFunction: null
-      });
-      console.log("sending cpx response=" + response.result);
-      if (!response.result) {
-          dispatch(sendEvent(false, "Sorry, your transaction failed. Please try again soon."));
+  if (validateForm(dispatch,asa_balance) === true) {
+      if (asa_balance <= sendAmount.value) {
+          dispatch(sendEvent(false, "You are trying to send more ASA than you have available."));
           setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+          return true;
       } else {
-          dispatch(sendEvent(true,
-              "Transaction complete! Your balance will automatically update when the blockchain has processed it." ));
-          setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+          dispatch(sendEvent(true, "Sending ASA...\n"));
+          try {
+              const { response } = await makeRequest(sendEntries, {
+                  net,
+                  tokensBalanceMap,
+                  address: selfAddress,
+                  undefined,
+                  privateKey: privateKey,
+                  signingFunction: null
+              });
+              console.log("sending asa response=" + response.result);
+              if (!response.result) {
+                  dispatch(sendEvent(false, "Sorry, your transaction failed. Please try again soon."));
+                  setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+              } else {
+                  dispatch(sendEvent(true,
+                      "Transaction complete! Your balance will automatically update when the blockchain has processed it." ));
+                  setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+              }
+          } catch (err) {
+              console.log("sending ASA =" + err.message);
+              dispatch(sendEvent(false, "There was an error processing your trasnaction. Please check and try again."));
+              setTimeout(() => dispatch(clearTransactionEvent()), 2000);
+              return false;
+          }
       }
-    } catch (err) {
-      console.log("sending cpx =" + err.message);
-      dispatch(sendEvent(false, "There was an error processing your trasnaction. Please check and try again."));
-			setTimeout(() => dispatch(clearTransactionEvent()), 2000);
-	    return false;
-    }
   }
+
 };
 
+
 const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm }) => {
-    let message = (
+    let message = null;
+    message = (
         <Modal
             isOpen={true}
             closeTimeoutMS={5}
@@ -281,15 +284,15 @@ const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm })
             <div className="center modal-alert">
             </div>
             <div className="center modal-alert top-20">
-              <strong>Confirm sending {sendAmount} CPX to {sendAddress}</strong>
+              <strong>Confirm sending {sendAmount} ASA to {sendAddress}</strong>
             </div>
             <div className="row top-30">
-              <div className="col-xs-6">
-                <button className="cancel-button" onClick={handleCancel}>Cancel</button>
-              </div>
-              <div className="col-xs-6">
-                <button className="btn-send" onClick={handleConfirm}>Confirm</button>
-              </div>
+            <div className="col-xs-6">
+              <button className="cancel-button" onClick={handleCancel}>Cancel</button>
+            </div>
+            <div className="col-xs-6">
+              <button className="btn-send" onClick={handleConfirm}>Confirm</button>
+            </div>
             </div>
           </div>
         </Modal>
@@ -297,7 +300,7 @@ const StatusMessage = ({ sendAmount, sendAddress, handleCancel, handleConfirm })
     return message;
 };
 
-class SendAPEX extends Component {
+class SendASA extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -352,9 +355,8 @@ class SendAPEX extends Component {
       net,
       confirmPane,
       selectedAsset,
-      cpx
+      asa
     } = this.props;
-
     return (
       <div>
           {
@@ -370,7 +372,7 @@ class SendAPEX extends Component {
                           }
                       }
                       handleConfirm ={() => {
-                          sendCpxTransaction(
+                          sendAsaTransaction(
                               dispatch, net, address, wif)
                           this.setState({
                               modalStatus: false
@@ -380,13 +382,12 @@ class SendAPEX extends Component {
                   :
                   null
           }
-
           <div className="breadBar">
           <div className="col-flat-10">
           <ol id="no-inverse" className="breadcrumb">
 
           <li><Link to="/assetPortfolio">Portfolio</Link></li>
-          <li className="active">Apex</li>
+          <li className="active">ASA</li>
           </ol>
           </div>
 
@@ -396,29 +397,25 @@ class SendAPEX extends Component {
           </div>
 
         <TopBar />
-
+        <Assets />
         <div id="send">
           <div className="row dash-chart-panel">
-            <div className="col-xs-7">
-            <div id="no-inverse">
+            <div className="col-xs-9">
               <img
-                src={apexLogo}
+                src={asaLogo}
                 alt=""
-                width="54"
+                width="48"
                 className="neo-logo fadeInDown"
-              /></div>
-              <h2>APEX Tokens</h2>
-              <hr className="dash-hr-wide" />
-              <span className="market-price"> {numeral(this.props.marketCPXPrice).format("$0,0.00")} each</span><br />
-              <span className="font24">{numeral(
-                Math.floor(this.props.cpx * 100000) / 100000
-              ).format("0,0[.][0000]")} <span className="eth-price"> CPX</span></span><br />
-              <span className="market-price">{numeral(this.props.cpx * this.props.marketCPXPrice).format("$0,0.00")} USD</span>
+              />
+              <h2>Asura World Tokens</h2>
             </div>
 
-            <div className="col-xs-5 center">
-
-            <CPXChart />
+            <div className="col-xs-3 center">
+            <span className="font-16">{numeral(
+              Math.floor(this.props.asa * 100000) / 100000
+            ).format("0,0[.][0000]")} <span id="no-inverse" className="rpx-price"> ASA</span></span>
+            <br />
+            <span className="market-price"> {numeral(this.props.marketASAPrice).format("$0,0.00")}</span>
             </div>
 
             <div className="col-xs-12 center">
@@ -430,9 +427,9 @@ class SendAPEX extends Component {
             <div className="top-20">
               <div className="col-xs-9">
                 <input
-                  className="form-send-white"
+                  className="form-send-rpx"
                   id="center"
-                  placeholder="Enter a valid APEX public address here"
+                  placeholder="Enter a valid ASA public address here"
                   ref={node => {
                     sendAddress = node;
                   }}
@@ -440,13 +437,13 @@ class SendAPEX extends Component {
               </div>
               <Link>
               <div className="col-xs-3">
-                <NEPQRModalButton />
+              <NEPQRModalButton />
               </div>
 							</Link>
 
               <div className="col-xs-5 top-20">
                 <input
-                  className="form-send-white"
+                  className="form-send-rpx"
                   type="number"
                   id="assetAmount"
                   min="1"
@@ -459,12 +456,12 @@ class SendAPEX extends Component {
                 />
                 <div className="clearboth" />
                 <span className="com-soon block top-10">
-                  Amount in APEX to send
+                  Amount in ASA to send
                 </span>
               </div>
               <div className="col-xs-4 top-20">
                 <input
-                  className="form-send-white"
+                  className="form-send-rpx"
                   id="sendAmount"
                   onChange={this.handleChangeUSD}
                   placeholder="Amount in US"
@@ -477,7 +474,7 @@ class SendAPEX extends Component {
               <div className="col-xs-3 top-20">
                 <div id="sendAddress">
                   <button
-                    className="grey-button"
+                    className="rpx-button"
                     onClick={() => {
                         if (sendAddress.value === '') {
                             dispatch(sendEvent(false, "Please enter a valid address."));
@@ -487,7 +484,7 @@ class SendAPEX extends Component {
 
 
                         if (parseFloat(sendAmount.value) <= 0) {
-                            dispatch(sendEvent(false, "You cannot send negative amounts of an APEX."));
+                            dispatch(sendEvent(false, "You cannot send negative amounts of an ASA."));
                             setTimeout(() => dispatch(clearTransactionEvent()), 1000);
                             return false;
                         }
@@ -497,6 +494,7 @@ class SendAPEX extends Component {
                         })
                     }
                     }
+
 
                     ref={node => {
                       confirmButton = node;
@@ -509,14 +507,14 @@ class SendAPEX extends Component {
               </div>
             </div>
 
-            <div className="clearboth" />
+          <div className="clearboth" />
           <div className="send-notice">
             <p>
-              Sending APEX (CPX) NEP5 tokens require a balance of 0.00000001 GAS+. Only send CPX to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending CPX to an exchange please ensure the address supports CPX tokens.
+              Sending Asura World (ASA) NEP5 tokens require a balance of 0.00000001 GAS+. Only send ASA to a valid address that supports NEP5+ tokens on the NEO blockchain. When sending ASA to an exchange please ensure the address supports ASA tokens.
             </p>
+            </div>
+          </div>
         </div>
-        </div>
-      </div>
       </div>
     );
   }
@@ -531,10 +529,9 @@ const mapStateToProps = state => ({
   gas: state.wallet.Gas,
   selectedAsset: state.transactions.selectedAsset,
   confirmPane: state.dashboard.confirmPane,
-  marketCPXPrice: state.wallet.marketCPXPrice,
-  cpx: state.wallet.Cpx
+  asa: state.wallet.Asa
 });
 
-SendAPEX = connect(mapStateToProps)(SendAPEX);
+SendASA = connect(mapStateToProps)(SendASA);
 
-export default SendAPEX;
+export default SendASA;

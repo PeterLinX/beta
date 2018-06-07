@@ -1904,7 +1904,6 @@ font-size: 13px;
 width: 100%;
 margin: 0px;
 padding: 10px;
-border-bottom: 1px solid #2b2b2b;
 }
 
 .walletName {
@@ -1917,6 +1916,12 @@ border-bottom: 1px solid #2b2b2b;
 .walletKey {
   font-size: 15px;
     float: left;
+}
+
+.walletKey-wide {
+width: 80%;
+    float: left;
+
 }
 
 .deleteWallet {
@@ -2466,4 +2471,10 @@ float: left;
   top: 70px;
   left: 40%;
   right: 40%;
+}
+
+.switch-list {
+  overflow-y: auto;
+-webkit-app-region: no-drag;
+height: 130px;
 }

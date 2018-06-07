@@ -177,7 +177,7 @@ class CreateWallet extends Component {
               </div>
             </Link>
 
-            <Link>
+            <Link to="/LedgerLogin">
               <div className="dash-icon-bar com-soon">
                 <div className="icon-border">
                   <div className="ledger-sm" />

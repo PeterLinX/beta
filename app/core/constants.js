@@ -86,6 +86,7 @@ export const TOKENS = {
 	QLC: '0d821bd7b6d53f5c2b40e217c6defc8bbe896cf5',
 	RHT: '2328008e6f6c7bd157a342e789389eb034d9cbc4',
 	RPX: 'ecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9',
+	SGT: '02728be64b898d1af733aa7f3f00f33b1b209dae',
 	SOUL: 'ed07cffad18f1308db51920d99a2af60ac66a7b3',
 	SWTH: 'ab38352559b8b203bde5fddfa0b07d8b2525e132',
 	THOR: '67a5086bac196b67d5fd20745b0dc9db4d2930ed',

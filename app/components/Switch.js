@@ -13,21 +13,15 @@ import { setBlockExplorer } from "../modules/metadata";
 import { setKeys } from "../modules/account";
 import { NetworkSwitch } from "../components/NetworkSwitch";
 import { syncTransactionHistory } from "../components/NetworkSwitch";
-import { Accordion, AccordionItem } from "react-sanfona";
 
 import Logo from "./Brand/LogoBlank";
 import NeoLogo from "./Brand/Neo";
 import Claim from "./Claim";
 import TopBar from "./TopBar";
 import gitsmLogo from "../img/gitsm.png";
-import swhtLogo from "../img/swh.png";
-import swhtScreen from "../img/swth-screen.png";
+import twitsmLogo from "../img/twitsm.png";
 
 let explorer_select;
-
-const openExplorer = srcLink => {
-  shell.openExternal(srcLink);
-};
 
 const { dialog } = require("electron").remote;
 const saveKeyRecovery = keys => {
@@ -120,6 +114,10 @@ const getLink = (net, address) => {
   return base + address;
 };
 
+const openExplorer = srcLink => {
+  shell.openExternal(srcLink);
+};
+
 class Settings extends Component {
   componentDidMount = () => {
     storage.get("keys", (error, data) => {
@@ -140,89 +138,62 @@ class Settings extends Component {
       <img
         src={swhtLogo}
         alt=""
-        width="66"
+        width="45"
         className="neo-logo fadeInDown"
       />
-      <h1>Switcheo.Exchange</h1>
+      <h2>Switcheo.Exchange</h2>
     </div>
-    <div className="col-xs-5">
-    <h4 className="top-20">Switcheo is the worlds first multi-chain decentralised exchange for NEO & NEP-5 tokens trading on the NEO blockchain.</h4>
-    <p className="com-soon top-20">
-    1) Maximize the Morpheus window width<br />
-    2) Copy your NEO Encrypted Key<br />
-    3) Click the Switcheo.Exchange to load exchange<br />
-    4) Once loaded, click "Wallet Login"<br />
-    5) Select "Encrypted Key"<br />
-    6) Paste encrypted key and enter password.
-    </p>
-    </div>
-    <div className="col-xs-7 top-20 center">
-    <Link to="/switcheoExchange">
-    <img
-      src={swhtScreen}
-      data-tip
-      data-for="assetTip"
-      alt=""
-      width="450"
-      className="neo-logo fadeInDown pointer"
-    /></Link>
+    <div className="col-xs-6">
+    <h4 className="top-20">Switcheo is the worlds first multi-chain decentralised exchange for NEO & NEP-5 tokens now trading on the NEO blockchain.</h3>
+    <p className="com-soon top-20">In order to use Switcheo.Exchange you will need to login using your NEO encrypted key and password. For best results please maximise your Morpheus application window.</p>
+    <h4 className="top-20">Your saved NEO Addresses</h4>
 
-    <ReactTooltip
-      className="solidTip"
-      id="assetTip"
-      place="top"
-      type="dark"
-      effect="solid"
-    >
-      <span>Click image to open Switcheo.Exchange</span>
-    </ReactTooltip>
 
     </div>
+    <div className="col-xs-6">
+    image
     </div>
-    <div className="clearboth" />
 
-    <div className="col-xs-12">
-          <div className="">
+
+
+    </div>
+        <div className="description">
+          <div className="row">
+            <div className="col-xs-12 center fadeInDown">
+            <hr className="dash-hr-wide" />
+            </div>
+
             <div className="clearboth" />
-            <div className="">
-            <div className="col-xs-12">
-            <Accordion>
-            <AccordionItem titleClassName="accord-title" title="Click here to view your NEO encrypted keys saved in Morpheus">
-              <div className="switch-list">
+
+            <div className="row top-30 settings-padding">
+
+            <div className="settingsItem">
+              <div className="walletList">
               {_.map(this.props.wallets, (value, key) => {
                 return (
                   <div className="">
                     <div className="walletItem">
                       <div className="walletName">{key.slice(0, 20)}</div>
-                      <div className="walletKey-wide">
-                      <input
-        								className="ledger-address"
-        								placeholder={value}
-        								value={value}
-        							/>
-                    </div>
+                      <div className="walletKey">{value}</div>
+                      <div
+                        className=""
+                        onClick={() => clipboard.writeText(this.props.dispatch)}
+                      >
+                        <span className="warning glyphicon glyphicon-duplicate" />
+                      </div>
                     </div>
                   </div>
                 );
               })}
             </div>
-            </AccordionItem>
-            </Accordion>
-
             </div>
 
             </div>
           </div>
         </div>
       <div className="clearboth" />
-      <div className="tokenfooter font-16 pointer">
-      <div className="pointer"
-      onClick={() =>
-      openExplorer("https://switcheo.network")
-      }
-      >Official website: Switcheo.network</div><br />
-   	 <strong>Legal Disclaimer:</strong> Switcheo.Exchange is not operated by or assosiated with Morpheus S.S. Limited. Morpheus is not liable for the loss of any tokens when using the Switcheo Exchange. Please visit the Switcheo.Network website or social channels for exchange support.</div>
       </div>
+    </div>
   );
 }
 

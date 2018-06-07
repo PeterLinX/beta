@@ -441,7 +441,7 @@ class Charts extends Component {
 							<Line
 								data={data}
 								width={600}
-								height={250}
+								height={220}
 								options={{
 									responsive: true,
 									scales: {

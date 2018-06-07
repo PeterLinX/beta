@@ -411,10 +411,12 @@ class SendWWB extends Component {
             </div>
 
             <div className="col-xs-3 center">
-            <span className="market-price"> {numeral(this.props.marketWWBPrice).format("$0,0.00")}</span><br />
             <span className="font-16">{numeral(
               Math.floor(this.props.wwb * 100000) / 100000
             ).format("0,0[.][0000]")} <span id="no-inverse" className="rpx-price"> WWB</span></span>
+            <br />
+            <span className="market-price"> {numeral(this.props.marketWWBPrice).format("$0,0.00")}</span>
+
             </div>
 
             <div className="col-xs-12 center">

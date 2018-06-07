@@ -58,6 +58,7 @@ class Search extends Component {
 			 </Link>
        <Link to="/sendApex"><li>Apex</li></Link>
        <Link to="/sendAPH"><li>Aphelion</li></Link>
+			 <Link to="/sendASA"><li>Asura World</li></Link>
        <Link to="/SendBTC"><li>Bitcoin</li></Link>
        <Link to="/sendIAM"><li>Bridge</li></Link>
        <Link to="/sendDBC"><li>DeepBrain</li></Link>
@@ -72,15 +73,18 @@ class Search extends Component {
        <Link to="/SendLTC"><li>Litecoin</li></Link>
        <Link to="/sendLRN"><li>Loopring</li></Link>
 			 <Link to="/sendMCT"><li>Master Contract</li></Link>
+			 <Link to="/sendNKN"><li>New Kind Network</li></Link>
        <Link to="/sendNRVE"><li>Narrative</li></Link>
        <Link to="/send"><li>NEO</li></Link>
        <Link to="/sendOBT"><li>Orbis</li></Link>
        <Link to="/sendONT"><li>Ontology</li></Link>
+			 <Link to="/sendSOUL"><li>Phantasma</li></Link>
        <Link to="/sendPKC"><li>Pikcio</li></Link>
        <Link to="/sendQLC"><li>Qlink</li></Link>
        <Link to="/sendXQT"><li>Quarteria</li></Link>
        <Link to="/sendRPX"><li>RedPulse</li></Link>
-       <Link to="/sendSWH"><li>Switcheo</li></Link>
+       <Link to="/sendSGT"><li>SafeGuard Token</li></Link>
+			 <Link to="/sendSWH"><li>Switcheo</li></Link>
        <Link to="/sendTHOR"><li>Thor</li></Link>
        <Link to="/sendTKY"><li>TheKey</li></Link>
        <Link to="/sendTNC"><li>Trinity</li></Link>

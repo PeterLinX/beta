@@ -38,7 +38,7 @@ import transactions from "../modules/transactions";
 
 let intervals = {};
 
-let acatScriptHash, aphScriptHash, dbcScriptHash, efxScriptHash, galaScriptHash, gdmScriptHash, iamScriptHash, asaScriptHash, avaScriptHash, cpxScriptHash, lrnScriptHash, mctScriptHash, nknScriptHash, nrveScriptHash, obtScriptHash, ontScriptHash, pkcScriptHash,  qlcScriptHash, rhtScriptHash, rpxScriptHash, soulScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, swthScriptHash, wwbScriptHash,  xqtScriptHash, zptScriptHash;
+let acatScriptHash, aphScriptHash, dbcScriptHash, efxScriptHash, galaScriptHash, gdmScriptHash, iamScriptHash, asaScriptHash, avaScriptHash, cpxScriptHash, lrnScriptHash, mctScriptHash, nknScriptHash, nrveScriptHash, obtScriptHash, ontScriptHash, pkcScriptHash,  qlcScriptHash, rhtScriptHash, rpxScriptHash, sgtScriptHash, soulScriptHash, swthScriptHash, thorScriptHash, tkyScriptHash, tncScriptHash, wwbScriptHash,  xqtScriptHash, zptScriptHash;
 
 let netSelect;
 
@@ -152,6 +152,11 @@ const getRpxBalance = async (net,address) => {
     return getTokenBalance	(net,address,rpx_token);
 }
 
+const getSgtBalance = async (net,address) => {
+    let sgt_token = TOKENS.SGT;
+    return getTokenBalance	(net,address,sgt_token);
+}
+
 const getThorBalance = async (net,address) => {
     let thor_token = TOKENS.THOR;
     return getTokenBalance	(net,address,thor_token);
@@ -221,7 +226,7 @@ const getGasPrice = async gasVal => {
 const getMarketPrice = async () => {
   try {
     let marketPrices = await axios.get(
-    "https://min-api.cryptocompare.com/data/pricemulti?fsyms=GAS,NEO,ACAT,BTC,ASA,AVA,CPX,DBC,ELA,EOS,ETH,EFX,GALA,GDM,LTC,LRN,MCT,NKN,OBT,ONT,QLC,RPX,SOUL,SWTH,THOR,TNC,TKY,QTUM,XMR,XQT,ZPT&tsyms=USD"
+    "https://min-api.cryptocompare.com/data/pricemulti?fsyms=GAS,NEO,ACAT,BTC,ASA,AVA,CPX,DBC,ELA,EOS,ETH,EFX,GALA,GDM,LTC,LRN,MCT,NKN,OBT,ONT,QLC,RPX,SOUL,SWTH,THOR,TNC,TKY,XMR,XQT,ZPT&tsyms=USD"
     );
     console.log("market price="+JSON.stringify(marketPrices));
     return marketPrices;
@@ -618,33 +623,19 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth, ela) => {
           } else {
             let gasPrice = await getGasPrice(resultBalance.Gas);
             let marketPrices = await getMarketPrice();
-
             let acat_usd = parseFloat(marketPrices.data.ACAT.USD);
-
             let cpx_usd = parseFloat(marketPrices.data.CPX.USD);
-
             let dbc_usd = parseFloat(marketPrices.data.DBC.USD);
-
             let ont_usd = parseFloat(marketPrices.data.ONT.USD);
-
             let qlc_usd = parseFloat(marketPrices.data.QLC.USD);
-
             let rpx_usd = parseFloat(marketPrices.data.RPX.USD);
-
             let swth_usd = parseFloat(marketPrices.data.SWTH.USD);
-
             let tky_usd = parseFloat(marketPrices.data.TKY.USD);
-
             let tnc_usd = parseFloat(marketPrices.data.TNC.USD);
-
             let zpt_usd = parseFloat(marketPrices.data.ZPT.USD);
-
             let btc_usd = parseFloat(marketPrices.data.BTC.USD);
-
             let ltc_usd = parseFloat(marketPrices.data.LTC.USD);
-
             let eth_usd = parseFloat(marketPrices.data.ETH.USD);
-
             let eos_usd = parseFloat(marketPrices.data.EOS.USD);
 
             let acatBalance = await getAcatBalance(net,address);
@@ -667,6 +658,7 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth, ela) => {
             let qlcBalance = await getQlcBalance(net,address);
             let rhtBalance = await getRhtBalance(net,address);
             let rpxBalance = await getRpxBalance(net,address);
+            let sgtBalance = await getSgtBalance(net,address);
             let soulBalance = await getSoulBalance(net,address);
             let swthBalance = await getSwthBalance(net,address);
             let thorBalance = await getThorBalance(net,address);
@@ -700,6 +692,7 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth, ela) => {
                 pkcBalance,
                 qlcBalance,
                 rpxBalance,
+                sgtBalance,
                 soulBalance,
                 swthBalance,
                 thorBalance,
@@ -725,11 +718,10 @@ const initiateGetBalance = (dispatch, net, address ,btc ,ltc ,eth, ela) => {
                 marketPrices.data.LTC.USD,
                 marketPrices.data.ONT.USD,
                 marketPrices.data.QLC.USD,
-                marketPrices.data.QTUM.USD,
                 marketPrices.data.RPX.USD,
+                marketPrices.data.SWTH.USD,
                 marketPrices.data.TNC.USD,
                 marketPrices.data.TKY.USD,
-                marketPrices.data.XMR.USD,
                 marketPrices.data.ZPT.USD
               )
             );

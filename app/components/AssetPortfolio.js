@@ -37,6 +37,7 @@ import PortONT from "./Assets/PortONT";
 import PortPKC from "./Assets/PortPKC";
 import PortQLC from "./Assets/PortQLC";
 import PortRPX from "./Assets/PortRPX";
+import PortSGT from "./Assets/PortSGT";
 import PortQTUM from "./Assets/PortQTUM";
 import PortSOUL from "./Assets/PortSOUL";
 import PortSWH from "./Assets/PortSWH";
@@ -57,16 +58,16 @@ class AssetPortolio extends Component {
 			<div>
 
 			<div className="breadBar">
-			<div className="col-flat-10">
-			<ol className="breadcrumb">
-			</ol>
-			</div>
-			<div className="col-flat-2">
-			<Search />
-			</div>
-			</div>
+						<div className="col-flat-10">
+						<ol className="breadcrumb">
+						</ol>
+						</div>
+						<div className="col-flat-2">
+						<Search />
+						</div>
+						</div>
 
-			<TopBar />
+						<TopBar />
 
 				<div className="row top-20 dash-portfolio center">
 
@@ -99,6 +100,7 @@ class AssetPortolio extends Component {
 				<PortQLC />
 				<PortXQT />
 				<PortRPX />
+				<PortSGT />
 				<PortSOUL />
 				<PortSWH />
 				<PortTHOR />

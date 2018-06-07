@@ -39,6 +39,7 @@ export function setBalance(
 	pkc,
 	qlc,
 	rpx,
+	sgt,
 	soul,
 	swth,
 	thor,
@@ -64,12 +65,10 @@ export function setBalance(
 	marketLTCPrice,
 	marketONTPrice,
   marketQLCPrice,
-	marketQTUMPrice,
   marketRPXPrice,
 	marketSWTHPrice,
   marketTNCPrice,
   marketTKYPrice,
-	marketXMRPrice,
   marketZPTPrice
 ) {
 	return {
@@ -94,6 +93,7 @@ export function setBalance(
 		Pkc: pkc,
 		Qlc: qlc,
 		Rpx: rpx,
+		Sgt: sgt,
 		Soul: soul,
 		Swth: swth,
 		Thor: thor,
@@ -119,14 +119,11 @@ export function setBalance(
 		marketLTCPrice: marketLTCPrice,
 		marketONTPrice: marketONTPrice,
 		marketQLCPrice: marketQLCPrice,
-		marketQTUMPrice: marketQTUMPrice,
 		marketRPXPrice: marketRPXPrice,
 		marketSWTHPrice: marketSWTHPrice,
 		marketTNCPrice: marketTNCPrice,
 		marketTKYPrice: marketTKYPrice,
-		marketXMRPrice: marketXMRPrice,
     marketZPTPrice: marketZPTPrice
-
 	};
 }
 
@@ -264,6 +261,7 @@ export default (
 		Ont: 0,
 		Pkc: 0,
 		Rpx: 0,
+		Sgt: 0,
 		soul: 0,
 		Swth: 0,
 		Thor: 0,
@@ -319,6 +317,7 @@ export default (
 			Pkc: action.Pkc,
 			Qlc: action.Qlc,
 			Rpx: action.Rpx,
+			Sgt: action.Sgt,
 			Soul: action.Soul,
 			Swth: action.Swth,
 			Thor: action.Thor,
@@ -347,12 +346,10 @@ export default (
 		  marketLTCPrice: action.marketLTCPrice,
 			marketONTPrice: action.marketONTPrice,
 		  marketQLCPrice: action.marketQLCPrice,
-			marketQTUMPrice: action.marketQTUMPrice,
 			marketRPXPrice: action.marketRPXPrice,
 			marketSWTHPrice: action.marketSWTHPrice,
       marketTNCPrice: action.marketTNCPrice,
       marketTKYPrice: action.marketTKYPrice,
-			marketXMRPrice: action.marketXMRPrice,
       marketZPTPrice: action.marketZPTPrice
 		};
 	case RESET_PRICE:

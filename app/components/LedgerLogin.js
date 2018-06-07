@@ -103,11 +103,12 @@ class LedgerLogin extends Component {
                 <h4>Please ensure your Ledger Nano S is unlocked and the NEO app is open on the device. Click login to continue.</h4>
                 <div>
                     <button
-                        className="grey-button top-20"
+                        className="grey-button top-30"
                         onClick={()=>onLedgerLogin(this.props.dispatch,this.props.history)}>Login using Ledger Nano S</button>
 
                     <div className="top-20 com-soon">{ledgerDeviceInfo}</div>
                     <div className="clearboth" />
+                    <h5 className="red-text com-soon">Sending NEP5 tokens and claiming GAS is currently disabled in this version of Morpheus. We apologise for the inconvenience.</h5>
                 </div>
                 <div className="clearboth" />
                 </div>
